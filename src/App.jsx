@@ -5,11 +5,13 @@ import Products from "./pages/Products";
 import Customers from "./pages/Customers";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import Asidebar from "./components/AsideBar";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
+    <BrowserRouter>
+      <main>
+        {/* <Asidebar /> */}
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="/Dashboard" element={<Dashboard />} />
@@ -18,8 +20,8 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/SignIn" element={<SignIn />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </main>
+    </BrowserRouter>
   );
 }
 

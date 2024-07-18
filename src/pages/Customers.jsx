@@ -1,10 +1,11 @@
 import React from "react";
-import Header from "../components/Header";
+import Asidebar from "../components/AsideBar";
 
 export default function Customers() {
   return (
     <div>
-      <Header />
+      <Asidebar />
+
       <h2>Customers page</h2>
     </div>
   );

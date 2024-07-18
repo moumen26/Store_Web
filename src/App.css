@@ -1,175 +1,213 @@
 @font-face {
-    font-family: Montserrat;
-    src: url(./assets/fonts/Montserrat-Regular.ttf);
+  font-family: Montserrat;
+  src: url(./assets/fonts/Montserrat-Regular.ttf);
 }
 
 :root {
-    --greyDarkColor: #888888;
-    --mainColor: #3E9CB9;
-    --neutralColor: #C9E4EE;
-    --darkColor: #26667E;
-    --textColor: #62B5CE;
-    --lightColor: #E7F2F7;
-    --blackColor: #000;
-    --whiteColor: #fff;
-    --greyColor: #EDEDED;
-    --color: #F7F7F7;
+  --greyDarkColor: #888888;
+  --mainColor: #3e9cb9;
+  --neutralColor: #c9e4ee;
+  --darkColor: #26667e;
+  --textColor: #62b5ce;
+  --lightColor: #e7f2f7;
+  --blackColor: #000;
+  --whiteColor: #fff;
+  --greyColor: #ededed;
+  --color: #f7f7f7;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Montserrat;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Montserrat;
 }
 
-.headerText{
-    font-size: 14px;
-    color: var(--greyDarkColor);
+.headerText {
+  font-size: 14px;
+  color: var(--greyDarkColor);
 }
 
-.logoText{
-    font-weight: bolder;
-    font-size: 18px;
-    color: var(--blackColor);
+.logoText {
+  font-weight: bolder;
+  font-size: 18px;
+  color: var(--blackColor);
 }
 
-.signInText{
-    color: var(--blackColor);
-    font-weight: bold;
+.signInText {
+  color: var(--blackColor);
+  font-weight: bold;
 }
 
 .signUpContainer,
-.signInContainer{
-    height: calc(100vh - 82px);
+.signInContainer {
+  height: calc(100vh - 82px);
 }
 
 .signUpContainerRight,
-.signInContainer{
-    padding: 3% 5%;  
+.signInContainer {
+  padding: 3% 5%;
 }
 
 .signUpContainerRightContainer,
-.signInContainerRightContainer{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: relative;
+.signInContainerRightContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
 }
 
-.titleText{
-    font-size: 58px;
-    font-weight: bold;
+.titleText {
+  font-size: 58px;
+  font-weight: bold;
 }
 
-.spanText{
-    font-size: 12px;
-    color: var(--greyDarkColor);
+.spanText {
+  font-size: 12px;
+  color: var(--greyDarkColor);
 }
 
-.buttonFacebook{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    width: 400px;
-    height: 50px;
-    border-radius: 5px;
-    border: solid 0.5px var(--neutralColor);
+.buttonFacebook {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  border: solid 0.5px var(--neutralColor);
 }
 
-.buttonFacebook img{
-    width: 32px;
-    height: 32px;
+.buttonFacebook img {
+  width: 32px;
+  height: 32px;
 }
 
-.buttonTextDark{
-    font-size: 16px;
-    color: var(--blackColor);
+.buttonTextDark {
+  font-size: 16px;
+  color: var(--blackColor);
 }
 
-.orClass{
-    width: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.orClass {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.lineOr{
-    width: 176px;
-    height: 0.5px;
-    background-color: var(--neutralColor);
+.lineOr {
+  width: 176px;
+  height: 0.5px;
+  background-color: var(--neutralColor);
 }
 
-.orText{
-    font-size: 14px;
-    color: var(--greyDarkColor);
+.orText {
+  font-size: 14px;
+  color: var(--greyDarkColor);
 }
 
-.inputForm{
-    width: 400px;
-    height: 50px;
-    border-radius: 5px;
-    border: solid 1px var(--neutralColor);
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-
+.inputForm {
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  border: solid 1px var(--neutralColor);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
 }
 
 .inputForm input {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    padding-left: 16px;
-    font-size: 12px;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding-left: 16px;
+  font-size: 12px;
 }
 
-.inputIcon{
-    width: 24px;
-    color: #26667E;
+.inputIcon {
+  width: 24px;
+  color: #26667e;
 }
 
-.inputItem{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.inputItem {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.spanBottom{
-   position: absolute;
-   bottom: 0;
+.spanBottom {
+  position: absolute;
+  bottom: 0;
 }
 
-.buttonDark{
-    width: 400px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: var(--darkColor);    
+.buttonDark {
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--darkColor);
 }
 
-.buttonTextLight{
-    font-size: 16px;
-    color: var(--whiteColor);
+.buttonTextLight {
+  font-size: 16px;
+  color: var(--whiteColor);
 }
 
-.logInForm{
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-top: 32px;
-    align-items: center;
+.logInForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 32px;
+  align-items: center;
 }
 
-.logInForm form{
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.logInForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.logInForm .signInText{
+.logInForm .signInText {
+  color: var(--darkColor);
+}
+
+aside {
+  width: 13%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--neutralColor);
+  padding: 5% 1%;
+}
+
+aside ul{
+    height: 90%;
+    position: relative;
+}
+
+.itemAsideBar {
+  width: 100%;
+  height: 40px;
+  padding-left: 8px;
+}
+
+.asideItemActive {
+  width: 100%;
+  height: 40px;
+  background-color: var(--neutralColor);
+  border-radius: 5px;
+}
+
+.asideItemActive span{
     color: var(--darkColor);
+}
+
+.asideItemActive .iconAsideBar{
+    color: var(--darkColor);
+}
+
+.iconAsideBar {
+  width: 22px;
 }

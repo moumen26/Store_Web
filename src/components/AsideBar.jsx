@@ -1,5 +1,6 @@
 import {
   ArrowLeftStartOnRectangleIcon,
+  ChevronDownIcon,
   Cog6ToothIcon,
   ShoppingBagIcon,
   Square2StackIcon,
@@ -7,20 +8,39 @@ import {
   UserGroupIcon,
   UserPlusIcon,
 } from "@heroicons/react/16/solid";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export default function Asidebar() {
   const location = useLocation();
 
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+
+  const handleProductsClick = () => {
+    setIsProductsOpen((prevState) => !prevState);
+  };
+
+  // Click handler to close the menu when clicking outside
+  const handleClickOutside = (event) => {
+    if (!event.target.closest(".sidebar")) {
+      setIsProductsOpen(false);
+    }
+  };
+
+  // Add event listener for clicks outside
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <aside>
       <ul className="flex-col space-y-7">
         <li>
-          <NavLink to="/Dashboard" className="flex items-center">
+          <NavLink to="/" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/Dashboard" ? "asideItemActive" : ""
+                location.pathname === "/" ? "asideItemActive" : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />
@@ -28,18 +48,54 @@ export default function Asidebar() {
             </div>
           </NavLink>
         </li>
-        <li>
-          <NavLink to="/Products" className=" flex items-center">
-            <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/Products" ? "asideItemActive" : ""
-              }`}
-            >
-              <Square2StackIcon className="iconAsideBar" />
-              <span className="ml-3">Products</span>
+        <div className="flex-col space-y-7 sidebar">
+          <li className="flex-col space-y-7">
+            <div className="flex items-center cursor-pointer">
+              <div
+                className={`flex items-center justify-between itemAsideBar ${
+                  location.pathname === "/Products" ? "asideItemActive" : ""
+                }`}
+                onClick={handleProductsClick}
+              >
+                <div className="flex">
+                  <Square2StackIcon className="iconAsideBar" />
+                  <span className="ml-3">Products</span>
+                </div>
+                <ChevronDownIcon
+                  className={`iconPages ${isProductsOpen ? "rotate-180" : ""}`}
+                />
+              </div>
             </div>
-          </NavLink>
-        </li>
+            {isProductsOpen && (
+              <div className="flex-col space-y-7">
+                <NavLink to="/Dashboard" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/Dashboard"
+                        ? "asideItemActive"
+                        : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">Products List</span>
+                  </div>
+                </NavLink>
+                <NavLink to="/Customers" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/Customers"
+                        ? "asideItemActive"
+                        : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">Products Grid</span>
+                  </div>
+                </NavLink>
+              </div>
+            )}
+          </li>
+        </div>
         <li>
           <NavLink to="/Orders" className=" flex items-center">
             <div
@@ -53,10 +109,10 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Customers" className=" flex items-center">
+          <NavLink to="/" className=" flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/Customers" ? "asideItemActive" : ""
+                location.pathname === "/" ? "asideItemActive" : ""
               }`}
             >
               <UserGroupIcon className="iconAsideBar" />

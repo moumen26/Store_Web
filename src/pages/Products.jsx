@@ -1,12 +1,14 @@
 import React from "react";
 import Asidebar from "../components/AsideBar";
+import Header from "../components/Header";
 
 export default function Products() {
   return (
-    <div>
+    <div className="page flex">
       <Asidebar />
-
-      <h2>Products page</h2>
+      <div className="pagesContainer">
+        <Header />
+      </div>
     </div>
   );
 }

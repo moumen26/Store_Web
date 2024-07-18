@@ -1,10 +1,10 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Dashboard from './pages/Dashboard'
-import Products from './pages/Products'
-import Customers from './pages/Customers'
-import SignUp from './pages/SignUp'
-import SignIn from './pages/SignIn'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import Customers from "./pages/Customers";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,46 +1,66 @@
-import { ChevronRightIcon } from '@heroicons/react/16/solid'
-import React from 'react'
+import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import React from "react";
 
-import SignUpImage from '../assets/images/SignUpImage.png'
-import ButtonFacebok from '../components/ButtonFacebok'
-import InputForm from '../components/InputForm'
-import ButtonDark from '../components/ButtonDark'
+import SignUpImage from "../assets/images/SignUpImage.png";
+import ButtonFacebok from "../components/ButtonFacebok";
+import InputForm from "../components/InputForm";
+import ButtonDark from "../components/ButtonDark";
 
 export default function SignUp() {
   return (
     <>
-        <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-            <h2 className='headerText logoText'>Stock</h2>
-            <div className="flex items-center space-x-5">
-                <a href="/" className='headerText alreadyText'>Already have an account?</a>
-                <div className="flex items-center">
-                    <a href="/SignIn" className='headerText signInText'>SignIn</a>
-                    <ChevronRightIcon color='#26667E' />
-                </div>
-            </div>
+      <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
+        <h2 className="headerText logoText">Stock</h2>
+        <div className="flex items-center space-x-5">
+          <span href="/" className="headerText alreadyText">
+            Already have an account?
+          </span>
+          <div className="flex items-center">
+            <a href="/SignIn" className="headerText signInText">
+              SignIn
+            </a>
+            <ChevronRightIcon color="#26667E" />
+          </div>
         </div>
-        <div className='signUpContainer w-full flex items-center justify-center'>
-            <div className='signUpContainerRight w-[60%] h-full border-r-2 border-[#C9E4EE]'>
-                <div className='signUpContainerRightContainer'>
-                    <h2 className='titleText'>Scale your store into <br />Stock</h2>
-                    <span className='spanText'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi quibusdam cumque amet ipsum eligendi omnis, aut ipsam, perspiciatis et nam, nihil nulla maxime similique modi excepturi dignissimos magni! Tempore, molestiae.</span>
-                    <ButtonFacebok />
-                    <div className='orClass'>
-                        <div className='lineOr'></div>
-                        <span className='orText'>or</span>
-                        <div className='lineOr'></div>
-                    </div>
-                    <InputForm labelForm='Email Address' inputType="email" inputPlaceholder="example@gmail.com" inputName="emailAddress" />
-                    <ButtonDark buttonSpan='Get Started - For Free' />
-                    <span className='spanText spanBottom'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi quibusdam cumque amet ipsum eligendi omnis, aut ipsam, perspiciatis et nam, nihil nulla maxime similique modi excepturi dignissimos magni! Tempore, molestiae.</span>
-                </div>
-
+      </div>
+      <div className="signUpContainer w-full flex items-center justify-center">
+        <div className="signUpContainerRight w-[60%] h-full border-r-2 border-[#C9E4EE]">
+          <div className="signUpContainerRightContainer">
+            <h2 className="titleText">
+              Scale your store into <br />
+              Stock
+            </h2>
+            <span className="spanText">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+              quibusdam cumque amet ipsum eligendi omnis, aut ipsam,
+              perspiciatis et nam, nihil nulla maxime similique modi excepturi
+              dignissimos magni! Tempore, molestiae.
+            </span>
+            <ButtonFacebok />
+            <div className="orClass">
+              <div className="lineOr"></div>
+              <span className="orText">or</span>
+              <div className="lineOr"></div>
             </div>
-            <div className='w-[40%] h-full flex justify-end items-center'>
-                <img className='w-[85%]' src={SignUpImage} />
-            </div>
-
+            <InputForm
+              labelForm="Email Address"
+              inputType="email"
+              inputPlaceholder="example@gmail.com"
+              inputName="emailAddress"
+            />
+            <ButtonDark buttonSpan="Get Started - For Free" />
+            <span className="spanText spanBottom">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+              quibusdam cumque amet ipsum eligendi omnis, aut ipsam,
+              perspiciatis et nam, nihil nulla maxime similique modi excepturi
+              dignissimos magni! Tempore, molestiae.
+            </span>
+          </div>
         </div>
+        <div className="w-[40%] h-full flex justify-end items-center">
+          <img className="w-[85%]" src={SignUpImage} />
+        </div>
+      </div>
     </>
-  )
+  );
 }

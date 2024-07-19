@@ -10,7 +10,6 @@ export default function InputForm({
 }) {
   let iconComponent;
 
-  // Determine which icon to use based on labelForm
   switch (inputType) {
     case "email":
       iconComponent = <EnvelopeIcon className="inputIcon" />;

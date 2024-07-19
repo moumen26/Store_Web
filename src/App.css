@@ -3,6 +3,11 @@
   src: url(./assets/fonts/Montserrat-Regular.ttf);
 }
 
+@font-face {
+  font-family: Montserrat-Medium;
+  src: url(./assets/fonts/Montserrat-Medium.ttf);
+}
+
 :root {
   --greyDarkColor: #888888;
   --mainColor: #3e9cb9;
@@ -182,9 +187,9 @@ aside {
   padding: 8% 1% 0 1%;
 }
 
-aside ul{
-    height: 90%;
-    position: relative;
+aside ul {
+  height: 90%;
+  position: relative;
 }
 
 .itemAsideBar {
@@ -194,6 +199,10 @@ aside ul{
   padding-right: 8px;
 }
 
+.AuthenticationItemAsideBar {
+  padding-right: 0;
+}
+
 .asideItemActive {
   width: 100%;
   height: 40px;
@@ -201,45 +210,136 @@ aside ul{
   border-radius: 5px;
 }
 
-.asideItemActive span{
-    color: var(--darkColor);
+.asideItemActive span {
+  color: var(--darkColor);
 }
 
-.asideItemActive .iconAsideBar{
-    color: var(--darkColor);
+.asideItemActive .iconAsideBar {
+  color: var(--darkColor);
 }
 
 .iconAsideBar {
   width: 22px;
 }
 
-.iconPages{
-    width: 26px;
+.iconPages {
+  width: 26px;
 }
 
-.pagesContainer{
-    width: calc(100% - 13%);
-    min-height: 100vh;
-    height: fit-content;
-    padding: 16px 0;
-    background-color: var(--lightColor);
+.headerP {
+  font-size: 14px;
+  color: var(--blackColor);
 }
 
-.headerP{
-    font-size: 14px;
-    color: var(--blackColor);
+.headerSpan {
+  font-size: 12px;
+  color: var(--greyDarkColor);
 }
 
-.headerSpan{
-    font-size: 12px;
+.product {
+  display: none;
+}
+
+.productVisible .product {
+  display: flex;
+}
+
+.pagesContainer {
+  overflow: hidden;
+  width: calc(100% - 13%);
+  min-height: 100vh;
+  padding: 16px 0;
+  background-color: var(--lightColor);
+  height: fit-content;
+  position: absolute;
+  left: 13%;
+  top: 0;
+  padding: 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.pagesTitle{
+  font-size: 26px;
+  font-family: Montserrat-Medium;
+  color: var(--blackColor);
+}
+
+.pagesSousTitle{
+  font-size: 12px;
+    font-family: Montserrat-Medium;
     color: var(--greyDarkColor);
 }
 
-.product{
-    display: none;
+.dashboardCard{
+  width: 32%;
+  height: 160px;
+  border-radius: 20px;
+  padding: 15px 20px;
+  background-color: var(--whiteColor);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.productVisible .product{
-    display: flex;
+.dashboardCardTitle{
+  color: var(--blackColor);
+  font-size: 18px;
+  font-family: Montserrat-Medium;
+}
 
+.dashboardCardAmount {
+  color: var(--blackColor);
+  font-size: 28px;
+  font-family: Montserrat-Medium;}
+
+.dashboardCard:first-child{
+  background-color: var(--neutralColor);
+}
+
+.dashboardCard:first-child .dashboardCardTitle,
+.dashboardCard:first-child .dashboardCardAmount {
+  color: var(--darkColor);
+}
+
+
+.dashboadChart{
+  width: 50%;
+  height: 500px;
+  border-radius: 10px;
+  background-color: var(--whiteColor);
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboardTitleItem{
+  font-size: 18px;
+  color: var(--blackColor);
+  font-family: Montserrat-Medium;
+}
+
+.cercleChartItemRevenue,
+.cercleChartItemOrder{
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--darkColor);
+}
+
+.cercleChartItemRevenue{
+  background-color: var(--mainColor);
+}
+
+.spanChartItemOrder,
+.spanChartItemRevenue{
+  font-size: 14px;
+  font-family: Montserrat-Medium;
+  color: var(--darkColor);
+}
+
+.spanChartItemRevenue{
+  color: var(--mainColor);
 }

@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
 
-export default function Customers() {
+export default function Authentication() {
   return (
     <div className="pagesContainer">
       <Header />
-      <h2>Customers</h2>
+      <h1>Authentication</h1>
     </div>
   );
 }

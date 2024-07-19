@@ -37,10 +37,10 @@ export default function Asidebar() {
     <aside>
       <ul className="flex-col space-y-7">
         <li>
-          <NavLink to="/" className="flex items-center">
+          <NavLink to="/Dashboard" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/" ? "asideItemActive" : ""
+                location.pathname === "/Dashboard" ? "asideItemActive" : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />
@@ -68,10 +68,10 @@ export default function Asidebar() {
             </div>
             {isProductsOpen && (
               <div className="flex-col space-y-7">
-                <NavLink to="/Dashboard" className="flex items-center">
+                <NavLink to="/ProductsList" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
-                      location.pathname === "/Dashboard"
+                      location.pathname === "/ProductsList"
                         ? "asideItemActive"
                         : ""
                     }`}
@@ -80,10 +80,10 @@ export default function Asidebar() {
                     <span className="ml-3">Products List</span>
                   </div>
                 </NavLink>
-                <NavLink to="/Customers" className="flex items-center">
+                <NavLink to="/ProductsGrid" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
-                      location.pathname === "/Customers"
+                      location.pathname === "/ProductsGrid"
                         ? "asideItemActive"
                         : ""
                     }`}
@@ -109,10 +109,10 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" className=" flex items-center">
+          <NavLink to="/Customers" className=" flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/" ? "asideItemActive" : ""
+                location.pathname === "/Customers" ? "asideItemActive" : ""
               }`}
             >
               <UserGroupIcon className="iconAsideBar" />
@@ -123,7 +123,7 @@ export default function Asidebar() {
         <li>
           <NavLink to="/Authentication" className=" flex items-center">
             <div
-              className={`flex items-center itemAsideBar ${
+              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Authentication" ? "asideItemActive" : ""
               }`}
             >

@@ -4,10 +4,10 @@ import React from "react";
 
 export default function Header() {
   return (
-    <div className="flex justify-end space-x-[80px] w-full pr-[24px]">
+    <div className="flex justify-end space-x-[80px] w-full">
       <BellAlertIcon className="iconPages" />
       <div className="flex items-center justify-between w-[300px]">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
           <div className="w-[48px] h-[48px] rounded-[50%] bg-slate-500"></div>
           <div className="flex-col space-y-1">
             <p className="headerP">Hichem Alimentation</p>

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
+import DashboardCard from "../components/DashboardCard";
 
 export default function Dashboard() {
   return (
@@ -14,6 +15,20 @@ export default function Dashboard() {
           </span>
         </div>
         <Search />
+      </div>
+      <div className="flex items-center justify-between">
+        <DashboardCard
+          dashboardCardTitle="Avg. Order Value"
+          dashboardCardAmount={0}
+        />
+        <DashboardCard
+          dashboardCardTitle="Total Orders"
+          dashboardCardAmount={0}
+        />
+        <DashboardCard
+          dashboardCardTitle="Total Amount"
+          dashboardCardAmount={0}
+        />
       </div>
     </div>
   );

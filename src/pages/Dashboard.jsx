@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import DashboardCard from "../components/DashboardCard";
+import SalesChart from "../components/DashboardChart";
 
 export default function Dashboard() {
   return (
@@ -29,6 +30,9 @@ export default function Dashboard() {
           dashboardCardTitle="Total Amount"
           dashboardCardAmount={0}
         />
+      </div>
+      <div className="flex items-center justify-between">
+        <SalesChart />
       </div>
     </div>
   );

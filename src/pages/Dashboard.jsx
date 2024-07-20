@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import DashboardCard from "../components/DashboardCard";
 import SalesChart from "../components/DashboardChart";
+import DashboardTopSellingProduct from "../components/DashboardTopSellingProduct";
 
 export default function Dashboard() {
   return (
@@ -17,7 +18,7 @@ export default function Dashboard() {
         </div>
         <Search />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center space-x-6">
         <DashboardCard
           dashboardCardTitle="Avg. Order Value"
           dashboardCardAmount={0}
@@ -31,8 +32,9 @@ export default function Dashboard() {
           dashboardCardAmount={0}
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between space-x-6">
         <SalesChart />
+        <DashboardTopSellingProduct />
       </div>
     </div>
   );

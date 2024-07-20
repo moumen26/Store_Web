@@ -144,11 +144,11 @@ export default function Asidebar() {
             </div>
           </NavLink>
         </li>
-        <li className="absolute bottom-0">
-          <NavLink to="/SignIn" className=" flex items-center">
+        <li>
+          <NavLink to="/SignUp" className=" flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/SignIn" ? "asideItemActive" : ""
+                location.pathname === "/SignUp" ? "asideItemActive" : ""
               }`}
             >
               <ArrowLeftStartOnRectangleIcon className="iconAsideBar" />

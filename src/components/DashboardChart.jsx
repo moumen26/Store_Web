@@ -37,8 +37,17 @@ export default function SalesChart() {
               <span className="spanChartItemOrder">Order</span>
             </div>
           </div>
-          <div className="selectOptionChart">
-            <span>Monthly</span>
+          <div className="selectOptionChartClass">
+            <select
+              className="selectOptionChart"
+              name="selectOptionChart"
+              id="selectOptionChart"
+            >
+              <option value="day">Daily</option>
+              <option value="week">Weekly</option>
+              <option value="month">Monthly</option>
+              <option value="year">Yearly</option>
+            </select>
           </div>
         </div>
       </div>

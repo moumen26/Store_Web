@@ -19,6 +19,7 @@
   --whiteColor: #fff;
   --greyColor: #ededed;
   --color: #f7f7f7;
+  --redColor: #ff0000;
 }
 
 * {
@@ -260,20 +261,20 @@ aside ul {
   gap: 32px;
 }
 
-.pagesTitle{
+.pagesTitle {
   font-size: 26px;
   font-family: Montserrat-Medium;
   color: var(--blackColor);
 }
 
-.pagesSousTitle{
+.pagesSousTitle {
   font-size: 12px;
-    font-family: Montserrat-Medium;
-    color: var(--greyDarkColor);
+  font-family: Montserrat-Medium;
+  color: var(--greyDarkColor);
 }
 
-.dashboardCard{
-  width: 32%;
+.dashboardCard {
+  width: 33.33%;
   height: 160px;
   border-radius: 20px;
   padding: 15px 20px;
@@ -283,7 +284,7 @@ aside ul {
   justify-content: space-between;
 }
 
-.dashboardCardTitle{
+.dashboardCardTitle {
   color: var(--blackColor);
   font-size: 18px;
   font-family: Montserrat-Medium;
@@ -292,9 +293,10 @@ aside ul {
 .dashboardCardAmount {
   color: var(--blackColor);
   font-size: 28px;
-  font-family: Montserrat-Medium;}
+  font-family: Montserrat-Medium;
+}
 
-.dashboardCard:first-child{
+.dashboardCard:first-child {
   background-color: var(--neutralColor);
 }
 
@@ -303,8 +305,8 @@ aside ul {
   color: var(--darkColor);
 }
 
-
-.dashboadChart{
+.dashboadChart,
+.dashboardTopSellingProduct {
   width: 50%;
   height: 500px;
   border-radius: 10px;
@@ -315,31 +317,127 @@ aside ul {
   justify-content: space-between;
 }
 
-.dashboardTitleItem{
+.dashboardTitleItem {
   font-size: 18px;
   color: var(--blackColor);
   font-family: Montserrat-Medium;
 }
 
 .cercleChartItemRevenue,
-.cercleChartItemOrder{
+.cercleChartItemOrder,
+.cercleAvailable {
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background-color: var(--darkColor);
 }
 
-.cercleChartItemRevenue{
+.cercleAvailableRed {
+  background-color: var(--redColor);
+}
+
+.cercleChartItemRevenue {
   background-color: var(--mainColor);
 }
 
 .spanChartItemOrder,
-.spanChartItemRevenue{
+.spanChartItemRevenue {
   font-size: 14px;
   font-family: Montserrat-Medium;
   color: var(--darkColor);
 }
 
-.spanChartItemRevenue{
+.spanChartItemRevenue {
   color: var(--mainColor);
+}
+
+.selectOptionChart {
+  border-radius: 5px;
+  border: 1px solid var(--neutralColor);
+  padding: 4px 8px;
+  outline: none;
+  font-size: 14px;
+  font-family: Montserrat-Medium;
+  color: var(--blackColor);
+}
+
+.seeSpan {
+  color: var(--greyDarkColor);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dashboardTopSellingProductItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.dashboardText {
+  font-size: 14px;
+  color: var(--blackColor);
+}
+
+.dashboardSpan {
+  font-size: 12px;
+  color: var(--greyDarkColor);
+}
+
+.spanAvailable {
+  font-size: 14px;
+}
+
+.spanAvailableGreen {
+  color: var(--darkColor);
+}
+
+.spanAvailableRed {
+  color: var(--redColor);
+}
+
+.dashboardProductClass {
+  width: 100%;
+  height: 90%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.productImg {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* Hide scrollbar for WebKit browsers */
+.dashboardProductClass::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+  /* Make scrollbar transparent */
+}
+
+/* Show scrollbar on hover */
+.dashboardProductClass:hover {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+  /* Set scrollbar colors for Firefox */
+}
+
+/* Show scrollbar for WebKit browsers on hover */
+.dashboardProductClass:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dashboardProductClass:hover::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.dashboardProductClass:hover::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
 }

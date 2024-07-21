@@ -8,7 +8,7 @@ import ButtonDark from "../components/ButtonDark";
 
 export default function SignUp() {
   return (
-    <>
+    <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
         <h2 className="headerText logoText">Stock</h2>
         <div className="flex items-center space-x-5">
@@ -61,6 +61,6 @@ export default function SignUp() {
           <img className="w-[85%]" src={SignUpImage} />
         </div>
       </div>
-    </>
+    </div>
   );
 }

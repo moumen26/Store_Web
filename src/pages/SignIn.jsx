@@ -5,7 +5,7 @@ import ButtonFacebok from "../components/ButtonFacebok";
 
 export default function SignIn() {
   return (
-    <>
+    <div className="signIn">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
         <h2 className="headerText logoText">Stock</h2>
       </div>
@@ -47,6 +47,6 @@ export default function SignIn() {
           
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -60,15 +60,15 @@ function Row(props) {
         <TableCell>{row.orderId}</TableCell>
         <TableCell>{row.orderDate}</TableCell>
         <TableCell>{row.amount}</TableCell>
-        <TableCell>{row.status}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <span className="dashboardLatestOrdersDetails">
                 Order Details
-              </Typography>
+              </span>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -135,18 +135,24 @@ const rows = [
     "4000.00",
     "Preparing your order"
   ),
-  
+  createData(
+    "Khaldi Abdelmoumen",
+    "0920496",
+    "May 26, 2024 | 10:30 AM",
+    "4000.00",
+    "Preparing your order"
+  ),
 ];
 
 export default function DashboardLatestOrders() {
   return (
-    <div className="DashboardLatestOrders">
+    <div className="dashboardLatestOrders">
       <div className="w-full flex items-center justify-between ">
         <h3 className="dashboardTitleItem">Latest Orders</h3>
         <span className="seeSpan">See All Orders</span>
       </div>
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table" className="Table">
+      <TableContainer className="tableContainer" component={Paper}>
+        <Table aria-label="collapsible table" className="table">
           <TableHead>
             <TableRow>
               <TableCell />
@@ -154,7 +160,7 @@ export default function DashboardLatestOrders() {
               <TableCell>Order ID</TableCell>
               <TableCell>Order Date</TableCell>
               <TableCell>Amount</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell align="right">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

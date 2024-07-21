@@ -5,6 +5,7 @@ import DashboardCard from "../components/DashboardCard";
 import SalesChart from "../components/DashboardChart";
 import DashboardTopSellingProduct from "../components/DashboardTopSellingProduct";
 import DashboardLatestOrders from "../components/DashboardLatestOrders";
+import DashboadStoreStatistic from "../components/DashboadStoreStatistic";
 
 export default function Dashboard() {
   return (
@@ -38,6 +39,9 @@ export default function Dashboard() {
         <DashboardTopSellingProduct />
       </div>
       <DashboardLatestOrders />
+      <div className="w-full flex justify-between space-x-6">
+        <DashboadStoreStatistic />
+      </div>
     </div>
   );
 }

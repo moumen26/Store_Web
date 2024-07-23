@@ -45,7 +45,7 @@ const productData = [
 export default function DashboardTopSellingProduct() {
   return (
     <div className="dashboardTopSellingProduct">
-      <div className="w-full flex items-center justify-between ">
+      <div className="w-full flex items-center justify-between">
         <h3 className="dashboardTitleItem">Top Selling Product</h3>
         <span className="seeSpan">See All Product</span>
       </div>

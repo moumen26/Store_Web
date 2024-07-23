@@ -7,7 +7,7 @@ const newCostumerData = [
     CostumerId: "0920496",
   },
   {
-    CostumerName: "Khaldi Abdelmoumen",
+    CostumerName: "Boumrar Zineddein",
     CostumerId: "0920496",
   },
   {

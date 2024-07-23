@@ -130,7 +130,7 @@
   border: none;
   background-color: transparent;
   padding-left: 16px;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .inputIcon {
@@ -289,7 +289,7 @@ aside ul {
 .dashboardCardTitle,
 .dashboardLatestOrdersDetails {
   color: var(--blackColor);
-  font-size: 18px;
+  font-size: 16px;
   font-family: Montserrat-Medium;
 }
 
@@ -312,7 +312,8 @@ aside ul {
 .dashboardTopSellingProduct,
 .dashboardLatestOrders,
 .dashboadStoreStatistic,
-.dashboardNewCostumers {
+.dashboardNewCostumers,
+.pageTable {
   width: 50%;
   height: 500px;
   border-radius: 10px;
@@ -321,6 +322,20 @@ aside ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.dashboardTopSellingProduct{
+  width: 40%;
+}
+
+.dashboadChart{
+  width: 60%;
+}
+
+.pageTable {
+  width: 100%;
+  height: 78vh;
+  justify-content: flex-start;
 }
 
 .dashboardLatestOrders {
@@ -470,4 +485,36 @@ aside ul {
 
 .tableContainer {
   height: 420px;
+}
+
+.buttonAdd {
+  width: fit-content;
+  padding: 10px 20px;
+  /* width: 200px; */
+  height: 48px;
+  background-color: var(--darkColor);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+}
+
+.buttonAdd .iconAsideBar {
+  color: var(--whiteColor);
+}
+
+.thTableSpan {
+  font-size: 14px;
+  color: var(--greyDarkColor);
+}
+
+.trTableSpan {
+  font-size: 14px;
+  color: var(--blackColor);
+  font-family: Montserrat-Medium;
+}
+
+.thDetails,
+.trDetails {
+  font-size: 13px;
 }

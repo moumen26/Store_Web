@@ -7,6 +7,7 @@ import DashboardTopSellingProduct from "../components/DashboardTopSellingProduct
 import DashboardLatestOrders from "../components/DashboardLatestOrders";
 import DashboadStoreStatistic from "../components/DashboadStoreStatistic";
 import DashboardNewCostumers from "../components/DashboardNewCostumers";
+import DashboardChart from "../components/DashboardChart";
 
 export default function Dashboard() {
   return (
@@ -19,7 +20,7 @@ export default function Dashboard() {
             Here's you current sales overview
           </span>
         </div>
-        <Search />
+        <Search placeholder="Search.." />
       </div>
       <div className="flex items-center space-x-6">
         <DashboardCard
@@ -36,7 +37,7 @@ export default function Dashboard() {
         />
       </div>
       <div className="flex items-center justify-between space-x-6">
-        <SalesChart />
+        <DashboardChart />
         <DashboardTopSellingProduct />
       </div>
       <DashboardLatestOrders />

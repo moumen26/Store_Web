@@ -9,7 +9,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -21,7 +20,7 @@ function createData(customer, orderId, orderDate, amount, status) {
     orderDate,
     amount,
     status,
-    history: [
+    details: [
       {
         productName: "Elio - 1L",
         brand: "Cevital",
@@ -44,8 +43,11 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
+      <TableRow
+        sx={{ "& > *": { borderBottom: "unset" } }}
+        className="tableRow"
+      >
+        <TableCell className="tableCell">
           <IconButton
             aria-label="expand row"
             size="small"
@@ -54,42 +56,88 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.customer}
+        <TableCell component="th" scope="row" className="tableCell">
+          <span className="trTableSpan">{row.customer}</span>
         </TableCell>
-        <TableCell>{row.orderId}</TableCell>
-        <TableCell>{row.orderDate}</TableCell>
-        <TableCell>{row.amount}</TableCell>
-        <TableCell align="right">{row.status}</TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">{row.orderId}</span>
+        </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">{row.orderDate}</span>
+        </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">{row.amount}</span>
+        </TableCell>
+        <TableCell align="right" className="tableCell">
+          <span className="trTableSpan">{row.status}</span>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={6}
+          className="tableCell"
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <span className="dashboardLatestOrdersDetails">
                 Order Details
               </span>
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="purchases" className="table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Product Name</TableCell>
-                    <TableCell>Brand</TableCell>
-                    <TableCell align="right">Amount (DA)</TableCell>
-                    <TableCell align="right">Quantity</TableCell>
-                    <TableCell align="right">Total price (DA)</TableCell>
+                    <TableCell className="tableCell">
+                      <span className="thTableSpan thDetails">
+                        Product Name
+                      </span>
+                    </TableCell>
+                    <TableCell className="tableCell">
+                      <span className="thTableSpan thDetails">Brand</span>
+                    </TableCell>
+                    <TableCell align="right" className="tableCell">
+                      <span className="thTableSpan thDetails">Amount (DA)</span>
+                    </TableCell>
+                    <TableCell align="right" className="tableCell">
+                      <span className="thTableSpan thDetails">Quantity</span>
+                    </TableCell>
+                    <TableCell align="right" className="tableCell">
+                      <span className="thTableSpan thDetails">
+                        Total price (DA)
+                      </span>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.productName}
+                  {row.details.map((detailsRow) => (
+                    <TableRow key={detailsRow.productName} className="tableRow">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className="tableCell"
+                      >
+                        <span className="trTableSpan trDetails">
+                          {detailsRow.productName}
+                        </span>
                       </TableCell>
-                      <TableCell>{historyRow.brand}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">{historyRow.quantity}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * historyRow.quantity)}
+                      <TableCell className="tableCell">
+                        <span className="trTableSpan trDetails">
+                          {detailsRow.brand}
+                        </span>
+                      </TableCell>
+                      <TableCell align="right" className="tableCell">
+                        <span className="trTableSpan trDetails">
+                          {detailsRow.amount}
+                        </span>
+                      </TableCell>
+                      <TableCell align="right" className="tableCell">
+                        <span className="trTableSpan trDetails">
+                          {detailsRow.quantity}
+                        </span>
+                      </TableCell>
+                      <TableCell align="right" className="tableCell">
+                        <span className="trTableSpan trDetails">
+                          {Math.round(detailsRow.amount * detailsRow.quantity)}
+                        </span>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -105,18 +153,17 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    orderId: PropTypes.number.isRequired,
-    amount: PropTypes.number.isRequired,
-    orderDate: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
+    orderId: PropTypes.string.isRequired,
+    amount: PropTypes.string.isRequired,
+    orderDate: PropTypes.string.isRequired,
+    details: PropTypes.arrayOf(
       PropTypes.shape({
         amount: PropTypes.number.isRequired,
         brand: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
       })
     ).isRequired,
     customer: PropTypes.string.isRequired,
-    status: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -147,20 +194,34 @@ const rows = [
 export default function DashboardLatestOrders() {
   return (
     <div className="dashboardLatestOrders">
-      <div className="w-full flex items-center justify-between ">
+      <div className="w-full flex items-center justify-between">
         <h3 className="dashboardTitleItem">Latest Orders</h3>
         <span className="seeSpan">See All Orders</span>
       </div>
-      <TableContainer className="tableContainer" component={Paper}>
+      <TableContainer
+        className="tableContainer"
+        component={Paper}
+        style={{ boxShadow: "none" }}
+      >
         <Table aria-label="collapsible table" className="table">
           <TableHead>
             <TableRow>
-              <TableCell />
-              <TableCell>Customer</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Order Date</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell align="right">Status</TableCell>
+              <TableCell className="tableCell" />
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Customer</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Order ID</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Order Date</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Amount</span>
+              </TableCell>
+              <TableCell align="right" className="tableCell">
+                <span className="thTableSpan">Status</span>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import Search from "../components/Search";
 import DashboardCard from "../components/DashboardCard";
-import SalesChart from "../components/DashboardChart";
 import DashboardTopSellingProduct from "../components/DashboardTopSellingProduct";
 import DashboardLatestOrders from "../components/DashboardLatestOrders";
 import DashboadStoreStatistic from "../components/DashboadStoreStatistic";
 import DashboardNewCostumers from "../components/DashboardNewCostumers";
 import DashboardChart from "../components/DashboardChart";
+import DashboardCalendar from "../components/DashboardCalendar";
+import DateRangeSelector from "../components/DashboardCalendar";
 
 export default function Dashboard() {
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      // Update dashboard content based on the selected date range
+      updateDashboardContent(dateRange.startDate, dateRange.endDate);
+    }
+  }, [dateRange]);
+
+  const updateDashboardContent = (startDate, endDate) => {
+    // Logic to update dashboard content based on selected date range
+    console.log("Selected range:", startDate, endDate);
+    // Fetch or filter data based on date range and update dashboard content
+  };
   return (
     <div className="pagesContainer">
       <Header />
@@ -20,7 +37,11 @@ export default function Dashboard() {
             Here's you current sales overview
           </span>
         </div>
-        <Search placeholder="Search.." />
+        <DateRangeSelector
+          onDateChange={(start, end) =>
+            setDateRange({ startDate: start, endDate: end })
+          }
+        />
       </div>
       <div className="flex items-center space-x-6">
         <DashboardCard

@@ -20,14 +20,12 @@ export default function Asidebar() {
     setIsProductsOpen((prevState) => !prevState);
   };
 
-  // Click handler to close the menu when clicking outside
   const handleClickOutside = (event) => {
     if (!event.target.closest(".sidebar")) {
       setIsProductsOpen(false);
     }
   };
 
-  // Add event listener for clicks outside
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);

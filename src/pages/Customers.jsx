@@ -3,12 +3,14 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerTable from "../components/CustomerTable";
+import ButtonExport from "../components/ButtonExport";
 
 export default function Customers() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
@@ -22,12 +24,15 @@ export default function Customers() {
         <div className="w-full flex items-center justify-between">
           <Search
             placeholder="Search by Customer..."
-            value={searchQuery}
             onChange={handleSearchChange}
           />
+          <ButtonExport data={filteredData} /> {/* Pass filtered data */}
         </div>
         <div className="pageTableContainer">
-          <CustomerTable searchQuery={searchQuery} />
+          <CustomerTable
+            searchQuery={searchQuery}
+            setFilteredData={setFilteredData}
+          />
         </div>
       </div>
     </div>

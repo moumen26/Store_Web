@@ -493,7 +493,8 @@ aside ul {
   height: 420px;
 }
 
-.buttonAdd {
+.buttonAdd,
+.buttonExport {
   width: fit-content;
   padding: 10px 20px;
   /* width: 200px; */
@@ -507,6 +508,10 @@ aside ul {
 
 .buttonAdd .iconAsideBar {
   color: var(--whiteColor);
+}
+
+.buttonExport{
+  background-color: var(--greyColor);
 }
 
 .thTableSpan {
@@ -537,13 +542,18 @@ aside ul {
 }
 
 .tablePages {
-  max-height: calc(100% - 40px - 32px - 50px);
-  overflow-y: auto; /* Enables vertical scrolling */
+  height: 630px;
+  overflow-y: auto;
+  
 }
 
 .tableHead {
   position: sticky;
-  top: 0; /* Keeps the header at the top */
-  background-color: white; /* Ensures header background color covers table content */
-  z-index: 1; /* Keeps the header above the body content */
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.iconTable{
+ width: 20px;
 }

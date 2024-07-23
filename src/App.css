@@ -336,6 +336,7 @@ aside ul {
   width: 100%;
   height: 78vh;
   justify-content: flex-start;
+  gap: 16px;
 }
 
 .dashboardLatestOrders {
@@ -445,30 +446,35 @@ aside ul {
 }
 
 /* Hide scrollbar for WebKit browsers */
-.dashboardProductClass::-webkit-scrollbar {
+.dashboardProductClass::-webkit-scrollbar,
+.tablePages::-webkit-scrollbar {
   width: 0;
   background: transparent;
   /* Make scrollbar transparent */
 }
 
 /* Show scrollbar on hover */
-.dashboardProductClass:hover {
+.dashboardProductClass:hover,
+.tablePages:hover {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
   /* Set scrollbar colors for Firefox */
 }
 
 /* Show scrollbar for WebKit browsers on hover */
-.dashboardProductClass:hover::-webkit-scrollbar {
+.dashboardProductClass:hover::-webkit-scrollbar,
+.tablePages:hover::-webkit-scrollbar {
   width: 10px;
 }
 
-.dashboardProductClass:hover::-webkit-scrollbar-thumb {
+.dashboardProductClass:hover::-webkit-scrollbar-thumb,
+.tablePages:hover::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 10px;
 }
 
-.dashboardProductClass:hover::-webkit-scrollbar-track {
+.dashboardProductClass:hover::-webkit-scrollbar-track,
+.tablePages:hover::-webkit-scrollbar-track {
   background-color: #f1f1f1;
   border-radius: 10px;
 }
@@ -530,4 +536,14 @@ aside ul {
   cursor: pointer;
 }
 
+.tablePages {
+  max-height: calc(100% - 40px - 32px - 50px);
+  overflow-y: auto; /* Enables vertical scrolling */
+}
 
+.tableHead {
+  position: sticky;
+  top: 0; /* Keeps the header at the top */
+  background-color: white; /* Ensures header background color covers table content */
+  z-index: 1; /* Keeps the header above the body content */
+}

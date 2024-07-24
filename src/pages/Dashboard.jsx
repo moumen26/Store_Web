@@ -27,7 +27,7 @@ export default function Dashboard() {
     // Fetch or filter data based on date range and update dashboard content
   };
   return (
-    <div className="pagesContainer">
+    <div className="pagesContainer scrollPage">
       <Header />
       <div className="w-full flex items-center justify-between">
         <div className="flex-col space-y-[6px]">

@@ -35,7 +35,7 @@ export default function DashboardCard({
         </div>
       </div>
       <div>
-        <h2 className="dashboardCardAmount">Da {dashboardCardAmount}</h2>
+        <h2 className="dashboardCardAmount">DA {dashboardCardAmount}</h2>
       </div>
     </div>
   );

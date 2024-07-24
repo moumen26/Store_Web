@@ -276,7 +276,9 @@ aside ul {
 }
 
 .dashboardCard,
-.orderCard {
+.orderCard,
+.customerPrimaryDelivery,
+.customerStatsCard {
   width: 33.33%;
   height: 180px;
   border-radius: 20px;
@@ -289,6 +291,16 @@ aside ul {
 
 .orderCard {
   width: 25%;
+}
+
+.customerPrimaryDelivery,
+.customerStatsCard {
+  width: 100%;
+  border: 1px solid var(--neutralColor);
+}
+
+.customerStatsCard {
+  width: 33.33%;
 }
 
 .dashboardCardTitle,
@@ -318,7 +330,8 @@ aside ul {
 .dashboardLatestOrders,
 .dashboadStoreStatistic,
 .dashboardNewCostumers,
-.pageTable {
+.pageTable,
+.costumerClass {
   width: 50%;
   height: 500px;
   border-radius: 10px;
@@ -327,6 +340,10 @@ aside ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.customerOrdersClass {
+  max-height: 500px;
 }
 
 .dashboardTopSellingProduct {
@@ -627,4 +644,47 @@ aside ul {
   row-gap: 16px;
   column-gap: 10px;
   overflow: auto;
+}
+
+.costumerClass {
+  width: 100%;
+  height: fit-content;
+  gap: 16px;
+}
+
+.costumerClassTitle {
+  font-size: 18px;
+  font-family: Montserrat-Medium;
+  color: var(--blackColor);
+}
+
+.personalInformation,
+.customerPrimaryAddress {
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.customerPrimaryAddress {
+  grid-template-columns: repeat(auto-fill, minmax(0, 30%));
+}
+
+.personalInformationSpan {
+  font-size: 14px;
+  color: var(--greyDarkColor);
+}
+
+.personalInformationDetails {
+  font-family: Montserrat-Medium;
+  color: var(--blackColor);
+  font-size: 14px;
+}
+
+.primaryDeliveryAddressSpan {
+  font-size: 14px;
+  font-family: Montserrat-Medium;
+
+  color: var(--blackColor);
 }

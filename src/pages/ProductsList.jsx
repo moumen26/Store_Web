@@ -17,7 +17,7 @@ export default function ProductsList() {
       <Header />
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Products List</h2>
-        <ButtonAdd buttonSpan="New Product" />
+        <ButtonAdd buttonSpan="Add New Product" />
       </div>
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">

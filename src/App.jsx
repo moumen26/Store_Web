@@ -12,6 +12,7 @@ import Authentication from "./pages/Authentication";
 import Settings from "./pages/Settings";
 
 import Asidebar from "./components/AsideBar";
+import CustomerProfile from "./pages/CustomerProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Authentication" element={<Authentication />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/SignIn" element={<SignIn />} />
+          <Route path="/CustomerProfile" element={<CustomerProfile />} />
         </Routes>
       </main>
     </BrowserRouter>

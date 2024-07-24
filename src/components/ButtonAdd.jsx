@@ -1,11 +1,11 @@
 import { PlusIcon } from "@heroicons/react/16/solid";
 import React from "react";
 
-export default function ButtonAdd({ buttonSpan }) {
+export default function ButtonAdd({ buttonSpan, showIcon = true }) {
   return (
     <button className="buttonAdd">
-      <PlusIcon className="iconAsideBar" />
-      <span className="buttonTextLight">Add {buttonSpan}</span>
+      {showIcon && <PlusIcon className="iconAsideBar" />}
+      <span className="buttonTextLight">{buttonSpan}</span>
     </button>
   );
 }

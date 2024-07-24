@@ -15,7 +15,9 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/customers/${row.customerId}`);
+    // navigate(`/customers/${row.customerId}`);
+
+    navigate("/CustomerProfile", { state: { customer: row } });
   };
 
   return (
@@ -24,7 +26,10 @@ function Row(props) {
         <span className="trTableSpan">{row.customerId}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.customerName}</span>
+        <span className="trTableSpan">
+          <span className="mr-1 trTableSpan">{row.customerFirstName}</span>
+          <span className="trTableSpan">{row.customerLastName}</span>
+        </span>
       </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{row.customerPhone}</span>
@@ -52,111 +57,168 @@ Row.propTypes = {
     customerId: PropTypes.string.isRequired,
     customerWilaya: PropTypes.string.isRequired,
     customerPhone: PropTypes.string.isRequired,
-    customerName: PropTypes.string.isRequired,
+    customerLastName: PropTypes.string.isRequired,
+    customerFirstName: PropTypes.string.isRequired,
     customerCommune: PropTypes.string.isRequired,
+    customerEmail: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 export default function CustomerTable({ searchQuery, setFilteredData }) {
   const rows = [
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
+      customerPrimaryDeliveryAddress: [
+        "123 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
+        "345 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
+      ],
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Adel",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
+      customerCommune: "Blida",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Mohamed",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
+      customerCommune: "Bouarfa",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
-    },
-
-    {
-      customerName: "Khaldi Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
-    },
-
-    {
-      customerName: "Khaldi Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Adel",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
     {
-      customerName: "Khaldi Abdelmoumen",
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
       customerId: "0920496",
       customerPhone: "0550189087",
       customerWilaya: "Blida",
       customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
+    },
+    {
+      customerFirstName: "Khaldi",
+      customerLastName: "Adel",
+      customerId: "0920496",
+      customerPhone: "0550189087",
+      customerWilaya: "Blida",
+      customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
+    },
+    {
+      customerFirstName: "Khaldi",
+      customerLastName: "Abdelmoumen",
+      customerId: "0920496",
+      customerPhone: "0550189087",
+      customerWilaya: "Blida",
+      customerCommune: "Ouled Aich",
+      customerEmail: "moumenkhaldi26@gmail.com",
+      customerPostcode: "3100",
+      customerAddress: "Rue Yousfi Abdelkader",
     },
   ];
 
   const filteredRows = rows.filter(
     (row) =>
-      row.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.customerId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.customerPhone.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.customerWilaya.toLowerCase().includes(searchQuery.toLowerCase()) ||

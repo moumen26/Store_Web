@@ -18,7 +18,7 @@ export default function Customers() {
       <Header />
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Customers</h2>
-        <ButtonAdd buttonSpan="New Customer" />
+        <ButtonAdd buttonSpan="Add New Customer" />
       </div>
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">

@@ -4,6 +4,7 @@ import Search from "../components/Search";
 import ButtonExport from "../components/ButtonExport";
 import DashboardCalendar from "../components/DashboardCalendar";
 import OrdersTable from "../components/OrdersTable";
+import OrderCard from "../components/OrderCard";
 
 export default function Orders() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,6 +42,12 @@ export default function Orders() {
             setDateRange({ startDate: start, endDate: end })
           }
         />
+      </div>
+      <div className="flex items-center space-x-6">
+        <OrderCard orderCardTitle="Total Orders" orderCardDetails={0} />
+        <OrderCard orderCardTitle="Completed Orders" orderCardDetails={0} />
+        <OrderCard orderCardTitle="Orders In Progress" orderCardDetails={0} />
+        <OrderCard orderCardTitle="Returns Orders" orderCardDetails={0} />
       </div>
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">

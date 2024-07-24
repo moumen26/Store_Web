@@ -275,7 +275,8 @@ aside ul {
   color: var(--greyDarkColor);
 }
 
-.dashboardCard {
+.dashboardCard,
+.orderCard {
   width: 33.33%;
   height: 180px;
   border-radius: 20px;
@@ -284,6 +285,10 @@ aside ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.orderCard {
+  width: 25%;
 }
 
 .dashboardCardTitle,

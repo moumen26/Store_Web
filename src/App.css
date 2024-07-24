@@ -456,7 +456,8 @@ aside ul {
 
 /* Hide scrollbar for WebKit browsers */
 .dashboardProductClass::-webkit-scrollbar,
-.tablePages::-webkit-scrollbar {
+.tablePages::-webkit-scrollbar,
+.productsContainer::-webkit-scrollbar {
   width: 0;
   background: transparent;
   /* Make scrollbar transparent */
@@ -464,7 +465,8 @@ aside ul {
 
 /* Show scrollbar on hover */
 .dashboardProductClass:hover,
-.tablePages:hover {
+.tablePages:hover,
+.productsContainer:hover {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
   /* Set scrollbar colors for Firefox */
@@ -472,18 +474,21 @@ aside ul {
 
 /* Show scrollbar for WebKit browsers on hover */
 .dashboardProductClass:hover::-webkit-scrollbar,
-.tablePages:hover::-webkit-scrollbar {
+.tablePages:hover::-webkit-scrollbar,
+.productsContainer:hover::-webkit-scrollbar {
   width: 10px;
 }
 
 .dashboardProductClass:hover::-webkit-scrollbar-thumb,
-.tablePages:hover::-webkit-scrollbar-thumb {
+.tablePages:hover::-webkit-scrollbar-thumb,
+.productsContainer:hover::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 10px;
 }
 
 .dashboardProductClass:hover::-webkit-scrollbar-track,
-.tablePages:hover::-webkit-scrollbar-track {
+.tablePages:hover::-webkit-scrollbar-track,
+.productsContainer:hover::-webkit-scrollbar-track {
   background-color: #f1f1f1;
   border-radius: 10px;
 }
@@ -576,4 +581,50 @@ aside ul {
 
 .inactiveSpan {
   color: var(--redColor);
+}
+
+.productSpan {
+  font-size: 14px;
+  color: var(--blackColor);
+}
+
+.productCard {
+  width: 200px;
+  height: 280px;
+  border-radius: 20px;
+  border: 1px solid var(--neutralColor);
+  cursor: pointer;
+}
+
+.productCard .productName {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImage {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.productImage img {
+  width: 100%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.productsContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  padding: 10px 0px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  row-gap: 16px;
+  column-gap: 10px;
+  overflow: auto;
 }

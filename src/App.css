@@ -560,3 +560,15 @@ aside ul {
 .iconTable {
   width: 20px;
 }
+
+.activeClass {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--redColor);
+  cursor: pointer;
+}
+
+.inactiveSpan {
+  color: var(--redColor);
+}

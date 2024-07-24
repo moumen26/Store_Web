@@ -26,7 +26,7 @@ export default function Customers() {
             placeholder="Search by Customer..."
             onChange={handleSearchChange}
           />
-          <ButtonExport data={filteredData} /> {/* Pass filtered data */}
+          <ButtonExport data={filteredData} filename="Customers" />
         </div>
         <div className="pageTableContainer">
           <CustomerTable

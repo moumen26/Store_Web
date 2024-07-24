@@ -339,6 +339,10 @@ aside ul {
   gap: 16px;
 }
 
+.pageTableContainer {
+  height: 90%;
+}
+
 .dashboardLatestOrders {
   width: 100%;
 }
@@ -510,7 +514,7 @@ aside ul {
   color: var(--whiteColor);
 }
 
-.buttonExport{
+.buttonExport {
   background-color: var(--greyColor);
 }
 
@@ -542,9 +546,8 @@ aside ul {
 }
 
 .tablePages {
-  height: 630px;
+  max-height: 100%;
   overflow-y: auto;
-  
 }
 
 .tableHead {
@@ -554,6 +557,6 @@ aside ul {
   z-index: 1;
 }
 
-.iconTable{
- width: 20px;
+.iconTable {
+  width: 20px;
 }

@@ -1,8 +1,8 @@
+import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { ArrowDownTrayIcon } from "@heroicons/react/16/solid";
 import * as XLSX from "xlsx";
 
-export default function ButtonExport({ data }) {
+export default function ButtonExport({ data, filename }) {
   const handleExport = () => {
     // Create a new workbook and add a worksheet
     const workbook = XLSX.utils.book_new();
@@ -10,7 +10,7 @@ export default function ButtonExport({ data }) {
 
     // Adjust column widths
     const columns = Object.keys(data[0]);
-    const columnWidths = columns.map((column, index) => {
+    const columnWidths = columns.map((column) => {
       if (column === "customerName") {
         return { wpx: 200 }; // Set "Customer Name" column width to 200px
       } else {
@@ -26,7 +26,7 @@ export default function ButtonExport({ data }) {
     worksheet["!cols"] = columnWidths;
 
     // Add worksheet to workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
     // Generate buffer and trigger download
     const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
@@ -39,14 +39,14 @@ export default function ButtonExport({ data }) {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "customers.xlsx";
+    link.download = `${filename}.xlsx`;
     link.click();
     window.URL.revokeObjectURL(url);
   };
 
   return (
     <button className="buttonExport" onClick={handleExport}>
-      <ArrowDownTrayIcon className="iconAsideBar" />
+      <DocumentArrowDownIcon className="iconAsideBar" />
       <span className="buttonTextDark">Export</span>
     </button>
   );

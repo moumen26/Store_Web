@@ -4,10 +4,11 @@ import "primereact/resources/themes/saga-blue/theme.css"; // Import your theme
 import "primereact/resources/primereact.min.css"; // Import PrimeReact core styles
 import "primeicons/primeicons.css"; // Import PrimeIcons
 
-
-export default function DateRangeSelector({ onDateChange }) {
+export default function DashboardCalendar({ onDateChange }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const today = new Date(); // Get today's date
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -35,6 +36,7 @@ export default function DateRangeSelector({ onDateChange }) {
             dateFormat="dd-mm-yy"
             className="calendar"
             style={{ outline: "none" }}
+            maxDate={today} // Prevent selecting future dates
           />
         </div>
         <div className="flex items-center space-x-4">
@@ -48,6 +50,7 @@ export default function DateRangeSelector({ onDateChange }) {
             className="calendar"
             disabled={!startDate} // Disable end date calendar if start date is not selected
             minDate={startDate} // Set minimum selectable date for end date calendar
+            maxDate={today} // Prevent selecting future dates
           />
         </div>
       </div>

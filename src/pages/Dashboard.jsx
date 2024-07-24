@@ -7,7 +7,6 @@ import DashboadStoreStatistic from "../components/DashboadStoreStatistic";
 import DashboardNewCostumers from "../components/DashboardNewCostumers";
 import DashboardChart from "../components/DashboardChart";
 import DashboardCalendar from "../components/DashboardCalendar";
-import DateRangeSelector from "../components/DashboardCalendar";
 
 export default function Dashboard() {
   const [dateRange, setDateRange] = useState({
@@ -37,7 +36,7 @@ export default function Dashboard() {
             Here's you current sales overview
           </span>
         </div>
-        <DateRangeSelector
+        <DashboardCalendar
           onDateChange={(start, end) =>
             setDateRange({ startDate: start, endDate: end })
           }

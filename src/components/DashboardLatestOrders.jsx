@@ -12,6 +12,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { EyeIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 function createData(customer, orderId, orderDate, amount, status) {
   return {
@@ -40,6 +42,14 @@ function createData(customer, orderId, orderDate, amount, status) {
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    // navigate(`/customers/${row.customerId}`);
+
+    navigate("/OrderProfile", { state: { customer: row } });
+  };
 
   return (
     <React.Fragment>
@@ -71,11 +81,19 @@ function Row(props) {
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">{row.status}</span>
         </TableCell>
+        <TableCell align="right" className="tableCell">
+          <div className="flex justify-end pr-3">
+            <EyeIcon
+              className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
+              onClick={handleViewClick}
+            />
+          </div>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
+          colSpan={7}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -221,6 +239,9 @@ export default function DashboardLatestOrders() {
               </TableCell>
               <TableCell align="right" className="tableCell">
                 <span className="thTableSpan">Status</span>
+              </TableCell>
+              <TableCell align="right" className="tableCell">
+                <span className="thTableSpan">Action</span>
               </TableCell>
             </TableRow>
           </TableHead>

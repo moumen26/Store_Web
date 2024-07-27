@@ -331,7 +331,7 @@ aside ul {
 .dashboadStoreStatistic,
 .dashboardNewCostumers,
 .pageTable,
-.costumerClass {
+.customerClass {
   width: 50%;
   height: 500px;
   border-radius: 10px;
@@ -646,13 +646,13 @@ aside ul {
   overflow: auto;
 }
 
-.costumerClass {
+.customerClass {
   width: 100%;
   height: fit-content;
   gap: 16px;
 }
 
-.costumerClassTitle {
+.customerClassTitle {
   font-size: 18px;
   font-family: Montserrat-Medium;
   color: var(--blackColor);
@@ -688,8 +688,6 @@ aside ul {
 
   color: var(--blackColor);
 }
-
-
 
 .container {
   position: relative;

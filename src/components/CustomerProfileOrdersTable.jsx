@@ -46,7 +46,7 @@ function Row(props) {
   const handleViewClick = () => {
     // navigate(`/customers/${row.customerId}`);
 
-    navigate("/CustomerProfile", { state: { customer: row } });
+    navigate("/OrderProfile", { state: { customer: row } });
   };
 
   return (
@@ -350,7 +350,7 @@ export default function CustomerProfileOrdersTable({
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
           ) : (
             <TableRow>
-              <TableCell colSpan={6} align="center">
+              <TableCell colSpan={8} align="center">
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>

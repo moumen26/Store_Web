@@ -6,6 +6,7 @@ import ButtonAdd from "../components/ButtonAdd";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import CustomerStatsCard from "../components/CustomerStatsCard";
 import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable";
+import Search from "../components/Search";
 
 export default function CustomerProfile() {
   const location = useLocation();
@@ -33,8 +34,8 @@ export default function CustomerProfile() {
         </div>
         <ButtonAdd buttonSpan="Create Order" showIcon={false} />
       </div>
-      <div className="costumerClass">
-        <h2 className="costumerClassTitle">Personal Information</h2>
+      <div className="customerClass">
+        <h2 className="customerClassTitle">Personal Information</h2>
         <div className="personalInformation">
           <div className="flex-col">
             <span className="personalInformationSpan">First Name</span>
@@ -95,8 +96,8 @@ export default function CustomerProfile() {
       </div>
       {customer.customerPrimaryDeliveryAddress &&
       customer.customerPrimaryDeliveryAddress.length > 0 ? (
-        <div className="costumerClass">
-          <h2 className="costumerClassTitle">Primary Delivery Address</h2>
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Primary Delivery Address</h2>
           <div className="customerPrimaryAddress">
             {customer.customerPrimaryDeliveryAddress.map((address, index) => (
               <CustomerPrimaryDelivery
@@ -107,8 +108,8 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      <div className="costumerClass">
-        <h2 className="costumerClassTitle">Stats</h2>
+      <div className="customerClass">
+        <h2 className="customerClassTitle">Stats</h2>
         <div className="flex space-x-4">
           <CustomerStatsCard
             customerStatsCardTitle="Total Orders"
@@ -120,8 +121,14 @@ export default function CustomerProfile() {
           />
         </div>
       </div>
-      <div className="costumerClass customerOrdersClass">
-        <h2 className="costumerClassTitle">Orders</h2>
+      <div className="customerClass customerOrdersClass">
+        <div className="flex justify-between items-center">
+          <h2 className="customerClassTitle">Orders</h2>
+          <Search
+            placeholder="Search by Order..."
+            onChange={handleSearchChange}
+          />
+        </div>
         <CustomerProfileOrdersTable
           searchQuery={searchQuery}
           setFilteredData={setFilteredData}

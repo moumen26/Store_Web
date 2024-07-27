@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import CustomerStatsCard from "../components/CustomerStatsCard";
+import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable";
 
 export default function CustomerProfile() {
   const location = useLocation();
@@ -60,17 +61,18 @@ export default function CustomerProfile() {
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Commune</span>
-            <h3 className="personalInformationDetails">
-              {customer.customerCommune}
-            </h3>
-          </div>
-          <div className="flex-col">
             <span className="personalInformationSpan">Wilaya</span>
             <h3 className="personalInformationDetails">
               {customer.customerWilaya}
             </h3>
           </div>
+          <div className="flex-col">
+            <span className="personalInformationSpan">Commune</span>
+            <h3 className="personalInformationDetails">
+              {customer.customerCommune}
+            </h3>
+          </div>
+
           <div className="flex-col">
             <span className="personalInformationSpan">Postcode</span>
             <h3 className="personalInformationDetails">
@@ -110,16 +112,20 @@ export default function CustomerProfile() {
         <div className="flex space-x-4">
           <CustomerStatsCard
             customerStatsCardTitle="Total Orders"
-            customerStatsCardDetails="0"
+            customerStatsCardDetails={customer.customerTotalOrders}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Amount"
-            customerStatsCardDetails="0"
+            customerStatsCardDetails={customer.customerTotalAmount}
           />
         </div>
       </div>
       <div className="costumerClass customerOrdersClass">
         <h2 className="costumerClassTitle">Orders</h2>
+        <CustomerProfileOrdersTable
+          searchQuery={searchQuery}
+          setFilteredData={setFilteredData}
+        />
       </div>
     </div>
   );

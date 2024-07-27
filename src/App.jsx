@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 
 import Asidebar from "./components/AsideBar";
 import CustomerProfile from "./pages/CustomerProfile";
+import LetsUpYourAccount from "./pages/LetsUpYourAccount";
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +31,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/CustomerProfile" element={<CustomerProfile />} />
+          <Route path="/LetsUpYourAccount" element={<LetsUpYourAccount />} />
         </Routes>
       </main>
     </BrowserRouter>

@@ -61,6 +61,8 @@ Row.propTypes = {
     customerFirstName: PropTypes.string.isRequired,
     customerCommune: PropTypes.string.isRequired,
     customerEmail: PropTypes.string.isRequired,
+    customerTotalOrders: PropTypes.string.isRequired,
+    customerTotalAmount: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -80,6 +82,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         "123 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
         "345 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
       ],
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -91,6 +95,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -102,6 +108,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -113,6 +121,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -124,6 +134,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -135,6 +147,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -146,6 +160,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -157,6 +173,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -168,6 +186,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -179,6 +199,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -190,6 +212,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -201,6 +225,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
     {
       customerFirstName: "Khaldi",
@@ -212,6 +238,8 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       customerEmail: "moumenkhaldi26@gmail.com",
       customerPostcode: "3100",
       customerAddress: "Rue Yousfi Abdelkader",
+      customerTotalOrders: "20",
+      customerTotalAmount: "20000.00",
     },
   ];
 

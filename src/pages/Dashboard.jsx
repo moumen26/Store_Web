@@ -60,7 +60,7 @@ export default function Dashboard() {
         <DashboardChart />
         <DashboardTopSellingProduct />
       </div>
-      <DashboardLatestOrders />
+      <DashboardLatestOrders  />
       <div className="w-full flex justify-between space-x-6">
         <DashboadStoreStatistic />
         <DashboardNewCostumers />

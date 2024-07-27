@@ -15,39 +15,12 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
-function createData(customer, orderId, orderDate, amount, status) {
-  return {
-    customer,
-    orderId,
-    orderDate,
-    amount,
-    status,
-    details: [
-      {
-        productName: "Elio - 1L",
-        brand: "Cevital",
-        amount: 920,
-        quantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        brand: "Cevital",
-        amount: 1,
-        quantity: 3,
-      },
-    ],
-  };
-}
-
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    // navigate(`/customers/${row.customerId}`);
-
     navigate("/OrderProfile", { state: { customer: row } });
   };
 
@@ -67,7 +40,9 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
-          <span className="trTableSpan">{row.customer}</span>
+          <span className="trTableSpan">
+            {row.customerFirstName} {row.customerLastName}
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.orderId}</span>
@@ -76,10 +51,10 @@ function Row(props) {
           <span className="trTableSpan">{row.orderDate}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.amount}</span>
+          <span className="trTableSpan">{row.orderAmount}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.status}</span>
+          <span className="trTableSpan">{row.orderStatus}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -110,23 +85,27 @@ function Row(props) {
                       </span>
                     </TableCell>
                     <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">Brand</span>
+                      <span className="thTableSpan thDetails">
+                        productBrand
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">Amount (DA)</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantity</span>
+                      <span className="thTableSpan thDetails">
+                        productQuantity
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Total price (DA)
+                        Total Price (DA)
                       </span>
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.details.map((detailsRow) => (
+                  {row.orderDetails.map((detailsRow) => (
                     <TableRow key={detailsRow.productName} className="tableRow">
                       <TableCell
                         component="th"
@@ -139,22 +118,24 @@ function Row(props) {
                       </TableCell>
                       <TableCell className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.brand}
+                          {detailsRow.productBrand}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.amount}
+                          {detailsRow.productPrice}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.quantity}
+                          {detailsRow.productQuantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(detailsRow.amount * detailsRow.quantity)}
+                          {Math.round(
+                            detailsRow.productPrice * detailsRow.productQuantity
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -172,41 +153,86 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     orderId: PropTypes.string.isRequired,
-    amount: PropTypes.string.isRequired,
+    orderAmount: PropTypes.string.isRequired,
     orderDate: PropTypes.string.isRequired,
-    details: PropTypes.arrayOf(
+    orderDetails: PropTypes.arrayOf(
       PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        brand: PropTypes.string.isRequired,
+        productPrice: PropTypes.number.isRequired,
+        productBrand: PropTypes.string.isRequired,
+        productName: PropTypes.string.isRequired,
+        productQuantity: PropTypes.number.isRequired,
       })
     ).isRequired,
-    customer: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    customerLastName: PropTypes.string.isRequired,
+    customerFirstName: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
+    orderBoxes: PropTypes.string.isRequired,
+    orderItems: PropTypes.string.isRequired,
+    orderType: PropTypes.string.isRequired,
+    orderDeliveryDate: PropTypes.string.isRequired,
+    orderCourier: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 const rows = [
-  createData(
-    "Khaldi Abdelmoumen",
-    "0920496",
-    "May 26, 2024 | 10:30 AM",
-    "4000.00",
-    "Preparing your order"
-  ),
-  createData(
-    "Khaldi Abdelmoumen",
-    "0920496",
-    "May 26, 2024 | 10:30 AM",
-    "4000.00",
-    "Preparing your order"
-  ),
-  createData(
-    "Khaldi Abdelmoumen",
-    "0920496",
-    "May 26, 2024 | 10:30 AM",
-    "4000.00",
-    "Preparing your order"
-  ),
+  {
+    customerLastName: "Abdelmoumen",
+    customerFirstName: "Khaldi",
+    orderId: "0920425",
+    customerPhone: "0550189087",
+    customerAddress: "123 Rue Yousfi Abdelkader",
+    customerCommune: "Ouled Aich",
+    customerWilaya: "Blida",
+    orderDate: "May 26, 2024 | 23:30 AM",
+    orderAmount: "4000.00",
+    orderStatus: "Preparing your order",
+    orderBoxes: "10",
+    orderItems: "4",
+    orderType: "Delivery",
+    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
+    orderCourier: "Yalidine",
+    orderDeliveryAmount: 0,
+    orderDetails: [
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 920,
+        productQuantity: 3,
+      },
+    ],
+  },
+  {
+    customerLastName: "Mohamed",
+    customerFirstName: "Khaldi",
+    customerPhone: "0550189087",
+    customerAddress: "123 Rue Yousfi Abdelkader",
+    customerCommune: "Ouled Aich",
+    customerWilaya: "Blida",
+    orderId: "0920200",
+    orderDate: "May 26, 2024 | 23:30 AM",
+    orderAmount: "4000.00",
+    orderStatus: "Preparing your order",
+    orderBoxes: "20",
+    orderItems: "8",
+    orderType: "Delivery",
+    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
+    orderCourier: "Yalidine",
+    orderDeliveryAmount: 0,
+    orderDetails: [
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 920,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+    ],
+  },
 ];
 
 export default function DashboardLatestOrders() {
@@ -247,7 +273,7 @@ export default function DashboardLatestOrders() {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <Row key={row.customer} row={row} />
+              <Row key={row.orderId} row={row} />
             ))}
           </TableBody>
         </Table>

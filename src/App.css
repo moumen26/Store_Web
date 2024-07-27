@@ -361,6 +361,12 @@ aside ul {
   gap: 16px;
 }
 
+.ordersTable {
+  max-height: 78vh;
+  min-height: 55vh;
+  height: fit-content;
+}
+
 .pageTableContainer {
   height: 90%;
 }
@@ -408,7 +414,8 @@ aside ul {
   color: var(--mainColor);
 }
 
-.selectOptionChart {
+.selectOptionChart,
+.selectOptionOrderType {
   border-radius: 5px;
   border: 1px solid var(--neutralColor);
   padding: 4px 8px;
@@ -416,6 +423,10 @@ aside ul {
   font-size: 14px;
   font-family: Montserrat-Medium;
   color: var(--blackColor);
+}
+
+.selectOptionOrderType{
+  width: 140px;
 }
 
 .seeSpan {
@@ -584,6 +595,7 @@ aside ul {
   z-index: 1;
 }
 
+
 .iconTable {
   width: 20px;
 }
@@ -603,6 +615,12 @@ aside ul {
 .productSpan {
   font-size: 14px;
   color: var(--blackColor);
+}
+
+.orderProfileSpan {
+  font-size: 14px;
+  color: var(--greyDarkColor);
+  font-family: Montserrat-Medium;
 }
 
 .productCard {
@@ -1104,3 +1122,38 @@ form.sign-in-form {
 #demande-accee {
   z-index: 1;
 }
+
+/* 
+<div className="customerClass flex-col space-y-1">
+  <div className="flex justify-between items-center">
+    <h2 className="customerClassTitle">Order Type</h2>
+    <div className="selectOptionClass">
+      <select
+        className="selectOptionOrderType"
+        name="selectOptionOrderType"
+        id="selectOptionOrderType"
+        value={selectedOption}
+        onChange={handleOptionChange}
+      >
+        <option value="deliveryOption">Delivery</option>
+        <option value="pickupOption">Pick Up</option>
+      </select>
+    </div>
+  </div>
+  {selectedOption === "deliveryOption" && (
+    <div className="flex justify-between items-center">
+      <h2 className="customerClassTitle">Courier</h2>
+      <div className="selectOptionClass">
+        <select
+          className="selectOptionOrderType"
+          name="selectOptionCourier"
+          id="selectOptionCourier"
+          value={selectedCourier}
+          onChange={handleCourierChange}
+        >
+          <option value="yalidine">Yalidine</option>
+        </select>
+      </div>
+    </div>
+  )}
+</div>; */

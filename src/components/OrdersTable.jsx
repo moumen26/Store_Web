@@ -88,15 +88,17 @@ function Row(props) {
                       </span>
                     </TableCell>
                     <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">Brand</span>
-                    </TableCell>
-                    <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        orderAmount (DA)
+                        productBrand
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantity</span>
+                      <span className="thTableSpan thDetails">Amount (DA)</span>
+                    </TableCell>
+                    <TableCell align="right" className="tableCell">
+                      <span className="thTableSpan thDetails">
+                        productQuantity
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
@@ -122,24 +124,24 @@ function Row(props) {
                       </TableCell>
                       <TableCell className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.brand}
+                          {orderDetailsRow.productBrand}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.orderAmount}
+                          {orderDetailsRow.productPrice}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.quantity}
+                          {orderDetailsRow.productQuantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.orderAmount *
-                              orderDetailsRow.quantity
+                            orderDetailsRow.productPrice *
+                              orderDetailsRow.productQuantity
                           )}
                         </span>
                       </TableCell>
@@ -162,13 +164,15 @@ Row.propTypes = {
     orderDate: PropTypes.string.isRequired,
     orderDetails: PropTypes.arrayOf(
       PropTypes.shape({
-        orderAmount: PropTypes.number.isRequired,
-        brand: PropTypes.string.isRequired,
+        productPrice: PropTypes.number.isRequired,
+        productBrand: PropTypes.string.isRequired,
         productName: PropTypes.string.isRequired,
       })
     ).isRequired,
     customerLastName: PropTypes.string.isRequired,
     customerFirstName: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
+    orderBoxes: PropTypes.string.isRequired,
     orderStatus: PropTypes.string.isRequired,
   }).isRequired,
 };
@@ -178,6 +182,10 @@ const rows = [
     customer: "Khaldi Abdelmoumen",
     customerLastName: "Abdelmoumen",
     customerFirstName: "Khaldi",
+    customerPhone: "0550189087",
+    customerAddress: "123 Rue Yousfi Abdelkader",
+    customerCommune: "Ouled Aich",
+    customerWilaya: "Blida",
     orderId: "0920425",
     orderDate: "May 26, 2024 | 23:30 AM",
     orderAmount: "4000.00",
@@ -187,18 +195,63 @@ const rows = [
     orderType: "Delivery",
     orderDeliveryDate: "May 27, 2024 | 12:30 AM",
     orderCourier: "Yalidine",
+    orderDeliveryAmount: 0,
     orderDetails: [
       {
         productName: "Elio - 1L",
-        brand: "Cevital",
-        orderAmount: 920,
-        quantity: 3,
+        productBrand: "Cevital",
+        productPrice: 920,
+        productQuantity: 3,
       },
       {
         productName: "Elio - 1L",
-        brand: "Cevital",
-        orderAmount: 1,
-        quantity: 3,
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
+      },
+      {
+        productName: "Elio - 1L",
+        productBrand: "Cevital",
+        productPrice: 1,
+        productQuantity: 3,
       },
     ],
   },
@@ -211,6 +264,12 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
     const results = rows.filter(
       (row) =>
         row.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -220,7 +279,9 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
             detail.productName
               .toLowerCase()
               .includes(searchQuery.toLowerCase()) ||
-            detail.brand.toLowerCase().includes(searchQuery.toLowerCase())
+            detail.productBrand
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
         )
     );
 
@@ -248,10 +309,10 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
               <span className="thTableSpan">Order Date</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">orderAmount</span>
+              <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">orderStatus</span>
+              <span className="thTableSpan">Status</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>
@@ -263,7 +324,7 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
           ) : (
             <TableRow>
-              <TableCell colSpan={6} align="center">
+              <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>

@@ -49,7 +49,7 @@ export default function Orders() {
         <OrderCard orderCardTitle="Orders In Progress" orderCardDetails={0} />
         <OrderCard orderCardTitle="Returns Orders" orderCardDetails={0} />
       </div>
-      <div className="pageTable">
+      <div className="pageTable ordersTable">
         <div className="w-full flex items-center justify-between">
           <Search
             placeholder="Search by Order..."

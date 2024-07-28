@@ -20,7 +20,8 @@ export default function OrderProfileDevicesProductTable({
   orderDeliveryAmount,
 }) {
   const rows = orderDetails.map((item) => ({
-    desc: `${item.productName} (${item.productBrand})`,
+    name: item.productName,
+    brand: item.productBrand,
     qty: item.productQuantity,
     unit: item.productPrice,
     price: priceRow(item.productQuantity, item.productPrice),
@@ -38,7 +39,7 @@ export default function OrderProfileDevicesProductTable({
       <Table sx={{ minWidth: 700 }} aria-label="spanning table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell align="center" colSpan={3}>
+            <TableCell align="center" colSpan={4}>
               <span className="thTableSpan">Details</span>
             </TableCell>
             <TableCell align="right">
@@ -48,6 +49,9 @@ export default function OrderProfileDevicesProductTable({
           <TableRow>
             <TableCell>
               <span className="dashboardLatestOrdersDetails">Products</span>
+            </TableCell>
+            <TableCell>
+              <span className="dashboardLatestOrdersDetails">Brand</span>
             </TableCell>
             <TableCell align="right">
               <span className="dashboardLatestOrdersDetails">Qty.</span>
@@ -64,7 +68,10 @@ export default function OrderProfileDevicesProductTable({
           {rows.map((row, index) => (
             <TableRow key={index}>
               <TableCell>
-                <span className="trTableSpan">{row.desc}</span>
+                <span className="trTableSpan">{row.name}</span>
+              </TableCell>
+              <TableCell>
+                <span className="trTableSpan">{row.brand}</span>
               </TableCell>
               <TableCell align="right">
                 <span className="trTableSpan">{row.qty}</span>
@@ -78,8 +85,8 @@ export default function OrderProfileDevicesProductTable({
             </TableRow>
           ))}
           <TableRow>
-            <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>
+            <TableCell rowSpan={4} />
+            <TableCell colSpan={3}>
               <span className="dashboardLatestOrdersDetails">Subtotal</span>
             </TableCell>
             <TableCell align="right">
@@ -87,7 +94,7 @@ export default function OrderProfileDevicesProductTable({
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>
+            <TableCell colSpan={2}>
               <span className="dashboardLatestOrdersDetails">
                 Delivery Amount
               </span>
@@ -100,7 +107,7 @@ export default function OrderProfileDevicesProductTable({
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2}>
+            <TableCell colSpan={3}>
               <span className="dashboardLatestOrdersDetails">Total</span>
             </TableCell>
             <TableCell align="right">

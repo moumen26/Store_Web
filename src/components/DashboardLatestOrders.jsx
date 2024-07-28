@@ -86,7 +86,7 @@ function Row(props) {
                     </TableCell>
                     <TableCell className="tableCell">
                       <span className="thTableSpan thDetails">
-                        productBrand
+                        Brand
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -94,7 +94,7 @@ function Row(props) {
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        productQuantity
+                        Quantity
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">

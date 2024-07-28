@@ -166,7 +166,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
             filteredRows.map((row) => <Row key={row.productId} row={row} />)
           ) : (
             <TableRow>
-              <TableCell colSpan={6} align="center">
+              <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No products found</span>
               </TableCell>
             </TableRow>

@@ -61,7 +61,7 @@ export default function OrderProfile() {
         <h2 className="customerClassTitle">Order Details</h2>
         <OrderProfileDetails orderDetails={orderDetails} />
       </div>
-      <div className="flex space-x-6">
+      <div className="flex space-x-6 h-full">
         <div className="customerClass w-[60%]">
           <h2 className="customerClassTitle">Devices in the Order</h2>
           <OrderProfileDevicesProductTable
@@ -94,6 +94,40 @@ export default function OrderProfile() {
               </div>
             </div>
           </div>
+          <div className="customerClass flex-col space-y-1">
+            <div className="flex justify-between items-center">
+              <h2 className="customerClassTitle">Order Type</h2>
+              <div className="selectOptionClass">
+                <select
+                  className="selectOptionOrderType"
+                  name="selectOptionOrderType"
+                  id="selectOptionOrderType"
+                  value={selectedOption}
+                  onChange={handleOptionChange}
+                >
+                  <option value="deliveryOption">Delivery</option>
+                  <option value="pickupOption">Pick Up</option>
+                </select>
+              </div>
+            </div>
+            {selectedOption === "deliveryOption" && (
+              <div className="flex justify-between items-center">
+                <h2 className="customerClassTitle">Courier</h2>
+                <div className="selectOptionClass">
+                  <select
+                    className="selectOptionOrderType"
+                    name="selectOptionCourier"
+                    id="selectOptionCourier"
+                    value={selectedCourier}
+                    onChange={handleCourierChange}
+                  >
+                    <option value="yalidine">Yalidine</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+          ;
         </div>
       </div>
     </div>

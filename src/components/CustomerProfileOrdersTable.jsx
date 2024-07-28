@@ -87,17 +87,13 @@ function Row(props) {
                       </span>
                     </TableCell>
                     <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">orderBrand</span>
+                      <span className="thTableSpan thDetails">Brand</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        orderAmount (DA)
-                      </span>
+                      <span className="thTableSpan thDetails">Amount (DA)</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        orderQuantity
-                      </span>
+                      <span className="thTableSpan thDetails">Quantity</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
@@ -273,18 +269,18 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Order Date</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">orderAmount</span>
+              <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">orderItems</span>
+              <span className="thTableSpan">Items</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">orderBoxes</span>
+              <span className="thTableSpan">Boxes</span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">orderStatus</span>
+            <TableCell align="right" className="tableHeadCell">
+              <span className="thTableSpan">Status</span>
             </TableCell>
-            <TableCell className="tableHeadCell">
+            <TableCell align="right" className="tableHeadCell">
               <span className="thTableSpan">Actions</span>
             </TableCell>
           </TableRow>

@@ -1121,3 +1121,14 @@ form.sign-in-form {
 #demande-accee {
   z-index: 1;
 }
+
+.editable-input {
+  border: 1px solid #ccc;
+  padding: 4px;
+  padding-left: 8px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  color: var(--blackColor);
+  font-family: Montserrat-Medium;
+}

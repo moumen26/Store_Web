@@ -63,7 +63,7 @@ function Row(props) {
             <span className="inactiveSpan trTableSpan">Inactive</span>
           </div>
         </TableCell>
-        <TableCell align="right" className="tableCell">
+        <TableCell align="right" className="tableCell w-[100px]">
           <div className="flex justify-end pr-3">
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"

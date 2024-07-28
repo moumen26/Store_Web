@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
-import ButtonExport from "../components/ButtonExport";
+import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import OrdersTable from "../components/OrdersTable";
 import OrderCard from "../components/OrderCard";
@@ -56,7 +56,7 @@ export default function Orders() {
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExport data={filteredData} filename="Orders" />
+          <ButtonExportExel data={filteredData} filename="Orders" />
         </div>
         <div className="pageTableContainer">
           <OrdersTable

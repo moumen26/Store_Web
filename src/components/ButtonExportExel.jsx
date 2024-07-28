@@ -2,7 +2,7 @@ import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import * as XLSX from "xlsx";
 
-export default function ButtonExport({ data, filename }) {
+export default function ButtonExportExcel({ data, filename }) {
   const handleExport = () => {
     // Create a new workbook and add a worksheet
     const workbook = XLSX.utils.book_new();
@@ -39,7 +39,16 @@ export default function ButtonExport({ data, filename }) {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${filename}.xlsx`;
+
+    // Generate the filename with the current date and time
+    const currentDate = new Date();
+    const formattedDate = currentDate
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/\..+/, "")
+      .replace(/:/g, "-"); // Replace colons with dashes
+    link.download = `${filename}_${formattedDate}.xlsx`;
+
     link.click();
     window.URL.revokeObjectURL(url);
   };

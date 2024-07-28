@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerTable from "../components/CustomerTable";
-import ButtonExport from "../components/ButtonExport";
+import ButtonExportExel from "../components/ButtonExportExel";
 
 export default function Customers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +26,7 @@ export default function Customers() {
             placeholder="Search by Customer..."
             onChange={handleSearchChange}
           />
-          <ButtonExport data={filteredData} filename="Customers" />
+          <ButtonExportExel data={filteredData} filename="Customers" />
         </div>
         <div className="pageTableContainer">
           <CustomerTable

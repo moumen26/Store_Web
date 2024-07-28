@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonAdd from "../components/ButtonAdd";
 import AuthenticationTable from "../components/AuthenticationTable";
-import ButtonExport from "../components/ButtonExport";
+import ButtonExportExel from "../components/ButtonExportExel";
 
 export default function Authentication() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +26,10 @@ export default function Authentication() {
             placeholder="Search by User..."
             onChange={handleSearchChange}
           />
-          <ButtonExport data={filteredData} filename="User Authentication" />
+          <ButtonExportExel
+            data={filteredData}
+            filename="User Authentication"
+          />
         </div>
         <div className="pageTableContainer">
           <AuthenticationTable

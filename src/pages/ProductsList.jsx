@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import ButtonAdd from "../components/ButtonAdd";
 import Search from "../components/Search";
-import ButtonExport from "../components/ButtonExport";
+import ButtonExportExel from "../components/ButtonExportExel";
 import ProductTable from "../components/ProductTable";
 
 export default function ProductsList() {
@@ -25,7 +25,7 @@ export default function ProductsList() {
             placeholder="Search by Product..."
             onChange={handleSearchChange}
           />
-          <ButtonExport data={filteredData} filename="Products" />
+          <ButtonExportExel data={filteredData} filename="Products" />
         </div>
         <div className="pageTableContainer">
           <ProductTable

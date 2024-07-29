@@ -31,7 +31,7 @@ export default function InputForm({
           type={inputType}
           placeholder={inputPlaceholder}
           name={inputName}
-          // onChange={setChangevalue}
+          onChange={setChangevalue}
         />
       </div>
     </div>

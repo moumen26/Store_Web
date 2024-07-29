@@ -1,4 +1,3 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,6 +8,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import {TokenDecoder} from "../util/DecodeToken";
+import React, { useEffect, useState } from "react";
 
 function Row(props) {
   const {
@@ -23,7 +25,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/products/${row.productId}`);
+    navigate(`/Product/${row.productId}`);
   };
 
   const handleNumericChange = (productId, field, value) => {
@@ -35,7 +37,7 @@ function Row(props) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productId}</span>
+        <span className="trTableSpan">{row.productCode}</span>
       </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{row.productName}</span>
@@ -131,6 +133,7 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     productId: PropTypes.string.isRequired,
+    productCode: PropTypes.string.isRequired,
     productBuyingPrice: PropTypes.string.isRequired,
     productBrand: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
@@ -146,18 +149,55 @@ Row.propTypes = {
 };
 
 export default function ProductTable({ searchQuery, setFilteredData }) {
-  const [editingRowId, setEditingRowId] = React.useState(null);
-  const [editedRow, setEditedRow] = React.useState({});
-  const [rows, setRows] = React.useState([
-    {
-      productId: "0920496",
-      productName: "Elio - 1L",
-      productBrand: "Cevital",
-      productBuyingPrice: "120",
-      productSellPrice: "115",
-      productStock: "100",
-    },
-  ]);
+  const { user } = useAuthContext();
+  const [STOCKData, setSTOCKData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const decodedToken = TokenDecoder();
+  useEffect(() => {
+    const fetchSTOCKData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/Stock/${decodedToken.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setSTOCKData(data);
+        } else {
+            setSTOCKData([]);
+            setRows([]);
+            console.error("Error receiving STOCK data:", response.statusText);
+        }
+      } catch (error) {
+          console.error("Error fetching STOCK data:", error);
+      } finally {
+          setLoading(false);
+      }
+    };
+    fetchSTOCKData();
+  }, [user?.token]);
+  const [editingRowId, setEditingRowId] = useState(null);
+  const [editedRow, setEditedRow] = useState({});
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    if (STOCKData.length > 0) {
+      const rowsData = STOCKData.map(stock => ({
+        productId: stock.product._id,
+        productCode: stock.product.code,
+        productName: stock.product.name,
+        productBrand: stock.product.brand.name,
+        productBuyingPrice: stock.price[0],
+        productSellPrice: stock.price[stock.price.length - 1],
+        productStock: stock.quantity.toString(),
+      }));
+      setRows(rowsData);
+    }
+  }, [STOCKData]);
 
   const handleEditClick = (productId) => {
     setEditingRowId(productId);
@@ -187,14 +227,14 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     (row) =>
       row.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.productId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.productCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.productBrand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productBuyingPrice
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      row.productSellPrice.toLowerCase().includes(searchQuery.toLowerCase())
+      row.productBuyingPrice.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.productSellPrice.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.productStock.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFilteredData(filteredRows);
   }, [filteredRows, setFilteredData]);
 
@@ -208,7 +248,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Product_ID</span>
+              <span className="thTableSpan">Product Code</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Product</span>
@@ -244,12 +284,19 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
                 editedRow={editedRow}
               />
             ))
-          ) : (
+          ) : (loading ? (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  <span className="thTableSpan">loading...</span>
+                </TableCell>
+              </TableRow>
+            ) :(
             <TableRow>
               <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No products found</span>
               </TableCell>
             </TableRow>
+            )
           )}
         </TableBody>
       </Table>

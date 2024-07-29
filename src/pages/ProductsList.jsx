@@ -4,7 +4,6 @@ import ButtonAdd from "../components/ButtonAdd";
 import Search from "../components/Search";
 import ButtonExportExel from "../components/ButtonExportExel";
 import ProductTable from "../components/ProductTable";
-
 export default function ProductsList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -16,8 +15,8 @@ export default function ProductsList() {
     <div className="pagesContainer">
       <Header />
       <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Products List</h2>
-        <ButtonAdd buttonSpan="Add New Product" />
+        <h2 className="pagesTitle">Products Stock</h2>
+        <ButtonAdd buttonSpan="Add New Stock" />
       </div>
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">

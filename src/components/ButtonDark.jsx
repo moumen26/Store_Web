@@ -1,15 +1,9 @@
 import React from "react";
 
-export default function ButtonDark({ buttonSpan }) {
+export default function ButtonDark({ buttonSpan, setOnClick}) {
   return (
-    // <button className="buttonDark">
-    //   <span className="buttonTextLight">{buttonSpan}</span>
-    // </button>
-    <a
-      href="/Dashboard"
-      className="buttonDark flex justify-center items-center"
-    >
+    <button className="buttonDark" onClick={setOnClick}>
       <span className="buttonTextLight">{buttonSpan}</span>
-    </a>
+    </button>
   );
 }

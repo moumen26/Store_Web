@@ -28,7 +28,7 @@ export default function CustomerProfile() {
           <ChevronRightIcon className="iconAsideBar" />
           <span>
             {customer
-              ? `${customer.customerFirstName} ${customer.customerLastName}`
+              ? `${customer?.customerFirstName} ${customer?.customerLastName}`
               : "Customer Details"}
           </span>
         </div>
@@ -40,66 +40,66 @@ export default function CustomerProfile() {
           <div className="flex-col">
             <span className="personalInformationSpan">First Name</span>
             <h3 className="personalInformationDetails">
-              {customer.customerFirstName}
+              {customer?.customerFirstName}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Last Name</span>
             <h3 className="personalInformationDetails">
-              {customer.customerLastName}
+              {customer?.customerLastName}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Number Phone</span>
             <h3 className="personalInformationDetails">
-              {customer.customerPhone}
+              {customer?.customerPhone}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Email Address</span>
             <h3 className="personalInformationDetails">
-              {customer.customerEmail}
+              {customer?.customerEmail}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Wilaya</span>
             <h3 className="personalInformationDetails">
-              {customer.customerWilaya}
+              {customer?.customerWilaya}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Commune</span>
             <h3 className="personalInformationDetails">
-              {customer.customerCommune}
+              {customer?.customerCommune}
             </h3>
           </div>
 
           <div className="flex-col">
             <span className="personalInformationSpan">Postcode</span>
             <h3 className="personalInformationDetails">
-              {customer.customerPostcode}
+              {customer?.customerPostcode}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Address</span>
             <h3 className="personalInformationDetails">
-              {customer.customerAddress}
+              {customer?.customerAddress}
             </h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">ID</span>
             <h3 className="personalInformationDetails">
-              {customer.customerId}
+              {customer?.customerId}
             </h3>
           </div>
         </div>
       </div>
-      {customer.customerPrimaryDeliveryAddress &&
-      customer.customerPrimaryDeliveryAddress.length > 0 ? (
+      {customer?.customerPrimaryDeliveryAddress &&
+      customer?.customerPrimaryDeliveryAddress.length > 0 ? (
         <div className="customerClass">
           <h2 className="customerClassTitle">Primary Delivery Address</h2>
           <div className="customerPrimaryAddress">
-            {customer.customerPrimaryDeliveryAddress.map((address, index) => (
+            {customer?.customerPrimaryDeliveryAddress.map((address, index) => (
               <CustomerPrimaryDelivery
                 key={index}
                 primaryDeliveryAddress={address}
@@ -113,11 +113,11 @@ export default function CustomerProfile() {
         <div className="flex space-x-4">
           <CustomerStatsCard
             customerStatsCardTitle="Total Orders"
-            customerStatsCardDetails={customer.customerTotalOrders}
+            customerStatsCardDetails={customer?.customerTotalOrders}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Amount"
-            customerStatsCardDetails={customer.customerTotalAmount}
+            customerStatsCardDetails={customer?.customerTotalAmount}
           />
         </div>
       </div>

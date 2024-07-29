@@ -1077,7 +1077,12 @@ form.sign-in-form {
 .sign-in-mode #back-btn {
   display: flex;
 }
-
+.sign-in-helper-text{
+  font-size: 0.8rem;
+  color: red;
+  margin: 0;
+  padding: 0;
+}
 .sign-in-mode::before {
   -webkit-transform: translateX(100%, -50%);
   transform: translateX(100%, -50%);

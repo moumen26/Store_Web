@@ -1,4 +1,3 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,15 +8,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
+import {TokenDecoder} from "../util/DecodeToken";
+import React, { useEffect, useState } from "react";
 
 function Row(props) {
   const { row } = props;
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    // navigate(`/customers/${row.customerId}`);
-
-    navigate("/CustomerProfile", { state: { customer: row } });
+    navigate(`/CustomerProfile/${row.customerId}`);
+    // navigate("/CustomerProfile", { state: { customer: row } });
   };
 
   return (
@@ -60,189 +61,56 @@ Row.propTypes = {
     customerLastName: PropTypes.string.isRequired,
     customerFirstName: PropTypes.string.isRequired,
     customerCommune: PropTypes.string.isRequired,
-    customerEmail: PropTypes.string.isRequired,
-    customerTotalOrders: PropTypes.string.isRequired,
-    customerTotalAmount: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 export default function CustomerTable({ searchQuery, setFilteredData }) {
-  const rows = [
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerPrimaryDeliveryAddress: [
-        "123 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
-        "345 Rue Yousfi Abdelkader, Ouled Aich Blida, Algerie",
-      ],
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Adel",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Blida",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Mohamed",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Bouarfa",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Adel",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-    {
-      customerFirstName: "Khaldi",
-      customerLastName: "Abdelmoumen",
-      customerId: "0920496",
-      customerPhone: "0550189087",
-      customerWilaya: "Blida",
-      customerCommune: "Ouled Aich",
-      customerEmail: "moumenkhaldi26@gmail.com",
-      customerPostcode: "3100",
-      customerAddress: "Rue Yousfi Abdelkader",
-      customerTotalOrders: "20",
-      customerTotalAmount: "20000.00",
-    },
-  ];
+  const { user } = useAuthContext();
+  const [CustomersData, setCustomersData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const decodedToken = TokenDecoder();
+  useEffect(() => {
+    const fetchCustomersData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${decodedToken.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        });
 
+        if (response.ok) {
+            const data = await response.json();
+            setCustomersData(data);
+        } else {
+            setCustomersData([]);
+            setRows([]);
+            console.error("Error receiving users data for this store:", response.statusText);
+        }
+      } catch (error) {
+          console.error("Error fetching users data for this store:", error);
+      } finally {
+          setLoading(false);
+      }
+    };
+    fetchCustomersData();
+  }, [user?.token]);
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    if (CustomersData.length > 0) {
+      const rowsData = CustomersData.map(data => ({
+        customerFirstName: data.user.firstName,
+        customerLastName: data.user.lastName,
+        customerId: data.user._id,
+        customerPhone: data.user.phoneNumber,
+        customerWilaya: data.user.wilaya,
+        customerCommune: data.user.commune,
+      }));
+      setRows(rowsData);
+    }
+  }, [CustomersData]);
   const filteredRows = rows.filter(
     (row) =>
       row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -253,7 +121,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
       row.customerCommune.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFilteredData(filteredRows);
   }, [filteredRows, setFilteredData]);
 
@@ -289,12 +157,19 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No customers found</span>
-              </TableCell>
-            </TableRow>
+          ) : (loading ? (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  <span className="thTableSpan">loading...</span>
+                </TableCell>
+              </TableRow>
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <span className="thTableSpan">No customers found</span>
+                </TableCell>
+              </TableRow>
+            )
           )}
         </TableBody>
       </Table>

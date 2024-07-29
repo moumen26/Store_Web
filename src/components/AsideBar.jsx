@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/16/solid";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 
 export default function Asidebar() {
   const location = useLocation();
@@ -30,15 +31,19 @@ export default function Asidebar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+  const { logout } = useLogout();
+  //handle logout
+  const submitLogout = () => {
+    logout();
+  }
   return (
     <aside>
       <ul className="flex-col space-y-7">
         <li>
-          <NavLink to="/Dashboard" className="flex items-center">
+          <NavLink to="/" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/Dashboard" ? "asideItemActive" : ""
+                location.pathname === "/" ? "asideItemActive" : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />
@@ -75,7 +80,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Products List</span>
+                    <span className="ml-3">Products Stock</span>
                   </div>
                 </NavLink>
                 <NavLink to="/ProductsGrid" className="flex items-center">
@@ -143,7 +148,7 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/SignUp" className=" flex items-center">
+          <NavLink to="/SignUp" className=" flex items-center" onClick={submitLogout}>
             <div
               className={`flex items-center itemAsideBar ${
                 location.pathname === "/SignUp" ? "asideItemActive" : ""

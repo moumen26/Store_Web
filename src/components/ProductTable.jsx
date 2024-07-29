@@ -107,7 +107,7 @@ function Row(props) {
             <>
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={() => onSaveClick(row.productId)}
+                onClick={() => onSaveClick(row.stockId)}
               >
                 Save
               </button>
@@ -139,6 +139,7 @@ Row.propTypes = {
     productName: PropTypes.string.isRequired,
     productSellPrice: PropTypes.string.isRequired,
     productStock: PropTypes.string.isRequired,
+    stockId: PropTypes.string.isRequired,
   }).isRequired,
   isEditing: PropTypes.bool.isRequired,
   onEditClick: PropTypes.func.isRequired,
@@ -191,9 +192,10 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         productCode: stock.product.code,
         productName: stock.product.name,
         productBrand: stock.product.brand.name,
-        productBuyingPrice: stock.price[0],
-        productSellPrice: stock.price[stock.price.length - 1],
+        productBuyingPrice: stock.price[stock.price.length - 1].buying,
+        productSellPrice: stock.price[stock.price.length - 1].selling,
         productStock: stock.quantity.toString(),
+        stockId: stock._id,
       }));
       setRows(rowsData);
     }
@@ -205,11 +207,32 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     setEditedRow(rowToEdit);
   };
 
-  const handleSaveClick = (productId) => {
-    setRows((prevRows) =>
-      prevRows.map((row) => (row.productId === productId ? editedRow : row))
-    );
-    setEditingRowId(null);
+  const handleSaveClick = async (stockId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/Stock/update/${stockId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify({
+          BuyingPrice: editedRow.productBuyingPrice,
+          SellingPrice: editedRow.productSellPrice,
+          Quantity: editedRow.productStock,
+        }),
+      });
+  
+      if (response.ok) {
+        setRows((prevRows) =>
+          prevRows.map((row) => (row.stockId === stockId ? editedRow : row))
+        );
+        setEditingRowId(null);
+      } else {
+        console.error("Error updating stock data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating stock data:", error);
+    }
   };
 
   const handleCancelClick = () => {

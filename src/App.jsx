@@ -15,6 +15,7 @@ import CustomerProfile from "./pages/CustomerProfile";
 import LetsUpYourAccount from "./pages/LetsUpYourAccount";
 import OrderProfile from "./pages/OrderProfile";
 import ProductDetails from "./pages/ProductDetails";
+import NonApprovedCustomer from "./pages/NonApprovedCustomer";
 import { useAuthContext } from './hooks/useAuthContext';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
       <main>
         {user ? <Asidebar /> : <SignIn />}
         <Routes>
+          {/* private routes */}
           <Route index element={user ? <Dashboard /> : <SignIn />} />
           <Route path="/Customers" element={user ? <Customers /> : <SignIn />} />
           <Route path="/ProductsList" element={user ? <ProductsList /> : <SignIn />} />
@@ -59,11 +61,13 @@ function App() {
           <Route path="/Settings" element={user ? <Settings /> : <SignIn />} />
           <Route path="/Authentication" element={user ? <Authentication /> : <SignIn />} />
           <Route path="/Client/:id" element={user ? <Authentication /> : <SignIn />} />
-          <Route path="/SignUp" element={!user ? <SignUp /> : <Navigate to="/" />} />
-          <Route path="/SignIn" element={!user ? <SignIn /> : <Navigate to="/" />} />
           <Route path="/CustomerProfile/:id" element={user ? <CustomerProfile /> : <SignIn />} />
+          <Route path="/NAPCustomerProfile/:id" element={user ? <NonApprovedCustomer /> : <SignIn />} />
           <Route path="/OrderProfile" element={user ? <OrderProfile /> : <SignIn />} />
           <Route path="/LetsUpYourAccount" element={user ? <LetsUpYourAccount /> : <SignIn />} />
+          {/* public routes */}
+          <Route path="/SignUp" element={!user ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/SignIn" element={!user ? <SignIn /> : <Navigate to="/" />} />
         </Routes>
       </main>
     </BrowserRouter>

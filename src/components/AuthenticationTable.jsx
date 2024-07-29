@@ -21,7 +21,7 @@ function Row(props) {
   const [open, setOpen] = useState(false);
 
   const handleViewClick = () => {
-    navigate(`/CustomerProfile/${row.userId}`);
+    navigate(`/NAPCustomerProfile/${row.userId}`);
   };
 
   const handleInactiveClick = () => {

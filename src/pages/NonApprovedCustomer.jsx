@@ -1,30 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useLocation, useParams } from "react-router-dom";
-import ButtonAdd from "../components/ButtonAdd";
+import { useParams } from "react-router-dom";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
-import CustomerStatsCard from "../components/CustomerStatsCard";
-import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable";
-import Search from "../components/Search";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 
-export default function CustomerProfile() {
+export default function NonApprovedCustomer() {
   const { id } = useParams();
-  const location = useLocation();
-  const { customer } = location.state || {};
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
   const { user } = useAuthContext();
   const [CustomerData, setCustomerData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const decodedToken = TokenDecoder();
   useEffect(() => {
     const fetchCustomerData = async () => {
       setLoading(true);
@@ -42,10 +27,10 @@ export default function CustomerProfile() {
             setCustomerData(data);
         } else {
             setCustomerData(null);
-            console.error("Error receiving Customer data:", response.statusText);
+            console.error("Error receiving non approved customer data:", response.statusText);
         }
       } catch (error) {
-          console.error("Error fetching Customer data:", error);
+          console.error("Error fetching non approved customer data:", error);
       } finally {
           setLoading(false);
       }
@@ -86,7 +71,6 @@ export default function CustomerProfile() {
               : "Customer Details"}
           </span>
         </div>
-        <ButtonAdd buttonSpan="Create Order" showIcon={false} />
       </div>
       <div className="customerClass">
         <h2 className="customerClassTitle">Personal Information</h2>
@@ -148,36 +132,6 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      {customer?.customerTotalOrders &&
-        <>
-          <div className="customerClass">
-            <h2 className="customerClassTitle">Stats</h2>
-            <div className="flex space-x-4">
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Orders"
-                customerStatsCardDetails={customer?.customerTotalOrders}
-              />
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Amount"
-                customerStatsCardDetails={customer?.customerTotalAmount}
-              />
-            </div>
-          </div>
-          <div className="customerClass customerOrdersClass">
-            <div className="flex justify-between items-center">
-              <h2 className="customerClassTitle">Orders</h2>
-              <Search
-                placeholder="Search by Order..."
-                onChange={handleSearchChange}
-              />
-            </div>
-            <CustomerProfileOrdersTable
-              searchQuery={searchQuery}
-              setFilteredData={setFilteredData}
-            />
-          </div>
-        </>
-      }
     </div>
   );
 }

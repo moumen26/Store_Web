@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Customers from "./pages/Customers";
 import SignUp from "./pages/SignUp";
 import ProductsList from "./pages/ProductsList";
@@ -16,7 +16,8 @@ import LetsUpYourAccount from "./pages/LetsUpYourAccount";
 import OrderProfile from "./pages/OrderProfile";
 import ProductDetails from "./pages/ProductDetails";
 import NonApprovedCustomer from "./pages/NonApprovedCustomer";
-import { useAuthContext } from './hooks/useAuthContext';
+import { useAuthContext } from "./hooks/useAuthContext";
+import Vendors from "./pages/Vendors";
 
 function App() {
   const { user } = useAuthContext();
@@ -27,12 +28,12 @@ function App() {
       setIsOnline(navigator.onLine);
     };
 
-    window.addEventListener('online', handleOnlineStatusChange);
-    window.addEventListener('offline', handleOnlineStatusChange);
+    window.addEventListener("online", handleOnlineStatusChange);
+    window.addEventListener("offline", handleOnlineStatusChange);
 
     return () => {
-      window.removeEventListener('online', handleOnlineStatusChange);
-      window.removeEventListener('offline', handleOnlineStatusChange);
+      window.removeEventListener("online", handleOnlineStatusChange);
+      window.removeEventListener("offline", handleOnlineStatusChange);
     };
   }, []);
   if (!isOnline) {
@@ -40,7 +41,7 @@ function App() {
       <div className="CircularProgress-app">
         <div className="CircularProgress-container">
           {/* <CircularProgress className='CircularProgress' /> */}
-        </div>  
+        </div>
         <h1>Pas de connexion Internet...</h1>
       </div>
     );
@@ -53,21 +54,58 @@ function App() {
         <Routes>
           {/* private routes */}
           <Route index element={user ? <Dashboard /> : <SignIn />} />
-          <Route path="/Customers" element={user ? <Customers /> : <SignIn />} />
-          <Route path="/ProductsList" element={user ? <ProductsList /> : <SignIn />} />
-          <Route path="/ProductsGrid" element={user ? <ProductsGrid /> : <SignIn />} />
-          <Route path="/Product/:id" element={user ? <ProductDetails /> : <SignIn />} />
+          <Route
+            path="/Customers"
+            element={user ? <Customers /> : <SignIn />}
+          />
+          <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
+          <Route
+            path="/ProductsList"
+            element={user ? <ProductsList /> : <SignIn />}
+          />
+          <Route
+            path="/ProductsGrid"
+            element={user ? <ProductsGrid /> : <SignIn />}
+          />
+          <Route
+            path="/Product/:id"
+            element={user ? <ProductDetails /> : <SignIn />}
+          />
           <Route path="/Orders" element={user ? <Orders /> : <SignIn />} />
           <Route path="/Settings" element={user ? <Settings /> : <SignIn />} />
-          <Route path="/Authentication" element={user ? <Authentication /> : <SignIn />} />
-          <Route path="/Client/:id" element={user ? <Authentication /> : <SignIn />} />
-          <Route path="/CustomerProfile/:id" element={user ? <CustomerProfile /> : <SignIn />} />
-          <Route path="/NAPCustomerProfile/:id" element={user ? <NonApprovedCustomer /> : <SignIn />} />
-          <Route path="/OrderProfile" element={user ? <OrderProfile /> : <SignIn />} />
-          <Route path="/LetsUpYourAccount" element={user ? <LetsUpYourAccount /> : <SignIn />} />
+          <Route
+            path="/Authentication"
+            element={user ? <Authentication /> : <SignIn />}
+          />
+          <Route
+            path="/Client/:id"
+            element={user ? <Authentication /> : <SignIn />}
+          />
+          <Route
+            path="/CustomerProfile/:id"
+            element={user ? <CustomerProfile /> : <SignIn />}
+          />
+          <Route
+            path="/NAPCustomerProfile/:id"
+            element={user ? <NonApprovedCustomer /> : <SignIn />}
+          />
+          <Route
+            path="/OrderProfile"
+            element={user ? <OrderProfile /> : <SignIn />}
+          />
+          <Route
+            path="/LetsUpYourAccount"
+            element={user ? <LetsUpYourAccount /> : <SignIn />}
+          />
           {/* public routes */}
-          <Route path="/SignUp" element={!user ? <SignUp /> : <Navigate to="/" />} />
-          <Route path="/SignIn" element={!user ? <SignIn /> : <Navigate to="/" />} />
+          <Route
+            path="/SignUp"
+            element={!user ? <SignUp /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/SignIn"
+            element={!user ? <SignIn /> : <Navigate to="/" />}
+          />
         </Routes>
       </main>
     </BrowserRouter>

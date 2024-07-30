@@ -7,6 +7,7 @@ import {
   Squares2X2Icon,
   UserGroupIcon,
   UserPlusIcon,
+  UsersIcon,
 } from "@heroicons/react/16/solid";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -35,7 +36,7 @@ export default function Asidebar() {
   //handle logout
   const submitLogout = () => {
     logout();
-  }
+  };
   return (
     <aside>
       <ul className="flex-col space-y-7">
@@ -112,6 +113,18 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/Vendors" className=" flex items-center">
+            <div
+              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
+                location.pathname === "/Vendors" ? "asideItemActive" : ""
+              }`}
+            >
+              <UsersIcon className="iconAsideBar" />
+              <span className="ml-3">Vendors</span>
+            </div>
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/Customers" className=" flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
@@ -148,7 +161,11 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/SignUp" className=" flex items-center" onClick={submitLogout}>
+          <NavLink
+            to="/SignUp"
+            className=" flex items-center"
+            onClick={submitLogout}
+          >
             <div
               className={`flex items-center itemAsideBar ${
                 location.pathname === "/SignUp" ? "asideItemActive" : ""

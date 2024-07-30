@@ -65,10 +65,10 @@ export default function SignIn() {
           <div className="logInForm">
             <form action="">
               <InputForm
-                labelForm="Email Address"
-                inputType="email"
-                inputPlaceholder="example@gmail.com"
-                inputName="emailAddress"
+                labelForm="Phone Number"
+                inputType="phone"
+                inputPlaceholder="+213"
+                inputName="phoneNumber"
                 setChangevalue={handleUsernameChange}
               />
               <InputForm

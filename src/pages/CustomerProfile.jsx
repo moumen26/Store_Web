@@ -9,6 +9,7 @@ import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable
 import Search from "../components/Search";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function CustomerProfile() {
   const { id } = useParams();
@@ -29,36 +30,39 @@ export default function CustomerProfile() {
     const fetchCustomerData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/User/${id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
+          {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
             },
-        });
+          }
+        );
 
         if (response.ok) {
-            const data = await response.json();
-            setCustomerData(data);
+          const data = await response.json();
+          setCustomerData(data);
         } else {
-            setCustomerData(null);
-            console.error("Error receiving Customer data:", response.statusText);
+          setCustomerData(null);
+          console.error("Error receiving Customer data:", response.statusText);
         }
       } catch (error) {
-          console.error("Error fetching Customer data:", error);
+        console.error("Error fetching Customer data:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchCustomerData();
   }, [user?.token]);
   if (loading) {
     return (
-      <div className="pagesContainer">
+      <div className="pagesContainer h-[100vh]">
         <Header />
-        <div>
-          {/* <CircularProgress /> */}
-          <h1>Loading...</h1>
+        <div className="w-full h-full flex items-center justify-center">
+          <CircularProgress color="inherit" />
+          {/* <h1>Loading...</h1> */}
         </div>
       </div>
     );
@@ -129,13 +133,12 @@ export default function CustomerProfile() {
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">ID</span>
-            <h3 className="personalInformationDetails">
-              {CustomerData?.code}
-            </h3>
+            <h3 className="personalInformationDetails">{CustomerData?.code}</h3>
           </div>
         </div>
       </div>
-      {CustomerData?.storeAddresses && CustomerData?.storeAddresses.length > 0 ? (
+      {CustomerData?.storeAddresses &&
+      CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass">
           <h2 className="customerClassTitle">Primary Delivery Address</h2>
           <div className="customerPrimaryAddress">
@@ -148,7 +151,7 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      {customer?.customerTotalOrders &&
+      {customer?.customerTotalOrders && (
         <>
           <div className="customerClass">
             <h2 className="customerClassTitle">Stats</h2>
@@ -177,7 +180,7 @@ export default function CustomerProfile() {
             />
           </div>
         </>
-      }
+      )}
     </div>
   );
 }

@@ -9,8 +9,9 @@ import Paper from "@mui/material/Paper";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import {TokenDecoder} from "../util/DecodeToken";
+import { TokenDecoder } from "../util/DecodeToken";
 import React, { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Row(props) {
   const { row } = props;
@@ -73,26 +74,34 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
     const fetchCustomersData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${decodedToken.id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${
+            decodedToken.id
+          }`,
+          {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
             },
-        });
+          }
+        );
 
         if (response.ok) {
-            const data = await response.json();
-            setCustomersData(data);
+          const data = await response.json();
+          setCustomersData(data);
         } else {
-            setCustomersData([]);
-            setRows([]);
-            console.error("Error receiving users data for this store:", response.statusText);
+          setCustomersData([]);
+          setRows([]);
+          console.error(
+            "Error receiving users data for this store:",
+            response.statusText
+          );
         }
       } catch (error) {
-          console.error("Error fetching users data for this store:", error);
+        console.error("Error fetching users data for this store:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchCustomersData();
@@ -100,7 +109,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (CustomersData.length > 0) {
-      const rowsData = CustomersData.map(data => ({
+      const rowsData = CustomersData.map((data) => ({
         customerFirstName: data.user.firstName,
         customerLastName: data.user.lastName,
         customerId: data.user._id,
@@ -157,19 +166,19 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
-          ) : (loading ? (
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">loading...</span>
-                </TableCell>
-              </TableRow>
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} align="center">
-                  <span className="thTableSpan">No customers found</span>
-                </TableCell>
-              </TableRow>
-            )
+          ) : loading ? (
+            <TableRow>
+              <TableCell colSpan={7} align="center">
+                {/* <span className="thTableSpan">loading...</span> */}
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                <span className="thTableSpan">No customers found</span>
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>

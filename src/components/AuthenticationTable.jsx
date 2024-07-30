@@ -13,8 +13,10 @@ import ConfirmDialog from "./ConfirmDialog";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useAuthContext } from "../hooks/useAuthContext";
-import {TokenDecoder} from "../util/DecodeToken";
+import { TokenDecoder } from "../util/DecodeToken";
 import { set } from "date-fns";
+import CircularProgress from "@mui/material/CircularProgress";
+
 function Row(props) {
   const { row, handleConfirmAlert } = props;
   const navigate = useNavigate();
@@ -33,31 +35,34 @@ function Row(props) {
   };
 
   const handleConfirm = async () => {
-    try{
+    try {
       console.log(row.storeID);
       console.log(row.token);
-      const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/MyStores/approve/${row.storeID}`, {
-        method: "PATCH",
-        headers: {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/MyStores/approve/${row.storeID}`,
+        {
+          method: "PATCH",
+          headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${row?.token}`,
-        },
-        body: JSON.stringify({ 
-          user: row.userId 
-        }),
-      });
+          },
+          body: JSON.stringify({
+            user: row.userId,
+          }),
+        }
+      );
 
       if (response.ok) {
-          const data = await response.json();
-          setOpen(false);
-          handleConfirmAlert(`${data.message}`);
-      } 
-      if(!response.ok){
         const data = await response.json();
         setOpen(false);
         handleConfirmAlert(`${data.message}`);
       }
-    }catch(error){
+      if (!response.ok) {
+        const data = await response.json();
+        setOpen(false);
+        handleConfirmAlert(`${data.message}`);
+      }
+    } catch (error) {
       console.error("Error activating user to acces store:", error);
     }
   };
@@ -134,26 +139,37 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   const fetchNotApprovedUsersData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${decodedToken.id}`, {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${
+          decodedToken.id
+        }`,
+        {
           method: "GET",
           headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
           },
-      });
+        }
+      );
 
       if (response.ok) {
-          const data = await response.json();
-          setNotApprovedUsersData(data);
+        const data = await response.json();
+        setNotApprovedUsersData(data);
       } else {
-          setNotApprovedUsersData([]);
-          setRows([]);
-          console.error("Error receiving not approved users data for this store:", response.statusText);
+        setNotApprovedUsersData([]);
+        setRows([]);
+        console.error(
+          "Error receiving not approved users data for this store:",
+          response.statusText
+        );
       }
     } catch (error) {
-        console.error("Error fetching not approved users data for this store:", error);
+      console.error(
+        "Error fetching not approved users data for this store:",
+        error
+      );
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -162,9 +178,11 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (NotApprovedUsersData.length > 0) {
-      const rowsData = NotApprovedUsersData.map(data => {
+      const rowsData = NotApprovedUsersData.map((data) => {
         // Find the store object for the current store id
-        const currentStore = data.stores.find(store => store.store === decodedToken.id);
+        const currentStore = data.stores.find(
+          (store) => store.store === decodedToken.id
+        );
         return {
           userFirstName: data.user.firstName,
           userLastName: data.user.lastName,
@@ -173,7 +191,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
           userWilaya: data.user.wilaya,
           userCommune: data.user.commune,
           userAddress: data.user.storeAddresses,
-          status: currentStore ? currentStore.status : '',
+          status: currentStore ? currentStore.status : "",
           token: user?.token,
           storeID: decodedToken.id,
         };
@@ -251,19 +269,19 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
                   handleConfirmAlert={handleConfirmAlert}
                 />
               ))
-            ) : (loading ? (
+            ) : loading ? (
               <TableRow>
                 <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">loading...</span>
+                  {/* <span className="thTableSpan">loading...</span> */}
+                  <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
-              ) : (
+            ) : (
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   <span className="thTableSpan">No users found</span>
                 </TableCell>
               </TableRow>
-              )
             )}
           </TableBody>
         </Table>

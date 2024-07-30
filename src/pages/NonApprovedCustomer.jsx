@@ -4,6 +4,7 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import { useParams } from "react-router-dom";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import { useAuthContext } from "../hooks/useAuthContext";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function NonApprovedCustomer() {
   const { id } = useParams();
@@ -14,25 +15,31 @@ export default function NonApprovedCustomer() {
     const fetchCustomerData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/User/${id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
+          {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
             },
-        });
+          }
+        );
 
         if (response.ok) {
-            const data = await response.json();
-            setCustomerData(data);
+          const data = await response.json();
+          setCustomerData(data);
         } else {
-            setCustomerData(null);
-            console.error("Error receiving non approved customer data:", response.statusText);
+          setCustomerData(null);
+          console.error(
+            "Error receiving non approved customer data:",
+            response.statusText
+          );
         }
       } catch (error) {
-          console.error("Error fetching non approved customer data:", error);
+        console.error("Error fetching non approved customer data:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchCustomerData();
@@ -42,8 +49,9 @@ export default function NonApprovedCustomer() {
       <div className="pagesContainer">
         <Header />
         <div>
-          {/* <CircularProgress /> */}
-          <h1>Loading...</h1>
+          <CircularProgress color="inherit" />
+
+          {/* <h1>Loading...</h1> */}
         </div>
       </div>
     );
@@ -113,13 +121,12 @@ export default function NonApprovedCustomer() {
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">ID</span>
-            <h3 className="personalInformationDetails">
-              {CustomerData?.code}
-            </h3>
+            <h3 className="personalInformationDetails">{CustomerData?.code}</h3>
           </div>
         </div>
       </div>
-      {CustomerData?.storeAddresses && CustomerData?.storeAddresses.length > 0 ? (
+      {CustomerData?.storeAddresses &&
+      CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass">
           <h2 className="customerClassTitle">Primary Delivery Address</h2>
           <div className="customerPrimaryAddress">

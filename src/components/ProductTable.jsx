@@ -9,8 +9,9 @@ import Paper from "@mui/material/Paper";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import {TokenDecoder} from "../util/DecodeToken";
+import { TokenDecoder } from "../util/DecodeToken";
 import React, { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Row(props) {
   const {
@@ -158,26 +159,29 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     const fetchSTOCKData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/Stock/${decodedToken.id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/Stock/${decodedToken.id}`,
+          {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
             },
-        });
+          }
+        );
 
         if (response.ok) {
-            const data = await response.json();
-            setSTOCKData(data);
+          const data = await response.json();
+          setSTOCKData(data);
         } else {
-            setSTOCKData([]);
-            setRows([]);
-            console.error("Error receiving STOCK data:", response.statusText);
+          setSTOCKData([]);
+          setRows([]);
+          console.error("Error receiving STOCK data:", response.statusText);
         }
       } catch (error) {
-          console.error("Error fetching STOCK data:", error);
+        console.error("Error fetching STOCK data:", error);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchSTOCKData();
@@ -187,7 +191,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (STOCKData.length > 0) {
-      const rowsData = STOCKData.map(stock => ({
+      const rowsData = STOCKData.map((stock) => ({
         productId: stock.product._id,
         productCode: stock.product.code,
         productName: stock.product.name,
@@ -209,19 +213,22 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
 
   const handleSaveClick = async (stockId) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_URL_BASE}/Stock/update/${stockId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-        body: JSON.stringify({
-          BuyingPrice: editedRow.productBuyingPrice,
-          SellingPrice: editedRow.productSellPrice,
-          Quantity: editedRow.productStock,
-        }),
-      });
-  
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/Stock/update/${stockId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+          body: JSON.stringify({
+            BuyingPrice: editedRow.productBuyingPrice,
+            SellingPrice: editedRow.productSellPrice,
+            Quantity: editedRow.productStock,
+          }),
+        }
+      );
+
       if (response.ok) {
         setRows((prevRows) =>
           prevRows.map((row) => (row.stockId === stockId ? editedRow : row))
@@ -252,7 +259,9 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
       row.productId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.productCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.productBrand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productBuyingPrice.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.productBuyingPrice
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       row.productSellPrice.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.productStock.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -307,19 +316,19 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
                 editedRow={editedRow}
               />
             ))
-          ) : (loading ? (
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">loading...</span>
-                </TableCell>
-              </TableRow>
-            ) :(
+          ) : loading ? (
+            <TableRow>
+              <TableCell colSpan={7} align="center">
+                {/* <span className="thTableSpan">Loading...</span> */}
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No products found</span>
               </TableCell>
             </TableRow>
-            )
           )}
         </TableBody>
       </Table>

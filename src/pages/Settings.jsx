@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import Header from "../components/Header";
 import {
   UserIcon,
   ShieldCheckIcon,
@@ -53,7 +52,6 @@ export default function Settings() {
 
   return (
     <div className="pagesContainer settingsContainer">
-      <Header />
       <div className="pageTable h-[100vh] flex-row">
         <div className="settingsLeft flex-col space-y-[32px]">
           <h2 className="pagesTitle">User profile management</h2>
@@ -86,12 +84,12 @@ export default function Settings() {
         </div>
         <div className="settingsRight">
           {activeTab === "PersoInf" && (
-            <div className="flex-col space-y-7">
+            <div className="flex-col settingsRightContainer">
               <div className="flex items-center justify-between settingsRightHeader">
                 <h2 className="pagesTitle">Personal information</h2>
                 <ButtonSave />
               </div>
-              <div className="flex-col space-y-7 settingsRightScroll">
+              <div className="flex-col settingsRightScroll">
                 <div className="flex items-center space-x-4">
                   <div
                     className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
@@ -193,7 +191,7 @@ export default function Settings() {
                     </div>
                   </div>
                 </div>
-                <div className="deleteContainer flex-col space-y-4">
+                <div className="deleteContainer flex-col space-y-3">
                   <span className="deleteSpan">Delete Account</span>
                   <div className="bg-white w-full p-3 rounded-m flex space-x-2">
                     <ShieldExclamationIcon className="iconAsideBar" />
@@ -217,7 +215,13 @@ export default function Settings() {
               </div>
             </div>
           )}
-          {activeTab === "EmailPass" && <div>Email & Password Content</div>}
+          {activeTab === "EmailPass" && (
+            <div className="flex-col space-y-7">
+              <div className="flex items-center justify-between settingsRightHeader">
+                <h2 className="pagesTitle">Email & Paasword</h2>
+              </div>
+            </div>
+          )}
           {!activeTab && <div>Please select an option</div>}
         </div>
       </div>

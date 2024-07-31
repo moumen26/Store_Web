@@ -302,11 +302,12 @@ aside ul {
 
 .settingsContainer .pageTable {
   padding: 0;
-  height: calc(100vh - 128px);
+  height: calc(100vh - 48px);
   gap: 0;
 }
 
 .settingsRightHeader {
+  height: 70px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--neutralColor);
 }
@@ -323,9 +324,18 @@ aside ul {
   padding: 20px 25px;
 }
 
+.settingsRightContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .settingsRightScroll {
-  height: calc(100vh - 128px - 140px);
+  height: calc(100vh - 48px - 40px - 70px - 16px);
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .settingsRightScroll::-webkit-scrollbar {

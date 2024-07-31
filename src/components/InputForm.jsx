@@ -1,4 +1,8 @@
-import { EnvelopeIcon, LockClosedIcon, PhoneIcon } from "@heroicons/react/16/solid";
+import {
+  EnvelopeIcon,
+  LockClosedIcon,
+  PhoneIcon,
+} from "@heroicons/react/16/solid";
 import React from "react";
 
 export default function InputForm({
@@ -17,8 +21,11 @@ export default function InputForm({
     case "password":
       iconComponent = <LockClosedIcon className="inputIcon" />;
       break;
-    default:
+    case "email":
       iconComponent = <EnvelopeIcon className="inputIcon" />;
+      break;
+    default:
+      iconComponent = null;
       break;
   }
 

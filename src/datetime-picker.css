@@ -1,0 +1,30 @@
+/* General style for the input table */
+.inputTable {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Ensure parent container handles overflow */
+.customerClass {
+  width: 100%;
+  height: fit-content;
+  gap: 16px;
+  overflow: hidden; /* or 'auto' depending on your layout needs */
+  position: relative; /* Ensure that absolute positioning is relative to this container */
+}
+
+/* Style for react-datetime picker container */
+.ReactDatePicker__calendar {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-width: 100%; /* Ensure it fits within the parent container */
+  max-height: 300px; /* Set a maximum height to prevent it from growing too large */
+  overflow: auto; /* Add scroll if necessary */
+}

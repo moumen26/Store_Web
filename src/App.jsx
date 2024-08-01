@@ -18,6 +18,7 @@ import ProductDetails from "./pages/ProductDetails";
 import NonApprovedCustomer from "./pages/NonApprovedCustomer";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Vendors from "./pages/Vendors";
+import AddOrder from "./pages/AddOrder";
 
 function App() {
   const { user } = useAuthContext();
@@ -59,6 +60,7 @@ function App() {
             element={user ? <Customers /> : <SignIn />}
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
+          <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />
           <Route
             path="/ProductsList"
             element={user ? <ProductsList /> : <SignIn />}

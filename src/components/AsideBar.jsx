@@ -41,10 +41,10 @@ export default function Asidebar() {
     <aside>
       <ul className="flex-col space-y-7">
         <li>
-          <NavLink to="/" className="flex items-center">
+          <NavLink to="/AddOrder" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/" ? "asideItemActive" : ""
+                location.pathname === "/AddOrder" ? "asideItemActive" : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />

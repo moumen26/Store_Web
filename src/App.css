@@ -159,18 +159,29 @@
 }
 
 .buttonDark,
-.buttonDarkSave {
+.buttonDarkSave,
+.buttonLight {
   width: 400px;
   height: 50px;
   border-radius: 5px;
   background-color: var(--darkColor);
 }
 
+.buttonLight {
+  width: 100px;
+  background-color: var(--greyColor);
+}
+
 .buttonDarkSave,
-.buttonDelete {
+.buttonDelete,
+.buttonLight {
   width: fit-content;
   padding: 10px 20px;
   border-radius: 10px;
+}
+
+.buttonDarkSave {
+  width: 100px;
 }
 
 .buttonDelete {
@@ -805,7 +816,8 @@ aside ul {
   color: var(--blackColor);
 }
 
-.editable-input {
+.editable-input,
+.inputTable {
   border: 1px solid #ccc;
   padding: 4px;
   padding-left: 8px;

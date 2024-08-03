@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -15,10 +15,42 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-function AddOrderTableDetails({ openModal, handleCloseModal }) {
+function AddOrderTableDetails({
+  openModal,
+  handleCloseModal,
+  onCalculateTotals,
+}) {
   const [rows, setRows] = useState([
     {
       productId: "0920496",
+      productName: "Elio - 1L",
+      productBrand: "Cevital",
+      productQuantity: 5,
+      productPrice: 120,
+    },
+    {
+      productId: "09204922",
+      productName: "Elio - 1L",
+      productBrand: "Cevital",
+      productQuantity: 5,
+      productPrice: 120,
+    },
+    {
+      productId: "09204922",
+      productName: "Elio - 1L",
+      productBrand: "Cevital",
+      productQuantity: 5,
+      productPrice: 120,
+    },
+    {
+      productId: "09204922",
+      productName: "Elio - 1L",
+      productBrand: "Cevital",
+      productQuantity: 5,
+      productPrice: 120,
+    },
+    {
+      productId: "09204922",
       productName: "Elio - 1L",
       productBrand: "Cevital",
       productQuantity: 5,
@@ -43,6 +75,21 @@ function AddOrderTableDetails({ openModal, handleCloseModal }) {
     productPrice: 0,
   });
 
+  useEffect(() => {
+    // Calculate and pass the totals to the parent component whenever rows change
+    const calculateTotals = () => {
+      const subtotal = rows.reduce(
+        (acc, row) => acc + row.productQuantity * row.productPrice,
+        0
+      );
+      const deliveryAmount = 50; // Example fixed delivery amount
+      const total = subtotal + deliveryAmount;
+      onCalculateTotals(subtotal, deliveryAmount, total);
+    };
+
+    calculateTotals();
+  }, [rows, onCalculateTotals]);
+
   const handleEditClick = (productId) => {
     setEditingRowId(productId);
     const rowToEdit = rows.find((row) => row.productId === productId);
@@ -62,10 +109,7 @@ function AddOrderTableDetails({ openModal, handleCloseModal }) {
     if (field === "productQuantity" && (value <= 0 || isNaN(value))) {
       return;
     }
-    setEditedRow((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setEditedRow((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleDelete = (productId) => {
@@ -233,7 +277,11 @@ function AddOrderTableDetails({ openModal, handleCloseModal }) {
         </Table>
       </TableContainer>
 
-      <Dialog className="addItemDialog" open={openModal} onClose={handleCloseModal}>
+      <Dialog
+        className="addItemDialog"
+        open={openModal}
+        onClose={handleCloseModal}
+      >
         <DialogTitle>Add New Item</DialogTitle>
         <DialogContent>
           <TextField
@@ -280,7 +328,7 @@ function AddOrderTableDetails({ openModal, handleCloseModal }) {
             onChange={(e) =>
               setNewItem({
                 ...newItem,
-                productQuantity: parseInt(e.target.value, 10),
+                productQuantity: Number(e.target.value),
               })
             }
           />
@@ -292,16 +340,17 @@ function AddOrderTableDetails({ openModal, handleCloseModal }) {
             variant="outlined"
             value={newItem.productPrice}
             onChange={(e) =>
-              setNewItem({
-                ...newItem,
-                productPrice: parseFloat(e.target.value),
-              })
+              setNewItem({ ...newItem, productPrice: Number(e.target.value) })
             }
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleAddItem}>Add Item</Button>
+          <Button onClick={handleCloseModal} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddItem} color="primary">
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     </>

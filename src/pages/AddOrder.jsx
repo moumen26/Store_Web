@@ -5,12 +5,27 @@ import ButtonCancel from "../components/ButtonCancel";
 import AddOrderProfileDetails from "../components/AddOrderProfileDetails";
 import AddOrderTableDetails from "../components/AddOrderTableDetails";
 import ButtonAdd from "../components/ButtonAdd";
+import AddOrderSubTotal from "../components/AddOrderSubTotal";
 
 export default function AddOrder() {
+  const [subtotal, setSubtotal] = useState(0);
+  const [deliveryAmount, setDeliveryAmount] = useState(50); // Example fixed delivery amount
+  const [total, setTotal] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCalculateTotals = (subtotal, deliveryAmount, total) => {
+    setSubtotal(subtotal);
+    setDeliveryAmount(deliveryAmount);
+    setTotal(total);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <div className="pagesContainer addOrder">
@@ -35,6 +50,14 @@ export default function AddOrder() {
           <AddOrderTableDetails
             openModal={openModal}
             handleCloseModal={handleCloseModal}
+            onCalculateTotals={handleCalculateTotals}
+          />
+        </div>
+        <div className="W-full flex justify-end">
+          <AddOrderSubTotal
+            subtotal={subtotal}
+            deliveryAmount={deliveryAmount}
+            total={total}
           />
         </div>
       </div>

@@ -828,7 +828,7 @@ aside ul {
   font-family: Montserrat-Medium;
 }
 
-.inputBoxes{
+.inputBoxes {
   width: 100px;
 }
 
@@ -872,6 +872,30 @@ aside ul {
   height: 50px;
   border-radius: 10px;
   border: 1px solid var(--greyDarkColor);
+}
+
+.addOrder .pageTable {
+  height: fit-content;
+}
+
+.addOrder .pageTableContainer {
+  height: fit-content;
+}
+
+.addOrder .pageTable .buttonAdd {
+  background-color: transparent;
+  border: 1px solid var(--neutralColor);
+}
+.addOrder .pageTable .buttonAdd span {
+  color: var(--darkColor);
+}
+
+.addOrder .pageTable .buttonAdd .iconAsideBar {
+  color: var(--darkColor);
+}
+
+.addItemDialog{
+  
 }
 
 /* <div className="customerClass flex-col space-y-1">

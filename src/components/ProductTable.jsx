@@ -107,7 +107,7 @@ function Row(props) {
           {isEditing ? (
             <>
               <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                className="text-green-500 cursor-pointer hover:text-green-700"
                 onClick={() => onSaveClick(row.stockId)}
               >
                 Save

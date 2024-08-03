@@ -828,6 +828,10 @@ aside ul {
   font-family: Montserrat-Medium;
 }
 
+.inputBoxes{
+  width: 100px;
+}
+
 .hidden {
   display: none !important;
 }

@@ -6,27 +6,30 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Calendar } from "primereact/calendar";
 
 export default function AddOrderProfileDetails() {
   const getCurrentAlgeriaTime = () => {
     const now = new Date();
-    // const algeriaOffset = 1; // Algeria is UTC+1
     const algeriaOffset = 0; // Algeria is UTC+1
     const localOffset = now.getTimezoneOffset() / 60;
     const algeriaTime = new Date(
       now.getTime() + (algeriaOffset - localOffset) * 3600 * 1000
     );
-    return algeriaTime.toISOString().slice(0, 16);
+    return algeriaTime;
   };
 
   const [orderDate, setOrderDate] = useState(getCurrentAlgeriaTime());
   const [orderBoxes, setOrderBoxes] = useState(0);
   const [orderType, setOrderType] = useState("pickup");
-  const [deliveryDate, setDeliveryDate] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState(null);
   const [courier, setCourier] = useState("Yalidine");
 
   const handleOrderDateChange = (e) => {
-    setOrderDate(e.target.value);
+    setOrderDate(e.value);
+    if (deliveryDate && new Date(e.value) > new Date(deliveryDate)) {
+      setDeliveryDate(null);
+    }
   };
 
   const handleBoxesChange = (e) => {
@@ -41,7 +44,7 @@ export default function AddOrderProfileDetails() {
   };
 
   const handleDeliveryDateChange = (e) => {
-    setDeliveryDate(e.target.value);
+    setDeliveryDate(e.value);
   };
 
   const handleCourierChange = (e) => {
@@ -57,6 +60,9 @@ export default function AddOrderProfileDetails() {
       <Table aria-label="order profile details">
         <TableHead className="tableHead">
           <TableRow>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Order_ID</span>
+            </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Customer Name</span>
             </TableCell>
@@ -87,13 +93,17 @@ export default function AddOrderProfileDetails() {
             className="tableRow"
           >
             <TableCell className="tableCell">
+              <span className="trTableSpan">orderID</span>
+            </TableCell>
+            <TableCell className="tableCell">
               <span className="trTableSpan">orderCustomer</span>
             </TableCell>
             <TableCell className="tableCell">
-              <input
-                type="datetime-local"
+              <Calendar
                 value={orderDate}
                 onChange={handleOrderDateChange}
+                showTime
+                showSeconds
                 className="inputTable"
               />
             </TableCell>
@@ -103,7 +113,7 @@ export default function AddOrderProfileDetails() {
                 value={orderBoxes}
                 onChange={handleBoxesChange}
                 min="0"
-                className="inputTable"
+                className="inputTable inputBoxes"
               />
             </TableCell>
             <TableCell className="tableCell">
@@ -119,10 +129,12 @@ export default function AddOrderProfileDetails() {
             {orderType === "delivery" && (
               <>
                 <TableCell align="right" className="tableCell">
-                  <input
-                    type="datetime-local"
+                  <Calendar
                     value={deliveryDate}
                     onChange={handleDeliveryDateChange}
+                    showTime
+                    showSeconds
+                    minDate={orderDate}
                     className="inputTable"
                   />
                 </TableCell>

@@ -9,7 +9,7 @@ import AddOrderSubTotal from "../components/AddOrderSubTotal";
 
 export default function AddOrder() {
   const [subtotal, setSubtotal] = useState(0);
-  const [deliveryAmount, setDeliveryAmount] = useState(50); // Example fixed delivery amount
+  const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [total, setTotal] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
@@ -39,7 +39,10 @@ export default function AddOrder() {
       </div>
       <div className="customerClass">
         <h2 className="customerClassTitle">Basic Information</h2>
-        <AddOrderProfileDetails />
+        <AddOrderProfileDetails
+          deliveryAmount={deliveryAmount}
+          setDeliveryAmount={setDeliveryAmount}
+        />
       </div>
       <div className="pageTable">
         <div className="flex items-center justify-between">
@@ -51,9 +54,10 @@ export default function AddOrder() {
             openModal={openModal}
             handleCloseModal={handleCloseModal}
             onCalculateTotals={handleCalculateTotals}
+            deliveryAmount={deliveryAmount}
           />
         </div>
-        <div className="W-full flex justify-end">
+        <div className="w-full flex justify-end">
           <AddOrderSubTotal
             subtotal={subtotal}
             deliveryAmount={deliveryAmount}

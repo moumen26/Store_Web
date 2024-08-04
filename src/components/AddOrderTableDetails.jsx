@@ -22,6 +22,7 @@ function AddOrderTableDetails({
   openModal,
   handleCloseModal,
   onCalculateTotals,
+  deliveryAmount,
 }) {
   const [rows, setRows] = useState([
     {
@@ -31,7 +32,13 @@ function AddOrderTableDetails({
       productQuantity: 5,
       productPrice: 120,
     },
-    // Add more initial rows if needed
+    {
+      productId: "0920490",
+      productName: "Pril Isis - 650ml",
+      productBrand: "Pril",
+      productQuantity: 5,
+      productPrice: 190,
+    },
   ]);
 
   const [editingRowId, setEditingRowId] = useState(null);
@@ -49,19 +56,17 @@ function AddOrderTableDetails({
   const [deletedProductName, setDeletedProductName] = useState("");
 
   useEffect(() => {
-    // Calculate and pass the totals to the parent component whenever rows change
     const calculateTotals = () => {
       const subtotal = rows.reduce(
         (acc, row) => acc + row.productQuantity * row.productPrice,
         0
       );
-      const deliveryAmount = 50; // Example fixed delivery amount
       const total = subtotal + deliveryAmount;
       onCalculateTotals(subtotal, deliveryAmount, total);
     };
 
     calculateTotals();
-  }, [rows, onCalculateTotals]);
+  }, [rows, deliveryAmount, onCalculateTotals]);
 
   const handleEditClick = (productId) => {
     setEditingRowId(productId);
@@ -96,7 +101,7 @@ function AddOrderTableDetails({
     setRows(rows.filter((row) => row.productId !== deleteItemId));
     setIsConfirmDialogOpen(false);
     setDeleteItemId(null);
-    setSnackbarOpen(true); // Show snackbar
+    setSnackbarOpen(true);
   };
 
   const handleCancelDelete = () => {
@@ -136,6 +141,7 @@ function AddOrderTableDetails({
         onChange(row.productId, field, numericValue);
       }
     };
+    
 
     const productAmount = row.productPrice * row.productQuantity;
 
@@ -261,42 +267,49 @@ function AddOrderTableDetails({
             ) : (
               <TableRow>
                 <TableCell colSpan={7} align="center">
-                  <CircularProgress size={24} />
+                  {rows.length === 0 ? (
+                    <span>Add products</span>
+                  ) : (
+                    <CircularProgress size={24} />
+                  )}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Add New Item</DialogTitle>
+        <DialogTitle>Add Item</DialogTitle>
         <DialogContent>
           <TextField
+            autoFocus
             margin="dense"
             label="Product ID"
             fullWidth
+            variant="outlined"
             value={newItem.productId}
             onChange={(e) =>
-              setNewItem((prev) => ({ ...prev, productId: e.target.value }))
+              setNewItem({ ...newItem, productId: e.target.value })
             }
           />
           <TextField
             margin="dense"
             label="Product Name"
             fullWidth
+            variant="outlined"
             value={newItem.productName}
             onChange={(e) =>
-              setNewItem((prev) => ({ ...prev, productName: e.target.value }))
+              setNewItem({ ...newItem, productName: e.target.value })
             }
           />
           <TextField
             margin="dense"
             label="Brand"
             fullWidth
+            variant="outlined"
             value={newItem.productBrand}
             onChange={(e) =>
-              setNewItem((prev) => ({ ...prev, productBrand: e.target.value }))
+              setNewItem({ ...newItem, productBrand: e.target.value })
             }
           />
           <TextField
@@ -304,12 +317,13 @@ function AddOrderTableDetails({
             label="Quantity"
             type="number"
             fullWidth
+            variant="outlined"
             value={newItem.productQuantity}
             onChange={(e) =>
-              setNewItem((prev) => ({
-                ...prev,
+              setNewItem({
+                ...newItem,
                 productQuantity: Number(e.target.value),
-              }))
+              })
             }
           />
           <TextField
@@ -317,33 +331,25 @@ function AddOrderTableDetails({
             label="Price"
             type="number"
             fullWidth
+            variant="outlined"
             value={newItem.productPrice}
             onChange={(e) =>
-              setNewItem((prev) => ({
-                ...prev,
-                productPrice: Number(e.target.value),
-              }))
+              setNewItem({ ...newItem, productPrice: Number(e.target.value) })
             }
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleAddItem} color="primary">
-            Add
-          </Button>
+          <Button onClick={handleCloseModal}>Cancel</Button>
+          <Button onClick={handleAddItem}>Add</Button>
         </DialogActions>
       </Dialog>
-
       <ConfirmDialog
         open={isConfirmDialogOpen}
-        onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        dialogTitle="Confirm Delete"
-        dialogContentText="Are you sure you want to delete this item?"
+        onCancel={handleCancelDelete}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete ${deletedProductName}?`}
       />
-
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -354,7 +360,7 @@ function AddOrderTableDetails({
           severity="error"
           sx={{ width: "100%" }}
         >
-          {`Product "${deletedProductName}" has been deleted successfully.`}
+          Product deleted successfully!
         </Alert>
       </Snackbar>
     </>

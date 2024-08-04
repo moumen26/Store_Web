@@ -8,7 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Calendar } from "primereact/calendar";
 
-export default function AddOrderProfileDetails() {
+export default function AddOrderProfileDetails({
+  deliveryAmount,
+  setDeliveryAmount,
+}) {
   const getCurrentAlgeriaTime = () => {
     const now = new Date();
     const algeriaOffset = 0; // Algeria is UTC+1
@@ -24,7 +27,6 @@ export default function AddOrderProfileDetails() {
   const [orderType, setOrderType] = useState("pickup");
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [courier, setCourier] = useState("Yalidine");
-  const [deliveryAmount, setDeliveryAmount] = useState(0);
 
   const handleOrderDateChange = (e) => {
     setOrderDate(e.value);

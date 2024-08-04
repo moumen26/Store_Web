@@ -827,8 +827,12 @@ aside ul {
   color: var(--blackColor);
   font-family: Montserrat-Medium;
 }
+.inputTable {
+  width: 200px;
+}
 
-.inputBoxes {
+.inputBoxes,
+.inputSelect {
   width: 100px;
 }
 
@@ -894,6 +898,24 @@ aside ul {
   color: var(--darkColor);
 }
 
+.inputWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.inputWrapper input {
+  padding-right: 30px;
+}
+
+.inputSpan {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--blackColor);
+  font-family: Montserrat-Medium;
+}
 
 /* <div className="customerClass flex-col space-y-1">
             <div className="flex justify-between items-center">

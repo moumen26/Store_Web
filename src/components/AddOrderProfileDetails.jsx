@@ -24,6 +24,7 @@ export default function AddOrderProfileDetails() {
   const [orderType, setOrderType] = useState("pickup");
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [courier, setCourier] = useState("Yalidine");
+  const [deliveryAmount, setDeliveryAmount] = useState(0);
 
   const handleOrderDateChange = (e) => {
     setOrderDate(e.value);
@@ -49,6 +50,13 @@ export default function AddOrderProfileDetails() {
 
   const handleCourierChange = (e) => {
     setCourier(e.target.value);
+  };
+
+  const handleDeliveryAmountChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || /^\d*$/.test(value)) {
+      setDeliveryAmount(value === "" ? "" : Math.max(0, Number(value)));
+    }
   };
 
   return (
@@ -82,6 +90,9 @@ export default function AddOrderProfileDetails() {
                 </TableCell>
                 <TableCell align="right" className="tableCell">
                   <span className="thTableSpan">Courier</span>
+                </TableCell>
+                <TableCell align="right" className="tableCell">
+                  <span className="thTableSpan">Delivery Amount</span>
                 </TableCell>
               </>
             )}
@@ -120,7 +131,7 @@ export default function AddOrderProfileDetails() {
               <select
                 value={orderType}
                 onChange={handleOrderTypeChange}
-                className="inputTable"
+                className="inputTable inputSelect"
               >
                 <option value="pickup">Pickup</option>
                 <option value="delivery">Delivery</option>
@@ -142,12 +153,24 @@ export default function AddOrderProfileDetails() {
                   <select
                     value={courier}
                     onChange={handleCourierChange}
-                    className="inputTable"
+                    className="inputTable inputSelect"
                   >
                     <option value="Yalidine">Yalidine</option>
                     <option value="Courier2">Courier 2</option>
                     <option value="Courier3">Courier 3</option>
                   </select>
+                </TableCell>
+                <TableCell align="right" className="tableCell">
+                  <div className="inputWrapper">
+                    <input
+                      type="text"
+                      value={deliveryAmount}
+                      onChange={handleDeliveryAmountChange}
+                      min="0"
+                      className="inputTable"
+                    />
+                    <span className="inputSpan">DA</span>
+                  </div>
                 </TableCell>
               </>
             )}

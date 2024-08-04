@@ -7,7 +7,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 
-function ConfirmDialog({ open, onClose, onConfirm }) {
+function ConfirmDialog({
+  open,
+  onClose,
+  onConfirm,
+  dialogTitle,
+  dialogContentText,
+}) {
   return (
     <Dialog
       open={open}
@@ -16,20 +22,26 @@ function ConfirmDialog({ open, onClose, onConfirm }) {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {"Confirm User Activation"}
+        <h2 className="customerClassTitle">{dialogTitle}</h2>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to activate this user?
+          <span className="trTableSpan">{dialogContentText}</span>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
+      <DialogActions className="space-x-4">
+        <button
+          onClick={onClose}
+          className="text-gray-500 cursor-pointer hover:text-gray-700"
+        >
           Cancel
-        </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
+        </button>
+        <button
+          onClick={onConfirm}
+          className="text-red-500 cursor-pointer hover:text-red-700"
+        >
           Confirm
-        </Button>
+        </button>
       </DialogActions>
     </Dialog>
   );

@@ -110,6 +110,8 @@ function Row(props) {
         open={open}
         onClose={handleClose}
         onConfirm={handleConfirm}
+        dialogTitle="Confirm User Activation"
+        dialogContentText="Are you sure you want to activate this user?"
       />
     </Fragment>
   );

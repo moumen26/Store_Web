@@ -91,13 +91,13 @@ function AddOrderTableDetails({
   };
 
   const handleDeleteClick = (productId) => {
+    const productToDelete = rows.find((row) => row.productId === productId);
     setDeleteItemId(productId);
+    setDeletedProductName(productToDelete.productName);
     setIsConfirmDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    const productToDelete = rows.find((row) => row.productId === deleteItemId);
-    setDeletedProductName(productToDelete.productName);
     setRows(rows.filter((row) => row.productId !== deleteItemId));
     setIsConfirmDialogOpen(false);
     setDeleteItemId(null);
@@ -141,7 +141,6 @@ function AddOrderTableDetails({
         onChange(row.productId, field, numericValue);
       }
     };
-    
 
     const productAmount = row.productPrice * row.productQuantity;
 
@@ -346,9 +345,9 @@ function AddOrderTableDetails({
       <ConfirmDialog
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        title="Confirm Delete"
-        message={`Are you sure you want to delete ${deletedProductName}?`}
+        onClose={handleCancelDelete}
+        dialogTitle="Confirm Delete"
+        dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
       />
       <Snackbar
         open={snackbarOpen}
@@ -360,7 +359,7 @@ function AddOrderTableDetails({
           severity="error"
           sx={{ width: "100%" }}
         >
-          Product deleted successfully!
+          {`${deletedProductName} deleted successfully!`}
         </Alert>
       </Snackbar>
     </>

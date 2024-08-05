@@ -1,11 +1,14 @@
 import {
+  ArchiveBoxIcon,
   ArrowLeftStartOnRectangleIcon,
   ChevronDownIcon,
+  ClipboardDocumentCheckIcon,
   Cog6ToothIcon,
   ShoppingBagIcon,
   Square2StackIcon,
   Squares2X2Icon,
   UserGroupIcon,
+  UserIcon,
   UserPlusIcon,
   UsersIcon,
 } from "@heroicons/react/16/solid";
@@ -41,10 +44,10 @@ export default function Asidebar() {
     <aside>
       <ul className="flex-col space-y-7">
         <li>
-          <NavLink to="/AddOrder" className="flex items-center">
+          <NavLink to="/Dashboard" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/AddOrder" ? "asideItemActive" : ""
+                location.pathname === "/Dashboard" ? "asideItemActive" : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />
@@ -62,7 +65,7 @@ export default function Asidebar() {
                 onClick={handleProductsClick}
               >
                 <div className="flex">
-                  <Square2StackIcon className="iconAsideBar" />
+                  <ArchiveBoxIcon className="iconAsideBar" />
                   <span className="ml-3">Products</span>
                 </div>
                 <ChevronDownIcon
@@ -149,33 +152,59 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Settings" className=" flex items-center">
+          <NavLink to="/Achats" className=" flex items-center">
             <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/Settings" ? "asideItemActive" : ""
+              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
+                location.pathname === "/Achats" ? "asideItemActive" : ""
               }`}
             >
-              <Cog6ToothIcon className="iconAsideBar" />
-              <span className="ml-3">Settings</span>
+              <ClipboardDocumentCheckIcon className="iconAsideBar" />
+              <span className="ml-3">Achats</span>
             </div>
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/SignUp"
-            className=" flex items-center"
-            onClick={submitLogout}
-          >
+          <NavLink to="/Fournisseurs" className=" flex items-center">
             <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/SignUp" ? "asideItemActive" : ""
+              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
+                location.pathname === "/Fournisseurs" ? "asideItemActive" : ""
               }`}
             >
-              <ArrowLeftStartOnRectangleIcon className="iconAsideBar" />
-              <span className="ml-3">Log out</span>
+              <UserIcon className="iconAsideBar" />
+              <span className="ml-3">Fournisseurs</span>
             </div>
           </NavLink>
         </li>
+        <div className="absolute bottom-0 space-y-7">
+          <li>
+            <NavLink to="/Settings" className=" flex items-center">
+              <div
+                className={`flex items-center itemAsideBar ${
+                  location.pathname === "/Settings" ? "asideItemActive" : ""
+                }`}
+              >
+                <Cog6ToothIcon className="iconAsideBar" />
+                <span className="ml-3">Settings</span>
+              </div>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/SignUp"
+              className=" flex items-center"
+              onClick={submitLogout}
+            >
+              <div
+                className={`flex items-center itemAsideBar ${
+                  location.pathname === "/SignUp" ? "asideItemActive" : ""
+                }`}
+              >
+                <ArrowLeftStartOnRectangleIcon className="iconAsideBar" />
+                <span className="ml-3">Log out</span>
+              </div>
+            </NavLink>
+          </li>
+        </div>
       </ul>
     </aside>
   );

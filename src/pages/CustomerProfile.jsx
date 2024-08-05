@@ -9,6 +9,7 @@ import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable
 import Search from "../components/Search";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
+import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function CustomerProfile() {
@@ -18,6 +19,12 @@ export default function CustomerProfile() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleCreateOrder = () => {
+    navigate(`/AddOrder`);
+  };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -90,7 +97,11 @@ export default function CustomerProfile() {
               : "Customer Details"}
           </span>
         </div>
-        <ButtonAdd buttonSpan="Create Order" showIcon={false} />
+        <ButtonAdd
+          buttonSpan="Create Order"
+          showIcon={false}
+          onClick={handleCreateOrder}
+        />
       </div>
       <div className="customerClass">
         <h2 className="customerClassTitle">Personal Information</h2>

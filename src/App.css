@@ -222,11 +222,11 @@ aside {
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--neutralColor);
-  padding: 8% 1% 0 1%;
+  padding: 6% 1% 2% 1%;
 }
 
 aside ul {
-  height: 90%;
+  height: 100%;
   position: relative;
 }
 

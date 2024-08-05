@@ -56,6 +56,10 @@ function App() {
           {/* private routes */}
           <Route index element={user ? <Dashboard /> : <SignIn />} />
           <Route
+            path="/Dashboard"
+            element={user ? <Dashboard /> : <SignIn />}
+          />
+          <Route
             path="/Customers"
             element={user ? <Customers /> : <SignIn />}
           />

@@ -16,7 +16,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import ConfirmDialog from "./ConfirmDialog"; // Import your ConfirmDialog component
+import ConfirmDialog from "./ConfirmDialog";
+import Search from "./Search";
+import ProductsContainer from "./ProductsContainer";
 
 function AddOrderTableDetails({
   openModal,
@@ -24,6 +26,10 @@ function AddOrderTableDetails({
   onCalculateTotals,
   deliveryAmount,
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
   const [rows, setRows] = useState([
     {
       productId: "0920496",
@@ -40,7 +46,6 @@ function AddOrderTableDetails({
       productPrice: 190,
     },
   ]);
-
   const [editingRowId, setEditingRowId] = useState(null);
   const [editedRow, setEditedRow] = useState({});
   const [newItem, setNewItem] = useState({
@@ -64,7 +69,6 @@ function AddOrderTableDetails({
       const total = subtotal + deliveryAmount;
       onCalculateTotals(subtotal, deliveryAmount, total);
     };
-
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
 
@@ -123,6 +127,16 @@ function AddOrderTableDetails({
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleSelectProduct = (product) => {
+    setNewItem({
+      productId: product.id,
+      productName: product.name,
+      productBrand: product.brand,
+      productQuantity: newItem.productQuantity,
+      productPrice: product.price,
+    });
   };
 
   const OrderRow = ({
@@ -217,12 +231,69 @@ function AddOrderTableDetails({
 
   return (
     <>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        maxWidth="md"
+        fullWidth
+      >
+        <div className="dialogAdd">
+          <div className="flex items-center space-x-3 title">
+            <h2 className="dialogTitle">Add Product to the Order</h2>
+          </div>
+        </div>
+        <div className="flex-col space-y-[16px] p-[20px]">
+          <Search
+            placeholder="Search by Product..."
+            onChange={handleSearchChange}
+          />
+          <div className='h-[60vh] '>
+            <ProductsContainer
+              searchQuery={searchQuery}
+              onSelectProduct={handleSelectProduct}
+            />
+          </div>
+          <div className="dialogAddCustomerItem space-x-4 items-center justify-end">
+            <span>Quantity</span>
+            <div className="inputForm">
+              <input
+                type="number"
+                name="customerFirstName"
+                value={newItem.productQuantity}
+                onChange={(e) =>
+                  setNewItem({
+                    ...newItem,
+                    productQuantity: Number(e.target.value),
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+          <button
+            className="text-gray-500 cursor-pointer hover:text-gray-700"
+            onClick={handleCloseModal}
+            color="primary"
+          >
+            Close
+          </button>
+          <button
+            className="text-blue-500 cursor-pointer hover:text-blue-700"
+            onClick={handleAddItem}
+            color="primary"
+          >
+            Confirm
+          </button>
+        </div>
+      </Dialog>
+
       <TableContainer
         component={Paper}
         style={{ boxShadow: "none" }}
         className="tablePages"
       >
-        <Table aria-label="collapsible table">
+        <Table>
           <TableHead className="tableHead">
             <TableRow>
               <TableCell className="tableCell">
@@ -254,7 +325,7 @@ function AddOrderTableDetails({
                 <OrderRow
                   key={row.productId}
                   row={row}
-                  isEditing={editingRowId === row.productId}
+                  isEditing={row.productId === editingRowId}
                   onEditClick={handleEditClick}
                   onSaveClick={handleSaveClick}
                   onCancelClick={handleCancelClick}
@@ -277,89 +348,22 @@ function AddOrderTableDetails({
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Add Item</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Product ID"
-            fullWidth
-            variant="outlined"
-            value={newItem.productId}
-            onChange={(e) =>
-              setNewItem({ ...newItem, productId: e.target.value })
-            }
-          />
-          <TextField
-            margin="dense"
-            label="Product Name"
-            fullWidth
-            variant="outlined"
-            value={newItem.productName}
-            onChange={(e) =>
-              setNewItem({ ...newItem, productName: e.target.value })
-            }
-          />
-          <TextField
-            margin="dense"
-            label="Brand"
-            fullWidth
-            variant="outlined"
-            value={newItem.productBrand}
-            onChange={(e) =>
-              setNewItem({ ...newItem, productBrand: e.target.value })
-            }
-          />
-          <TextField
-            margin="dense"
-            label="Quantity"
-            type="number"
-            fullWidth
-            variant="outlined"
-            value={newItem.productQuantity}
-            onChange={(e) =>
-              setNewItem({
-                ...newItem,
-                productQuantity: Number(e.target.value),
-              })
-            }
-          />
-          <TextField
-            margin="dense"
-            label="Price"
-            type="number"
-            fullWidth
-            variant="outlined"
-            value={newItem.productPrice}
-            onChange={(e) =>
-              setNewItem({ ...newItem, productPrice: Number(e.target.value) })
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleAddItem}>Add</Button>
-        </DialogActions>
-      </Dialog>
+
       <ConfirmDialog
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}
-        onClose={handleCancelDelete}
+        onCancel={handleCancelDelete}
         dialogTitle="Confirm Delete"
         dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
       />
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {`${deletedProductName} deleted successfully!`}
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          Product {deletedProductName} deleted successfully!
         </Alert>
       </Snackbar>
     </>

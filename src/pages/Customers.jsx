@@ -148,7 +148,7 @@ export default function Customers() {
         maxWidth="md"
         fullWidth
       >
-        <div className="dialogAddCustomer">
+        <div className="dialogAdd">
           <div className="flex items-center space-x-3 title">
             <div className="cercleIcon">
               <UserPlusIcon className="iconAsideBar" />

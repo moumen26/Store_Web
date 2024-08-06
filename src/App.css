@@ -950,7 +950,7 @@ aside ul {
   width: 24px;
 }
 
-.dialogAddCustomer .title {
+.dialogAdd .title {
   padding: 20px;
   border-bottom: 1px solid var(--neutralColor);
 }

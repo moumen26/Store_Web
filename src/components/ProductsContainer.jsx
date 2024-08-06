@@ -4,12 +4,97 @@ import ElioImage from "../assets/images/Elio.png";
 import PrilImage from "../assets/images/Pril.png";
 
 const allProducts = [
-  { id: 1, name: "Elio - 1L", image: ElioImage },
-  { id: 2, name: "Elio - 1L", image: ElioImage },
-  { id: 3, name: "Pril - 650mL", image: PrilImage },
+  {
+    id: "0920496",
+    name: "Elio - 1L",
+    brand: "Cevital",
+    image: ElioImage,
+    price: 120,
+  },
+  {
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },
+  {
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },{
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },
+  {
+    id: "0920490",
+    name: "Pril Isis - 650mL",
+    brand: "Pril",
+    image: PrilImage,
+    price: 170,
+  },
 ];
 
-export default function ProductsContainer({ searchQuery }) {
+export default function ProductsContainer({ searchQuery, onSelectProduct }) {
   const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -22,6 +107,7 @@ export default function ProductsContainer({ searchQuery }) {
             key={product.id}
             productName={product.name}
             productImage={product.image}
+            onClick={() => onSelectProduct(product)}
           />
         ))
       ) : (

@@ -17,9 +17,9 @@ export default function Customers() {
     customerFirstName: "",
     customerLastName: "",
     storeName: "",
-    storeCategory: "",
-    customerPhone: "",
     storeAddress: "",
+    customerPhone: "",
+    storeCategory: "",
     storeWilaya: "",
     storeCommune: "",
     customerPhoto: null,
@@ -47,9 +47,9 @@ export default function Customers() {
         customerFirstName: "",
         customerLastName: "",
         storeName: "",
-        storeCategory: "",
-        customerPhone: "",
         storeAddress: "",
+        customerPhone: "",
+        storeCategory: "",
         storeWilaya: "",
         storeCommune: "",
         customerPhoto: null,
@@ -114,7 +114,6 @@ export default function Customers() {
   const storeCategory = [
     { value: "", label: "-- Select Store Category --" },
     { value: "alimentation", label: "Alimentation" },
-    { value: "cosmetique", label: "Cosmetique" },
     { value: "detergent", label: "Detergent" },
   ];
 
@@ -236,22 +235,19 @@ export default function Customers() {
                   value={newCustomer.storeCategory}
                   onChange={handleInputChange}
                 >
-                  {storeCategory.map((storeCategory) => (
-                    <option
-                      key={storeCategory.value}
-                      value={storeCategory.value}
-                    >
-                      {storeCategory.label}
+                  {storeCategory.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
                     </option>
                   ))}
                 </select>
               </div>
             </div>
             <div className="dialogAddCustomerItem">
-              <span>Phone</span>
+              <span>Number Phone</span>
               <div className="inputForm">
                 <input
-                  type="text"
+                  type="phone"
                   name="customerPhone"
                   value={newCustomer.customerPhone}
                   onChange={handleInputChange}
@@ -303,22 +299,23 @@ export default function Customers() {
                 </div>
               </div>
             </div>
-
-            <div className="flex justify-end space-x-8 items-start mt-2">
-              <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={handleCloseDialog}
-              >
-                Cancel
-              </button>
-              <button
-                className="text-red-500 cursor-pointer hover:text-red-700"
-                onClick={handleAddCustomer}
-                disabled={!isFormValid}
-              >
-                Save
-              </button>
-            </div>
+          </div>
+          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+            <button
+              className="text-gray-500 cursor-pointer hover:text-gray-700"
+              onClick={handleCloseDialog}
+            >
+              Cancel
+            </button>
+            <button
+              className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
+                !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              onClick={handleAddCustomer}
+              disabled={!isFormValid}
+            >
+              Save
+            </button>
           </div>
         </div>
       </Dialog>

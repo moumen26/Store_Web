@@ -29,7 +29,7 @@ function ConfirmDialog({
           <span className="trTableSpan">{dialogContentText}</span>
         </DialogContentText>
       </DialogContent>
-      <DialogActions className="space-x-4">
+      <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
         <button
           onClick={onClose}
           className="text-gray-500 cursor-pointer hover:text-gray-700"
@@ -42,7 +42,7 @@ function ConfirmDialog({
         >
           Confirm
         </button>
-      </DialogActions>
+      </div>
     </Dialog>
   );
 }

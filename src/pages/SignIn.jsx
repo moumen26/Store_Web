@@ -3,57 +3,71 @@ import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
 import ButtonFacebok from "../components/ButtonFacebok";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function SignIn() {
-  const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const { dispatch } = useAuthContext();
-    const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { dispatch } = useAuthContext();
+  const [error, setError] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    //handle username text change
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
-    //handle password text change
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-    //handle login submit
-    const handleLoginSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        setLoading(true);
-        try {
-          const reponse = await fetch(import.meta.env.VITE_APP_URL_BASE+"/auth/signin", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify({ 
-              UserName: username, 
-              Password: password,
-              Type: import.meta.env.VITE_APP_USER_TYPE
-            }),
-          });
-    
-          const json = await reponse.json();
-    
-          if (!reponse.ok) {
-            setError(json.message);
-            setLoading(false);
-          }
-          if (reponse.ok) {
-            //save the user in local storage
-            localStorage.setItem("user", JSON.stringify(json));
-            //apdate the auth context
-            dispatch({ type: "LOGIN", payload: json }); 
-            setLoading(false);    
-          }
-        }catch (error) {
-          console.log(error);
+  // Handle username text change
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  // Handle password text change
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  // Handle login submit
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_APP_URL_BASE + "/auth/signin",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            UserName: username,
+            Password: password,
+            Type: import.meta.env.VITE_APP_USER_TYPE,
+          }),
         }
+      );
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        setSnackbarMessage(json.message);
+        setSnackbarOpen(true);
+        setLoading(false);
+      } else {
+        // Save the user in local storage
+        localStorage.setItem("user", JSON.stringify(json));
+        // Update the auth context
+        dispatch({ type: "LOGIN", payload: json });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <div className="signIn">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
@@ -63,7 +77,7 @@ export default function SignIn() {
         <div className="signInContainerRightContainer">
           <h2 className="titleText text-center">Log in to Stock</h2>
           <div className="logInForm">
-            <form action="">
+            <form onSubmit={handleLoginSubmit}>
               <InputForm
                 labelForm="Phone Number"
                 inputType="phone"
@@ -79,8 +93,11 @@ export default function SignIn() {
                 setChangevalue={handlePasswordChange}
               />
               <a href="">Forgot Password?</a>
-              {error && <span className="sign-in-helper-text">{error}</span>}
-              <ButtonDark buttonSpan="Log in" setOnClick={handleLoginSubmit} loading={loading}/>
+              <ButtonDark
+                buttonSpan="Log in"
+                setOnClick={handleLoginSubmit}
+                loading={loading}
+              />
             </form>
             <div className="orClass">
               <div className="lineOr"></div>
@@ -97,9 +114,21 @@ export default function SignIn() {
               </a>
             </div>
           </div>
-          
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

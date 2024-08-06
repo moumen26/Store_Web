@@ -1,8 +1,16 @@
 import React from "react";
 
-export default function ProductCard({ productName, productImage, onClick }) {
+export default function ProductCard({
+  productName,
+  productImage,
+  onClick,
+  selected,
+}) {
   return (
-    <div className="productCard" onClick={onClick}>
+    <div
+      className={`productCard ${selected ? "selected" : ""}`} 
+      onClick={onClick}
+    >
       <div className="productImage">
         <img src={productImage} alt={productName} />
       </div>

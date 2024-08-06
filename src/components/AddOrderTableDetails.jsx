@@ -58,6 +58,8 @@ function AddOrderTableDetails({
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
 
   useEffect(() => {
@@ -106,6 +108,8 @@ function AddOrderTableDetails({
     setIsConfirmDialogOpen(false);
     setDeleteItemId(null);
     setSnackbarOpen(true);
+    setAlertMessage(`Product "${deletedProductName}" has been deleted.`);
+    setAlertType("error");
   };
 
   const handleCancelDelete = () => {
@@ -114,6 +118,27 @@ function AddOrderTableDetails({
   };
 
   const handleAddItem = () => {
+    if (!newItem.productId && newItem.productQuantity <= 0) {
+      setAlertMessage("Please select a product and enter a valid quantity.");
+      setAlertType("error");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (!newItem.productId) {
+      setAlertMessage("Please select a product.");
+      setAlertType("error");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (newItem.productQuantity <= 0) {
+      setAlertMessage("Please enter a valid quantity.");
+      setAlertType("error");
+      setSnackbarOpen(true);
+      return;
+    }
+
     setRows([...rows, newItem]);
     handleCloseModal();
     setNewItem({
@@ -137,6 +162,16 @@ function AddOrderTableDetails({
       productQuantity: newItem.productQuantity,
       productPrice: product.price,
     });
+  };
+
+  const handleProductQuantityChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || /^\d*$/.test(value)) {
+      setNewItem({
+        ...newItem,
+        productQuantity: value === "" ? "" : Math.max(0, Number(value)),
+      });
+    }
   };
 
   const OrderRow = ({
@@ -241,50 +276,43 @@ function AddOrderTableDetails({
           <div className="flex items-center space-x-3 title">
             <h2 className="dialogTitle">Add Product to the Order</h2>
           </div>
-        </div>
-        <div className="flex-col space-y-[16px] p-[20px]">
-          <Search
-            placeholder="Search by Product..."
-            onChange={handleSearchChange}
-          />
-          <div className='h-[60vh] '>
-            <ProductsContainer
-              searchQuery={searchQuery}
-              onSelectProduct={handleSelectProduct}
+          <div className="space-y-[24px] p-[20px]">
+            <Search
+              placeholder="Search by Product..."
+              onChange={handleSearchChange}
             />
-          </div>
-          <div className="dialogAddCustomerItem space-x-4 items-center justify-end">
-            <span>Quantity</span>
-            <div className="inputForm">
-              <input
-                type="number"
-                name="customerFirstName"
-                value={newItem.productQuantity}
-                onChange={(e) =>
-                  setNewItem({
-                    ...newItem,
-                    productQuantity: Number(e.target.value),
-                  })
-                }
+            <div className="h-[60vh]">
+              <ProductsContainer
+                searchQuery={searchQuery}
+                onSelectProduct={handleSelectProduct}
               />
             </div>
+            <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+              <span>Quantity :</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="productQuantity"
+                  value={newItem.productQuantity}
+                  onChange={handleProductQuantityChange}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
-          <button
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={handleCloseModal}
-            color="primary"
-          >
-            Close
-          </button>
-          <button
-            className="text-blue-500 cursor-pointer hover:text-blue-700"
-            onClick={handleAddItem}
-            color="primary"
-          >
-            Confirm
-          </button>
+          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+            <button
+              onClick={handleCloseModal}
+              className="text-gray-500 cursor-pointer hover:text-gray-700"
+            >
+              Close
+            </button>
+            <button
+              onClick={handleAddItem}
+              className="text-blue-500 cursor-pointer hover:text-blue-700"
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       </Dialog>
 
@@ -362,8 +390,8 @@ function AddOrderTableDetails({
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity="error">
-          Product {deletedProductName} deleted successfully!
+        <Alert onClose={handleCloseSnackbar} severity={alertType}>
+          {alertMessage}
         </Alert>
       </Snackbar>
     </>

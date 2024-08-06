@@ -977,7 +977,22 @@ aside ul {
 
 .selectStoreWilayaCommuneClass {
   width: 200px;
-  background-color: red;
+}
+
+.productCard {
+  border: 1px solid #ddd;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.productCard.selected {
+  border: 2px solid var(--darkColor);
+  background-color: var(--neutralColor);
+}
+
+.productName {
+  margin-top: 10px;
 }
 
 /* <div className="customerClass flex-col space-y-1">

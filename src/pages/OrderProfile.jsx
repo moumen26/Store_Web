@@ -1,38 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useLocation } from "react-router-dom";
 import OrderProfileDetails from "../components/OrderProfileDetails";
 import { PhoneIcon } from "@heroicons/react/24/outline";
-
 import OrderProfileDevicesProductTable from "../components/OrderProfileDevicesProductTable";
 import ButtonExportPDF from "../components/ButtonExportPdf";
+import { useAuthContext } from "../hooks/useAuthContext";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useParams } from "react-router-dom";
 
 export default function OrderProfile() {
-  const location = useLocation();
-  const { customer } = location.state || {};
+  const { id } = useParams();
+  const { user } = useAuthContext();
+  const [OrderData, setOrderData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
 
-  if (!customer) {
-    return <div>No order data available.</div>;
+        const data = await response.json();
+        if (response.ok) {
+          setOrderData(data);
+        } else {
+          setOrderData(null);
+          console.error("Error receiving Customer data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching Customer data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrderData();
+  }, [user?.token]);
+  if (loading) {
+    return (
+      <div className="pagesContainer h-[100vh]">
+        <Header />
+        <div className="w-full h-full flex items-center justify-center">
+          <CircularProgress color="inherit" />
+          {/* <h1>Loading...</h1> */}
+        </div>
+      </div>
+    );
   }
-
-  const orderDetails = {
-    customerId: customer.customerId,
-    customerFirstName: customer.customerFirstName,
-    customerLastName: customer.customerLastName,
-    customerPhone: customer.customerPhone,
-    customerWilaya: customer.customerWilaya,
-    customerAddress: customer.customerAddress,
-    customerCommune: customer.customerCommune,
-    orderDate: customer.orderDate,
-    orderBoxes: customer.orderBoxes,
-    orderType: customer.orderType,
-    orderStatus: customer.orderStatus,
-    orderDeliveryDate: customer.orderDeliveryDate,
-    orderCourier: customer.orderCourier,
-    orderDetails: customer.orderDetails,
-    orderDeliveryAmount: customer.orderDeliveryAmount,
-  };
+  if (!OrderData) {
+    return (
+      <div className="pagesContainer">
+        <Header />
+        <div className="customerClass">
+          <h2 className="customerClassTitle">no data is available</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pagesContainer">
@@ -42,24 +74,24 @@ export default function OrderProfile() {
           <div className="flex items-center space-x-1">
             <span>Orders</span>
             <ChevronRightIcon className="iconAsideBar" />
-            <span>#{customer.orderId}</span>
+            <span>#{OrderData.code}</span>
           </div>
           <ButtonExportPDF
             filename="Order_Profile"
-            customerName={`${customer.customerFirstName}_${customer.customerLastName}`}
-            orderId={customer.orderId}
+            customerName={`${OrderData.client.firstName}_${OrderData.client.lastName}`}
+            orderId={OrderData.code}
           />
         </div>
         <div className="customerClass">
           <h2 className="customerClassTitle">Order Details</h2>
-          <OrderProfileDetails orderDetails={orderDetails} />
+          <OrderProfileDetails orderDetails={OrderData} />
         </div>
         <div className="flex space-x-6 h-full">
           <div className="customerClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Order</h2>
             <OrderProfileDevicesProductTable
-              orderDetails={orderDetails.orderDetails}
-              orderDeliveryAmount={orderDetails.orderDeliveryAmount}
+              orderDetails={OrderData.products}
+              orderDeliveryAmount={OrderData.total}
             />
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
@@ -71,7 +103,7 @@ export default function OrderProfile() {
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
-                  <p className="orderProfileSpan">{customer.customerPhone}</p>
+                  <p className="orderProfileSpan">{OrderData.client.phoneNumber}</p>
                 </div>
               </div>
               <div className="flex-col space-y-1">
@@ -79,9 +111,9 @@ export default function OrderProfile() {
                   Default Address
                 </span>
                 <div className="flex-col space-y-1">
-                  <p className="orderProfileSpan">{customer.customerAddress}</p>
+                  <p className="orderProfileSpan">{OrderData.deliveredLocation ? OrderData.deliveredLocation : 'Pickup'}</p>
                   <p className="orderProfileSpan">
-                    {customer.customerCommune} {customer.customerWilaya}
+                    {OrderData.client.commune} {OrderData.client.wilaya}
                   </p>
                   <p className="orderProfileSpan">Algerie</p>
                 </div>

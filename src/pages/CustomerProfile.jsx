@@ -8,7 +8,6 @@ import CustomerStatsCard from "../components/CustomerStatsCard";
 import CustomerProfileOrdersTable from "../components/CustomerProfileOrdersTable";
 import Search from "../components/Search";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -32,7 +31,6 @@ export default function CustomerProfile() {
   const { user } = useAuthContext();
   const [CustomerData, setCustomerData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const decodedToken = TokenDecoder();
   useEffect(() => {
     const fetchCustomerData = async () => {
       setLoading(true);

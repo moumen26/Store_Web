@@ -96,7 +96,7 @@ function App() {
             element={user ? <NonApprovedCustomer /> : <SignIn />}
           />
           <Route
-            path="/OrderProfile"
+            path="/OrderProfile/:id"
             element={user ? <OrderProfile /> : <SignIn />}
           />
           <Route

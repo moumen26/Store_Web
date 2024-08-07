@@ -14,6 +14,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Row(props) {
   const { row } = props;
@@ -22,9 +25,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    // navigate(`/customers/${row.customerId}`);
-
-    navigate("/OrderProfile", { state: { customer: row } });
+    navigate(`/OrderProfile/${row.orderId}`);
   };
 
   return (
@@ -48,16 +49,16 @@ function Row(props) {
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderId}</span>
+          <span className="trTableSpan">{row.orderCode}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderDate}</span>
+          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.orderAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.orderStatus}</span>
+          <span className="trTableSpan">{orderStatusTextDisplayer(row.orderStatus)}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -85,11 +86,6 @@ function Row(props) {
                     <TableCell className="tableCell">
                       <span className="thTableSpan thDetails">
                         Product Name
-                      </span>
-                    </TableCell>
-                    <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        Brand
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -120,11 +116,6 @@ function Row(props) {
                       >
                         <span className="trTableSpan trDetails">
                           {orderDetailsRow.productName}
-                        </span>
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productBrand}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -160,135 +151,126 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     orderId: PropTypes.string.isRequired,
+    orderCode: PropTypes.string.isRequired,
     orderAmount: PropTypes.string.isRequired,
     orderDate: PropTypes.string.isRequired,
     orderDetails: PropTypes.arrayOf(
       PropTypes.shape({
-        productPrice: PropTypes.number.isRequired,
-        productBrand: PropTypes.string.isRequired,
         productName: PropTypes.string.isRequired,
+        productPrice: PropTypes.string.isRequired,
+        productQuantity: PropTypes.string.isRequired,
       })
     ).isRequired,
     customerLastName: PropTypes.string.isRequired,
     customerFirstName: PropTypes.string.isRequired,
     orderStatus: PropTypes.string.isRequired,
-    orderBoxes: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-const rows = [
-  {
-    customer: "Khaldi Abdelmoumen",
-    customerLastName: "Abdelmoumen",
-    customerFirstName: "Khaldi",
-    customerPhone: "0550189087",
-    customerAddress: "123 Rue Yousfi Abdelkader",
-    customerCommune: "Ouled Aich",
-    customerWilaya: "Blida",
-    orderId: "0920425",
-    orderDate: "May 26, 2024 | 23:30 AM",
-    orderAmount: "4000.00",
-    orderStatus: "Preparing your order",
-    orderBoxes: "10",
-    orderItems: "4",
-    orderType: "Delivery",
-    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
-    orderCourier: "Yalidine",
-    orderDeliveryAmount: 0,
-    orderDetails: [
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 920,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
+const orderStatusTextDisplayer = (status) => {
+  switch (status) {
+    case 0:
+      return "Order Placed";
+    case 1:
+      return "Preparing your order";
+    case 2:
+      return "Order on the way to address";
+    case 3:
+      return "Delivered";
+    default:
+      return "Order Placed";
+  }
+}
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  
+  const monthNames = [
+      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+  ];
 
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
 
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-    ],
-  },
-];
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
+  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
+};
 export default function OrdersTable({ searchQuery, setFilteredData }) {
-  const [filteredRows, setFilteredRows] = useState(rows);
-
+  const { user } = useAuthContext();
+  const [ORDERDATA, setORDERDATA] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const decodedToken = TokenDecoder();
   useEffect(() => {
-    const results = rows.filter(
-      (row) =>
-        row.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
+    const fetchORDERDATA = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${decodedToken.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        if (response.ok) {
+          setORDERDATA(data);
+        } else {
+          setORDERDATA([]);
+          setRows([]);
+          console.error("Error receiving none delivered ORDER data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching none delivered ORDER data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchORDERDATA();
+  }, [user?.token]);
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    if (ORDERDATA.length > 0) {
+      const rowsData = ORDERDATA.map((order) => ({
+        orderId: order._id,
+        orderCode: order.code,
+        customerFirstName: order.client.firstName,
+        customerLastName: order.client.lastName,
+        orderDate: order.date,
+        orderAmount: order.total.toString(),
+        orderStatus: order.status.toString(),
+        orderDetails: order.products.map((item) => ({
+          productName: item.product.name,
+          productPrice: item.price.toString(),
+          productQuantity: item.quantity.toString(),
+        })),
+      }));
+      setRows(rowsData);
+      setFilteredRows(rowsData);
+    }
+  }, [ORDERDATA]);
+  const [filteredRows, setFilteredRows] = useState(rows);
+  useEffect(() => {
+    const results = rows.filter((row) =>
+        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderStatus.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some(
-          (detail) =>
-            detail.productName
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            detail.productBrand
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase())
+        row.orderDetails.some((detail) =>
+            detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
-
     setFilteredRows(results);
     setFilteredData(results);
   }, [searchQuery, setFilteredData]);
-
   return (
     <TableContainer
       className="tablePages"
@@ -322,6 +304,13 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+          ) : loading ? (
+            <TableRow>
+              <TableCell colSpan={7} align="center">
+                {/* <span className="thTableSpan">Loading...</span> */}
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">

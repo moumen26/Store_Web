@@ -19,13 +19,31 @@ export default function OrderProfileDevicesProductTable({
   orderDetails,
   orderDeliveryAmount,
 }) {
-  const rows = orderDetails.map((item) => ({
-    name: item.productName,
-    brand: item.productBrand,
-    qty: item.productQuantity,
-    unit: item.productPrice,
-    price: priceRow(item.productQuantity, item.productPrice),
-  }));
+  const rows = orderDetails.map((item) => {
+    let totalBoxes = item.quantity / item.product.boxItems;
+    const decimalPart = totalBoxes % 1;
+    let remainingItems = 0;
+  
+    if (decimalPart === 0.5) {
+      totalBoxes = Math.floor(totalBoxes) + 0.5;
+    } else {
+      totalBoxes = Math.floor(totalBoxes);
+      remainingItems = item.quantity % item.product.boxItems;
+    }
+  
+    if (totalBoxes < 1) {
+      totalBoxes = 0;
+    }
+  
+    return {
+      name: item.product.name,
+      size: item.product.size,
+      qty: item.quantity,
+      unit: item.price,
+      price: priceRow(item.quantity, item.price),
+      box: `${totalBoxes > 0 ? `${totalBoxes} ${totalBoxes === 1 ? 'box' : 'boxes'}`: ''}${totalBoxes > 0 && remainingItems > 0 ? '+' : ''}${remainingItems > 0 ? ` ${remainingItems} ${remainingItems === 1 ? 'item' : 'items'}` : ''}`,
+    };
+  });
 
   const invoiceSubtotal = subtotal(rows);
   const invoiceTotal = invoiceSubtotal + orderDeliveryAmount;
@@ -50,11 +68,14 @@ export default function OrderProfileDevicesProductTable({
             <TableCell>
               <span className="dashboardLatestOrdersDetails">Products</span>
             </TableCell>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Brand</span>
+            <TableCell align="right">
+              <span className="dashboardLatestOrdersDetails">Size.</span>
             </TableCell>
             <TableCell align="right">
               <span className="dashboardLatestOrdersDetails">Qty.</span>
+            </TableCell>
+            <TableCell align="right">
+              <span className="dashboardLatestOrdersDetails">Boxe.</span>
             </TableCell>
             <TableCell align="right">
               <span className="dashboardLatestOrdersDetails">Unit</span>
@@ -70,11 +91,14 @@ export default function OrderProfileDevicesProductTable({
               <TableCell>
                 <span className="trTableSpan">{row.name}</span>
               </TableCell>
-              <TableCell>
-                <span className="trTableSpan">{row.brand}</span>
+              <TableCell align="right">
+                <span className="trTableSpan">{row.size}</span>
               </TableCell>
               <TableCell align="right">
                 <span className="trTableSpan">{row.qty}</span>
+              </TableCell>
+              <TableCell align="right">
+                <span className="trTableSpan">{row.box}</span>
               </TableCell>
               <TableCell align="right">
                 <span className="trTableSpan">{row.unit.toFixed(2)}</span>

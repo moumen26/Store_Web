@@ -8,6 +8,16 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 export default function OrderProfileDetails({ orderDetails }) {
+  const { totalBoxes, remainingItems } = orderDetails.products.reduce(
+    (acc, item) => {
+      const totalBoxes = Math.floor(item.quantity / item.product.boxItems);
+      const remainingItems = item.quantity % item.product.boxItems;
+      acc.totalBoxes += totalBoxes;
+      acc.remainingItems += remainingItems;
+      return acc;
+    },
+    { totalBoxes: 0, remainingItems: 0 }
+  );
   return (
     <TableContainer
       component={Paper}
@@ -22,6 +32,9 @@ export default function OrderProfileDetails({ orderDetails }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Order Date</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Total Unity Quantity</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Total Boxes</span>
@@ -47,28 +60,35 @@ export default function OrderProfileDetails({ orderDetails }) {
           >
             <TableCell className="tableCell">
               <span className="trTableSpan">
-                {orderDetails.customerFirstName} {orderDetails.customerLastName}
+                {orderDetails.client.firstName} {orderDetails.client.lastName}
               </span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">{orderDetails.orderDate}</span>
+              <span className="trTableSpan">{formatDate(orderDetails.date)}</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">{orderDetails.orderBoxes}</span>
+              <span className="trTableSpan">{
+                orderDetails.products.reduce((acc, product) => acc + product.quantity, 0)
+              }</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">{orderDetails.orderType}</span>
+              <span className="trTableSpan">
+              {totalBoxes} boxes {remainingItems} items
+              </span>
+          </TableCell>
+            <TableCell className="tableCell">
+              <span className="trTableSpan">{orderDetails.type}</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">{orderDetails.orderStatus}</span>
+              <span className="trTableSpan">{orderStatusTextDisplayer(orderDetails.status)}</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {orderDetails.orderDeliveryDate}
+                {orderDetails.expextedDeliveryDate ? orderDetails.expextedDeliveryDate : 'not defined'}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">{orderDetails.orderCourier}</span>
+              <span className="trTableSpan">{orderDetails.total}</span>
             </TableCell>
           </TableRow>
         </TableBody>
@@ -76,3 +96,35 @@ export default function OrderProfileDetails({ orderDetails }) {
     </TableContainer>
   );
 }
+const orderStatusTextDisplayer = (status) => {
+  switch (status) {
+    case 0:
+      return "Order Placed";
+    case 1:
+      return "Preparing your order";
+    case 2:
+      return "Order on the way to address";
+    case 3:
+      return "Delivered";
+    default:
+      return "Order Placed";
+  }
+}
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  
+  const monthNames = [
+      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+  ];
+
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
+};

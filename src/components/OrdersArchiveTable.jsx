@@ -219,7 +219,7 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData }) {
       setLoading(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
+          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivred/${
             decodedToken.id
           }`,
           {

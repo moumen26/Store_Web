@@ -23,6 +23,7 @@ export default function Customers() {
     storeWilaya: "",
     storeCommune: "",
     customerPhoto: null,
+    isVendor: false,
   });
   const [isFormValid, setIsFormValid] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
@@ -53,6 +54,7 @@ export default function Customers() {
         storeWilaya: "",
         storeCommune: "",
         customerPhoto: null,
+        isVendor: false,
       });
       setImage(null);
       setShowAlert(false);

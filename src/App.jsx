@@ -19,6 +19,7 @@ import NonApprovedCustomer from "./pages/NonApprovedCustomer";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Vendors from "./pages/Vendors";
 import AddOrder from "./pages/AddOrder";
+import OrdersArchive from "./pages/OrdersArchive";
 
 function App() {
   const { user } = useAuthContext();
@@ -78,6 +79,10 @@ function App() {
             element={user ? <ProductDetails /> : <SignIn />}
           />
           <Route path="/Orders" element={user ? <Orders /> : <SignIn />} />
+          <Route
+            path="/OrdersArchive"
+            element={user ? <OrdersArchive /> : <SignIn />}
+          />
           <Route path="/Settings" element={user ? <Settings /> : <SignIn />} />
           <Route
             path="/Authentication"

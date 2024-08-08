@@ -141,10 +141,10 @@ export default function Asidebar() {
                     <span className="ml-3">Latest Orders</span>
                   </div>
                 </NavLink>
-                <NavLink to="/OrdersGrid" className="flex items-center">
+                <NavLink to="/OrdersArchive" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
-                      location.pathname === "/OrdersGrid"
+                      location.pathname === "/OrdersArchive"
                         ? "asideItemActive"
                         : ""
                     }`}

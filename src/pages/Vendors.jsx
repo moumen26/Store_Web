@@ -16,10 +16,8 @@ export default function Vendors() {
   const [newCustomer, setNewCustomer] = useState({
     customerFirstName: "",
     customerLastName: "",
-    storeName: "",
     storeAddress: "",
     customerPhone: "",
-    storeCategory: "",
     storeWilaya: "",
     storeCommune: "",
     customerPhoto: null,
@@ -47,10 +45,8 @@ export default function Vendors() {
       setNewCustomer({
         customerFirstName: "",
         customerLastName: "",
-        storeName: "",
         storeAddress: "",
         customerPhone: "",
-        storeCategory: "",
         storeWilaya: "",
         storeCommune: "",
         customerPhoto: null,
@@ -73,10 +69,8 @@ export default function Vendors() {
     return (
       customer.customerFirstName &&
       customer.customerLastName &&
-      customer.storeName &&
       customer.storeAddress &&
       customer.customerPhone &&
-      customer.storeCategory &&
       customer.storeWilaya &&
       customer.storeCommune
     );
@@ -111,12 +105,6 @@ export default function Vendors() {
     { value: "", label: "-- Select Store Commune --" },
     { value: "commune1", label: "Commune 1" },
     { value: "commune2", label: "Commune 2" },
-  ];
-
-  const storeCategory = [
-    { value: "", label: "-- Select Store Category --" },
-    { value: "alimentation", label: "Alimentation" },
-    { value: "detergent", label: "Detergent" },
   ];
 
   return (
@@ -162,8 +150,8 @@ export default function Vendors() {
               Please fill in all required fields.
             </Alert>
           )}
-          <div className="flex-col items-center w-full space-y-[28px] mt-4 p-[20px] pl-[48px] pr-[48px]">
-            <div className="dialogAddCustomerItem">
+          <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
+            <div className="dialogAddCustomerItem items-center">
               <span>Picture</span>
               <div className="flex items-center space-x-4">
                 <div
@@ -195,7 +183,7 @@ export default function Vendors() {
                 </div>
               </div>
             </div>
-            <div className="dialogAddCustomerItem">
+            <div className="dialogAddCustomerItem items-center">
               <span>First Name</span>
               <div className="inputForm">
                 <input
@@ -206,7 +194,7 @@ export default function Vendors() {
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem">
+            <div className="dialogAddCustomerItem items-center">
               <span>Last Name</span>
               <div className="inputForm">
                 <input
@@ -217,35 +205,7 @@ export default function Vendors() {
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem">
-              <span>Store Name</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="storeName"
-                  value={newCustomer.storeName}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem">
-              <span>Store Category</span>
-              <div className="inputForm">
-                <select
-                  className="selectStoreCategory"
-                  name="storeCategory"
-                  value={newCustomer.storeCategory}
-                  onChange={handleInputChange}
-                >
-                  {storeCategory.map((category) => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem">
+            <div className="dialogAddCustomerItem items-center">
               <span>Number Phone</span>
               <div className="inputForm">
                 <input
@@ -256,7 +216,7 @@ export default function Vendors() {
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem">
+            <div className="dialogAddCustomerItem items-center">
               <span>Address</span>
               <div className="inputForm">
                 <input
@@ -267,8 +227,8 @@ export default function Vendors() {
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem">
-              <div className="flex space-x-8">
+            <div className="dialogAddCustomerItem items-center">
+              <div className="flex space-x-8 items-center">
                 <span>Wilaya</span>
                 <div className="selectStoreWilayaCommune">
                   <select
@@ -284,7 +244,7 @@ export default function Vendors() {
                   </select>
                 </div>
               </div>
-              <div className="flex space-x-8">
+              <div className="flex space-x-8 items-center">
                 <span>Commune</span>
                 <div className="selectStoreWilayaCommune">
                   <select

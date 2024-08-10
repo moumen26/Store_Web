@@ -23,25 +23,33 @@ export default function OrderProfileDevicesProductTable({
     let totalBoxes = item.quantity / item.product.boxItems;
     const decimalPart = totalBoxes % 1;
     let remainingItems = 0;
-  
+
     if (decimalPart === 0.5) {
       totalBoxes = Math.floor(totalBoxes) + 0.5;
     } else {
       totalBoxes = Math.floor(totalBoxes);
       remainingItems = item.quantity % item.product.boxItems;
     }
-  
+
     if (totalBoxes < 1) {
       totalBoxes = 0;
     }
-  
+
     return {
       name: item.product.name,
       size: item.product.size,
       qty: item.quantity,
       unit: item.price,
       price: priceRow(item.quantity, item.price),
-      box: `${totalBoxes > 0 ? `${totalBoxes} ${totalBoxes === 1 ? 'box' : 'boxes'}`: ''}${totalBoxes > 0 && remainingItems > 0 ? '+' : ''}${remainingItems > 0 ? ` ${remainingItems} ${remainingItems === 1 ? 'item' : 'items'}` : ''}`,
+      box: `${
+        totalBoxes > 0
+          ? `${totalBoxes} ${totalBoxes === 1 ? "box" : "boxes"}`
+          : ""
+      }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
+        remainingItems > 0
+          ? ` ${remainingItems} ${remainingItems === 1 ? "item" : "items"}`
+          : ""
+      }`,
     };
   });
 
@@ -68,9 +76,7 @@ export default function OrderProfileDevicesProductTable({
             <TableCell>
               <span className="dashboardLatestOrdersDetails">Products</span>
             </TableCell>
-            <TableCell align="right">
-              <span className="dashboardLatestOrdersDetails">Size.</span>
-            </TableCell>
+
             <TableCell align="right">
               <span className="dashboardLatestOrdersDetails">Qty.</span>
             </TableCell>
@@ -89,10 +95,9 @@ export default function OrderProfileDevicesProductTable({
           {rows.map((row, index) => (
             <TableRow key={index}>
               <TableCell>
-                <span className="trTableSpan">{row.name}</span>
-              </TableCell>
-              <TableCell align="right">
-                <span className="trTableSpan">{row.size}</span>
+                <span className="trTableSpan">
+                  {row.name} - {row.size}
+                </span>
               </TableCell>
               <TableCell align="right">
                 <span className="trTableSpan">{row.qty}</span>

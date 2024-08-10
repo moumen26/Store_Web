@@ -23,7 +23,6 @@ export default function AddOrderProfileDetails({
   };
 
   const [orderDate, setOrderDate] = useState(getCurrentAlgeriaTime());
-  const [orderBoxes, setOrderBoxes] = useState(0);
   const [orderType, setOrderType] = useState("pickup");
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [courier, setCourier] = useState("Yalidine");
@@ -32,13 +31,6 @@ export default function AddOrderProfileDetails({
     setOrderDate(e.value);
     if (deliveryDate && new Date(e.value) > new Date(deliveryDate)) {
       setDeliveryDate(null);
-    }
-  };
-
-  const handleBoxesChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || /^\d*$/.test(value)) {
-      setOrderBoxes(value === "" ? "" : Math.max(0, Number(value)));
     }
   };
 
@@ -80,9 +72,6 @@ export default function AddOrderProfileDetails({
               <span className="thTableSpan">Order Date</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Total Boxes</span>
-            </TableCell>
-            <TableCell className="tableCell">
               <span className="thTableSpan">Order Type</span>
             </TableCell>
             {orderType === "delivery" && (
@@ -120,15 +109,7 @@ export default function AddOrderProfileDetails({
                 className="inputTable"
               />
             </TableCell>
-            <TableCell className="tableCell">
-              <input
-                type="number"
-                value={orderBoxes}
-                onChange={handleBoxesChange}
-                min="0"
-                className="inputTable inputBoxes"
-              />
-            </TableCell>
+
             <TableCell className="tableCell">
               <select
                 value={orderType}

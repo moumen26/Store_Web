@@ -2,12 +2,12 @@ import React, { useRef, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonAdd from "../components/ButtonAdd";
-import CustomerTable from "../components/CustomerTable";
 import ButtonExportExel from "../components/ButtonExportExel";
 import Dialog from "@mui/material/Dialog";
 import Alert from "@mui/material/Alert";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import FournisseurTable from "../components/FournisseurTable";
 
 export default function Fournisseurs() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -127,7 +127,10 @@ export default function Fournisseurs() {
           <ButtonExportExel data={filteredData} filename="Fournisseurs" />
         </div>
         <div className="pageTableContainer">
-         
+          <FournisseurTable
+            searchQuery={searchQuery}
+            setFilteredData={setFilteredData}
+          />
         </div>
       </div>
       <Dialog

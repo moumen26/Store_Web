@@ -97,19 +97,19 @@ export default function OrderProfileDetails({ orderDetails }) {
   );
 }
 const orderStatusTextDisplayer = (status) => {
-  switch (status) {
-    case 0:
+  switch (status.toString()) {
+    case "0":
       return "Order Placed";
-    case 1:
+    case "1":
       return "Preparing your order";
-    case 2:
+    case "2":
       return "Order on the way to address";
-    case 3:
+    case "3":
       return "Delivered";
     default:
       return "Order Placed";
   }
-}
+};
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   

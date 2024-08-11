@@ -168,14 +168,14 @@ Row.propTypes = {
 };
 
 const orderStatusTextDisplayer = (status) => {
-  switch (status) {
-    case 0:
+  switch (status.toString()) {
+    case "0":
       return "Order Placed";
-    case 1:
+    case "1":
       return "Preparing your order";
-    case 2:
+    case "2":
       return "Order on the way to address";
-    case 3:
+    case "3":
       return "Delivered";
     default:
       return "Order Placed";
@@ -238,12 +238,12 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData }) {
           setORDERDATA([]);
           setRows([]);
           console.error(
-            "Error receiving none delivered ORDER data:",
+            "Error receiving delivered ORDER data:",
             data.message
           );
         }
       } catch (error) {
-        console.error("Error fetching none delivered ORDER data:", error);
+        console.error("Error fetching delivered ORDER data:", error);
       } finally {
         setLoading(false);
       }

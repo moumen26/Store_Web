@@ -8,16 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 export default function OrderProfileDetails({ orderDetails }) {
-  const { totalBoxes, remainingItems } = orderDetails.products.reduce(
-    (acc, item) => {
-      const totalBoxes = Math.floor(item.quantity / item.product.boxItems);
-      const remainingItems = item.quantity % item.product.boxItems;
-      acc.totalBoxes += totalBoxes;
-      acc.remainingItems += remainingItems;
-      return acc;
-    },
-    { totalBoxes: 0, remainingItems: 0 }
-  );
   return (
     <TableContainer
       component={Paper}
@@ -32,12 +22,6 @@ export default function OrderProfileDetails({ orderDetails }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Order Date</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Total Unity Quantity</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Total Boxes</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Order Type</span>
@@ -64,27 +48,23 @@ export default function OrderProfileDetails({ orderDetails }) {
               </span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">{formatDate(orderDetails.date)}</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="trTableSpan">{
-                orderDetails.products.reduce((acc, product) => acc + product.quantity, 0)
-              }</span>
-            </TableCell>
-            <TableCell className="tableCell">
               <span className="trTableSpan">
-              {totalBoxes} boxes {remainingItems} items
+                {formatDate(orderDetails.date)}
               </span>
-          </TableCell>
+            </TableCell>
             <TableCell className="tableCell">
               <span className="trTableSpan">{orderDetails.type}</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">{orderStatusTextDisplayer(orderDetails.status)}</span>
+              <span className="trTableSpan">
+                {orderStatusTextDisplayer(orderDetails.status)}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {orderDetails.expextedDeliveryDate ? orderDetails.expextedDeliveryDate : 'not defined'}
+                {orderDetails.expextedDeliveryDate
+                  ? orderDetails.expextedDeliveryDate
+                  : "not defined"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
@@ -112,10 +92,20 @@ const orderStatusTextDisplayer = (status) => {
 };
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  
+
   const monthNames = [
-      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
   ];
 
   const day = date.getDate();

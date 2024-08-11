@@ -20,6 +20,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import Vendors from "./pages/Vendors";
 import AddOrder from "./pages/AddOrder";
 import OrdersArchive from "./pages/OrdersArchive";
+import Fournisseurs from "./pages/Fournisseurs";
 
 function App() {
   const { user } = useAuthContext();
@@ -63,6 +64,10 @@ function App() {
           <Route
             path="/Customers"
             element={user ? <Customers /> : <SignIn />}
+          />
+          <Route
+            path="/Fournisseurs"
+            element={user ? <Fournisseurs /> : <SignIn />}
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
           <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />

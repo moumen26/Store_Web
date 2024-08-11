@@ -44,6 +44,9 @@ function Row(props) {
         <span className="trTableSpan">{row.productName}</span>
       </TableCell>
       <TableCell className="tableCell">
+        <span className="trTableSpan">{row.productSize}</span>
+      </TableCell>
+      <TableCell className="tableCell">
         <span className="trTableSpan">{row.productBrand}</span>
       </TableCell>
       <TableCell className="tableCell">
@@ -138,6 +141,7 @@ Row.propTypes = {
     productBuyingPrice: PropTypes.string.isRequired,
     productBrand: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
+    productSize: PropTypes.string.isRequired,
     productSellPrice: PropTypes.string.isRequired,
     productStock: PropTypes.string.isRequired,
     stockId: PropTypes.string.isRequired,
@@ -195,9 +199,10 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         productId: stock.product._id,
         productCode: stock.product.code,
         productName: stock.product.name,
+        productSize: stock.product.size,
         productBrand: stock.product.brand.name,
-        productBuyingPrice: stock.price[stock.price.length - 1].buying,
-        productSellPrice: stock.price[stock.price.length - 1].selling,
+        productBuyingPrice: stock.buying,
+        productSellPrice: stock.selling,
         productStock: stock.quantity.toString(),
         stockId: stock._id,
       }));
@@ -284,6 +289,9 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Product</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Size</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Brand</span>

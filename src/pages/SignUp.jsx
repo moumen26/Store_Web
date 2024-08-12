@@ -5,8 +5,15 @@ import SignUpImage from "../assets/images/SignUpImage.png";
 import ButtonFacebok from "../components/ButtonFacebok";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/VerifyCode`);
+  };
+
   return (
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
@@ -43,12 +50,15 @@ export default function SignUp() {
               <div className="lineOr"></div>
             </div>
             <InputForm
-              labelForm="Email Address"
-              inputType="email"
-              inputPlaceholder="example@gmail.com"
-              inputName="emailAddress"
+              labelForm="Phone Number"
+              inputType="phone"
+              inputPlaceholder="+213"
+              inputName="phoneNumber"
             />
-            <ButtonDark buttonSpan="Get Started - For Free" />
+            <ButtonDark
+              buttonSpan="Get Started - For Free"
+              setOnClick={handleViewClick}
+            />
             <span className="spanText spanBottom">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
               quibusdam cumque amet ipsum eligendi omnis, aut ipsam,

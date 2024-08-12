@@ -29,6 +29,11 @@
   font-family: Montserrat;
 }
 
+.flexCol{
+  display: flex;
+  flex-direction: column;
+}
+
 .headerText {
   font-size: 14px;
   color: var(--greyDarkColor);
@@ -238,6 +243,8 @@ aside {
   border-right: 1px solid var(--neutralColor);
   padding: 6% 1% 2% 1%;
 }
+
+
 
 aside ul {
   height: 100%;

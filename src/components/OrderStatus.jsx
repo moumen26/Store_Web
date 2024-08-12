@@ -8,7 +8,6 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function OrderStatus({ orderDetails }) {
-  // Function to get the background color based on the current index and status
   const getBackgroundColor = (status, index) => {
     return index <= status ? "checkCercleActive" : "checkCercle";
   };
@@ -26,18 +25,26 @@ export default function OrderStatus({ orderDetails }) {
       label: "Order on the way to address",
       icon: <TruckIcon className="iconAsideBar" />,
     },
-    { label: "Delivered", icon: <ArchiveBoxIcon className="iconAsideBar" /> },
+    {
+      label: orderDetails.type === "pickup" ? "Pickup" : "Delivered",
+      icon: <ArchiveBoxIcon className="iconAsideBar" />,
+    },
   ];
 
+  const stepsToShow =
+    orderDetails.type === "pickup"
+      ? [statusSteps[0], statusSteps[3]]
+      : statusSteps;
+
   return (
-    <div className="customerClass">
+    <div className={`customerClass ${orderDetails.type}`}>
       <h2 className="customerClassTitle">Order Status</h2>
       <div className="orderStatus">
         <div className="timeLineStatus">
           <span className="timeLineStatusSpan">Timeline</span>
         </div>
         <div className="orderStatusItems">
-          {statusSteps.map((step, index) => (
+          {stepsToShow.map((step, index) => (
             <div className="orderStatusItem" key={index}>
               <div
                 className={`checkCercle ${getBackgroundColor(

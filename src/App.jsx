@@ -21,6 +21,7 @@ import Vendors from "./pages/Vendors";
 import AddOrder from "./pages/AddOrder";
 import OrdersArchive from "./pages/OrdersArchive";
 import Fournisseurs from "./pages/Fournisseurs";
+import CreditOrders from "./pages/CreditOrders";
 
 function App() {
   const { user } = useAuthContext();
@@ -87,6 +88,10 @@ function App() {
           <Route
             path="/OrdersArchive"
             element={user ? <OrdersArchive /> : <SignIn />}
+          />
+          <Route
+            path="/CreditOrders"
+            element={user ? <CreditOrders /> : <SignIn />}
           />
           <Route path="/Settings" element={user ? <Settings /> : <SignIn />} />
           <Route

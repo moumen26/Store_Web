@@ -1083,7 +1083,7 @@ aside ul {
   padding: 15px 20px;
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .storyCategoryItem {
@@ -1132,6 +1132,11 @@ aside ul {
 
 .deleteIcon:hover {
   color: red;
+}
+
+.imageBorder img{
+  border-radius: 10px;
+  border: 1px solid var(--neutralColor);
 }
 
 /* <div className="customerClass flex-col space-y-1">

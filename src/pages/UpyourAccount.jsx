@@ -6,6 +6,7 @@ import ButtonDark from "../components/ButtonDark";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 export default function UpYourAccount() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -14,7 +15,10 @@ export default function UpYourAccount() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-  const [errorInDialog, setErrorInDialog] = useState(false); 
+  const [errorInDialog, setErrorInDialog] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [categoryAdded, setCategoryAdded] = useState(false);
 
   useEffect(() => {
     if (openDialog) {
@@ -22,6 +26,17 @@ export default function UpYourAccount() {
       setErrorInDialog(false);
     }
   }, [openDialog, selectedCategories]);
+
+  useEffect(() => {
+    if (categoryAdded) {
+      setSnackbarMessage(
+        `Successfully added categories: ${dialogSelectedCategories.join(", ")}`
+      );
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
+      setCategoryAdded(false);
+    }
+  }, [categoryAdded]);
 
   const handleAddCategoryClick = (event) => {
     event.preventDefault();
@@ -48,15 +63,28 @@ export default function UpYourAccount() {
 
     setSelectedCategories(dialogSelectedCategories);
     setOpenDialog(false);
-    setSnackbarMessage(
-      `Successfully added categories: ${dialogSelectedCategories.join(", ")}`
-    );
-    setSnackbarSeverity("success");
-    setOpenSnackbar(true);
+    setCategoryAdded(true);
   };
 
   const handleDeleteCategory = (category) => {
-    setSelectedCategories(selectedCategories.filter((c) => c !== category));
+    setCategoryToDelete(category);
+    setOpenConfirmDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setSelectedCategories(
+      selectedCategories.filter((c) => c !== categoryToDelete)
+    );
+    setOpenConfirmDialog(false);
+    setSnackbarMessage(`Category '${categoryToDelete}' deleted.`);
+    setSnackbarSeverity("error");
+    setOpenSnackbar(true);
+    setCategoryToDelete(null);
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setOpenConfirmDialog(false);
+    setCategoryToDelete(null);
   };
 
   const handleCloseSnackbar = () => {
@@ -75,12 +103,7 @@ export default function UpYourAccount() {
     { value: "commune2", label: "Commune 2" },
   ];
 
-  const categories = [
-    "Alimentation",
-    "Detergent",
-    "Emballage",
-
-  ];
+  const categories = ["Alimentation", "Detergent", "Emballage"];
 
   return (
     <div className="signUp">
@@ -177,7 +200,7 @@ export default function UpYourAccount() {
             </div>
           </div>
         </div>
-        <div className="w-[40%] h-full flex justify-center items-center">
+        <div className="w-[40%] h-full flex justify-center items-center imageBorder">
           <img className="h-[90%]" src={UpAccountImage} alt="Up Account" />
         </div>
       </div>
@@ -225,6 +248,13 @@ export default function UpYourAccount() {
           </div>
         </div>
       </Dialog>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClose={handleCloseConfirmDialog}
+        onConfirm={handleConfirmDelete}
+        dialogTitle="Confirm Deletion"
+        dialogContentText={`Are you sure you want to delete the category "${categoryToDelete}"?`}
+      />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

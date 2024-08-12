@@ -790,6 +790,28 @@ aside ul {
   color: var(--blackColor);
 }
 
+.timeLineStatus {
+  width: 90%;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: var(--greyColor);
+}
+
+.timeLineStatusSpan {
+  color: var(--greyDarkColor);
+  font-size: 12px;
+  font-family: Montserrat-Medium;
+}
+
+.orderStatus {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .personalInformation,
 .customerPrimaryAddress,
 .settingPersonalInformation {
@@ -993,6 +1015,50 @@ aside ul {
 
 .productName {
   margin-top: 10px;
+}
+
+.checkCercle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--lightColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkCercleActive{
+  background-color: var(--mainColor);
+}
+
+.orderStatusIcon {
+  width: 18px;
+  color: var(--whiteColor);
+}
+
+.orderStatusItems {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  gap: 32px;
+}
+.orderStatusItem {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.orderStatusItem .iconAsideBar {
+  color: var(--mainColor);
+  width: 26px;
+}
+
+.orderStatusItemSpans {
+  display: flex;
+  flex-direction: column;
 }
 
 /* <div className="customerClass flex-col space-y-1">

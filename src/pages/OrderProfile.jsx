@@ -8,6 +8,7 @@ import ButtonExportPDF from "../components/ButtonExportPdf";
 import { useAuthContext } from "../hooks/useAuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
+import OrderStatus from "../components/OrderStatus";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -103,7 +104,9 @@ export default function OrderProfile() {
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
-                  <p className="orderProfileSpan">{OrderData.client.phoneNumber}</p>
+                  <p className="orderProfileSpan">
+                    {OrderData.client.phoneNumber}
+                  </p>
                 </div>
               </div>
               <div className="flex-col space-y-1">
@@ -111,7 +114,11 @@ export default function OrderProfile() {
                   Default Address
                 </span>
                 <div className="flex-col space-y-1">
-                  <p className="orderProfileSpan">{OrderData.deliveredLocation ? OrderData.deliveredLocation : 'Pickup'}</p>
+                  <p className="orderProfileSpan">
+                    {OrderData.deliveredLocation
+                      ? OrderData.deliveredLocation
+                      : "Pickup"}
+                  </p>
                   <p className="orderProfileSpan">
                     {OrderData.client.commune} {OrderData.client.wilaya}
                   </p>
@@ -119,6 +126,7 @@ export default function OrderProfile() {
                 </div>
               </div>
             </div>
+            <OrderStatus orderDetails={OrderData} />
           </div>
         </div>
       </div>

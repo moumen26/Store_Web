@@ -11,7 +11,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/VerifyCode`);
+    navigate(`/UpYourAccount`);
   };
 
   return (

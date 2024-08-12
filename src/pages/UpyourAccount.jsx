@@ -1,15 +1,66 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import UpAccountImage from "../assets/images/UpAccount.png";
 import InputForm from "../components/InputForm";
+import Dialog from "@mui/material/Dialog";
 import ButtonDark from "../components/ButtonDark";
-import { useNavigate } from "react-router-dom";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function UpYourAccount() {
-  const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [dialogSelectedCategories, setDialogSelectedCategories] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [errorInDialog, setErrorInDialog] = useState(false); 
 
-  const handleViewClick = () => {
-    navigate(`/VerifyCode`);
+  useEffect(() => {
+    if (openDialog) {
+      setDialogSelectedCategories(selectedCategories);
+      setErrorInDialog(false);
+    }
+  }, [openDialog, selectedCategories]);
+
+  const handleAddCategoryClick = (event) => {
+    event.preventDefault();
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleCategorySelect = (category) => {
+    setDialogSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleSaveCategories = () => {
+    if (dialogSelectedCategories.length === 0) {
+      setErrorInDialog(true);
+      return;
+    }
+
+    setSelectedCategories(dialogSelectedCategories);
+    setOpenDialog(false);
+    setSnackbarMessage(
+      `Successfully added categories: ${dialogSelectedCategories.join(", ")}`
+    );
+    setSnackbarSeverity("success");
+    setOpenSnackbar(true);
+  };
+
+  const handleDeleteCategory = (category) => {
+    setSelectedCategories(selectedCategories.filter((c) => c !== category));
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const wilayas = [
@@ -22,6 +73,13 @@ export default function UpYourAccount() {
     { value: "", label: "-- Select Store Commune --" },
     { value: "commune1", label: "Commune 1" },
     { value: "commune2", label: "Commune 2" },
+  ];
+
+  const categories = [
+    "Alimentation",
+    "Detergent",
+    "Emballage",
+
   ];
 
   return (
@@ -60,19 +118,13 @@ export default function UpYourAccount() {
                     inputName="storeName"
                   />
                   <InputForm
-                    labelForm="Store Category"
-                    inputType="text"
-                    inputPlaceholder="Your Store Category"
-                    inputName="storeCategory"
-                  />
-                </div>
-                <div className="flex space-x-8">
-                  <InputForm
                     labelForm="Address "
                     inputType="text"
                     inputPlaceholder="Your address"
                     inputName="storeAddress"
                   />
+                </div>
+                <div className="flex space-x-8">
                   <div className="flex-col space-y-[12px] items-center">
                     <span>Wilaya</span>
                     <div className="selectStoreWilayaCommune w-[400px]">
@@ -85,8 +137,6 @@ export default function UpYourAccount() {
                       </select>
                     </div>
                   </div>
-                </div>
-                <div className="flex space-x-8">
                   <div className="flex-col space-y-[12px] items-center">
                     <span>Commune</span>
                     <div className="selectStoreWilayaCommune w-[400px]">
@@ -100,15 +150,94 @@ export default function UpYourAccount() {
                     </div>
                   </div>
                 </div>
+                <div className="flex-col space-y-[12px]">
+                  <span>Store Category</span>
+                  <div className="selectedCategories">
+                    {selectedCategories.map((category, index) => (
+                      <div key={index} className="categoryChip">
+                        <span>{category}</span>
+                        <XMarkIcon
+                          className="deleteIcon"
+                          onClick={() => handleDeleteCategory(category)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  className="buttonAdd buttonBorder"
+                  onClick={handleAddCategoryClick}
+                  type="button"
+                >
+                  <PlusIcon className="iconAsideBar" />
+                  <span className="buttonTextLight">Add Store Category</span>
+                </button>
                 <ButtonDark buttonSpan="Continue" />
               </form>
             </div>
           </div>
         </div>
         <div className="w-[40%] h-full flex justify-center items-center">
-          <img className="h-[90%]" src={UpAccountImage} />
+          <img className="h-[90%]" src={UpAccountImage} alt="Up Account" />
         </div>
       </div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <div className="dialogAdd">
+          {errorInDialog && (
+            <Alert severity="error" onClose={() => setErrorInDialog(false)}>
+              Please select at least one category.
+            </Alert>
+          )}
+          <div className="flex items-center space-x-3 title title">
+            <h2 className="dialogTitle">Select your Store Category</h2>
+          </div>
+          <div className="storyCategoryClass">
+            {categories.map((category, index) => (
+              <div
+                key={index}
+                className={`storyCategoryItem ${
+                  dialogSelectedCategories.includes(category) ? "selected" : ""
+                }`}
+                onClick={() => handleCategorySelect(category)}
+              >
+                <span>{category}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+            <button
+              className="text-gray-500 cursor-pointer hover:text-gray-700"
+              onClick={handleCloseDialog}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-blue-500 cursor-pointer hover:text-blue-700"
+              onClick={handleSaveCategories}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </Dialog>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

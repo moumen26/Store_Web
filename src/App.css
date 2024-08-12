@@ -29,7 +29,7 @@
   font-family: Montserrat;
 }
 
-.flexCol{
+.flexCol {
   display: flex;
   flex-direction: column;
 }
@@ -185,7 +185,6 @@
   border-radius: 5px;
   background-color: var(--darkColor);
 }
-
 .buttonLight {
   width: 100px;
   background-color: var(--greyColor);
@@ -243,8 +242,6 @@ aside {
   border-right: 1px solid var(--neutralColor);
   padding: 6% 1% 2% 1%;
 }
-
-
 
 aside ul {
   height: 100%;
@@ -1034,7 +1031,7 @@ aside ul {
   justify-content: center;
 }
 
-.checkCercleActive{
+.checkCercleActive {
   background-color: var(--mainColor);
 }
 
@@ -1066,6 +1063,75 @@ aside ul {
 .orderStatusItemSpans {
   display: flex;
   flex-direction: column;
+}
+
+.buttonBorder {
+  background-color: var(--whiteColor);
+  border: 1px solid var(--neutralColor);
+}
+
+.buttonBorder span {
+  color: var(--darkColor);
+}
+
+.buttonBorder .iconAsideBar {
+  color: var(--darkColor);
+}
+
+.storyCategoryClass {
+  width: 100%;
+  padding: 15px 20px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.storyCategoryItem {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: fit-content;
+  border: 1px solid var(--neutralColor);
+}
+
+.storyCategoryItem:hover {
+  background-color: #e0e0e0;
+}
+
+.storyCategoryItem.selected {
+  border: 2px solid var(--darkColor);
+  background-color: var(--neutralColor);
+}
+
+.selectedCategories {
+  margin: 10px 0;
+}
+
+.selectedCategories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.categoryChip {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+}
+
+.deleteIcon {
+  margin-left: 8px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.deleteIcon:hover {
+  color: red;
 }
 
 /* <div className="customerClass flex-col space-y-1">

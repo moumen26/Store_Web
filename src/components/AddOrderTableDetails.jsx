@@ -9,11 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import CircularProgress from "@mui/material/CircularProgress";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
@@ -61,6 +61,7 @@ function AddOrderTableDetails({
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
+  const [unitType, setUnitType] = useState("perUnit");
 
   useEffect(() => {
     const calculateTotals = () => {
@@ -281,21 +282,57 @@ function AddOrderTableDetails({
               placeholder="Search by Product..."
               onChange={handleSearchChange}
             />
-            <div className="h-[60vh]">
+            <div className="h-[55vh]">
               <ProductsContainer
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}
               />
             </div>
-            <div className="dialogAddCustomerItem items-center justify-end space-x-4">
-              <span>Quantity :</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="productQuantity"
-                  value={newItem.productQuantity}
-                  onChange={handleProductQuantityChange}
-                />
+            <div className="flex flex-col space-y-2 mb-4">
+              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+                <span>Unit Type :</span>
+                <RadioGroup
+                  aria-label="unit-type"
+                  name="unit-type"
+                  value={unitType}
+                  onChange={(e) => setUnitType(e.target.value)}
+                >
+                  <div className="w-[500px]">
+                    <FormControlLabel
+                      value="perUnit"
+                      control={
+                        <Radio
+                          sx={{
+                            "&.Mui-checked": { color: "#26667e" },
+                          }}
+                        />
+                      }
+                      label={<span>Per Unit</span>}
+                    />
+                    <FormControlLabel
+                      value="perBox"
+                      control={
+                        <Radio
+                          sx={{
+                            "&.Mui-checked": { color: "#26667e" },
+                          }}
+                        />
+                      }
+                      label={<span>Per Box</span>}
+                    />
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+                <span>Quantity :</span>
+                <div className="inputForm">
+                  <input
+                    type="number"
+                    name="productQuantity"
+                    value={newItem.productQuantity}
+                    onChange={handleProductQuantityChange}
+                  />
+                </div>
               </div>
             </div>
           </div>

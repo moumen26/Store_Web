@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ButtonDark from "../components/ButtonDark";
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyCode() {
   const [code, setCode] = useState(["", "", "", ""]);
@@ -29,6 +30,12 @@ export default function VerifyCode() {
     const verificationCode = code.join("");
     console.log("Verification Code Entered:", verificationCode);
     // Perform verification action (e.g., API call)
+  };
+
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/UpYourAccount`);
   };
 
   return (
@@ -70,7 +77,11 @@ export default function VerifyCode() {
             </a>
           </div>
           <div className="mt-6 w-full">
-            <ButtonDark buttonSpan="Verify" setOnClick={handleSubmit} />
+            <ButtonDark
+              buttonSpan="Verify"
+              setOnClick={handleViewClick}
+              // setOnClick={handleSubmit}
+            />
           </div>
         </div>
       </div>

@@ -240,7 +240,7 @@ aside {
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--neutralColor);
-  padding: 6% 1% 2% 1%;
+  padding: 6% 1% 1% 1%;
 }
 
 aside ul {

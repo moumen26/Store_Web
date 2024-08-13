@@ -4,9 +4,9 @@ import Search from "../components/Search";
 import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import OrderCard from "../components/OrderCard";
-import CreditOrdersTable from "../components/CreditOrdersTable";
+import PurchasesTable from "../components/PurchasesTable";
 
-export default function CreditOrders() {
+export default function Purchases() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -36,7 +36,7 @@ export default function CreditOrders() {
     <div className="pagesContainer">
       <Header />
       <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Credit Orders</h2>
+        <h2 className="pagesTitle">Purchases</h2>
         <DashboardCalendar
           onDateChange={(start, end) =>
             setDateRange({ startDate: start, endDate: end })
@@ -44,20 +44,24 @@ export default function CreditOrders() {
         />
       </div>
       <div className="flex items-center space-x-6">
-        <OrderCard orderCardTitle="Total Credit Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Total Amount Credit" orderCardDetails={0} />
+        <OrderCard orderCardTitle="Total Purchases" orderCardDetails={0} />
+        <OrderCard orderCardTitle="Completed Purchases" orderCardDetails={0} />
+        <OrderCard
+          orderCardTitle="Purchases In Progress"
+          orderCardDetails={0}
+        />
       </div>
       <div className="pageTable ordersTable">
         <div className="w-full flex items-center justify-between">
           <Search
-            placeholder="Search by Order..."
+            placeholder="Search by Purchase..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Orders" />
+          <ButtonExportExel data={filteredData} filename="Purchases" />
         </div>
         <div className="pageTableContainer">
-          <CreditOrdersTable
+          <PurchasesTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
           />

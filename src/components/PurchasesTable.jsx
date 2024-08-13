@@ -25,7 +25,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/OrderProfile/${row.orderId}`);
+    navigate(`/PurchaseProfile/${row.purchaseId}`);
   };
 
   return (
@@ -45,24 +45,21 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.customerFirstName} {row.customerLastName}
+            {row.fournisseurFirstName} {row.fournisseurLastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderCode}</span>
+          <span className="trTableSpan">{row.purchaseCode}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
+          <span className="trTableSpan">{formatDate(row.purchaseDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount} DA</span>
-        </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">1000 DA</span>
+          <span className="trTableSpan">{row.purchaseAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.orderStatus)}
+            {purchaseStatusTextDisplayer(row.purchaseStatus)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -77,7 +74,7 @@ function Row(props) {
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={8}
+          colSpan={7}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -107,9 +104,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((orderDetailsRow) => (
+                  {row.purchaseDetails.map((purchaseDetailsRow) => (
                     <TableRow
-                      key={orderDetailsRow.productName}
+                      key={purchaseDetailsRow.productName}
                       className="tableRow"
                     >
                       <TableCell
@@ -118,24 +115,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productName}
+                          {purchaseDetailsRow.productName}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productPrice}
+                          {purchaseDetailsRow.productPrice}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productQuantity}
+                          {purchaseDetailsRow.productQuantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.productPrice *
-                              orderDetailsRow.productQuantity
+                            purchaseDetailsRow.productPrice *
+                              purchaseDetailsRow.productQuantity
                           )}
                         </span>
                       </TableCell>
@@ -153,24 +150,24 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    orderId: PropTypes.string.isRequired,
-    orderCode: PropTypes.string.isRequired,
-    orderAmount: PropTypes.string.isRequired,
-    orderDate: PropTypes.string.isRequired,
-    orderDetails: PropTypes.arrayOf(
+    purchaseId: PropTypes.string.isRequired,
+    purchaseCode: PropTypes.string.isRequired,
+    purchaseAmount: PropTypes.string.isRequired,
+    purchaseDate: PropTypes.string.isRequired,
+    purchaseDetails: PropTypes.arrayOf(
       PropTypes.shape({
         productName: PropTypes.string.isRequired,
         productPrice: PropTypes.string.isRequired,
         productQuantity: PropTypes.string.isRequired,
       })
     ).isRequired,
-    customerLastName: PropTypes.string.isRequired,
-    customerFirstName: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
+    fournisseurLastName: PropTypes.string.isRequired,
+    fournisseurFirstName: PropTypes.string.isRequired,
+    purchaseStatus: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-const orderStatusTextDisplayer = (status) => {
+const purchaseStatusTextDisplayer = (status) => {
   switch (status) {
     case 0:
       return "Order Placed";
@@ -212,7 +209,7 @@ const formatDate = (dateString) => {
 
   return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
 };
-export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
+export default function PurchasesTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const [ORDERDATA, setORDERDATA] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -257,14 +254,14 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
   useEffect(() => {
     if (ORDERDATA.length > 0) {
       const rowsData = ORDERDATA.map((order) => ({
-        orderId: order._id,
-        orderCode: order.code,
-        customerFirstName: order.client.firstName,
-        customerLastName: order.client.lastName,
-        orderDate: order.date,
-        orderAmount: order.total.toString(),
-        orderStatus: order.status.toString(),
-        orderDetails: order.products.map((item) => ({
+        purchaseId: order._id,
+        purchaseCode: order.code,
+        fournisseurFirstName: order.client.firstName,
+        fournisseurLastName: order.client.lastName,
+        purchaseDate: order.date,
+        purchaseAmount: order.total.toString(),
+        purchaseStatus: order.status.toString(),
+        purchaseDetails: order.products.map((item) => ({
           productName: item.product.name,
           productPrice: item.price.toString(),
           productQuantity: item.quantity.toString(),
@@ -278,16 +275,16 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
   useEffect(() => {
     const results = rows.filter(
       (row) =>
-        row.customerLastName
+        row.fournisseurLastName
           .toLowerCase()
           .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
+        row.fournisseurFirstName
           .toLowerCase()
           .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
+        row.purchaseId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.purchaseAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.purchaseDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.purchaseDetails.some((detail) =>
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
@@ -305,19 +302,16 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
           <TableRow>
             <TableCell className="tableCell" />
             <TableCell className="tableCell">
-              <span className="thTableSpan">Customer</span>
+              <span className="thTableSpan">Fournisseur</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Order ID</span>
+              <span className="thTableSpan">Purchase ID</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Order Date</span>
+              <span className="thTableSpan">Purchase Date</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Status</span>
@@ -329,7 +323,7 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+            filteredRows.map((row) => <Row key={row.purchaseId} row={row} />)
           ) : loading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
@@ -340,7 +334,7 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">No orders found</span>
+                <span className="thTableSpan">No purchases found</span>
               </TableCell>
             </TableRow>
           )}

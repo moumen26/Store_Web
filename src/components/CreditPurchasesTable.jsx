@@ -57,6 +57,9 @@ function Row(props) {
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.purchaseAmount} DA</span>
         </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">1000 DA</span>
+        </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
             <EyeIcon
@@ -189,7 +192,7 @@ const formatDate = (dateString) => {
 
   return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
 };
-export default function PurchasesTable({ searchQuery, setFilteredData }) {
+export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const [ORDERDATA, setORDERDATA] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -291,6 +294,9 @@ export default function PurchasesTable({ searchQuery, setFilteredData }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>

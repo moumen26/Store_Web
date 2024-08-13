@@ -25,6 +25,7 @@ import CreditOrders from "./pages/CreditOrders";
 import VerifyCode from "./pages/VerifyCode";
 import UpYourAccount from "./pages/UpyourAccount";
 import Purchases from "./pages/Purchases";
+import CreditPurchases from "./pages/CreditPurchases";
 
 function App() {
   const { user } = useAuthContext();
@@ -69,7 +70,14 @@ function App() {
             path="/Customers"
             element={user ? <Customers /> : <SignIn />}
           />
-          <Route path="/Purchases" element={user ? <Purchases /> : <SignIn />} />
+          <Route
+            path="/Purchases"
+            element={user ? <Purchases /> : <SignIn />}
+          />
+          <Route
+            path="/CreditPurchases"
+            element={user ? <CreditPurchases /> : <SignIn />}
+          />
           <Route
             path="/Fournisseurs"
             element={user ? <Fournisseurs /> : <SignIn />}

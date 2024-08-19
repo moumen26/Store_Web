@@ -604,7 +604,8 @@ aside ul {
 /* Hide scrollbar for WebKit browsers */
 .dashboardProductClass::-webkit-scrollbar,
 .tablePages::-webkit-scrollbar,
-.productsContainer::-webkit-scrollbar {
+.productsContainer::-webkit-scrollbar,
+.scrollProductHistorique::-webkit-scrollbar {
   width: 0;
   background: transparent;
   /* Make scrollbar transparent */
@@ -613,7 +614,8 @@ aside ul {
 /* Show scrollbar on hover */
 .dashboardProductClass:hover,
 .tablePages:hover,
-.productsContainer:hover {
+.productsContainer:hover,
+.scrollProductHistorique:hover {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
   /* Set scrollbar colors for Firefox */
@@ -622,12 +624,14 @@ aside ul {
 /* Show scrollbar for WebKit browsers on hover */
 .dashboardProductClass:hover::-webkit-scrollbar,
 .tablePages:hover::-webkit-scrollbar,
-.productsContainer:hover::-webkit-scrollbar {
+.productsContainer:hover::-webkit-scrollbar,
+.scrollProductHistorique:hover::-webkit-scrollbar {
   width: 10px;
 }
 
 .dashboardProductClass:hover::-webkit-scrollbar-thumb,
 .tablePages:hover::-webkit-scrollbar-thumb,
+.scrollProductHistorique:hover::-webkit-scrollbar-thumb,
 .productsContainer:hover::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 10px;
@@ -635,6 +639,7 @@ aside ul {
 
 .dashboardProductClass:hover::-webkit-scrollbar-track,
 .tablePages:hover::-webkit-scrollbar-track,
+.scrollProductHistorique:hover::-webkit-scrollbar-track,
 .productsContainer:hover::-webkit-scrollbar-track {
   background-color: #f1f1f1;
   border-radius: 10px;
@@ -1134,9 +1139,14 @@ aside ul {
   color: red;
 }
 
-.imageBorder img{
+.imageBorder img {
   border-radius: 10px;
   border: 1px solid var(--neutralColor);
+}
+
+.scrollProductHistorique {
+  height: 335px;
+  overflow-y: scroll;
 }
 
 /* <div className="customerClass flex-col space-y-1">

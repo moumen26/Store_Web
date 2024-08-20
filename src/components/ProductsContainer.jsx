@@ -95,7 +95,7 @@ export default function ProductsContainer({ searchQuery, onSelectProduct }) {
           <div className="flex justify-between mt-[16px]">
             <div className="w-[70%]">
               <div className="customerClass">
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
                   <h2 className="customerClassTitle">Product History</h2>
                   <ButtonAdd buttonSpan="Add New Stock" />
                 </div>

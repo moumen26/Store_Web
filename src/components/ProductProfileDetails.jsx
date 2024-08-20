@@ -62,7 +62,7 @@ function ProductProfileRow({
             type="number"
             value={editedProduct.buyingPrice}
             onChange={(e) => handleNumericChange("buyingPrice", e.target.value)}
-            className="editable-input"
+            className="editable-input w-[100px]"
             min="0"
           />
         ) : (
@@ -70,30 +70,10 @@ function ProductProfileRow({
         )}
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedProduct.sellPrice}
-            onChange={(e) => handleNumericChange("sellPrice", e.target.value)}
-            className="editable-input"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{product.sellPrice} DA</span>
-        )}
+        <span className="trTableSpan">{product.sellPrice} DA</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedProduct.stock}
-            onChange={(e) => handleNumericChange("stock", e.target.value)}
-            className="editable-input"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{product.stock}</span>
-        )}
+        <span className="trTableSpan">{product.stock}</span>
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">

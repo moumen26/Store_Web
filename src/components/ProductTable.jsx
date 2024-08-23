@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,34 +8,28 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
-import React, { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
+import ProductProfileDetails from "./ProductProfileDetails";
+import ProductHistorique from "./ProductHistorique";
+import ButtonAdd from "./ButtonAdd";
+import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
+
+// Set the app element for accessibility
+Modal.setAppElement("#root");
 
 function Row(props) {
   const {
     row,
     isEditing,
     onEditClick,
+    onViewClick,
     onSaveClick,
     onCancelClick,
     onChange,
     editedRow,
   } = props;
-  const navigate = useNavigate();
-
-  const handleViewClick = () => {
-    navigate(`/Product/${row.productId}`);
-  };
-
-  const handleNumericChange = (productId, field, value) => {
-    if (!isNaN(value)) {
-      onChange(productId, field, value);
-    }
-  };
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
@@ -55,11 +51,7 @@ function Row(props) {
             type="text"
             value={editedRow.productBuyingPrice}
             onChange={(e) =>
-              handleNumericChange(
-                row.productId,
-                "productBuyingPrice",
-                e.target.value
-              )
+              onChange(row.productId, "productBuyingPrice", e.target.value)
             }
             className="editable-input"
           />
@@ -73,11 +65,7 @@ function Row(props) {
             type="text"
             value={editedRow.productSellPrice}
             onChange={(e) =>
-              handleNumericChange(
-                row.productId,
-                "productSellPrice",
-                e.target.value
-              )
+              onChange(row.productId, "productSellPrice", e.target.value)
             }
             className="editable-input"
           />
@@ -91,7 +79,7 @@ function Row(props) {
             type="text"
             value={editedRow.productStock}
             onChange={(e) =>
-              handleNumericChange(row.productId, "productStock", e.target.value)
+              onChange(row.productId, "productStock", e.target.value)
             }
             className="editable-input"
           />
@@ -104,7 +92,7 @@ function Row(props) {
           {!isEditing && (
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={handleViewClick}
+              onClick={() => onViewClick(row.productId)}
             />
           )}
           {isEditing ? (
@@ -145,9 +133,11 @@ Row.propTypes = {
     productSellPrice: PropTypes.string.isRequired,
     productStock: PropTypes.string.isRequired,
     stockId: PropTypes.string.isRequired,
+    image: PropTypes.string, // Add image prop type
   }).isRequired,
   isEditing: PropTypes.bool.isRequired,
   onEditClick: PropTypes.func.isRequired,
+  onViewClick: PropTypes.func.isRequired,
   onSaveClick: PropTypes.func.isRequired,
   onCancelClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -158,7 +148,12 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const [STOCKData, setSTOCKData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+  const [selectedProductId, setSelectedProductId] = useState(null); // Selected product ID state
+  const [productData, setProductData] = useState(null); // Product data state
+  const [loadingProduct, setLoadingProduct] = useState(false); // Loading state for product data
   const decodedToken = TokenDecoder();
+
   useEffect(() => {
     const fetchSTOCKData = async () => {
       setLoading(true);
@@ -179,7 +174,6 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
           setSTOCKData(data);
         } else {
           setSTOCKData([]);
-          setRows([]);
           console.error("Error receiving STOCK data:", response.statusText);
         }
       } catch (error) {
@@ -190,9 +184,44 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     };
     fetchSTOCKData();
   }, [user?.token]);
+
+  useEffect(() => {
+    if (selectedProductId) {
+      const fetchProductData = async () => {
+        setLoadingProduct(true);
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_APP_URL_BASE}/Product/${selectedProductId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            setProductData(data);
+          } else {
+            setProductData(null);
+            console.error("Error receiving Product data:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error fetching Product data:", error);
+        } finally {
+          setLoadingProduct(false);
+        }
+      };
+      fetchProductData();
+    }
+  }, [selectedProductId, user?.token]);
+
   const [editingRowId, setEditingRowId] = useState(null);
   const [editedRow, setEditedRow] = useState({});
   const [rows, setRows] = useState([]);
+
   useEffect(() => {
     if (STOCKData.length > 0) {
       const rowsData = STOCKData.map((stock) => ({
@@ -205,6 +234,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         productSellPrice: stock.selling,
         productStock: stock.quantity.toString(),
         stockId: stock._id,
+        image: stock.product.image, // Add image URL to row data
       }));
       setRows(rowsData);
     }
@@ -216,130 +246,183 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     setEditedRow(rowToEdit);
   };
 
-  const handleSaveClick = async (stockId) => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/Stock/update/${stockId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.token}`,
-          },
-          body: JSON.stringify({
-            BuyingPrice: editedRow.productBuyingPrice,
-            SellingPrice: editedRow.productSellPrice,
-            Quantity: editedRow.productStock,
-          }),
-        }
-      );
+  const handleViewClick = (productId) => {
+    setSelectedProductId(productId);
+    setIsModalOpen(true);
+  };
 
-      if (response.ok) {
-        setRows((prevRows) =>
-          prevRows.map((row) => (row.stockId === stockId ? editedRow : row))
-        );
-        setEditingRowId(null);
-      } else {
-        console.error("Error updating stock data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error updating stock data:", error);
-    }
+  const handleSaveClick = (stockId) => {
+    const updatedRows = rows.map((row) =>
+      row.stockId === stockId ? editedRow : row
+    );
+    setRows(updatedRows);
+    setEditingRowId(null);
   };
 
   const handleCancelClick = () => {
     setEditingRowId(null);
+    setEditedRow({});
   };
 
   const handleChange = (productId, field, value) => {
-    setEditedRow((prev) => ({
-      ...prev,
+    setEditedRow((prevState) => ({
+      ...prevState,
       [field]: value,
     }));
   };
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productBrand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productBuyingPrice
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      row.productSellPrice.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.productStock.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setProductData(null); // Clear product data when closing the modal
+  };
 
-  useEffect(() => {
-    setFilteredData(filteredRows);
-  }, [filteredRows, setFilteredData]);
+  const filteredRows = rows.filter((row) =>
+    row.productName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <TableContainer
-      component={Paper}
-      style={{ boxShadow: "none" }}
-      className="tablePages"
-    >
-      <Table aria-label="collapsible table">
-        <TableHead className="tableHead">
-          <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Product Code</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Product</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Size</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Brand</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Buying Price</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Sell Price</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Stock</span>
-            </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan pr-1">Action</span>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredRows.length > 0 ? (
-            filteredRows.map((row) => (
-              <Row
-                key={row.productId}
-                row={row}
-                isEditing={editingRowId === row.productId}
-                onEditClick={handleEditClick}
-                onSaveClick={handleSaveClick}
-                onCancelClick={handleCancelClick}
-                onChange={handleChange}
-                editedRow={editedRow}
-              />
-            ))
-          ) : loading ? (
+    <>
+      <TableContainer
+        component={Paper}
+        className="tablePages"
+        style={{ boxShadow: "none" }}
+      >
+        <Table aria-label="collapsible table">
+          <TableHead className="tableHead">
             <TableRow>
-              <TableCell colSpan={7} align="center">
-                {/* <span className="thTableSpan">Loading...</span> */}
-                <CircularProgress color="inherit" />
+              <TableCell>
+                <span className="thTableSpan">Product Code</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Name</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Size</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Brand</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Buying Price</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Selling Price</span>
+              </TableCell>
+              <TableCell>
+                <span className="thTableSpan">Stock</span>
+              </TableCell>
+              <TableCell align="right">
+                <span className="thTableSpan">Actions</span>
               </TableCell>
             </TableRow>
-          ) : (
-            <TableRow>
-              <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">No products found</span>
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  <CircularProgress />
+                </TableCell>
+              </TableRow>
+            ) : filteredRows.length > 0 ? (
+              filteredRows.map((row) => (
+                <Row
+                  key={row.productId}
+                  row={row}
+                  isEditing={editingRowId === row.productId}
+                  onEditClick={handleEditClick}
+                  onViewClick={handleViewClick}
+                  onSaveClick={handleSaveClick}
+                  onCancelClick={handleCancelClick}
+                  onChange={handleChange}
+                  editedRow={editedRow}
+                />
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  No Data Available
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel="Product Details"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "90%",
+            margin: "auto",
+            height: "80%",
+            zIndex: 1001,
+          },
+        }}
+      >
+        {loadingProduct ? (
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        ) : productData ? (
+          <>
+            <div className="customerClass">
+              <h2 className="customerClassTitle">Product Details</h2>
+              <ProductProfileDetails product={productData} />
+            </div>
+            <div className="flex justify-between mt-[16px]">
+              <div className="w-[70%]">
+                <div className="customerClass">
+                  <div className="flex items-center justify-between">
+                    <h2 className="customerClassTitle">Product History</h2>
+                    <ButtonAdd buttonSpan="Add New Stock" />
+                  </div>
+                  <div className="scrollProductHistorique mt-[16px]">
+                    <ProductHistorique />
+                  </div>
+                </div>
+              </div>
+              <div className="w-[25%] h-fit flex-col space-y-5">
+                <h2 className="customerClassTitle">Product Image</h2>
+                <div className="w-full flex justify-center h-[390px]">
+                  <img
+                    className="text-center"
+                    // src={product.image}
+                    // alt={product.name}
+                    style={{ width: "auto", height: "100%" }}
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="h-[93%] w-full flex items-center justify-center">
+            <p>Product not found</p>
+          </div>
+        )}
+        <div className="flex justify-end">
+          <button
+            onClick={handleCloseModal}
+            style={{ marginTop: "20px" }}
+            className="text-gray-500 cursor-pointer hover:text-gray-700"
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
+    </>
   );
 }
+
+ProductTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+};

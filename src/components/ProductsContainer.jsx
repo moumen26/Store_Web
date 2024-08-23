@@ -12,7 +12,7 @@ Modal.setAppElement("#root"); // or the ID of your root element
 
 const allProducts = [
   {
-    id: "0920496",
+    code: "0920496",
     name: "Elio - 1L",
     brand: "Cevital",
     image: ElioImage,
@@ -22,7 +22,7 @@ const allProducts = [
     boxItems: 12,
   },
   {
-    id: "0920490",
+    code: "0920490",
     subName: "Pril 650mL",
     name: "Pril Isis - 650mL",
     brand: "Pril",
@@ -31,6 +31,7 @@ const allProducts = [
     sellPrice: 170,
     buyingPrice: 200,
     boxItems: 24,
+    stock: 100,
   },
 ];
 

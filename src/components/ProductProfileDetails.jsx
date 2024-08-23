@@ -17,7 +17,6 @@ function ProductProfileRow({
   onCancelClick,
   onChange,
   editedProduct,
-  showSubName,
   showBoxItems,
 }) {
   const handleNumericChange = (field, value) => {
@@ -29,27 +28,25 @@ function ProductProfileRow({
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
-        <span className="trTableSpan">{product.id}</span>
+        <span className="trTableSpan">{product.code}</span>
       </TableCell>
-      {showSubName && (
-        <TableCell className="tableCell">
-          {isEditing ? (
-            <input
-              type="text"
-              value={editedProduct.subName}
-              onChange={(e) => onChange("subName", e.target.value)}
-              className="editable-input"
-            />
-          ) : (
-            <span className="trTableSpan">{product.subName}</span>
-          )}
-        </TableCell>
-      )}
+      <TableCell className="tableCell">
+        {isEditing ? (
+          <input
+            type="text"
+            value={editedProduct.subName}
+            onChange={(e) => onChange("subName", e.target.value)}
+            className="editable-input"
+          />
+        ) : (
+          <span className="trTableSpan">{product.subName}</span>
+        )}
+      </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{product.name}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{product.brand}</span>
+        <span className="trTableSpan">{product.brand.name}</span>
       </TableCell>
       {showBoxItems && (
         <TableCell className="tableCell">
@@ -114,6 +111,7 @@ ProductProfileRow.propTypes = {
     stock: PropTypes.number.isRequired,
     subName: PropTypes.string,
     boxItems: PropTypes.number,
+    date: PropTypes.string, // Add date prop
   }).isRequired,
   isEditing: PropTypes.bool.isRequired,
   onEditClick: PropTypes.func.isRequired,
@@ -166,11 +164,9 @@ export default function ProductProfileDetails({ product, onSave, onCancel }) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Product Code</span>
             </TableCell>
-            {showSubName && (
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Sub Name</span>
-              </TableCell>
-            )}
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Sub Name</span>
+            </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Name</span>
             </TableCell>

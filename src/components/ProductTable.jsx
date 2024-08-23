@@ -369,7 +369,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         }}
       >
         {loadingProduct ? (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full h-[93%] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
         ) : productData ? (
@@ -412,7 +412,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
           <button
             onClick={handleCloseModal}
             style={{ marginTop: "20px" }}
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
+            className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
           >
             Close
           </button>

@@ -121,7 +121,7 @@ export default function ProductsContainer({ searchQuery, onSelectProduct }) {
             <button
               onClick={handleCloseModal}
               style={{ marginTop: "20px" }}
-              className="text-gray-500 cursor-pointer hover:text-gray-700"
+              className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
             >
               Close
             </button>

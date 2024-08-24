@@ -12,13 +12,11 @@ import Dialog from "@mui/material/Dialog";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
 import Search from "./Search";
-import ProductsContainer from "./ProductsContainer";
+import ProductsContainerAddOrder from "./ProductContainerAddOrder";
 
 function AddOrderTableDetails({
   openModal,
@@ -283,7 +281,7 @@ function AddOrderTableDetails({
               onChange={handleSearchChange}
             />
             <div className="h-[55vh]">
-              <ProductsContainer
+              <ProductsContainerAddOrder
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}
               />

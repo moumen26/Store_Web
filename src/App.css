@@ -1149,9 +1149,31 @@ aside ul {
   overflow-y: scroll;
 }
 
-.addProductModalHeader{
+.addProductModalHeader {
   display: flex;
   gap: 32px;
+}
+
+.addNewStockClass {
+  display: flex;
+  gap: 8px;
+}
+
+.productDetailsStock {
+  border-left: 1px solid var(--neutralColor);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-left: 32px;
+}
+
+.productDetailsStock .dialogAddCustomerItem {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.productDetailsStock .dialogAddCustomerItem .inputForm {
+  width: 250px;
 }
 
 /* <div className="customerClass flex-col space-y-1">

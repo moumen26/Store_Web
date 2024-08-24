@@ -43,11 +43,10 @@ Modal.setAppElement("#root");
 export default function ProductsGrid() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // New state for the add product modal
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Filter products based on search query
   const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -180,7 +179,7 @@ export default function ProductsGrid() {
                 />
               </div>
             </div>
-            <div className="productsContainer h-[78%]">
+            <div className="productsContainer mt-2 h-[75%]">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <ProductCard
@@ -199,7 +198,7 @@ export default function ProductsGrid() {
             </div>
           </>
         )}
-        <div className="flex justify-end space-x-8 pr-8 items-start">
+        <div className="flex justify-end space-x-8 absolute bottom-5 right-8 items-start">
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseModal}

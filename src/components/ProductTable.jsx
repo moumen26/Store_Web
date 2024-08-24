@@ -133,7 +133,7 @@ Row.propTypes = {
     productSellPrice: PropTypes.string.isRequired,
     productStock: PropTypes.string.isRequired,
     stockId: PropTypes.string.isRequired,
-    image: PropTypes.string, // Add image prop type
+    image: PropTypes.string,
   }).isRequired,
   isEditing: PropTypes.bool.isRequired,
   onEditClick: PropTypes.func.isRequired,
@@ -148,10 +148,10 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const [STOCKData, setSTOCKData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
-  const [selectedProductId, setSelectedProductId] = useState(null); // Selected product ID state
-  const [productData, setProductData] = useState(null); // Product data state
-  const [loadingProduct, setLoadingProduct] = useState(false); // Loading state for product data
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [productData, setProductData] = useState(null);
+  const [loadingProduct, setLoadingProduct] = useState(false);
   const decodedToken = TokenDecoder();
 
   useEffect(() => {
@@ -234,7 +234,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
         productSellPrice: stock.selling,
         productStock: stock.quantity.toString(),
         stockId: stock._id,
-        image: stock.product.image, // Add image URL to row data
+        image: stock.product.image,
       }));
       setRows(rowsData);
     }
@@ -273,7 +273,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setProductData(null); // Clear product data when closing the modal
+    setProductData(null);
   };
 
   const filteredRows = rows.filter((row) =>

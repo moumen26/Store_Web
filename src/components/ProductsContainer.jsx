@@ -78,6 +78,7 @@ export default function ProductsContainer({ searchQuery, onSelectProduct }) {
           style={{
             overlay: {
               backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1000,
             },
             content: {
               border: "none",
@@ -85,6 +86,8 @@ export default function ProductsContainer({ searchQuery, onSelectProduct }) {
               padding: "20px",
               maxWidth: "90%",
               margin: "auto",
+              zIndex: 1001,
+
               height: "80%",
             },
           }}

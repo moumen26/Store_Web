@@ -96,6 +96,12 @@ export default function ProductsGrid() {
     }
   };
 
+  const productCatégories = [
+    { value: "", label: "-- Select Product Category --" },
+    { value: "cosmetique", label: "Cosmetique " },
+    { value: "detergent", label: "Detergent" },
+  ];
+
   return (
     <div className="pagesContainer">
       <Header />
@@ -148,11 +154,26 @@ export default function ProductsGrid() {
             <div className="customerClass">
               <h2 className="customerClassTitle">Add Product</h2>
               <div className="flex justify-between items-center">
-                <Search
-                  placeholder="Search by Product..."
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                />
+                <div className="addProductModalHeader">
+                  <Search
+                    placeholder="Search by Product..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <div className="flex space-x-5 items-center">
+                    <span>Category :</span>
+                    <div className="selectStoreWilayaCommune w-[300px]">
+                      <select name="productCategory">
+                        {productCatégories.map((category) => (
+                          <option key={category.value} value={category.value}>
+                            {category.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <ButtonAdd
                   buttonSpan="Add New Product To Stock"
                   onClick={handleOpenAddProductModal}

@@ -1149,6 +1149,11 @@ aside ul {
   overflow-y: scroll;
 }
 
+.addProductModalHeader{
+  display: flex;
+  gap: 32px;
+}
+
 /* <div className="customerClass flex-col space-y-1">
             <div className="flex justify-between items-center">
               <h2 className="customerClassTitle">Order Type</h2>

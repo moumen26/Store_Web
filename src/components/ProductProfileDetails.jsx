@@ -70,7 +70,7 @@ function ProductProfileRow({
         <span className="trTableSpan">{product.sellPrice} DA</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{product.stock}</span>
+        <span className="trTableSpan">{product.productStock}</span>
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">

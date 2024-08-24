@@ -416,6 +416,12 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
+                    <span>Limited value :</span>
+                    <div className="inputForm">
+                      <input type="number" name="stock" defaultValue={0} />
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem items-center">
                     <span>Buying Method :</span>
                     <FormControlLabel
                       control={

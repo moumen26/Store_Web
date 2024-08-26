@@ -889,12 +889,12 @@ aside ul {
   border-radius: 10px;
   border: 1px solid var(--neutralColor);
   padding: 0 20px;
-  cursor: pointer;
 }
 
 .uploadSpan {
   font-size: 14px;
   color: var(--greyDarkColor);
+  cursor: pointer;
 }
 
 .uploadSpanMedium {
@@ -1209,3 +1209,4 @@ aside ul {
               </div>
             )}
           </div> */
+          

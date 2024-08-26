@@ -222,7 +222,7 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
       setLoading(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
+          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivredCredited/${
             decodedToken.id
           }`,
           {

@@ -9,6 +9,10 @@ import ProductCard from "../components/ProductCard";
 import ElioImage from "../assets/images/Elio.png";
 import PrilImage from "../assets/images/Pril.png";
 import { PhotoIcon } from "@heroicons/react/16/solid";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Alert, Snackbar } from "@mui/material";
 
 // Example product data
 const allProducts = [
@@ -41,27 +45,41 @@ const allProducts = [
 Modal.setAppElement("#root");
 
 export default function ProductsGrid() {
+  const { user } = useAuthContext();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
-  const [loadingProduct, setLoadingProduct] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [Category, setCategory] = useState('');
+  const handelCategoryChange = (e) => {
+    setCategory(e.target.value);
+  }
+  //product form
+  const [productName, setProductName] = useState("");
+  const handleProductNameChange = (e) => {
+    setProductName(e.target.value);
+  }
+  const [productSize, setProductSize] = useState("");
+  const handleProductSizeChange = (e) => {
+    setProductSize(e.target.value);
+  }
+  const [productBoxItems, setProductBoxItems] = useState("");
+  const handleProductBoxItemsChange = (e) => {
+    setProductBoxItems(e.target.value);
+  }
+  const [productBrand, setProductBrand] = useState("");
+  const handleProductBrandChange = (e) => {
+    setProductBrand(e.target.value);
+  }
+  const [productCategory, setProductCategory] = useState("");
+  const handleProductCategoryChange = (e) => {
+    setProductCategory(e.target.value);
+  }
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
   };
 
   const handleSelectProduct = (product) => {
@@ -87,132 +105,198 @@ export default function ProductsGrid() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImage(file);
     }
   };
 
-  const productCatégories = [
-    { value: "", label: "-- Select Product Category --" },
-    { value: "cosmetique", label: "Cosmetique " },
-    { value: "detergent", label: "Detergent" },
-  ];
+  // fetching Product data
+  const fetchProductData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Product`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
 
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Product data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: ProductData, error: ProductError, isLoading: ProductLoading, refetch: ProductRefetch } = useQuery({
+      queryKey: ['ProductData', user?.token],
+      queryFn: fetchProductData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Brand data
+  const fetchBrandData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Brand`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Brand data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: BrandData, error: BrandError, isLoading: BrandLoading, refetch: BrandRefetch } = useQuery({
+      queryKey: ['BrandData', user?.token],
+      queryFn: fetchBrandData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Category data
+  const fetchCategoryData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Category`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: CategoryData, error: CategoryError, isLoading: CategoryLoading, refetch: CategoryRefetch } = useQuery({
+      queryKey: ['CategoryData', user?.token],
+      queryFn: fetchCategoryData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    ProductRefetch();
+    CategoryRefetch();
+    BrandRefetch();
+  }
+
+  //save product API
+  const handleSavePRODUCT = async () => {
+    try {
+        setSubmitionLoading(true);
+        // Create a new FormData instance
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("Name", productName);
+        formData.append("Category", productCategory);
+        formData.append("Size", productSize);
+        formData.append("Brand", productBrand);
+        formData.append("BoxItems", productBoxItems);
+        
+        const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Product/create`, 
+          formData,
+          {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${user?.token}`,
+              }
+          }
+        );
+        if (response.status === 200) {
+          setAlertType(false);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          handleRefetchDataChange();
+          setSubmitionLoading(false);
+          handleCloseAddProductModal();
+        } else {
+          setAlertType(true);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        }
+    } catch (error) {
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error creating product: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error creating product");
+        }
+    }
+  };
+  
   return (
     <div className="pagesContainer">
       <Header />
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Products Grid</h2>
-        <ButtonAdd buttonSpan="Add New Product" onClick={handleOpenModal} />
+        <ButtonAdd buttonSpan="Add New Product" onClick={handleOpenAddProductModal} />
       </div>
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Product..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
+          <div className="flex space-x-5 items-center">
+            <span>Category :</span>
+            <div className="selectStoreWilayaCommune w-[300px]">
+              <select name="productCategory" onChange={handelCategoryChange}>
+                <option value="" >-- Select Product Category --</option>
+                {CategoryData?.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
         <div className="pageTableContainer">
           <ProductsContainer
             searchQuery={searchQuery}
             onProductClick={handleSelectProduct}
+            data={ProductData}
+            selectedCategory={Category}
           />
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={handleCloseModal}
-        contentLabel="Product Details"
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            height: "80%",
-            zIndex: 1001,
-            overflowY: "auto",
-          },
-        }}
-      >
-        {loadingProduct ? (
-          <div className="w-full h-[93%] flex items-center justify-center">
-            <CircularProgress color="inherit" />
-          </div>
-        ) : (
-          <>
-            <div className="customerClass">
-              <h2 className="customerClassTitle">Add Product</h2>
-              <div className="flex justify-between items-center">
-                <div className="addProductModalHeader">
-                  <Search
-                    placeholder="Search by Product..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <div className="flex space-x-5 items-center">
-                    <span>Category :</span>
-                    <div className="selectStoreWilayaCommune w-[300px]">
-                      <select name="productCategory">
-                        {productCatégories.map((category) => (
-                          <option key={category.value} value={category.value}>
-                            {category.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <ButtonAdd
-                  buttonSpan="Add New Product To Stock"
-                  onClick={handleOpenAddProductModal}
-                />
-              </div>
-            </div>
-            <div className="productsContainer mt-2 h-[75%]">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    productName={product.name}
-                    productImage={product.image}
-                    onClick={() => handleSelectProduct(product)}
-                    selected={
-                      selectedProduct && product.id === selectedProduct.id
-                    }
-                  />
-                ))
-              ) : (
-                <p>No products available</p>
-              )}
-            </div>
-          </>
-        )}
-        <div className="flex justify-end space-x-8 absolute bottom-5 right-8 items-start">
-          <button
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={handleCloseModal}
-          >
-            Cancel
-          </button>
-          <button
-            className="text-blue-500 cursor-pointer hover:text-blue-700"
-            // onClick={}
-          >
-            Save
-          </button>
-        </div>
-      </Modal>
       {/* New Modal for Adding Product */}
       <Modal
         isOpen={isAddProductModalOpen}
@@ -235,7 +319,8 @@ export default function ProductsGrid() {
           },
         }}
       >
-        <div className="customerClass">
+        {!submitionLoading || BrandLoading || CategoryLoading ?
+          <div className="customerClass">
           <h2 className="customerClassTitle">Add New Product to Stock</h2>
           <div className="mt-[16px]">
             <form>
@@ -243,13 +328,49 @@ export default function ProductsGrid() {
                 <div className="dialogAddCustomerItem items-center">
                   <span>Product Name :</span>
                   <div className="inputForm">
-                    <input type="text" name="productName" />
+                    <input type="text" name="productName" onChange={handleProductNameChange}/>
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Size :</span>
+                  <div className="inputForm">
+                    <input type="text" name="productName" onChange={handleProductSizeChange}/>
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>BoxItems :</span>
+                  <div className="inputForm">
+                    <input type="number" name="productName" onChange={handleProductBoxItemsChange}/>
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
                   <span>Product Brand :</span>
                   <div className="inputForm">
-                    <input type="text" name="productName" />
+                    <div className="selectStoreWilayaCommune w-full">
+                      <select name="productCategory" onChange={handleProductBrandChange}>
+                        <option value="" >-- Select Product Brand --</option>
+                        {BrandData?.map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>                  
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Category :</span>
+                  <div className="inputForm">
+                    <div className="selectStoreWilayaCommune w-full">
+                      <select name="productCategory" onChange={handleProductCategoryChange}>
+                        <option value="">-- Select Product Category --</option>
+                        {CategoryData?.map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
@@ -293,14 +414,33 @@ export default function ProductsGrid() {
                 >
                   Cancel
                 </button>
-                <button className="text-blue-500 cursor-pointer hover:text-blue-700">
-                  Save
-                </button>
+                <input type="button" value={'Save'} className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  onClick={handleSavePRODUCT}
+                />
               </div>
             </form>
           </div>
-        </div>
+          </div>
+          :
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        }
       </Modal>
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

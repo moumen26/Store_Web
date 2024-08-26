@@ -35,7 +35,7 @@ const allProducts = [
   },
 ];
 
-export default function ProductsContainer({ searchQuery, onSelectProduct }) {
+export default function ProductsContainer({ searchQuery, onSelectProduct, data, selectedCategory }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,20 +50,26 @@ export default function ProductsContainer({ searchQuery, onSelectProduct }) {
     setSelectedProduct(null);
   };
 
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <div className="productsContainer">
-      {filteredProducts.length > 0 ? (
-        filteredProducts.map((product) => (
+      {data?.length > 0 ? (
+        data?.filter((product) =>
+          (product.code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.brand?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.category?.name?.toLowerCase().includes(searchQuery.toLowerCase())) &&
+          (
+            selectedCategory == '' || product.category?._id == selectedCategory
+          )
+        ).map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             productName={product.name}
-            productImage={product.image}
+            productImage={import.meta.env.VITE_APP_URL_BASE + '/files/' +product.image}
             onClick={() => handleSelectProduct(product)}
-            selected={selectedProduct && product.id === selectedProduct.id}
+            selected={
+              selectedProduct && product._id === selectedProduct._id
+            }
           />
         ))
       ) : (

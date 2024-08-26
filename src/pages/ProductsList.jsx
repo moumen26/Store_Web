@@ -9,254 +9,58 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ProductCard from "../components/ProductCard";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
 import ElioImage from "../assets/images/Elio.png";
 import PrilImage from "../assets/images/Pril.png";
-
-const allProducts = [
-  {
-    id: "1",
-    code: "0920496",
-    name: "Elio - 1L",
-    brand: "Cevital",
-    image: ElioImage,
-    sellPrice: 120,
-    buyingPrice: 120,
-    stock: 200,
-    boxItems: 12,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { Alert, Snackbar } from "@mui/material";
+import { TokenDecoder } from "../util/DecodeToken";
+import axios from "axios";
 
 Modal.setAppElement("#root");
 
 export default function ProductsList() {
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loadingProduct, setLoadingProduct] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const handleSelectedCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  }
   const [productState, setProductState] = useState({
-    buyingByUnit: true,
+    buyingByUnit: false,
     buyingByBox: false,
     addToProposedList: false,
   });
+
+  //product form
+  const [BuyingPrice, setBuyingPrice] = useState("");
+  const handleBuyingPriceChange = (e) => {
+    setBuyingPrice(e.target.value);
+  }
+  const [SellingPrice, setSellingPrice] = useState("");
+  const handleSellingPriceChange = (e) => {
+    setSellingPrice(e.target.value);
+  }
+  const [Quantity, setQuantity] = useState("");
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
+  }
+  const [LimitedQuantity, setLimitedQuantity] = useState("");
+  const handleLimitedQuantityChange = (e) => {
+    setLimitedQuantity(e.target.value);
+  }
+  const [ExparationDate, setExparationDate] = useState("");
+  const handleExparationDateChange = (e) => {
+    setExparationDate(e.target.value);
+  }
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -274,10 +78,6 @@ export default function ProductsList() {
     setSelectedProduct(product);
   };
 
-  const filteredProducts = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const handleCheckboxChange = (event) => {
     setProductState({
       ...productState,
@@ -285,11 +85,158 @@ export default function ProductsList() {
     });
   };
 
-  const productCatégories = [
-    { value: "", label: "-- Select Product Category --" },
-    { value: "cosmetique", label: "Cosmetique " },
-    { value: "detergent", label: "Detergent" },
-  ];
+  //---------------------------------API calls---------------------------------\\
+
+  // fetching Stock data
+  const fetchStockData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Stock/store/${decodedToken.id}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Stock data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: StockData, error: StockError, isLoading: StockLoading, refetch: StockRefetch } = useQuery({
+      queryKey: ['StockData', user?.token],
+      queryFn: fetchStockData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Product data
+  const fetchProductData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Product`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Product data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: ProductData, error: ProductError, isLoading: ProductLoading, refetch: ProductRefetch } = useQuery({
+      queryKey: ['ProductData', user?.token],
+      queryFn: fetchProductData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Category data
+  const fetchCategoryData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Category`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: CategoryData, error: CategoryError, isLoading: CategoryLoading, refetch: CategoryRefetch } = useQuery({
+      queryKey: ['CategoryData', user?.token],
+      queryFn: fetchCategoryData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    StockRefetch();
+    ProductRefetch();
+    CategoryRefetch();
+  }
+
+  //save Stock API
+  const handleSaveStock = async () => {
+    try {
+        setSubmitionLoading(true);
+        const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Stock/create`, 
+          {
+            Product: selectedProduct?._id,
+            Quantity: Quantity,
+            LimitedQuantity: LimitedQuantity,
+            Store: decodedToken.id,
+            BuyingPrice: BuyingPrice,
+            SellingPrice: SellingPrice,
+            ExparationDate: ExparationDate,
+            BuyingMathode: productState
+          },
+          {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              }
+          }
+        );
+        if (response.status === 200) {
+          setAlertType(false);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          handleRefetchDataChange();
+          setSubmitionLoading(false);
+        } else {
+          setAlertType(true);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        }
+    } catch (error) {
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error creating stock: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error creating stock", error);
+        }
+    }
+  };
+
   return (
     <div className="pagesContainer">
       <Header />
@@ -309,6 +256,9 @@ export default function ProductsList() {
           <ProductTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            STOCKData={StockData}
+            isLoading={StockLoading}
+            refetch={handleRefetchDataChange}
           />
         </div>
       </div>
@@ -335,8 +285,8 @@ export default function ProductsList() {
           },
         }}
       >
-        {loadingProduct ? (
-          <div className="w-full h-[93%] flex items-center justify-center">
+        {ProductLoading || CategoryLoading ? (
+          <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
         ) : (
@@ -354,10 +304,11 @@ export default function ProductsList() {
                     <div className="flex space-x-5 items-center">
                       <span>Category :</span>
                       <div className="selectStoreWilayaCommune w-[300px]">
-                        <select name="productCategory">
-                          {productCatégories.map((category) => (
-                            <option key={category.value} value={category.value}>
-                              {category.label}
+                        <select name="productCategory" onChange={handleSelectedCategoryChange}>
+                          <option value="" >-- Select Product Category --</option>
+                          {CategoryData.map((category) => (
+                            <option key={category._id} value={category._id}>
+                              {category.name}
                             </option>
                           ))}
                         </select>
@@ -365,15 +316,23 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="productsContainer p-0 mt-5 h-[90%]">
-                    {filteredProducts.length > 0 ? (
-                      filteredProducts.map((product) => (
+                    {ProductData?.length > 0 ? (
+                      ProductData?.filter((product) =>
+                        (product.code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.brand?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.category?.name?.toLowerCase().includes(searchQuery.toLowerCase())) &&
+                        (
+                          selectedCategory == '' || product.category?._id == selectedCategory
+                        )
+                      ).map((product) => (
                         <ProductCard
-                          key={product.id}
+                          key={product._id}
                           productName={product.name}
                           productImage={product.image}
                           onClick={() => handleSelectProduct(product)}
                           selected={
-                            selectedProduct && product.id === selectedProduct.id
+                            selectedProduct && product._id === selectedProduct._id
                           }
                         />
                       ))
@@ -384,41 +343,35 @@ export default function ProductsList() {
                 </div>
                 <div className="h-[600px] w-[25%] productDetailsStock">
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Sub Name :</span>
-                    <div className="inputForm">
-                      <input type="text" name="subName" />
-                    </div>
-                  </div>
-                  <div className="dialogAddCustomerItem items-center">
-                    <span>Box Items :</span>
-                    <div className="inputForm">
-                      <input type="number" name="boxItems" defaultValue={1} />
-                    </div>
-                  </div>
-                  <div className="dialogAddCustomerItem items-center">
                     <span>Buying Price :</span>
                     <div className="inputForm flex items-center">
-                      <input type="number" name="buyingPrice" />
+                      <input type="number" name="buyingPrice" onChange={handleBuyingPriceChange}/>
                       <span className="ml-2">DA</span>
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>Selling Price :</span>
                     <div className="inputForm flex items-center">
-                      <input type="number" name="sellingPrice" />
+                      <input type="number" name="sellingPrice" onChange={handleSellingPriceChange}/>
                       <span className="ml-2">DA</span>
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>Stock :</span>
                     <div className="inputForm">
-                      <input type="number" name="stock" defaultValue={0} />
+                      <input type="number" name="stock" defaultValue={0} onChange={handleQuantityChange}/>
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>Limited value :</span>
                     <div className="inputForm">
-                      <input type="number" name="stock" defaultValue={0} />
+                      <input type="number" name="stock" defaultValue={0} onChange={handleLimitedQuantityChange}/>
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem items-center">
+                    <span>Exparation Date :</span>
+                    <div className="inputForm">
+                      <input type="date" name="ExparationDate" onChange={handleExparationDateChange}/>
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
@@ -470,12 +423,26 @@ export default function ProductsList() {
           </button>
           <button
             className="text-blue-500 cursor-pointer hover:text-blue-700"
-            // onClick={}
+            onClick={handleSaveStock}
           >
             Save
           </button>
         </div>
       </Modal>
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

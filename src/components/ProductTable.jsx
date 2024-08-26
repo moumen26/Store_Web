@@ -15,6 +15,9 @@ import ProductProfileDetails from "./ProductProfileDetails";
 import ProductHistorique from "./ProductHistorique";
 import ButtonAdd from "./ButtonAdd";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
+import { Alert, Snackbar } from "@mui/material";
+import axios from "axios";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
@@ -92,7 +95,7 @@ function Row(props) {
           {!isEditing && (
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={() => onViewClick(row.productId)}
+              onClick={() => onViewClick(row.stockId)}
             />
           )}
           {isEditing ? (
@@ -113,7 +116,7 @@ function Row(props) {
           ) : (
             <PencilIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={() => onEditClick(row.productId)}
+              onClick={() => onEditClick(row.stockId)}
             />
           )}
         </div>
@@ -126,11 +129,11 @@ Row.propTypes = {
   row: PropTypes.shape({
     productId: PropTypes.string.isRequired,
     productCode: PropTypes.string.isRequired,
-    productBuyingPrice: PropTypes.string.isRequired,
+    productBuyingPrice: PropTypes.number.isRequired,
     productBrand: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
     productSize: PropTypes.string.isRequired,
-    productSellPrice: PropTypes.string.isRequired,
+    productSellPrice: PropTypes.number.isRequired,
     productStock: PropTypes.string.isRequired,
     stockId: PropTypes.string.isRequired,
     image: PropTypes.string,
@@ -144,87 +147,47 @@ Row.propTypes = {
   editedRow: PropTypes.object.isRequired,
 };
 
-export default function ProductTable({ searchQuery, setFilteredData }) {
+export default function ProductTable({ searchQuery, STOCKData, isLoading, refetch }) {
   const { user } = useAuthContext();
-  const [STOCKData, setSTOCKData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
-  const [productData, setProductData] = useState(null);
-  const [loadingProduct, setLoadingProduct] = useState(false);
-  const decodedToken = TokenDecoder();
-
-  useEffect(() => {
-    const fetchSTOCKData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Stock/${decodedToken.id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setSTOCKData(data);
-        } else {
-          setSTOCKData([]);
-          console.error("Error receiving STOCK data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching STOCK data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSTOCKData();
-  }, [user?.token]);
-
-  useEffect(() => {
-    if (selectedProductId) {
-      const fetchProductData = async () => {
-        setLoadingProduct(true);
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_APP_URL_BASE}/Product/${selectedProductId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-              },
-            }
-          );
-
-          if (response.ok) {
-            const data = await response.json();
-            setProductData(data);
-          } else {
-            setProductData(null);
-            console.error("Error receiving Product data:", response.statusText);
-          }
-        } catch (error) {
-          console.error("Error fetching Product data:", error);
-        } finally {
-          setLoadingProduct(false);
-        }
-      };
-      fetchProductData();
-    }
-  }, [selectedProductId, user?.token]);
-
+  const [selectedStockId, setSelectedStockId] = useState(null);
   const [editingRowId, setEditingRowId] = useState(null);
   const [editedRow, setEditedRow] = useState({});
   const [rows, setRows] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [submitionLoading, setSubmitionLoading] = useState(false);
 
+  const handleEditClick = (stockId) => {
+    setSelectedStockId(stockId);
+    setEditingRowId(stockId);
+    const rowToEdit = rows.find((row) => row.stockId === stockId);
+    setEditedRow(rowToEdit);
+  };
+  const handleViewClick = (stockId) => {
+    setSelectedStockId(stockId);
+    setIsModalOpen(true);
+  };
+  const handleCancelClick = () => {
+    setSelectedStockId(null);
+    setEditingRowId(null);
+    setEditedRow({});
+  };
+  const handleChange = (productId, field, value) => {
+    setEditedRow((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedStockId(null);
+  };
+  
   useEffect(() => {
-    if (STOCKData.length > 0) {
-      const rowsData = STOCKData.map((stock) => ({
+    if (STOCKData?.length > 0) {
+      const rowsData = STOCKData?.map((stock) => ({
         productId: stock.product._id,
         productCode: stock.product.code,
         productName: stock.product.name,
@@ -240,46 +203,91 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
     }
   }, [STOCKData]);
 
-  const handleEditClick = (productId) => {
-    setEditingRowId(productId);
-    const rowToEdit = rows.find((row) => row.productId === productId);
-    setEditedRow(rowToEdit);
-  };
-
-  const handleViewClick = (productId) => {
-    setSelectedProductId(productId);
-    setIsModalOpen(true);
-  };
-
-  const handleSaveClick = (stockId) => {
-    const updatedRows = rows.map((row) =>
-      row.stockId === stockId ? editedRow : row
-    );
-    setRows(updatedRows);
-    setEditingRowId(null);
-  };
-
-  const handleCancelClick = () => {
-    setEditingRowId(null);
-    setEditedRow({});
-  };
-
-  const handleChange = (productId, field, value) => {
-    setEditedRow((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setProductData(null);
-  };
-
   const filteredRows = rows.filter((row) =>
     row.productName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  //---------------------------------API calls---------------------------------\\
+  
+  // fetching specific Product data
+  const fetchProductById = async () => {
+    const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/Stock/${selectedStockId}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        if (response.status === 404) {
+            return []; 
+        } else {
+            throw new Error("Error receiving Product data: " + response.statusText);
+        }
+    }
+
+    // Return the fetched product data
+    return await response.json();
+  };
+  // useQuery hook to fetch data for a specific product
+  const { data: ProductData, error: ProductError, isLoading: ProductLoading, refetch: ProductRefetch } = useQuery({
+      queryKey: ['ProductData', selectedStockId, user?.token],
+      queryFn: () => fetchProductById(), // Call the fetch function with selectedStockId
+      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // update the stock data
+  const handleUpdateStock = async (stockID) => {
+    try {
+        setSubmitionLoading(true);
+        const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Stock/update/${stockID}`, 
+          {
+            BuyingPrice: editedRow?.productBuyingPrice,
+            SellingPrice: editedRow?.productSellPrice,
+            Quantity: editedRow?.productStock
+          },
+          {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              }
+          }
+        );
+        if (response.status === 200) {
+          setEditingRowId(null);
+          setAlertType(false);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          refetch();
+          setSubmitionLoading(false);
+        } else {
+          setAlertType(true);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        }
+    } catch (error) {
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error updating stock: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error updating stock",error);
+        }
+    }
+  };
+  
   return (
     <>
       <TableContainer
@@ -317,7 +325,7 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading ? (
+            {isLoading ? (
               <TableRow>
                 <TableCell colSpan={8} align="center">
                   <CircularProgress />
@@ -328,10 +336,10 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
                 <Row
                   key={row.productId}
                   row={row}
-                  isEditing={editingRowId === row.productId}
+                  isEditing={editingRowId === row.stockId}
                   onEditClick={handleEditClick}
                   onViewClick={handleViewClick}
-                  onSaveClick={handleSaveClick}
+                  onSaveClick={handleUpdateStock}
                   onCancelClick={handleCancelClick}
                   onChange={handleChange}
                   editedRow={editedRow}
@@ -368,15 +376,15 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
           },
         }}
       >
-        {loadingProduct ? (
+        {ProductLoading ? (
           <div className="w-full h-[93%] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        ) : productData ? (
+        ) : ProductData ? (
           <>
             <div className="customerClass">
               <h2 className="customerClassTitle">Product Details</h2>
-              <ProductProfileDetails product={productData} />
+              <ProductProfileDetails data={ProductData} isLoading={ProductLoading}/>
             </div>
             <div className="flex justify-between mt-[16px]">
               <div className="w-[70%]">
@@ -395,8 +403,8 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
                 <div className="w-full flex justify-center h-[390px]">
                   <img
                     className="text-center"
-                    // src={product.image}
-                    // alt={product.name}
+                    src={ProductData?.product?.image}
+                    alt={ProductData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />
                 </div>
@@ -418,6 +426,21 @@ export default function ProductTable({ searchQuery, setFilteredData }) {
           </button>
         </div>
       </Modal>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

@@ -232,7 +232,7 @@ export default function ProductsList() {
           console.error("Error creating stock: No response received");
         } else {
           // Something happened in setting up the request that triggered an Error
-          console.error("Error creating stock", error);
+          console.error("Error creating stock");
         }
     }
   };
@@ -329,7 +329,7 @@ export default function ProductsList() {
                         <ProductCard
                           key={product._id}
                           productName={product.name}
-                          productImage={product.image}
+                          productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${product.image}`}
                           onClick={() => handleSelectProduct(product)}
                           selected={
                             selectedProduct && product._id === selectedProduct._id

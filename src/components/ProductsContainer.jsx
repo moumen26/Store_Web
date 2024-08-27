@@ -49,7 +49,6 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
-
   return (
     <div className="productsContainer">
       {data?.length > 0 ? (
@@ -64,8 +63,8 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
         ).map((product) => (
           <ProductCard
             key={product._id}
-            productName={product.name}
-            productImage={import.meta.env.VITE_APP_URL_BASE + '/files/' +product.image}
+            productName={product.brand?.name + ' ' + product.name + ' ' + product.size}
+            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${product.image}`}
             onClick={() => handleSelectProduct(product)}
             selected={
               selectedProduct && product._id === selectedProduct._id
@@ -100,7 +99,7 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
         >
           <div className="customerClass">
             <h2 className="customerClassTitle">Product Details</h2>
-            <ProductProfileDetails product={selectedProduct} />
+            <ProductProfileDetails data={selectedProduct} />
           </div>
           <div className="flex justify-between mt-[16px]">
             <div className="w-[70%]">
@@ -119,7 +118,8 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
               <div className="w-full flex justify-center h-[390px]">
                 <img
                   className="text-center"
-                  src={selectedProduct.image}
+                  srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${selectedProduct.image}`}
+                  src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${selectedProduct.image}`}
                   alt={selectedProduct.name}
                   style={{ width: "auto", height: "100%" }}
                 />

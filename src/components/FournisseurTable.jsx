@@ -25,9 +25,6 @@ function Row(props) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.fournisseurId}</span>
-      </TableCell>
-      <TableCell className="tableCell">
         <span className="trTableSpan">
           <span className="mr-1 trTableSpan">{row.fournisseurFirstName}</span>
           <span className="trTableSpan">{row.fournisseurLastName}</span>
@@ -65,61 +62,26 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function FournisseurTable({ searchQuery, setFilteredData }) {
+export default function FournisseurTable({ searchQuery, setFilteredData, data }) {
   const { user } = useAuthContext();
-  const [CustomersData, setCustomersData] = useState([]);
   const [loading, setLoading] = useState(false);
   const decodedToken = TokenDecoder();
-  useEffect(() => {
-    const fetchCustomersData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${
-            decodedToken.id
-          }`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
+  
 
-        if (response.ok) {
-          const data = await response.json();
-          setCustomersData(data);
-        } else {
-          setCustomersData([]);
-          setRows([]);
-          console.error(
-            "Error receiving users data for this store:",
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching users data for this store:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCustomersData();
-  }, [user?.token]);
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (CustomersData.length > 0) {
-      const rowsData = CustomersData.map((data) => ({
-        fournisseurFirstName: data.user.firstName,
-        fournisseurLastName: data.user.lastName,
-        fournisseurId: data.user._id,
-        fournisseurPhone: data.user.phoneNumber,
-        fournisseurWilaya: data.user.wilaya,
-        fournisseurCommune: data.user.commune,
+    if (data?.length > 0) {
+      const rowsData = data.map((data) => ({
+        fournisseurFirstName: data.firstName,
+        fournisseurLastName: data.lastName,
+        fournisseurId: data._id,
+        fournisseurPhone: data.phoneNumber,
+        fournisseurWilaya: data.wilaya,
+        fournisseurCommune: data.commune,
       }));
       setRows(rowsData);
     }
-  }, [CustomersData]);
+  }, [data]);
   const filteredRows = rows.filter(
     (row) =>
       row.fournisseurLastName
@@ -128,7 +90,6 @@ export default function FournisseurTable({ searchQuery, setFilteredData }) {
       row.fournisseurFirstName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
-      row.fournisseurId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.fournisseurPhone.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.fournisseurWilaya.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.fournisseurCommune.toLowerCase().includes(searchQuery.toLowerCase())
@@ -147,9 +108,6 @@ export default function FournisseurTable({ searchQuery, setFilteredData }) {
       <Table aria-label="collapsible table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Fournisseur_ID</span>
-            </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Name</span>
             </TableCell>

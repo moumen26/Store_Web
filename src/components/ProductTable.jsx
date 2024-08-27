@@ -403,7 +403,8 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
                 <div className="w-full flex justify-center h-[390px]">
                   <img
                     className="text-center"
-                    src={ProductData?.product?.image}
+                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${ProductData?.product?.image}`}
+                    src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${ProductData?.product?.image}`}
                     alt={ProductData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />

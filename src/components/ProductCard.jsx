@@ -12,7 +12,12 @@ export default function ProductCard({
       onClick={onClick}
     >
       <div className="productImage">
-        <img src={productImage} alt={productName} />
+        <img 
+          srcSet={productImage}
+          src={productImage} 
+          alt={productName} 
+          loading="lazy"
+        />
       </div>
       <div className="productName">
         <span className="productSpan">{productName}</span>

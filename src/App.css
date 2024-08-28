@@ -20,6 +20,8 @@
   --greyColor: #ededed;
   --color: #f7f7f7;
   --redColor: #ff0000;
+  --greenColor: #298f00;
+
 }
 
 * {
@@ -730,9 +732,19 @@ aside ul {
   border: 1px solid var(--redColor);
   cursor: pointer;
 }
+.activeClass.yellow {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--greenColor);
+  cursor: pointer;
+}
 
 .inactiveSpan {
   color: var(--redColor);
+}
+.inactiveSpan.yellow {
+  color: var(--greenColor);
 }
 
 .productSpan {

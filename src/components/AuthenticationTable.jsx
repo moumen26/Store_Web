@@ -14,8 +14,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
-import { set } from "date-fns";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
   const { row, handleConfirmAlert } = props;
@@ -36,8 +36,6 @@ function Row(props) {
 
   const handleConfirm = async () => {
     try {
-      console.log(row.storeID);
-      console.log(row.token);
       const response = await fetch(
         `${import.meta.env.VITE_APP_URL_BASE}/MyStores/approve/${row.storeID}`,
         {
@@ -91,9 +89,9 @@ function Row(props) {
           <span className="trTableSpan">{row.userAddress}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <div className="activeClass" onClick={handleInactiveClick}>
+          <div className={`activeClass${row.status == 'pending' ? ' yellow' : ''}`} onClick={handleInactiveClick}>
             <div className="cercleActive"></div>
-            <span className="inactiveSpan trTableSpan">{row.status}</span>
+            <span className={`inactiveSpan trTableSpan ${row.status == 'pending' ? ' yellow' : ''}`}>{row.status}</span>
           </div>
         </TableCell>
         <TableCell align="right" className="tableCell w-[100px]">
@@ -135,56 +133,53 @@ Row.propTypes = {
 
 export default function CustomerTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
-  const [NotApprovedUsersData, setNotApprovedUsersData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const decodedToken = TokenDecoder();
-  const fetchNotApprovedUsersData = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${
-          decodedToken.id
-        }`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.token}`,
-          },
-        }
-      );
 
-      if (response.ok) {
-        const data = await response.json();
-        setNotApprovedUsersData(data);
-      } else {
-        setNotApprovedUsersData([]);
-        setRows([]);
-        console.error(
-          "Error receiving not approved users data for this store:",
-          response.statusText
-        );
+  //fetch data
+  const fetchNotApprovedUsersData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    } catch (error) {
-      console.error(
-        "Error fetching not approved users data for this store:",
-        error
-      );
-    } finally {
-      setLoading(false);
+    );
+  
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving not approved users data for this store");
+      }
     }
+  
+    return await response.json(); // Return the data if the response is successful
   };
-  useEffect(() => {
-    fetchNotApprovedUsersData();
-  }, [user?.token]);
+  // useQuery hook to fetch data
+  const { 
+    data: NotApprovedUsersData, 
+    error: notApprovedUsersError, 
+    isLoading: notApprovedUsersLoading, 
+    refetch: refetchNotApprovedUsersData 
+  } = useQuery({
+    queryKey: ['NotApprovedUsersData', user?.token],
+    queryFn: fetchNotApprovedUsersData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    refetchNotApprovedUsersData();
+  };
+
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (NotApprovedUsersData.length > 0) {
-      const rowsData = NotApprovedUsersData.map((data) => {
-        // Find the store object for the current store id
-        const currentStore = data.stores.find(
-          (store) => store.store === decodedToken.id
-        );
+    if (NotApprovedUsersData?.length > 0) {
+      const rowsData = NotApprovedUsersData?.map((data) => {
         return {
           userFirstName: data.user.firstName,
           userLastName: data.user.lastName,
@@ -193,12 +188,14 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
           userWilaya: data.user.wilaya,
           userCommune: data.user.commune,
           userAddress: data.user.storeAddresses,
-          status: currentStore ? currentStore.status : "",
+          status: data.status,
           token: user?.token,
           storeID: decodedToken.id,
         };
       });
       setRows(rowsData);
+    }else{
+      setRows([]);
     }
   }, [NotApprovedUsersData, decodedToken.id]);
 
@@ -216,9 +213,9 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleConfirmAlert = (message) => {
-    fetchNotApprovedUsersData();
     setSnackbarMessage(message);
     setSnackbarOpen(true);
+    handleRefetchDataChange();
   };
 
   const handleSnackbarClose = () => {
@@ -228,7 +225,6 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   useEffect(() => {
     setFilteredData(filteredRows);
   }, [filteredRows, setFilteredData]);
-
   return (
     <Fragment>
       <TableContainer
@@ -271,7 +267,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
                   handleConfirmAlert={handleConfirmAlert}
                 />
               ))
-            ) : loading ? (
+            ) : notApprovedUsersLoading ? (
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {/* <span className="thTableSpan">loading...</span> */}

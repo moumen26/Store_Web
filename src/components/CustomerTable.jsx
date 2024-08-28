@@ -12,6 +12,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
   const { row } = props;
@@ -19,7 +20,6 @@ function Row(props) {
 
   const handleViewClick = () => {
     navigate(`/CustomerProfile/${row.customerId}`);
-    // navigate("/CustomerProfile", { state: { customer: row } });
   };
 
   return (
@@ -67,48 +67,52 @@ Row.propTypes = {
 
 export default function CustomerTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
-  const [CustomersData, setCustomersData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const decodedToken = TokenDecoder();
-  useEffect(() => {
-    const fetchCustomersData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${
-            decodedToken.id
-          }`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
 
-        if (response.ok) {
-          const data = await response.json();
-          setCustomersData(data);
-        } else {
-          setCustomersData([]);
-          setRows([]);
-          console.error(
-            "Error receiving users data for this store:",
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching users data for this store:", error);
-      } finally {
-        setLoading(false);
+  //fetch data
+  const fetchCustomersData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchCustomersData();
-  }, [user?.token]);
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving approved users data for this store");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const { 
+    data: CustomersData, 
+    error: CustomersDataError, 
+    isLoading: CustomersDataLoading, 
+    refetch: refetchCustomersData 
+  } = useQuery({
+    queryKey: ['CustomersData', user?.token],
+    queryFn: fetchCustomersData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    refetchCustomersData();
+  };
+
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (CustomersData.length > 0) {
+    if (CustomersData?.length > 0) {
       const rowsData = CustomersData.map((data) => ({
         customerFirstName: data.user.firstName,
         customerLastName: data.user.lastName,
@@ -118,8 +122,11 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         customerCommune: data.user.commune,
       }));
       setRows(rowsData);
+    }else{
+      setRows([]);
     }
   }, [CustomersData]);
+  
   const filteredRows = rows.filter(
     (row) =>
       row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -166,7 +173,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
-          ) : loading ? (
+          ) : CustomersDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">loading...</span> */}

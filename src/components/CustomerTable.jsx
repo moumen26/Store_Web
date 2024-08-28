@@ -65,55 +65,11 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function CustomerTable({ searchQuery, setFilteredData }) {
-  const { user } = useAuthContext();
-  const decodedToken = TokenDecoder();
-
-  //fetch data
-  const fetchCustomersData = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/users/${decodedToken.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      if (errorData.error.statusCode === 404) {
-        return []; // Return an empty array if no data is found
-      } else {
-        throw new Error("Error receiving approved users data for this store");
-      }
-    }
-
-    return await response.json(); // Return the data if the response is successful
-  };
-  // useQuery hook to fetch data
-  const { 
-    data: CustomersData, 
-    error: CustomersDataError, 
-    isLoading: CustomersDataLoading, 
-    refetch: refetchCustomersData 
-  } = useQuery({
-    queryKey: ['CustomersData', user?.token],
-    queryFn: fetchCustomersData,
-    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-  });
-  // Refetch data when user changes
-  const handleRefetchDataChange = () => {
-    refetchCustomersData();
-  };
-
+export default function CustomerTable({ searchQuery, setFilteredData, data, dataLoading }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (CustomersData?.length > 0) {
-      const rowsData = CustomersData.map((data) => ({
+    if (data?.length > 0) {
+      const rowsData = data.map((data) => ({
         customerFirstName: data.user.firstName,
         customerLastName: data.user.lastName,
         customerId: data.user._id,
@@ -125,7 +81,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
     }else{
       setRows([]);
     }
-  }, [CustomersData]);
+  }, [data]);
   
   const filteredRows = rows.filter(
     (row) =>
@@ -173,7 +129,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
-          ) : CustomersDataLoading ? (
+          ) : dataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">loading...</span> */}

@@ -26,6 +26,7 @@ import VerifyCode from "./pages/VerifyCode";
 import UpYourAccount from "./pages/UpyourAccount";
 import Purchases from "./pages/Purchases";
 import CreditPurchases from "./pages/CreditPurchases";
+import FournisseurProfile from "./pages/FournisseurProfile";
 
 function App() {
   const { user } = useAuthContext();
@@ -82,6 +83,10 @@ function App() {
             path="/Fournisseurs"
             element={user ? <Fournisseurs /> : <SignIn />}
           />
+          <Route
+            path="/FournisseurProfile"
+            element={user ? <FournisseurProfile /> : <SignIn />}
+          />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
           <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />
           <Route
@@ -117,7 +122,8 @@ function App() {
           <Route
             path="/CustomerProfile/:id"
             element={user ? <CustomerProfile /> : <SignIn />}
-          />z
+          />
+          z
           <Route
             path="/NAPCustomerProfile/:id"
             element={user ? <NonApprovedCustomer /> : <SignIn />}

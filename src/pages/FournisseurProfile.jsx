@@ -3,11 +3,19 @@ import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import { useLocation } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
-import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import CustomerStatsCard from "../components/CustomerStatsCard";
+import Search from "../components/Search";
+import FournisseurProfileAchatsTable from "../components/FournisseurProfileAchatsTable";
 
 export default function FournisseurProfile() {
   const location = useLocation();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   return (
     <div className="pagesContainer">
@@ -16,12 +24,12 @@ export default function FournisseurProfile() {
         <div className="flex items-center space-x-1">
           <span>Fournisseur</span>
           <ChevronRightIcon className="iconAsideBar" />
-          <span></span>
+          <span>#Fournisseur Name</span>
         </div>
-        <ButtonAdd buttonSpan="Create Order" showIcon={false} />
+        <ButtonAdd buttonSpan="Create Achat" showIcon={false} />
       </div>
-      <div className="costumerClass">
-        <h2 className="costumerClassTitle">Personal Information</h2>
+      <div className="customerClass">
+        <h2 className="customerClassTitle">Personal Information</h2>
         <div className="personalInformation">
           <div className="flex-col">
             <span className="personalInformationSpan">First Name</span>
@@ -61,29 +69,38 @@ export default function FournisseurProfile() {
           </div>
         </div>
       </div>
-      <div className="costumerClass">
-        <h2 className="costumerClassTitle">Primary Delivery Address</h2>
-        <div className="customerPrimaryAddress">
-          <CustomerPrimaryDelivery primaryDeliveryAddress={address} />
+      <>
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Stats</h2>
+          <div className="flex space-x-4">
+            <CustomerStatsCard
+              customerStatsCardTitle="Total Purchases"
+              customerStatsCardDetails="22"
+            />
+            <CustomerStatsCard
+              customerStatsCardTitle="Total Amount"
+              customerStatsCardDetails="22000"
+            />
+            <CustomerStatsCard
+              customerStatsCardTitle="Total Pending Payment"
+              customerStatsCardDetails="0"
+            />
+          </div>
         </div>
-      </div>
-
-      <div className="costumerClass">
-        <h2 className="costumerClassTitle">Stats</h2>
-        <div className="flex space-x-4">
-          <CustomerStatsCard
-            customerStatsCardTitle="Total Orders"
-            customerStatsCardDetails="0"
-          />
-          <CustomerStatsCard
-            customerStatsCardTitle="Total Amount"
-            customerStatsCardDetails="0"
+        <div className="customerClass customerOrdersClass">
+          <div className="flex justify-between items-center">
+            <h2 className="customerClassTitle">Achats</h2>
+            <Search
+              placeholder="Search by Achat..."
+              onChange={handleSearchChange}
+            />
+          </div>
+          <FournisseurProfileAchatsTable
+            searchQuery={searchQuery}
+            setFilteredData={setFilteredData}
           />
         </div>
-      </div>
-      <div className="costumerClass customerOrdersClass">
-        <h2 className="costumerClassTitle">Achats</h2>
-      </div>
+      </>
     </div>
   );
 }

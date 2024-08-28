@@ -11,6 +11,9 @@ export default function CustomerStatsCard({
     case "Total Orders":
       iconComponent = <DocumentChartBarIcon className="iconPages" />;
       break;
+    case "Total Purchases":
+      iconComponent = <DocumentChartBarIcon className="iconPages" />;
+      break;
     case "Total Amount":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
@@ -25,12 +28,11 @@ export default function CustomerStatsCard({
     case "Total Orders":
       spanComponent = "";
       break;
-    case "Total Amount":
-      spanComponent = "DA ";
+    case "Total Purchases":
+      spanComponent = "";
       break;
     default:
-      spanComponent = <BanknotesIcon className="iconPages" />;
-      break;
+      spanComponent = spanComponent = "DA ";
   }
   return (
     <div className="customerStatsCard">

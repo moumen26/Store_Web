@@ -3,9 +3,9 @@ import Header from "../components/Header";
 import ButtonSave from "../components/ButtonSave";
 import ButtonCancel from "../components/ButtonCancel";
 import ButtonAdd from "../components/ButtonAdd";
-import AddOrderSubTotal from "../components/AddOrderSubTotal";
 import AddAchatProfileDetails from "../components/AddAchatProfileDetails";
 import AddAchatTableDetails from "../components/AddAchatTableDetails";
+import AddAchatSubTotal from "../components/AddAchatSubTotal";
 
 export default function AddAchat() {
   const [subtotal, setSubtotal] = useState(0);
@@ -55,11 +55,7 @@ export default function AddAchat() {
           />
         </div>
         <div className="w-full flex justify-end">
-          <AddOrderSubTotal
-            subtotal={subtotal}
-            deliveryAmount={deliveryAmount}
-            total={total}
-          />
+          <AddAchatSubTotal total={total} />
         </div>
       </div>
     </div>

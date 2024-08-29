@@ -21,7 +21,6 @@
   --color: #f7f7f7;
   --redColor: #ff0000;
   --greenColor: #298f00;
-
 }
 
 * {
@@ -1188,6 +1187,11 @@ aside ul {
   width: 200px;
 }
 
+.addProductAchat .dialogAddCustomerItem .inputForm {
+  width: 350px;
+
+}
+
 /* <div className="customerClass flex-col space-y-1">
             <div className="flex justify-between items-center">
               <h2 className="customerClassTitle">Order Type</h2>
@@ -1221,4 +1225,3 @@ aside ul {
               </div>
             )}
           </div> */
-          

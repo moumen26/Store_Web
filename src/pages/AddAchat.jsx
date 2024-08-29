@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import ButtonSave from "../components/ButtonSave";
 import ButtonCancel from "../components/ButtonCancel";
-import AddOrderTableDetails from "../components/AddOrderTableDetails";
 import ButtonAdd from "../components/ButtonAdd";
 import AddOrderSubTotal from "../components/AddOrderSubTotal";
 import AddAchatProfileDetails from "../components/AddAchatProfileDetails";
+import AddAchatTableDetails from "../components/AddAchatTableDetails";
 
 export default function AddAchat() {
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [total, setTotal] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCalculateTotals = (subtotal, deliveryAmount, total) => {
     setSubtotal(subtotal);
@@ -20,11 +20,11 @@ export default function AddAchat() {
   };
 
   const handleOpenModal = () => {
-    setOpenModal(true);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setIsModalOpen(false);
   };
 
   return (
@@ -43,12 +43,12 @@ export default function AddAchat() {
       </div>
       <div className="pageTable">
         <div className="flex items-center justify-between">
-          <h2 className="customerClassTitle">Order Details</h2>
+          <h2 className="customerClassTitle">Achat Details</h2>
           <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
         </div>
         <div className="pageTableContainer">
-          <AddOrderTableDetails
-            openModal={openModal}
+          <AddAchatTableDetails
+            isModalOpen={isModalOpen}
             handleCloseModal={handleCloseModal}
             onCalculateTotals={handleCalculateTotals}
             deliveryAmount={deliveryAmount}

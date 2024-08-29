@@ -9,8 +9,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ProductCard from "../components/ProductCard";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import ElioImage from "../assets/images/Elio.png";
-import PrilImage from "../assets/images/Pril.png";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Alert, Snackbar } from "@mui/material";
@@ -414,6 +412,12 @@ export default function ProductsList() {
                         defaultValue={0}
                         onChange={handleLimitedQuantityChange}
                       />
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem items-center">
+                    <span>Déstockage value:</span>
+                    <div className="inputForm">
+                      <input type="number" name="stock" defaultValue={0} />
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">

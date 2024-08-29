@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -237,10 +237,7 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData }) {
         } else {
           setORDERDATA([]);
           setRows([]);
-          console.error(
-            "Error receiving delivered ORDER data:",
-            data.message
-          );
+          console.error("Error receiving delivered ORDER data:", data.message);
         }
       } catch (error) {
         console.error("Error fetching delivered ORDER data:", error);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -58,7 +58,9 @@ function Row(props) {
           <span className="trTableSpan">{row.orderAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{orderStatusTextDisplayer(row.orderStatus)}</span>
+          <span className="trTableSpan">
+            {orderStatusTextDisplayer(row.orderStatus)}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -92,9 +94,7 @@ function Row(props) {
                       <span className="thTableSpan thDetails">Amount (DA)</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        Quantity
-                      </span>
+                      <span className="thTableSpan thDetails">Quantity</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
@@ -180,13 +180,23 @@ const orderStatusTextDisplayer = (status) => {
     default:
       return "Order Placed";
   }
-}
+};
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  
+
   const monthNames = [
-      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
   ];
 
   const day = date.getDate();
@@ -209,7 +219,9 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
       setLoading(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${decodedToken.id}`,
+          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
+            decodedToken.id
+          }`,
           {
             method: "GET",
             headers: {
@@ -225,7 +237,10 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         } else {
           setORDERDATA([]);
           setRows([]);
-          console.error("Error receiving none delivered ORDER data:", data.message);
+          console.error(
+            "Error receiving none delivered ORDER data:",
+            data.message
+          );
         }
       } catch (error) {
         console.error("Error fetching none delivered ORDER data:", error);
@@ -258,14 +273,19 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
   }, [ORDERDATA]);
   const [filteredRows, setFilteredRows] = useState(rows);
   useEffect(() => {
-    const results = rows.filter((row) =>
-        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const results = rows.filter(
+      (row) =>
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDetails.some((detail) =>
-            detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
     setFilteredRows(results);

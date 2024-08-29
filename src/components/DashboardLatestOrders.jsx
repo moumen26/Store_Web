@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -85,17 +85,13 @@ function Row(props) {
                       </span>
                     </TableCell>
                     <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        Brand
-                      </span>
+                      <span className="thTableSpan thDetails">Brand</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">Amount (DA)</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
-                        Quantity
-                      </span>
+                      <span className="thTableSpan thDetails">Quantity</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">

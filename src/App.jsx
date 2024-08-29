@@ -27,6 +27,7 @@ import UpYourAccount from "./pages/UpyourAccount";
 import Purchases from "./pages/Purchases";
 import CreditPurchases from "./pages/CreditPurchases";
 import FournisseurProfile from "./pages/FournisseurProfile";
+import AddAchat from "./pages/AddAchat";
 
 function App() {
   const { user } = useAuthContext();
@@ -89,6 +90,7 @@ function App() {
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
           <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />
+          <Route path="/AddAchat" element={user ? <AddAchat /> : <SignIn />} />
           <Route
             path="/ProductsList"
             element={user ? <ProductsList /> : <SignIn />}

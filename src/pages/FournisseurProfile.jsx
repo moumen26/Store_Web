@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerStatsCard from "../components/CustomerStatsCard";
 import Search from "../components/Search";
@@ -17,6 +17,12 @@ export default function FournisseurProfile() {
     setSearchQuery(e.target.value);
   };
 
+  const navigate = useNavigate();
+
+  const handleCreateOrder = () => {
+    navigate(`/AddAchat`);
+  };
+
   return (
     <div className="pagesContainer">
       <Header />
@@ -26,7 +32,11 @@ export default function FournisseurProfile() {
           <ChevronRightIcon className="iconAsideBar" />
           <span>#Fournisseur Name</span>
         </div>
-        <ButtonAdd buttonSpan="Create Achat" showIcon={false} />
+        <ButtonAdd
+          buttonSpan="Create Achat"
+          showIcon={false}
+          onClick={handleCreateOrder}
+        />
       </div>
       <div className="customerClass">
         <h2 className="customerClassTitle">Personal Information</h2>

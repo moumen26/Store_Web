@@ -17,6 +17,9 @@ import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
 import Search from "./Search";
 import ProductsContainerAddOrder from "./ProductContainerAddOrder";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
 
 function AddOrderTableDetails({
   openModal,
@@ -28,31 +31,11 @@ function AddOrderTableDetails({
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-  const [rows, setRows] = useState([
-    {
-      productId: "0920496",
-      productName: "Elio - 1L",
-      productBrand: "Cevital",
-      productQuantity: 5,
-      productPrice: 120,
-    },
-    {
-      productId: "0920490",
-      productName: "Pril Isis - 650ml",
-      productBrand: "Pril",
-      productQuantity: 5,
-      productPrice: 190,
-    },
-  ]);
+  const [rows, setRows] = useState([]);
+  const [ClientQuantity, setClientQuantity] = useState(0);
   const [editingRowId, setEditingRowId] = useState(null);
   const [editedRow, setEditedRow] = useState({});
-  const [newItem, setNewItem] = useState({
-    productId: "",
-    productName: "",
-    productBrand: "",
-    productQuantity: 0,
-    productPrice: 0,
-  });
+  const [newItem, setNewItem] = useState(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -64,7 +47,7 @@ function AddOrderTableDetails({
   useEffect(() => {
     const calculateTotals = () => {
       const subtotal = rows.reduce(
-        (acc, row) => acc + row.productQuantity * row.productPrice,
+        (acc, row) => acc + row.ClientQuantity * row.product.selling,
         0
       );
       const total = subtotal + deliveryAmount;
@@ -73,42 +56,19 @@ function AddOrderTableDetails({
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
 
-  const handleEditClick = (productId) => {
-    setEditingRowId(productId);
-    const rowToEdit = rows.find((row) => row.productId === productId);
-    setEditedRow(rowToEdit);
-  };
-
-  const handleSaveClick = (productId) => {
-    setRows(rows.map((row) => (row.productId === productId ? editedRow : row)));
-    setEditingRowId(null);
-  };
-
-  const handleCancelClick = () => {
-    setEditingRowId(null);
-  };
-
-  const handleChange = (productId, field, value) => {
-    if (field === "productQuantity" && (value <= 0 || isNaN(value))) {
-      return;
-    }
-    setEditedRow((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleDeleteClick = (productId) => {
-    const productToDelete = rows.find((row) => row.productId === productId);
-    setDeleteItemId(productId);
-    setDeletedProductName(productToDelete.productName);
+  const handleDeleteClick = (_id) => {
+    setDeleteItemId(_id);
+    const deletedProduct = rows.find((row) => row.product._id === _id);
+    setDeletedProductName(deletedProduct.product.product.name);
     setIsConfirmDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    setRows(rows.filter((row) => row.productId !== deleteItemId));
+    const updatedRows = rows.filter((row) => row.product._id !== deleteItemId);
+    setRows(updatedRows);
     setIsConfirmDialogOpen(false);
+    setDeletedProductName("");
     setDeleteItemId(null);
-    setSnackbarOpen(true);
-    setAlertMessage(`Product "${deletedProductName}" has been deleted.`);
-    setAlertType("error");
   };
 
   const handleCancelDelete = () => {
@@ -117,36 +77,38 @@ function AddOrderTableDetails({
   };
 
   const handleAddItem = () => {
-    if (!newItem.productId && newItem.productQuantity <= 0) {
-      setAlertMessage("Please select a product and enter a valid quantity.");
-      setAlertType("error");
-      setSnackbarOpen(true);
-      return;
-    }
-
-    if (!newItem.productId) {
+    if (!newItem || !newItem.product._id) {
       setAlertMessage("Please select a product.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
-
-    if (newItem.productQuantity <= 0) {
+  
+    let productQuantity = ClientQuantity;
+  
+    if (productQuantity <= 0) {
       setAlertMessage("Please enter a valid quantity.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
+  
+    if (unitType === "perBox") {
+      productQuantity = Number(productQuantity) * Number(newItem.product.product.boxItems);
+    }
+  
+    // Update newItem with the correct ClientQuantity
+    const updatedItem = {
+      ...newItem,
+      ClientQuantity: productQuantity,
+    };
 
-    setRows([...rows, newItem]);
+    // Add the updated item to the rows
+    setRows([...rows, updatedItem]);
+  
     handleCloseModal();
-    setNewItem({
-      productId: "",
-      productName: "",
-      productBrand: "",
-      productQuantity: 0,
-      productPrice: 0,
-    });
+    setNewItem(null);
+    setClientQuantity(0);
   };
 
   const handleCloseSnackbar = () => {
@@ -154,117 +116,117 @@ function AddOrderTableDetails({
   };
 
   const handleSelectProduct = (product) => {
-    setNewItem({
-      productId: product.id,
-      productName: product.name,
-      productBrand: product.brand,
-      productQuantity: newItem.productQuantity,
-      productPrice: product.price,
-    });
+    setNewItem((prevState) => ({
+      ...prevState,
+      product: product,
+    }));
   };
-
   const handleProductQuantityChange = (e) => {
     const value = e.target.value;
-    if (value === "" || /^\d*$/.test(value)) {
-      setNewItem({
-        ...newItem,
-        productQuantity: value === "" ? "" : Math.max(0, Number(value)),
-      });
-    }
+    setClientQuantity(value);
   };
 
   const OrderRow = ({
     row,
-    isEditing,
-    onEditClick,
-    onSaveClick,
-    onCancelClick,
-    onChange,
-    editedRow,
     onDelete,
   }) => {
-    const handleNumericChange = (field, value) => {
-      const numericValue = Number(value);
-      if (numericValue > 0) {
-        onChange(row.productId, field, numericValue);
-      }
-    };
 
-    const productAmount = row.productPrice * row.productQuantity;
+    const productAmount = row.product.selling * row.ClientQuantity;
 
     return (
       <TableRow
-        key={row.productId}
+        key={row.product._id}
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productId}</span>
+          <span className="trTableSpan">{row.product._id}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productName}</span>
+          <span className="trTableSpan">{row.product.product.name + ' ' + row.product.product.size}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productBrand}</span>
+          <span className="trTableSpan">{row.product.product.brand?.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          {isEditing ? (
-            <input
-              type="number"
-              value={editedRow.productQuantity}
-              onChange={(e) =>
-                handleNumericChange("productQuantity", e.target.value)
-              }
-              min="1"
-              className="editable-input inputBoxes"
-            />
-          ) : (
-            <span className="trTableSpan">{row.productQuantity}</span>
-          )}
+          <span className="trTableSpan">{row.ClientQuantity}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productPrice} DA</span>
+          <span className="trTableSpan">{row.product.selling} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{productAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex items-center justify-end space-x-3">
-            {isEditing ? (
-              <>
-                <button
-                  className="text-green-500 cursor-pointer hover:text-green-700"
-                  onClick={() => onSaveClick(row.productId)}
-                >
-                  Save
-                </button>
-                <button
-                  className="text-gray-500 cursor-pointer hover:text-gray-700"
-                  onClick={() => onCancelClick()}
-                >
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <>
-                <PencilIcon
-                  className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-                  onClick={() => onEditClick(row.productId)}
-                />
-                <TrashIcon
-                  className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-                  onClick={() => onDelete(row.productId)}
-                />
-              </>
-            )}
+            <TrashIcon
+              className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
+              onClick={() => onDelete(row.product._id)}
+            />
           </div>
         </TableCell>
       </TableRow>
     );
   };
 
+
+
   return (
     <>
+      <TableContainer
+        component={Paper}
+        style={{ boxShadow: "none" }}
+        className="tablePages"
+      >
+        <Table>
+          <TableHead className="tableHead">
+            <TableRow>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Product_ID</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Product</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Brand</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Quantity</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Price</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Amount</span>
+              </TableCell>
+              <TableCell align="right" className="tableCell">
+                <span className="thTableSpan pr-1">Action</span>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.length > 0 ? (
+              rows.map((row) => (
+                <OrderRow
+                  key={row._id}
+                  row={row}
+                  onDelete={handleDeleteClick}
+                />
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  {rows.length === 0 ? (
+                    <span>Add products</span>
+                  ) : (
+                    <CircularProgress size={24} />
+                  )}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Dialog
         open={openModal}
         onClose={handleCloseModal}
@@ -327,7 +289,7 @@ function AddOrderTableDetails({
                   <input
                     type="number"
                     name="productQuantity"
-                    value={newItem.productQuantity}
+                    value={ClientQuantity}
                     onChange={handleProductQuantityChange}
                   />
                 </div>
@@ -350,72 +312,10 @@ function AddOrderTableDetails({
           </div>
         </div>
       </Dialog>
-
-      <TableContainer
-        component={Paper}
-        style={{ boxShadow: "none" }}
-        className="tablePages"
-      >
-        <Table>
-          <TableHead className="tableHead">
-            <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product_ID</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Brand</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Quantity</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Price</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Amount</span>
-              </TableCell>
-              <TableCell align="right" className="tableCell">
-                <span className="thTableSpan pr-1">Action</span>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.length > 0 ? (
-              rows.map((row) => (
-                <OrderRow
-                  key={row.productId}
-                  row={row}
-                  isEditing={row.productId === editingRowId}
-                  onEditClick={handleEditClick}
-                  onSaveClick={handleSaveClick}
-                  onCancelClick={handleCancelClick}
-                  onChange={handleChange}
-                  editedRow={editedRow}
-                  onDelete={handleDeleteClick}
-                />
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  {rows.length === 0 ? (
-                    <span>Add products</span>
-                  ) : (
-                    <CircularProgress size={24} />
-                  )}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
       <ConfirmDialog
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
+        onClose={handleCancelDelete}
         dialogTitle="Confirm Delete"
         dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
       />

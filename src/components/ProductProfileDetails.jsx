@@ -34,6 +34,9 @@ function ProductProfileRow({
       <TableCell className="tableCell">
         <span className="trTableSpan">{data?.quantity}</span>
       </TableCell>
+      <TableCell className="tableCell">
+        <span className="trTableSpan">{data?.quantity / data?.product?.boxItems}</span>
+      </TableCell>
     </TableRow>
   );
 }
@@ -66,8 +69,11 @@ export default function ProductProfileDetails({ data }) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Selling Price</span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Stock</span>
+            <TableCell>
+              <span className="thTableSpan">Stock unity</span>
+            </TableCell>
+            <TableCell>
+              <span className="thTableSpan">Stock box</span>
             </TableCell>
           </TableRow>
         </TableHead>

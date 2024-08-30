@@ -4,7 +4,7 @@ import Search from "../components/Search";
 import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import OrderCard from "../components/OrderCard";
-import CreditOrdersTable from "../components/CreditOrdersTable";
+import CreditOrdersTable from "../components/CreditOrderSTable";
 
 export default function CreditOrders() {
   const [searchQuery, setSearchQuery] = useState("");

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerStatsCard from "../components/CustomerStatsCard";
 import Search from "../components/Search";
 import FournisseurProfileAchatsTable from "../components/FournisseurProfileAchatsTable";
 
 export default function FournisseurProfile() {
+  const { id } = useParams();
   const location = useLocation();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +21,7 @@ export default function FournisseurProfile() {
   const navigate = useNavigate();
 
   const handleCreateOrder = () => {
-    navigate(`/AddAchat`);
+    navigate(`/AddAchat/${id}`);
   };
 
   return (

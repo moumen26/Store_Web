@@ -10,9 +10,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 import ProductProfileDetails from "./ProductProfileDetails";
+import ProductProfileDetailsV2 from "./ProductProfileDetailsV2";
 import ProductHistorique from "./ProductHistorique";
+import ProductArchiveHistorique from "./ProductArchiveHistorique";
 import ButtonAdd from "./ButtonAdd";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
@@ -209,8 +210,8 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
 
   //---------------------------------API calls---------------------------------\\
   
-  // fetching specific Product data
-  const fetchProductById = async () => {
+  // fetching specific Stock data
+  const fetchStockById = async () => {
     const response = await fetch(
         `${import.meta.env.VITE_APP_URL_BASE}/Stock/${selectedStockId}`,
         {
@@ -227,18 +228,18 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
         if (response.status === 404) {
             return []; 
         } else {
-            throw new Error("Error receiving Product data: " + response.statusText);
+            throw new Error("Error receiving Stock data: " + response.statusText);
         }
     }
 
-    // Return the fetched product data
+    // Return the fetched Stock data
     return await response.json();
   };
-  // useQuery hook to fetch data for a specific product
-  const { data: ProductData, error: ProductError, isLoading: ProductLoading, refetch: ProductRefetch } = useQuery({
-      queryKey: ['ProductData', selectedStockId, user?.token],
-      queryFn: () => fetchProductById(), // Call the fetch function with selectedStockId
-      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
+  // useQuery hook to fetch data for a specific Stock
+  const { data: StockData, error: StockError, isLoading: StockLoading, refetch: StockRefetch } = useQuery({
+      queryKey: ['StockData', selectedStockId, user?.token],
+      queryFn: () => fetchStockById(), // Call the fetch function with selectedStockId
+      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the Stock ID and token are available
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
@@ -317,7 +318,7 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
                 <span className="thTableSpan">Selling Price</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Stock</span>
+                <span className="thTableSpan">Stock unity</span>
               </TableCell>
               <TableCell align="right">
                 <span className="thTableSpan">Actions</span>
@@ -376,39 +377,49 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
           },
         }}
       >
-        {ProductLoading ? (
+        {StockLoading ? (
           <div className="w-full h-[93%] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        ) : ProductData ? (
+        ) : StockData ? (
           <>
             <div className="customerClass">
               <h2 className="customerClassTitle">Product Details</h2>
-              <ProductProfileDetails data={ProductData} isLoading={ProductLoading}/>
+              <ProductProfileDetails data={StockData} isLoading={StockLoading}/>
+              <ProductProfileDetailsV2 data={StockData} isLoading={StockLoading}/>
             </div>
             <div className="flex justify-between mt-[16px]">
               <div className="w-[70%]">
                 <div className="customerClass">
                   <div className="flex items-center justify-between">
-                    <h2 className="customerClassTitle">Product History</h2>
+                    <h2 className="customerClassTitle">Current stock</h2>
                     <ButtonAdd buttonSpan="Add New Stock" />
                   </div>
                   <div className="scrollProductHistorique mt-[16px]">
-                    <ProductHistorique />
+                    <ProductHistorique selectedStockId={selectedStockId}/>
                   </div>
                 </div>
+                
               </div>
               <div className="w-[25%] h-fit flex-col space-y-5">
                 <h2 className="customerClassTitle">Product Image</h2>
                 <div className="w-full flex justify-center h-[390px]">
                   <img
                     className="text-center"
-                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${ProductData?.product?.image}`}
-                    src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${ProductData?.product?.image}`}
-                    alt={ProductData?.product?.name}
+                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${StockData?.product?.image}`}
+                    src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${StockData?.product?.image}`}
+                    alt={StockData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />
                 </div>
+              </div>
+            </div>
+            <div className="customerClass">
+              <div className="flex items-center justify-between">
+                <h2 className="customerClassTitle">Stock history</h2>
+              </div>
+              <div className="scrollProductHistorique mt-[16px]">
+                <ProductArchiveHistorique selectedStockId={selectedStockId}/>
               </div>
             </div>
           </>

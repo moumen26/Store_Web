@@ -85,12 +85,12 @@ function App() {
             element={user ? <Fournisseurs /> : <SignIn />}
           />
           <Route
-            path="/FournisseurProfile"
+            path="/FournisseurProfile/:id"
             element={user ? <FournisseurProfile /> : <SignIn />}
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
           <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />
-          <Route path="/AddAchat" element={user ? <AddAchat /> : <SignIn />} />
+          <Route path="/AddAchat/:id" element={user ? <AddAchat /> : <SignIn />} />
           <Route
             path="/ProductsList"
             element={user ? <ProductsList /> : <SignIn />}

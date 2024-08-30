@@ -39,25 +39,29 @@ export default function ProductsList() {
   });
 
   //product form
-  const [BuyingPrice, setBuyingPrice] = useState("");
+  const [BuyingPrice, setBuyingPrice] = useState(0);
   const handleBuyingPriceChange = (e) => {
     setBuyingPrice(e.target.value);
   };
-  const [SellingPrice, setSellingPrice] = useState("");
+  const [SellingPrice, setSellingPrice] = useState(0);
   const handleSellingPriceChange = (e) => {
     setSellingPrice(e.target.value);
   };
-  const [Quantity, setQuantity] = useState("");
+  const [Quantity, setQuantity] = useState(0);
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
-  const [LimitedQuantity, setLimitedQuantity] = useState("");
+  const [LimitedQuantity, setLimitedQuantity] = useState(0);
   const handleLimitedQuantityChange = (e) => {
     setLimitedQuantity(e.target.value);
   };
   const [ExparationDate, setExparationDate] = useState("");
   const handleExparationDateChange = (e) => {
     setExparationDate(e.target.value);
+  };
+  const [Destocking, setDestocking] = useState(0);
+  const handleDestockingChange = (e) => {
+    setDestocking(e.target.value);
   };
 
   const handleSearchChange = (e) => {
@@ -212,6 +216,7 @@ export default function ProductsList() {
           SellingPrice: SellingPrice,
           ExparationDate: ExparationDate,
           BuyingMathode: productState,
+          Destocking: Destocking,
         },
         {
           headers: {
@@ -296,7 +301,7 @@ export default function ProductsList() {
           },
         }}
       >
-        {ProductLoading || CategoryLoading ? (
+        {ProductLoading || CategoryLoading || submitionLoading ? (
           <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
@@ -376,6 +381,7 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="buyingPrice"
+                        defaultValue={0}
                         onChange={handleBuyingPriceChange}
                       />
                       <span className="ml-2">DA</span>
@@ -387,6 +393,7 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="sellingPrice"
+                        defaultValue={0}
                         onChange={handleSellingPriceChange}
                       />
                       <span className="ml-2">DA</span>
@@ -402,6 +409,11 @@ export default function ProductsList() {
                         onChange={handleQuantityChange}
                       />
                     </div>
+                    {selectedProduct?.boxItems && 
+                      <span>
+                        {selectedProduct?.boxItems * Quantity } unity
+                      </span>
+                    }
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>Limited value :</span>
@@ -417,7 +429,12 @@ export default function ProductsList() {
                   <div className="dialogAddCustomerItem items-center">
                     <span>Déstockage value:</span>
                     <div className="inputForm">
-                      <input type="number" name="stock" defaultValue={0} />
+                      <input 
+                        type="number" 
+                        name="stock" 
+                        defaultValue={0} 
+                        onChange={handleDestockingChange}
+                      />
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">

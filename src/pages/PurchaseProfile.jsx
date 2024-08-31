@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import PaymentHistorique from "../components/PaymentHistorique";
 import PurchaseProfileDetails from "../components/PurchaseProfileDetails";
 import PurchaseProfileDevicesProductTable from "../components/PurchaseProfileDevicesProductTable";
+import PurchaseStatus from "../components/PurchaseStatus";
 
 export default function PurchaseProfile() {
   const { id } = useParams();
@@ -79,6 +80,9 @@ export default function PurchaseProfile() {
                 </div>
               </div>
             </div>
+            <PurchaseStatus
+            //  purchaseDetails={}
+            />
           </div>
         </div>
       </div>

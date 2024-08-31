@@ -92,7 +92,7 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">Devices in the Order</h2>
             <OrderProfileDevicesProductTable
               orderDetails={OrderData.products}
-              orderDeliveryAmount={OrderData.total}
+              orderDeliveryAmount={0}
             />
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">

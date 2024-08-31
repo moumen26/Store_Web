@@ -16,4 +16,22 @@ const formatDate = (dateString) => {
   
     return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
 };
-export { formatDate };
+const orderStatusTextDisplayer = (status) => {
+    switch (status.toString()) {
+      case "0":
+        return "Order Placed";
+      case "1":
+        return "Preparing your order";
+      case "2":
+        return "Order on the way to address";
+      case "3":
+        return "Delivered";
+      default:
+        return "Order Placed";
+    }
+};
+
+export { 
+    formatDate,
+    orderStatusTextDisplayer
+ };

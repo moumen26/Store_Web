@@ -89,7 +89,7 @@ function App() {
             element={user ? <FournisseurProfile /> : <SignIn />}
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
-          <Route path="/AddOrder" element={user ? <AddOrder /> : <SignIn />} />
+          <Route path="/AddOrder/:id" element={user ? <AddOrder /> : <SignIn />} />
           <Route path="/AddAchat/:id" element={user ? <AddAchat /> : <SignIn />} />
           <Route
             path="/ProductsList"

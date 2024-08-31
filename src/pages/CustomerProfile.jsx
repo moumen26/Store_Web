@@ -10,8 +10,12 @@ import Search from "../components/Search";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
+import { TokenDecoder } from "../util/DecodeToken";
 
 export default function CustomerProfile() {
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
   const { id } = useParams();
   const location = useLocation();
   const { customer } = location.state || {};
@@ -22,46 +26,90 @@ export default function CustomerProfile() {
   const navigate = useNavigate();
 
   const handleCreateOrder = () => {
-    navigate(`/AddOrder`);
+    navigate(`/AddOrder/${id}`);
   };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-  const { user } = useAuthContext();
-  const [CustomerData, setCustomerData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchCustomerData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
 
-        if (response.ok) {
-          const data = await response.json();
-          setCustomerData(data);
-        } else {
-          setCustomerData(null);
-          console.error("Error receiving Customer data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching Customer data:", error);
-      } finally {
-        setLoading(false);
+    //---------------------------------API calls---------------------------------\\
+
+  // Define a function that fetches the customer data
+  const fetchCustomerData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchCustomerData();
-  }, [user?.token]);
-  if (loading) {
+    );
+  
+    if (!response.ok) {
+      // Handle the error state
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return {};
+      else throw new Error("Error receiving Customer data");
+    }
+  
+    // Return the data
+    return await response.json();
+  };
+  
+  //Use the useQuery hook to fetch the customer data
+  const {
+    data: CustomerData,
+    error: CustomerDataError,
+    isLoading: CustomerDataLoading,
+    refetch: refetchCustomerDataData,
+  } = useQuery({
+    queryKey: ["CustomerData", user?.token],
+    queryFn: fetchCustomerData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetching on window focus
+  });
+
+  // Define a function that fetches the Order data
+  const fetchOrderData = async (id) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/clientForStore/${id}/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+  
+    if (!response.ok) {
+      // Handle the error state
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return {};
+      else throw new Error("Error receiving Order data");
+    }
+  
+    // Return the data
+    return await response.json();
+  };
+  
+  //Use the useQuery hook to fetch the Order data
+  const {
+    data: OrderData,
+    error: OrderDataError,
+    isLoading: OrderDataLoading,
+    refetch: refetchOrderDataData,
+  } = useQuery({
+    queryKey: ["OrderData", id, user?.token],
+    queryFn: () => fetchOrderData(id),
+    enabled: !!id &&!!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetching on window focus
+  });
+
+  if (CustomerDataLoading || OrderDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <Header />
@@ -72,7 +120,7 @@ export default function CustomerProfile() {
       </div>
     );
   }
-  if (!CustomerData) {
+  if (CustomerDataError) {
     return (
       <div className="pagesContainer">
         <Header />
@@ -160,18 +208,22 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      {customer?.customerTotalOrders && (
+      {!OrderDataError && OrderData?.receipts.length > 0 && (
         <>
           <div className="customerClass">
             <h2 className="customerClassTitle">Stats</h2>
             <div className="flex space-x-4">
               <CustomerStatsCard
                 customerStatsCardTitle="Total Orders"
-                customerStatsCardDetails={customer?.customerTotalOrders}
+                customerStatsCardDetails={OrderData?.orderCount}
               />
               <CustomerStatsCard
                 customerStatsCardTitle="Total Amount"
-                customerStatsCardDetails={customer?.customerTotalAmount}
+                customerStatsCardDetails={OrderData?.totalAmountDelivered}
+              />
+              <CustomerStatsCard
+                customerStatsCardTitle="Total Profit"
+                customerStatsCardDetails={OrderData?.totalProfitDelivered}
               />
             </div>
           </div>
@@ -186,6 +238,7 @@ export default function CustomerProfile() {
             <CustomerProfileOrdersTable
               searchQuery={searchQuery}
               setFilteredData={setFilteredData}
+              data={OrderData?.receipts}
             />
           </div>
         </>

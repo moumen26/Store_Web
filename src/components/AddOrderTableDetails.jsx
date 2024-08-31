@@ -17,15 +17,13 @@ import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
 import Search from "./Search";
 import ProductsContainerAddOrder from "./ProductContainerAddOrder";
-import { useQuery } from "@tanstack/react-query";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 
 function AddOrderTableDetails({
   openModal,
   handleCloseModal,
   onCalculateTotals,
   deliveryAmount,
+  setAPIProducts
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -50,22 +48,30 @@ function AddOrderTableDetails({
         (acc, row) => acc + row.ClientQuantity * row.product.selling,
         0
       );
-      const total = subtotal + deliveryAmount;
+      const total = Number(subtotal) + Number(deliveryAmount);
       onCalculateTotals(subtotal, deliveryAmount, total);
     };
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
 
-  const handleDeleteClick = (_id) => {
-    setDeleteItemId(_id);
-    const deletedProduct = rows.find((row) => row.product._id === _id);
+  const handleDeleteClick = (uniqueId) => {
+    setDeleteItemId(uniqueId);
+    const deletedProduct = rows.find((row) => row.uniqueId === uniqueId);
     setDeletedProductName(deletedProduct.product.product.name);
     setIsConfirmDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    const updatedRows = rows.filter((row) => row.product._id !== deleteItemId);
+    const updatedRows = rows.filter((row) => row.uniqueId !== deleteItemId);
     setRows(updatedRows);
+
+    const updatedAPIProducts = updatedRows.map((updatedItem) => ({
+      stock: updatedItem.product._id,
+      quantity: updatedItem.ClientQuantity,
+      price: updatedItem.product.selling,
+    }));
+    
+    setAPIProducts(updatedAPIProducts);
     setIsConfirmDialogOpen(false);
     setDeletedProductName("");
     setDeleteItemId(null);
@@ -101,10 +107,19 @@ function AddOrderTableDetails({
     const updatedItem = {
       ...newItem,
       ClientQuantity: productQuantity,
+      uniqueId: Date.now().toString()
     };
 
     // Add the updated item to the rows
     setRows([...rows, updatedItem]);
+    setAPIProducts((prevState) => ([
+      ...prevState,
+      {
+        stock: updatedItem.product._id,
+        quantity: updatedItem.ClientQuantity,
+        price: updatedItem.product.selling,
+      }
+    ]));
   
     handleCloseModal();
     setNewItem(null);
@@ -161,7 +176,7 @@ function AddOrderTableDetails({
           <div className="flex items-center justify-end space-x-3">
             <TrashIcon
               className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-              onClick={() => onDelete(row.product._id)}
+              onClick={() => onDelete(row.uniqueId)}
             />
           </div>
         </TableCell>
@@ -208,7 +223,7 @@ function AddOrderTableDetails({
             {rows.length > 0 ? (
               rows.map((row) => (
                 <OrderRow
-                  key={row._id}
+                  key={row.uniqueId}
                   row={row}
                   onDelete={handleDeleteClick}
                 />
@@ -290,6 +305,7 @@ function AddOrderTableDetails({
                     type="number"
                     name="productQuantity"
                     value={ClientQuantity}
+                    min={0}
                     onChange={handleProductQuantityChange}
                   />
                 </div>

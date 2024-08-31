@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -22,7 +23,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate("/OrderProfile", { state: { customer: row } });
+    navigate(`/OrderProfile/${row._id}`);
   };
 
   return (
@@ -41,22 +42,19 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
-          <span className="trTableSpan">{row.orderId}</span>
+          <span className="trTableSpan">{row._id}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderDate}</span>
+          <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount} DA</span>
+          <span className="trTableSpan">{row.total} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderItems}</span>
-        </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderBoxes}</span>
+          <span className="trTableSpan">{row.profit} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.orderStatus}</span>
+          <span className="trTableSpan">{orderStatusTextDisplayer(row.status)}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -103,36 +101,36 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((detailsRow) => (
-                    <TableRow key={detailsRow.productName} className="tableRow">
+                  {row.products.map((detailsRow) => (
+                    <TableRow key={detailsRow.product._id} className="tableRow">
                       <TableCell
                         component="th"
                         scope="row"
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productName}
+                          {detailsRow.product.name}
                         </span>
                       </TableCell>
                       <TableCell className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productBrand}
+                          {detailsRow.product.brand.name}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productPrice}
+                          {detailsRow.price}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productQuantity}
+                          {detailsRow.quantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            detailsRow.productPrice * detailsRow.productQuantity
+                            detailsRow.price * detailsRow.quantity
                           )}
                         </span>
                       </TableCell>
@@ -149,104 +147,24 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.shape({
-    orderId: PropTypes.string.isRequired,
-    orderAmount: PropTypes.string.isRequired,
-    orderDate: PropTypes.string.isRequired,
-    orderDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        orderAmount: PropTypes.number.isRequired,
-        orderBrand: PropTypes.string.isRequired,
-        productName: PropTypes.string.isRequired,
-        orderQuantity: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    customer: PropTypes.string.isRequired,
-    orderItems: PropTypes.string.isRequired,
-    orderBoxes: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
-  }).isRequired,
+  row: PropTypes.object.isRequired,
 };
 
-const rows = [
-  {
-    customerLastName: "Abdelmoumen",
-    customerFirstName: "Khaldi",
-    orderId: "0920425",
-    customerPhone: "0550189087",
-    customerAddress: "123 Rue Yousfi Abdelkader",
-    customerCommune: "Ouled Aich",
-    customerWilaya: "Blida",
-    orderDate: "May 26, 2024 | 23:30 AM",
-    orderAmount: "4000.00",
-    orderStatus: "Preparing your order",
-    orderBoxes: "10",
-    orderItems: "4",
-    orderType: "Delivery",
-    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
-    orderCourier: "Yalidine",
-    orderDeliveryAmount: 0,
-    orderDetails: [
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 920,
-        productQuantity: 3,
-      },
-    ],
-  },
-  {
-    customerLastName: "Mohamed",
-    customerFirstName: "Khaldi",
-    customerPhone: "0550189087",
-    customerAddress: "123 Rue Yousfi Abdelkader",
-    customerCommune: "Ouled Aich",
-    customerWilaya: "Blida",
-    orderId: "0920200",
-    orderDate: "May 26, 2024 | 23:30 AM",
-    orderAmount: "4000.00",
-    orderStatus: "Preparing your order",
-    orderBoxes: "20",
-    orderItems: "8",
-    orderType: "Delivery",
-    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
-    orderCourier: "Yalidine",
-    orderDeliveryAmount: 0,
-    orderDetails: [
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 920,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-    ],
-  },
-];
 
 export default function CustomerProfileOrdersTable({
   searchQuery,
   setFilteredData,
+  data
 }) {
-  const [filteredRows, setFilteredRows] = useState(rows);
+  const [filteredRows, setFilteredRows] = useState(data);
 
   useEffect(() => {
-    const results = rows.filter(
+    const results = data?.filter(
       (row) =>
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase())
+        row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.total.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.profit.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.type.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredRows(results);
     if (setFilteredData) setFilteredData(results);
@@ -272,10 +190,7 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Items</span>
-            </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Boxes</span>
+              <span className="thTableSpan">Profit</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
               <span className="thTableSpan">Status</span>
@@ -287,7 +202,7 @@ export default function CustomerProfileOrdersTable({
         </TableHead>
         <TableBody>
           {filteredRows.map((row) => (
-            <Row key={row.orderId} row={row} />
+            <Row key={row._id} row={row} />
           ))}
         </TableBody>
       </Table>

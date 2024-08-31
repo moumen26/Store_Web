@@ -11,10 +11,14 @@ import { Calendar } from "primereact/calendar";
 export default function AddOrderProfileDetails({
   deliveryAmount,
   setDeliveryAmount,
+  setAPIOrderType,
+  setAPIDeliveryDate,
+  setAPIDeliveryAddress
 }) {
+
   const getCurrentAlgeriaTime = () => {
     const now = new Date();
-    const algeriaOffset = 0; // Algeria is UTC+1
+    const algeriaOffset = -1; // Algeria is UTC+1
     const localOffset = now.getTimezoneOffset() / 60;
     const algeriaTime = new Date(
       now.getTime() + (algeriaOffset - localOffset) * 3600 * 1000
@@ -22,37 +26,45 @@ export default function AddOrderProfileDetails({
     return algeriaTime;
   };
 
-  const [orderDate, setOrderDate] = useState(getCurrentAlgeriaTime());
-  const [orderType, setOrderType] = useState("pickup");
-  const [deliveryDate, setDeliveryDate] = useState(null);
-  const [courier, setCourier] = useState("Yalidine");
-
-  const handleOrderDateChange = (e) => {
-    setOrderDate(e.value);
-    if (deliveryDate && new Date(e.value) > new Date(deliveryDate)) {
-      setDeliveryDate(null);
-    }
-  };
-
+  const [orderType, setOrderType] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState(getCurrentAlgeriaTime());
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  
   const handleOrderTypeChange = (e) => {
     setOrderType(e.target.value);
+    setAPIOrderType(e.target.value);
   };
-
+  
   const handleDeliveryDateChange = (e) => {
     setDeliveryDate(e.value);
+    setAPIDeliveryDate(e.value);
   };
 
-  const handleCourierChange = (e) => {
-    setCourier(e.target.value);
+  const handleDeliveryAddressChange = (e) => {
+    const value = e.target.value;
+    setDeliveryAddress(value);
+    setAPIDeliveryAddress(value);
   };
-
+  
   const handleDeliveryAmountChange = (e) => {
     const value = e.target.value;
-    if (value === "" || /^\d*$/.test(value)) {
-      setDeliveryAmount(value === "" ? "" : Math.max(0, Number(value)));
-    }
+    setDeliveryAmount(value);
   };
+  
+  // const [orderDate, setOrderDate] = useState(getCurrentAlgeriaTime());
+  // const [courier, setCourier] = useState("Yalidine");
 
+  // const handleOrderDateChange = (e) => {
+  //   setOrderDate(e.value);
+  //   if (deliveryDate && new Date(e.value) > new Date(deliveryDate)) {
+  //     setDeliveryDate(null);
+  //   }
+  // };
+
+  // const handleCourierChange = (e) => {
+  //   setCourier(e.target.value);
+  // };
+  
   return (
     <TableContainer
       component={Paper}
@@ -68,9 +80,9 @@ export default function AddOrderProfileDetails({
             <TableCell className="tableCell">
               <span className="thTableSpan">Customer Name</span>
             </TableCell>
-            <TableCell className="tableCell">
+            {/* <TableCell className="tableCell">
               <span className="thTableSpan">Order Date</span>
-            </TableCell>
+            </TableCell> */}
             <TableCell className="tableCell">
               <span className="thTableSpan">Order Type</span>
             </TableCell>
@@ -79,8 +91,11 @@ export default function AddOrderProfileDetails({
                 <TableCell align="right" className="tableCell">
                   <span className="thTableSpan">Delivery Date</span>
                 </TableCell>
-                <TableCell align="right" className="tableCell">
+                {/* <TableCell align="right" className="tableCell">
                   <span className="thTableSpan">Courier</span>
+                </TableCell> */}
+                <TableCell align="right" className="tableCell">
+                  <span className="thTableSpan">Address</span>
                 </TableCell>
                 <TableCell align="right" className="tableCell">
                   <span className="thTableSpan">Delivery Amount</span>
@@ -100,7 +115,7 @@ export default function AddOrderProfileDetails({
             <TableCell className="tableCell">
               <span className="trTableSpan">orderCustomer</span>
             </TableCell>
-            <TableCell className="tableCell">
+            {/* <TableCell className="tableCell">
               <Calendar
                 value={orderDate}
                 onChange={handleOrderDateChange}
@@ -108,7 +123,7 @@ export default function AddOrderProfileDetails({
                 showSeconds
                 className="inputTable"
               />
-            </TableCell>
+            </TableCell> */}
 
             <TableCell className="tableCell">
               <select
@@ -116,6 +131,7 @@ export default function AddOrderProfileDetails({
                 onChange={handleOrderTypeChange}
                 className="inputTable inputSelect"
               >
+                <option value="">Select a type</option>
                 <option value="pickup">Pickup</option>
                 <option value="delivery">Delivery</option>
               </select>
@@ -128,11 +144,11 @@ export default function AddOrderProfileDetails({
                     onChange={handleDeliveryDateChange}
                     showTime
                     showSeconds
-                    minDate={orderDate}
+                    minDate={getCurrentAlgeriaTime()}
                     className="inputTable"
                   />
                 </TableCell>
-                <TableCell align="right" className="tableCell">
+                {/* <TableCell align="right" className="tableCell">
                   <select
                     value={courier}
                     onChange={handleCourierChange}
@@ -142,11 +158,21 @@ export default function AddOrderProfileDetails({
                     <option value="Courier2">Courier 2</option>
                     <option value="Courier3">Courier 3</option>
                   </select>
-                </TableCell>
+                </TableCell> */}
                 <TableCell align="right" className="tableCell">
                   <div className="inputWrapper">
                     <input
                       type="text"
+                      value={deliveryAddress}
+                      onChange={handleDeliveryAddressChange}
+                      className="inputTable"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell align="right" className="tableCell">
+                  <div className="inputWrapper">
+                    <input
+                      type="number"
                       value={deliveryAmount}
                       onChange={handleDeliveryAmountChange}
                       min="0"

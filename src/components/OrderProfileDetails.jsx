@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
 
 export default function OrderProfileDetails({ orderDetails }) {
   return (
@@ -76,45 +77,4 @@ export default function OrderProfileDetails({ orderDetails }) {
     </TableContainer>
   );
 }
-const orderStatusTextDisplayer = (status) => {
-  switch (status.toString()) {
-    case "0":
-      return "Order Placed";
-    case "1":
-      return "Preparing your order";
-    case "2":
-      return "Order on the way to address";
-    case "3":
-      return "Delivered";
-    default:
-      return "Order Placed";
-  }
-};
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
 
-  const monthNames = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
-
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
-};

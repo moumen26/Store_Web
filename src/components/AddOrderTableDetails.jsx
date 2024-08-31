@@ -31,8 +31,6 @@ function AddOrderTableDetails({
   };
   const [rows, setRows] = useState([]);
   const [ClientQuantity, setClientQuantity] = useState(0);
-  const [editingRowId, setEditingRowId] = useState(null);
-  const [editedRow, setEditedRow] = useState({});
   const [newItem, setNewItem] = useState(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);

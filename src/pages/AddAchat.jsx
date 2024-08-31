@@ -6,12 +6,18 @@ import ButtonAdd from "../components/ButtonAdd";
 import AddAchatProfileDetails from "../components/AddAchatProfileDetails";
 import AddAchatTableDetails from "../components/AddAchatTableDetails";
 import AddAchatSubTotal from "../components/AddAchatSubTotal";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 export default function AddAchat() {
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [total, setTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [Products, setProducts] = useState([]);
+  const [OpenConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const handleOpenConfirmationDialog = () => {
+    setOpenConfirmationDialog(true);
+  };
 
   const handleCalculateTotals = (subtotal, deliveryAmount, total) => {
     setSubtotal(subtotal);
@@ -27,6 +33,14 @@ export default function AddAchat() {
     setIsModalOpen(false);
   };
 
+  const handleConfirmAchatSubmit = () => {
+    setOpenConfirmationDialog(false);
+  }
+
+  const handleCloseDialog = () => {
+    setOpenConfirmationDialog(false);
+  }
+
   return (
     <div className="pagesContainer addOrder">
       <Header />
@@ -34,7 +48,7 @@ export default function AddAchat() {
         <h2 className="pagesTitle">Add a new achat</h2>
         <div className="flex items-center space-x-2">
           <ButtonCancel />
-          <ButtonSave />
+          <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
         </div>
       </div>
       <div className="customerClass">
@@ -52,12 +66,20 @@ export default function AddAchat() {
             handleCloseModal={handleCloseModal}
             onCalculateTotals={handleCalculateTotals}
             deliveryAmount={deliveryAmount}
+            setAPIProducts={setProducts}
           />
         </div>
         <div className="w-full flex justify-end">
           <AddAchatSubTotal total={total} />
         </div>
       </div>
+      <ConfirmDialog
+        open={OpenConfirmationDialog}
+        onConfirm={handleConfirmAchatSubmit}
+        onClose={handleCloseDialog}
+        dialogTitle="Confirm achat submition"
+        dialogContentText={`Are you sure you want to submit this achat?`}
+      />
     </div>
   );
 }

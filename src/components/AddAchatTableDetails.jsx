@@ -31,22 +31,7 @@ function AddAchatTableDetails({
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-  const [rows, setRows] = useState([
-    {
-      productId: "0920496",
-      productName: "Elio - 1L",
-      productBrand: "Cevital",
-      productQuantity: 5,
-      productPrice: 120,
-    },
-    {
-      productId: "0920490",
-      productName: "Pril Isis - 650ml",
-      productBrand: "Pril",
-      productQuantity: 5,
-      productPrice: 190,
-    },
-  ]);
+  const [rows, setRows] = useState([]);
   const [newItem, setNewItem] = useState(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -59,6 +44,10 @@ function AddAchatTableDetails({
   const [selectedProduct, setSelectedProduct] = useState(null);
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
+    setNewItem((prevState) => ({
+      ...prevState,
+      product: product,
+    }));
   };
 
   const [ClientQuantity, setClientQuantity] = useState(0);
@@ -76,7 +65,7 @@ function AddAchatTableDetails({
     setBuyingPrice(e.target.value);
   };
 
-  const [sellingPrice, setSellingPrice] = useState(0);
+  const [sellingPrice, setSellingPrice] = useState(buyingPrice);
   const handleSellingPriceChange = (e) => {
     setSellingPrice(e.target.value);
   };  
@@ -84,7 +73,7 @@ function AddAchatTableDetails({
   useEffect(() => {
     const calculateTotals = () => {
       const subtotal = rows.reduce(
-        (acc, row) => acc + row.productQuantity * row.productPrice,
+        (acc, row) => acc + row.quantity * row.buying,
         0
       );
       const total = subtotal + deliveryAmount;
@@ -93,20 +82,28 @@ function AddAchatTableDetails({
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
 
-  const handleDeleteClick = (productId) => {
-    const productToDelete = rows.find((row) => row.productId === productId);
-    setDeleteItemId(productId);
-    setDeletedProductName(productToDelete.productName);
+  const handleDeleteClick = (uniqueId) => {
+    setDeleteItemId(uniqueId);
+    const deletedProduct = rows.find((row) => row.uniqueId === uniqueId);
+    setDeletedProductName(deletedProduct.product.name);
     setIsConfirmDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    setRows(rows.filter((row) => row.productId !== deleteItemId));
+    const updatedRows = rows.filter((row) => row.uniqueId !== deleteItemId);
+    setRows(updatedRows);
+
+    const updatedAPIProducts = updatedRows.map((updatedItem) => ({
+      productID: updatedItem.productID,
+      quantity: updatedItem.quantity,
+      buying: updatedItem.buying,
+      selling: updatedItem.selling
+    }));
+
+    setAPIProducts(updatedAPIProducts);
     setIsConfirmDialogOpen(false);
+    setDeletedProductName("");
     setDeleteItemId(null);
-    setSnackbarOpen(true);
-    setAlertMessage(`Product "${deletedProductName}" has been deleted.`);
-    setAlertType("error");
   };
 
   const handleCancelDelete = () => {
@@ -121,24 +118,29 @@ function AddAchatTableDetails({
       setSnackbarOpen(true);
       return;
     }
-
-    let productQuantity = ClientQuantity;
   
-    if (productQuantity <= 0) {
-      setAlertMessage("Please enter a valid quantity.");
+    if (ClientQuantity <= 0 || buyingPrice <= 0 || sellingPrice <= 0) {
+      setAlertMessage("Please enter a valid quantity and prices.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
-  
-    if (unitType === "perBox") {
-      productQuantity = Number(productQuantity) * Number(newItem.product.product.boxItems);
+
+    if(Number(buyingPrice) > Number(sellingPrice)){
+      setAlertMessage("The selling price must be higher than the buying price.");
+      setAlertType("error");
+      setSnackbarOpen(true);
+      return;
     }
-  
+
+    const productQuantity = Number(ClientQuantity) * Number(newItem.product.boxItems);
+
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
       ...newItem,
-      ClientQuantity: productQuantity,
+      quantity: productQuantity,
+      buying: buyingPrice,
+      selling: sellingPrice,
       uniqueId: Date.now().toString()
     };
 
@@ -147,15 +149,19 @@ function AddAchatTableDetails({
     setAPIProducts((prevState) => ([
       ...prevState,
       {
-        stock: updatedItem.product._id,
-        quantity: updatedItem.ClientQuantity,
-        price: updatedItem.product.selling,
+        productID: updatedItem.product._id,
+        quantity: updatedItem.quantity,
+        buying: buyingPrice,
+        selling: sellingPrice
       }
     ]));
-  
+
     handleCloseModal();
     setNewItem(null);
     setClientQuantity(0);
+    setBuyingPrice(0);
+    setSellingPrice(0);
+    setSelectedProduct(null);
   };
 
   const handleCloseSnackbar = () => {
@@ -168,7 +174,7 @@ function AddAchatTableDetails({
     onDelete,
   }) => {
 
-    const productAmount = row.productPrice * row.productQuantity;
+    const productAmount = Number(row.buying) * Number(row.quantity);
 
     return (
       <TableRow
@@ -177,19 +183,19 @@ function AddAchatTableDetails({
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productId}</span>
+          <span className="trTableSpan">{row.product._id}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productName}</span>
+          <span className="trTableSpan">{row.product.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productBrand}</span>
+          <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productQuantity}</span>
+          <span className="trTableSpan">{row.quantity}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.productPrice} DA</span>
+          <span className="trTableSpan">{row.buying} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{productAmount} DA</span>
@@ -279,6 +285,7 @@ function AddAchatTableDetails({
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
+  
   return (
     <>
       <TableContainer
@@ -421,7 +428,9 @@ function AddAchatTableDetails({
                       <input
                         type="number"
                         name="buyingPrice"
-                        //   onChange={handleBuyingPriceChange}
+                        value={buyingPrice}
+                        min={0}
+                        onChange={handleBuyingPriceChange}
                       />
                       <span className="ml-2">DA</span>
                     </div>
@@ -432,7 +441,9 @@ function AddAchatTableDetails({
                       <input
                         type="number"
                         name="sellingPrice"
-                        //   onChange={handleSellingPriceChange}
+                        value={sellingPrice}
+                        min={0}
+                        onChange={handleSellingPriceChange}
                       />
                       <span className="ml-2">DA</span>
                     </div>
@@ -443,8 +454,9 @@ function AddAchatTableDetails({
                       <input
                         type="number"
                         name="stock"
-                        defaultValue={0}
-                        //   onChange={handleQuantityChange}
+                        value={ClientQuantity}
+                        min={0}
+                        onChange={handleClientQuantityChange}
                       />
                     </div>
                   </div>
@@ -458,7 +470,7 @@ function AddAchatTableDetails({
                   </button>
                   <button
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
-                    // onClick={handleSaveStock}
+                    onClick={handleAddItem}
                   >
                     Save
                   </button>
@@ -473,7 +485,7 @@ function AddAchatTableDetails({
       <ConfirmDialog
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
+        onClose={handleCancelDelete}
         dialogTitle="Confirm Delete"
         dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
       />

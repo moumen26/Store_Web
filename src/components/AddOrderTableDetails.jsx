@@ -23,7 +23,7 @@ function AddOrderTableDetails({
   handleCloseModal,
   onCalculateTotals,
   deliveryAmount,
-  setAPIProducts
+  setAPIProducts,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -70,7 +70,7 @@ function AddOrderTableDetails({
       quantity: updatedItem.ClientQuantity,
       price: updatedItem.product.selling,
     }));
-    
+
     setAPIProducts(updatedAPIProducts);
     setIsConfirmDialogOpen(false);
     setDeletedProductName("");
@@ -89,38 +89,39 @@ function AddOrderTableDetails({
       setSnackbarOpen(true);
       return;
     }
-  
+
     let productQuantity = ClientQuantity;
-  
+
     if (productQuantity <= 0) {
       setAlertMessage("Please enter a valid quantity.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
-  
+
     if (unitType === "perBox") {
-      productQuantity = Number(productQuantity) * Number(newItem.product.product.boxItems);
+      productQuantity =
+        Number(productQuantity) * Number(newItem.product.product.boxItems);
     }
-  
+
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
       ...newItem,
       ClientQuantity: productQuantity,
-      uniqueId: Date.now().toString()
+      uniqueId: Date.now().toString(),
     };
 
     // Add the updated item to the rows
     setRows([...rows, updatedItem]);
-    setAPIProducts((prevState) => ([
+    setAPIProducts((prevState) => [
       ...prevState,
       {
         stock: updatedItem.product._id,
         quantity: updatedItem.ClientQuantity,
         price: updatedItem.product.selling,
-      }
-    ]));
-  
+      },
+    ]);
+
     handleCloseModal();
     setNewItem(null);
     setClientQuantity(0);
@@ -141,11 +142,7 @@ function AddOrderTableDetails({
     setClientQuantity(value);
   };
 
-  const OrderRow = ({
-    row,
-    onDelete,
-  }) => {
-
+  const OrderRow = ({ row, onDelete }) => {
     const productAmount = row.product.selling * row.ClientQuantity;
 
     return (
@@ -158,7 +155,9 @@ function AddOrderTableDetails({
           <span className="trTableSpan">{row.product._id}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.product.name + ' ' + row.product.product.size}</span>
+          <span className="trTableSpan">
+            {row.product.product.name + " " + row.product.product.size}
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.product.product.brand?.name}</span>
@@ -183,8 +182,6 @@ function AddOrderTableDetails({
       </TableRow>
     );
   };
-
-
 
   return (
     <>
@@ -253,10 +250,29 @@ function AddOrderTableDetails({
             <h2 className="dialogTitle">Add Product to the Order</h2>
           </div>
           <div className="space-y-[24px] p-[20px]">
-            <Search
-              placeholder="Search by Product..."
-              onChange={handleSearchChange}
-            />
+            <div className="addProductModalHeader justify-between">
+              <Search
+                placeholder="Search by Product..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+              <div className="flex space-x-5 items-center">
+                <span>Category :</span>
+                <div className="selectStoreWilayaCommune w-[300px]">
+                  <select
+                    name="productCategory"
+                    // onChange={handelCategoryChange}
+                  >
+                    {/* <option value="">-- Select Product Category --</option>
+                    {CategoryData?.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))} */}
+                  </select>
+                </div>
+              </div>
+            </div>
             <div className="h-[55vh]">
               <ProductsContainerAddOrder
                 searchQuery={searchQuery}

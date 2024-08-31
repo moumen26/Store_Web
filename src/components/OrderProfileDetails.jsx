@@ -33,11 +33,14 @@ export default function OrderProfileDetails({ orderDetails }) {
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Delivery Date</span>
             </TableCell>
-            {orderDetails.type == "delivery" &&
+            {orderDetails.type == "delivery" && (
               <TableCell align="right" className="tableCell">
                 <span className="thTableSpan">Delivery address</span>
               </TableCell>
-            }
+            )}
+            <TableCell align="right" className="tableCell">
+              <span className="thTableSpan">Remaining Amount</span>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -70,15 +73,21 @@ export default function OrderProfileDetails({ orderDetails }) {
                   : "not defined"}
               </span>
             </TableCell>
-            {orderDetails.type == "delivery" &&
+            {orderDetails.type == "delivery" && (
               <TableCell align="right" className="tableCell">
-                <span className="trTableSpan">{orderDetails.deliveredLocation}</span>
+                <span className="trTableSpan">
+                  {orderDetails.deliveredLocation}
+                </span>
               </TableCell>
-            }
+            )}
+            <TableCell align="right" className="tableCell">
+              <span className="trTableSpan">
+                0 DA
+              </span>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
-

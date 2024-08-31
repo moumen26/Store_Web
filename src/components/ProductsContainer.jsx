@@ -10,7 +10,12 @@ import ButtonAdd from "./ButtonAdd";
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
-export default function ProductsContainer({ searchQuery, onSelectProduct, data, selectedCategory }) {
+export default function ProductsContainer({
+  searchQuery,
+  onSelectProduct,
+  data,
+  selectedCategory,
+}) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,25 +32,38 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
   return (
     <div className="productsContainer">
       {data?.length > 0 ? (
-        data?.filter((product) =>
-          (product.code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.brand?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.category?.name?.toLowerCase().includes(searchQuery.toLowerCase())) &&
-          (
-            selectedCategory == '' || product.category?._id == selectedCategory
+        data
+          ?.filter(
+            (product) =>
+              (product.code
+                ?.toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+                product.name
+                  ?.toLowerCase()
+                  .includes(searchQuery.toLowerCase()) ||
+                product.brand?.name
+                  ?.toLowerCase()
+                  .includes(searchQuery.toLowerCase()) ||
+                product.category?.name
+                  ?.toLowerCase()
+                  .includes(searchQuery.toLowerCase())) &&
+              (selectedCategory == "" ||
+                product.category?._id == selectedCategory)
           )
-        ).map((product) => (
-          <ProductCard
-            key={product._id}
-            productName={product.brand?.name + ' ' + product.name + ' ' + product.size}
-            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${product.image}`}
-            onClick={() => handleSelectProduct(product)}
-            selected={
-              selectedProduct && product._id === selectedProduct._id
-            }
-          />
-        ))
+          .map((product) => (
+            <ProductCard
+              key={product._id}
+              productName={
+                product.brand?.name + " " + product.name + " " + product.size
+              }
+              productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                "/api",
+                ""
+              )}/files/${product.image}`}
+              onClick={() => handleSelectProduct(product)}
+              selected={selectedProduct && product._id === selectedProduct._id}
+            />
+          ))
       ) : (
         <p>No products available</p>
       )}
@@ -64,48 +82,56 @@ export default function ProductsContainer({ searchQuery, onSelectProduct, data, 
               border: "none",
               borderRadius: "8px",
               padding: "20px",
-              maxWidth: "90%",
+              maxWidth: "30%",
               margin: "auto",
               zIndex: 1001,
 
-              height: "80%",
+              height: "60%",
             },
           }}
         >
-          <div className="customerClass">
+          <div className="w-[100%] h-fit flex-col space-y-[20px]">
             <h2 className="customerClassTitle">Product Details</h2>
-            <ProductProfileDetails data={selectedProduct} />
-          </div>
-          <div className="flex justify-between mt-[16px]">
-            <div className="w-[70%]">
-              <div className="customerClass">
-                <div className="flex items-center justify-between">
-                  <h2 className="customerClassTitle">Product History</h2>
-                  <ButtonAdd buttonSpan="Add New Stock" />
-                </div>
-                <div className="scrollProductHistorique mt-[16px]">
-                  <ProductHistorique />
-                </div>
+            <div className="w-full flex justify-center h-[300px]">
+              <img
+                className="text-center"
+                srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                  "/api",
+                  ""
+                )}/files/${selectedProduct.image}`}
+                src={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                  "/api",
+                  ""
+                )}/files/${selectedProduct.image}`}
+                alt={selectedProduct.name}
+                style={{ width: "auto", height: "100%" }}
+              />
+            </div>
+            <div className="flex-col space-y-3">
+              <div className="flex space-x-3">
+                <span className="thTableSpan">Product Code</span>
+                <span className="trTableSpan">Product Code</span>
+              </div>
+              <div className="flex space-x-3">
+                <span className="thTableSpan">Name</span>
+                <span className="trTableSpan">Name - Size</span>
+              </div>
+              <div className="flex space-x-3">
+                <span className="thTableSpan">Brand</span>
+                <span className="trTableSpan">Brand</span>
+              </div>
+              <div className="flex space-x-3">
+                <span className="thTableSpan">Box Items</span>
+                <span className="trTableSpan">Box Items</span>
               </div>
             </div>
-            <div className="w-[25%] h-fit flex-col space-y-5">
-              <h2 className="customerClassTitle">Product Image</h2>
-              <div className="w-full flex justify-center h-[390px]">
-                <img
-                  className="text-center"
-                  srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${selectedProduct.image}`}
-                  src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${selectedProduct.image}`}
-                  alt={selectedProduct.name}
-                  style={{ width: "auto", height: "100%" }}
-                />
-              </div>
-            </div>
           </div>
+
           <div className="flex justify-end">
             <button
               onClick={handleCloseModal}
               style={{ marginTop: "20px" }}
-              className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
+              className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
             >
               Close
             </button>

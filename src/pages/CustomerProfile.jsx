@@ -31,7 +31,7 @@ export default function CustomerProfile() {
     setSearchQuery(e.target.value);
   };
 
-    //---------------------------------API calls---------------------------------\\
+  //---------------------------------API calls---------------------------------\\
 
   // Define a function that fetches the customer data
   const fetchCustomerData = async () => {
@@ -45,18 +45,18 @@ export default function CustomerProfile() {
         },
       }
     );
-  
+
     if (!response.ok) {
       // Handle the error state
       const errorData = await response.json();
       if (errorData.error.statusCode == 404) return {};
       else throw new Error("Error receiving Customer data");
     }
-  
+
     // Return the data
     return await response.json();
   };
-  
+
   //Use the useQuery hook to fetch the customer data
   const {
     data: CustomerData,
@@ -73,7 +73,9 @@ export default function CustomerProfile() {
   // Define a function that fetches the Order data
   const fetchOrderData = async (id) => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/clientForStore/${id}/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/clientForStore/${id}/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -82,18 +84,18 @@ export default function CustomerProfile() {
         },
       }
     );
-  
+
     if (!response.ok) {
       // Handle the error state
       const errorData = await response.json();
       if (errorData.error.statusCode == 404) return {};
       else throw new Error("Error receiving Order data");
     }
-  
+
     // Return the data
     return await response.json();
   };
-  
+
   //Use the useQuery hook to fetch the Order data
   const {
     data: OrderData,
@@ -103,7 +105,7 @@ export default function CustomerProfile() {
   } = useQuery({
     queryKey: ["OrderData", id, user?.token, location.key, id],
     queryFn: () => fetchOrderData(id),
-    enabled: !!id &&!!user?.token, // Ensure the query runs only if the user is authenticated
+    enabled: !!id && !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
   });
 
@@ -222,6 +224,10 @@ export default function CustomerProfile() {
               <CustomerStatsCard
                 customerStatsCardTitle="Total Profit"
                 customerStatsCardDetails={OrderData?.totalProfitDelivered}
+              />
+              <CustomerStatsCard
+                customerStatsCardTitle="Total Pending Payment"
+                customerStatsCardDetails="0"
               />
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -51,10 +51,15 @@ function Row(props) {
           <span className="trTableSpan">{row.total} DA</span>
         </TableCell>
         <TableCell className="tableCell">
+          <span className="trTableSpan">0</span>
+        </TableCell>
+        <TableCell className="tableCell">
           <span className="trTableSpan">{row.profit} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{orderStatusTextDisplayer(row.status)}</span>
+          <span className="trTableSpan">
+            {orderStatusTextDisplayer(row.status)}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -129,9 +134,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            detailsRow.price * detailsRow.quantity
-                          )}
+                          {Math.round(detailsRow.price * detailsRow.quantity)}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -150,11 +153,10 @@ Row.propTypes = {
   row: PropTypes.object.isRequired,
 };
 
-
 export default function CustomerProfileOrdersTable({
   searchQuery,
   setFilteredData,
-  data
+  data,
 }) {
   const [filteredRows, setFilteredRows] = useState(data);
 
@@ -162,8 +164,14 @@ export default function CustomerProfileOrdersTable({
     const results = data?.filter(
       (row) =>
         row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.total.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.profit.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.total
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.profit
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.type.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredRows(results);
@@ -188,6 +196,9 @@ export default function CustomerProfileOrdersTable({
             </TableCell>
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Amount</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Pending Payment</span>
             </TableCell>
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Profit</span>

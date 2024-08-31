@@ -13,9 +13,8 @@ export default function AddOrderProfileDetails({
   setDeliveryAmount,
   setAPIOrderType,
   setAPIDeliveryDate,
-  setAPIDeliveryAddress
+  setAPIDeliveryAddress,
 }) {
-
   const getCurrentAlgeriaTime = () => {
     const now = new Date();
     const algeriaOffset = -1; // Algeria is UTC+1
@@ -29,12 +28,12 @@ export default function AddOrderProfileDetails({
   const [orderType, setOrderType] = useState("");
   const [deliveryDate, setDeliveryDate] = useState(getCurrentAlgeriaTime());
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  
+
   const handleOrderTypeChange = (e) => {
     setOrderType(e.target.value);
     setAPIOrderType(e.target.value);
   };
-  
+
   const handleDeliveryDateChange = (e) => {
     setDeliveryDate(e.value);
     setAPIDeliveryDate(e.value);
@@ -45,12 +44,12 @@ export default function AddOrderProfileDetails({
     setDeliveryAddress(value);
     setAPIDeliveryAddress(value);
   };
-  
+
   const handleDeliveryAmountChange = (e) => {
     const value = e.target.value;
     setDeliveryAmount(value);
   };
-  
+
   // const [orderDate, setOrderDate] = useState(getCurrentAlgeriaTime());
   // const [courier, setCourier] = useState("Yalidine");
 
@@ -64,7 +63,7 @@ export default function AddOrderProfileDetails({
   // const handleCourierChange = (e) => {
   //   setCourier(e.target.value);
   // };
-  
+
   return (
     <TableContainer
       component={Paper}
@@ -102,6 +101,9 @@ export default function AddOrderProfileDetails({
                 </TableCell>
               </>
             )}
+            <TableCell align="right" className="tableCell">
+              <span className="thTableSpan">Payment</span>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -129,7 +131,7 @@ export default function AddOrderProfileDetails({
               <select
                 value={orderType}
                 onChange={handleOrderTypeChange}
-                className="inputTable inputSelect"
+                className="inputTable inputSelect w-[200px]"
               >
                 <option value="">Select a type</option>
                 <option value="pickup">Pickup</option>
@@ -183,6 +185,18 @@ export default function AddOrderProfileDetails({
                 </TableCell>
               </>
             )}
+            <TableCell align="right" className="tableCell">
+              <div className="inputWrapper">
+                <input
+                  type="number"
+                  // value={}
+                  // onChange={}
+                  min="0"
+                  className="inputTable"
+                />
+                <span className="inputSpan">DA</span>
+              </div>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

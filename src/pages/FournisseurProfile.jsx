@@ -6,9 +6,15 @@ import ButtonAdd from "../components/ButtonAdd";
 import CustomerStatsCard from "../components/CustomerStatsCard";
 import Search from "../components/Search";
 import FournisseurProfileAchatsTable from "../components/FournisseurProfileAchatsTable";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
+import { CircularProgress } from "@mui/material";
 
 export default function FournisseurProfile() {
   const { id } = useParams();
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
   const location = useLocation();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +30,81 @@ export default function FournisseurProfile() {
     navigate(`/AddAchat/${id}`);
   };
 
+  //---------------------------------API calls---------------------------------\\
+
+  // fetching OneFournisseur data
+  const fetchOneFournisseurData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Fournisseur/one/${id}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving fournisseur data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: OneFournisseurData, error: OneFournisseurError, isLoading: OneFournisseurLoading, refetch: OneFournisseurRefetch } = useQuery({
+      queryKey: ['OneFournisseurData', user?.token, location.key],
+      queryFn: fetchOneFournisseurData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Achat Data By Fournisseur data
+  const fetchAchatDataByFournisseur = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/all/${decodedToken.id}/${id}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving achat by fournisseur data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: AchatDataByFournisseur, error: AchatDataByFournisseurError, isLoading: AchatDataByFournisseurLoading, refetch: AchatDataByFournisseurRefetch } = useQuery({
+      queryKey: ['AchatDataByFournisseur', user?.token, location.key],
+      queryFn: fetchAchatDataByFournisseur,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  if (OneFournisseurLoading) {
+    return (
+      <div className="pagesContainer h-[100vh]">
+        <Header />
+        <div className="w-full h-full flex items-center justify-center">
+          <CircularProgress color="inherit" />
+          {/* <h1>Loading...</h1> */}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="pagesContainer">
       <Header />
@@ -31,7 +112,7 @@ export default function FournisseurProfile() {
         <div className="flex items-center space-x-1">
           <span>Fournisseur</span>
           <ChevronRightIcon className="iconAsideBar" />
-          <span>#Fournisseur Name</span>
+          <span>#{OneFournisseurData?._id}</span>
         </div>
         <ButtonAdd
           buttonSpan="Create Achat"
@@ -44,40 +125,30 @@ export default function FournisseurProfile() {
         <div className="personalInformation">
           <div className="flex-col">
             <span className="personalInformationSpan">First Name</span>
-            <h3 className="personalInformationDetails"></h3>
+            <h3 className="personalInformationDetails">{OneFournisseurData?.firstName}</h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Last Name</span>
-            <h3 className="personalInformationDetails"></h3>
+            <h3 className="personalInformationDetails">{OneFournisseurData?.lastName}</h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Number Phone</span>
-            <h3 className="personalInformationDetails"></h3>
-          </div>
-          <div className="flex-col">
-            <span className="personalInformationSpan">Email Address</span>
-            <h3 className="personalInformationDetails"></h3>
-          </div>
-          <div className="flex-col">
-            <span className="personalInformationSpan">Commune</span>
-            <h3 className="personalInformationDetails"></h3>
+            <h3 className="personalInformationDetails">{OneFournisseurData?.phoneNumber}</h3>
           </div>
           <div className="flex-col">
             <span className="personalInformationSpan">Wilaya</span>
-            <h3 className="personalInformationDetails"></h3>
+            <h3 className="personalInformationDetails">{OneFournisseurData?.wilaya}</h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Postcode</span>
-            <h3 className="personalInformationDetails"></h3>
+            <span className="personalInformationSpan">Commune</span>
+            <h3 className="personalInformationDetails">{OneFournisseurData?.commune}</h3>
           </div>
-          <div className="flex-col">
-            <span className="personalInformationSpan">Address</span>
-            <h3 className="personalInformationDetails"></h3>
-          </div>
-          <div className="flex-col">
-            <span className="personalInformationSpan">ID</span>
-            <h3 className="personalInformationDetails"></h3>
-          </div>
+          {OneFournisseurData?.address &&
+            <div className="flex-col">
+              <span className="personalInformationSpan">Address</span>
+              <h3 className="personalInformationDetails">{OneFournisseurData?.address}</h3>
+            </div>
+    }
         </div>
       </div>
       <>
@@ -109,6 +180,8 @@ export default function FournisseurProfile() {
           <FournisseurProfileAchatsTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            data={AchatDataByFournisseur}
+            loading={AchatDataByFournisseurLoading}
           />
         </div>
       </>

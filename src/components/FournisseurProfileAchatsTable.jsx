@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -235,7 +235,7 @@ const rows = [
   },
 ];
 
-export default function FournisseurProfileAchatsTable() {
+export default function FournisseurProfileAchatsTable({data, loading}) {
   return (
     <TableContainer
       className="tableContainer"
@@ -270,9 +270,24 @@ export default function FournisseurProfileAchatsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.orderId} row={row} />
-          ))}
+          {loading ? 
+            <TableRow>
+              <TableCell colSpan={7} align="center">
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          :(
+            data?.lenght > 0 ? 
+              data.map((row) => (
+                <Row key={row.orderId} row={row} />
+              ))
+            :
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  <span className="thTableSpan">No Purchases found</span>
+                </TableCell>
+              </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

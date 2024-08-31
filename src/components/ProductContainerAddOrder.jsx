@@ -72,10 +72,10 @@ export default function ProductsContainerAddOrder({ searchQuery, onSelectProduct
           StockData?.map((stock) => (
             <ProductCard
               key={stock._id}
-              productName={stock.product.brand?.name + ' ' + stock.product.name + ' ' + stock.product.size}
-              productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${stock.product.image}`}
+              productName={stock.product?.brand?.name + ' ' + stock.product?.name + ' ' + stock.product?.size}
+              productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${stock.product?.image}`}
               onClick={() => handleSelectProduct(stock)}
-              selected={selectedProduct && stock._id === selectedProduct._id}
+              selected={selectedProduct && stock?._id === selectedProduct._id}
             />
           ))
         ) : (

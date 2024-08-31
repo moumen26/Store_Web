@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { TokenDecoder } from "../util/DecodeToken";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
@@ -21,6 +22,7 @@ Modal.setAppElement("#root");
 export default function ProductsGrid() {
   const { user } = useAuthContext();
   const location = useLocation();
+  const decodedToken = TokenDecoder();
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [submitionLoading, setSubmitionLoading] = useState(false);
@@ -87,7 +89,7 @@ export default function ProductsGrid() {
   // fetching Product data
   const fetchProductData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Product`,
+      import.meta.env.VITE_APP_URL_BASE + `/Product/store/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -154,7 +156,7 @@ export default function ProductsGrid() {
   // fetching Category data
   const fetchCategoryData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Category`,
+      import.meta.env.VITE_APP_URL_BASE + `/Category/store/${decodedToken.id}`,
       {
         method: "GET",
         headers: {

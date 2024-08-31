@@ -10,11 +10,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation, useParams } from "react-router-dom";
 import OrderStatus from "../components/OrderStatus";
 import { useQuery } from "@tanstack/react-query";
+import ButtonAdd from "../components/ButtonAdd";
+import Modal from "react-modal";
+import PaymentHistorique from "../components/PaymentHistorique";
 
 export default function OrderProfile() {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   //fetch data
   const fetchOrderData = async () => {
@@ -41,13 +54,13 @@ export default function OrderProfile() {
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: OrderData, 
-    error: OrderDataError, 
-    isLoading: OrderDataLoading, 
-    refetch: refetchOrderData 
+  const {
+    data: OrderData,
+    error: OrderDataError,
+    isLoading: OrderDataLoading,
+    refetch: refetchOrderData,
   } = useQuery({
-    queryKey: ['OrderData', user?.token, location.key, id],
+    queryKey: ["OrderData", user?.token, location.key, id],
     queryFn: fetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -86,11 +99,18 @@ export default function OrderProfile() {
             <ChevronRightIcon className="iconAsideBar" />
             <span>#{OrderData?.code}</span>
           </div>
-          <ButtonExportPDF
-            filename="Order_Profile"
-            customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
-            orderId={OrderData?.code}
-          />
+          <div className="orderProfileButtons">
+            <ButtonExportPDF
+              filename="Order_Profile"
+              customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
+              orderId={OrderData?.code}
+            />
+            <ButtonAdd
+              showIcon={false}
+              buttonSpan="View Payment History"
+              onClick={handleOpenModal}
+            />
+          </div>
         </div>
         <div className="customerClass">
           <h2 className="customerClassTitle">Order Details</h2>
@@ -139,6 +159,43 @@ export default function OrderProfile() {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel="Payment History"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "60%",
+            margin: "auto",
+            height: "52%",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Payment History</h2>
+          <div className="scrollProductHistorique">
+            <PaymentHistorique />
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <button
+            onClick={handleCloseModal}
+            style={{ marginTop: "20px" }}
+            className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
+          >
+            Close
+          </button>
+        </div>{" "}
+      </Modal>
     </div>
   );
 }

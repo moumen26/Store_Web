@@ -235,7 +235,7 @@ const rows = [
   },
 ];
 
-export default function FournisseurProfileAchatsTable({data, loading}) {
+export default function FournisseurProfileAchatsTable({ data, loading }) {
   return (
     <TableContainer
       className="tableContainer"
@@ -252,9 +252,7 @@ export default function FournisseurProfileAchatsTable({data, loading}) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Purchase Date</span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Items</span>
-            </TableCell>
+
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
@@ -270,23 +268,20 @@ export default function FournisseurProfileAchatsTable({data, loading}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {loading ? 
+          {loading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          :(
-            data?.lenght > 0 ? 
-              data.map((row) => (
-                <Row key={row.orderId} row={row} />
-              ))
-            :
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">No Purchases found</span>
-                </TableCell>
-              </TableRow>
+          ) : data?.lenght > 0 ? (
+            data.map((row) => <Row key={row.orderId} row={row} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} align="center">
+                <span className="thTableSpan">No Purchases found</span>
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>

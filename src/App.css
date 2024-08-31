@@ -1189,7 +1189,11 @@ aside ul {
 
 .addProductAchat .dialogAddCustomerItem .inputForm {
   width: 350px;
+}
 
+.orderProfileButtons {
+  display: flex;
+  gap: 16px;
 }
 
 /* <div className="customerClass flex-col space-y-1">

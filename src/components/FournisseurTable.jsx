@@ -62,12 +62,7 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function FournisseurTable({ searchQuery, setFilteredData, data }) {
-  const { user } = useAuthContext();
-  const [loading, setLoading] = useState(false);
-  const decodedToken = TokenDecoder();
-  
-
+export default function FournisseurTable({ searchQuery, setFilteredData, data, loading }) {  
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data?.length > 0) {

@@ -18,8 +18,6 @@ export default function CustomerProfile() {
   const decodedToken = TokenDecoder();
   const { id } = useParams();
   const location = useLocation();
-  const { customer } = location.state || {};
-
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -66,7 +64,7 @@ export default function CustomerProfile() {
     isLoading: CustomerDataLoading,
     refetch: refetchCustomerDataData,
   } = useQuery({
-    queryKey: ["CustomerData", user?.token],
+    queryKey: ["CustomerData", user?.token, location.key, id],
     queryFn: fetchCustomerData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
@@ -103,7 +101,7 @@ export default function CustomerProfile() {
     isLoading: OrderDataLoading,
     refetch: refetchOrderDataData,
   } = useQuery({
-    queryKey: ["OrderData", id, user?.token],
+    queryKey: ["OrderData", id, user?.token, location.key, id],
     queryFn: () => fetchOrderData(id),
     enabled: !!id &&!!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus

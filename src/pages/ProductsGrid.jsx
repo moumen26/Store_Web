@@ -13,39 +13,14 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
-
-// Example product data
-const allProducts = [
-  {
-    id: "1",
-    code: "0920496",
-    name: "Elio - 1L",
-    brand: "Cevital",
-    image: ElioImage,
-    sellPrice: 120,
-    buyingPrice: 120,
-    stock: 200,
-    boxItems: 12,
-  },
-  {
-    id: "2",
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    buyingPrice: 200,
-    stock: 100,
-    boxItems: 24,
-  },
-];
+import { useLocation } from "react-router-dom";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
 
 export default function ProductsGrid() {
   const { user } = useAuthContext();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [submitionLoading, setSubmitionLoading] = useState(false);
@@ -138,7 +113,7 @@ export default function ProductsGrid() {
     isLoading: ProductLoading,
     refetch: ProductRefetch,
   } = useQuery({
-    queryKey: ["ProductData", user?.token],
+    queryKey: ["ProductData", user?.token, location.key],
     queryFn: fetchProductData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
@@ -170,7 +145,7 @@ export default function ProductsGrid() {
     isLoading: BrandLoading,
     refetch: BrandRefetch,
   } = useQuery({
-    queryKey: ["BrandData", user?.token],
+    queryKey: ["BrandData", user?.token, location.key],
     queryFn: fetchBrandData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
@@ -205,7 +180,7 @@ export default function ProductsGrid() {
     isLoading: CategoryLoading,
     refetch: CategoryRefetch,
   } = useQuery({
-    queryKey: ["CategoryData", user?.token],
+    queryKey: ["CategoryData", user?.token, location.key],
     queryFn: fetchCategoryData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus

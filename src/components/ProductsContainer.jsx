@@ -10,31 +10,6 @@ import ButtonAdd from "./ButtonAdd";
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
-const allProducts = [
-  {
-    code: "0920496",
-    name: "Elio - 1L",
-    brand: "Cevital",
-    image: ElioImage,
-    sellPrice: 120,
-    buyingPrice: 120,
-    stock: 200,
-    boxItems: 12,
-  },
-  {
-    code: "0920490",
-    subName: "Pril 650mL",
-    name: "Pril Isis - 650mL",
-    brand: "Pril",
-    image: PrilImage,
-    sellPrice: 170,
-    sellPrice: 170,
-    buyingPrice: 200,
-    boxItems: 24,
-    stock: 100,
-  },
-];
-
 export default function ProductsContainer({ searchQuery, onSelectProduct, data, selectedCategory }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

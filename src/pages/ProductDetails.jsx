@@ -1,45 +1,52 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ProductDetails() {
   const { user } = useAuthContext();
   const { id } = useParams();
-  const [ProductData, setProductData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchProductData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Product/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
+  const location = useLocation();
 
-        if (response.ok) {
-          const data = await response.json();
-          setProductData(data);
-        } else {
-          setProductData(null);
-          console.error("Error receiving Product data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching Product data:", error);
-      } finally {
-        setLoading(false);
+  //fetch data
+  const fetchProductData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Product/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchProductData();
-  }, [user?.token]);
-  if (loading) {
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving product data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const { 
+    data: ProductData, 
+    error: ProductDataError, 
+    isLoading: ProductDataLoading, 
+    refetch: refetchProductData 
+  } = useQuery({
+    queryKey: ['ProductData', user?.token, location.key, id],
+    queryFn: fetchProductData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
+  if (ProductDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <div className="w-full h-full flex items-center justify-center">
@@ -49,7 +56,7 @@ export default function ProductDetails() {
       </div>
     );
   }
-  if (!ProductData) {
+  if (ProductDataError) {
     return (
       <div className="pagesContainer">
         <Header />

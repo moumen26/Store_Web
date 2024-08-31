@@ -13,10 +13,12 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { CircularProgress, Snackbar } from "@mui/material";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function Fournisseurs() {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -111,7 +113,7 @@ export default function Fournisseurs() {
   };
   // useQuery hook to fetch data
   const { data: FournisseurData, error: FournisseurError, isLoading: FournisseurLoading, refetch: FournisseurRefetch } = useQuery({
-      queryKey: ['FournisseurData', user?.token],
+      queryKey: ['FournisseurData', user?.token, location.key],
       queryFn: fetchFournisseurData,
       enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
@@ -142,7 +144,7 @@ export default function Fournisseurs() {
   };
   // useQuery hook to fetch data
   const { data: CitiesData, error: CitiesError, isLoading: CitiesLoading, refetch: CitiesRefetch } = useQuery({
-      queryKey: ['CitiesData', user?.token],
+      queryKey: ['CitiesData', user?.token, location.key],
       queryFn: fetchCitiesData,
       enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
@@ -238,6 +240,7 @@ export default function Fournisseurs() {
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             data={FournisseurData}
+            loading={FournisseurLoading}
           />
         </div>
       </div>

@@ -7,45 +7,53 @@ import OrderProfileDevicesProductTable from "../components/OrderProfileDevicesPr
 import ButtonExportPDF from "../components/ButtonExportPdf";
 import { useAuthContext } from "../hooks/useAuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import OrderStatus from "../components/OrderStatus";
+import { useQuery } from "@tanstack/react-query";
 
 export default function OrderProfile() {
   const { id } = useParams();
   const { user } = useAuthContext();
-  const [OrderData, setOrderData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
+  const location = useLocation();
 
-        const data = await response.json();
-        if (response.ok) {
-          setOrderData(data);
-        } else {
-          setOrderData(null);
-          console.error("Error receiving Customer data:", data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching Customer data:", error);
-      } finally {
-        setLoading(false);
+  //fetch data
+  const fetchOrderData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchOrderData();
-  }, [user?.token]);
-  if (loading) {
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving order data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const { 
+    data: OrderData, 
+    error: OrderDataError, 
+    isLoading: OrderDataLoading, 
+    refetch: refetchOrderData 
+  } = useQuery({
+    queryKey: ['OrderData', user?.token, location.key, id],
+    queryFn: fetchOrderData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
+
+  if (OrderDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <Header />
@@ -56,7 +64,8 @@ export default function OrderProfile() {
       </div>
     );
   }
-  if (!OrderData) {
+
+  if (OrderDataError) {
     return (
       <div className="pagesContainer">
         <Header />
@@ -75,12 +84,12 @@ export default function OrderProfile() {
           <div className="flex items-center space-x-1">
             <span>Orders</span>
             <ChevronRightIcon className="iconAsideBar" />
-            <span>#{OrderData.code}</span>
+            <span>#{OrderData?.code}</span>
           </div>
           <ButtonExportPDF
             filename="Order_Profile"
-            customerName={`${OrderData.client.firstName}_${OrderData.client.lastName}`}
-            orderId={OrderData.code}
+            customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
+            orderId={OrderData?.code}
           />
         </div>
         <div className="customerClass">
@@ -91,7 +100,7 @@ export default function OrderProfile() {
           <div className="customerClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Order</h2>
             <OrderProfileDevicesProductTable
-              orderDetails={OrderData.products}
+              orderDetails={OrderData?.products}
               orderDeliveryAmount={0}
             />
           </div>
@@ -105,7 +114,7 @@ export default function OrderProfile() {
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
                   <p className="orderProfileSpan">
-                    {OrderData.client.phoneNumber}
+                    {OrderData?.client.phoneNumber}
                   </p>
                 </div>
               </div>
@@ -115,12 +124,12 @@ export default function OrderProfile() {
                 </span>
                 <div className="flex-col space-y-1">
                   <p className="orderProfileSpan">
-                    {OrderData.deliveredLocation
-                      ? OrderData.deliveredLocation
+                    {OrderData?.deliveredLocation
+                      ? OrderData?.deliveredLocation
                       : "Pickup"}
                   </p>
                   <p className="orderProfileSpan">
-                    {OrderData.client.commune} {OrderData.client.wilaya}
+                    {OrderData?.client.commune} {OrderData?.client.wilaya}
                   </p>
                   <p className="orderProfileSpan">Algerie</p>
                 </div>

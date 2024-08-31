@@ -13,10 +13,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { Snackbar } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 export default function Customers() {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -135,7 +137,7 @@ export default function Customers() {
     isLoading: CustomersDataLoading, 
     refetch: refetchCustomersData 
   } = useQuery({
-    queryKey: ['CustomersData', user?.token],
+    queryKey: ['CustomersData', user?.token, location.key],
     queryFn: fetchCustomersData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -166,7 +168,7 @@ export default function Customers() {
   };
   // useQuery hook to fetch data
   const { data: CitiesData, error: CitiesError, isLoading: CitiesLoading, refetch: CitiesRefetch } = useQuery({
-      queryKey: ['CitiesData', user?.token],
+      queryKey: ['CitiesData', user?.token, location.key],
       queryFn: fetchCitiesData,
       enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus

@@ -12,11 +12,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
+import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
   const { row } = props;
@@ -167,93 +169,56 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const orderStatusTextDisplayer = (status) => {
-  switch (status) {
-    case 0:
-      return "Order Placed";
-    case 1:
-      return "Preparing your order";
-    case 2:
-      return "Order on the way to address";
-    case 3:
-      return "Delivered";
-    default:
-      return "Order Placed";
-  }
-};
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
 
-  const monthNames = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
-
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
-};
 export default function OrdersTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
-  const [ORDERDATA, setORDERDATA] = useState([]);
-  const [loading, setLoading] = useState(false);
   const decodedToken = TokenDecoder();
-  useEffect(() => {
-    const fetchORDERDATA = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
-            decodedToken.id
-          }`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
+  const location = useLocation();
 
-        const data = await response.json();
-        if (response.ok) {
-          setORDERDATA(data);
-        } else {
-          setORDERDATA([]);
-          setRows([]);
-          console.error(
-            "Error receiving none delivered ORDER data:",
-            data.message
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching none delivered ORDER data:", error);
-      } finally {
-        setLoading(false);
+  //fetch data
+  const NonDelivredfetchOrderData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
+          decodedToken.id
+        }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchORDERDATA();
-  }, [user?.token]);
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving order data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const { 
+    data: NonDelivredOrderData, 
+    error: NonDelivredOrderDataError, 
+    isLoading: NonDelivredOrderDataLoading, 
+    refetch: NonDelivredrefetchOrderData 
+  } = useQuery({
+    queryKey: ['NonDelivredOrderData', user?.token, location.key],
+    queryFn: NonDelivredfetchOrderData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+    staleTime: 0,
+  });
+  
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (ORDERDATA.length > 0) {
-      const rowsData = ORDERDATA.map((order) => ({
+    if (NonDelivredOrderData?.length > 0) {
+      const rowsData = NonDelivredOrderData.map((order) => ({
         orderId: order._id,
         orderCode: order.code,
         customerFirstName: order.client.firstName,
@@ -269,8 +234,11 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
       }));
       setRows(rowsData);
       setFilteredRows(rowsData);
+    }else{
+      setRows([]);
     }
-  }, [ORDERDATA]);
+    NonDelivredrefetchOrderData();
+  }, [NonDelivredOrderData, location.key]);
   const [filteredRows, setFilteredRows] = useState(rows);
   useEffect(() => {
     const results = rows.filter(
@@ -324,7 +292,7 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
-          ) : loading ? (
+          ) : NonDelivredOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}

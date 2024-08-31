@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 function ProductProfileRow({
   data,
 }) {
-  console.log(data);
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">

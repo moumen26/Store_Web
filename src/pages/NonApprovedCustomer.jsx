@@ -1,50 +1,49 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import { useAuthContext } from "../hooks/useAuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
 
 export default function NonApprovedCustomer() {
   const { id } = useParams();
   const { user } = useAuthContext();
-  const [CustomerData, setCustomerData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchCustomerData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
-          {
+  const location = useLocation();
+
+  // fetching CustomerData data
+  const fetchCustomerData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/User/${id}`,
+        {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
             },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setCustomerData(data);
-        } else {
-          setCustomerData(null);
-          console.error(
-            "Error receiving non approved customer data:",
-            response.statusText
-          );
         }
-      } catch (error) {
-        console.error("Error fetching non approved customer data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCustomerData();
-  }, [user?.token]);
-  if (loading) {
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Customer data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: CustomerData, error: CustomerDataError, isLoading: CustomerDataLoading, refetch: CustomerDataRefetch } = useQuery({
+      queryKey: ['CustomerData', user?.token, location.key, id],
+      queryFn: fetchCustomerData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  if (CustomerDataLoading) {
     return (
       <div className="pagesContainer">
         <Header />
@@ -56,7 +55,7 @@ export default function NonApprovedCustomer() {
       </div>
     );
   }
-  if (!CustomerData) {
+  if (CustomerDataError) {
     return (
       <div className="pagesContainer">
         <Header />

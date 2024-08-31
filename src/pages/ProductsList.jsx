@@ -127,7 +127,7 @@ export default function ProductsList() {
   // fetching Product data
   const fetchProductData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Product`,
+      import.meta.env.VITE_APP_URL_BASE + `/Product/store/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -162,7 +162,7 @@ export default function ProductsList() {
   // fetching Category data
   const fetchCategoryData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Category`,
+      import.meta.env.VITE_APP_URL_BASE + `/Category/store/${decodedToken.id}`,
       {
         method: "GET",
         headers: {

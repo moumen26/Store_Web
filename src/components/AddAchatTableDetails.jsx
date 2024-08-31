@@ -16,12 +16,16 @@ import Search from "./Search";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ProductCard from "./ProductCard";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
+import { useQuery } from "@tanstack/react-query";
 
 function AddAchatTableDetails({
   isModalOpen,
   handleCloseModal,
   onCalculateTotals,
   deliveryAmount,
+  setAPIProducts
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -43,15 +47,7 @@ function AddAchatTableDetails({
       productPrice: 190,
     },
   ]);
-  const [editingRowId, setEditingRowId] = useState(null);
-  const [editedRow, setEditedRow] = useState({});
-  const [newItem, setNewItem] = useState({
-    productId: "",
-    productName: "",
-    productBrand: "",
-    productQuantity: 0,
-    productPrice: 0,
-  });
+  const [newItem, setNewItem] = useState(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -59,6 +55,31 @@ function AddAchatTableDetails({
   const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
+  
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const handleSelectProduct = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const [ClientQuantity, setClientQuantity] = useState(0);
+  const handleClientQuantityChange = (e) => {
+    setClientQuantity(e.target.value);
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const handleSelectedCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const [buyingPrice, setBuyingPrice] = useState(0);
+  const handleBuyingPriceChange = (e) => {
+    setBuyingPrice(e.target.value);
+  };
+
+  const [sellingPrice, setSellingPrice] = useState(0);
+  const handleSellingPriceChange = (e) => {
+    setSellingPrice(e.target.value);
+  };  
 
   useEffect(() => {
     const calculateTotals = () => {
@@ -71,28 +92,6 @@ function AddAchatTableDetails({
     };
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
-
-  const handleEditClick = (productId) => {
-    setEditingRowId(productId);
-    const rowToEdit = rows.find((row) => row.productId === productId);
-    setEditedRow(rowToEdit);
-  };
-
-  const handleSaveClick = (productId) => {
-    setRows(rows.map((row) => (row.productId === productId ? editedRow : row)));
-    setEditingRowId(null);
-  };
-
-  const handleCancelClick = () => {
-    setEditingRowId(null);
-  };
-
-  const handleChange = (productId, field, value) => {
-    if (field === "productQuantity" && (value <= 0 || isNaN(value))) {
-      return;
-    }
-    setEditedRow((prev) => ({ ...prev, [field]: value }));
-  };
 
   const handleDeleteClick = (productId) => {
     const productToDelete = rows.find((row) => row.productId === productId);
@@ -116,78 +115,58 @@ function AddAchatTableDetails({
   };
 
   const handleAddItem = () => {
-    if (!newItem.productId && newItem.productQuantity <= 0) {
-      setAlertMessage("Please select a product and enter a valid quantity.");
-      setAlertType("error");
-      setSnackbarOpen(true);
-      return;
-    }
-
-    if (!newItem.productId) {
+    if (!newItem || !newItem.product._id) {
       setAlertMessage("Please select a product.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
 
-    if (newItem.productQuantity <= 0) {
+    let productQuantity = ClientQuantity;
+  
+    if (productQuantity <= 0) {
       setAlertMessage("Please enter a valid quantity.");
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
+  
+    if (unitType === "perBox") {
+      productQuantity = Number(productQuantity) * Number(newItem.product.product.boxItems);
+    }
+  
+    // Update newItem with the correct ClientQuantity
+    const updatedItem = {
+      ...newItem,
+      ClientQuantity: productQuantity,
+      uniqueId: Date.now().toString()
+    };
 
-    setRows([...rows, newItem]);
+    // Add the updated item to the rows
+    setRows([...rows, updatedItem]);
+    setAPIProducts((prevState) => ([
+      ...prevState,
+      {
+        stock: updatedItem.product._id,
+        quantity: updatedItem.ClientQuantity,
+        price: updatedItem.product.selling,
+      }
+    ]));
+  
     handleCloseModal();
-    setNewItem({
-      productId: "",
-      productName: "",
-      productBrand: "",
-      productQuantity: 0,
-      productPrice: 0,
-    });
+    setNewItem(null);
+    setClientQuantity(0);
   };
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
 
-  const handleSelectProduct = (product) => {
-    setNewItem({
-      productId: product.id,
-      productName: product.name,
-      productBrand: product.brand,
-      productQuantity: newItem.productQuantity,
-      productPrice: product.price,
-    });
-  };
-
-  const handleProductQuantityChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || /^\d*$/.test(value)) {
-      setNewItem({
-        ...newItem,
-        productQuantity: value === "" ? "" : Math.max(0, Number(value)),
-      });
-    }
-  };
 
   const OrderRow = ({
     row,
-    isEditing,
-    onEditClick,
-    onSaveClick,
-    onCancelClick,
-    onChange,
-    editedRow,
     onDelete,
   }) => {
-    const handleNumericChange = (field, value) => {
-      const numericValue = Number(value);
-      if (numericValue > 0) {
-        onChange(row.productId, field, numericValue);
-      }
-    };
 
     const productAmount = row.productPrice * row.productQuantity;
 
@@ -207,19 +186,7 @@ function AddAchatTableDetails({
           <span className="trTableSpan">{row.productBrand}</span>
         </TableCell>
         <TableCell className="tableCell">
-          {isEditing ? (
-            <input
-              type="number"
-              value={editedRow.productQuantity}
-              onChange={(e) =>
-                handleNumericChange("productQuantity", e.target.value)
-              }
-              min="1"
-              className="editable-input inputBoxes"
-            />
-          ) : (
-            <span className="trTableSpan">{row.productQuantity}</span>
-          )}
+          <span className="trTableSpan">{row.productQuantity}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.productPrice} DA</span>
@@ -229,41 +196,146 @@ function AddAchatTableDetails({
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex items-center justify-end space-x-3">
-            {isEditing ? (
-              <>
-                <button
-                  className="text-green-500 cursor-pointer hover:text-green-700"
-                  onClick={() => onSaveClick(row.productId)}
-                >
-                  Save
-                </button>
-                <button
-                  className="text-gray-500 cursor-pointer hover:text-gray-700"
-                  onClick={() => onCancelClick()}
-                >
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <>
-                <PencilIcon
-                  className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-                  onClick={() => onEditClick(row.productId)}
-                />
-                <TrashIcon
-                  className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-                  onClick={() => onDelete(row.productId)}
-                />
-              </>
-            )}
+            <TrashIcon
+              className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
+              onClick={() => onDelete(row.uniqueId)}
+            />
           </div>
         </TableCell>
       </TableRow>
     );
   };
 
+  //---------------------------------API calls---------------------------------\\
+  
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
+  // fetching Product data
+  const fetchProductData = async () => {
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Product/store/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Product data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: ProductData,
+    error: ProductError,
+    isLoading: ProductLoading,
+    refetch: ProductRefetch,
+  } = useQuery({
+    queryKey: ["ProductData", user?.token, location.key],
+    queryFn: fetchProductData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // fetching Category data
+  const fetchCategoryData = async () => {
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Category/store/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: CategoryData = [],
+    error: CategoryError,
+    isLoading: CategoryLoading,
+    refetch: CategoryRefetch,
+  } = useQuery({
+    queryKey: ["CategoryData", user?.token],
+    queryFn: fetchCategoryData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
   return (
     <>
+      <TableContainer
+        component={Paper}
+        style={{ boxShadow: "none" }}
+        className="tablePages"
+      >
+        <Table>
+          <TableHead className="tableHead">
+            <TableRow>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Product_ID</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Product</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Brand</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Quantity</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Price</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Amount</span>
+              </TableCell>
+              <TableCell align="right" className="tableCell">
+                <span className="thTableSpan pr-1">Action</span>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.length > 0 ? (
+              rows.map((row) => (
+                <OrderRow
+                  key={row.productId}
+                  row={row}
+                  onDelete={handleDeleteClick}
+                />
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  {rows.length === 0 ? (
+                    <span>Add products</span>
+                  ) : (
+                    <CircularProgress size={24} />
+                  )}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
@@ -285,11 +357,11 @@ function AddAchatTableDetails({
           },
         }}
       >
-        {/* {ProductLoading || CategoryLoading ? (
+        {ProductLoading || CategoryLoading ? (
           <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        ) : ( */}
+        ) : (
         <>
           <div className="customerClass addProductAchat">
             <h2 className="customerClassTitle">Add Product to Achat</h2>
@@ -304,57 +376,42 @@ function AddAchatTableDetails({
                   <div className="flex space-x-5 items-center">
                     <span>Category :</span>
                     <div className="selectStoreWilayaCommune w-[300px]">
-                      {/* <select
+                      <select
                         name="productCategory"
                         onChange={handleSelectedCategoryChange}
                       >
-                        <option value="">-- Select Product Category --</option>
-                        {CategoryData.map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
-                          </option>
-                        ))}
-                      </select> */}
+                        {CategoryData ?
+                          <>
+                            <option value="">-- Select Product Category --</option>
+                            {CategoryData.map((category) => (
+                              <option key={category._id} value={category._id}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </>
+                          :
+                          <option value="">No categories available</option>
+                        }
+                      </select>
                     </div>
                   </div>
                 </div>
 
-                {/* <div className="productsContainer p-0 mt-5 h-[90%]">
+                <div className="productsContainer p-0 mt-5 h-[90%]">
                   {ProductData?.length > 0 ? (
-                    ProductData?.filter(
-                      (product) =>
-                        (product.code
-                          ?.toLowerCase()
-                          .includes(searchQuery.toLowerCase()) ||
-                          product.name
-                            ?.toLowerCase()
-                            .includes(searchQuery.toLowerCase()) ||
-                          product.brand?.name
-                            ?.toLowerCase()
-                            .includes(searchQuery.toLowerCase()) ||
-                          product.category?.name
-                            ?.toLowerCase()
-                            .includes(searchQuery.toLowerCase())) &&
-                        (selectedCategory == "" ||
-                          product.category?._id == selectedCategory)
-                    ).map((product) => (
+                    ProductData?.map((product) => (
                       <ProductCard
                         key={product._id}
-                        productName={product.name}
-                        productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                          "/api",
-                          ""
-                        )}/files/${product.image}`}
+                        productName={product.brand?.name + ' ' + product.name + ' ' + product.size}
+                        productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${product.image}`}
                         onClick={() => handleSelectProduct(product)}
-                        selected={
-                          selectedProduct && product._id === selectedProduct._id
-                        }
+                        selected={selectedProduct && product._id === selectedProduct._id}
                       />
                     ))
                   ) : (
                     <p>No products available</p>
                   )}
-                </div> */}
+                </div>
               </div>
               <>
                 <div className=" border-0 mt-8 w-[100%] flex-row productDetailsStock">
@@ -410,69 +467,8 @@ function AddAchatTableDetails({
             </div>
           </div>
         </>
-        {/* )} */}
+        )}
       </Modal>
-
-      <TableContainer
-        component={Paper}
-        style={{ boxShadow: "none" }}
-        className="tablePages"
-      >
-        <Table>
-          <TableHead className="tableHead">
-            <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product_ID</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Brand</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Quantity</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Price</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Amount</span>
-              </TableCell>
-              <TableCell align="right" className="tableCell">
-                <span className="thTableSpan pr-1">Action</span>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.length > 0 ? (
-              rows.map((row) => (
-                <OrderRow
-                  key={row.productId}
-                  row={row}
-                  isEditing={row.productId === editingRowId}
-                  onEditClick={handleEditClick}
-                  onSaveClick={handleSaveClick}
-                  onCancelClick={handleCancelClick}
-                  onChange={handleChange}
-                  editedRow={editedRow}
-                  onDelete={handleDeleteClick}
-                />
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  {rows.length === 0 ? (
-                    <span>Add products</span>
-                  ) : (
-                    <CircularProgress size={24} />
-                  )}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
 
       <ConfirmDialog
         open={isConfirmDialogOpen}

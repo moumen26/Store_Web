@@ -30,19 +30,7 @@ function ProductHistoriqueRow({
       <TableCell className="tableCell">
         <span className="trTableSpan">{historique.date}</span>
       </TableCell>
-      <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.amount}
-            onChange={(e) => handleNumericChange("amount", e.target.value)}
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.amount} DA</span>
-        )}
-      </TableCell>
+
       <TableCell className="tableCell">
         {isEditing ? (
           <input
@@ -60,19 +48,7 @@ function ProductHistoriqueRow({
       </TableCell>
 
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.remainingAmount}
-            onChange={(e) =>
-              handleNumericChange("remainingAmount", e.target.value)
-            }
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.remainingAmount} DA</span>
-        )}
+        <span className="trTableSpan">{historique.remainingAmount} DA</span>
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">
@@ -132,63 +108,54 @@ export default function PaymentHistorique() {
     {
       id: 1,
       date: "Août 11, 2024 at 20:00",
-      amount: 1200,
       pendingPayment: 1500,
       remainingAmount: 100,
     },
     {
       id: 2,
       date: "Août 11, 2024 at 20:00",
-      amount: 1150,
       pendingPayment: 1450,
       remainingAmount: 200,
     },
     {
       id: 3,
       date: "Août 11, 2024 at 20:00",
-      amount: 1250,
       pendingPayment: 1550,
       remainingAmount: 150,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
     {
       id: 4,
       date: "Août 11, 2024 at 20:00",
-      amount: 1300,
       pendingPayment: 1600,
       remainingAmount: 120,
     },
@@ -234,9 +201,7 @@ export default function PaymentHistorique() {
             <TableCell>
               <span className="thTableSpan">Date</span>
             </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Amount</span>
-            </TableCell>
+
             <TableCell>
               <span className="thTableSpan">Pending Payment</span>
             </TableCell>

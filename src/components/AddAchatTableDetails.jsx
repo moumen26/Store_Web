@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -19,14 +19,26 @@ import ProductCard from "./ProductCard";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
+import ButtonAdd from "./ButtonAdd";
+import { PhotoIcon } from "@heroicons/react/16/solid";
 
 function AddAchatTableDetails({
   isModalOpen,
   handleCloseModal,
   onCalculateTotals,
   deliveryAmount,
-  setAPIProducts
+  setAPIProducts,
 }) {
+  const [isAddProdutModalOpen, setIsAddProdutModalOpen] = useState(false);
+
+  const handleOpenAddProductModal = () => {
+    setIsAddProdutModalOpen(true);
+  };
+
+  const handleCloseAddProductModal = () => {
+    setIsAddProdutModalOpen(false);
+  };
+
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -40,7 +52,7 @@ function AddAchatTableDetails({
   const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
-  
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -68,7 +80,7 @@ function AddAchatTableDetails({
   const [sellingPrice, setSellingPrice] = useState(buyingPrice);
   const handleSellingPriceChange = (e) => {
     setSellingPrice(e.target.value);
-  };  
+  };
 
   useEffect(() => {
     const calculateTotals = () => {
@@ -99,7 +111,7 @@ function AddAchatTableDetails({
       quantity: updatedItem.quantity,
       unityQuantity: updatedItem.unityQuantity,
       buying: updatedItem.buying,
-      selling: updatedItem.selling
+      selling: updatedItem.selling,
     }));
 
     setAPIProducts(updatedAPIProducts);
@@ -120,7 +132,7 @@ function AddAchatTableDetails({
       setSnackbarOpen(true);
       return;
     }
-  
+
     if (ClientQuantity <= 0 || buyingPrice <= 0 || sellingPrice <= 0) {
       setAlertMessage("Please enter a valid quantity and prices.");
       setAlertType("error");
@@ -128,14 +140,17 @@ function AddAchatTableDetails({
       return;
     }
 
-    if(Number(buyingPrice) > Number(sellingPrice)){
-      setAlertMessage("The selling price must be higher than the buying price.");
+    if (Number(buyingPrice) > Number(sellingPrice)) {
+      setAlertMessage(
+        "The selling price must be higher than the buying price."
+      );
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
 
-    const productQuantity = Number(ClientQuantity) * Number(newItem.product.boxItems);
+    const productQuantity =
+      Number(ClientQuantity) * Number(newItem.product.boxItems);
 
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
@@ -145,21 +160,21 @@ function AddAchatTableDetails({
       unityQuantity: productQuantity,
       buying: buyingPrice,
       selling: sellingPrice,
-      uniqueId: Date.now().toString()
+      uniqueId: Date.now().toString(),
     };
 
     // Add the updated item to the rows
     setRows([...rows, updatedItem]);
-    setAPIProducts((prevState) => ([
+    setAPIProducts((prevState) => [
       ...prevState,
       {
         name: updatedItem.product.name,
         productID: updatedItem.product._id,
         quantity: updatedItem.quantity,
         buying: buyingPrice,
-        selling: sellingPrice
-      }
-    ]));
+        selling: sellingPrice,
+      },
+    ]);
 
     handleCloseModal();
     setNewItem(null);
@@ -173,6 +188,7 @@ function AddAchatTableDetails({
     setSnackbarOpen(false);
   };
 
+<<<<<<< HEAD
 
   const OrderRow = ({
     row,
@@ -180,6 +196,10 @@ function AddAchatTableDetails({
   }) => {
 
     const productAmount = Number(row.buying) * Number(row.unityQuantity);
+=======
+  const OrderRow = ({ row, onDelete }) => {
+    const productAmount = Number(row.buying) * Number(row.quantity);
+>>>>>>> 930676263938dc4ea864ccb2350cd4285d67166e
 
     return (
       <TableRow
@@ -221,7 +241,7 @@ function AddAchatTableDetails({
   };
 
   //---------------------------------API calls---------------------------------\\
-  
+
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   // fetching Product data
@@ -293,7 +313,21 @@ function AddAchatTableDetails({
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
-  
+
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImage(file);
+    }
+  };
+
   return (
     <>
       <TableContainer
@@ -380,117 +414,262 @@ function AddAchatTableDetails({
             <CircularProgress color="inherit" />
           </div>
         ) : (
-        <>
-          <div className="customerClass addProductAchat">
-            <h2 className="customerClassTitle">Add Product to Achat</h2>
-            <div className="addNewStockClass flex-col">
-              <div className="w-full h-[500px] w-[100%]">
-                <div className="addProductModalHeader">
-                  <Search
-                    placeholder="Search by Product..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <div className="flex space-x-5 items-center">
-                    <span>Category :</span>
-                    <div className="selectStoreWilayaCommune w-[300px]">
-                      <select
-                        name="productCategory"
-                        onChange={handleSelectedCategoryChange}
-                      >
-                        {CategoryData ?
-                          <>
-                            <option value="">-- Select Product Category --</option>
-                            {CategoryData.map((category) => (
-                              <option key={category._id} value={category._id}>
-                                {category.name}
-                              </option>
-                            ))}
-                          </>
-                          :
-                          <option value="">No categories available</option>
-                        }
-                      </select>
+          <>
+            <div className="customerClass addProductAchat">
+              <h2 className="customerClassTitle">Add Product to Achat</h2>
+              <div className="addNewStockClass flex-col">
+                <div className="w-full h-[500px] w-[100%]">
+                  <div className="addProductToAchatButton">
+                    <div className="addProductModalHeader">
+                      <Search
+                        placeholder="Search by Product..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                      />
+                      <div className="flex space-x-5 items-center">
+                        <span>Category :</span>
+                        <div className="selectStoreWilayaCommune w-[300px]">
+                          <select
+                            name="productCategory"
+                            onChange={handleSelectedCategoryChange}
+                          >
+                            {CategoryData ? (
+                              <>
+                                <option value="">
+                                  -- Select Product Category --
+                                </option>
+                                {CategoryData.map((category) => (
+                                  <option
+                                    key={category._id}
+                                    value={category._id}
+                                  >
+                                    {category.name}
+                                  </option>
+                                ))}
+                              </>
+                            ) : (
+                              <option value="">No categories available</option>
+                            )}
+                          </select>
+                        </div>
+                      </div>
                     </div>
+                    <ButtonAdd
+                      buttonSpan="Add New Product"
+                      onClick={handleOpenAddProductModal}
+                    />
+                  </div>
+
+                  <div className="productsContainer p-0 mt-5 h-[90%]">
+                    {ProductData?.length > 0 ? (
+                      ProductData?.map((product) => (
+                        <ProductCard
+                          key={product._id}
+                          productName={
+                            product.brand?.name +
+                            " " +
+                            product.name +
+                            " " +
+                            product.size
+                          }
+                          productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                            "/api",
+                            ""
+                          )}/files/${product.image}`}
+                          onClick={() => handleSelectProduct(product)}
+                          selected={
+                            selectedProduct &&
+                            product._id === selectedProduct._id
+                          }
+                        />
+                      ))
+                    ) : (
+                      <p>No products available</p>
+                    )}
                   </div>
                 </div>
+                <>
+                  <div className=" border-0 mt-8 w-[100%] flex-row productDetailsStock">
+                    <div className="dialogAddCustomerItem items-center">
+                      <span>Buying Price :</span>
+                      <div className="inputForm flex items-center">
+                        <input
+                          type="number"
+                          name="buyingPrice"
+                          value={buyingPrice}
+                          min={0}
+                          onChange={handleBuyingPriceChange}
+                        />
+                        <span className="ml-2">DA</span>
+                      </div>
+                    </div>
+                    <div className="dialogAddCustomerItem items-center">
+                      <span>Selling Price :</span>
+                      <div className="inputForm flex items-center">
+                        <input
+                          type="number"
+                          name="sellingPrice"
+                          value={sellingPrice}
+                          min={0}
+                          onChange={handleSellingPriceChange}
+                        />
+                        <span className="ml-2">DA</span>
+                      </div>
+                    </div>
+                    <div className="dialogAddCustomerItem items-center">
+                      <span>Stock :</span>
+                      <div className="inputForm">
+                        <input
+                          type="number"
+                          name="stock"
+                          value={ClientQuantity}
+                          min={0}
+                          onChange={handleClientQuantityChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
+                    <button
+                      className="text-gray-500 cursor-pointer hover:text-gray-700"
+                      onClick={handleCloseModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="text-blue-500 cursor-pointer hover:text-blue-700"
+                      onClick={handleAddItem}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </>
+              </div>
+            </div>
+          </>
+        )}
+      </Modal>
 
-                <div className="productsContainer p-0 mt-5 h-[90%]">
-                  {ProductData?.length > 0 ? (
-                    ProductData?.map((product) => (
-                      <ProductCard
-                        key={product._id}
-                        productName={product.brand?.name + ' ' + product.name + ' ' + product.size}
-                        productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${product.image}`}
-                        onClick={() => handleSelectProduct(product)}
-                        selected={selectedProduct && product._id === selectedProduct._id}
+      <Modal
+        isOpen={isAddProdutModalOpen}
+        onRequestClose={handleCloseAddProductModal}
+        contentLabel="Add new Product"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "40%",
+            margin: "auto",
+            height: "70%",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Add New Product to Stock</h2>
+          <div className="mt-[16px]">
+            <form>
+              <div className="flex-col space-y-8">
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Name :</span>
+                  <div className="inputForm">
+                    <input type="text" name="productName" />
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Size :</span>
+                  <div className="inputForm">
+                    <input type="text" name="productName" />
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>BoxItems :</span>
+                  <div className="inputForm">
+                    <input type="number" name="productName" />
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Category :</span>
+                  <div className="selectStoreWilayaCommune w-[500px]">
+                    <select name="productCategory">
+                      <option value="">-- Select Product Category --</option>
+                      {/* {CategoryData?.map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.name}
+                        </option>
+                      ))} */}
+                    </select>
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Brand :</span>
+                  <div className="selectStoreWilayaCommune w-[500px]">
+                    <select name="productCategory">
+                      <option value="">-- Select Product Brand --</option>
+                      {/* {BrandData?.map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.name}
+                        </option>
+                      ))} */}
+                    </select>
+                  </div>
+                </div>
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Product Picture :</span>
+                  <div className="flex items-center space-x-4">
+                    <div
+                      className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
+                      onClick={handleClick}
+                    >
+                      {image ? (
+                        <img
+                          src={image}
+                          alt="Preview"
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <PhotoIcon className="w-6 h-6 text-slate-400" />
+                      )}
+                    </div>
+                    <div className="h-[80px] w-[404px] flex items-center justify-center uploadClass">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleImageChange}
                       />
-                    ))
-                  ) : (
-                    <p>No products available</p>
-                  )}
+                      <p onClick={handleClick} className="uploadSpan">
+                        <span className="text-blue-600">Click to upload </span>
+                        or drag and drop SVG, PNG, JPG
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <>
-                <div className=" border-0 mt-8 w-[100%] flex-row productDetailsStock">
-                  <div className="dialogAddCustomerItem items-center">
-                    <span>Buying Price :</span>
-                    <div className="inputForm flex items-center">
-                      <input
-                        type="number"
-                        name="buyingPrice"
-                        value={buyingPrice}
-                        min={0}
-                        onChange={handleBuyingPriceChange}
-                      />
-                      <span className="ml-2">DA</span>
-                    </div>
-                  </div>
-                  <div className="dialogAddCustomerItem items-center">
-                    <span>Selling Price :</span>
-                    <div className="inputForm flex items-center">
-                      <input
-                        type="number"
-                        name="sellingPrice"
-                        value={sellingPrice}
-                        min={0}
-                        onChange={handleSellingPriceChange}
-                      />
-                      <span className="ml-2">DA</span>
-                    </div>
-                  </div>
-                  <div className="dialogAddCustomerItem items-center">
-                    <span>Stock :</span>
-                    <div className="inputForm">
-                      <input
-                        type="number"
-                        name="stock"
-                        value={ClientQuantity}
-                        min={0}
-                        onChange={handleClientQuantityChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
-                  <button
-                    className="text-gray-500 cursor-pointer hover:text-gray-700"
-                    onClick={handleCloseModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="text-blue-500 cursor-pointer hover:text-blue-700"
-                    onClick={handleAddItem}
-                  >
-                    Save
-                  </button>
-                </div>
-              </>
-            </div>
+              <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+                <button
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                  onClick={handleCloseAddProductModal}
+                >
+                  Cancel
+                </button>
+                <input
+                  type="button"
+                  value={"Save"}
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  // onClick={handleSavePRODUCT}
+                />
+              </div>
+            </form>
           </div>
-        </>
-        )}
+        </div>
       </Modal>
 
       <ConfirmDialog

@@ -1196,6 +1196,12 @@ aside ul {
   gap: 16px;
 }
 
+.addProductToAchatButton{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* <div className="customerClass flex-col space-y-1">
             <div className="flex justify-between items-center">
               <h2 className="customerClassTitle">Order Type</h2>

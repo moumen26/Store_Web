@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "../components/Header";
 import ButtonSave from "../components/ButtonSave";
 import ButtonCancel from "../components/ButtonCancel";
@@ -35,11 +35,25 @@ export default function AddAchat() {
 
   const handleConfirmAchatSubmit = () => {
     setOpenConfirmationDialog(false);
-  }
+  };
 
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
-  }
+  };
+
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImage(file);
+    }
+  };
 
   return (
     <div className="pagesContainer addOrder">
@@ -48,7 +62,7 @@ export default function AddAchat() {
         <h2 className="pagesTitle">Add a new achat</h2>
         <div className="flex items-center space-x-2">
           <ButtonCancel />
-          <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
+          <ButtonSave setOnClick={handleOpenConfirmationDialog} />
         </div>
       </div>
       <div className="customerClass">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "../components/Header";
 import ButtonSave from "../components/ButtonSave";
 import ButtonCancel from "../components/ButtonCancel";
@@ -43,9 +43,30 @@ export default function AddAchat() {
     setIsModalOpen(false);
   };
 
+<<<<<<< HEAD
+=======
+  const handleConfirmAchatSubmit = () => {
+    setOpenConfirmationDialog(false);
+  };
+
+>>>>>>> 930676263938dc4ea864ccb2350cd4285d67166e
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
-  }
+  };
+
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImage(file);
+    }
+  };
 
   const handleNavigateClick = (path) => {
     navigate(path);
@@ -104,6 +125,7 @@ export default function AddAchat() {
     setProducts([]);
   }
   return (
+<<<<<<< HEAD
     <>
       {!submitionLoading ?
         <div className="pagesContainer addOrder">
@@ -144,6 +166,33 @@ export default function AddAchat() {
             onClose={handleCloseDialog}
             dialogTitle="Confirm achat submition"
             dialogContentText={`Are you sure you want to submit this achat?`}
+=======
+    <div className="pagesContainer addOrder">
+      <Header />
+      <div className="w-full flex items-center justify-between">
+        <h2 className="pagesTitle">Add a new achat</h2>
+        <div className="flex items-center space-x-2">
+          <ButtonCancel />
+          <ButtonSave setOnClick={handleOpenConfirmationDialog} />
+        </div>
+      </div>
+      <div className="customerClass">
+        <h2 className="customerClassTitle">Basic Information</h2>
+        <AddAchatProfileDetails />
+      </div>
+      <div className="pageTable">
+        <div className="flex items-center justify-between">
+          <h2 className="customerClassTitle">Achat Details</h2>
+          <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+        </div>
+        <div className="pageTableContainer">
+          <AddAchatTableDetails
+            isModalOpen={isModalOpen}
+            handleCloseModal={handleCloseModal}
+            onCalculateTotals={handleCalculateTotals}
+            deliveryAmount={deliveryAmount}
+            setAPIProducts={setProducts}
+>>>>>>> 930676263938dc4ea864ccb2350cd4285d67166e
           />
           {/* Snackbar */}
           <Snackbar

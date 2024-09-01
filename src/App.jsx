@@ -28,6 +28,7 @@ import Purchases from "./pages/Purchases";
 import CreditPurchases from "./pages/CreditPurchases";
 import FournisseurProfile from "./pages/FournisseurProfile";
 import AddAchat from "./pages/AddAchat";
+import PurchaseProfile from "./pages/PurchaseProfile";
 
 function App() {
   const { user } = useAuthContext();
@@ -89,8 +90,14 @@ function App() {
             element={user ? <FournisseurProfile /> : <SignIn />}
           />
           <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
-          <Route path="/AddOrder/:id" element={user ? <AddOrder /> : <SignIn />} />
-          <Route path="/AddAchat/:id" element={user ? <AddAchat /> : <SignIn />} />
+          <Route
+            path="/AddOrder/:id"
+            element={user ? <AddOrder /> : <SignIn />}
+          />
+          <Route
+            path="/AddAchat/:id"
+            element={user ? <AddAchat /> : <SignIn />}
+          />
           <Route
             path="/ProductsList"
             element={user ? <ProductsList /> : <SignIn />}
@@ -98,6 +105,10 @@ function App() {
           <Route
             path="/ProductsGrid"
             element={user ? <ProductsGrid /> : <SignIn />}
+          />
+          <Route
+            path="/PurchaseProfile"
+            element={user ? <PurchaseProfile /> : <SignIn />}
           />
           <Route
             path="/Product/:id"

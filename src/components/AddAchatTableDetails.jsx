@@ -73,7 +73,7 @@ function AddAchatTableDetails({
   useEffect(() => {
     const calculateTotals = () => {
       const subtotal = rows.reduce(
-        (acc, row) => acc + row.quantity * row.buying,
+        (acc, row) => acc + row.unityQuantity * row.buying,
         0
       );
       const total = subtotal + deliveryAmount;
@@ -94,8 +94,10 @@ function AddAchatTableDetails({
     setRows(updatedRows);
 
     const updatedAPIProducts = updatedRows.map((updatedItem) => ({
+      name: updatedItem.product.name,
       productID: updatedItem.productID,
       quantity: updatedItem.quantity,
+      unityQuantity: updatedItem.unityQuantity,
       buying: updatedItem.buying,
       selling: updatedItem.selling
     }));
@@ -138,7 +140,9 @@ function AddAchatTableDetails({
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
       ...newItem,
-      quantity: productQuantity,
+      name: newItem.product.name,
+      quantity: ClientQuantity,
+      unityQuantity: productQuantity,
       buying: buyingPrice,
       selling: sellingPrice,
       uniqueId: Date.now().toString()
@@ -149,6 +153,7 @@ function AddAchatTableDetails({
     setAPIProducts((prevState) => ([
       ...prevState,
       {
+        name: updatedItem.product.name,
         productID: updatedItem.product._id,
         quantity: updatedItem.quantity,
         buying: buyingPrice,
@@ -174,7 +179,7 @@ function AddAchatTableDetails({
     onDelete,
   }) => {
 
-    const productAmount = Number(row.buying) * Number(row.quantity);
+    const productAmount = Number(row.buying) * Number(row.unityQuantity);
 
     return (
       <TableRow
@@ -193,6 +198,9 @@ function AddAchatTableDetails({
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.quantity}</span>
+        </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">{row.unityQuantity}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.buying} DA</span>
@@ -304,6 +312,9 @@ function AddAchatTableDetails({
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Brand</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Box</span>
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Quantity</span>

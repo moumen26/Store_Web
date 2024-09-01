@@ -60,7 +60,9 @@ export default function SignIn() {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      setSnackbarMessage("An error occurred. Please try again later.");
+      setSnackbarOpen(true);
+      setLoading(false);
     }
   };
 

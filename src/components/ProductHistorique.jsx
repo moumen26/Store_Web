@@ -237,7 +237,7 @@ export default function ProductHistorique({ selectedStockId }) {
             </TableCell>
           </TableRow>
           :(
-              StockStatusData?.length <= 0 ? 
+              !StockStatusData || StockStatusData.length <= 0 ? 
                 <TableRow>
                   <TableCell colSpan={8} align="center">
                     No Data Available

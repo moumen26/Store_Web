@@ -14,7 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
+import { formatDate } from "../util/useFullFunctions";
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -23,7 +23,6 @@ function Row(props) {
   const handleViewClick = () => {
     navigate("/OrderProfile", { state: { customer: row } });
   };
-
   return (
     <React.Fragment>
       <TableRow
@@ -40,22 +39,26 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderId}</span>
+          <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderDate}</span>
+          <span className="trTableSpan">{row.stock.length}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderItems}</span>
+          <span className="trTableSpan">{row.totalAmount} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount}</span>
-        </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.pendingPayment}</span>
+          <span className="trTableSpan">
+            {row.payment && row.payment.length > 0
+              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
+              : 0} DA
+          </span>        
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.orderStatus}</span>
+          <span className="trTableSpan">{row.credit ? 'true' : 'false'}</span>
+        </TableCell>
+        <TableCell align="right" className="tableCell">
+          <span className="trTableSpan">{row.closed ? 'The full amount has been paid.' : 'The full amount has not been paid yet.'}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -102,36 +105,36 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((detailsRow) => (
-                    <TableRow key={detailsRow.productName} className="tableRow">
+                  {row.stock?.map((detailsRow) => (
+                    <TableRow key={detailsRow._id} className="tableRow">
                       <TableCell
                         component="th"
                         scope="row"
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productName}
+                          {detailsRow.stock.product.name + ' ' + detailsRow.stock.product.size}
                         </span>
                       </TableCell>
                       <TableCell className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productBrand}
+                          {detailsRow.stock.product.brand.name}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productPrice}
+                          {detailsRow.buying}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.productQuantity}
+                          {detailsRow.quantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            detailsRow.productPrice * detailsRow.productQuantity
+                            detailsRow.buying * detailsRow.quantity
                           )}
                         </span>
                       </TableCell>
@@ -148,94 +151,10 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.shape({
-    orderId: PropTypes.string.isRequired,
-    orderAmount: PropTypes.string.isRequired,
-    orderDate: PropTypes.string.isRequired,
-    orderDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        productPrice: PropTypes.number.isRequired,
-        productBrand: PropTypes.string.isRequired,
-        productName: PropTypes.string.isRequired,
-        productQuantity: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    customerLastName: PropTypes.string.isRequired,
-    customerFirstName: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
-    orderBoxes: PropTypes.string.isRequired,
-    orderItems: PropTypes.string.isRequired,
-    orderType: PropTypes.string.isRequired,
-    orderDeliveryDate: PropTypes.string.isRequired,
-    orderCourier: PropTypes.string.isRequired,
-  }).isRequired,
+  row: PropTypes.object.isRequired,
 };
 
-const rows = [
-  {
-    customerLastName: "Abdelmoumen",
-    customerFirstName: "Khaldi",
-    orderId: "0920425",
-    customerPhone: "0550189087",
-    customerAddress: "123 Rue Yousfi Abdelkader",
-    customerCommune: "Ouled Aich",
-    customerWilaya: "Blida",
-    orderDate: "May 26, 2024 | 23:30 AM",
-    orderAmount: "4000.00",
-    orderStatus: "Completed",
-    orderBoxes: "10",
-    orderItems: "4",
-    orderType: "Delivery",
-    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
-    orderCourier: "Yalidine",
-    orderDeliveryAmount: 0,
-    pendingPayment: 0,
-
-    orderDetails: [
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 920,
-        productQuantity: 3,
-      },
-    ],
-  },
-  {
-    customerLastName: "Mohamed",
-    customerFirstName: "Khaldi",
-    customerPhone: "0550189087",
-    customerAddress: "123 Rue Yousfi Abdelkader",
-    customerCommune: "Ouled Aich",
-    customerWilaya: "Blida",
-    orderId: "0920200",
-    orderDate: "May 26, 2024 | 23:30 AM",
-    orderAmount: "4000.00",
-    orderStatus: "Pending",
-    orderBoxes: "20",
-    orderItems: "8",
-    orderType: "Delivery",
-    orderDeliveryDate: "May 27, 2024 | 12:30 AM",
-    orderCourier: "Yalidine",
-    orderDeliveryAmount: 0,
-    pendingPayment: "2000.00",
-    orderDetails: [
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 920,
-        productQuantity: 3,
-      },
-      {
-        productName: "Elio - 1L",
-        productBrand: "Cevital",
-        productPrice: 1,
-        productQuantity: 3,
-      },
-    ],
-  },
-];
-
-export default function FournisseurProfileAchatsTable({ data, loading }) {
+export default function FournisseurProfileAchatsTable({ data = [], loading }) {
   return (
     <TableContainer
       className="tableContainer"
@@ -247,17 +166,19 @@ export default function FournisseurProfileAchatsTable({ data, loading }) {
           <TableRow>
             <TableCell className="tableCell" />
             <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase ID</span>
-            </TableCell>
-            <TableCell className="tableCell">
               <span className="thTableSpan">Purchase Date</span>
             </TableCell>
-
             <TableCell className="tableCell">
-              <span className="thTableSpan">Amount</span>
+              <span className="thTableSpan">Purchase items</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Pending Payment</span>
+              <span className="thTableSpan">Total Amount</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Payments Amount</span>
+            </TableCell>
+            <TableCell align="right" className="tableCell">
+              <span className="thTableSpan">Credit</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Status</span>
@@ -274,14 +195,14 @@ export default function FournisseurProfileAchatsTable({ data, loading }) {
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : data?.lenght > 0 ? (
-            data.map((row) => <Row key={row.orderId} row={row} />)
-          ) : (
+          ) : !data || data.lenght <= 0 ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No Purchases found</span>
               </TableCell>
             </TableRow>
+          ) : (
+            data?.map((row) => <Row key={row.orderId} row={row} />)
           )}
         </TableBody>
       </Table>

@@ -94,6 +94,37 @@ export default function FournisseurProfile() {
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
+  // fetching statistics data
+  const fetchAchatStatisticsData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/statistics/${decodedToken.id}/${id}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving achat by fournisseur data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: AchatStatisticsData, error: AchatStatisticsDataError, isLoading: AchatStatisticsDataLoading, refetch: AchatStatisticsDataRefetch } = useQuery({
+      queryKey: ['AchatStatisticsData', user?.token, location.key],
+      queryFn: fetchAchatStatisticsData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
   if (OneFournisseurLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -156,16 +187,24 @@ export default function FournisseurProfile() {
           <h2 className="customerClassTitle">Stats</h2>
           <div className="flex space-x-4">
             <CustomerStatsCard
+              loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Purchases"
-              customerStatsCardDetails="22"
+              customerStatsCardDetails={AchatStatisticsData?.count}
             />
             <CustomerStatsCard
+              loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Amount"
-              customerStatsCardDetails="22000"
+              customerStatsCardDetails={AchatStatisticsData?.paid}
             />
             <CustomerStatsCard
-              customerStatsCardTitle="Total Pending Payment"
-              customerStatsCardDetails="0"
+              loading={AchatStatisticsDataLoading}
+              customerStatsCardTitle="Total Pending Payment non credited"
+              customerStatsCardDetails={AchatStatisticsData?.unpaidNonCredited}
+            />
+            <CustomerStatsCard
+              loading={AchatStatisticsDataLoading}
+              customerStatsCardTitle="Total Pending Payment credited"
+              customerStatsCardDetails={AchatStatisticsData?.unpaidCredited}
             />
           </div>
         </div>

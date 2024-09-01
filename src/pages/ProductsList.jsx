@@ -381,7 +381,8 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="buyingPrice"
-                        defaultValue={0}
+                        value={BuyingPrice}
+                        min={0}
                         onChange={handleBuyingPriceChange}
                       />
                       <span className="ml-2">DA</span>
@@ -393,7 +394,8 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="sellingPrice"
-                        defaultValue={0}
+                        value={SellingPrice}
+                        min={0}
                         onChange={handleSellingPriceChange}
                       />
                       <span className="ml-2">DA</span>
@@ -405,7 +407,8 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="stock"
-                        defaultValue={0}
+                        value={Quantity}
+                        min={0}
                         onChange={handleQuantityChange}
                       />
                     </div>
@@ -421,7 +424,8 @@ export default function ProductsList() {
                       <input
                         type="number"
                         name="stock"
-                        defaultValue={0}
+                        value={LimitedQuantity}
+                        min={0}
                         onChange={handleLimitedQuantityChange}
                       />
                     </div>
@@ -432,7 +436,8 @@ export default function ProductsList() {
                       <input 
                         type="number" 
                         name="stock" 
-                        defaultValue={0} 
+                        value={Destocking}
+                        min={0}
                         onChange={handleDestockingChange}
                       />
                     </div>
@@ -443,6 +448,7 @@ export default function ProductsList() {
                       <input
                         type="date"
                         name="ExparationDate"
+                        value={ExparationDate}
                         onChange={handleExparationDateChange}
                       />
                     </div>

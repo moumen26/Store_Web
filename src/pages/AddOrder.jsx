@@ -109,6 +109,7 @@ export default function AddOrder() {
           console.error("Error creating new order");
         }
     }
+    setProducts([]);
   }
 
   return (

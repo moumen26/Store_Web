@@ -34,7 +34,6 @@ function Row(props) {
     onChange,
     editedRow,
   } = props;
-
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">

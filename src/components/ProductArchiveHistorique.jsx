@@ -84,7 +84,6 @@ export default function ProductArchiveHistorique({ selectedStockId }) {
       enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
       refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
-
   return (
     <TableContainer component={Paper} style={{ boxShadow: "none" }}>
       <Table aria-label="product historique">
@@ -115,7 +114,7 @@ export default function ProductArchiveHistorique({ selectedStockId }) {
             </TableCell>
           </TableRow>
           :(
-              EndedStockStatusData?.length <= 0 ? 
+              !EndedStockStatusData || EndedStockStatusData.length <= 0 ? 
                 <TableRow>
                   <TableCell colSpan={8} align="center">
                     No Data Available

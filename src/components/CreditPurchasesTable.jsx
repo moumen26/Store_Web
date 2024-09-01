@@ -12,11 +12,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
   const { row } = props;
@@ -45,21 +46,21 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.fournisseurFirstName} {row.fournisseurLastName}
+            {row.fournisseur.firstName} {row.fournisseur.lastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.purchaseCode}</span>
+          <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.purchaseDate)}</span>
+          <span className="trTableSpan">{row.totalAmount.toString()} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.purchaseAmount} DA</span>
-        </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">1000 DA</span>
-        </TableCell>
+        <span className="trTableSpan">
+            {row.payment && row.payment.length > 0
+              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
+              : 0} DA
+          </span>          </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
             <EyeIcon
@@ -102,9 +103,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.purchaseDetails.map((purchaseDetailsRow) => (
+                  {row.stock.map((purchaseDetailsRow) => (
                     <TableRow
-                      key={purchaseDetailsRow.productName}
+                      key={purchaseDetailsRow._id}
                       className="tableRow"
                     >
                       <TableCell
@@ -113,24 +114,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {purchaseDetailsRow.productName}
+                        {`${purchaseDetailsRow.stock.product.name} ${purchaseDetailsRow.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {purchaseDetailsRow.productPrice}
+                          {purchaseDetailsRow.stock.buying.toString()}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {purchaseDetailsRow.productQuantity}
+                          {purchaseDetailsRow.stock.quantity.toString()}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            purchaseDetailsRow.productPrice *
-                              purchaseDetailsRow.productQuantity
+                            purchaseDetailsRow.stock.buying.toString() *
+                              purchaseDetailsRow.stock.quantity.toString()
                           )}
                         </span>
                       </TableCell>
@@ -194,85 +195,64 @@ const formatDate = (dateString) => {
 };
 export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
-  const [ORDERDATA, setORDERDATA] = useState([]);
-  const [loading, setLoading] = useState(false);
   const decodedToken = TokenDecoder();
-  useEffect(() => {
-    const fetchORDERDATA = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
-            decodedToken.id
-          }`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        if (response.ok) {
-          setORDERDATA(data);
-        } else {
-          setORDERDATA([]);
-          setRows([]);
-          console.error(
-            "Error receiving none delivered ORDER data:",
-            data.message
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching none delivered ORDER data:", error);
-      } finally {
-        setLoading(false);
+  const location = useLocation();
+  // fetching Purchases data
+  const fetchCreditedPurchasesData = async () => {
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/credited/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
       }
-    };
-    fetchORDERDATA();
-  }, [user?.token]);
-  const [rows, setRows] = useState([]);
-  useEffect(() => {
-    if (ORDERDATA.length > 0) {
-      const rowsData = ORDERDATA.map((order) => ({
-        purchaseId: order._id,
-        purchaseCode: order.code,
-        fournisseurFirstName: order.client.firstName,
-        fournisseurLastName: order.client.lastName,
-        purchaseDate: order.date,
-        purchaseAmount: order.total.toString(),
-        purchaseDetails: order.products.map((item) => ({
-          productName: item.product.name,
-          productPrice: item.price.toString(),
-          productQuantity: item.quantity.toString(),
-        })),
-      }));
-      setRows(rowsData);
-      setFilteredRows(rowsData);
-    }
-  }, [ORDERDATA]);
-  const [filteredRows, setFilteredRows] = useState(rows);
-  useEffect(() => {
-    const results = rows.filter(
-      (row) =>
-        row.fournisseurLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.fournisseurFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.purchaseId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.purchaseAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.purchaseDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.purchaseDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
     );
-    setFilteredRows(results);
-    setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving credited Purchases data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: CreditedPurchasesData = [],
+    error: CreditedPurchasesError,
+    isLoading: CreditedPurchasesLoading,
+    refetch: CreditedPurchasesRefetch,
+  } = useQuery({
+    queryKey: ["CreditedPurchasesData", user?.token, location.key],
+    queryFn: fetchCreditedPurchasesData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // const [rows, setRows] = useState([]);
+  // const [filteredRows, setFilteredRows] = useState(rows);
+  // useEffect(() => {
+  //   const results = rows.filter(
+  //     (row) =>
+  //       row.fournisseurLastName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.fournisseurFirstName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.purchaseId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.purchaseAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.purchaseDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.purchaseDetails.some((detail) =>
+  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //   );
+  //   setFilteredRows(results);
+  //   setFilteredData(results);
+  // }, [searchQuery, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -285,9 +265,6 @@ export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
             <TableCell className="tableCell" />
             <TableCell className="tableCell">
               <span className="thTableSpan">Fournisseur</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase ID</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Purchase Date</span>
@@ -304,15 +281,15 @@ export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.purchaseId} row={row} />)
-          ) : loading ? (
+        {CreditedPurchasesLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
+          ) : CreditedPurchasesData.length > 0 ? (
+            CreditedPurchasesData.map((row) => <Row key={row._id} row={row} />)
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">

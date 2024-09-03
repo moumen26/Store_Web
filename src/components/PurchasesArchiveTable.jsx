@@ -18,7 +18,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
-import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import { formatDate } from "../util/useFullFunctions";
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -26,7 +27,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/OrderProfile/${row.orderId}`);
+    navigate(`/PurchaseProfile/${row._id}`);
   };
 
   return (
@@ -46,23 +47,21 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.customerFirstName} {row.customerLastName}
+            {row.fournisseur.firstName} {row.fournisseur.lastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderCode}</span>
+          <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
+          <span className="trTableSpan">{row.totalAmount.toString()} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount} DA</span>
-        </TableCell>
-        <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.orderStatus)}
-          </span>
-        </TableCell>
+        <span className="trTableSpan">
+            {row.payment && row.payment.length > 0
+              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
+              : 0} DA
+          </span>          </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
             <EyeIcon
@@ -105,9 +104,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((orderDetailsRow) => (
+                  {row.stock.map((purchaseDetailsRow) => (
                     <TableRow
-                      key={orderDetailsRow.productName}
+                      key={purchaseDetailsRow._id}
                       className="tableRow"
                     >
                       <TableCell
@@ -116,24 +115,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productName}
+                        {`${purchaseDetailsRow.stock.product.name} ${purchaseDetailsRow.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productPrice}
+                          {purchaseDetailsRow.stock.buying.toString()}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productQuantity}
+                          {purchaseDetailsRow.stock.quantity.toString()}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.productPrice *
-                              orderDetailsRow.productQuantity
+                            purchaseDetailsRow.stock.buying.toString() *
+                              purchaseDetailsRow.stock.quantity.toString()
                           )}
                         </span>
                       </TableCell>
@@ -149,36 +148,15 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    orderId: PropTypes.string.isRequired,
-    orderCode: PropTypes.string.isRequired,
-    orderAmount: PropTypes.string.isRequired,
-    orderDate: PropTypes.string.isRequired,
-    orderDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        productName: PropTypes.string.isRequired,
-        productPrice: PropTypes.string.isRequired,
-        productQuantity: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    customerLastName: PropTypes.string.isRequired,
-    customerFirstName: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
 export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
 
-  //fetch data
-  const DelivredfetchOrderData = async () => {
+  // fetching Archive Purchases data
+  const fetchArchivePurchasesData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivred/${
-        decodedToken.id
-      }`,
+      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -188,75 +166,48 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
       }
     );
 
+    // Handle the error state
     if (!response.ok) {
       const errorData = await response.json();
-      if (errorData.error.statusCode === 404) {
-        return []; // Return an empty array if no data is found
-      } else {
-        throw new Error("Error receiving order data");
-      }
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Archive Purchases data");
     }
-
-    return await response.json(); // Return the data if the response is successful
+    // Return the data
+    return await response.json();
   };
   // useQuery hook to fetch data
   const {
-    data: DelivredOrderData,
-    error: DelivredOrderDataError,
-    isLoading: DelivredOrderDataLoading,
-    refetch: DelivredrefetchOrderData,
+    data: ArchivePurchasesData = [],
+    error: ArchivePurchasesError,
+    isLoading: ArchivePurchasesLoading,
+    refetch: ArchivePurchasesRefetch,
   } = useQuery({
-    queryKey: ["DelivredOrderData", user?.token, location.key],
-    queryFn: DelivredfetchOrderData,
+    queryKey: ["ArchivePurchasesData", user?.token, location.key],
+    queryFn: fetchArchivePurchasesData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-    staleTime: 0,
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
-  const [rows, setRows] = useState([]);
-  useEffect(() => {
-    if (DelivredOrderData?.length > 0) {
-      const rowsData = DelivredOrderData.map((order) => ({
-        orderId: order._id,
-        orderCode: order.code,
-        customerFirstName: order.client.firstName,
-        customerLastName: order.client.lastName,
-        orderDate: order.date,
-        orderAmount: order.total.toString(),
-        orderStatus: order.status.toString(),
-        orderDetails: order.products.map((item) => ({
-          productName: item.product.name,
-          productPrice: item.price.toString(),
-          productQuantity: item.quantity.toString(),
-        })),
-      }));
-      setRows(rowsData);
-      setFilteredRows(rowsData);
-    } else {
-      setRows([]);
-    }
-    DelivredrefetchOrderData();
-  }, [DelivredOrderData]);
-  const [filteredRows, setFilteredRows] = useState(rows);
-  useEffect(() => {
-    const results = rows.filter(
-      (row) =>
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
-    setFilteredRows(results);
-    setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+  //const [rows, setRows] = useState([]);
+  // useEffect(() => {
+  //   const results = rows.filter(
+  //     (row) =>
+  //       row.customerLastName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.customerFirstName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderDetails.some((detail) =>
+  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //   );
+  //   setFilteredRows(results);
+  //   setFilteredData(results);
+  // }, [searchQuery, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -266,12 +217,9 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
       <Table aria-label="collapsible table" className="table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell" />
+          <TableCell className="tableCell" />
             <TableCell className="tableCell">
               <span className="thTableSpan">Fournisseur</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase ID</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Purchase Date</span>
@@ -279,8 +227,8 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Status</span>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>
@@ -288,19 +236,19 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
-          ) : DelivredOrderDataLoading ? (
+        {ArchivePurchasesLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
+          ) : ArchivePurchasesData.length > 0 ? (
+            ArchivePurchasesData.map((row) => <Row key={row._id} row={row} />)
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">No orders found</span>
+                <span className="thTableSpan">No archive purchases found</span>
               </TableCell>
             </TableRow>
           )}

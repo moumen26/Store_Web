@@ -18,6 +18,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
+import { formatDate } from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -147,34 +148,6 @@ function Row(props) {
   );
 }
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-
-  const monthNames = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
-
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
-};
 export default function PurchasesTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();

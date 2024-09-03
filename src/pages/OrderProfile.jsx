@@ -27,6 +27,7 @@ export default function OrderProfile() {
   const [Amount, setAmount] = useState(0);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [isConfirmDialogOpenWithoutPaying, setisConfirmDialogOpenWithoutPaying] = useState(false);
+  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] = useState(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -63,6 +64,14 @@ export default function OrderProfile() {
 
   const handleCloseConfirmationDialogWithoutPaying = () => {
     setisConfirmDialogOpenWithoutPaying(false);
+  }
+
+  const handleOpenCreditedConfirmationDialog = () => {
+    setisCreditedConfirmDialogOpen(true);
+  };
+
+  const handleCloseCreditedConfirmationDialog = () => {
+    setisCreditedConfirmDialogOpen(false);
   }
 
   //---------------------------------API calls---------------------------------\\
@@ -201,6 +210,50 @@ export default function OrderProfile() {
     }
   }
 
+  //make it credited API
+  const handleOnConfirmCredited = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/credited/${id}`,
+        {
+
+        },
+        {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            }
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseCreditedConfirmationDialog();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+        if (error.response) {
+          setAlertType("error");
+          setAlertMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error updating credited: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error updating credited");
+        }
+    }
+  }
+
   if (OrderDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -327,6 +380,13 @@ export default function OrderProfile() {
                     onClick={handleOpenConfirmationDialogWithoutPaying}
                   />
                 }
+                {OrderData.credit == false &&
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Make it credited"
+                    onClick={handleOpenCreditedConfirmationDialog}
+                  />
+                }
                 <ButtonAdd
                   showIcon={false}
                   buttonSpan="Add payment"
@@ -423,6 +483,14 @@ export default function OrderProfile() {
         onClose={handleCloseConfirmationDialogWithoutPaying}
         dialogTitle="Confirm taken without paying"
         dialogContentText={`Are you sure you want to confirm taken without paying`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isCreditedConfirmDialogOpen}
+        onConfirm={handleOnConfirmCredited}
+        onClose={handleCloseCreditedConfirmationDialog}
+        dialogTitle="Confirm make it credited"
+        dialogContentText={`Are you sure you want confirm to make it credited?`}
         isloading={submitionLoading}
       />
 

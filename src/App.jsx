@@ -29,6 +29,7 @@ import CreditPurchases from "./pages/CreditPurchases";
 import FournisseurProfile from "./pages/FournisseurProfile";
 import AddAchat from "./pages/AddAchat";
 import PurchaseProfile from "./pages/PurchaseProfile";
+import PuchasesArchive from "./pages/PuchasesArchive";
 
 function App() {
   const { user } = useAuthContext();
@@ -101,6 +102,10 @@ function App() {
           <Route
             path="/ProductsList"
             element={user ? <ProductsList /> : <SignIn />}
+          />
+          <Route
+            path="/PuchasesArchive"
+            element={user ? <PuchasesArchive /> : <SignIn />}
           />
           <Route
             path="/ProductsGrid"

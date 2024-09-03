@@ -56,7 +56,7 @@ export default function Asidebar() {
 
   return (
     <aside>
-      <ul className="flex-col space-y-[8px]">
+      <ul className="flex-col space-y-[6px]">
         <li>
           <NavLink to="/Dashboard" className="flex items-center">
             <div
@@ -69,8 +69,8 @@ export default function Asidebar() {
             </div>
           </NavLink>
         </li>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex-col space-y-[6px] sidebar">
+          <li className="flex-col space-y-[6px]">
             <div className="flex items-center cursor-pointer">
               <div
                 className={`flex items-center justify-between itemAsideBar`}
@@ -86,7 +86,7 @@ export default function Asidebar() {
               </div>
             </div>
             {isProductsOpen && (
-              <div className="flex-col space-y-[8px]">
+              <div className="flex-col space-y-[6px]">
                 <NavLink to="/ProductsList" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
@@ -115,8 +115,8 @@ export default function Asidebar() {
             )}
           </li>
         </div>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex-col space-y-[6px] sidebar">
+          <li className="flex-col space-y-[6px]">
             <div className="flex items-center cursor-pointer">
               <div
                 className={`flex items-center justify-between itemAsideBar`}
@@ -132,7 +132,7 @@ export default function Asidebar() {
               </div>
             </div>
             {isOrdersOpen && (
-              <div className="flex-col space-y-[8px]">
+              <div className="flex-col space-y-[6px]">
                 <NavLink to="/Orders" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
@@ -171,8 +171,8 @@ export default function Asidebar() {
             )}
           </li>
         </div>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex-col space-y-[6px] sidebar">
+          <li className="flex-col space-y-[6px]">
             <div className="flex items-center cursor-pointer">
               <div
                 className={`flex items-center justify-between itemAsideBar`}
@@ -188,7 +188,7 @@ export default function Asidebar() {
               </div>
             </div>
             {isAchatsOpen && (
-              <div className="flex-col space-y-[8px]">
+              <div className="flex-col space-y-[6px]">
                 <NavLink to="/Purchases" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
@@ -213,22 +213,22 @@ export default function Asidebar() {
                     <span className="ml-3">Credit Purchases</span>
                   </div>
                 </NavLink>
+                <NavLink to="/PuchasesArchive" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/PuchasesArchive"
+                        ? "asideItemActive"
+                        : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">Purchases Archive</span>
+                  </div>
+                </NavLink>
               </div>
             )}
           </li>
         </div>
-        <li>
-          <NavLink to="/Vendors" className=" flex items-center">
-            <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Vendors" ? "asideItemActive" : ""
-              }`}
-            >
-              <UsersIcon className="iconAsideBar" />
-              <span className="ml-3">Vendors</span>
-            </div>
-          </NavLink>
-        </li>
         <li>
           <NavLink to="/Customers" className=" flex items-center">
             <div
@@ -242,14 +242,14 @@ export default function Asidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Authentication" className=" flex items-center">
+          <NavLink to="/Vendors" className=" flex items-center">
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Authentication" ? "asideItemActive" : ""
+                location.pathname === "/Vendors" ? "asideItemActive" : ""
               }`}
             >
-              <UserPlusIcon className="iconAsideBar" />
-              <span className="ml-3">User Authentication</span>
+              <UsersIcon className="iconAsideBar" />
+              <span className="ml-3">Vendors</span>
             </div>
           </NavLink>
         </li>
@@ -265,7 +265,21 @@ export default function Asidebar() {
             </div>
           </NavLink>
         </li>
-        <div className="absolute bottom-0 space-y-[8px] w-full">
+
+        <li>
+          <NavLink to="/Authentication" className=" flex items-center">
+            <div
+              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
+                location.pathname === "/Authentication" ? "asideItemActive" : ""
+              }`}
+            >
+              <UserPlusIcon className="iconAsideBar" />
+              <span className="ml-3">User Authentication</span>
+            </div>
+          </NavLink>
+        </li>
+
+        <div className="absolute bottom-0 space-y-[6px] w-full">
           <li>
             <NavLink to="/Settings" className=" flex items-center">
               <div

@@ -50,8 +50,8 @@ function Row(props) {
         <TableCell className="tableCell">
           <span className="trTableSpan">
             {row.payment && row.payment.length > 0
-              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
-              : 0} DA
+            ? (row.totalAmount - row.payment.reduce((sum, pay) => sum + pay.amount, 0))
+            : 0} DA
           </span>        
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -175,7 +175,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
               <span className="thTableSpan">Total Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Payments Amount</span>
+              <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Credit</span>

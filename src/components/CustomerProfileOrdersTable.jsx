@@ -206,7 +206,7 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Pending Payment</span>
+              <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
               <span className="thTableSpan">Credited</span>

@@ -82,7 +82,8 @@ export default function OrderProfileDetails({ orderDetails }) {
             )}
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                0 DA
+                {                  
+                  orderDetails.total - orderDetails.payment.reduce((sum, pay) => sum + pay.amount, 0)} DA
               </span>
             </TableCell>
           </TableRow>

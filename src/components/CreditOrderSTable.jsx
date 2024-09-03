@@ -27,9 +27,9 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/OrderProfile/${row.orderId}`);
+    navigate(`/OrderProfile/${row._id}`);
   };
-
+  console.log(row)
   return (
     <React.Fragment>
       <TableRow
@@ -47,24 +47,26 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.customerFirstName} {row.customerLastName}
+            {row.client.firstName} {row.client.lastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderCode}</span>
+          <span className="trTableSpan">{row.code}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
+          <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount} DA</span>
+          <span className="trTableSpan">{row.total} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">1000 DA</span>
+          <span className="trTableSpan">
+            {row.total - row.payment.reduce((sum, pay) => sum + pay.amount, 0) + ' DA'}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.orderStatus)}
+            {orderStatusTextDisplayer(row.status)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -109,9 +111,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((orderDetailsRow) => (
+                  {row.products.map((orderDetailsRow) => (
                     <TableRow
-                      key={orderDetailsRow.productName}
+                      key={orderDetailsRow.product._id}
                       className="tableRow"
                     >
                       <TableCell
@@ -120,24 +122,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productName}
+                          {orderDetailsRow.product.name + ' ' + orderDetailsRow.product.size}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productPrice}
+                          {orderDetailsRow.price}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productQuantity}
+                          {orderDetailsRow.quantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.productPrice *
-                              orderDetailsRow.productQuantity
+                            orderDetailsRow.price *
+                              orderDetailsRow.quantity
                           )}
                         </span>
                       </TableCell>
@@ -154,22 +156,7 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.shape({
-    orderId: PropTypes.string.isRequired,
-    orderCode: PropTypes.string.isRequired,
-    orderAmount: PropTypes.string.isRequired,
-    orderDate: PropTypes.string.isRequired,
-    orderDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        productName: PropTypes.string.isRequired,
-        productPrice: PropTypes.string.isRequired,
-        productQuantity: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    customerLastName: PropTypes.string.isRequired,
-    customerFirstName: PropTypes.string.isRequired,
-    orderStatus: PropTypes.string.isRequired,
-  }).isRequired,
+  row: PropTypes.object.isRequired,
 };
 
 export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
@@ -215,50 +202,27 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
     staleTime: 0,
   });
 
-  const [rows, setRows] = useState([]);
-  useEffect(() => {
-    if (CreditedOrderData?.length > 0) {
-      const rowsData = CreditedOrderData.map((order) => ({
-        orderId: order._id,
-        orderCode: order.code,
-        customerFirstName: order.client.firstName,
-        customerLastName: order.client.lastName,
-        orderDate: order.date,
-        orderAmount: order.total.toString(),
-        orderStatus: order.status.toString(),
-        orderDetails: order.products.map((item) => ({
-          productName: item.product.name,
-          productPrice: item.price.toString(),
-          productQuantity: item.quantity.toString(),
-        })),
-      }));
-      setRows(rowsData);
-      setFilteredRows(rowsData);
-    }else{
-      setRows([]);
-    }
-    refetchCreditedOrderData();
-  }, [CreditedOrderData]);
-  const [filteredRows, setFilteredRows] = useState(rows);
-  useEffect(() => {
-    const results = rows.filter(
-      (row) =>
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
-    setFilteredRows(results);
-    setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+  // const [rows, setRows] = useState([]);
+  // const [filteredRows, setFilteredRows] = useState(rows);
+  // useEffect(() => {
+  //   const results = rows.filter(
+  //     (row) =>
+  //       row.customerLastName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.customerFirstName
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase()) ||
+  //       row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       row.orderDetails.some((detail) =>
+  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+  //       )
+  //   );
+  //   setFilteredRows(results);
+  //   setFilteredData(results);
+  // }, [searchQuery, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -293,20 +257,20 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
-          ) : CreditedOrderDataLoading ? (
+          {CreditedOrderDataLoading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={9} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : (
+          ) : CreditedOrderDataError || !CreditedOrderData || CreditedOrderData.length <= 0 ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={9} align="center">
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>
+          ) :  (
+            CreditedOrderData.map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

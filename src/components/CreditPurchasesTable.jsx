@@ -18,6 +18,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
+import { formatDate } from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -26,7 +27,7 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/PurchaseProfile/${row.purchaseId}`);
+    navigate(`/PurchaseProfile/${row._id}`);
   };
 
   return (
@@ -58,7 +59,7 @@ function Row(props) {
         <TableCell className="tableCell">
         <span className="trTableSpan">
             {row.payment && row.payment.length > 0
-              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
+              ? (row.totalAmount - row.payment.reduce((sum, pay) => sum + pay.amount, 0))
               : 0} DA
           </span>          </TableCell>
         <TableCell align="right" className="tableCell">
@@ -148,51 +149,9 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.shape({
-    purchaseId: PropTypes.string.isRequired,
-    purchaseCode: PropTypes.string.isRequired,
-    purchaseAmount: PropTypes.string.isRequired,
-    purchaseDate: PropTypes.string.isRequired,
-    purchaseDetails: PropTypes.arrayOf(
-      PropTypes.shape({
-        productName: PropTypes.string.isRequired,
-        productPrice: PropTypes.string.isRequired,
-        productQuantity: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    fournisseurLastName: PropTypes.string.isRequired,
-    fournisseurFirstName: PropTypes.string.isRequired,
-  }).isRequired,
+  row: PropTypes.object.isRequired,
 };
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-
-  const monthNames = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
-
-  const day = date.getDate();
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
-};
 export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();

@@ -13,6 +13,9 @@ import { useQuery } from "@tanstack/react-query";
 import ButtonAdd from "../components/ButtonAdd";
 import Modal from "react-modal";
 import PaymentHistorique from "../components/PaymentHistorique";
+import ConfirmDialog from "../components/ConfirmDialog";
+import { Alert, Snackbar } from "@mui/material";
+import axios from "axios";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -20,6 +23,10 @@ export default function OrderProfile() {
   const location = useLocation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [OpenAddPaymentDialog, setOpenAddPaymentDialog] = useState(false);
+  const [Amount, setAmount] = useState(0);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [isConfirmDialogOpenWithoutPaying, setisConfirmDialogOpenWithoutPaying] = useState(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -28,7 +35,46 @@ export default function OrderProfile() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  
+  const handleCloseAddPaymentDialog = () => {
+    setOpenAddPaymentDialog(false);
+  };
+  
+  const handleOpenAddPaymentDialog = () => {
+    setOpenAddPaymentDialog(true);
+  };
+  
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
 
+  const handleOpenConfirmationDialog = () => {
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    setIsConfirmDialogOpen(false);
+    setAmount(0);
+  }
+
+  const handleOpenConfirmationDialogWithoutPaying = () => {
+    setisConfirmDialogOpenWithoutPaying(true);
+  };
+
+  const handleCloseConfirmationDialogWithoutPaying = () => {
+    setisConfirmDialogOpenWithoutPaying(false);
+  }
+
+  //---------------------------------API calls---------------------------------\\
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("error");
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
   //fetch data
   const fetchOrderData = async () => {
     const response = await fetch(
@@ -65,6 +111,95 @@ export default function OrderProfile() {
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
   });
+
+  //add payment API
+  const handleOnConfirm = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/addPaymentToCredit/${id}`, 
+        {
+          payment: Amount,
+        },
+        {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            }
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseConfirmationDialog();
+        handleCloseAddPaymentDialog();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+        if (error.response) {
+          setAlertType("error");
+          setAlertMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error adding new payment: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error adding new payment");
+        }
+    }
+  }
+
+  //add payment API
+  const handleOnConfirmWithoutPaying = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/status-1/${id}`,
+        {
+
+        },
+        {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            }
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseConfirmationDialogWithoutPaying();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+        if (error.response) {
+          setAlertType("error");
+          setAlertMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error updating taking without paying: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error updating taking without paying");
+        }
+    }
+  }
 
   if (OrderDataLoading) {
     return (
@@ -181,12 +316,40 @@ export default function OrderProfile() {
         }}
       >
         <div className="customerClass">
-          <h2 className="customerClassTitle">Payment History</h2>
+          <div className="flex flex-row justify-between items-center w-full">
+            <h2 className="customerClassTitle">Payment History</h2>
+            {OrderData.status != 10 ?
+              <>
+                {OrderData.status != -1 && OrderData.credit == false &&
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Take without paying"
+                    onClick={handleOpenConfirmationDialogWithoutPaying}
+                  />
+                }
+                <ButtonAdd
+                  showIcon={false}
+                  buttonSpan="Add payment"
+                  onClick={handleOpenAddPaymentDialog}
+                />
+              </>
+              :
+              <h2 className="customerClassTitle">{`Fully paid`}</h2>
+            }
+          </div>
           <div className="scrollProductHistorique">
-            <PaymentHistorique />
+            <PaymentHistorique 
+              data={OrderData.payment} 
+              isClosed={OrderData.status == 10 ? false : true}
+            />
           </div>
         </div>
         <div className="flex justify-end">
+          <div className="flex flex-row justify-center items-center w-full">
+            <h2 className="customerClassTitle" style={{marginInlineEnd: '2%'}}>Total : {OrderData.total} DA</h2>
+            <h2 className="customerClassTitle">Rest to pay : {
+              OrderData.total - OrderData.payment.reduce((sum, pay) => sum + pay.amount, 0)} DA</h2>
+            </div>
           <button
             onClick={handleCloseModal}
             style={{ marginTop: "20px" }}
@@ -194,8 +357,84 @@ export default function OrderProfile() {
           >
             Close
           </button>
-        </div>{" "}
+        </div>
       </Modal>
+      <Modal
+        isOpen={OpenAddPaymentDialog}
+        onRequestClose={handleCloseAddPaymentDialog}
+        contentLabel="Add payment"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "60%",
+            margin: "auto",
+            height: "52%",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Add payment</h2>
+          <div className="dialogAddCustomerItem items-center">
+            <span>Payment Amount :</span>
+            <div className="inputForm">
+              <input
+                type="number"
+                name="amount"
+                min={0}
+                onChange={handleAmountChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
+          <button
+            className="text-gray-500 cursor-pointer hover:text-gray-700"
+            onClick={handleCloseAddPaymentDialog}
+          >
+            Cancel
+          </button>
+          <button
+            className="text-blue-500 cursor-pointer hover:text-blue-700"
+            onClick={handleOpenConfirmationDialog}
+          >
+            Save
+          </button>
+        </div>
+      </Modal>
+      <ConfirmDialog
+        open={isConfirmDialogOpen}
+        onConfirm={handleOnConfirm}
+        onClose={handleCloseConfirmationDialog}
+        dialogTitle="Confirm creation"
+        dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isConfirmDialogOpenWithoutPaying}
+        onConfirm={handleOnConfirmWithoutPaying}
+        onClose={handleCloseConfirmationDialogWithoutPaying}
+        dialogTitle="Confirm taken without paying"
+        dialogContentText={`Are you sure you want to confirm taken without paying`}
+        isloading={submitionLoading}
+      />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={alertType}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import AddOrderSubTotal from "../components/AddOrderSubTotal";
 import axios from "axios";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog";
 
@@ -88,7 +88,7 @@ export default function AddOrder() {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
         handleCloseDialog();
-        handleNavigateClick(-1);
+        handleNavigateClick(`/OrderProfile/${response.data.id}`);
       } else {
         setAlertType(true);
         setSnackbarMessage(response.data.message);
@@ -113,47 +113,55 @@ export default function AddOrder() {
   }
 
   return (
-    <div className="pagesContainer addOrder">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Add a new order</h2>
-        <div className="flex items-center space-x-2">
-          <ButtonCancel />
-          <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
+    <>
+      {!submitionLoading ?
+        <div className="pagesContainer addOrder">
+          <Header />
+          <div className="w-full flex items-center justify-between">
+            <h2 className="pagesTitle">Add a new order</h2>
+            <div className="flex items-center space-x-2">
+              <ButtonCancel />
+              <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
+            </div>
+          </div>
+          <div className="customerClass">
+            <h2 className="customerClassTitle">Basic Information</h2>
+            <AddOrderProfileDetails
+              deliveryAmount={deliveryAmount}
+              setDeliveryAmount={setDeliveryAmount}
+              setAPIOrderType={setAPIOrderType}
+              setAPIDeliveryDate={setAPIDeliveryDate}
+              setAPIDeliveryAddress={setDeliveredLocation}
+            />
+          </div>
+          <div className="pageTable">
+            <div className="flex items-center justify-between">
+              <h2 className="customerClassTitle">Order Details</h2>
+              <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+            </div>
+            <div className="pageTableContainer">
+              <AddOrderTableDetails
+                openModal={openModal}
+                handleCloseModal={handleCloseModal}
+                onCalculateTotals={handleCalculateTotals}
+                deliveryAmount={deliveryAmount}
+                setAPIProducts={setProducts}
+              />
+            </div>
+            <div className="w-full flex justify-end">
+              <AddOrderSubTotal
+                subtotal={subtotal}
+                deliveryAmount={deliveryAmount}
+                total={total}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="customerClass">
-        <h2 className="customerClassTitle">Basic Information</h2>
-        <AddOrderProfileDetails
-          deliveryAmount={deliveryAmount}
-          setDeliveryAmount={setDeliveryAmount}
-          setAPIOrderType={setAPIOrderType}
-          setAPIDeliveryDate={setAPIDeliveryDate}
-          setAPIDeliveryAddress={setDeliveredLocation}
-        />
-      </div>
-      <div className="pageTable">
-        <div className="flex items-center justify-between">
-          <h2 className="customerClassTitle">Order Details</h2>
-          <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+      :
+        <div className="flex items-center justify-center h-screen">
+          <CircularProgress />
         </div>
-        <div className="pageTableContainer">
-          <AddOrderTableDetails
-            openModal={openModal}
-            handleCloseModal={handleCloseModal}
-            onCalculateTotals={handleCalculateTotals}
-            deliveryAmount={deliveryAmount}
-            setAPIProducts={setProducts}
-          />
-        </div>
-        <div className="w-full flex justify-end">
-          <AddOrderSubTotal
-            subtotal={subtotal}
-            deliveryAmount={deliveryAmount}
-            total={total}
-          />
-        </div>
-      </div>
+      }
       <ConfirmDialog
         open={openConfirmationDialog}
         onConfirm={handleSubmitCreateOrder}
@@ -175,6 +183,6 @@ export default function AddOrder() {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-    </div>
+    </>
   );
 }

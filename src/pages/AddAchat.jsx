@@ -137,34 +137,34 @@ export default function AddAchat() {
               <AddAchatSubTotal total={total} />
             </div>
           </div>
-          {/* ConfirmDialog */}
-          <ConfirmDialog
-            open={OpenConfirmationDialog}
-            onConfirm={handleSubmitCreateAchat}
-            onClose={handleCloseDialog}
-            dialogTitle="Confirm achat submition"
-            dialogContentText={`Are you sure you want to submit this achat?`}
-          />
-          {/* Snackbar */}
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={4000}
-            onClose={() => setSnackbarOpen(false)}
-          >
-            <Alert
-              onClose={() => setSnackbarOpen(false)}
-              severity= {alertType ? "error" : "success"}
-              sx={{ width: "100%" }}
-            >
-              {snackbarMessage}
-            </Alert>
-          </Snackbar>
         </div>
       :
         <div className="flex items-center justify-center h-screen">
           <CircularProgress />
         </div>
     }
+      {/* ConfirmDialog */}
+      <ConfirmDialog
+        open={OpenConfirmationDialog}
+        onConfirm={handleSubmitCreateAchat}
+        onClose={handleCloseDialog}
+        dialogTitle="Confirm achat submition"
+        dialogContentText={`Are you sure you want to submit this achat?`}
+      />
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

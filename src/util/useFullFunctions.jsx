@@ -18,6 +18,8 @@ const formatDate = (dateString) => {
 };
 const orderStatusTextDisplayer = (status) => {
     switch (status.toString()) {
+      case "-1":
+        return "till he sell everything";
       case "0":
         return "Order Placed";
       case "1":
@@ -26,6 +28,8 @@ const orderStatusTextDisplayer = (status) => {
         return "Order on the way to address";
       case "3":
         return "Delivered";
+      case "10":
+        return "Fully paid";
       default:
         return "Order Placed";
     }

@@ -109,7 +109,38 @@ export default function CustomerProfile() {
     refetchOnWindowFocus: true, // Optional: refetching on window focus
   });
 
-  if (CustomerDataLoading || OrderDataLoading) {
+  // fetching statistics data
+  const fetchOrderStatisticsData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/statistics/${decodedToken.id}/${id}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving order by client data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const { data: OrderStatisticsData, error: OrderStatisticsDataError, isLoading: OrderStatisticsDataLoading, refetch: OrderStatisticsDataRefetch } = useQuery({
+      queryKey: ['OrderStatisticsData', user?.token, location.key],
+      queryFn: fetchOrderStatisticsData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  if (CustomerDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <Header />
@@ -208,45 +239,51 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      {!OrderDataError && OrderData?.receipts.length > 0 && (
-        <>
-          <div className="customerClass">
-            <h2 className="customerClassTitle">Stats</h2>
-            <div className="flex space-x-4">
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Orders"
-                customerStatsCardDetails={OrderData?.orderCount}
-              />
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Amount"
-                customerStatsCardDetails={OrderData?.totalAmountDelivered}
-              />
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Profit"
-                customerStatsCardDetails={OrderData?.totalProfitDelivered}
-              />
-              <CustomerStatsCard
-                customerStatsCardTitle="Total Pending Payment"
-                customerStatsCardDetails="0"
-              />
-            </div>
-          </div>
-          <div className="customerClass customerOrdersClass">
-            <div className="flex justify-between items-center">
-              <h2 className="customerClassTitle">Orders</h2>
-              <Search
-                placeholder="Search by Order..."
-                onChange={handleSearchChange}
-              />
-            </div>
-            <CustomerProfileOrdersTable
-              searchQuery={searchQuery}
-              setFilteredData={setFilteredData}
-              data={OrderData?.receipts}
-            />
-          </div>
-        </>
-      )}
+      <div className="customerClass">
+        <h2 className="customerClassTitle">Stats</h2>
+        <div className="flex space-x-4">
+          <CustomerStatsCard
+            customerStatsCardTitle="Total Orders"
+            customerStatsCardDetails={OrderStatisticsData?.count}
+            loading={OrderStatisticsDataLoading}
+          />
+          <CustomerStatsCard
+            customerStatsCardTitle="Total Amount"
+            customerStatsCardDetails={OrderStatisticsData?.total}
+            loading={OrderStatisticsDataLoading}
+          />
+          <CustomerStatsCard
+            customerStatsCardTitle="Total Profit"
+            customerStatsCardDetails={OrderStatisticsData?.profit}
+            loading={OrderStatisticsDataLoading}
+          />
+          <CustomerStatsCard
+            customerStatsCardTitle="Total Pending Payment"
+            customerStatsCardDetails={OrderStatisticsData?.credit}
+            loading={OrderStatisticsDataLoading}
+          />
+          <CustomerStatsCard
+            customerStatsCardTitle="Total unpaid Payment"
+            customerStatsCardDetails={OrderStatisticsData?.anpaid}
+            loading={OrderStatisticsDataLoading}
+          />
+        </div>
+      </div>
+      <div className="customerClass customerOrdersClass">
+        <div className="flex justify-between items-center">
+          <h2 className="customerClassTitle">Orders</h2>
+          <Search
+            placeholder="Search by Order..."
+            onChange={handleSearchChange}
+          />
+        </div>
+        <CustomerProfileOrdersTable
+          searchQuery={searchQuery}
+          setFilteredData={setFilteredData}
+          data={OrderData}
+          loading={OrderDataLoading}
+        />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -25,7 +25,6 @@ function Row(props) {
   const handleViewClick = () => {
     navigate(`/OrderProfile/${row._id}`);
   };
-
   return (
     <React.Fragment>
       <TableRow
@@ -48,13 +47,18 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
+          <span className="trTableSpan">{row.profit} DA</span>
+        </TableCell>
+        <TableCell className="tableCell">
           <span className="trTableSpan">{row.total} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">0</span>
+          <span className="trTableSpan">
+            {Number(row.total) - Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0))} DA
+          </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.profit} DA</span>
+          <span className="trTableSpan">{row.credit ? 'true' : 'false'}</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
@@ -156,7 +160,8 @@ Row.propTypes = {
 export default function CustomerProfileOrdersTable({
   searchQuery,
   setFilteredData,
-  data,
+  data = [],
+  loading
 }) {
   const [filteredRows, setFilteredRows] = useState(data);
 
@@ -176,7 +181,7 @@ export default function CustomerProfileOrdersTable({
     );
     setFilteredRows(results);
     if (setFilteredData) setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+  }, [searchQuery, setFilteredData, filteredRows]);
 
   return (
     <TableContainer
@@ -195,13 +200,16 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Order Date</span>
             </TableCell>
             <TableCell className="tableHeadCell">
+              <span className="thTableSpan">Profit</span>
+            </TableCell>
+            <TableCell className="tableHeadCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Pending Payment</span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Profit</span>
+            <TableCell align="right" className="tableHeadCell">
+              <span className="thTableSpan">Credited</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
               <span className="thTableSpan">Status</span>
@@ -212,9 +220,21 @@ export default function CustomerProfileOrdersTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.map((row) => (
-            <Row key={row._id} row={row} />
-          ))}
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={9} align="center">
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          ) : !filteredRows || filteredRows.lenght <= 0 ? (
+            <TableRow>
+              <TableCell colSpan={9} align="center">
+                <span className="thTableSpan">No Purchases found</span>
+              </TableCell>
+            </TableRow>
+          ) : (
+            filteredRows.map((row) => <Row key={row._id} row={row} />)
+          )}
         </TableBody>
       </Table>
     </TableContainer>

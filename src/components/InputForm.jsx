@@ -11,6 +11,8 @@ export default function InputForm({
   inputPlaceholder,
   inputName,
   setChangevalue,
+  value,
+  readOnly
 }) {
   let iconComponent;
 
@@ -39,6 +41,8 @@ export default function InputForm({
           placeholder={inputPlaceholder}
           name={inputName}
           onChange={setChangevalue}
+          value={value}
+          readOnly={readOnly}
         />
       </div>
     </div>

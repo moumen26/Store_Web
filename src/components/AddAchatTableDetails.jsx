@@ -365,7 +365,7 @@ function AddAchatTableDetails({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={8} align="center">
                   {rows.length === 0 ? (
                     <span>Add products</span>
                   ) : (

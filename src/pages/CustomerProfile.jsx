@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
 import { TokenDecoder } from "../util/DecodeToken";
+import ButtonLight from "../components/ButtonLight";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 export default function CustomerProfile() {
   const { user } = useAuthContext();
@@ -20,6 +22,34 @@ export default function CustomerProfile() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
+  const [dialogOpenMakeVendor, setDialogOpenMakeVendor] = useState(false);
+  const [confirmDialogOpenMakeVendor, setConfirmDialogOpenMakeVendor] =
+    useState(false);
+  const [buttonVendorText, setButtonVendorText] = useState("Make Vendor");
+
+  const handleButtonVendorClick = () => {
+    if (buttonVendorText === "Make Vendor") {
+      setDialogOpenMakeVendor(true);
+    } else {
+      setConfirmDialogOpenMakeVendor(true);
+    }
+  };
+
+  const handleCloseDialogVendor = () => {
+    setDialogOpenMakeVendor(false);
+    setConfirmDialogOpenMakeVendor(false);
+  };
+
+  const handleConfirmAsVendor = () => {
+    setButtonVendorText("Is already Vendor");
+    setDialogOpenMakeVendor(false);
+  };
+
+  const handleConfirmAsCustomer = () => {
+    setButtonVendorText("Make Vendor");
+    setConfirmDialogOpenMakeVendor(false);
+  };
 
   const navigate = useNavigate();
 
@@ -111,33 +141,38 @@ export default function CustomerProfile() {
 
   // fetching statistics data
   const fetchOrderStatisticsData = async () => {
-    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/statistics/${decodedToken.id}/${id}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE +
+        `/Receipt/statistics/${decodedToken.id}/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
 
     // Handle the error state
     if (!response.ok) {
-        const errorData = await response.json();
-        if(errorData.error.statusCode == 404)
-            return [];
-        else
-            throw new Error("Error receiving order by client data");
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving order by client data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
-  const { data: OrderStatisticsData, error: OrderStatisticsDataError, isLoading: OrderStatisticsDataLoading, refetch: OrderStatisticsDataRefetch } = useQuery({
-      queryKey: ['OrderStatisticsData', user?.token, location.key],
-      queryFn: fetchOrderStatisticsData,
-      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  const {
+    data: OrderStatisticsData,
+    error: OrderStatisticsDataError,
+    isLoading: OrderStatisticsDataLoading,
+    refetch: OrderStatisticsDataRefetch,
+  } = useQuery({
+    queryKey: ["OrderStatisticsData", user?.token, location.key],
+    queryFn: fetchOrderStatisticsData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
   if (CustomerDataLoading) {
@@ -174,11 +209,31 @@ export default function CustomerProfile() {
               : "Customer Details"}
           </span>
         </div>
-        <ButtonAdd
-          buttonSpan="Create Order"
-          showIcon={false}
-          onClick={handleCreateOrder}
-        />
+        <div className="flex space-x-2">
+          <ButtonLight
+            buttonSpan={buttonVendorText}
+            onClick={handleButtonVendorClick}
+          />
+          <ConfirmDialog
+            open={dialogOpenMakeVendor}
+            onClose={handleCloseDialogVendor}
+            onConfirm={handleConfirmAsVendor}
+            dialogTitle="Confirm Vendor"
+            dialogContentText="Are you sure you want to make this a vendor?"
+          />
+          <ConfirmDialog
+            open={confirmDialogOpenMakeVendor}
+            onClose={handleCloseDialogVendor}
+            onConfirm={handleConfirmAsCustomer}
+            dialogTitle="Cancel Vendor Option"
+            dialogContentText="Are you sure you want to cancel the vendor option and make it a customer?"
+          />
+          <ButtonAdd
+            buttonSpan="Create Order"
+            showIcon={false}
+            onClick={handleCreateOrder}
+          />
+        </div>
       </div>
       <div className="customerClass">
         <h2 className="customerClassTitle">Personal Information</h2>

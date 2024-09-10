@@ -80,9 +80,9 @@ export default function PurchaseProfile() {
                 </div>
               </div>
             </div>
-            <PurchaseStatus
-            //  purchaseDetails={}
-            />
+            {/* <PurchaseStatus
+             purchaseDetails={}
+            /> */}
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function PurchaseProfile() {
         <div className="customerClass">
           <h2 className="customerClassTitle">Payment History</h2>
           <div className="scrollProductHistorique">
-            <PaymentHistorique />
+            {/* <PaymentHistorique /> */}
           </div>
         </div>
         <div className="flex justify-end">

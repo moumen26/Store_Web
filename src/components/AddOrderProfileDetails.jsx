@@ -101,9 +101,6 @@ export default function AddOrderProfileDetails({
                 </TableCell>
               </>
             )}
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Payment</span>
-            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -185,18 +182,6 @@ export default function AddOrderProfileDetails({
                 </TableCell>
               </>
             )}
-            <TableCell align="right" className="tableCell">
-              <div className="inputWrapper">
-                <input
-                  type="number"
-                  // value={}
-                  // onChange={}
-                  min="0"
-                  className="inputTable"
-                />
-                <span className="inputSpan">DA</span>
-              </div>
-            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

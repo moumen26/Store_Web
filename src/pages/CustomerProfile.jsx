@@ -14,6 +14,11 @@ import { useQuery } from "@tanstack/react-query";
 import { TokenDecoder } from "../util/DecodeToken";
 import ButtonLight from "../components/ButtonLight";
 import ConfirmDialog from "../components/ConfirmDialog";
+import Modal from "react-modal";
+import { PlusIcon } from "@heroicons/react/16/solid";
+
+// Ensure you set the root element for accessibility
+Modal.setAppElement("#root");
 
 export default function CustomerProfile() {
   const { user } = useAuthContext();
@@ -49,6 +54,16 @@ export default function CustomerProfile() {
   const handleConfirmAsCustomer = () => {
     setButtonVendorText("Make Vendor");
     setConfirmDialogOpenMakeVendor(false);
+  };
+  //Modal add address
+  const [modalIsOpenAddress, setModalIsOpenAddAdress] = useState(false);
+
+  const handleOpenModalAddAddress = () => {
+    setModalIsOpenAddAdress(true);
+  };
+
+  const handleCloseModalAddAddress = () => {
+    setModalIsOpenAddAdress(false);
   };
 
   const navigate = useNavigate();
@@ -283,7 +298,61 @@ export default function CustomerProfile() {
       {CustomerData?.storeAddresses &&
       CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass">
-          <h2 className="customerClassTitle">Primary Delivery Address</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="customerClassTitle">Primary Delivery Address</h2>
+            <ButtonAdd
+              buttonSpan="Add New Address"
+              onClick={handleOpenModalAddAddress}
+            />
+            <Modal
+              isOpen={modalIsOpenAddress}
+              onRequestClose={handleCloseModalAddAddress}
+              contentLabel="Add Address Modal"
+              style={{
+                overlay: {
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 1000,
+                },
+                content: {
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "20px",
+                  maxWidth: "40%",
+                  margin: "auto",
+                  height: "fit-content",
+                  zIndex: 1001,
+                },
+              }}
+            >
+              <div className="customerClasss">
+                <h2 className="customerClassTitle">Add New Address</h2>
+                <div className="flex justify-end items-center space-x-4">
+                  <span>Address :</span>
+                  <div className="inputForm pl-0">
+                    <input
+                      type="text"
+                      name="newAddressCustomer"
+                      // onChange={}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                  <button
+                    className="text-gray-500 cursor-pointer hover:text-gray-700"
+                    onClick={handleCloseModalAddAddress}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="text-blue-500 cursor-pointer hover:text-blue-700"
+                    // onClick={handleAddItem}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </Modal>
+          </div>
           <div className="customerPrimaryAddress">
             {CustomerData?.storeAddresses.map((address, index) => (
               <CustomerPrimaryDelivery

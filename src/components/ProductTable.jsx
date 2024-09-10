@@ -20,6 +20,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
 // Set the app element for accessibility
 Modal.setAppElement("#root");
 
@@ -147,7 +150,12 @@ Row.propTypes = {
   editedRow: PropTypes.object.isRequired,
 };
 
-export default function ProductTable({ searchQuery, STOCKData, isLoading, refetch }) {
+export default function ProductTable({
+  searchQuery,
+  STOCKData,
+  isLoading,
+  refetch,
+}) {
   const { user } = useAuthContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStockId, setSelectedStockId] = useState(null);
@@ -184,7 +192,7 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
     setIsModalOpen(false);
     setSelectedStockId(null);
   };
-  
+
   useEffect(() => {
     if (STOCKData?.length > 0) {
       const rowsData = STOCKData?.map((stock) => ({
@@ -208,86 +216,103 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
   );
 
   //---------------------------------API calls---------------------------------\\
-  
+
   // fetching specific Stock data
   const fetchStockById = async () => {
     const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/Stock/${selectedStockId}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
+      `${import.meta.env.VITE_APP_URL_BASE}/Stock/${selectedStockId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
 
     // Handle the error state
     if (!response.ok) {
-        if (response.status === 404) {
-            return []; 
-        } else {
-            throw new Error("Error receiving Stock data: " + response.statusText);
-        }
+      if (response.status === 404) {
+        return [];
+      } else {
+        throw new Error("Error receiving Stock data: " + response.statusText);
+      }
     }
 
     // Return the fetched Stock data
     return await response.json();
   };
   // useQuery hook to fetch data for a specific Stock
-  const { data: StockData, error: StockError, isLoading: StockLoading, refetch: StockRefetch } = useQuery({
-      queryKey: ['StockData', selectedStockId, user?.token],
-      queryFn: () => fetchStockById(), // Call the fetch function with selectedStockId
-      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the Stock ID and token are available
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  const {
+    data: StockData,
+    error: StockError,
+    isLoading: StockLoading,
+    refetch: StockRefetch,
+  } = useQuery({
+    queryKey: ["StockData", selectedStockId, user?.token],
+    queryFn: () => fetchStockById(), // Call the fetch function with selectedStockId
+    enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the Stock ID and token are available
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
   // update the stock data
   const handleUpdateStock = async (stockID) => {
     try {
-        setSubmitionLoading(true);
-        const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Stock/update/${stockID}`, 
-          {
-            BuyingPrice: editedRow?.productBuyingPrice,
-            SellingPrice: editedRow?.productSellPrice,
-            Quantity: editedRow?.productStock
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Stock/update/${stockID}`,
+        {
+          BuyingPrice: editedRow?.productBuyingPrice,
+          SellingPrice: editedRow?.productSellPrice,
+          Quantity: editedRow?.productStock,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
           },
-          {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-              }
-          }
-        );
-        if (response.status === 200) {
-          setEditingRowId(null);
-          setAlertType(false);
-          setSnackbarMessage(response.data.message);
-          setSnackbarOpen(true);
-          refetch();
-          setSubmitionLoading(false);
-        } else {
-          setAlertType(true);
-          setSnackbarMessage(response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
         }
+      );
+      if (response.status === 200) {
+        setEditingRowId(null);
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        refetch();
+        setSubmitionLoading(false);
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error updating stock: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error updating stock",error);
-        }
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating stock: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating stock", error);
+      }
     }
   };
-  
+
+  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
+    useState(false);
+
+  const handleOpenModalAddNewStockProduct = () => {
+    setModalIsOpenAddNewStockProduct(true);
+  };
+
+  const handleCloseModalAddNewStockProduct = () => {
+    setModalIsOpenAddNewStockProduct(false);
+  };
+
   return (
     <>
       <TableContainer
@@ -384,29 +409,43 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
           <>
             <div className="customerClass">
               <h2 className="customerClassTitle">Product Details</h2>
-              <ProductProfileDetails data={StockData} isLoading={StockLoading}/>
-              <ProductProfileDetailsV2 data={StockData} isLoading={StockLoading}/>
+              <ProductProfileDetails
+                data={StockData}
+                isLoading={StockLoading}
+              />
+              <ProductProfileDetailsV2
+                data={StockData}
+                isLoading={StockLoading}
+              />
             </div>
             <div className="flex justify-between mt-[16px]">
               <div className="w-[70%]">
                 <div className="customerClass">
                   <div className="flex items-center justify-between">
                     <h2 className="customerClassTitle">Current stock</h2>
-                    <ButtonAdd buttonSpan="Add New Stock" />
+                    <ButtonAdd
+                      buttonSpan="Add New Stock"
+                      onClick={handleOpenModalAddNewStockProduct}
+                    />
                   </div>
                   <div className="scrollProductHistorique mt-[16px]">
-                    <ProductHistorique selectedStockId={selectedStockId}/>
+                    <ProductHistorique selectedStockId={selectedStockId} />
                   </div>
                 </div>
-                
               </div>
               <div className="w-[25%] h-fit flex-col space-y-5">
                 <h2 className="customerClassTitle">Product Image</h2>
                 <div className="w-full flex justify-center h-[390px]">
                   <img
                     className="text-center"
-                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${StockData?.product?.image}`}
-                    src={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${StockData?.product?.image}`}
+                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                      "/api",
+                      ""
+                    )}/files/${StockData?.product?.image}`}
+                    src={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                      "/api",
+                      ""
+                    )}/files/${StockData?.product?.image}`}
                     alt={StockData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />
@@ -418,7 +457,7 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
                 <h2 className="customerClassTitle">Stock history</h2>
               </div>
               <div className="scrollProductHistorique mt-[16px]">
-                <ProductArchiveHistorique selectedStockId={selectedStockId}/>
+                <ProductArchiveHistorique selectedStockId={selectedStockId} />
               </div>
             </div>
           </>
@@ -446,12 +485,164 @@ export default function ProductTable({ searchQuery, STOCKData, isLoading, refetc
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
+      <Modal
+        isOpen={modalIsOpenAddNewStockProduct}
+        onRequestClose={handleCloseModalAddNewStockProduct}
+        contentLabel="Add Address Modal"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "40%",
+            margin: "auto",
+            height: "fit-content",
+            zIndex: 1001,
+          },
+        }}
+      >
+        <div className="customerClasss">
+          <h2 className="customerClassTitle">Add New Stock</h2>
+          <div className="productDetailsStockProduct">
+            <div className="dialogAddCustomerItem items-center">
+              <span>Buying Price :</span>
+              <div className="inputForm flex items-center">
+                <input
+                  type="number"
+                  name="buyingPrice"
+                  // value={BuyingPrice}
+                  min={0}
+                  // onChange={handleBuyingPriceChange}
+                />
+                <span className="ml-2">DA</span>
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Selling Price :</span>
+              <div className="inputForm flex items-center">
+                <input
+                  type="number"
+                  name="sellingPrice"
+                  // value={SellingPrice}
+                  min={0}
+                  // onChange={handleSellingPriceChange}
+                />
+                <span className="ml-2">DA</span>
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Stock :</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="stock"
+                  // value={Quantity}
+                  min={0}
+                  // onChange={handleQuantityChange}
+                />
+              </div>
+              {/* {selectedProduct?.boxItems && (
+                <span>{selectedProduct?.boxItems * Quantity} unity</span>
+              )} */}
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Limited value :</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="stock"
+                  // value={LimitedQuantity}
+                  min={0}
+                  // onChange={handleLimitedQuantityChange}
+                />
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Déstockage value:</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="stock"
+                  // value={Destocking}
+                  min={0}
+                  // onChange={handleDestockingChange}
+                />
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Exparation Date :</span>
+              <div className="inputForm">
+                <input
+                  type="date"
+                  name="ExparationDate"
+                  // value={ExparationDate}
+                  // onChange={handleExparationDateChange}
+                />
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Buying Method :</span>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={productState.buyingByUnit}
+                    // onChange={handleCheckboxChange}
+                    name="buyingByUnit"
+                  />
+                }
+                label={<span>Buying by Unit</span>}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={productState.buyingByBox}
+                    // onChange={handleCheckboxChange}
+                    name="buyingByBox"
+                  />
+                }
+                label={<span>Buying by Box</span>}
+              />
+            </div>
+            <div className="space-x-0 items-center">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={productState.addToProposedList}
+                    // onChange={handleCheckboxChange}
+                    name="addToProposedList"
+                  />
+                }
+              />
+              <span>Add to Proposed List</span>
+            </div>
+          </div>
+          <div className="flex justify-end space-x-8 items-start mt-[20px]">
+            <button
+              className="text-gray-500 cursor-pointer hover:text-gray-700"
+              onClick={handleCloseModalAddNewStockProduct}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-blue-500 cursor-pointer hover:text-blue-700"
+              // onClick={handleAddItem}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

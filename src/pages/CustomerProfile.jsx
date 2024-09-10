@@ -56,7 +56,7 @@ export default function CustomerProfile() {
     setConfirmDialogOpenMakeVendor(false);
   };
   //Modal add address
-  const [modalIsOpenAddress, setModalIsOpenAddAdress] = useState(false);
+  const [modalIsOpenAddAddress, setModalIsOpenAddAdress] = useState(false);
 
   const handleOpenModalAddAddress = () => {
     setModalIsOpenAddAdress(true);
@@ -305,7 +305,7 @@ export default function CustomerProfile() {
               onClick={handleOpenModalAddAddress}
             />
             <Modal
-              isOpen={modalIsOpenAddress}
+              isOpen={modalIsOpenAddAddress}
               onRequestClose={handleCloseModalAddAddress}
               contentLabel="Add Address Modal"
               style={{

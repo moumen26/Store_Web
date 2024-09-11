@@ -32,7 +32,7 @@ export default function SignIn() {
     setLoading(true);
     try {
       const response = await fetch(
-        import.meta.env.VITE_APP_URL_BASE + "/auth/signin",
+        import.meta.env.VITE_APP_URL_BASE + "/auth/signin/store",
         {
           method: "POST",
           headers: {
@@ -41,7 +41,6 @@ export default function SignIn() {
           body: JSON.stringify({
             UserName: username,
             Password: password,
-            Type: import.meta.env.VITE_APP_USER_TYPE,
           }),
         }
       );

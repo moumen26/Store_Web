@@ -160,7 +160,7 @@ function App() {
             element={!user ? <SignUp /> : <Navigate to="/" />}
           />
           <Route
-            path="/VerifyCode"
+            path="/VerifyCode/:id"
             element={!user ? <VerifyCode /> : <Navigate to="/" />}
           />
           <Route
@@ -168,7 +168,7 @@ function App() {
             element={!user ? <SignIn /> : <Navigate to="/" />}
           />
           <Route
-            path="/UpYourAccount"
+            path="/UpYourAccount/:id"
             element={!user ? <UpYourAccount /> : <Navigate to="/" />}
           />
         </Routes>

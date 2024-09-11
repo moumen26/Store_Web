@@ -43,6 +43,7 @@ export default function InputForm({
           onChange={setChangevalue}
           value={value}
           readOnly={readOnly}
+          min={0}
         />
       </div>
     </div>

@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import ButtonDark from "../components/ButtonDark";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { Alert, Snackbar } from "@mui/material";
 
 export default function VerifyCode() {
-  const [code, setCode] = useState(["", "", "", ""]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
+  const [code, setCode] = useState(["", "", "", ""]);
   const handleChange = (value, index) => {
     if (value.match(/^[0-9]$/) || value === "") {
       // Ensure only numeric values are allowed
@@ -25,17 +33,52 @@ export default function VerifyCode() {
     }
   };
 
-  const handleSubmit = () => {
-    // Combine code into a single string and handle verification
-    const verificationCode = code.join("");
-    console.log("Verification Code Entered:", verificationCode);
-    // Perform verification action (e.g., API call)
+  const handleViewClick = () => {
+    navigate(`/UpYourAccount/${id}`);
   };
 
-  const navigate = useNavigate();
-
-  const handleViewClick = () => {
-    navigate(`/UpYourAccount`);
+  //Verify otp API
+  const handleVerifyOTP = async () => {
+    try {
+        setSubmitionLoading(true);
+        const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/auth/signup/store/verify`, 
+          {
+            store: id, 
+            otp: code.join(""),
+          },
+          {
+              headers: {
+                "Content-Type": "application/json",
+              }
+          }
+        );
+        if (response.status === 200) {
+          setAlertType(false);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+          setCode(["", "", "", ""]);
+          handleViewClick();
+        } else {
+          setAlertType(true);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        }
+    } catch (error) {
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error verifying otp: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error verifying otp");
+        }
+    }
   };
 
   return (
@@ -79,12 +122,24 @@ export default function VerifyCode() {
           <div className="mt-6 w-full">
             <ButtonDark
               buttonSpan="Verify"
-              setOnClick={handleViewClick}
-              // setOnClick={handleSubmit}
+              setOnClick={handleVerifyOTP}
             />
           </div>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

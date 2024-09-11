@@ -194,17 +194,17 @@ export default function FournisseurProfile() {
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Amount"
-              customerStatsCardDetails={AchatStatisticsData?.paid}
+              customerStatsCardDetails={AchatStatisticsData?.totalAmount}
             />
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Pending Payment non credited"
-              customerStatsCardDetails={AchatStatisticsData?.unpaidNonCredited}
+              customerStatsCardDetails={AchatStatisticsData?.totalPayment}
             />
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Pending Payment credited"
-              customerStatsCardDetails={AchatStatisticsData?.unpaidCredited}
+              customerStatsCardDetails={`- ${AchatStatisticsData?.totalCreditUnpaid}`}
             />
           </div>
         </div>

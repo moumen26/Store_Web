@@ -94,7 +94,7 @@ function Row(props) {
         )}
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
-        <div className="flex items-center justify-end space-x-3">
+      <div className="flex items-center justify-end space-x-3">
           {!isEditing && (
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
@@ -167,6 +167,37 @@ export default function ProductTable({
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [submitionLoading, setSubmitionLoading] = useState(false);
 
+  //new stock form
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const handleSelectProduct = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const [BuyingPrice, setBuyingPrice] = useState(0);
+  const handleBuyingPriceChange = (e) => {
+    setBuyingPrice(e.target.value);
+  };
+  const [SellingPrice, setSellingPrice] = useState(0);
+  const handleSellingPriceChange = (e) => {
+    setSellingPrice(e.target.value);
+  };
+  const [Quantity, setQuantity] = useState(0);
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
+  };
+  const [ExparationDate, setExparationDate] = useState("");
+  const handleExparationDateChange = (e) => {
+    setExparationDate(e.target.value);
+  };
+  //clear form
+  const clearForm = () => {
+    setExparationDate("");
+    setQuantity(0);
+    setSellingPrice(0);
+    setBuyingPrice(0);
+  }
+
+
   const handleEditClick = (stockId) => {
     setSelectedStockId(stockId);
     setEditingRowId(stockId);
@@ -191,6 +222,18 @@ export default function ProductTable({
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedStockId(null);
+  };
+  
+  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
+    useState(false);
+
+  const handleOpenModalAddNewStockProduct = () => {
+    setModalIsOpenAddNewStockProduct(true);
+  };
+
+  const handleCloseModalAddNewStockProduct = () => {
+    clearForm();
+    setModalIsOpenAddNewStockProduct(false);
   };
 
   useEffect(() => {
@@ -255,6 +298,43 @@ export default function ProductTable({
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
+  // fetching specific Stock status data
+  const fetchStockStatusById = async () => {
+    const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${selectedStockId}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+        if (response.status === 404) {
+            return []; 
+        } else {
+            throw new Error("Error receiving Stock Status data: " + response.statusText);
+        }
+    }
+
+    // Return the fetched product data
+    return await response.json();
+  };
+  // useQuery hook to fetch data for a specific StockStatus
+  const { 
+    data: StockStatusData, 
+    error: StockStatusError, 
+    isLoading: StockStatusLoading, 
+    refetch: StockStatusRefetch } = useQuery({
+      queryKey: ['StockStatusData', selectedStockId, user?.token],
+      queryFn: () => fetchStockStatusById(), // Call the fetch function with selectedStockId
+      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
   // update the stock data
   const handleUpdateStock = async (stockID) => {
     try {
@@ -297,20 +377,59 @@ export default function ProductTable({
         console.error("Error updating stock: No response received");
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.error("Error updating stock", error);
+        console.error("Error updating stock");
       }
     }
   };
 
-  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
-    useState(false);
-
-  const handleOpenModalAddNewStockProduct = () => {
-    setModalIsOpenAddNewStockProduct(true);
-  };
-
-  const handleCloseModalAddNewStockProduct = () => {
-    setModalIsOpenAddNewStockProduct(false);
+  // create new stock data
+  const handleAddNewStock = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/StockStatus/create/${selectedStockId}`,
+        {
+          BuyingPrice: BuyingPrice,
+          SellingPrice: SellingPrice,
+          Quantity: Quantity,
+          ExparationDate: ExparationDate,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        StockStatusRefetch();
+        StockRefetch();
+        refetch();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseModalAddNewStockProduct();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error creating stock: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error creating stock");
+      }
+    }
   };
 
   return (
@@ -422,14 +541,17 @@ export default function ProductTable({
               <div className="w-[70%]">
                 <div className="customerClass">
                   <div className="flex items-center justify-between">
-                    <h2 className="customerClassTitle">Current stock</h2>
+                    <h2 className="customerClassTitle">Stock history</h2>
                     <ButtonAdd
                       buttonSpan="Add New Stock"
                       onClick={handleOpenModalAddNewStockProduct}
                     />
                   </div>
                   <div className="scrollProductHistorique mt-[16px]">
-                    <ProductHistorique selectedStockId={selectedStockId} />
+                    <ProductHistorique 
+                      StockStatusData={StockStatusData} 
+                      StockStatusLoading={StockStatusLoading}
+                    />
                   </div>
                 </div>
               </div>
@@ -450,14 +572,6 @@ export default function ProductTable({
                     style={{ width: "auto", height: "100%" }}
                   />
                 </div>
-              </div>
-            </div>
-            <div className="customerClass">
-              <div className="flex items-center justify-between">
-                <h2 className="customerClassTitle">Stock history</h2>
-              </div>
-              <div className="scrollProductHistorique mt-[16px]">
-                <ProductArchiveHistorique selectedStockId={selectedStockId} />
               </div>
             </div>
           </>
@@ -521,9 +635,9 @@ export default function ProductTable({
                 <input
                   type="number"
                   name="buyingPrice"
-                  // value={BuyingPrice}
+                  value={BuyingPrice}
                   min={0}
-                  // onChange={handleBuyingPriceChange}
+                  onChange={handleBuyingPriceChange}
                 />
                 <span className="ml-2">DA</span>
               </div>
@@ -534,9 +648,9 @@ export default function ProductTable({
                 <input
                   type="number"
                   name="sellingPrice"
-                  // value={SellingPrice}
+                  value={SellingPrice}
                   min={0}
-                  // onChange={handleSellingPriceChange}
+                  onChange={handleSellingPriceChange}
                 />
                 <span className="ml-2">DA</span>
               </div>
@@ -547,9 +661,9 @@ export default function ProductTable({
                 <input
                   type="number"
                   name="stock"
-                  // value={Quantity}
+                  value={Quantity}
                   min={0}
-                  // onChange={handleQuantityChange}
+                  onChange={handleQuantityChange}
                 />
               </div>
               {/* {selectedProduct?.boxItems && (
@@ -557,74 +671,15 @@ export default function ProductTable({
               )} */}
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>Limited value :</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="stock"
-                  // value={LimitedQuantity}
-                  min={0}
-                  // onChange={handleLimitedQuantityChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Déstockage value:</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="stock"
-                  // value={Destocking}
-                  min={0}
-                  // onChange={handleDestockingChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
               <span>Exparation Date :</span>
               <div className="inputForm">
                 <input
                   type="date"
                   name="ExparationDate"
-                  // value={ExparationDate}
-                  // onChange={handleExparationDateChange}
+                  value={ExparationDate}
+                  onChange={handleExparationDateChange}
                 />
               </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Buying Method :</span>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    // checked={productState.buyingByUnit}
-                    // onChange={handleCheckboxChange}
-                    name="buyingByUnit"
-                  />
-                }
-                label={<span>Buying by Unit</span>}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    // checked={productState.buyingByBox}
-                    // onChange={handleCheckboxChange}
-                    name="buyingByBox"
-                  />
-                }
-                label={<span>Buying by Box</span>}
-              />
-            </div>
-            <div className="space-x-0 items-center">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    // checked={productState.addToProposedList}
-                    // onChange={handleCheckboxChange}
-                    name="addToProposedList"
-                  />
-                }
-              />
-              <span>Add to Proposed List</span>
             </div>
           </div>
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
@@ -636,7 +691,7 @@ export default function ProductTable({
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
-              // onClick={handleAddItem}
+              onClick={handleAddNewStock}
             >
               Save
             </button>
@@ -646,7 +701,7 @@ export default function ProductTable({
     </>
   );
 }
-
+ 
 ProductTable.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   setFilteredData: PropTypes.func.isRequired,

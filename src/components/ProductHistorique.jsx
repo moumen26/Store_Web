@@ -131,7 +131,7 @@ ProductHistoriqueRow.propTypes = {
 };
 
 // Main component
-export default function ProductHistorique({ selectedStockId }) {
+export default function ProductHistorique({ StockStatusData, StockStatusLoading }) {
   const { user } = useAuthContext();
 
   const [isEditing, setIsEditing] = useState(null);
@@ -163,46 +163,6 @@ export default function ProductHistorique({ selectedStockId }) {
   const handleDeleteClick = (historique) => {
     
   };
-
-  //---------------------------------API calls---------------------------------\\
-
-  
-  // fetching specific Stock status data
-  const fetchStockStatusById = async () => {
-    const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${selectedStockId}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
-    );
-
-    // Handle the error state
-    if (!response.ok) {
-        if (response.status === 404) {
-            return []; 
-        } else {
-            throw new Error("Error receiving Stock Status data: " + response.statusText);
-        }
-    }
-
-    // Return the fetched product data
-    return await response.json();
-  };
-  // useQuery hook to fetch data for a specific StockStatus
-  const { 
-    data: StockStatusData, 
-    error: StockStatusError, 
-    isLoading: StockStatusLoading, 
-    refetch: StockStatusRefetch } = useQuery({
-      queryKey: ['StockStatusData', selectedStockId, user?.token],
-      queryFn: () => fetchStockStatusById(), // Call the fetch function with selectedStockId
-      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
-  });
 
   return (
     <TableContainer component={Paper} style={{ boxShadow: "none" }}>

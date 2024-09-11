@@ -477,18 +477,18 @@ export default function CustomerProfile() {
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
+            customerStatsCardTitle="Total Paid"
+            customerStatsCardDetails={OrderStatisticsData?.totalPaid}
+            loading={OrderStatisticsDataLoading}
+          />
+          <CustomerStatsCard
             customerStatsCardTitle="Total Profit"
             customerStatsCardDetails={OrderStatisticsData?.profit}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Pending Payment"
-            customerStatsCardDetails={OrderStatisticsData?.credit}
-            loading={OrderStatisticsDataLoading}
-          />
-          <CustomerStatsCard
-            customerStatsCardTitle="Total unpaid Payment"
-            customerStatsCardDetails={OrderStatisticsData?.anpaid}
+            customerStatsCardTitle="Total credit & deposit"
+            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid}`}
             loading={OrderStatisticsDataLoading}
           />
         </div>

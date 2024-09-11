@@ -31,7 +31,7 @@ export default function CustomerStatsCard({
       spanComponent = "";
       break;
     default:
-      spanComponent = spanComponent = "DA ";
+      spanComponent = spanComponent = " DA";
   }
   return (
     <div className="customerStatsCard">
@@ -46,8 +46,8 @@ export default function CustomerStatsCard({
             </div>
           </div>
           <span className="dashboardCardAmount">
-            {spanComponent}
             {customerStatsCardDetails}
+            {spanComponent}
           </span>
         </>
       :

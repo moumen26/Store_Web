@@ -12,7 +12,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
-import { Snackbar } from "@mui/material";
+import { CircularProgress, Snackbar } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 export default function Customers() {
@@ -283,151 +283,152 @@ export default function Customers() {
         maxWidth="md"
         fullWidth
       >
-        <div className="dialogAdd">
-          <div className="flex items-center space-x-3 title">
-            <div className="cercleIcon">
-              <UserPlusIcon className="iconAsideBar" />
-            </div>
-            <h2 className="dialogTitle">Add New Customer</h2>
-          </div>
-          {showAlert && (
-            <Alert severity="error" onClose={() => setShowAlert(false)}>
-              Please fill in all required fields.
-            </Alert>
-          )}
-          <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
-            <div className="dialogAddCustomerItem items-center">
-              <span>First Name</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="customerFirstName"
-                  value={FirstName}
-                  onChange={handleFirstNameChange}
-                />
+        {!submitionLoading ? 
+          <div className="dialogAdd">
+            <div className="flex items-center space-x-3 title">
+              <div className="cercleIcon">
+                <UserPlusIcon className="iconAsideBar" />
               </div>
+              <h2 className="dialogTitle">Add New Customer</h2>
             </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Last Name</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="customerLastName"
-                  value={LastName}
-                  onChange={handleLastNameChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Address</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="storeAddress"
-                  value={Address}
-                  onChange={handleAddressChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Number Phone</span>
-              <div className="inputForm">
-                <input
-                  type="phone"
-                  name="customerPhone"
-                  value={Phone}
-                  onChange={ handlePhoneChange }
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Email</span>
-              <div className="inputForm">
-                <input
-                  type="email"
-                  name="storeAddress"
-                  value={Email}
-                  onChange={handleEmailChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Password</span>
-              <div className="inputForm">
-                <input
-                  type="password"
-                  name="password"
-                  value={Password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Confirm password</span>
-              <div className="inputForm">
-                <input
-                  type="password"
-                  name="ConfirmPassword"
-                  value={ConfirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <div className="flex space-x-8 items-center">
-                <span>Wilaya</span>
-                <div className="selectStoreWilayaCommune">
-                  <select
-                      name="fournisseurWilaya"
-                      value={selectedWilaya}
-                      onChange={handleWilayaChange}
-                    >
-                      <option value="">Select Wilaya</option>
-                      {wilayas.map((wilaya) => (
-                        <option key={wilaya.value} value={wilaya.value}>
-                          {wilaya.label}
-                        </option>
-                      ))}
-                    </select>
+            <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
+              <div className="dialogAddCustomerItem items-center">
+                <span>First Name</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="customerFirstName"
+                    value={FirstName}
+                    onChange={handleFirstNameChange}
+                  />
                 </div>
               </div>
-              <div className="flex space-x-8 items-center">
-                <span>Commune</span>
-                <div className="selectStoreWilayaCommune">
-                  <select
-                      name="fournisseurCommune"
-                      value={selectedCommune}
-                      onChange={handleCommuneChange}
-                    >
-                      <option value="">Select Commune</option>
-                      {communes.map((commune) => (
-                        <option key={commune.value} value={commune.value}>
-                          {commune.label}
-                        </option>
-                      ))}
-                    </select>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Last Name</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="customerLastName"
+                    value={LastName}
+                    onChange={handleLastNameChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Address</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="storeAddress"
+                    value={Address}
+                    onChange={handleAddressChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Number Phone</span>
+                <div className="inputForm">
+                  <input
+                    type="phone"
+                    name="customerPhone"
+                    value={Phone}
+                    onChange={ handlePhoneChange }
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Email</span>
+                <div className="inputForm">
+                  <input
+                    type="email"
+                    name="storeAddress"
+                    value={Email}
+                    onChange={handleEmailChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Password</span>
+                <div className="inputForm">
+                  <input
+                    type="password"
+                    name="password"
+                    value={Password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Confirm password</span>
+                <div className="inputForm">
+                  <input
+                    type="password"
+                    name="ConfirmPassword"
+                    value={ConfirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <div className="flex space-x-8 items-center">
+                  <span>Wilaya</span>
+                  <div className="selectStoreWilayaCommune">
+                    <select
+                        name="fournisseurWilaya"
+                        value={selectedWilaya}
+                        onChange={handleWilayaChange}
+                      >
+                        <option value="">Select Wilaya</option>
+                        {wilayas.map((wilaya) => (
+                          <option key={wilaya.value} value={wilaya.value}>
+                            {wilaya.label}
+                          </option>
+                        ))}
+                      </select>
+                  </div>
+                </div>
+                <div className="flex space-x-8 items-center">
+                  <span>Commune</span>
+                  <div className="selectStoreWilayaCommune">
+                    <select
+                        name="fournisseurCommune"
+                        value={selectedCommune}
+                        onChange={handleCommuneChange}
+                      >
+                        <option value="">Select Commune</option>
+                        {communes.map((commune) => (
+                          <option key={commune.value} value={commune.value}>
+                            {commune.label}
+                          </option>
+                        ))}
+                      </select>
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+              <button
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={handleCloseDialog}
+              >
+                Cancel
+              </button>
+              <button
+                className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
+                  !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={handleSaveCustomer}
+                disabled={!isFormValid}
+              >
+                Save
+              </button>
+            </div>
           </div>
-          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
-            <button
-              className="text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={handleCloseDialog}
-            >
-              Cancel
-            </button>
-            <button
-              className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
-                !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={handleSaveCustomer}
-              disabled={!isFormValid}
-            >
-              Save
-            </button>
+          :
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
           </div>
-        </div>
+        }
       </Dialog>
       {/* Snackbar */}
       <Snackbar

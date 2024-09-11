@@ -8,12 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useQuery } from "@tanstack/react-query";
-
 function Row(props) {
   const { row } = props;
   const navigate = useNavigate();
@@ -65,55 +61,11 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function VendorsTable({ searchQuery, setFilteredData }) {
-  const { user } = useAuthContext();
-  const decodedToken = TokenDecoder();
-  
-  //fetch data
-  const fetchCustomersData = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/sellers/${decodedToken.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      if (errorData.error.statusCode === 404) {
-        return []; // Return an empty array if no data is found
-      } else {
-        throw new Error("Error receiving approved users data for this store");
-      }
-    }
-
-    return await response.json(); // Return the data if the response is successful
-  };
-  // useQuery hook to fetch data
-  const { 
-    data: CustomersData, 
-    error: CustomersDataError, 
-    isLoading: CustomersDataLoading, 
-    refetch: refetchCustomersData 
-  } = useQuery({
-    queryKey: ['CustomersData', user?.token],
-    queryFn: fetchCustomersData,
-    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-  });
-  // Refetch data when user changes
-  const handleRefetchDataChange = () => {
-    refetchCustomersData();
-  };
-
+export default function VendorsTable({ searchQuery, setFilteredData, data, dataLoading }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (CustomersData?.length > 0) {
-      const rowsData = CustomersData.map((data) => ({
+    if (data?.length > 0) {
+      const rowsData = data.map((data) => ({
         customerFirstName: data.user.firstName,
         customerLastName: data.user.lastName,
         customerId: data.user._id,
@@ -125,7 +77,8 @@ export default function VendorsTable({ searchQuery, setFilteredData }) {
     }else{
       setRows([]);
     }
-  }, [CustomersData]);
+  }, [data]);
+  
   const filteredRows = rows.filter(
     (row) =>
       row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -150,7 +103,7 @@ export default function VendorsTable({ searchQuery, setFilteredData }) {
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Vendors_ID</span>
+              <span className="thTableSpan">Customer_ID</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Name</span>
@@ -172,7 +125,7 @@ export default function VendorsTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
-          ) : CustomersDataLoading ? (
+          ) : dataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">loading...</span> */}
@@ -182,7 +135,7 @@ export default function VendorsTable({ searchQuery, setFilteredData }) {
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No vendors found</span>
+                <span className="thTableSpan">No customers found</span>
               </TableCell>
             </TableRow>
           )}

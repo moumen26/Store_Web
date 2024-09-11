@@ -8,11 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { TokenDecoder } from "../util/DecodeToken";
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
   const { row } = props;

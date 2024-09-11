@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonAdd from "../components/ButtonAdd";
@@ -7,24 +7,77 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import Dialog from "@mui/material/Dialog";
 import Alert from "@mui/material/Alert";
 import { UserPlusIcon } from "@heroicons/react/24/outline";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
+import { useLocation } from "react-router-dom";
+import { CircularProgress, Snackbar } from "@mui/material";
+import axios from "axios";
 
 export default function Vendors() {
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newCustomer, setNewCustomer] = useState({
-    customerFirstName: "",
-    customerLastName: "",
-    storeAddress: "",
-    customerPhone: "",
-    storeWilaya: "",
-    storeCommune: "",
-    customerPhoto: null,
-    isVendor: true,
-  });
   const [isFormValid, setIsFormValid] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
+
+  //form
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [Address, setAddress] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [selectedWilaya, setSelectedWilaya] = useState(null);
+  const [selectedCommune, setSelectedCommune] = useState(null);
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  //handle change functions
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  }
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
+  }
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
+  }
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+  }
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  }
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  }
+  const handleWilayaChange = (e) => {
+    setSelectedWilaya(e.target.value);
+  }
+  const handleCommuneChange = (e) => {
+    setSelectedCommune(e.target.value);
+  }
+  //clear form
+  const clearForm = () => {
+    setFirstName("");
+    setLastName("");
+    setPhone("");
+    setAddress("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setSelectedWilaya(null);
+    setSelectedCommune(null);
+  }
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -38,74 +91,159 @@ export default function Vendors() {
     setOpenDialog(false);
   };
 
-  const handleAddCustomer = () => {
-    if (validateForm()) {
-      console.log("New Customer:", newCustomer);
-      setOpenDialog(false);
-      setNewCustomer({
-        customerFirstName: "",
-        customerLastName: "",
-        storeAddress: "",
-        customerPhone: "",
-        storeWilaya: "",
-        storeCommune: "",
-        customerPhoto: null,
-        isVendor: true,
-      });
-      setImage(null);
-      setShowAlert(false);
-    } else {
-      setShowAlert(true);
-    }
-  };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewCustomer((prev) => ({ ...prev, [name]: value }));
-    setIsFormValid(validateForm({ ...newCustomer, [name]: value }));
-  };
 
-  const validateForm = (customer = newCustomer) => {
-    return (
-      customer.customerFirstName &&
-      customer.customerLastName &&
-      customer.storeAddress &&
-      customer.customerPhone &&
-      customer.storeWilaya &&
-      customer.storeCommune
+  //---------------------------------API calls---------------------------------\\
+  
+  //fetch data
+  const fetchCustomersData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/sellers/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving approved users data for this store");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
   };
+  // useQuery hook to fetch data
+  const { 
+    data: CustomersData, 
+    error: CustomersDataError, 
+    isLoading: CustomersDataLoading, 
+    refetch: refetchCustomersData 
+  } = useQuery({
+    queryKey: ['CustomersData', user?.token],
+    queryFn: fetchCustomersData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
 
-  const [image, setImage] = useState(null);
-  const fileInputRef = useRef(null);
+  // fetching Cities data
+  const fetchCitiesData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Cities/fr`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+            },
+        }
+    );
 
-  const handleClick = () => {
-    fileInputRef.current.click();
+    // Handle the error state
+    if (!response.ok) {
+        const errorData = await response.json();
+        if(errorData.error.statusCode == 404)
+            return [];
+        else
+            throw new Error("Error receiving Cities data");
+    }
+    // Return the data
+    return await response.json();
   };
+  // useQuery hook to fetch data
+  const { 
+    data: CitiesData, 
+    error: CitiesError, 
+    isLoading: CitiesLoading, 
+    refetch: CitiesRefetch } = useQuery({
+      queryKey: ['CitiesData', user?.token, location.key],
+      queryFn: fetchCitiesData,
+      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-        setNewCustomer((prev) => ({ ...prev, customerPhoto: reader.result }));
-      };
-      reader.readAsDataURL(file);
+  // Filter wilayas
+  const wilayas = CitiesData?.length > 0
+  ? CitiesData.filter(city => city.codeC == `${city.codeW}001`)
+      .map(city => ({ value: city.codeW, label: city.wilaya }))
+  : [];
+
+  // Filter communes
+  const communes = selectedWilaya && CitiesData?.length > 0
+  ? CitiesData.filter(city => city.codeW == selectedWilaya)
+      .filter(city => city.codeC !== `${city.codeW}001`)
+      .map(city => ({ value: city.codeC, label: city.baladiya }))
+  : [];
+
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    refetchCustomersData();
+    CitiesRefetch();
+  }
+
+  //save Fournisseur API
+  const handleSaveCustomer = async () => {
+    if (Password !== ConfirmPassword) {
+      setAlertType(true);
+      setSnackbarMessage("Passwords do not match");
+      setSnackbarOpen(true);
+      return;
+    }
+    try {
+        setSubmitionLoading(true);
+        const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/auth/createNewSeller/${decodedToken.id}`, 
+          {
+            FirstName: FirstName,
+            LastName: LastName,
+            PhoneNumber: Phone,
+            Address: Address,
+            Wilaya: selectedWilaya,
+            Commune: selectedCommune,
+            Email: Email,
+            Password: Password,
+          },
+          {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              }
+          }
+        );
+        if (response.status === 200) {
+          setAlertType(false);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          handleRefetchDataChange();
+          setSubmitionLoading(false);
+          handleCloseDialog();
+          clearForm();
+        } else {
+          setAlertType(true);
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        }
+    } catch (error) {
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+        } else if (error.request) {
+          // Request was made but no response was received
+          console.error("Error creating new vendeur: No response received");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error creating new vendeur");
+        }
     }
   };
 
-  const wilayas = [
-    { value: "", label: "-- Select Store Wilaya --" },
-    { value: "wilaya1", label: "Wilaya 1" },
-    { value: "wilaya2", label: "Wilaya 2" },
-  ];
-
-  const communes = [
-    { value: "", label: "-- Select Store Commune --" },
-    { value: "commune1", label: "Commune 1" },
-    { value: "commune2", label: "Commune 2" },
-  ];
 
   return (
     <div className="pagesContainer">
@@ -113,7 +251,7 @@ export default function Vendors() {
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Vendors</h2>
         <ButtonAdd
-          buttonSpan="Add New Vendor"
+          buttonSpan="Add New Customer"
           onClick={handleAddCustomerClick}
         />
       </div>
@@ -123,12 +261,14 @@ export default function Vendors() {
             placeholder="Search by Customer..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Vendors" />
+          <ButtonExportExel data={filteredData} filename="Customers" />
         </div>
         <div className="pageTableContainer">
           <VendorsTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            data={CustomersData}
+            dataLoading={CustomersDataLoading}
           />
         </div>
       </div>
@@ -138,149 +278,167 @@ export default function Vendors() {
         maxWidth="md"
         fullWidth
       >
-        <div className="dialogAdd">
-          <div className="flex items-center space-x-3 title">
-            <div className="cercleIcon">
-              <UserPlusIcon className="iconAsideBar" />
+        {!submitionLoading ? 
+          <div className="dialogAdd">
+            <div className="flex items-center space-x-3 title">
+              <div className="cercleIcon">
+                <UserPlusIcon className="iconAsideBar" />
+              </div>
+              <h2 className="dialogTitle">Add New Seller</h2>
             </div>
-            <h2 className="dialogTitle">Add New Vendor</h2>
-          </div>
-          {showAlert && (
-            <Alert severity="error" onClose={() => setShowAlert(false)}>
-              Please fill in all required fields.
-            </Alert>
-          )}
-          <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
-            <div className="dialogAddCustomerItem items-center">
-              <span>Picture</span>
-              <div className="flex items-center space-x-4">
-                <div
-                  className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
-                  onClick={handleClick}
-                >
-                  {image ? (
-                    <img
-                      src={image}
-                      alt="Preview"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  ) : (
-                    <PhotoIcon className="w-6 h-6 text-slate-400" />
-                  )}
-                </div>
-                <div className="h-[80px] w-[404px] flex items-center justify-center uploadClass">
+            <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
+              <div className="dialogAddCustomerItem items-center">
+                <span>First Name</span>
+                <div className="inputForm">
                   <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
+                    type="text"
+                    name="customerFirstName"
+                    value={FirstName}
+                    onChange={handleFirstNameChange}
                   />
-                  <p onClick={handleClick} className="uploadSpan">
-                    <span className="text-blue-600">Click to upload</span> or
-                    drag and drop SVG, PNG, JPG
-                  </p>
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Last Name</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="customerLastName"
+                    value={LastName}
+                    onChange={handleLastNameChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Address</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="storeAddress"
+                    value={Address}
+                    onChange={handleAddressChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Number Phone</span>
+                <div className="inputForm">
+                  <input
+                    type="phone"
+                    name="customerPhone"
+                    value={Phone}
+                    onChange={ handlePhoneChange }
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Email</span>
+                <div className="inputForm">
+                  <input
+                    type="email"
+                    name="storeAddress"
+                    value={Email}
+                    onChange={handleEmailChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Password</span>
+                <div className="inputForm">
+                  <input
+                    type="password"
+                    name="password"
+                    value={Password}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Confirm password</span>
+                <div className="inputForm">
+                  <input
+                    type="password"
+                    name="ConfirmPassword"
+                    value={ConfirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <div className="flex space-x-8 items-center">
+                  <span>Wilaya</span>
+                  <div className="selectStoreWilayaCommune">
+                    <select
+                        name="fournisseurWilaya"
+                        value={selectedWilaya}
+                        onChange={handleWilayaChange}
+                      >
+                        <option value="">Select Wilaya</option>
+                        {wilayas.map((wilaya) => (
+                          <option key={wilaya.value} value={wilaya.value}>
+                            {wilaya.label}
+                          </option>
+                        ))}
+                      </select>
+                  </div>
+                </div>
+                <div className="flex space-x-8 items-center">
+                  <span>Commune</span>
+                  <div className="selectStoreWilayaCommune">
+                    <select
+                        name="fournisseurCommune"
+                        value={selectedCommune}
+                        onChange={handleCommuneChange}
+                      >
+                        <option value="">Select Commune</option>
+                        {communes.map((commune) => (
+                          <option key={commune.value} value={commune.value}>
+                            {commune.label}
+                          </option>
+                        ))}
+                      </select>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>First Name</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="customerFirstName"
-                  value={newCustomer.customerFirstName}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Last Name</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="customerLastName"
-                  value={newCustomer.customerLastName}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Number Phone</span>
-              <div className="inputForm">
-                <input
-                  type="phone"
-                  name="customerPhone"
-                  value={newCustomer.customerPhone}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Address</span>
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="storeAddress"
-                  value={newCustomer.storeAddress}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <div className="flex space-x-8 items-center">
-                <span>Wilaya</span>
-                <div className="selectStoreWilayaCommune">
-                  <select
-                    name="storeWilaya"
-                    value={newCustomer.storeWilaya}
-                    onChange={handleInputChange}
-                  >
-                    {wilayas.map((wilaya) => (
-                      <option key={wilaya.value} value={wilaya.value}>
-                        {wilaya.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="flex space-x-8 items-center">
-                <span>Commune</span>
-                <div className="selectStoreWilayaCommune">
-                  <select
-                    name="storeCommune"
-                    value={newCustomer.storeCommune}
-                    onChange={handleInputChange}
-                  >
-                    {communes.map((commune) => (
-                      <option key={commune.value} value={commune.value}>
-                        {commune.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+              <button
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={handleCloseDialog}
+              >
+                Cancel
+              </button>
+              <button
+                className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
+                  !isFormValid ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={handleSaveCustomer}
+                disabled={!isFormValid}
+              >
+                Save
+              </button>
             </div>
           </div>
-          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
-            <button
-              className="text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={handleCloseDialog}
-            >
-              Cancel
-            </button>
-            <button
-              className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
-                !isFormValid ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={handleAddCustomer}
-              disabled={!isFormValid}
-            >
-              Save
-            </button>
+          :
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
           </div>
-        </div>
+        }
       </Dialog>
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -16,6 +16,8 @@ import ButtonLight from "../components/ButtonLight";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Modal from "react-modal";
 import { PlusIcon } from "@heroicons/react/16/solid";
+import axios from "axios";
+import { Alert, Snackbar } from "@mui/material";
 
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
@@ -27,11 +29,16 @@ export default function CustomerProfile() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const [dialogOpenMakeVendor, setDialogOpenMakeVendor] = useState(false);
   const [confirmDialogOpenMakeVendor, setConfirmDialogOpenMakeVendor] =
     useState(false);
-  const [buttonVendorText, setButtonVendorText] = useState("Make Vendor");
+  const [buttonVendorText, setButtonVendorText] = useState("");
 
   const handleButtonVendorClick = () => {
     if (buttonVendorText === "Make Vendor") {
@@ -46,14 +53,94 @@ export default function CustomerProfile() {
     setConfirmDialogOpenMakeVendor(false);
   };
 
-  const handleConfirmAsVendor = () => {
-    setButtonVendorText("Is already Vendor");
-    setDialogOpenMakeVendor(false);
+  const handleConfirmAsVendor = async () => {
+    //API call to make the user a vendor
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/MyStores/makeSeller/${decodedToken.id}`, 
+        {
+          isSeller: true,
+          user: id
+        },
+        {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            }
+        }
+      );
+      if (response.status === 200) {
+        refetchCustomerData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseDialogVendor();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating selling option: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating selling option");
+      }
+    }
   };
 
-  const handleConfirmAsCustomer = () => {
-    setButtonVendorText("Make Vendor");
-    setConfirmDialogOpenMakeVendor(false);
+  const handleConfirmAsCustomer = async () => {
+    //API call to make the user a customer
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/MyStores/makeSeller/${decodedToken.id}`, 
+        {
+          isSeller: false,
+          user: id
+        },
+        {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            }
+        }
+      );
+      if (response.status === 200) {
+        refetchCustomerData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseDialogVendor();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating selling option: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating selling option");
+      }
+    }
   };
   //Modal add address
   const [modalIsOpenAddAddress, setModalIsOpenAddAdress] = useState(false);
@@ -81,7 +168,7 @@ export default function CustomerProfile() {
   // Define a function that fetches the customer data
   const fetchCustomerData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/User/${id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/User/${id}/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -97,7 +184,6 @@ export default function CustomerProfile() {
       if (errorData.error.statusCode == 404) return {};
       else throw new Error("Error receiving Customer data");
     }
-
     // Return the data
     return await response.json();
   };
@@ -107,7 +193,7 @@ export default function CustomerProfile() {
     data: CustomerData,
     error: CustomerDataError,
     isLoading: CustomerDataLoading,
-    refetch: refetchCustomerDataData,
+    refetch: refetchCustomerData,
   } = useQuery({
     queryKey: ["CustomerData", user?.token, location.key, id],
     queryFn: fetchCustomerData,
@@ -190,6 +276,16 @@ export default function CustomerProfile() {
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
+  useEffect(() => {
+    //set selling option
+    if(CustomerData?.isSeller == true){
+      setButtonVendorText("Is already Vendor");
+    }else if(CustomerData?.isSeller == false){
+      setButtonVendorText("Make Vendor");
+    }
+  },[CustomerData, buttonVendorText])
+
+
   if (CustomerDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -225,16 +321,19 @@ export default function CustomerProfile() {
           </span>
         </div>
         <div className="flex space-x-2">
-          <ButtonLight
-            buttonSpan={buttonVendorText}
-            onClick={handleButtonVendorClick}
-          />
+          {(CustomerData?.isSeller == true || CustomerData?.isSeller == false) &&
+            <ButtonLight
+              buttonSpan={buttonVendorText}
+              onClick={handleButtonVendorClick}
+            />
+          }
           <ConfirmDialog
             open={dialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
             onConfirm={handleConfirmAsVendor}
             dialogTitle="Confirm Vendor"
             dialogContentText="Are you sure you want to make this a vendor?"
+            isloading={submitionLoading}
           />
           <ConfirmDialog
             open={confirmDialogOpenMakeVendor}
@@ -242,6 +341,7 @@ export default function CustomerProfile() {
             onConfirm={handleConfirmAsCustomer}
             dialogTitle="Cancel Vendor Option"
             dialogContentText="Are you sure you want to cancel the vendor option and make it a customer?"
+            isloading={submitionLoading}
           />
           <ButtonAdd
             buttonSpan="Create Order"
@@ -408,6 +508,20 @@ export default function CustomerProfile() {
           loading={OrderDataLoading}
         />
       </div>
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

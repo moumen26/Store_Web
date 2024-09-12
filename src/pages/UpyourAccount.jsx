@@ -89,6 +89,8 @@ export default function UpYourAccount() {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
+    setStoreName("");
+    setR_Commerce("");
     setSelectedWilaya(null);
     setSelectedCommune(null);
     setSelectedCategories([]);
@@ -272,14 +274,13 @@ export default function UpYourAccount() {
           }
         );
         if (response.status === 200) {
+          handleRedirect("/");
+          clearForm();
           setAlertType(false);
           setSnackbarMessage(response.data.message);
           setSnackbarOpen(true);
           handleRefetchDataChange();
           setSubmitionLoading(false);
-          handleCloseDialog();
-          clearForm();
-          handleRedirect(`/`);
         } else {
           setAlertType(true);
           setSnackbarMessage(response.data.message);

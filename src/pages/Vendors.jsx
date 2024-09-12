@@ -251,14 +251,14 @@ export default function Vendors() {
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Vendors</h2>
         <ButtonAdd
-          buttonSpan="Add New Customer"
+          buttonSpan="Add New Vendor"
           onClick={handleAddCustomerClick}
         />
       </div>
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search
-            placeholder="Search by Customer..."
+            placeholder="Search by Vendor..."
             onChange={handleSearchChange}
           />
           <ButtonExportExel data={filteredData} filename="Customers" />

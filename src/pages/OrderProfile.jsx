@@ -16,6 +16,8 @@ import PaymentHistorique from "../components/PaymentHistorique";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
+import ButtonLight from "../components/ButtonLight";
+import ButtonModify from "../components/ButtonModify";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -26,8 +28,12 @@ export default function OrderProfile() {
   const [OpenAddPaymentDialog, setOpenAddPaymentDialog] = useState(false);
   const [Amount, setAmount] = useState(0);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [isConfirmDialogOpenWithoutPaying, setisConfirmDialogOpenWithoutPaying] = useState(false);
-  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] = useState(false);
+  const [
+    isConfirmDialogOpenWithoutPaying,
+    setisConfirmDialogOpenWithoutPaying,
+  ] = useState(false);
+  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] =
+    useState(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -36,15 +42,15 @@ export default function OrderProfile() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  
+
   const handleCloseAddPaymentDialog = () => {
     setOpenAddPaymentDialog(false);
   };
-  
+
   const handleOpenAddPaymentDialog = () => {
     setOpenAddPaymentDialog(true);
   };
-  
+
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
@@ -56,7 +62,7 @@ export default function OrderProfile() {
   const handleCloseConfirmationDialog = () => {
     setIsConfirmDialogOpen(false);
     setAmount(0);
-  }
+  };
 
   const handleOpenConfirmationDialogWithoutPaying = () => {
     setisConfirmDialogOpenWithoutPaying(true);
@@ -64,7 +70,7 @@ export default function OrderProfile() {
 
   const handleCloseConfirmationDialogWithoutPaying = () => {
     setisConfirmDialogOpenWithoutPaying(false);
-  }
+  };
 
   const handleOpenCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(true);
@@ -72,7 +78,7 @@ export default function OrderProfile() {
 
   const handleCloseCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(false);
-  }
+  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -125,15 +131,16 @@ export default function OrderProfile() {
   const handleOnConfirm = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/addPaymentToCredit/${id}`, 
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/addPaymentToCredit/${id}`,
         {
           payment: Amount,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -151,34 +158,33 @@ export default function OrderProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error adding new payment: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error adding new payment");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding new payment: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding new payment");
+      }
     }
-  }
+  };
 
   //add payment API
   const handleOnConfirmWithoutPaying = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/status-1/${id}`,
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/status-1/${id}`,
+        {},
         {
-
-        },
-        {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -195,34 +201,35 @@ export default function OrderProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error updating taking without paying: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error updating taking without paying");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error(
+          "Error updating taking without paying: No response received"
+        );
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating taking without paying");
+      }
     }
-  }
+  };
 
   //make it credited API
   const handleOnConfirmCredited = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Receipt/credited/${id}`,
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credited/${id}`,
+        {},
         {
-
-        },
-        {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -239,20 +246,20 @@ export default function OrderProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error updating credited: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error updating credited");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating credited: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating credited");
+      }
     }
-  }
+  };
 
   if (OrderDataLoading) {
     return (
@@ -277,6 +284,17 @@ export default function OrderProfile() {
     );
   }
 
+  //Modify the order
+  const [modifyOrderModal, setModifyOrderModal] = useState(false);
+
+  const handleOpenModifyOrderModal = () => {
+    setModifyOrderModal(true);
+  };
+
+  const handleCloseModifyOrderModal = () => {
+    setModifyOrderModal(false);
+  };
+
   return (
     <div className="pagesContainer">
       <Header />
@@ -288,6 +306,11 @@ export default function OrderProfile() {
             <span>#{OrderData?.code}</span>
           </div>
           <div className="orderProfileButtons">
+            <ButtonModify
+              showIcon={true}
+              buttonSpan="Modify Order"
+              onClick={handleOpenModifyOrderModal}
+            />
             <ButtonExportPDF
               filename="Order_Profile"
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
@@ -362,7 +385,7 @@ export default function OrderProfile() {
             padding: "20px",
             maxWidth: "60%",
             margin: "auto",
-            height: "52%",
+            height: "fit-content",
             zIndex: 1001,
             overflowY: "auto",
           },
@@ -371,45 +394,57 @@ export default function OrderProfile() {
         <div className="customerClass">
           <div className="flex flex-row justify-between items-center w-full">
             <h2 className="customerClassTitle">Payment History</h2>
-            {OrderData.status != 10 ?
+            {OrderData.status != 10 ? (
               <>
-                {OrderData.status != -1 && OrderData.credit == false &&
+                {OrderData.status != -1 && OrderData.credit == false && (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Take without paying"
                     onClick={handleOpenConfirmationDialogWithoutPaying}
                   />
-                }
-                {OrderData.credit == false &&
+                )}
+                {OrderData.credit == false && (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it credited"
                     onClick={handleOpenCreditedConfirmationDialog}
                   />
-                }
+                )}
                 <ButtonAdd
                   showIcon={false}
                   buttonSpan="Add payment"
                   onClick={handleOpenAddPaymentDialog}
                 />
               </>
-              :
+            ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
-            }
+            )}
           </div>
           <div className="scrollProductHistorique">
-            <PaymentHistorique 
-              data={OrderData.payment} 
+            <PaymentHistorique
+              data={OrderData.payment}
               isClosed={OrderData.status == 10 ? false : true}
             />
           </div>
         </div>
         <div className="flex justify-end">
           <div className="flex flex-row justify-center items-center w-full">
-            <h2 className="customerClassTitle" style={{marginInlineEnd: '2%'}}>Total : {OrderData.total} DA</h2>
-            <h2 className="customerClassTitle">Rest to pay : {
-              OrderData.total - OrderData.payment.reduce((sum, pay) => sum + pay.amount, 0)} DA</h2>
-            </div>
+            <h2
+              className="customerClassTitle"
+              style={{ marginInlineEnd: "2%" }}
+            >
+              Total : {OrderData.total} DA
+            </h2>
+            <h2 className="customerClassTitle">
+              Rest to pay :{" "}
+              {OrderData.total -
+                OrderData.payment.reduce(
+                  (sum, pay) => sum + pay.amount,
+                  0
+                )}{" "}
+              DA
+            </h2>
+          </div>
           <button
             onClick={handleCloseModal}
             style={{ marginTop: "20px" }}
@@ -503,6 +538,48 @@ export default function OrderProfile() {
           {alertMessage}
         </Alert>
       </Snackbar>
+
+      <Modal
+        isOpen={modifyOrderModal}
+        onRequestClose={handleCloseModifyOrderModal}
+        contentLabel="Add Retuns"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "90%",
+            margin: "auto",
+            height: "70%",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass">
+          <h2 className="customerClassTitle">Add Retuns</h2>
+          {/* <div className="mt-[16px]">
+            <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+              <button
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={handleCloseModifyOrderModal}
+              >
+                Cancel
+              </button>
+              <input
+                type="button"
+                value={"Save"}
+                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                // onClick={handleSavePRODUCT}
+              />
+            </div>
+          </div> */}
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -16,6 +16,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
 import Search from "./Search";
+import Modal from "react-modal";
+
 import ProductsContainerAddOrder from "./ProductContainerAddOrder";
 
 function AddOrderTableDetails({
@@ -237,18 +239,31 @@ function AddOrderTableDetails({
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog
-        open={openModal}
-        onClose={handleCloseModal}
-        maxWidth="md"
-        fullWidth
+      <Modal
+        isOpen={openModal}
+        onRequestClose={handleCloseModal}
+        contentLabel="Add Retuns"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "90%",
+            margin: "auto",
+            height: "fit-content",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
       >
-        <div className="dialogAdd">
-          <div className="flex items-center space-x-3 title">
-            <h2 className="dialogTitle">Add Product to the Order</h2>
-          </div>
-          <div className="space-y-[24px] p-[20px]">
-            <div className="addProductModalHeader justify-between">
+        <div className="customerClass space-y-0 pb-0">
+          <h2 className="dialogTitle">Add Product to the Order</h2>
+          <div className="space-y-[24px]">
+            <div className="addProductModalHeader">
               <Search
                 placeholder="Search by Product..."
                 value={searchQuery}
@@ -326,7 +341,7 @@ function AddOrderTableDetails({
               </div>
             </div>
           </div>
-          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+          <div className="flex justify-end space-x-8 items-start mt-[20px]">
             <button
               onClick={handleCloseModal}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
@@ -341,7 +356,8 @@ function AddOrderTableDetails({
             </button>
           </div>
         </div>
-      </Dialog>
+      </Modal>
+
       <ConfirmDialog
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}

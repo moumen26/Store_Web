@@ -86,7 +86,7 @@ export default function ProductsContainer({
               margin: "auto",
               zIndex: 1001,
 
-              height: "60%",
+              height: "fit-content",
             },
           }}
         >
@@ -114,11 +114,15 @@ export default function ProductsContainer({
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Name</span>
-                <span className="trTableSpan">{selectedProduct.name} {selectedProduct.size}</span>
+                <span className="trTableSpan">
+                  {selectedProduct.name} {selectedProduct.size}
+                </span>
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Brand</span>
-                <span className="trTableSpan">{selectedProduct.brand.name}</span>
+                <span className="trTableSpan">
+                  {selectedProduct.brand.name}
+                </span>
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Box Items</span>
@@ -131,7 +135,7 @@ export default function ProductsContainer({
             <button
               onClick={handleCloseModal}
               style={{ marginTop: "20px" }}
-              className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
+              className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
             >
               Close
             </button>

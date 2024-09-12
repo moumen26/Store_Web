@@ -112,7 +112,7 @@ function App() {
             element={user ? <ProductsGrid /> : <SignIn />}
           />
           <Route
-            path="/PurchaseProfile"
+            path="/PurchaseProfile/:id"
             element={user ? <PurchaseProfile /> : <SignIn />}
           />
           <Route

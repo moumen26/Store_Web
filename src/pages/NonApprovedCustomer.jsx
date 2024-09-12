@@ -6,15 +6,18 @@ import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
 import { useAuthContext } from "../hooks/useAuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
+import { TokenDecoder } from "../util/DecodeToken";
 
 export default function NonApprovedCustomer() {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
+  const decodedToken = TokenDecoder();
+
 
   // fetching CustomerData data
   const fetchCustomerData = async () => {
-    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/User/${id}`,
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/User/${id}/${decodedToken.id}`,
         {
             method: "GET",
             headers: {

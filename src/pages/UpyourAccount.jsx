@@ -239,7 +239,6 @@ export default function UpYourAccount() {
 
   // Refetch data when user changes
   const handleRefetchDataChange = () => {
-    refetchCustomersData();
     CitiesRefetch();
   }
 
@@ -274,13 +273,15 @@ export default function UpYourAccount() {
           }
         );
         if (response.status === 200) {
-          handleRedirect("/");
           clearForm();
           setAlertType(false);
           setSnackbarMessage(response.data.message);
           setSnackbarOpen(true);
           handleRefetchDataChange();
           setSubmitionLoading(false);
+          setTimeout(() => {
+            handleRedirect("/login");
+          }, 2000);
         } else {
           setAlertType(true);
           setSnackbarMessage(response.data.message);
@@ -298,7 +299,7 @@ export default function UpYourAccount() {
           console.error("Error updating store new informations: No response received");
         } else {
           // Something happened in setting up the request that triggered an Error
-          console.error("Error updating store new informations");
+          console.error("Error updating store new informations", error);
         }
     }
   };

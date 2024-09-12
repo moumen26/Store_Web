@@ -280,8 +280,8 @@ export default function UpYourAccount() {
           handleRefetchDataChange();
           setSubmitionLoading(false);
           setTimeout(() => {
-            handleRedirect("/login");
-          }, 2000);
+            handleRedirect("/");
+          }, 1500);
         } else {
           setAlertType(true);
           setSnackbarMessage(response.data.message);

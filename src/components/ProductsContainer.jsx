@@ -110,19 +110,19 @@ export default function ProductsContainer({
             <div className="flex-col space-y-3">
               <div className="flex space-x-3">
                 <span className="thTableSpan">Product Code</span>
-                <span className="trTableSpan">Product Code</span>
+                <span className="trTableSpan">{selectedProduct.code}</span>
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Name</span>
-                <span className="trTableSpan">Name - Size</span>
+                <span className="trTableSpan">{selectedProduct.name} {selectedProduct.size}</span>
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Brand</span>
-                <span className="trTableSpan">Brand</span>
+                <span className="trTableSpan">{selectedProduct.brand.name}</span>
               </div>
               <div className="flex space-x-3">
                 <span className="thTableSpan">Box Items</span>
-                <span className="trTableSpan">Box Items</span>
+                <span className="trTableSpan">{selectedProduct.boxItems}</span>
               </div>
             </div>
           </div>

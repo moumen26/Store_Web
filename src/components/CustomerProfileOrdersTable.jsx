@@ -58,7 +58,10 @@ function Row(props) {
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.credit ? 'true' : 'false'}</span>
+          <span className="trTableSpan">{
+            row.credit ? 
+            'credit' : row.deposit ? 'deposit' : 'normal'
+          }</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
@@ -209,7 +212,7 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
-              <span className="thTableSpan">Credited</span>
+              <span className="thTableSpan">Type</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
               <span className="thTableSpan">Status</span>

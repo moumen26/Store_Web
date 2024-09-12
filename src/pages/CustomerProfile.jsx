@@ -487,7 +487,7 @@ export default function CustomerProfile() {
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total credit & deposit"
+            customerStatsCardTitle="Total Unpaid"
             customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid}`}
             loading={OrderStatisticsDataLoading}
           />

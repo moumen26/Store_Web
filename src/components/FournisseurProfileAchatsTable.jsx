@@ -15,13 +15,14 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../util/useFullFunctions";
+import { ro } from "date-fns/locale";
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
-
+  
   const handleViewClick = () => {
-    navigate("/OrderProfile", { state: { customer: row } });
+    navigate(`/PurchaseProfile/${row._id}`);
   };
   return (
     <React.Fragment>
@@ -55,7 +56,11 @@ function Row(props) {
           </span>        
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.credit ? 'true' : 'false'}</span>
+          <span className="trTableSpan">{
+            row.credit && row.deposit ? 'both' :
+              row.credit ? 'Credit' :
+                row.deposit ? 'Deposit' : 'Cash'
+          }</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">{row.closed ? 'The full amount has been paid.' : 'The full amount has not been paid yet.'}</span>
@@ -178,7 +183,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
               <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Credit</span>
+              <span className="thTableSpan">Type</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Status</span>

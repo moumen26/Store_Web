@@ -18,66 +18,83 @@ import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import ButtonModify from "../components/ButtonModify";
 import AddRetunsTableDetails from "../components/AddRetunsTableDetails";
+import { TokenDecoder } from "../util/DecodeToken";
 
 export default function OrderProfile() {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
+  const decodedToken = TokenDecoder();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [OpenAddPaymentDialog, setOpenAddPaymentDialog] = useState(false);
-  const [Amount, setAmount] = useState(0);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [
-    isConfirmDialogOpenWithoutPaying,
-    setisConfirmDialogOpenWithoutPaying,
-  ] = useState(false);
-  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] =
-    useState(false);
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleCloseAddPaymentDialog = () => {
-    setOpenAddPaymentDialog(false);
-  };
-
-  const handleOpenAddPaymentDialog = () => {
-    setOpenAddPaymentDialog(true);
-  };
-
+  const [Amount, setAmount] = useState(0);
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
 
-  const handleOpenConfirmationDialog = () => {
-    setIsConfirmDialogOpen(true);
+  const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] = useState(false);
+  const handleOpenAddAmountConfirmationDialog = () => {
+    setIsAddAmountConfirmDialogOpen(true);
   };
-
-  const handleCloseConfirmationDialog = () => {
-    setIsConfirmDialogOpen(false);
+  const handleCloseAddAmountConfirmationDialog = () => {
+    setIsAddAmountConfirmDialogOpen(false);
     setAmount(0);
   };
 
-  const handleOpenConfirmationDialogWithoutPaying = () => {
-    setisConfirmDialogOpenWithoutPaying(true);
+  const [isFullyPaidConfirmationOpen, setisFullyPaidConfirmationOpen] = useState(false);
+  const handleOpenFullyPaidDialog = () => {
+    setisFullyPaidConfirmationOpen(true);
+  };
+  const handleCloseFullyPaidConfirmationDialog = () => {
+    setisFullyPaidConfirmationOpen(false);
   };
 
-  const handleCloseConfirmationDialogWithoutPaying = () => {
-    setisConfirmDialogOpenWithoutPaying(false);
+  const [isAddPaymentDialogOpen, setisAddPaymentDialogOpen] = useState(false);
+  const handleOpenAddPaymentDialog = () => {
+    setisAddPaymentDialogOpen(true);
+  };
+  const handleCloseAddPaymentDialog = () => {
+    setisAddPaymentDialogOpen(false);
+  };
+  
+
+  const [isDepositConfirmDialogOpen, setisDepositConfirmDialogOpen] = useState(false);
+  const handleOpenDepositConfirmationDialog = () => {
+    setisDepositConfirmDialogOpen(true);
+  };
+  const handleCloseDepositConfirmationDialog = () => {
+    setisDepositConfirmDialogOpen(false);
   };
 
+  const [isUnDepositConfirmDialogOpen, setisUnDepositConfirmDialogOpen] = useState(false);
+  const handleOpenUnDepositConfirmationDialog = () => {
+    setisUnDepositConfirmDialogOpen(true);
+  };
+  const handleCloseUnDepositConfirmationDialog = () => {
+    setisUnDepositConfirmDialogOpen(false);
+  };
+  
+  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] = useState(false);
   const handleOpenCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(true);
   };
-
   const handleCloseCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(false);
+  };
+
+  const [isUnCreditedConfirmDialogOpen, setisUnCreditedConfirmDialogOpen] = useState(false);
+  const handleOpenUnCreditedConfirmationDialog = () => {
+    setisUnCreditedConfirmDialogOpen(true);
+  };
+  const handleCloseUnCreditedConfirmationDialog = () => {
+    setisUnCreditedConfirmDialogOpen(false);
   };
 
   //Modify the order
@@ -149,14 +166,14 @@ export default function OrderProfile() {
     refetchOnWindowFocus: true, // Optional: refetch on window focus
   });
 
-  //add payment API
-  const handleOnConfirm = async () => {
+  //add full payment API
+  const handleOnConfirmFullyPaid = async () => {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/addPaymentToCredit/${id}`,
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/full/payment/${id}`,
         {
-          payment: Amount,
+          store: decodedToken.id,
         },
         {
           headers: {
@@ -171,7 +188,53 @@ export default function OrderProfile() {
         setAlertMessage(response.data.message);
         setSnackbarOpen(true);
         setSubmitionLoading(false);
-        handleCloseConfirmationDialog();
+        handleCloseFullyPaidConfirmationDialog();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding new payment: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding new payment");
+      }
+    }
+  };
+
+  //add payment API
+  const handleOnConfirmAddPayment = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/payment/${id}`,
+        {
+          amount: Amount,
+          store: decodedToken.id
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseAddAmountConfirmationDialog();
         handleCloseAddPaymentDialog();
       } else {
         setAlertType("error");
@@ -196,12 +259,15 @@ export default function OrderProfile() {
   };
 
   //add payment API
-  const handleOnConfirmWithoutPaying = async () => {
+  const handleOnDepositConfirm = async (val) => {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/status-1/${id}`,
-        {},
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/deposit/${id}`,
+        {
+          deposit: val,
+          store: decodedToken.id
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -215,7 +281,8 @@ export default function OrderProfile() {
         setAlertMessage(response.data.message);
         setSnackbarOpen(true);
         setSubmitionLoading(false);
-        handleCloseConfirmationDialogWithoutPaying();
+        handleCloseDepositConfirmationDialog();
+        handleCloseUnDepositConfirmationDialog();
       } else {
         setAlertType("error");
         setAlertMessage(response.data.message);
@@ -241,12 +308,15 @@ export default function OrderProfile() {
   };
 
   //make it credited API
-  const handleOnConfirmCredited = async () => {
+  const handleOnConfirmCredited = async (val) => {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credited/${id}`,
-        {},
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credit/${id}`,
+        {
+          credited: val, 
+          store: decodedToken.id
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -261,6 +331,7 @@ export default function OrderProfile() {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
         handleCloseCreditedConfirmationDialog();
+        handleCloseUnCreditedConfirmationDialog();
       } else {
         setAlertType("error");
         setAlertMessage(response.data.message);
@@ -406,25 +477,49 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">Payment History</h2>
             {OrderData.status != 10 ? (
               <>
-                {OrderData.status != -1 && OrderData.credit == false && (
+                {OrderData.credit == true ? null :
+                  OrderData.deposit == false ? (
+                    <ButtonAdd
+                      showIcon={false}
+                      buttonSpan="Make it deposit"
+                      onClick={handleOpenDepositConfirmationDialog}
+                    />
+                  ):(
+                    <ButtonAdd
+                      showIcon={false}
+                      buttonSpan="Make it undeposit"
+                      onClick={handleOpenUnDepositConfirmationDialog}
+                    />
+                  )
+                }
+                {OrderData.deposit == true ? null :
+                  OrderData.credit == false ? (
+                    <ButtonAdd
+                      showIcon={false}
+                      buttonSpan="Make it credited"
+                      onClick={handleOpenCreditedConfirmationDialog}
+                    />
+                  ):(
+                    <ButtonAdd
+                      showIcon={false}
+                      buttonSpan="Make it uncredited"
+                      onClick={handleOpenUnCreditedConfirmationDialog}
+                    />
+                  )
+                }
+                {OrderData.credit == true ?
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Take without paying"
-                    onClick={handleOpenConfirmationDialogWithoutPaying}
+                    buttonSpan="Add payment"
+                    onClick={handleOpenAddPaymentDialog}
                   />
-                )}
-                {OrderData.credit == false && (
+                  :
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Make it credited"
-                    onClick={handleOpenCreditedConfirmationDialog}
+                    buttonSpan="full payment"
+                    onClick={handleOpenFullyPaidDialog}
                   />
-                )}
-                <ButtonAdd
-                  showIcon={false}
-                  buttonSpan="Add payment"
-                  onClick={handleOpenAddPaymentDialog}
-                />
+                }
               </>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
@@ -462,7 +557,7 @@ export default function OrderProfile() {
         </div>
       </Modal>
       <Modal
-        isOpen={OpenAddPaymentDialog}
+        isOpen={isAddPaymentDialogOpen}
         onRequestClose={handleCloseAddPaymentDialog}
         contentLabel="Add payment"
         style={{
@@ -505,34 +600,58 @@ export default function OrderProfile() {
           </button>
           <button
             className="text-blue-500 cursor-pointer hover:text-blue-700"
-            onClick={handleOpenConfirmationDialog}
+            onClick={handleOpenAddAmountConfirmationDialog}
           >
             Save
           </button>
         </div>
       </Modal>
       <ConfirmDialog
-        open={isConfirmDialogOpen}
-        onConfirm={handleOnConfirm}
-        onClose={handleCloseConfirmationDialog}
-        dialogTitle="Confirm creation"
+        open={isFullyPaidConfirmationOpen}
+        onConfirm={handleOnConfirmFullyPaid}
+        onClose={handleCloseFullyPaidConfirmationDialog}
+        dialogTitle="Confirm full payment"
+        dialogContentText={`Are you sure you want to confirm the full payment?`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isAddAmountConfirmDialogOpen}
+        onConfirm={handleOnConfirmAddPayment}
+        onClose={handleCloseAddAmountConfirmationDialog}
+        dialogTitle="Confirm add payment"
         dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
         isloading={submitionLoading}
       />
       <ConfirmDialog
-        open={isConfirmDialogOpenWithoutPaying}
-        onConfirm={handleOnConfirmWithoutPaying}
-        onClose={handleCloseConfirmationDialogWithoutPaying}
-        dialogTitle="Confirm taken without paying"
-        dialogContentText={`Are you sure you want to confirm taken without paying`}
+        open={isDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(true)}
+        onClose={handleCloseDepositConfirmationDialog}
+        dialogTitle="Confirm make it deposit sell"
+        dialogContentText={`Are you sure you want to confirm to make deposit sell`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isUnDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(false)}
+        onClose={handleCloseUnDepositConfirmationDialog}
+        dialogTitle="Confirm make it undeposit sell"
+        dialogContentText={`Are you sure you want to confirm to make undeposit sell`}
         isloading={submitionLoading}
       />
       <ConfirmDialog
         open={isCreditedConfirmDialogOpen}
-        onConfirm={handleOnConfirmCredited}
+        onConfirm={() => handleOnConfirmCredited(true)}
         onClose={handleCloseCreditedConfirmationDialog}
         dialogTitle="Confirm make it credited"
-        dialogContentText={`Are you sure you want confirm to make it credited?`}
+        dialogContentText={`Are you sure you want to confirm to make it credited?`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isUnCreditedConfirmDialogOpen}
+        onConfirm={() => handleOnConfirmCredited(false)}
+        onClose={handleCloseUnCreditedConfirmationDialog}
+        dialogTitle="Confirm make it uncredited"
+        dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
         isloading={submitionLoading}
       />
 

@@ -16,8 +16,8 @@ import PaymentHistorique from "../components/PaymentHistorique";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
-import ButtonLight from "../components/ButtonLight";
 import ButtonModify from "../components/ButtonModify";
+import AddRetunsTableDetails from "../components/AddRetunsTableDetails";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -295,6 +295,17 @@ export default function OrderProfile() {
     setModifyOrderModal(false);
   };
 
+  //Add retuns
+  const [addRetunsModal, setAddRetunsModal] = useState(false);
+
+  const handleOpenAddRetunsModal = () => {
+    setAddRetunsModal(true);
+  };
+
+  const handleCloseAddRetunsModal = () => {
+    setAddRetunsModal(false);
+  };
+
   return (
     <div className="pagesContainer">
       <Header />
@@ -438,10 +449,7 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">
               Rest to pay :{" "}
               {OrderData.total -
-                OrderData.payment.reduce(
-                  (sum, pay) => sum + pay.amount,
-                  0
-                )}{" "}
+                OrderData.payment.reduce((sum, pay) => sum + pay.amount, 0)}
               DA
             </h2>
           </div>
@@ -561,8 +569,8 @@ export default function OrderProfile() {
         }}
       >
         <div className="customerClass">
-          <h2 className="customerClassTitle">Add Retuns</h2>
-          {/* <div className="mt-[16px]">
+          <AddRetunsTableDetails />
+          <div className="mt-[16px]">
             <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
@@ -577,7 +585,7 @@ export default function OrderProfile() {
                 // onClick={handleSavePRODUCT}
               />
             </div>
-          </div> */}
+          </div>
         </div>
       </Modal>
     </div>

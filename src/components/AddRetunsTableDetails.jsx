@@ -19,112 +19,12 @@ import Search from "./Search";
 import Modal from "react-modal";
 
 import ProductsContainerAddOrder from "./ProductContainerAddOrder";
+import ButtonAdd from "./ButtonAdd";
 
-function AddOrderTableDetails({
-  openModal,
-  handleCloseModal,
-  onCalculateTotals,
-  deliveryAmount,
-  setAPIProducts,
-}) {
+function AddRetunsTableDetails() {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-  const [rows, setRows] = useState([]);
-  const [ClientQuantity, setClientQuantity] = useState(0);
-  const [newItem, setNewItem] = useState(null);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [deleteItemId, setDeleteItemId] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("error");
-  const [deletedProductName, setDeletedProductName] = useState("");
-  const [unitType, setUnitType] = useState("perUnit");
-
-  useEffect(() => {
-    const calculateTotals = () => {
-      const subtotal = rows.reduce(
-        (acc, row) => acc + row.ClientQuantity * row.product.selling,
-        0
-      );
-      const total = Number(subtotal) + Number(deliveryAmount);
-      onCalculateTotals(subtotal, deliveryAmount, total);
-    };
-    calculateTotals();
-  }, [rows, deliveryAmount, onCalculateTotals]);
-
-  const handleDeleteClick = (uniqueId) => {
-    setDeleteItemId(uniqueId);
-    const deletedProduct = rows.find((row) => row.uniqueId === uniqueId);
-    setDeletedProductName(deletedProduct.product.product.name);
-    setIsConfirmDialogOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    const updatedRows = rows.filter((row) => row.uniqueId !== deleteItemId);
-    setRows(updatedRows);
-
-    const updatedAPIProducts = updatedRows.map((updatedItem) => ({
-      stock: updatedItem.product._id,
-      quantity: updatedItem.ClientQuantity,
-      price: updatedItem.product.selling,
-    }));
-
-    setAPIProducts(updatedAPIProducts);
-    setIsConfirmDialogOpen(false);
-    setDeletedProductName("");
-    setDeleteItemId(null);
-  };
-
-  const handleCancelDelete = () => {
-    setIsConfirmDialogOpen(false);
-    setDeleteItemId(null);
-  };
-
-  const handleAddItem = () => {
-    if (!newItem || !newItem.product._id) {
-      setAlertMessage("Please select a product.");
-      setAlertType("error");
-      setSnackbarOpen(true);
-      return;
-    }
-
-    let productQuantity = ClientQuantity;
-
-    if (productQuantity <= 0) {
-      setAlertMessage("Please enter a valid quantity.");
-      setAlertType("error");
-      setSnackbarOpen(true);
-      return;
-    }
-
-    if (unitType === "perBox") {
-      productQuantity =
-        Number(productQuantity) * Number(newItem.product.product.boxItems);
-    }
-
-    // Update newItem with the correct ClientQuantity
-    const updatedItem = {
-      ...newItem,
-      ClientQuantity: productQuantity,
-      uniqueId: Date.now().toString(),
-    };
-
-    // Add the updated item to the rows
-    setRows([...rows, updatedItem]);
-    setAPIProducts((prevState) => [
-      ...prevState,
-      {
-        stock: updatedItem.product._id,
-        quantity: updatedItem.ClientQuantity,
-        price: updatedItem.product.selling,
-      },
-    ]);
-
-    handleCloseModal();
-    setNewItem(null);
-    setClientQuantity(0);
   };
 
   const handleCloseSnackbar = () => {
@@ -142,40 +42,48 @@ function AddOrderTableDetails({
     setClientQuantity(value);
   };
 
-  const OrderRow = ({ row, onDelete }) => {
-    const productAmount = row.product.selling * row.ClientQuantity;
+  const [addReturnsModal, setAddReturnsModal] = useState(false);
 
+  const handleOpenReturnsModal = () => {
+    setAddReturnsModal(true);
+  };
+
+  const handleCloseReturnsModal = () => {
+    setAddReturnsModal(false);
+  };
+
+  const OrderRow = ({ row }) => {
     return (
       <TableRow
-        key={row.product._id}
+        // key={row.product._id}
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product._id}</span>
+          <span className="trTableSpan">{/* {row.product._id} */}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.product.product.name + " " + row.product.product.size}
+            {/* {row.product.product.name + " " + row.product.product.size} */}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.product.brand?.name}</span>
+          {/* <span className="trTableSpan">{row.product.product.brand?.name}</span> */}
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.ClientQuantity}</span>
+          {/* <span className="trTableSpan">{row.ClientQuantity}</span> */}
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.selling} DA</span>
+          {/* <span className="trTableSpan">{row.product.selling} DA</span> */}
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{productAmount} DA</span>
+          {/* <span className="trTableSpan">{productAmount} DA</span> */}
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex items-center justify-end space-x-3">
             <TrashIcon
               className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-              onClick={() => onDelete(row.uniqueId)}
+              //   onClick={() => onDelete(row.uniqueId)}
             />
           </div>
         </TableCell>
@@ -184,7 +92,15 @@ function AddOrderTableDetails({
   };
 
   return (
-    <>
+    <div>
+      <div className="flex justify-between items-center mb-[16px]">
+        <h2 className="customerClassTitle">Add Retuns</h2>
+        <ButtonAdd
+          showIcon={true}
+          buttonSpan="Add Item"
+          onClick={handleOpenReturnsModal}
+        />
+      </div>
       <TableContainer
         component={Paper}
         style={{ boxShadow: "none" }}
@@ -216,13 +132,13 @@ function AddOrderTableDetails({
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          {/* <TableBody>
             {rows.length > 0 ? (
               rows.map((row) => (
                 <OrderRow
                   key={row.uniqueId}
                   row={row}
-                  onDelete={handleDeleteClick}
+                  //   onDelete={handleDeleteClick}
                 />
               ))
             ) : (
@@ -236,13 +152,14 @@ function AddOrderTableDetails({
                 </TableCell>
               </TableRow>
             )}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </TableContainer>
+
       <Modal
-        isOpen={openModal}
-        onRequestClose={handleCloseModal}
-        contentLabel="Add Product to the Order"
+        isOpen={addReturnsModal}
+        onRequestClose={handleCloseReturnsModal}
+        contentLabel="Add Retuns"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -261,7 +178,7 @@ function AddOrderTableDetails({
         }}
       >
         <div className="customerClass space-y-0 pb-0">
-          <h2 className="dialogTitle">Add Product to the Order</h2>
+          <h2 className="dialogTitle">Add Retuns to the Order</h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
               <Search
@@ -298,8 +215,8 @@ function AddOrderTableDetails({
                 <RadioGroup
                   aria-label="unit-type"
                   name="unit-type"
-                  value={unitType}
-                  onChange={(e) => setUnitType(e.target.value)}
+                  //   value={unitType}
+                  //   onChange={(e) => setUnitType(e.target.value)}
                 >
                   <div className="w-[500px]">
                     <FormControlLabel
@@ -333,9 +250,9 @@ function AddOrderTableDetails({
                   <input
                     type="number"
                     name="productQuantity"
-                    value={ClientQuantity}
+                    // value={ClientQuantity}
                     min={0}
-                    onChange={handleProductQuantityChange}
+                    // onChange={handleProductQuantityChange}
                   />
                 </div>
               </div>
@@ -343,13 +260,13 @@ function AddOrderTableDetails({
           </div>
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
             <button
-              onClick={handleCloseModal}
+              onClick={handleCloseReturnsModal}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
             >
               Close
             </button>
             <button
-              onClick={handleAddItem}
+            //   onClick={handleAddItem}
               className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
               Confirm
@@ -357,26 +274,8 @@ function AddOrderTableDetails({
           </div>
         </div>
       </Modal>
-
-      <ConfirmDialog
-        open={isConfirmDialogOpen}
-        onConfirm={handleConfirmDelete}
-        onClose={handleCancelDelete}
-        dialogTitle="Confirm Delete"
-        dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
-      />
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={alertType}>
-          {alertMessage}
-        </Alert>
-      </Snackbar>
-    </>
+    </div>
   );
 }
 
-export default AddOrderTableDetails;
+export default AddRetunsTableDetails;

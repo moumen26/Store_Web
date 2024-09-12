@@ -266,7 +266,7 @@ function AddRetunsTableDetails() {
               Close
             </button>
             <button
-            //   onClick={handleAddItem}
+              //   onClick={handleAddItem}
               className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
               Confirm

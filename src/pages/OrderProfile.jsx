@@ -80,6 +80,28 @@ export default function OrderProfile() {
     setisCreditedConfirmDialogOpen(false);
   };
 
+  //Modify the order
+  const [modifyOrderModal, setModifyOrderModal] = useState(false);
+
+  const handleOpenModifyOrderModal = () => {
+    setModifyOrderModal(true);
+  };
+
+  const handleCloseModifyOrderModal = () => {
+    setModifyOrderModal(false);
+  };
+
+  //Add retuns
+  const [addRetunsModal, setAddRetunsModal] = useState(false);
+
+  const handleOpenAddRetunsModal = () => {
+    setAddRetunsModal(true);
+  };
+
+  const handleCloseAddRetunsModal = () => {
+    setAddRetunsModal(false);
+  };
+
   //---------------------------------API calls---------------------------------\\
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -283,29 +305,6 @@ export default function OrderProfile() {
       </div>
     );
   }
-
-  //Modify the order
-  const [modifyOrderModal, setModifyOrderModal] = useState(false);
-
-  const handleOpenModifyOrderModal = () => {
-    setModifyOrderModal(true);
-  };
-
-  const handleCloseModifyOrderModal = () => {
-    setModifyOrderModal(false);
-  };
-
-  //Add retuns
-  const [addRetunsModal, setAddRetunsModal] = useState(false);
-
-  const handleOpenAddRetunsModal = () => {
-    setAddRetunsModal(true);
-  };
-
-  const handleCloseAddRetunsModal = () => {
-    setAddRetunsModal(false);
-  };
-
   return (
     <div className="pagesContainer">
       <Header />
@@ -562,7 +561,9 @@ export default function OrderProfile() {
             padding: "20px",
             maxWidth: "90%",
             margin: "auto",
-            height: "70%",
+            maxHeight: "70%",
+            minHeight: "35%",
+            height: "fit-content",
             zIndex: 1001,
             overflowY: "auto",
           },

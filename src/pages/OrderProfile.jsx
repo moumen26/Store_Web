@@ -17,8 +17,8 @@ import ConfirmDialog from "../components/ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import ButtonModify from "../components/ButtonModify";
-import AddRetunsTableDetails from "../components/AddRetunsTableDetails";
 import { TokenDecoder } from "../util/DecodeToken";
+import AddOrderRetunsTableDetails from "../components/AddOrderRetunsTableDetails";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -39,7 +39,8 @@ export default function OrderProfile() {
     setAmount(e.target.value);
   };
 
-  const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] = useState(false);
+  const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] =
+    useState(false);
   const handleOpenAddAmountConfirmationDialog = () => {
     setIsAddAmountConfirmDialogOpen(true);
   };
@@ -48,7 +49,8 @@ export default function OrderProfile() {
     setAmount(0);
   };
 
-  const [isFullyPaidConfirmationOpen, setisFullyPaidConfirmationOpen] = useState(false);
+  const [isFullyPaidConfirmationOpen, setisFullyPaidConfirmationOpen] =
+    useState(false);
   const handleOpenFullyPaidDialog = () => {
     setisFullyPaidConfirmationOpen(true);
   };
@@ -63,9 +65,9 @@ export default function OrderProfile() {
   const handleCloseAddPaymentDialog = () => {
     setisAddPaymentDialogOpen(false);
   };
-  
 
-  const [isDepositConfirmDialogOpen, setisDepositConfirmDialogOpen] = useState(false);
+  const [isDepositConfirmDialogOpen, setisDepositConfirmDialogOpen] =
+    useState(false);
   const handleOpenDepositConfirmationDialog = () => {
     setisDepositConfirmDialogOpen(true);
   };
@@ -73,15 +75,17 @@ export default function OrderProfile() {
     setisDepositConfirmDialogOpen(false);
   };
 
-  const [isUnDepositConfirmDialogOpen, setisUnDepositConfirmDialogOpen] = useState(false);
+  const [isUnDepositConfirmDialogOpen, setisUnDepositConfirmDialogOpen] =
+    useState(false);
   const handleOpenUnDepositConfirmationDialog = () => {
     setisUnDepositConfirmDialogOpen(true);
   };
   const handleCloseUnDepositConfirmationDialog = () => {
     setisUnDepositConfirmDialogOpen(false);
   };
-  
-  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] = useState(false);
+
+  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] =
+    useState(false);
   const handleOpenCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(true);
   };
@@ -89,7 +93,8 @@ export default function OrderProfile() {
     setisCreditedConfirmDialogOpen(false);
   };
 
-  const [isUnCreditedConfirmDialogOpen, setisUnCreditedConfirmDialogOpen] = useState(false);
+  const [isUnCreditedConfirmDialogOpen, setisUnCreditedConfirmDialogOpen] =
+    useState(false);
   const handleOpenUnCreditedConfirmationDialog = () => {
     setisUnCreditedConfirmDialogOpen(true);
   };
@@ -97,13 +102,16 @@ export default function OrderProfile() {
     setisUnCreditedConfirmDialogOpen(false);
   };
 
-  const [isUpdateReceiptstatusConfirmDialogOpen, setisUpdateReceiptstatusConfirmDialogOpen] = useState(false);
+  const [
+    isUpdateReceiptstatusConfirmDialogOpen,
+    setisUpdateReceiptstatusConfirmDialogOpen,
+  ] = useState(false);
   const handleOpenUpdateReceiptstatusConfirmDialogOpen = () => {
     setisUpdateReceiptstatusConfirmDialogOpen(true);
-  }
+  };
   const handleCloseUpdateReceiptstatusConfirmDialogOpen = () => {
     setisUpdateReceiptstatusConfirmDialogOpen(false);
-  }
+  };
 
   //Modify the order
   const [modifyOrderModal, setModifyOrderModal] = useState(false);
@@ -130,7 +138,7 @@ export default function OrderProfile() {
   //---------------------------------API calls---------------------------------\\
 
   const [productsListToUpdate, setProductsListToUpdate] = useState([]);
-  
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
@@ -179,7 +187,9 @@ export default function OrderProfile() {
   //fetch data
   const fetchOrderStatusData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/ReceiptStatus/all/${id}/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/ReceiptStatus/all/${id}/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -266,7 +276,7 @@ export default function OrderProfile() {
         import.meta.env.VITE_APP_URL_BASE + `/Receipt/payment/${id}`,
         {
           amount: Amount,
-          store: decodedToken.id
+          store: decodedToken.id,
         },
         {
           headers: {
@@ -313,7 +323,7 @@ export default function OrderProfile() {
         import.meta.env.VITE_APP_URL_BASE + `/Receipt/deposit/${id}`,
         {
           deposit: val,
-          store: decodedToken.id
+          store: decodedToken.id,
         },
         {
           headers: {
@@ -361,8 +371,8 @@ export default function OrderProfile() {
       const response = await axios.patch(
         import.meta.env.VITE_APP_URL_BASE + `/Receipt/credit/${id}`,
         {
-          credited: val, 
-          store: decodedToken.id
+          credited: val,
+          store: decodedToken.id,
         },
         {
           headers: {
@@ -408,8 +418,8 @@ export default function OrderProfile() {
       const response = await axios.post(
         import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/create/${id}`,
         {
-          products: productsListToUpdate, 
-          store: decodedToken.id
+          products: productsListToUpdate,
+          store: decodedToken.id,
         },
         {
           headers: {
@@ -513,8 +523,7 @@ export default function OrderProfile() {
                 orderDetails={status?.products}
                 orderDeliveryAmount={0}
               />
-            ))
-            }
+            ))}
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
             <div className="customerClass">
@@ -578,49 +587,47 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">Payment History</h2>
             {OrderData.status != 10 ? (
               <>
-                {OrderData.credit == true ? null :
-                  OrderData.deposit == false ? (
-                    <ButtonAdd
-                      showIcon={false}
-                      buttonSpan="Make it deposit"
-                      onClick={handleOpenDepositConfirmationDialog}
-                    />
-                  ):(
-                    <ButtonAdd
-                      showIcon={false}
-                      buttonSpan="Make it undeposit"
-                      onClick={handleOpenUnDepositConfirmationDialog}
-                    />
-                  )
-                }
-                {OrderData.deposit == true ? null :
-                  OrderData.credit == false ? (
-                    <ButtonAdd
-                      showIcon={false}
-                      buttonSpan="Make it credited"
-                      onClick={handleOpenCreditedConfirmationDialog}
-                    />
-                  ):(
-                    <ButtonAdd
-                      showIcon={false}
-                      buttonSpan="Make it uncredited"
-                      onClick={handleOpenUnCreditedConfirmationDialog}
-                    />
-                  )
-                }
-                {OrderData.credit == true ?
+                {OrderData.credit == true ? null : OrderData.deposit ==
+                  false ? (
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Make it deposit"
+                    onClick={handleOpenDepositConfirmationDialog}
+                  />
+                ) : (
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Make it undeposit"
+                    onClick={handleOpenUnDepositConfirmationDialog}
+                  />
+                )}
+                {OrderData.deposit == true ? null : OrderData.credit ==
+                  false ? (
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Make it credited"
+                    onClick={handleOpenCreditedConfirmationDialog}
+                  />
+                ) : (
+                  <ButtonAdd
+                    showIcon={false}
+                    buttonSpan="Make it uncredited"
+                    onClick={handleOpenUnCreditedConfirmationDialog}
+                  />
+                )}
+                {OrderData.credit == true ? (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Add payment"
                     onClick={handleOpenAddPaymentDialog}
                   />
-                  :
+                ) : (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="full payment"
                     onClick={handleOpenFullyPaidDialog}
                   />
-                }
+                )}
               </>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
@@ -733,7 +740,7 @@ export default function OrderProfile() {
         }}
       >
         <div className="customerClass">
-          <AddRetunsTableDetails 
+          <AddOrderRetunsTableDetails
             productsListToUpdate={productsListToUpdate}
             setProductsListToUpdate={setProductsListToUpdate}
           />
@@ -828,7 +835,6 @@ export default function OrderProfile() {
           {alertMessage}
         </Alert>
       </Snackbar>
-
     </div>
   );
 }

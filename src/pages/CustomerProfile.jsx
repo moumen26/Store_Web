@@ -29,7 +29,7 @@ export default function CustomerProfile() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  
+
   const [submitionLoading, setSubmitionLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertType, setAlertType] = useState(true);
@@ -57,16 +57,18 @@ export default function CustomerProfile() {
     //API call to make the user a vendor
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/MyStores/makeSeller/${decodedToken.id}`, 
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/MyStores/makeSeller/${decodedToken.id}`,
         {
           isSeller: true,
-          user: id
+          user: id,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -102,16 +104,18 @@ export default function CustomerProfile() {
     //API call to make the user a customer
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/MyStores/makeSeller/${decodedToken.id}`, 
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/MyStores/makeSeller/${decodedToken.id}`,
         {
           isSeller: false,
-          user: id
+          user: id,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -278,12 +282,12 @@ export default function CustomerProfile() {
 
   useEffect(() => {
     //set selling option
-    if(CustomerData?.isSeller == true){
+    if (CustomerData?.isSeller == true) {
       setButtonVendorText("Is already Vendor");
-    }else if(CustomerData?.isSeller == false){
+    } else if (CustomerData?.isSeller == false) {
       setButtonVendorText("Make Vendor");
     }
-  },[CustomerData, buttonVendorText])
+  }, [CustomerData, buttonVendorText]);
 
   if (CustomerDataLoading) {
     return (
@@ -320,12 +324,13 @@ export default function CustomerProfile() {
           </span>
         </div>
         <div className="flex space-x-2">
-          {(CustomerData?.isSeller == true || CustomerData?.isSeller == false) &&
+          {(CustomerData?.isSeller == true ||
+            CustomerData?.isSeller == false) && (
             <ButtonLight
               buttonSpan={buttonVendorText}
               onClick={handleButtonVendorClick}
             />
-          }
+          )}
           <ConfirmDialog
             open={dialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
@@ -481,13 +486,15 @@ export default function CustomerProfile() {
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Profit"
-            customerStatsCardDetails={OrderStatisticsData?.profit.toFixed(2)}
+            customerStatsCardTitle="Total Unpaid"
+            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid.toFixed(
+              2
+            )}`}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Unpaid"
-            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid.toFixed(2)}`}
+            customerStatsCardTitle="Total Profit"
+            customerStatsCardDetails={OrderStatisticsData?.profit.toFixed(2)}
             loading={OrderStatisticsDataLoading}
           />
         </div>
@@ -515,7 +522,7 @@ export default function CustomerProfile() {
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

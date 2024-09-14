@@ -79,7 +79,7 @@ function Row(props) {
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={8}
+          colSpan={9}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -207,10 +207,10 @@ export default function CustomerProfileOrdersTable({
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
-            <TableCell className="tableCell">
+            <TableCell className="tableHeadCell">
               <span className="thTableSpan">Remaining Amount</span>
             </TableCell>
-            <TableCell align="right" className="tableHeadCell">
+            <TableCell className="tableHeadCell">
               <span className="thTableSpan">Type</span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">

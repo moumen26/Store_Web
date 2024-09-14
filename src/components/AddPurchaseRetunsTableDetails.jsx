@@ -10,17 +10,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Modal from "react-modal";
 import Search from "./Search";
-import ProductContainerAddReturns from "./ProductContainerAddReturns";
 import ButtonAdd from "./ButtonAdd";
 import ConfirmDialog from "./ConfirmDialog";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { Alert, Snackbar } from "@mui/material";
+import ProductContainerPurchaseAddReturns from "./ProductContainerPurchaseAddReturns";
 
-function AddRetunsTableDetails({
+function AddPurchaseRetunsTableDetails({
   productsListToUpdate,
-  setProductsListToUpdate
+  setProductsListToUpdate,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]); // Store selected products here
@@ -33,7 +33,7 @@ function AddRetunsTableDetails({
   const [rowToDelete, setRowToDelete] = useState(null);
 
   const [ClientQuantity, setClientQuantity] = useState(0);
-  
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
@@ -65,46 +65,48 @@ function AddRetunsTableDetails({
   // Add selected product to the table
   const handleAddItem = () => {
     //check if the selected product is already in the list
-    const isProductExist = products.find((product) => product.product._id === newProduct.product._id);
-    if(isProductExist){
+    const isProductExist = products.find(
+      (product) => product.product._id === newProduct.product._id
+    );
+    if (isProductExist) {
       setAlertMessage("Product already exists in the list");
       setAlertType("error");
       setSnackbarOpen(true);
-    }else if(!newProduct){
+    } else if (!newProduct) {
       setAlertMessage("Please select a product");
       setAlertType("error");
       setSnackbarOpen(true);
-    }else {
+    } else {
       let newQuantity = ClientQuantity;
-      if(unitType == "perBox"){
+      if (unitType == "perBox") {
         newQuantity = newQuantity * Number(newProduct.product.boxItems);
       }
-      if(!newQuantity || newQuantity <= 0){
+      if (!newQuantity || newQuantity <= 0) {
         setAlertMessage("Quantity must be greater than 0");
         setAlertType("error");
         setSnackbarOpen(true);
-      }else if(newQuantity > newProduct.quantity){
+      } else if (newQuantity > newProduct.quantity) {
         setAlertMessage("Quantity must be less than the available quantity");
         setAlertType("error");
         setSnackbarOpen(true);
-      }else{
+      } else {
         const newItem = {
-            ...newProduct,
-            newQuantity: newQuantity,
-            unitType, // Add unit type to the product
-          };
-          setProducts([...products, newItem]);
-          setProductsListToUpdate([...productsListToUpdate, 
-            {
-              stock: newItem.stock,
-              product: newItem.product._id,
-              quantity: newItem.newQuantity
-            }
-          ]);
-          handleCloseReturnsModal(); // Close modal after adding product
+          ...newProduct,
+          newQuantity: newQuantity,
+          unitType, // Add unit type to the product
+        };
+        setProducts([...products, newItem]);
+        setProductsListToUpdate([
+          ...productsListToUpdate,
+          {
+            stock: newItem.stock,
+            product: newItem.product._id,
+            quantity: newItem.newQuantity,
+          },
+        ]);
+        handleCloseReturnsModal(); // Close modal after adding product
       }
     }
-    
   };
 
   // Open the confirm dialog
@@ -117,7 +119,9 @@ function AddRetunsTableDetails({
   const handleConfirmDelete = () => {
     if (rowToDelete !== null) {
       setProducts(products.filter((_, index) => index !== rowToDelete));
-      setProductsListToUpdate(productsListToUpdate.filter((_, index) => index !== rowToDelete));
+      setProductsListToUpdate(
+        productsListToUpdate.filter((_, index) => index !== rowToDelete)
+      );
       setConfirmDialogOpen(false);
     }
   };
@@ -139,7 +143,9 @@ function AddRetunsTableDetails({
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.name} {row.product.size}</span>
+          <span className="trTableSpan">
+            {row.product.name} {row.product.size}
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.product.brand.name}</span>
@@ -250,7 +256,7 @@ function AddRetunsTableDetails({
         }}
       >
         <div className="customerClass space-y-0 pb-0">
-          <h2 className="dialogTitle">Add Returns to the Order</h2>
+          <h2 className="dialogTitle">Add Returns to the Purchase</h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
               <Search
@@ -266,7 +272,7 @@ function AddRetunsTableDetails({
               </div>
             </div>
             <div className="h-[55vh]">
-              <ProductContainerAddReturns
+              <ProductContainerPurchaseAddReturns
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}
               />
@@ -354,9 +360,8 @@ function AddRetunsTableDetails({
         dialogTitle="Confirm Deletion"
         dialogContentText="Are you sure you want to delete this item?"
       />
-
     </div>
   );
 }
 
-export default AddRetunsTableDetails;
+export default AddPurchaseRetunsTableDetails;

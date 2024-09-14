@@ -295,7 +295,7 @@ export default function ProductsList() {
             padding: "20px",
             maxWidth: "90%",
             margin: "auto",
-            height: "80%",
+            height: "90%",
             zIndex: 1001,
             overflowY: "auto",
           },
@@ -310,7 +310,7 @@ export default function ProductsList() {
             <div className="customerClass">
               <h2 className="customerClassTitle">Add New Stock</h2>
               <div className="addNewStockClass">
-                <div className="w-full h-[600px] w-[70%]">
+                <div className="w-full h-[700px] w-[70%]">
                   <div className="addProductModalHeader">
                     <Search
                       placeholder="Search by Product..."
@@ -336,7 +336,7 @@ export default function ProductsList() {
                       </div>
                     </div>
                   </div>
-                  <div className="productsContainer p-0 mt-5 h-[90%]">
+                  <div className="productsContainer p-0 mt-6 h-[90%]">
                     {ProductData?.length > 0 ? (
                       ProductData?.filter(
                         (product) =>
@@ -374,7 +374,7 @@ export default function ProductsList() {
                     )}
                   </div>
                 </div>
-                <div className="h-[600px] w-[30%] productDetailsStock">
+                <div className="h-[700px] w-[30%] productDetailsStock">
                   <div className="dialogAddCustomerItem items-center">
                     <span>Buying Price :</span>
                     <div className="inputForm flex items-center">
@@ -412,11 +412,9 @@ export default function ProductsList() {
                         onChange={handleQuantityChange}
                       />
                     </div>
-                    {selectedProduct?.boxItems && 
-                      <span>
-                        {selectedProduct?.boxItems * Quantity } unity
-                      </span>
-                    }
+                    {selectedProduct?.boxItems && (
+                      <span>{selectedProduct?.boxItems * Quantity} unity</span>
+                    )}
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>Limited value :</span>
@@ -433,9 +431,9 @@ export default function ProductsList() {
                   <div className="dialogAddCustomerItem items-center">
                     <span>Déstockage value:</span>
                     <div className="inputForm">
-                      <input 
-                        type="number" 
-                        name="stock" 
+                      <input
+                        type="number"
+                        name="stock"
                         value={Destocking}
                         min={0}
                         onChange={handleDestockingChange}

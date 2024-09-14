@@ -94,7 +94,7 @@ function Row(props) {
         )}
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
-      <div className="flex items-center justify-end space-x-3">
+        <div className="flex items-center justify-end space-x-3">
           {!isEditing && (
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
@@ -195,8 +195,7 @@ export default function ProductTable({
     setQuantity(0);
     setSellingPrice(0);
     setBuyingPrice(0);
-  }
-
+  };
 
   const handleEditClick = (stockId) => {
     setSelectedStockId(stockId);
@@ -223,7 +222,7 @@ export default function ProductTable({
     setIsModalOpen(false);
     setSelectedStockId(null);
   };
-  
+
   const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
     useState(false);
 
@@ -301,38 +300,41 @@ export default function ProductTable({
   // fetching specific Stock status data
   const fetchStockStatusById = async () => {
     const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${selectedStockId}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
+      `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${selectedStockId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
 
     // Handle the error state
     if (!response.ok) {
-        if (response.status === 404) {
-            return []; 
-        } else {
-            throw new Error("Error receiving Stock Status data: " + response.statusText);
-        }
+      if (response.status === 404) {
+        return [];
+      } else {
+        throw new Error(
+          "Error receiving Stock Status data: " + response.statusText
+        );
+      }
     }
 
     // Return the fetched product data
     return await response.json();
   };
   // useQuery hook to fetch data for a specific StockStatus
-  const { 
-    data: StockStatusData, 
-    error: StockStatusError, 
-    isLoading: StockStatusLoading, 
-    refetch: StockStatusRefetch } = useQuery({
-      queryKey: ['StockStatusData', selectedStockId, user?.token],
-      queryFn: () => fetchStockStatusById(), // Call the fetch function with selectedStockId
-      enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  const {
+    data: StockStatusData,
+    error: StockStatusError,
+    isLoading: StockStatusLoading,
+    refetch: StockStatusRefetch,
+  } = useQuery({
+    queryKey: ["StockStatusData", selectedStockId, user?.token],
+    queryFn: () => fetchStockStatusById(), // Call the fetch function with selectedStockId
+    enabled: !!selectedStockId && !!user?.token, // Ensure the query runs only if the product ID and token are available
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
   // update the stock data
@@ -387,7 +389,8 @@ export default function ProductTable({
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/StockStatus/create/${selectedStockId}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/StockStatus/create/${selectedStockId}`,
         {
           BuyingPrice: BuyingPrice,
           SellingPrice: SellingPrice,
@@ -515,7 +518,8 @@ export default function ProductTable({
             padding: "20px",
             maxWidth: "90%",
             margin: "auto",
-            height: "80%",
+            minHeight: "90%",
+            height: "fit-content",
             zIndex: 1001,
           },
         }}
@@ -532,30 +536,30 @@ export default function ProductTable({
                 data={StockData}
                 isLoading={StockLoading}
               />
-              <ProductProfileDetailsV2
-                data={StockData}
-                isLoading={StockLoading}
-              />
             </div>
-            <div className="flex justify-between mt-[16px]">
+            <div className="flex justify-between">
               <div className="w-[70%]">
-                <div className="customerClass">
-                  <div className="flex items-center justify-between">
-                    <h2 className="customerClassTitle">Stock history</h2>
+                <div className="customerClass pt-0">
+                  <ProductProfileDetailsV2
+                    data={StockData}
+                    isLoading={StockLoading}
+                  />
+                  <div className="flex items-center justify-between mt-[24px]">
+                    <h2 className="customerClassTitle">Stock History</h2>
                     <ButtonAdd
                       buttonSpan="Add New Stock"
                       onClick={handleOpenModalAddNewStockProduct}
                     />
                   </div>
-                  <div className="scrollProductHistorique mt-[16px]">
-                    <ProductHistorique 
-                      StockStatusData={StockStatusData} 
+                  <div className="scrollProductHistorique mt-[8px]">
+                    <ProductHistorique
+                      StockStatusData={StockStatusData}
                       StockStatusLoading={StockStatusLoading}
                     />
                   </div>
                 </div>
               </div>
-              <div className="w-[25%] h-fit flex-col space-y-5">
+              <div className="w-[25%] h-fit flex-col space-y-5 mt-[16px]">
                 <h2 className="customerClassTitle">Product Image</h2>
                 <div className="w-full flex justify-center h-[390px]">
                   <img
@@ -701,7 +705,7 @@ export default function ProductTable({
     </>
   );
 }
- 
+
 ProductTable.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   setFilteredData: PropTypes.func.isRequired,

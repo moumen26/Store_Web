@@ -21,7 +21,7 @@ export default function ProductCard({
           loading="lazy"
         />
       </div>
-      <div className="productName">
+      <div className="productName flex-col space-y-1">
         <span className="productSpan">{productName}</span>
         {productQuantity &&
           <span className="productSpan">{productQuantity} unity</span>

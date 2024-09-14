@@ -17,6 +17,8 @@ import axios from "axios";
 import { is } from "date-fns/locale";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
+import ButtonModify from "../components/ButtonModify";
+import AddPurchaseRetunsTableDetails from "../components/AddPurchaseRetunsTableDetails";
 
 export default function PurchaseProfile() {
   const { id } = useParams();
@@ -37,7 +39,8 @@ export default function PurchaseProfile() {
     setAmount(e.target.value);
   };
 
-  const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] = useState(false);
+  const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] =
+    useState(false);
   const handleOpenAddAmountConfirmationDialog = () => {
     setIsAddAmountConfirmDialogOpen(true);
   };
@@ -46,7 +49,8 @@ export default function PurchaseProfile() {
     setAmount(0);
   };
 
-  const [isFullyPaidConfirmationOpen, setisFullyPaidConfirmationOpen] = useState(false);
+  const [isFullyPaidConfirmationOpen, setisFullyPaidConfirmationOpen] =
+    useState(false);
   const handleOpenFullyPaidDialog = () => {
     setisFullyPaidConfirmationOpen(true);
   };
@@ -54,16 +58,17 @@ export default function PurchaseProfile() {
     setisFullyPaidConfirmationOpen(false);
   };
 
-  const [isAddPaymentConfirmDialogOpen, setisAddPaymentConfirmDialogOpen] = useState(false);
+  const [isAddPaymentConfirmDialogOpen, setisAddPaymentConfirmDialogOpen] =
+    useState(false);
   const handleOpenAddPaymentDialog = () => {
     setisAddPaymentConfirmDialogOpen(true);
   };
   const handleCloseAddPaymentConfirmationDialog = () => {
     setisAddPaymentConfirmDialogOpen(false);
   };
-  
 
-  const [isDepositConfirmDialogOpen, setisDepositConfirmDialogOpen] = useState(false);
+  const [isDepositConfirmDialogOpen, setisDepositConfirmDialogOpen] =
+    useState(false);
   const handleOpenDepositConfirmationDialog = () => {
     setisDepositConfirmDialogOpen(true);
   };
@@ -71,15 +76,17 @@ export default function PurchaseProfile() {
     setisDepositConfirmDialogOpen(false);
   };
 
-  const [isUnDepositConfirmDialogOpen, setisUnDepositConfirmDialogOpen] = useState(false);
+  const [isUnDepositConfirmDialogOpen, setisUnDepositConfirmDialogOpen] =
+    useState(false);
   const handleOpenUnDepositConfirmationDialog = () => {
     setisUnDepositConfirmDialogOpen(true);
   };
   const handleCloseUnDepositConfirmationDialog = () => {
     setisUnDepositConfirmDialogOpen(false);
   };
-  
-  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] = useState(false);
+
+  const [isCreditedConfirmDialogOpen, setisCreditedConfirmDialogOpen] =
+    useState(false);
   const handleOpenCreditedConfirmationDialog = () => {
     setisCreditedConfirmDialogOpen(true);
   };
@@ -87,7 +94,8 @@ export default function PurchaseProfile() {
     setisCreditedConfirmDialogOpen(false);
   };
 
-  const [isUnCreditedConfirmDialogOpen, setisUnCreditedConfirmDialogOpen] = useState(false);
+  const [isUnCreditedConfirmDialogOpen, setisUnCreditedConfirmDialogOpen] =
+    useState(false);
   const handleOpenUnCreditedConfirmationDialog = () => {
     setisUnCreditedConfirmDialogOpen(true);
   };
@@ -95,7 +103,18 @@ export default function PurchaseProfile() {
     setisUnCreditedConfirmDialogOpen(false);
   };
 
-    //---------------------------------API calls---------------------------------\\
+  //Modify the Purchase
+  const [modifyPurchaseModal, setModifyPurchaseModal] = useState(false);
+
+  const handleOpenModifyPurchaseModal = () => {
+    setModifyPurchaseModal(true);
+  };
+
+  const handleCloseModifyPurchaseModal = () => {
+    setModifyPurchaseModal(false);
+  };
+
+  //---------------------------------API calls---------------------------------\\
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -146,15 +165,16 @@ export default function PurchaseProfile() {
   const handleOnConfirmFullyPaid = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/full/payment/${id}`, 
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Purchase/full/payment/${id}`,
         {
           store: decodedToken.id,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -171,35 +191,36 @@ export default function PurchaseProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error fully paid update: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error fully paid update");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error fully paid update: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error fully paid update");
+      }
     }
-  }
+  };
 
   //add payment API
   const handleOnConfirmAddPayment = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/payment/${id}`, 
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Purchase/payment/${id}`,
         {
           amount: Amount,
           store: decodedToken.id,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -217,35 +238,36 @@ export default function PurchaseProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error adding new payment: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error adding new payment");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding new payment: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding new payment");
+      }
     }
-  }
+  };
 
   //add payment API
   const handleOnDepositConfirm = async (val) => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/deposit/${id}`,
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Purchase/deposit/${id}`,
         {
           store: decodedToken.id,
           deposit: val,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -263,35 +285,36 @@ export default function PurchaseProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error updating deposit purchase: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error updating deposit purchase");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating deposit purchase: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating deposit purchase");
+      }
     }
-  }
+  };
 
   //make it credited API
   const handleOnConfirmCredited = async (val) => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.patch(import.meta.env.VITE_APP_URL_BASE+`/Purchase/credit/${id}`,
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Purchase/credit/${id}`,
         {
           store: decodedToken.id,
           credited: val,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -309,20 +332,20 @@ export default function PurchaseProfile() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType("error");
-          setAlertMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error updating credited: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error updating credited");
-        }
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating credited: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating credited");
+      }
     }
-  }
+  };
 
   if (PurchaseDataLoading) {
     return (
@@ -357,6 +380,11 @@ export default function PurchaseProfile() {
             <ChevronRightIcon className="iconAsideBar" />
           </div>
           <div className="orderProfileButtons">
+            <ButtonModify
+              showIcon={true}
+              buttonSpan="Modify Purchase"
+              onClick={handleOpenModifyPurchaseModal}
+            />
             <ButtonExportPDF filename="Purchase_Profile" />
             <ButtonAdd
               showIcon={false}
@@ -367,12 +395,12 @@ export default function PurchaseProfile() {
         </div>
         <div className="customerClass">
           <h2 className="customerClassTitle">Purchase Details</h2>
-          <PurchaseProfileDetails data={PurchaseData}/>
+          <PurchaseProfileDetails data={PurchaseData} />
         </div>
         <div className="flex space-x-6 h-full">
           <div className="customerClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Purchase</h2>
-            <PurchaseProfileDevicesProductTable PurchaseData={PurchaseData}/>
+            <PurchaseProfileDevicesProductTable PurchaseData={PurchaseData} />
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
             <div className="customerClass">
@@ -383,7 +411,9 @@ export default function PurchaseProfile() {
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
-                  <p className="orderProfileSpan">{PurchaseData.fournisseur.phoneNumber}</p>
+                  <p className="orderProfileSpan">
+                    {PurchaseData.fournisseur.phoneNumber}
+                  </p>
                 </div>
               </div>
               <div className="flex-col space-y-1">
@@ -391,8 +421,13 @@ export default function PurchaseProfile() {
                   Default Address
                 </span>
                 <div className="flex-col space-y-1">
-                  <p className="orderProfileSpan">{PurchaseData.fournisseur.address}</p>
-                  <p className="orderProfileSpan">{PurchaseData.fournisseur.commune} - {PurchaseData.fournisseur.wilaya}</p>
+                  <p className="orderProfileSpan">
+                    {PurchaseData.fournisseur.address}
+                  </p>
+                  <p className="orderProfileSpan">
+                    {PurchaseData.fournisseur.commune} -{" "}
+                    {PurchaseData.fournisseur.wilaya}
+                  </p>
                 </div>
               </div>
             </div>
@@ -425,13 +460,13 @@ export default function PurchaseProfile() {
             <h2 className="customerClassTitle">Payment History</h2>
             {PurchaseData.closed == false ? (
               <>
-                {(PurchaseData.deposit == false) ? (
+                {PurchaseData.deposit == false ? (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it deposit"
                     onClick={handleOpenDepositConfirmationDialog}
                   />
-                ):(
+                ) : (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it undeposit"
@@ -444,26 +479,26 @@ export default function PurchaseProfile() {
                     buttonSpan="Make it credited"
                     onClick={handleOpenCreditedConfirmationDialog}
                   />
-                ):(
+                ) : (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it uncredited"
                     onClick={handleOpenUnCreditedConfirmationDialog}
                   />
                 )}
-                {PurchaseData.credit == true ?
+                {PurchaseData.credit == true ? (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Add payment"
                     onClick={handleOpenAddPaymentDialog}
                   />
-                  :
+                ) : (
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="full payment"
                     onClick={handleOpenFullyPaidDialog}
                   />
-                }
+                )}
               </>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
@@ -515,7 +550,7 @@ export default function PurchaseProfile() {
             padding: "20px",
             maxWidth: "60%",
             margin: "auto",
-            height: "52%",
+            height: "fit-content",
             zIndex: 1001,
             overflowY: "auto",
           },
@@ -523,7 +558,7 @@ export default function PurchaseProfile() {
       >
         <div className="customerClass">
           <h2 className="customerClassTitle">Add payment</h2>
-          <div className="dialogAddCustomerItem items-center">
+          <div className="dialogAddCustomerItem items-center justify-end space-x-4">
             <span>Payment Amount :</span>
             <div className="inputForm">
               <input
@@ -535,7 +570,7 @@ export default function PurchaseProfile() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
+        <div className="flex justify-end space-x-8 items-start mt-[20px]">
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseAddPaymentConfirmationDialog}
@@ -550,6 +585,54 @@ export default function PurchaseProfile() {
           </button>
         </div>
       </Modal>
+
+      <Modal
+        isOpen={modifyPurchaseModal}
+        onRequestClose={handleCloseModifyPurchaseModal}
+        contentLabel="Add Retuns"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "90%",
+            margin: "auto",
+            maxHeight: "70%",
+            minHeight: "35%",
+            height: "fit-content",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass">
+          <AddPurchaseRetunsTableDetails
+            // productsListToUpdate={productsListToUpdate}
+            // setProductsListToUpdate={setProductsListToUpdate}
+          />
+          <div className="mt-[16px]">
+            <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+              <button
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={handleCloseModifyPurchaseModal}
+              >
+                Cancel
+              </button>
+              <input
+                type="button"
+                value={"Save"}
+                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                // onClick={handleOpenUpdateReceiptstatusConfirmDialogOpen}
+              />
+            </div>
+          </div>
+        </div>
+      </Modal>
+
       <ConfirmDialog
         open={isFullyPaidConfirmationOpen}
         onConfirm={handleOnConfirmFullyPaid}

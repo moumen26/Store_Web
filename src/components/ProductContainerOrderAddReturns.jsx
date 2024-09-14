@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
-export default function ProductContainerAddReturns({ searchQuery, onSelectProduct }) {
+export default function ProductContainerOrderAddReturns({ searchQuery, onSelectProduct }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { id } = useParams();
 
@@ -30,7 +30,8 @@ export default function ProductContainerAddReturns({ searchQuery, onSelectProduc
   // fetching LastOrderStatus data
   const LastfetchOrderStatusData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/${id}/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE +
+        `/ReceiptStatus/${id}/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -61,7 +62,7 @@ export default function ProductContainerAddReturns({ searchQuery, onSelectProduc
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
-  
+
   return (
     <div className="productsContainer">
       {LastOrderStatusLoading ? (

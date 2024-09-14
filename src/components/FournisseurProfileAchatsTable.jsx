@@ -20,7 +20,7 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
-  
+
   const handleViewClick = () => {
     navigate(`/PurchaseProfile/${row._id}`);
   };
@@ -51,19 +51,31 @@ function Row(props) {
         <TableCell className="tableCell">
           <span className="trTableSpan">
             {row.payment && row.payment.length > 0
-            ? (row.totalAmount.toFixed(2) - row.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)
-            : (0).toFixed(2)} DA
-          </span>        
+              ? (
+                  row.totalAmount.toFixed(2) -
+                  row.payment.reduce((sum, pay) => sum + pay.amount, 0)
+                ).toFixed(2)
+              : (0).toFixed(2)}{" "}
+            DA
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{
-            row.credit && row.deposit ? 'both' :
-              row.credit ? 'Credit' :
-                row.deposit ? 'Deposit' : 'Cash'
-          }</span>
+          <span className="trTableSpan">
+            {row.credit && row.deposit
+              ? "both"
+              : row.credit
+              ? "Credit"
+              : row.deposit
+              ? "Deposit"
+              : "Cash"}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">{row.closed ? 'The full amount has been paid.' : 'The full amount has not been paid yet.'}</span>
+          <span className="trTableSpan">
+            {row.closed
+              ? "The full amount has been paid."
+              : "The full amount has not been paid yet."}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -118,7 +130,9 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {detailsRow.stock.product.name + ' ' + detailsRow.stock.product.size}
+                          {detailsRow.stock.product.name +
+                            " " +
+                            detailsRow.stock.product.size}
                         </span>
                       </TableCell>
                       <TableCell className="tableCell">
@@ -140,7 +154,8 @@ function Row(props) {
                         <span className="trTableSpan trDetails">
                           {Math.round(
                             detailsRow.buying * detailsRow.quantity
-                          ).toFixed(2)} DA
+                          ).toFixed(2)}{" "}
+                          DA
                         </span>
                       </TableCell>
                     </TableRow>
@@ -180,7 +195,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
               <span className="thTableSpan">Total Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Remaining Amount</span>
+              <span className="thTableSpan">Amount Paid</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Type</span>
@@ -196,7 +211,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={8} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>

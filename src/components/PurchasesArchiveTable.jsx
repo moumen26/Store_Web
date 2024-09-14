@@ -156,7 +156,7 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
   // fetching Archive Purchases data
   const fetchArchivePurchasesData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/closed/${decodedToken.id}`,
       {
         method: "GET",
         headers: {

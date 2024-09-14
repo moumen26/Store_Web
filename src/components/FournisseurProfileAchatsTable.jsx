@@ -46,13 +46,13 @@ function Row(props) {
           <span className="trTableSpan">{row.stock.length}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.totalAmount} DA</span>
+          <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
             {row.payment && row.payment.length > 0
-            ? (row.totalAmount - row.payment.reduce((sum, pay) => sum + pay.amount, 0))
-            : 0} DA
+            ? (row.totalAmount.toFixed(2) - row.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)
+            : (0).toFixed(2)} DA
           </span>        
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -128,7 +128,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.buying}
+                          {detailsRow.buying.toFixed(2)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -140,7 +140,7 @@ function Row(props) {
                         <span className="trTableSpan trDetails">
                           {Math.round(
                             detailsRow.buying * detailsRow.quantity
-                          )}
+                          ).toFixed(2)} DA
                         </span>
                       </TableCell>
                     </TableRow>

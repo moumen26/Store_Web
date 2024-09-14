@@ -10,12 +10,14 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
 export default function ProductContainerAddReturns({ searchQuery, onSelectProduct }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { id } = useParams();
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -25,10 +27,10 @@ export default function ProductContainerAddReturns({ searchQuery, onSelectProduc
   //---------------------------------API calls---------------------------------\\
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
-  // fetching Stock data
-  const fetchStockData = async () => {
+  // fetching LastOrderStatus data
+  const LastfetchOrderStatusData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Stock/store/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/${id}/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -42,47 +44,49 @@ export default function ProductContainerAddReturns({ searchQuery, onSelectProduc
     if (!response.ok) {
       const errorData = await response.json();
       if (errorData.error.statusCode == 404) return [];
-      else throw new Error("Error receiving Stock data");
+      else throw new Error("Error receiving LastOrderStatus data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
   const {
-    data: StockData,
-    error: StockError,
-    isLoading: StockLoading,
-    refetch: StockRefetch,
+    data: LastOrderStatusData,
+    error: LastOrderStatusError,
+    isLoading: LastOrderStatusLoading,
+    refetch: LastOrderStatusRefetch,
   } = useQuery({
-    queryKey: ["StockData", user?.token],
-    queryFn: fetchStockData,
+    queryKey: ["LastOrderStatusData", user?.token],
+    queryFn: LastfetchOrderStatusData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
-
+  
   return (
     <div className="productsContainer">
-      {StockLoading || StockError ? (
+      {LastOrderStatusLoading ? (
         <div className="w-full h-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
-      ) : StockData?.length > 0 ? (
-        StockData?.map((stock) => (
+      ) : LastOrderStatusData?.products.length > 0 ? (
+        LastOrderStatusData?.products.map((order) => (
           <ProductCard
-            key={stock._id}
+            key={order._id}
             productName={
-              stock.product?.brand?.name +
+              order.product?.brand?.name +
               " " +
-              stock.product?.name +
+              order.product?.name +
               " " +
-              stock.product?.size
+              order.product?.size
             }
+            productQuantity={order.quantity}
+            productPrice={order.price}
             productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
               "/api",
               ""
-            )}/files/${stock.product?.image}`}
-            onClick={() => handleSelectProduct(stock)}
-            selected={selectedProduct && stock?._id === selectedProduct._id}
+            )}/files/${order.product?.image}`}
+            onClick={() => handleSelectProduct(order)}
+            selected={selectedProduct && order?._id === selectedProduct._id}
           />
         ))
       ) : (

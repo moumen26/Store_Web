@@ -16,21 +16,28 @@ import ConfirmDialog from "./ConfirmDialog";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import { Alert, Snackbar } from "@mui/material";
 
-function AddRetunsTableDetails() {
+function AddRetunsTableDetails({
+  productsListToUpdate,
+  setProductsListToUpdate
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]); // Store selected products here
   const [newProduct, setNewProduct] = useState(null); // To store currently selected product
-  const [newQuantity, setNewQuantity] = useState(0); // To store currently selected quantity
   const [unitType, setUnitType] = useState("perUnit"); // Default to "perUnit"
   const [addReturnsModal, setAddReturnsModal] = useState(false);
-  const [availableProducts, setAvailableProducts] = useState([]); // Assume this holds all the available products
 
   // For the confirmation dialog
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState(null);
 
   const [ClientQuantity, setClientQuantity] = useState(0);
+  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("error");
+  const [submitionLoading, setSubmitionLoading] = useState(false);
 
   // Handler for search input change
   const handleSearchChange = (e) => {
@@ -41,7 +48,7 @@ function AddRetunsTableDetails() {
   const handleCloseReturnsModal = () => {
     setAddReturnsModal(false);
     setNewProduct(null); // Reset selected product when modal closes
-    setNewQuantity(0); // Reset quantity when modal closes
+    setClientQuantity(0); // Reset quantity when modal closes
     setUnitType("perUnit"); // Reset unit type
   };
 
@@ -57,15 +64,47 @@ function AddRetunsTableDetails() {
 
   // Add selected product to the table
   const handleAddItem = () => {
-    if (newProduct && ClientQuantity > 0) {
-      const newItem = {
-        product: newProduct,
-        quantity: ClientQuantity,
-        unitType, // Add unit type to the product
-      };
-      setProducts([...products, newItem]);
-      handleCloseReturnsModal(); // Close modal after adding product
+    //check if the selected product is already in the list
+    const isProductExist = products.find((product) => product.product._id === newProduct.product._id);
+    if(isProductExist){
+      setAlertMessage("Product already exists in the list");
+      setAlertType("error");
+      setSnackbarOpen(true);
+    }else if(!newProduct){
+      setAlertMessage("Please select a product");
+      setAlertType("error");
+      setSnackbarOpen(true);
+    }else {
+      let newQuantity = ClientQuantity;
+      if(unitType == "perBox"){
+        newQuantity = newQuantity * Number(newProduct.product.boxItems);
+      }
+      if(!newQuantity || newQuantity <= 0){
+        setAlertMessage("Quantity must be greater than 0");
+        setAlertType("error");
+        setSnackbarOpen(true);
+      }else if(newQuantity > newProduct.quantity){
+        setAlertMessage("Quantity must be less than the available quantity");
+        setAlertType("error");
+        setSnackbarOpen(true);
+      }else{
+        const newItem = {
+            ...newProduct,
+            newQuantity: newQuantity,
+            unitType, // Add unit type to the product
+          };
+          setProducts([...products, newItem]);
+          setProductsListToUpdate([...productsListToUpdate, 
+            {
+              stock: newItem.stock,
+              product: newItem.product._id,
+              quantity: newItem.newQuantity
+            }
+          ]);
+          handleCloseReturnsModal(); // Close modal after adding product
+      }
     }
+    
   };
 
   // Open the confirm dialog
@@ -78,6 +117,7 @@ function AddRetunsTableDetails() {
   const handleConfirmDelete = () => {
     if (rowToDelete !== null) {
       setProducts(products.filter((_, index) => index !== rowToDelete));
+      setProductsListToUpdate(productsListToUpdate.filter((_, index) => index !== rowToDelete));
       setConfirmDialogOpen(false);
     }
   };
@@ -90,29 +130,34 @@ function AddRetunsTableDetails() {
 
   // Table row component to display product details
   const OrderRow = ({ row, index }) => {
-    const productAmount = row.product.price * row.quantity; // Assuming product has a price
+    const productAmount = Number(row.price) * Number(row.newQuantity);
+    const newQuantity = Number(row.quantity) - Number(row.newQuantity);
+    const totalAmount = Number(row.price) * Number(newQuantity);
     return (
       <TableRow
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.ID}</span>
+          <span className="trTableSpan">{row.product.name} {row.product.size}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.name}</span>
+          <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.brand}</span>
+          <span className="trTableSpan">{row.price} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.quantity}</span>
+          <span className="trTableSpan">- {row.newQuantity} unity</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.price} DA</span>
+          <span className="trTableSpan">{newQuantity} unity</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{productAmount} DA</span>
+          <span className="trTableSpan">- {productAmount} DA</span>
+        </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">{totalAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex items-center justify-end space-x-3">
@@ -145,22 +190,25 @@ function AddRetunsTableDetails() {
           <TableHead className="tableHead">
             <TableRow>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Product_ID</span>
-              </TableCell>
-              <TableCell className="tableCell">
                 <span className="thTableSpan">Product</span>
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Brand</span>
               </TableCell>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Quantity</span>
-              </TableCell>
-              <TableCell className="tableCell">
                 <span className="thTableSpan">Price</span>
               </TableCell>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Amount</span>
+                <span className="thTableSpan">Refund quantity</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">New quantity</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">Refund amount</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <span className="thTableSpan">New amount</span>
               </TableCell>
               <TableCell align="right" className="tableCell">
                 <span className="thTableSpan">Action</span>
@@ -174,7 +222,7 @@ function AddRetunsTableDetails() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={8} align="center">
                   <span>Add products</span>
                 </TableCell>
               </TableRow>
@@ -287,16 +335,26 @@ function AddRetunsTableDetails() {
               </button>
             </div>
           </div>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={() => setSnackbarOpen(false)}
+          >
+            <Alert onClose={() => setSnackbarOpen(false)} severity={alertType}>
+              {alertMessage}
+            </Alert>
+          </Snackbar>
         </div>
       </Modal>
 
       <ConfirmDialog
         open={confirmDialogOpen}
         onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
+        onClose={handleCancelDelete}
         dialogTitle="Confirm Deletion"
         dialogContentText="Are you sure you want to delete this item?"
       />
+
     </div>
   );
 }

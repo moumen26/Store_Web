@@ -97,6 +97,14 @@ export default function OrderProfile() {
     setisUnCreditedConfirmDialogOpen(false);
   };
 
+  const [isUpdateReceiptstatusConfirmDialogOpen, setisUpdateReceiptstatusConfirmDialogOpen] = useState(false);
+  const handleOpenUpdateReceiptstatusConfirmDialogOpen = () => {
+    setisUpdateReceiptstatusConfirmDialogOpen(true);
+  }
+  const handleCloseUpdateReceiptstatusConfirmDialogOpen = () => {
+    setisUpdateReceiptstatusConfirmDialogOpen(false);
+  }
+
   //Modify the order
   const [modifyOrderModal, setModifyOrderModal] = useState(false);
 
@@ -121,6 +129,8 @@ export default function OrderProfile() {
 
   //---------------------------------API calls---------------------------------\\
 
+  const [productsListToUpdate, setProductsListToUpdate] = useState([]);
+  
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
@@ -162,6 +172,43 @@ export default function OrderProfile() {
   } = useQuery({
     queryKey: ["OrderData", user?.token, location.key, id],
     queryFn: fetchOrderData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
+
+  //fetch data
+  const fetchOrderStatusData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/ReceiptStatus/all/${id}/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving order data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const {
+    data: OrderStatusData,
+    error: OrderStatusDataError,
+    isLoading: OrderStatusDataLoading,
+    refetch: refetchOrderStatusData,
+  } = useQuery({
+    queryKey: ["OrderStatusData", user?.token, location.key, id],
+    queryFn: fetchOrderStatusData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
   });
@@ -354,7 +401,56 @@ export default function OrderProfile() {
     }
   };
 
-  if (OrderDataLoading) {
+  //update receipt status API
+  const handleUpdateReceiptStatus = async (val) => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/create/${id}`,
+        {
+          products: productsListToUpdate, 
+          store: decodedToken.id
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderStatusData();
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseModifyOrderModal();
+        handleCloseUpdateReceiptstatusConfirmDialogOpen();
+        setProductsListToUpdate([]);
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating receipt status: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating receipt status");
+      }
+    }
+  };
+
+  if (OrderDataLoading || OrderStatusDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <Header />
@@ -366,7 +462,7 @@ export default function OrderProfile() {
     );
   }
 
-  if (OrderDataError) {
+  if (OrderDataError || OrderStatusDataError) {
     return (
       <div className="pagesContainer">
         <Header />
@@ -379,6 +475,7 @@ export default function OrderProfile() {
   return (
     <div className="pagesContainer">
       <Header />
+
       <div id="exportable-content" className="space-y-[32px]">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center space-x-1">
@@ -411,10 +508,13 @@ export default function OrderProfile() {
         <div className="flex space-x-6 h-full">
           <div className="customerClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Order</h2>
-            <OrderProfileDevicesProductTable
-              orderDetails={OrderData?.products}
-              orderDeliveryAmount={0}
-            />
+            {OrderStatusData?.map((status) => (
+              <OrderProfileDevicesProductTable
+                orderDetails={status?.products}
+                orderDeliveryAmount={0}
+              />
+            ))
+            }
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
             <div className="customerClass">
@@ -451,6 +551,7 @@ export default function OrderProfile() {
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
@@ -556,6 +657,7 @@ export default function OrderProfile() {
           </button>
         </div>
       </Modal>
+
       <Modal
         isOpen={isAddPaymentDialogOpen}
         onRequestClose={handleCloseAddPaymentDialog}
@@ -606,64 +708,6 @@ export default function OrderProfile() {
           </button>
         </div>
       </Modal>
-      <ConfirmDialog
-        open={isFullyPaidConfirmationOpen}
-        onConfirm={handleOnConfirmFullyPaid}
-        onClose={handleCloseFullyPaidConfirmationDialog}
-        dialogTitle="Confirm full payment"
-        dialogContentText={`Are you sure you want to confirm the full payment?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isAddAmountConfirmDialogOpen}
-        onConfirm={handleOnConfirmAddPayment}
-        onClose={handleCloseAddAmountConfirmationDialog}
-        dialogTitle="Confirm add payment"
-        dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isDepositConfirmDialogOpen}
-        onConfirm={() => handleOnDepositConfirm(true)}
-        onClose={handleCloseDepositConfirmationDialog}
-        dialogTitle="Confirm make it deposit sell"
-        dialogContentText={`Are you sure you want to confirm to make deposit sell`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isUnDepositConfirmDialogOpen}
-        onConfirm={() => handleOnDepositConfirm(false)}
-        onClose={handleCloseUnDepositConfirmationDialog}
-        dialogTitle="Confirm make it undeposit sell"
-        dialogContentText={`Are you sure you want to confirm to make undeposit sell`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isCreditedConfirmDialogOpen}
-        onConfirm={() => handleOnConfirmCredited(true)}
-        onClose={handleCloseCreditedConfirmationDialog}
-        dialogTitle="Confirm make it credited"
-        dialogContentText={`Are you sure you want to confirm to make it credited?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isUnCreditedConfirmDialogOpen}
-        onConfirm={() => handleOnConfirmCredited(false)}
-        onClose={handleCloseUnCreditedConfirmationDialog}
-        dialogTitle="Confirm make it uncredited"
-        dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
-        isloading={submitionLoading}
-      />
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={alertType}>
-          {alertMessage}
-        </Alert>
-      </Snackbar>
 
       <Modal
         isOpen={modifyOrderModal}
@@ -689,7 +733,10 @@ export default function OrderProfile() {
         }}
       >
         <div className="customerClass">
-          <AddRetunsTableDetails />
+          <AddRetunsTableDetails 
+            productsListToUpdate={productsListToUpdate}
+            setProductsListToUpdate={setProductsListToUpdate}
+          />
           <div className="mt-[16px]">
             <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
               <button
@@ -702,12 +749,86 @@ export default function OrderProfile() {
                 type="button"
                 value={"Save"}
                 className="text-blue-500 cursor-pointer hover:text-blue-700"
-                // onClick={handleSavePRODUCT}
+                onClick={handleOpenUpdateReceiptstatusConfirmDialogOpen}
               />
             </div>
           </div>
         </div>
       </Modal>
+
+      <ConfirmDialog
+        open={isFullyPaidConfirmationOpen}
+        onConfirm={handleOnConfirmFullyPaid}
+        onClose={handleCloseFullyPaidConfirmationDialog}
+        dialogTitle="Confirm full payment"
+        dialogContentText={`Are you sure you want to confirm the full payment?`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isAddAmountConfirmDialogOpen}
+        onConfirm={handleOnConfirmAddPayment}
+        onClose={handleCloseAddAmountConfirmationDialog}
+        dialogTitle="Confirm add payment"
+        dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(true)}
+        onClose={handleCloseDepositConfirmationDialog}
+        dialogTitle="Confirm make it deposit sell"
+        dialogContentText={`Are you sure you want to confirm to make deposit sell`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isUnDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(false)}
+        onClose={handleCloseUnDepositConfirmationDialog}
+        dialogTitle="Confirm make it undeposit sell"
+        dialogContentText={`Are you sure you want to confirm to make undeposit sell`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isCreditedConfirmDialogOpen}
+        onConfirm={() => handleOnConfirmCredited(true)}
+        onClose={handleCloseCreditedConfirmationDialog}
+        dialogTitle="Confirm make it credited"
+        dialogContentText={`Are you sure you want to confirm to make it credited?`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isUnCreditedConfirmDialogOpen}
+        onConfirm={() => handleOnConfirmCredited(false)}
+        onClose={handleCloseUnCreditedConfirmationDialog}
+        dialogTitle="Confirm make it uncredited"
+        dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={isUpdateReceiptstatusConfirmDialogOpen}
+        onConfirm={handleUpdateReceiptStatus}
+        onClose={handleCloseUpdateReceiptstatusConfirmDialogOpen}
+        dialogTitle="Confirm the receipt modification"
+        dialogContentText={`Are you sure you want to modify this receipt?`}
+        isloading={submitionLoading}
+      />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={alertType}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+
     </div>
   );
 }

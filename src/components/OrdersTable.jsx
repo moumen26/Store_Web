@@ -214,7 +214,6 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
     refetchOnWindowFocus: true, // Optional: refetch on window focus
     staleTime: 0,
   });
-  
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (NonDelivredOrderData?.length > 0) {

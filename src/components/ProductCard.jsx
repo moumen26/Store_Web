@@ -2,6 +2,8 @@ import React from "react";
 
 export default function ProductCard({
   productName,
+  productQuantity = '',
+  productPrice = '',
   productImage,
   onClick,
   selected,
@@ -21,6 +23,12 @@ export default function ProductCard({
       </div>
       <div className="productName">
         <span className="productSpan">{productName}</span>
+        {productQuantity &&
+          <span className="productSpan">{productQuantity} unity</span>
+        }
+        {productPrice &&
+            <span className="productSpan">{productPrice} DA</span>
+        }
       </div>
     </div>
   );

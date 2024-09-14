@@ -19,7 +19,6 @@ import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-
   const navigate = useNavigate();
 
   const handleViewClick = () => {
@@ -47,10 +46,10 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.profit} DA</span>
+          <span className="trTableSpan">{row.profit.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.total} DA</span>
+          <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
@@ -131,7 +130,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.price}
+                          {detailsRow.price.toFixed(2)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -141,7 +140,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(detailsRow.price * detailsRow.quantity)}
+                          {Math.round(detailsRow.price * detailsRow.quantity).toFixed(2)} DA
                         </span>
                       </TableCell>
                     </TableRow>

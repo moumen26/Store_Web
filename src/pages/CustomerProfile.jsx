@@ -285,7 +285,6 @@ export default function CustomerProfile() {
     }
   },[CustomerData, buttonVendorText])
 
-
   if (CustomerDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -473,22 +472,22 @@ export default function CustomerProfile() {
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Amount"
-            customerStatsCardDetails={OrderStatisticsData?.total}
+            customerStatsCardDetails={OrderStatisticsData?.total.toFixed(2)}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Paid"
-            customerStatsCardDetails={OrderStatisticsData?.totalPaid}
+            customerStatsCardDetails={OrderStatisticsData?.totalPaid.toFixed(2)}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Profit"
-            customerStatsCardDetails={OrderStatisticsData?.profit}
+            customerStatsCardDetails={OrderStatisticsData?.profit.toFixed(2)}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Unpaid"
-            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid}`}
+            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid.toFixed(2)}`}
             loading={OrderStatisticsDataLoading}
           />
         </div>

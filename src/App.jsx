@@ -30,6 +30,7 @@ import FournisseurProfile from "./pages/FournisseurProfile";
 import AddAchat from "./pages/AddAchat";
 import PurchaseProfile from "./pages/PurchaseProfile";
 import PuchasesArchive from "./pages/PuchasesArchive";
+import Losses from "./pages/Losses";
 
 function App() {
   const { user } = useAuthContext();
@@ -81,6 +82,10 @@ function App() {
           <Route
             path="/CreditPurchases"
             element={user ? <CreditPurchases /> : <SignIn />}
+          />
+          <Route
+            path="/Losses"
+            element={user ? <Losses /> : <SignIn />}
           />
           <Route
             path="/Fournisseurs"

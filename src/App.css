@@ -241,12 +241,13 @@ aside {
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--neutralColor);
-  padding: 5% 1% 1% 1%;
+  padding: 8% 1% 1% 1%;
 }
 
 aside ul {
   height: 100%;
   position: relative;
+  overflow-y: scroll;
 }
 
 .itemAsideBar,
@@ -368,7 +369,8 @@ aside ul {
   gap: 16px;
 }
 
-.settingsRightScroll::-webkit-scrollbar {
+.settingsRightScroll::-webkit-scrollbar,
+.topAsideBar::-webkit-scrollbar {
   display: none;
 }
 
@@ -1243,5 +1245,3 @@ aside ul {
               </div>
             )}
           </div> */
-          
-  

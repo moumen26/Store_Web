@@ -289,7 +289,7 @@ export default function Customers() {
       <Modal
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
-        contentLabel="Add New Stock"
+        contentLabel="Add New Customer"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",

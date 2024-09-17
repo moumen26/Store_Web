@@ -27,7 +27,7 @@ function AddAchatTableDetails({
   handleCloseModal,
   onCalculateTotals,
   deliveryAmount,
-  setAPIProducts
+  setAPIProducts,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -42,7 +42,7 @@ function AddAchatTableDetails({
   const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
-  
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
@@ -70,7 +70,7 @@ function AddAchatTableDetails({
   const [sellingPrice, setSellingPrice] = useState(buyingPrice);
   const handleSellingPriceChange = (e) => {
     setSellingPrice(e.target.value);
-  };  
+  };
 
   const [isAddProdutModalOpen, setIsAddProdutModalOpen] = useState(false);
 
@@ -111,7 +111,7 @@ function AddAchatTableDetails({
       quantity: updatedItem.quantity,
       unityQuantity: updatedItem.unityQuantity,
       buying: updatedItem.buying,
-      selling: updatedItem.selling
+      selling: updatedItem.selling,
     }));
 
     setAPIProducts(updatedAPIProducts);
@@ -132,7 +132,7 @@ function AddAchatTableDetails({
       setSnackbarOpen(true);
       return;
     }
-  
+
     if (ClientQuantity <= 0 || buyingPrice <= 0 || sellingPrice <= 0) {
       setAlertMessage("Please enter a valid quantity and prices.");
       setAlertType("error");
@@ -140,14 +140,17 @@ function AddAchatTableDetails({
       return;
     }
 
-    if(Number(buyingPrice) > Number(sellingPrice)){
-      setAlertMessage("The selling price must be higher than the buying price.");
+    if (Number(buyingPrice) > Number(sellingPrice)) {
+      setAlertMessage(
+        "The selling price must be higher than the buying price."
+      );
       setAlertType("error");
       setSnackbarOpen(true);
       return;
     }
 
-    const productQuantity = Number(ClientQuantity) * Number(newItem.product.boxItems);
+    const productQuantity =
+      Number(ClientQuantity) * Number(newItem.product.boxItems);
 
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
@@ -157,21 +160,21 @@ function AddAchatTableDetails({
       unityQuantity: productQuantity,
       buying: buyingPrice,
       selling: sellingPrice,
-      uniqueId: Date.now().toString()
+      uniqueId: Date.now().toString(),
     };
 
     // Add the updated item to the rows
     setRows([...rows, updatedItem]);
-    setAPIProducts((prevState) => ([
+    setAPIProducts((prevState) => [
       ...prevState,
       {
         name: updatedItem.product.name,
         productID: updatedItem.product._id,
         quantity: updatedItem.quantity,
         buying: buyingPrice,
-        selling: sellingPrice
-      }
-    ]));
+        selling: sellingPrice,
+      },
+    ]);
 
     handleCloseModal();
     setNewItem(null);
@@ -185,12 +188,7 @@ function AddAchatTableDetails({
     setSnackbarOpen(false);
   };
 
-
-  const OrderRow = ({
-    row,
-    onDelete,
-  }) => {
-
+  const OrderRow = ({ row, onDelete }) => {
     const productAmount = Number(row.buying) * Number(row.unityQuantity);
 
     return (
@@ -233,7 +231,7 @@ function AddAchatTableDetails({
   };
 
   //---------------------------------API calls---------------------------------\\
-  
+
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   // fetching Product data
@@ -539,7 +537,7 @@ function AddAchatTableDetails({
           </>
         )}
       </Modal>
-      
+
       <Modal
         isOpen={isAddProdutModalOpen}
         onRequestClose={handleCloseAddProductModal}

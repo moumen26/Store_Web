@@ -308,7 +308,7 @@ export default function ProductsGrid() {
       >
         {!submitionLoading || BrandLoading || CategoryLoading ? (
           <div className="customerClass">
-            <h2 className="customerClassTitle">Add New Product to Stock</h2>
+            <h2 className="dialogTitle">Add New Product to Stock</h2>
             <div className="mt-[16px]">
               <form>
                 <div className="flex-col space-y-8">

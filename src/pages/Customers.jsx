@@ -13,6 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { CircularProgress, Snackbar } from "@mui/material";
+import Modal from "react-modal";
+
 import { useLocation } from "react-router-dom";
 
 export default function Customers() {
@@ -52,31 +54,31 @@ export default function Customers() {
   //handle change functions
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
-  }
+  };
   const handleLastNameChange = (e) => {
     setLastName(e.target.value);
-  }
+  };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
-  }
+  };
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
-  }
+  };
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  }
+  };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-  }
+  };
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
-  }
+  };
   const handleWilayaChange = (e) => {
     setSelectedWilaya(e.target.value);
-  }
+  };
   const handleCommuneChange = (e) => {
     setSelectedCommune(e.target.value);
-  }
+  };
   //clear form
   const clearForm = () => {
     setFirstName("");
@@ -88,7 +90,7 @@ export default function Customers() {
     setConfirmPassword("");
     setSelectedWilaya(null);
     setSelectedCommune(null);
-  }
+  };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -102,10 +104,8 @@ export default function Customers() {
     setOpenDialog(false);
   };
 
-
-
   //---------------------------------API calls---------------------------------\\
-  
+
   //fetch data
   const fetchCustomersData = async () => {
     const response = await fetch(
@@ -131,13 +131,13 @@ export default function Customers() {
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: CustomersData, 
-    error: CustomersDataError, 
-    isLoading: CustomersDataLoading, 
-    refetch: refetchCustomersData 
+  const {
+    data: CustomersData,
+    error: CustomersDataError,
+    isLoading: CustomersDataLoading,
+    refetch: refetchCustomersData,
   } = useQuery({
-    queryKey: ['CustomersData', user?.token, location.key],
+    queryKey: ["CustomersData", user?.token, location.key],
     queryFn: fetchCustomersData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -145,52 +145,59 @@ export default function Customers() {
 
   // fetching Cities data
   const fetchCitiesData = async () => {
-    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Cities/fr`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Cities/fr`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
 
     // Handle the error state
     if (!response.ok) {
-        const errorData = await response.json();
-        if(errorData.error.statusCode == 404)
-            return [];
-        else
-            throw new Error("Error receiving Cities data");
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Cities data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
-  const { data: CitiesData, error: CitiesError, isLoading: CitiesLoading, refetch: CitiesRefetch } = useQuery({
-      queryKey: ['CitiesData', user?.token, location.key],
-      queryFn: fetchCitiesData,
-      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  const {
+    data: CitiesData,
+    error: CitiesError,
+    isLoading: CitiesLoading,
+    refetch: CitiesRefetch,
+  } = useQuery({
+    queryKey: ["CitiesData", user?.token, location.key],
+    queryFn: fetchCitiesData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
   // Filter wilayas
-  const wilayas = CitiesData?.length > 0
-  ? CitiesData.filter(city => city.codeC == `${city.codeW}001`)
-      .map(city => ({ value: city.codeW, label: city.wilaya }))
-  : [];
+  const wilayas =
+    CitiesData?.length > 0
+      ? CitiesData.filter((city) => city.codeC == `${city.codeW}001`).map(
+          (city) => ({ value: city.codeW, label: city.wilaya })
+        )
+      : [];
 
   // Filter communes
-  const communes = selectedWilaya && CitiesData?.length > 0
-  ? CitiesData.filter(city => city.codeW == selectedWilaya)
-      .filter(city => city.codeC !== `${city.codeW}001`)
-      .map(city => ({ value: city.codeC, label: city.baladiya }))
-  : [];
+  const communes =
+    selectedWilaya && CitiesData?.length > 0
+      ? CitiesData.filter((city) => city.codeW == selectedWilaya)
+          .filter((city) => city.codeC !== `${city.codeW}001`)
+          .map((city) => ({ value: city.codeC, label: city.baladiya }))
+      : [];
 
   // Refetch data when user changes
   const handleRefetchDataChange = () => {
     refetchCustomersData();
     CitiesRefetch();
-  }
+  };
 
   //save Fournisseur API
   const handleSaveCustomer = async () => {
@@ -201,52 +208,54 @@ export default function Customers() {
       return;
     }
     try {
-        setSubmitionLoading(true);
-        const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/auth/createNewClient/${decodedToken.id}`, 
-          {
-            FirstName: FirstName,
-            LastName: LastName,
-            PhoneNumber: Phone,
-            Address: Address,
-            Wilaya: selectedWilaya,
-            Commune: selectedCommune,
-            Email: Email,
-            Password: Password,
+      setSubmitionLoading(true);
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/auth/createNewClient/${decodedToken.id}`,
+        {
+          FirstName: FirstName,
+          LastName: LastName,
+          PhoneNumber: Phone,
+          Address: Address,
+          Wilaya: selectedWilaya,
+          Commune: selectedCommune,
+          Email: Email,
+          Password: Password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
           },
-          {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-              }
-          }
-        );
-        if (response.status === 200) {
-          setAlertType(false);
-          setSnackbarMessage(response.data.message);
-          setSnackbarOpen(true);
-          handleRefetchDataChange();
-          setSubmitionLoading(false);
-          handleCloseDialog();
-          clearForm();
-        } else {
-          setAlertType(true);
-          setSnackbarMessage(response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
         }
+      );
+      if (response.status === 200) {
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        handleRefetchDataChange();
+        setSubmitionLoading(false);
+        handleCloseDialog();
+        clearForm();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error creating new customer: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error creating new customer");
-        }
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error creating new customer: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error creating new customer");
+      }
     }
   };
 
@@ -277,21 +286,31 @@ export default function Customers() {
           />
         </div>
       </div>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
+      <Modal
+        isOpen={openDialog}
+        onRequestClose={handleCloseDialog}
+        contentLabel="Add New Stock"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "fit-content",
+            margin: "auto",
+            height: "fit-content",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
       >
-        {!submitionLoading ? 
-          <div className="dialogAdd">
-            <div className="flex items-center space-x-3 title">
-              <div className="cercleIcon">
-                <UserPlusIcon className="iconAsideBar" />
-              </div>
-              <h2 className="dialogTitle">Add New Customer</h2>
-            </div>
-            <div className="flex-col items-center w-full space-y-8 mt-4 p-[20px] pl-[48px] pr-[48px]">
+        {!submitionLoading ? (
+          <div className="customerClass pb-0">
+            <h2 className="dialogTitle">Add New Customer</h2>
+            <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem items-center">
                 <span>First Name</span>
                 <div className="inputForm">
@@ -332,7 +351,7 @@ export default function Customers() {
                     type="phone"
                     name="customerPhone"
                     value={Phone}
-                    onChange={ handlePhoneChange }
+                    onChange={handlePhoneChange}
                   />
                 </div>
               </div>
@@ -369,44 +388,44 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem space-x-10 items-center">
                 <div className="flex space-x-8 items-center">
                   <span>Wilaya</span>
                   <div className="selectStoreWilayaCommune">
                     <select
-                        name="fournisseurWilaya"
-                        value={selectedWilaya}
-                        onChange={handleWilayaChange}
-                      >
-                        <option value="">Select Wilaya</option>
-                        {wilayas.map((wilaya) => (
-                          <option key={wilaya.value} value={wilaya.value}>
-                            {wilaya.label}
-                          </option>
-                        ))}
-                      </select>
+                      name="fournisseurWilaya"
+                      value={selectedWilaya}
+                      onChange={handleWilayaChange}
+                    >
+                      <option value="">Select Wilaya</option>
+                      {wilayas.map((wilaya) => (
+                        <option key={wilaya.value} value={wilaya.value}>
+                          {wilaya.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="flex space-x-8 items-center">
                   <span>Commune</span>
                   <div className="selectStoreWilayaCommune">
                     <select
-                        name="fournisseurCommune"
-                        value={selectedCommune}
-                        onChange={handleCommuneChange}
-                      >
-                        <option value="">Select Commune</option>
-                        {communes.map((commune) => (
-                          <option key={commune.value} value={commune.value}>
-                            {commune.label}
-                          </option>
-                        ))}
-                      </select>
+                      name="fournisseurCommune"
+                      value={selectedCommune}
+                      onChange={handleCommuneChange}
+                    >
+                      <option value="">Select Commune</option>
+                      {communes.map((commune) => (
+                        <option key={commune.value} value={commune.value}>
+                          {commune.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+            <div className="flex justify-end space-x-8 mt-[20px]">
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
@@ -424,12 +443,13 @@ export default function Customers() {
               </button>
             </div>
           </div>
-          :
+        ) : (
           <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        }
-      </Dialog>
+        )}
+      </Modal>
+
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
@@ -438,7 +458,7 @@ export default function Customers() {
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

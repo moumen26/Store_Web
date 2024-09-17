@@ -106,7 +106,7 @@ export default function SignIn() {
               <div className="lineOr"></div>
             </div>
             <ButtonFacebok />
-            <div className="flex items-center space-x-1">
+            <div className="flex w-full justify-center items-center space-x-2">
               <span href="/" className="headerText alreadyText">
                 New to Stock?
               </span>

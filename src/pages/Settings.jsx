@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   UserIcon,
   ShieldCheckIcon,
@@ -14,8 +14,9 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
-import MapIcon from '@mui/icons-material/Map';
+import MapIcon from "@mui/icons-material/Map";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ButtonModify from "../components/ButtonModify";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -24,18 +25,11 @@ export default function Settings() {
   const location = useLocation();
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const handleOpenConfirmationDialog = () => {
-    setOpenConfirmationDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenConfirmationDialog(false);
-  };
+  const handleOpenConfirmationDialog = () => setOpenConfirmationDialog(true);
+  const handleCloseDialog = () => setOpenConfirmationDialog(false);
 
   const [activeTab, setActiveTab] = useState("PersoInf");
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
+  const handleTabClick = (tab) => setActiveTab(tab);
 
   const [selectedWilaya, setSelectedWilaya] = useState("");
   const [selectedCommune, setSelectedCommune] = useState("");
@@ -43,16 +37,13 @@ export default function Settings() {
     setSelectedWilaya(e.target.value);
     setSelectedCommune("");
   };
-  const handleCommuneChange = (e) => {
-    setSelectedCommune(e.target.value);
-  };
+  const handleCommuneChange = (e) => setSelectedCommune(e.target.value);
 
   const sortedWilayaCodes = Object.keys(wilayasAndCommunes).sort(
     (a, b) => parseInt(a) - parseInt(b)
   );
 
-   //---------------------------------API calls---------------------------------\\
-
+  //---------------------------------API calls---------------------------------\\
   // Define a function that fetches the customer data
   const fetchCustomerData = async () => {
     const response = await fetch(
@@ -69,10 +60,9 @@ export default function Settings() {
     if (!response.ok) {
       // Handle the error state
       const errorData = await response.json();
-      if (errorData.error.statusCode == 404) return {};
+      if (errorData.error.statusCode === 404) return {};
       else throw new Error("Error receiving Customer data");
     }
-
     // Return the data
     return await response.json();
   };
@@ -90,16 +80,91 @@ export default function Settings() {
     refetchOnWindowFocus: true, // Optional: refetching on window focus
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableData, setEditableData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    wilaya: "",
+    commune: "",
+    storeAddress: "",
+  });
+
+  useEffect(() => {
+    if (CustomerData) {
+      setEditableData({
+        firstName: CustomerData.firstName || "",
+        lastName: CustomerData.lastName || "",
+        email: CustomerData.email || "",
+        phoneNumber: CustomerData.phoneNumber || "",
+        wilaya: CustomerData.wilaya || "",
+        commune: CustomerData.commune || "",
+        storeAddress: CustomerData.storeAddress || "",
+      });
+    }
+  }, [CustomerData]);
+
+  const handleClickModify = () => setIsEditing(true);
+
   const handleClickSave = async () => {
-    alert('save')
-  }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_URL_BASE}/Store/${decodedToken.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+          body: JSON.stringify(editableData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error updating customer data: ${errorData.message}`);
+      }
+
+      // Successfully saved
+      setIsEditing(false);
+      refetchCustomerDataData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleClickCancel = () => {
+    setIsEditing(false);
+    // Reset the form to original values
+    if (CustomerData) {
+      setEditableData({
+        firstName: CustomerData.firstName || "",
+        lastName: CustomerData.lastName || "",
+        email: CustomerData.email || "",
+        phoneNumber: CustomerData.phoneNumber || "",
+        wilaya: CustomerData.wilaya || "",
+        commune: CustomerData.commune || "",
+        storeAddress: CustomerData.storeAddress || "",
+      });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setEditableData({
+      ...editableData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleConfirmDeleteAccount = async () => {
-    alert('delete')
-  }
+    alert("delete");
+  };
+
   const TakeMeToGoogleMaps = async (val) => {
-    alert(val)
-  }
-  
+    alert(val);
+  };
+
   return (
     <div className="pagesContainer settingsContainer">
       <div className="pageTable h-[100vh] flex-row">
@@ -137,111 +202,94 @@ export default function Settings() {
             <div className="flex-col settingsRightContainer">
               <div className="flex items-center justify-between settingsRightHeader">
                 <h2 className="pagesTitle">Personal information</h2>
-                <ButtonSave setOnClick={handleClickSave}/>
+                <div className="flex space-x-4">
+                  {isEditing ? (
+                    <div className="flex space-x-4">
+                      <ButtonModify
+                        buttonSpan="Cancel"
+                        showIcon={false}
+                        onClick={handleClickCancel}
+                      />
+                      <ButtonSave setOnClick={handleClickSave} />
+                    </div>
+                  ) : (
+                    <ButtonModify
+                      buttonSpan="Modify"
+                      onClick={handleClickModify}
+                    />
+                  )}
+                </div>
               </div>
-              {!CustomerDataLoading ?
+              {!CustomerDataLoading ? (
                 <div className="flex-col settingsRightScroll">
                   <div>
-                      <div className="settingPersonalInformation">
-                        <InputForm
-                          labelForm="First Name"
-                          inputType="text"
-                          inputName="firstName"
-                          value={CustomerData?.firstName}
-                          readOnly={true}
-                        />
-                        <InputForm
-                          labelForm="Last Name"
-                          inputType="text"
-                          inputName="LastName"
-                          value={CustomerData?.lastName}
-                          readOnly={true}
-                        />
-                        <InputForm
-                          labelForm="Email Address"
-                          inputType="email"
-                          inputName="emailAddress"
-                          value={CustomerData?.email}
-                          readOnly={true}
-                        />
-                        <InputForm
-                          labelForm="Phone Number"
-                          inputType="phone"
-                          inputName="phoneNumber"
-                          value={CustomerData?.phoneNumber}
-                          readOnly={true}
-                        />
-                        <InputForm
-                          labelForm="Wilaya"
-                          inputType="text"
-                          inputName="Wilaya"
-                          value={CustomerData?.wilaya}
-                          readOnly={true}
-                        />
-                        <InputForm
-                          labelForm="Commune"
-                          inputType="text"
-                          inputName="Commune"
-                          value={CustomerData?.commune}
-                          readOnly={true}
-                        />
-                        <div className="inputItem">
-                          <span>Address</span>
-                          <div className="inputForm">
-                            <input 
-                              type="text" 
-                              name="address"
-                              value={CustomerData?.storeAddress}
-                              readOnly
-                            />
-                            <MapIcon onClick={() => TakeMeToGoogleMaps(CustomerData?.storeLocation)}/>
-                          </div>
+                    <div className="settingPersonalInformation">
+                      <InputForm
+                        labelForm="First Name"
+                        inputType="text"
+                        inputName="firstName"
+                        value={editableData.firstName}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <InputForm
+                        labelForm="Last Name"
+                        inputType="text"
+                        inputName="lastName"
+                        value={editableData.lastName}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <InputForm
+                        labelForm="Email Address"
+                        inputType="email"
+                        inputName="email"
+                        value={editableData.email}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <InputForm
+                        labelForm="Phone Number"
+                        inputType="text"
+                        inputName="phoneNumber"
+                        value={editableData.phoneNumber}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <InputForm
+                        labelForm="Wilaya"
+                        inputType="text"
+                        inputName="wilaya"
+                        value={editableData.wilaya}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <InputForm
+                        labelForm="Commune"
+                        inputType="text"
+                        inputName="commune"
+                        value={editableData.commune}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
+                      <div className="inputItem">
+                        <span>Address</span>
+                        <div className="inputForm">
+                          <input
+                            type="text"
+                            name="storeAddress"
+                            value={editableData.storeAddress}
+                            onChange={handleInputChange}
+                            readOnly={!isEditing}
+                          />
+                          <MapIcon
+                            onClick={() =>
+                              TakeMeToGoogleMaps(CustomerData?.storeLocation)
+                            }
+                          />
                         </div>
-                        {/* 
-                          <div className="inputItem">
-                            <span>Wilaya</span>
-                            <select
-                              className="selectOptionWilaya"
-                              name="selectOptionWilaya"
-                              id="selectOptionWilaya"
-                              value={selectedWilaya}
-                              onChange={handleWilayaChange}
-                            >
-                              <option value="" disabled>
-                                -- Select Commune -- 
-                              </option>
-                              {sortedWilayaCodes.map((wilayaCode) => (
-                                <option key={wilayaCode} value={wilayaCode}>
-                                  {wilayasAndCommunes[wilayaCode].name}{" "}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="inputItem">
-                            <span>Commune</span>
-                            <select
-                              className="selectOptionWilaya"
-                              name="selectOptionCommune"
-                              id="selectOptionCommune"
-                              value={selectedCommune}
-                              onChange={handleCommuneChange}
-                              disabled={!selectedWilaya}
-                            >
-                              <option value="" disabled>
-                                -- Select Commune --  
-                              </option>
-                              {selectedWilaya &&
-                                wilayasAndCommunes[selectedWilaya]?.communes?.map(
-                                  (commune, index) => (
-                                    <option key={index} value={commune}>
-                                      {commune}
-                                    </option>
-                                  )
-                                )}
-                            </select>
-                          </div> 
-                        */}
                       </div>
+                    </div>
                   </div>
                   <div className="deleteContainer flex-col space-y-3">
                     <span className="deleteSpan">Delete Account</span>
@@ -255,21 +303,28 @@ export default function Settings() {
                     </div>
                     <p className="uploadSpan">
                       Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                      Labore assumenda, nisi asperiores officiis ex iusto at, quae
-                      aspernatur odio corporis, itaque facere officia totam ullam
-                      blanditiis nostrum nihil enim minima.
+                      Labore assumenda, nisi asperiores officiis ex iusto at,
+                      quae aspernatur odio corporis, itaque facere officia totam
+                      ullam blanditiis nostrum nihil enim minima.
                     </p>
                     <p className="uploadSpan">
                       There is no reversing this action.
                     </p>
-                    <ButtonDelete setOnClick={handleOpenConfirmationDialog}/>
+                    <ButtonDelete setOnClick={handleOpenConfirmationDialog} />
                   </div>
                 </div>
-              :
-                <div className="w-full h-full flex items-center justify-center">
-                  <CircularProgress color="inherit" />
+              ) : (
+                <div className="flex justify-center items-center h-full">
+                  <CircularProgress />
                 </div>
-              }
+              )}
+              <ConfirmDialog
+                open={openConfirmationDialog}
+                onClose={handleCloseDialog}
+                onConfirm={handleConfirmDeleteAccount}
+                dialogTitle="Confirm the deletion of your account"
+                dialogContentText={`Are you sure you want to delete your account?`}
+              />
             </div>
           )}
           {activeTab === "EmailPass" && (
@@ -279,17 +334,8 @@ export default function Settings() {
               </div>
             </div>
           )}
-          {!activeTab && <div>Please select an option</div>}
         </div>
       </div>
-
-      <ConfirmDialog
-        open={openConfirmationDialog}
-        onConfirm={handleConfirmDeleteAccount}
-        onClose={handleCloseDialog}
-        dialogTitle="Confirm the deletion of your account"
-        dialogContentText={`Are you sure you want to delete your account?`}
-      />
     </div>
   );
 }

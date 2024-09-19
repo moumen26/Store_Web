@@ -60,7 +60,7 @@ export default function PurchaseProfileDetails({data}) {
             </TableCell>
 
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">{data.totalAmount} DA</span>
+              <span className="trTableSpan">{data.totalAmount.toFixed(2) - data.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)} DA</span>
             </TableCell>
           </TableRow>
         </TableBody>

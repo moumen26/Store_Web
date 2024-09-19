@@ -56,12 +56,6 @@ function Row(props) {
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
         </TableCell>
-        <TableCell className="tableCell">
-        <span className="trTableSpan">
-            {row.payment && row.payment.length > 0
-              ? row.payment.reduce((total, payment) => total + payment.amount, 0)
-              : 0} DA
-          </span>          </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
             <EyeIcon
@@ -226,9 +220,6 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>

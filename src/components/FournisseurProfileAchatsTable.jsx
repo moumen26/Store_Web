@@ -50,13 +50,7 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.payment && row.payment.length > 0
-              ? (
-                  row.totalAmount.toFixed(2) -
-                  row.payment.reduce((sum, pay) => sum + pay.amount, 0)
-                ).toFixed(2)
-              : (0).toFixed(2)}{" "}
-            DA
+            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)} DA
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -195,7 +189,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
               <span className="thTableSpan">Total Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Amount Paid</span>
+              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Type</span>

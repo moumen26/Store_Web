@@ -58,9 +58,7 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
         <span className="trTableSpan">
-            {row.payment && row.payment.length > 0
-              ? (row.totalAmount - row.payment.reduce((sum, pay) => sum + pay.amount, 0))
-              : 0} DA
+            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)} DA
           </span>          </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -232,7 +230,7 @@ export default function CreditPurchasesTable({ searchQuery, setFilteredData }) {
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Remaining Amount</span>
+              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>

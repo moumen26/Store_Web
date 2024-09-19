@@ -1,20 +1,8 @@
+import moment from 'moment';
+
 const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    
-    const monthNames = [
-        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-    ];
-  
-    const day = date.getDate();
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-  
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  
-    return `${month} ${day}, ${year} at ${hours}:${formattedMinutes}`;
+  moment.locale('fr'); // Set locale to French for month names
+  return moment.utc(dateString).format('D MMMM YYYY [at] HH:mm:ss');
 };
 const orderStatusTextDisplayer = (status) => {
     switch (status.toString()) {

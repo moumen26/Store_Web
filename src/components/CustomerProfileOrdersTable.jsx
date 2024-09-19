@@ -53,7 +53,7 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {Number(row.total) - Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0))} DA
+            {Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)} DA
           </span>
         </TableCell>
         <TableCell className="tableCell">
@@ -208,7 +208,7 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Remaining Amount</span>
+              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Type</span>

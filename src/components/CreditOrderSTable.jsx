@@ -57,11 +57,11 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.total} DA</span>
+          <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.total - row.payment.reduce((sum, pay) => sum + pay.amount, 0) + ' DA'}
+            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2) + ' DA'}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -127,7 +127,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.price}
+                          {orderDetailsRow.price.toFixed(2)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -138,7 +138,7 @@ function Row(props) {
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.price *
+                            orderDetailsRow.price.toFixed(2) *
                               orderDetailsRow.quantity
                           )}
                         </span>
@@ -246,7 +246,7 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Remaining Amount</span>
+              <span className="thTableSpan">Payment</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Status</span>

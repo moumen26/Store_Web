@@ -89,9 +89,18 @@ function Row(props) {
           <span className="trTableSpan">{row.userAddress}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <div className={`activeClass${row.status == 'pending' ? ' yellow' : ''}`} onClick={handleInactiveClick}>
+          <div
+            className={`activeClass${row.status == "pending" ? " yellow" : ""}`}
+            onClick={handleInactiveClick}
+          >
             <div className="cercleActive"></div>
-            <span className={`inactiveSpan trTableSpan ${row.status == 'pending' ? ' yellow' : ''}`}>{row.status}</span>
+            <span
+              className={`inactiveSpan trTableSpan ${
+                row.status == "pending" ? " yellow" : ""
+              }`}
+            >
+              {row.status}
+            </span>
           </div>
         </TableCell>
         <TableCell align="right" className="tableCell w-[100px]">
@@ -138,7 +147,9 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
   //fetch data
   const fetchNotApprovedUsersData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/MyStores/notApprovedUsers/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -147,26 +158,28 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         },
       }
     );
-  
+
     if (!response.ok) {
       const errorData = await response.json();
       if (errorData.error.statusCode === 404) {
         return []; // Return an empty array if no data is found
       } else {
-        throw new Error("Error receiving not approved users data for this store");
+        throw new Error(
+          "Error receiving not approved users data for this store"
+        );
       }
     }
-  
+
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: NotApprovedUsersData, 
-    error: notApprovedUsersError, 
-    isLoading: notApprovedUsersLoading, 
-    refetch: refetchNotApprovedUsersData 
+  const {
+    data: NotApprovedUsersData,
+    error: notApprovedUsersError,
+    isLoading: notApprovedUsersLoading,
+    refetch: refetchNotApprovedUsersData,
   } = useQuery({
-    queryKey: ['NotApprovedUsersData', user?.token],
+    queryKey: ["NotApprovedUsersData", user?.token],
     queryFn: fetchNotApprovedUsersData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -194,7 +207,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         };
       });
       setRows(rowsData);
-    }else{
+    } else {
       setRows([]);
     }
   }, [NotApprovedUsersData, decodedToken.id]);

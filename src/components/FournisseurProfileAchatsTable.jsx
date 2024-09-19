@@ -49,8 +49,9 @@ function Row(props) {
           <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">
-            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)} DA
+          <span className="trTableSpan text-[#28a745]">
+            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)}{" "}
+            DA
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">

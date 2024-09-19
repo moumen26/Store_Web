@@ -28,13 +28,15 @@ export default function Settings() {
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const handleOpenConfirmationDialog = () => setOpenConfirmationDialog(true);
 
-  const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] = useState(false);
-  const handleOpenUpdateConfirmationDialog = () => setOpenUpdateConfirmationDialog(true);
-  
+  const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] =
+    useState(false);
+  const handleOpenUpdateConfirmationDialog = () =>
+    setOpenUpdateConfirmationDialog(true);
+
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
     setOpenUpdateConfirmationDialog(false);
-  }
+  };
 
   const [activeTab, setActiveTab] = useState("PersoInf");
   const handleTabClick = (tab) => setActiveTab(tab);
@@ -76,9 +78,9 @@ export default function Settings() {
       storeName: "",
       storeLocation: "",
       RC: "",
-    })
+    });
   };
-  
+
   const handleClickCancel = () => {
     setIsEditing(false);
     // Reset the form to original values
@@ -112,8 +114,6 @@ export default function Settings() {
   const TakeMeToGoogleMaps = async (val) => {
     alert(val);
   };
-
-
 
   //---------------------------------API calls---------------------------------\\
 
@@ -181,13 +181,13 @@ export default function Settings() {
       const response = await axios.patch(
         import.meta.env.VITE_APP_URL_BASE + `/Store/${decodedToken.id}`,
         {
-          firstName: editableData.firstName, 
-          lastName: editableData.lastName, 
-          wilaya: editableData.wilaya, 
-          commune: editableData.commune, 
-          address: editableData.storeAddress, 
-          storeName: editableData.storeName, 
-          location: editableData.storeLocation, 
+          firstName: editableData.firstName,
+          lastName: editableData.lastName,
+          wilaya: editableData.wilaya,
+          commune: editableData.commune,
+          address: editableData.storeAddress,
+          storeName: editableData.storeName,
+          location: editableData.storeLocation,
         },
         {
           headers: {
@@ -210,11 +210,11 @@ export default function Settings() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
       } else if (error.request) {
         // Request was made but no response was received
         console.error("Error updating profile: No response received");
@@ -270,7 +270,9 @@ export default function Settings() {
                         showIcon={false}
                         onClick={handleClickCancel}
                       />
-                      <ButtonSave setOnClick={handleOpenUpdateConfirmationDialog} />
+                      <ButtonSave
+                        setOnClick={handleOpenUpdateConfirmationDialog}
+                      />
                     </div>
                   ) : (
                     <ButtonModify
@@ -324,22 +326,55 @@ export default function Settings() {
                         setChangevalue={handleInputChange}
                         readOnly={true}
                       />
-                      <InputForm
-                        labelForm="Wilaya"
-                        inputType="text"
-                        inputName="wilaya"
-                        value={editableData.wilaya}
-                        setChangevalue={handleInputChange}
-                        readOnly={!isEditing}
-                      />
-                      <InputForm
-                        labelForm="Commune"
-                        inputType="text"
-                        inputName="commune"
-                        value={editableData.commune}
-                        setChangevalue={handleInputChange}
-                        readOnly={!isEditing}
-                      />
+                      {isEditing ? (
+                        <>
+                          <div className="flex-col space-y-[12px] items-center">
+                            <span>Wilaya</span>
+                            <div className="selectStoreWilayaCommune w-[400px]">
+                              <select
+                                name="wilaya"
+                                value={editableData.wilaya}
+                                onChange={handleInputChange} // Corrected to onChange
+                                disabled={!isEditing}
+                              >
+                                <option value="">Select Wilaya</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="flex-col space-y-[12px] items-center">
+                            <span>Commune</span>
+                            <div className="selectStoreWilayaCommune w-[400px]">
+                              <select
+                                name="commune"
+                                value={editableData.commune}
+                                onChange={handleInputChange} // Corrected to onChange
+                                disabled={!isEditing}
+                              >
+                                <option value="">Select Commune</option>
+                              </select>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <InputForm
+                            labelForm="Wilaya"
+                            inputType="text"
+                            inputName="wilaya"
+                            value={editableData.wilaya}
+                            setChangevalue={handleInputChange}
+                            readOnly={!isEditing}
+                          />
+                          <InputForm
+                            labelForm="Commune"
+                            inputType="text"
+                            inputName="commune"
+                            value={editableData.commune}
+                            setChangevalue={handleInputChange}
+                            readOnly={!isEditing}
+                          />
+                        </>
+                      )}
                       <div className="inputItem">
                         <span>Address</span>
                         <div className="inputForm">
@@ -352,7 +387,7 @@ export default function Settings() {
                           />
                           <MapIcon
                             onClick={() =>
-                              TakeMeToGoogleMaps(CustomerData?.storeLocation)
+                              TakeMeToGoogleMaps(editableData.storeAddress)
                             }
                           />
                         </div>
@@ -418,7 +453,7 @@ export default function Settings() {
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

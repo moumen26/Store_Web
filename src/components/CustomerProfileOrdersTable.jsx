@@ -46,21 +46,25 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.profit.toFixed(2)} DA</span>
-        </TableCell>
-        <TableCell className="tableCell">
           <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">
-            {Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)} DA
+          <span className="trTableSpan text-[#28a745]">
+            {Number(
+              row.payment.reduce((sum, pay) => sum + pay.amount, 0)
+            ).toFixed(2)}{" "}
+            DA
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{
-            row.credit ? 
-            'credit' : row.deposit ? 'deposit' : 'normal'
-          }</span>
+          <span className="trTableSpan text-[#008080]">
+            {row.profit.toFixed(2)} DA
+          </span>
+        </TableCell>
+        <TableCell className="tableCell">
+          <span className="trTableSpan">
+            {row.credit ? "credit" : row.deposit ? "deposit" : "normal"}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
@@ -140,7 +144,10 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(detailsRow.price * detailsRow.quantity).toFixed(2)} DA
+                          {Math.round(
+                            detailsRow.price * detailsRow.quantity
+                          ).toFixed(2)}{" "}
+                          DA
                         </span>
                       </TableCell>
                     </TableRow>
@@ -163,7 +170,7 @@ export default function CustomerProfileOrdersTable({
   searchQuery,
   setFilteredData,
   data = [],
-  loading
+  loading,
 }) {
   const [filteredRows, setFilteredRows] = useState(data);
 
@@ -202,13 +209,13 @@ export default function CustomerProfileOrdersTable({
               <span className="thTableSpan">Order Date</span>
             </TableCell>
             <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Profit</span>
-            </TableCell>
-            <TableCell className="tableHeadCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Payment</span>
+            </TableCell>
+            <TableCell className="tableHeadCell">
+              <span className="thTableSpan">Profit</span>
             </TableCell>
             <TableCell className="tableHeadCell">
               <span className="thTableSpan">Type</span>

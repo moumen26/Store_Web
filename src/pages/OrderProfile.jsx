@@ -586,7 +586,7 @@ export default function OrderProfile() {
           <div className="flex flex-row justify-between items-center w-full">
             <h2 className="customerClassTitle">Payment History</h2>
             {OrderData.status != 10 ? (
-              <>
+              <div className="flex space-x-4">
                 {OrderData.credit == true ? null : OrderData.deposit ==
                   false ? (
                   <ButtonAdd
@@ -624,11 +624,11 @@ export default function OrderProfile() {
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="full payment"
+                    buttonSpan="Full payment"
                     onClick={handleOpenFullyPaidDialog}
                   />
                 )}
-              </>
+              </div>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
             )}
@@ -680,7 +680,7 @@ export default function OrderProfile() {
             padding: "20px",
             maxWidth: "60%",
             margin: "auto",
-            height: "52%",
+            height: "fit-content",
             zIndex: 1001,
             overflowY: "auto",
           },
@@ -700,7 +700,7 @@ export default function OrderProfile() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
+        <div className="flex justify-end space-x-8 mt-[20px]">
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseAddPaymentDialog}

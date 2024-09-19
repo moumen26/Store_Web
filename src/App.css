@@ -849,10 +849,6 @@ aside ul {
   grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
 }
 
-.settingPersonalInformation .inputItem:last-child .inputForm {
-  width: 937px;
-}
-
 .customerPrimaryAddress {
   grid-template-columns: repeat(auto-fill, minmax(0, 30%));
 }

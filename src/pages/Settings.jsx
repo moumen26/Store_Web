@@ -13,10 +13,11 @@ import { useLocation, useParams } from "react-router-dom";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { CircularProgress } from "@mui/material";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
 import ConfirmDialog from "../components/ConfirmDialog";
 import ButtonModify from "../components/ButtonModify";
+import axios from "axios";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -26,7 +27,14 @@ export default function Settings() {
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const handleOpenConfirmationDialog = () => setOpenConfirmationDialog(true);
-  const handleCloseDialog = () => setOpenConfirmationDialog(false);
+
+  const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] = useState(false);
+  const handleOpenUpdateConfirmationDialog = () => setOpenUpdateConfirmationDialog(true);
+  
+  const handleCloseDialog = () => {
+    setOpenConfirmationDialog(false);
+    setOpenUpdateConfirmationDialog(false);
+  }
 
   const [activeTab, setActiveTab] = useState("PersoInf");
   const handleTabClick = (tab) => setActiveTab(tab);
@@ -43,7 +51,77 @@ export default function Settings() {
     (a, b) => parseInt(a) - parseInt(b)
   );
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableData, setEditableData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    wilaya: "",
+    commune: "",
+    storeAddress: "",
+    storeName: "",
+    storeLocation: "",
+    RC: "",
+  });
+
+  const handleClickModify = () => {
+    setIsEditing(true);
+    setEditableData({
+      firstName: "",
+      lastName: "",
+      wilaya: "",
+      commune: "",
+      storeAddress: "",
+      storeName: "",
+      storeLocation: "",
+      RC: "",
+    })
+  };
+  
+  const handleClickCancel = () => {
+    setIsEditing(false);
+    // Reset the form to original values
+    if (CustomerData) {
+      setEditableData({
+        firstName: CustomerData.firstName || "",
+        lastName: CustomerData.lastName || "",
+        email: CustomerData.email || "",
+        phoneNumber: CustomerData.phoneNumber || "",
+        wilaya: CustomerData.wilaya || "",
+        commune: CustomerData.commune || "",
+        storeAddress: CustomerData.storeAddress || "",
+        storeName: CustomerData.storeName || "",
+        storeLocation: CustomerData.storeLocation || "",
+        RC: CustomerData.r_commerce || "",
+      });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setEditableData({
+      ...editableData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleConfirmDeleteAccount = async () => {
+    alert("delete");
+  };
+
+  const TakeMeToGoogleMaps = async (val) => {
+    alert(val);
+  };
+
+
+
   //---------------------------------API calls---------------------------------\\
+
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
   // Define a function that fetches the customer data
   const fetchCustomerData = async () => {
     const response = await fetch(
@@ -80,17 +158,6 @@ export default function Settings() {
     refetchOnWindowFocus: true, // Optional: refetching on window focus
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editableData, setEditableData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    wilaya: "",
-    commune: "",
-    storeAddress: "",
-  });
-
   useEffect(() => {
     if (CustomerData) {
       setEditableData({
@@ -101,68 +168,61 @@ export default function Settings() {
         wilaya: CustomerData.wilaya || "",
         commune: CustomerData.commune || "",
         storeAddress: CustomerData.storeAddress || "",
+        storeName: CustomerData.storeName || "",
+        storeLocation: CustomerData.storeLocation || "",
+        RC: CustomerData.RC || "",
       });
     }
   }, [CustomerData]);
 
-  const handleClickModify = () => setIsEditing(true);
-
   const handleClickSave = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/Store/${decodedToken.id}`,
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Store/${decodedToken.id}`,
         {
-          method: "PUT",
+          firstName: editableData.firstName, 
+          lastName: editableData.lastName, 
+          wilaya: editableData.wilaya, 
+          commune: editableData.commune, 
+          address: editableData.storeAddress, 
+          storeName: editableData.storeName, 
+          location: editableData.storeLocation, 
+        },
+        {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user?.token}`,
           },
-          body: JSON.stringify(editableData),
         }
       );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Error updating customer data: ${errorData.message}`);
+      if (response.status === 200) {
+        refetchCustomerDataData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseDialog();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
       }
-
-      // Successfully saved
-      setIsEditing(false);
-      refetchCustomerDataData();
     } catch (error) {
-      console.error(error);
+        if (error.response) {
+          setAlertType(true);
+          setSnackbarMessage(error.response.data.message);
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating profile: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating profile");
+      }
     }
-  };
-
-  const handleClickCancel = () => {
-    setIsEditing(false);
-    // Reset the form to original values
-    if (CustomerData) {
-      setEditableData({
-        firstName: CustomerData.firstName || "",
-        lastName: CustomerData.lastName || "",
-        email: CustomerData.email || "",
-        phoneNumber: CustomerData.phoneNumber || "",
-        wilaya: CustomerData.wilaya || "",
-        commune: CustomerData.commune || "",
-        storeAddress: CustomerData.storeAddress || "",
-      });
-    }
-  };
-
-  const handleInputChange = (e) => {
-    setEditableData({
-      ...editableData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleConfirmDeleteAccount = async () => {
-    alert("delete");
-  };
-
-  const TakeMeToGoogleMaps = async (val) => {
-    alert(val);
   };
 
   return (
@@ -210,7 +270,7 @@ export default function Settings() {
                         showIcon={false}
                         onClick={handleClickCancel}
                       />
-                      <ButtonSave setOnClick={handleClickSave} />
+                      <ButtonSave setOnClick={handleOpenUpdateConfirmationDialog} />
                     </div>
                   ) : (
                     <ButtonModify
@@ -224,6 +284,14 @@ export default function Settings() {
                 <div className="flex-col settingsRightScroll">
                   <div>
                     <div className="settingPersonalInformation">
+                      <InputForm
+                        labelForm="Store Name"
+                        inputType="text"
+                        inputName="storeName"
+                        value={editableData.storeName}
+                        setChangevalue={handleInputChange}
+                        readOnly={!isEditing}
+                      />
                       <InputForm
                         labelForm="First Name"
                         inputType="text"
@@ -246,7 +314,7 @@ export default function Settings() {
                         inputName="email"
                         value={editableData.email}
                         setChangevalue={handleInputChange}
-                        readOnly={!isEditing}
+                        readOnly={true}
                       />
                       <InputForm
                         labelForm="Phone Number"
@@ -254,7 +322,7 @@ export default function Settings() {
                         inputName="phoneNumber"
                         value={editableData.phoneNumber}
                         setChangevalue={handleInputChange}
-                        readOnly={!isEditing}
+                        readOnly={true}
                       />
                       <InputForm
                         labelForm="Wilaya"
@@ -336,6 +404,26 @@ export default function Settings() {
           )}
         </div>
       </div>
+      <ConfirmDialog
+        open={openUpdateConfirmationDialog}
+        onConfirm={handleClickSave}
+        onClose={handleCloseDialog}
+        dialogTitle="Confirm profile update"
+        dialogContentText={`Are you sure you want to update your profile?`}
+      />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity= {alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

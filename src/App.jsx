@@ -31,6 +31,7 @@ import AddAchat from "./pages/AddAchat";
 import PurchaseProfile from "./pages/PurchaseProfile";
 import PuchasesArchive from "./pages/PuchasesArchive";
 import Losses from "./pages/Losses";
+import Publicité from "./pages/Publicité";
 
 function App() {
   const { user } = useAuthContext();
@@ -80,13 +81,14 @@ function App() {
             element={user ? <Purchases /> : <SignIn />}
           />
           <Route
+            path="/Publicite"
+            element={user ? <Publicité /> : <SignIn />}
+          />
+          <Route
             path="/CreditPurchases"
             element={user ? <CreditPurchases /> : <SignIn />}
           />
-          <Route
-            path="/Losses"
-            element={user ? <Losses /> : <SignIn />}
-          />
+          <Route path="/Losses" element={user ? <Losses /> : <SignIn />} />
           <Route
             path="/Fournisseurs"
             element={user ? <Fournisseurs /> : <SignIn />}

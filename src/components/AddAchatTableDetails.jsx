@@ -690,11 +690,15 @@ function AddAchatTableDetails({
               <div className="flex-col space-y-8">
                 <div className="dialogAddCustomerItem items-center">
                   <span>Remise Value :</span>
-                  <div className="inputForm">
-                    <input type="text" name="remise" />
+                  <div className="inputForm relative">
+                    <input type="text" name="remise" className="pr-10" />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      %
+                    </span>
                   </div>
                 </div>
               </div>
+
               <div className="flex justify-end space-x-8 mt-[20px]">
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"

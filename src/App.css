@@ -1237,6 +1237,14 @@ aside ul {
   transition: all 0.5s ease-in-out;
 }
 
+.stockClass .dialogAddCustomerItem {
+  width: 210px;
+}
+
+.stockClass .dialogAddCustomerItem .inputForm {
+  width: 100px;
+}
+
 /* <div className="customerClass flex-col space-y-1">
             <div className="flex justify-between items-center">
               <h2 className="customerClassTitle">Order Type</h2>

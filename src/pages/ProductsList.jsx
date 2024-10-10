@@ -293,9 +293,10 @@ export default function ProductsList() {
             border: "none",
             borderRadius: "8px",
             padding: "20px",
-            maxWidth: "90%",
+            maxWidth: "100%",
+            // width: "fit-content",
             margin: "auto",
-            height: "90%",
+            height: "fit-content",
             zIndex: 1001,
             overflowY: "auto",
           },
@@ -401,16 +402,30 @@ export default function ProductsList() {
                       <span className="ml-2">DA</span>
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
-                    <span>Stock :</span>
-                    <div className="inputForm">
-                      <input
-                        type="number"
-                        name="stock"
-                        value={Quantity}
-                        min={0}
-                        onChange={handleQuantityChange}
-                      />
+                  <div className="flex stockClass space-x-4">
+                    <div className="dialogAddCustomerItem items-center">
+                      <span>Stock Box:</span>
+                      <div className="inputForm w-[50px]">
+                        <input
+                          type="number"
+                          name="stock"
+                          value={Quantity}
+                          min={0}
+                          onChange={handleQuantityChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="dialogAddCustomerItem items-center">
+                      <span>Stock Unity:</span>
+                      <div className="inputForm">
+                        <input
+                          type="number"
+                          name="stock"
+                          value={Quantity}
+                          min={0}
+                          onChange={handleQuantityChange}
+                        />
+                      </div>
                     </div>
                     {selectedProduct?.boxItems && (
                       <span>{selectedProduct?.boxItems * Quantity} unity</span>

@@ -24,7 +24,9 @@ import ButtonAdd from "./ButtonAdd";
 
 function AddAchatTableDetails({
   isModalOpen,
+  isRemiseModalOpen,
   handleCloseModal,
+  handleRemiseCloseModal,
   onCalculateTotals,
   deliveryAmount,
   setAPIProducts,
@@ -645,6 +647,58 @@ function AddAchatTableDetails({
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseAddProductModal}
+                >
+                  Cancel
+                </button>
+                <input
+                  type="button"
+                  value={"Save"}
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  // onClick={handleSavePRODUCT}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={isRemiseModalOpen}
+        onRequestClose={handleCloseAddProductModal}
+        contentLabel="Add Remise"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "40%",
+            margin: "auto",
+            height: "fit-content",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass pb-0">
+          <h2 className="customerClassTitle">Add Remise</h2>
+          <div className="mt-[16px]">
+            <form>
+              <div className="flex-col space-y-8">
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Remise Value :</span>
+                  <div className="inputForm">
+                    <input type="text" name="remise" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end space-x-8 mt-[20px]">
+                <button
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                  onClick={handleRemiseCloseModal}
                 >
                   Cancel
                 </button>

@@ -23,6 +23,7 @@ export default function AddAchat() {
   const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [total, setTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRemiseModalOpen, setIsRemiseModalOpen] = useState(false);
   const [Products, setProducts] = useState([]);
   const [OpenConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const handleOpenConfirmationDialog = () => {
@@ -43,9 +44,17 @@ export default function AddAchat() {
     setIsModalOpen(false);
   };
 
+  const handleRemiseOpenModal = () => {
+    setIsRemiseModalOpen(true);
+  };
+
+  const handleRemiseCloseModal = () => {
+    setIsRemiseModalOpen(false);
+  };
+
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
-  }
+  };
 
   const handleNavigateClick = (path) => {
     navigate(path);
@@ -61,17 +70,19 @@ export default function AddAchat() {
   const handleSubmitCreateAchat = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Purchase/create/${decodedToken.id}`, 
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Purchase/create/${decodedToken.id}`,
         {
           fournisseur: id,
           products: Products,
           amount: subtotal,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -88,31 +99,31 @@ export default function AddAchat() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error creating new achat: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error creating new achat");
-        }
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error creating new achat: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error creating new achat");
+      }
     }
     setProducts([]);
-  }
+  };
   return (
     <>
-      {!submitionLoading ?
+      {!submitionLoading ? (
         <div className="pagesContainer addOrder">
           <Header />
           <div className="w-full flex items-center justify-between">
             <h2 className="pagesTitle">Add a new achat</h2>
             <div className="flex items-center space-x-2">
               <ButtonCancel />
-              <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
+              <ButtonSave setOnClick={handleOpenConfirmationDialog} />
             </div>
           </div>
           <div className="customerClass">
@@ -122,12 +133,20 @@ export default function AddAchat() {
           <div className="pageTable">
             <div className="flex items-center justify-between">
               <h2 className="customerClassTitle">Achat Details</h2>
-              <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+              <div className="flex space-x-2">
+                <ButtonAdd
+                  buttonSpan="Add Remise"
+                  onClick={handleRemiseOpenModal}
+                />
+                <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+              </div>
             </div>
             <div className="pageTableContainer">
               <AddAchatTableDetails
                 isModalOpen={isModalOpen}
+                isRemiseModalOpen={isRemiseModalOpen}
                 handleCloseModal={handleCloseModal}
+                handleRemiseCloseModal={handleRemiseCloseModal}
                 onCalculateTotals={handleCalculateTotals}
                 deliveryAmount={deliveryAmount}
                 setAPIProducts={setProducts}
@@ -138,11 +157,11 @@ export default function AddAchat() {
             </div>
           </div>
         </div>
-      :
+      ) : (
         <div className="flex items-center justify-center h-screen">
           <CircularProgress />
         </div>
-    }
+      )}
       {/* ConfirmDialog */}
       <ConfirmDialog
         open={OpenConfirmationDialog}
@@ -159,7 +178,7 @@ export default function AddAchat() {
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

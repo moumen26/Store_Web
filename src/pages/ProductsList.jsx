@@ -51,6 +51,12 @@ export default function ProductsList() {
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
+
+  const [QuantityUnity, setQuantityUnity] = useState(0);
+  const handleQuantityUnityChange = (e) => {
+    setQuantityUnity(e.target.value);
+  };
+
   const [LimitedQuantity, setLimitedQuantity] = useState(0);
   const handleLimitedQuantityChange = (e) => {
     setLimitedQuantity(e.target.value);
@@ -210,6 +216,7 @@ export default function ProductsList() {
         {
           Product: selectedProduct?._id,
           Quantity: Quantity,
+          QuantityUnity: QuantityUnity,
           LimitedQuantity: LimitedQuantity,
           Store: decodedToken.id,
           BuyingPrice: BuyingPrice,
@@ -231,6 +238,7 @@ export default function ProductsList() {
         setSnackbarOpen(true);
         handleRefetchDataChange();
         setSubmitionLoading(false);
+        handleCloseModal();
       } else {
         setAlertType(true);
         setSnackbarMessage(response.data.message);
@@ -420,15 +428,19 @@ export default function ProductsList() {
                       <div className="inputForm">
                         <input
                           type="number"
-                          name="stock"
-                          value={Quantity}
+                          name="unity"
+                          value={QuantityUnity}
                           min={0}
-                          onChange={handleQuantityChange}
+                          onChange={handleQuantityUnityChange}
                         />
                       </div>
                     </div>
                     {selectedProduct?.boxItems && (
-                      <span>{selectedProduct?.boxItems * Quantity} unity</span>
+                      <span>
+                        {selectedProduct?.boxItems * Quantity +
+                          Number(QuantityUnity)}
+                        unity
+                      </span>
                     )}
                   </div>
                   <div className="dialogAddCustomerItem items-center">

@@ -52,18 +52,7 @@ function Row(props) {
         <span className="trTableSpan">{row.productBrand}</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="text"
-            value={editedRow.productBuyingPrice}
-            onChange={(e) =>
-              onChange(row.productId, "productBuyingPrice", e.target.value)
-            }
-            className="editable-input"
-          />
-        ) : (
-          <span className="trTableSpan">{row.productBuyingPrice} DA</span>
-        )}
+        <span className="trTableSpan">{row.productBuyingPrice} DA</span>
       </TableCell>
       <TableCell className="tableCell">
         {isEditing ? (
@@ -80,18 +69,7 @@ function Row(props) {
         )}
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="text"
-            value={editedRow.productStock}
-            onChange={(e) =>
-              onChange(row.productId, "productStock", e.target.value)
-            }
-            className="editable-input"
-          />
-        ) : (
-          <span className="trTableSpan">{row.productStock}</span>
-        )}
+        <span className="trTableSpan">{row.productStock}</span>
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">

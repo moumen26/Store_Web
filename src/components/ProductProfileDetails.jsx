@@ -7,9 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-function ProductProfileRow({
-  data,
-}) {
+function ProductProfileRow({ data }) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
@@ -34,7 +32,9 @@ function ProductProfileRow({
         <span className="trTableSpan">{data?.quantity}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{data?.quantity / data?.product?.boxItems}</span>
+        <span className="trTableSpan">
+          {(data?.quantity / data?.product?.boxItems).toFixed(0)}
+        </span>
       </TableCell>
     </TableRow>
   );
@@ -77,9 +77,7 @@ export default function ProductProfileDetails({ data }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          <ProductProfileRow
-            data={data}
-          />
+          <ProductProfileRow data={data} />
         </TableBody>
       </Table>
     </TableContainer>

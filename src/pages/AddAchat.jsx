@@ -12,6 +12,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
+import Modal from "react-modal";
 
 export default function AddAchat() {
   const { user } = useAuthContext();
@@ -22,6 +23,10 @@ export default function AddAchat() {
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const handleDiscountChange = (e) => {
+    setDiscount(e.target.value);
+  }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRemiseModalOpen, setIsRemiseModalOpen] = useState(false);
   const [Products, setProducts] = useState([]);
@@ -49,6 +54,7 @@ export default function AddAchat() {
   };
 
   const handleRemiseCloseModal = () => {
+    setDiscount(0);
     setIsRemiseModalOpen(false);
   };
 
@@ -77,6 +83,7 @@ export default function AddAchat() {
           fournisseur: id,
           products: Products,
           amount: subtotal,
+          Discount: Number(discount) > 0 ? discount : 0,
         },
         {
           headers: {
@@ -114,6 +121,7 @@ export default function AddAchat() {
     }
     setProducts([]);
   };
+
   return (
     <>
       {!submitionLoading ? (
@@ -144,16 +152,17 @@ export default function AddAchat() {
             <div className="pageTableContainer">
               <AddAchatTableDetails
                 isModalOpen={isModalOpen}
-                isRemiseModalOpen={isRemiseModalOpen}
                 handleCloseModal={handleCloseModal}
-                handleRemiseCloseModal={handleRemiseCloseModal}
                 onCalculateTotals={handleCalculateTotals}
                 deliveryAmount={deliveryAmount}
                 setAPIProducts={setProducts}
               />
             </div>
             <div className="w-full flex justify-end">
-              <AddAchatSubTotal total={total} />
+              <AddAchatSubTotal 
+                total={total} 
+                discount={discount}
+              />
             </div>
           </div>
         </div>
@@ -162,6 +171,70 @@ export default function AddAchat() {
           <CircularProgress />
         </div>
       )}
+
+      <Modal
+        isOpen={isRemiseModalOpen}
+        onRequestClose={handleRemiseCloseModal}
+        contentLabel="Add Remise"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+          content: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "20px",
+            maxWidth: "40%",
+            margin: "auto",
+            height: "fit-content",
+            zIndex: 1001,
+            overflowY: "auto",
+          },
+        }}
+      >
+        <div className="customerClass pb-0">
+          <h2 className="customerClassTitle">Add Remise</h2>
+          <div className="mt-[16px]">
+            <form>
+              <div className="flex-col space-y-8">
+                <div className="dialogAddCustomerItem items-center">
+                  <span>Remise Value :</span>
+                  <div className="inputForm relative">
+                    <input 
+                      type="text" 
+                      name="remise" 
+                      className="pr-10" 
+                      onChange={handleDiscountChange}
+                    />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-8 mt-[20px]">
+                <button
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                  onClick={handleRemiseCloseModal}
+                >
+                  Cancel
+                </button>
+                <input
+                  type="button"
+                  value={"Save"}
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  onClick={()=>{
+                    setIsRemiseModalOpen(false);
+                  }}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
+
       {/* ConfirmDialog */}
       <ConfirmDialog
         open={OpenConfirmationDialog}

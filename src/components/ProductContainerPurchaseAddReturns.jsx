@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import ElioImage from "../assets/images/Elio.png";
-import PrilImage from "../assets/images/Pril.png";
 import Modal from "react-modal";
-import ProductProfileDetails from "./ProductProfileDetails";
-import ProductHistorique from "./ProductHistorique";
-import ButtonAdd from "./ButtonAdd";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
@@ -34,7 +29,7 @@ export default function ProductContainerPurchaseAddReturns({
   const LastfetchOrderStatusData = async () => {
     const response = await fetch(
       import.meta.env.VITE_APP_URL_BASE +
-        `/ReceiptStatus/${id}/${decodedToken.id}`,
+        `/SousPurchase/${id}/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -72,25 +67,25 @@ export default function ProductContainerPurchaseAddReturns({
         <div className="w-full h-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
-      ) : LastOrderStatusData?.products.length > 0 ? (
-        LastOrderStatusData?.products.map((order) => (
+      ) : LastOrderStatusData?.sousStocks?.length > 0 ? (
+        LastOrderStatusData?.sousStocks?.map((stock) => (
           <ProductCard
-            key={order._id}
+            key={stock._id}
             productName={
-              order.product?.brand?.name +
+              stock.sousStock.stock.product?.brand?.name +
               " " +
-              order.product?.name +
+              stock.sousStock.stock.product?.name +
               " " +
-              order.product?.size
+              stock.sousStock.stock.product?.size
             }
-            productQuantity={order.quantity}
-            productPrice={order.price}
+            productQuantity={stock.quantity}
+            productPrice={stock.price}
             productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
               "/api",
               ""
-            )}/files/${order.product?.image}`}
-            onClick={() => handleSelectProduct(order)}
-            selected={selectedProduct && order?._id === selectedProduct._id}
+            )}/files/${stock.sousStock.stock.product?.image}`}
+            onClick={() => handleSelectProduct(stock)}
+            selected={selectedProduct && stock?._id === selectedProduct._id}
           />
         ))
       ) : (

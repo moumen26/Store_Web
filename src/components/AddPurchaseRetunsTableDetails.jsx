@@ -66,7 +66,7 @@ function AddPurchaseRetunsTableDetails({
   const handleAddItem = () => {
     //check if the selected product is already in the list
     const isProductExist = products.find(
-      (product) => product.product._id === newProduct.product._id
+      (product) => product._id === newProduct._id
     );
     if (isProductExist) {
       setAlertMessage("Product already exists in the list");
@@ -79,7 +79,7 @@ function AddPurchaseRetunsTableDetails({
     } else {
       let newQuantity = ClientQuantity;
       if (unitType == "perBox") {
-        newQuantity = newQuantity * Number(newProduct.product.boxItems);
+        newQuantity = newQuantity * Number(newProduct.sousStock.stock.product.boxItems);
       }
       if (!newQuantity || newQuantity <= 0) {
         setAlertMessage("Quantity must be greater than 0");
@@ -93,18 +93,17 @@ function AddPurchaseRetunsTableDetails({
         const newItem = {
           ...newProduct,
           newQuantity: newQuantity,
-          unitType, // Add unit type to the product
+          unitType,
         };
         setProducts([...products, newItem]);
         setProductsListToUpdate([
           ...productsListToUpdate,
           {
-            stock: newItem.stock,
-            product: newItem.product._id,
+            sousStock: newItem._id,
             quantity: newItem.newQuantity,
           },
         ]);
-        handleCloseReturnsModal(); // Close modal after adding product
+        handleCloseReturnsModal();
       }
     }
   };
@@ -144,11 +143,11 @@ function AddPurchaseRetunsTableDetails({
       >
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.product.name} {row.product.size}
+            {row.sousStock.stock.product.name} {row.sousStock.stock.product.size}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.brand.name}</span>
+          <span className="trTableSpan">{row.sousStock.stock.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.price} DA</span>

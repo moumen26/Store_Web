@@ -102,7 +102,7 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.stock.map((purchaseDetailsRow) => (
+                  {row.sousPurchases?.map((purchaseDetailsRow) => (
                     <TableRow
                       key={purchaseDetailsRow._id}
                       className="tableRow"
@@ -113,12 +113,12 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                        {`${purchaseDetailsRow.stock.product.name} ${purchaseDetailsRow.stock.product.size}`}
+                        {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {purchaseDetailsRow.buying.toFixed(2)}
+                          {purchaseDetailsRow.price.toFixed(2)}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -129,7 +129,7 @@ function Row(props) {
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            purchaseDetailsRow.buying.toString() *
+                            purchaseDetailsRow.price.toString() *
                               purchaseDetailsRow.quantity.toString()
                           ).toFixed(2)}
                         </span>

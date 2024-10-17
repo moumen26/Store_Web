@@ -494,11 +494,13 @@ export default function OrderProfile() {
             <span>#{OrderData?.code}</span>
           </div>
           <div className="orderProfileButtons">
-            <ButtonModify
-              showIcon={true}
-              buttonSpan="Modify Order"
-              onClick={handleOpenModifyOrderModal}
-            />
+            {OrderData.status != 10 &&
+              <ButtonModify
+                showIcon={true}
+                buttonSpan="Modify Order"
+                onClick={handleOpenModifyOrderModal}
+              />
+            }
             <ButtonExportPDF
               filename="Order_Profile"
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}

@@ -15,9 +15,9 @@ function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-export default function PurchaseProfileDevicesProductTable({PurchaseData}) {
-  const rows = PurchaseData.stock.map((item) => {
-    let totalBoxes = item.quantity / item.stock.product.boxItems;
+export default function PurchaseProfileDevicesProductTable({PurchaseData, discount}) {
+  const rows = PurchaseData?.sousStocks?.map((item) => {
+    let totalBoxes = item.quantity / item.sousStock.stock.product.boxItems;
     const decimalPart = totalBoxes % 1;
     let remainingItems = 0;
 
@@ -25,19 +25,18 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData}) {
       totalBoxes = Math.floor(totalBoxes) + 0.5;
     } else {
       totalBoxes = Math.floor(totalBoxes);
-      remainingItems = item.quantity % item.stock.product.boxItems;
+      remainingItems = item.quantity % item.sousStock.stock.product.boxItems;
     }
 
     if (totalBoxes < 1) {
       totalBoxes = 0;
     }
-
     return {
-      name: item.stock.product.name,
-      size: item.stock.product.size,
+      name: item.sousStock.stock.product.name,
+      size: item.sousStock.stock.product.size,
       qty: item.quantity,
-      unit: item.buying,
-      price: priceRow(item.quantity, item.buying),
+      unit: item.price,
+      price: priceRow(item.quantity, item.price),
       box: `${
         totalBoxes > 0
           ? `${totalBoxes} ${totalBoxes === 1 ? "box" : "boxes"}`
@@ -50,6 +49,7 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData}) {
     };
   });
   const invoiceSubtotal = subtotal(rows);
+
   return (
     <TableContainer
       className="tablePages"
@@ -85,7 +85,7 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData}) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {rows.map((row, index) => (
+        {rows?.map((row, index) => (
             <TableRow key={index}>
               <TableCell>
                 <span className="trTableSpan">
@@ -109,10 +109,26 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData}) {
 
           <TableRow>
             <TableCell colSpan={4}>
-              <span className="dashboardLatestOrdersDetails">Total</span>
+              <span className="dashboardLatestOrdersDetails">Remise</span>
+            </TableCell>
+            <TableCell align="right">
+              <span className="trTableSpan">{discount} %</span>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4}>
+              <span className="dashboardLatestOrdersDetails">Total sans remise</span>
             </TableCell>
             <TableCell align="right">
               <span className="trTableSpan">{invoiceSubtotal.toFixed(2)} DA</span>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={4}>
+              <span className="dashboardLatestOrdersDetails">Total final</span>
+            </TableCell>
+            <TableCell align="right">
+              <span className="trTableSpan">{(invoiceSubtotal - ((invoiceSubtotal*discount)/100)).toFixed(2)} DA</span>
             </TableCell>
           </TableRow>
         </TableBody>

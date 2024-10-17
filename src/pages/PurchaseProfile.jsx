@@ -103,6 +103,17 @@ export default function PurchaseProfile() {
     setisUnCreditedConfirmDialogOpen(false);
   };
 
+  const [
+    isUpdateSousPurchaseConfirmDialogOpen,
+    setisUpdateSousPurchaseConfirmDialogOpen,
+  ] = useState(false);
+  const handleOpenUpdateSousPurchaseConfirmDialogOpen = () => {
+    setisUpdateSousPurchaseConfirmDialogOpen(true);
+  };
+  const handleCloseUpdateSousPurchaseConfirmDialogOpen = () => {
+    setisUpdateSousPurchaseConfirmDialogOpen(false);
+  };
+
   //Modify the Purchase
   const [modifyPurchaseModal, setModifyPurchaseModal] = useState(false);
 
@@ -115,6 +126,8 @@ export default function PurchaseProfile() {
   };
 
   //---------------------------------API calls---------------------------------\\
+
+  const [productsListToUpdate, setProductsListToUpdate] = useState([]);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -347,6 +360,54 @@ export default function PurchaseProfile() {
     }
   };
 
+  //update receipt status API
+  const handleUpdateSousPurchase = async (val) => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/SousPurchase/create/${decodedToken.id}`,
+        {
+          clientSousStocks: productsListToUpdate,
+          purchase: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchPurchaseData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseModifyPurchaseModal();
+        handleCloseUpdateSousPurchaseConfirmDialogOpen();
+        setProductsListToUpdate([]);
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating sous purchase: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating sous purchase");
+      }
+    }
+  };
+
   if (PurchaseDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -380,11 +441,13 @@ export default function PurchaseProfile() {
             <ChevronRightIcon className="iconAsideBar" />
           </div>
           <div className="orderProfileButtons">
-            <ButtonModify
-              showIcon={true}
-              buttonSpan="Modify Purchase"
-              onClick={handleOpenModifyPurchaseModal}
-            />
+            {!PurchaseData.closed &&
+              <ButtonModify
+                showIcon={true}
+                buttonSpan="Modify Purchase"
+                onClick={handleOpenModifyPurchaseModal}
+              />
+            }
             <ButtonExportPDF filename="Purchase_Profile" />
             <ButtonAdd
               showIcon={false}
@@ -400,7 +463,13 @@ export default function PurchaseProfile() {
         <div className="flex space-x-6 h-full">
           <div className="customerClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Purchase</h2>
-            <PurchaseProfileDevicesProductTable PurchaseData={PurchaseData} />
+            {PurchaseData?.sousPurchases?.map((sousPurchase) => (
+              <PurchaseProfileDevicesProductTable
+                key={sousPurchase._id}
+                PurchaseData={sousPurchase}
+                discount={PurchaseData.discount}
+              />
+            ))}
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
             <div className="customerClass">
@@ -611,8 +680,8 @@ export default function PurchaseProfile() {
       >
         <div className="customerClass">
           <AddPurchaseRetunsTableDetails
-            // productsListToUpdate={productsListToUpdate}
-            // setProductsListToUpdate={setProductsListToUpdate}
+            productsListToUpdate={productsListToUpdate}
+            setProductsListToUpdate={setProductsListToUpdate}
           />
           <div className="mt-[16px]">
             <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
@@ -626,7 +695,7 @@ export default function PurchaseProfile() {
                 type="button"
                 value={"Save"}
                 className="text-blue-500 cursor-pointer hover:text-blue-700"
-                // onClick={handleOpenUpdateReceiptstatusConfirmDialogOpen}
+                onClick={handleOpenUpdateSousPurchaseConfirmDialogOpen}
               />
             </div>
           </div>
@@ -679,6 +748,14 @@ export default function PurchaseProfile() {
         onClose={handleCloseUnCreditedConfirmationDialog}
         dialogTitle="Confirm make it uncredited"
         dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={isUpdateSousPurchaseConfirmDialogOpen}
+        onConfirm={handleUpdateSousPurchase}
+        onClose={handleCloseUpdateSousPurchaseConfirmDialogOpen}
+        dialogTitle="Confirm the purchase modification"
+        dialogContentText={`Are you sure you want to modify this purchase?`}
         isloading={submitionLoading}
       />
       <Snackbar

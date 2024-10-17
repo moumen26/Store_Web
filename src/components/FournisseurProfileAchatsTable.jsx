@@ -43,7 +43,7 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.stock.length}</span>
+          <span className="trTableSpan">{row.sousPurchases.length}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
@@ -117,7 +117,7 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.stock?.map((detailsRow) => (
+                  {row.sousPurchases?.map((detailsRow) => (
                     <TableRow key={detailsRow._id} className="tableRow">
                       <TableCell
                         component="th"
@@ -125,19 +125,19 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {detailsRow.stock.product.name +
+                          {detailsRow.sousStock.stock.product.name +
                             " " +
-                            detailsRow.stock.product.size}
+                            detailsRow.sousStock.stock.product.size}
                         </span>
                       </TableCell>
                       <TableCell className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.stock.product.brand.name}
+                          {detailsRow.sousStock.stock.product.brand.name}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.buying.toFixed(2)} DA
+                          {detailsRow.price.toFixed(2)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -148,7 +148,7 @@ function Row(props) {
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            detailsRow.buying * detailsRow.quantity
+                            detailsRow.price * detailsRow.quantity
                           ).toFixed(2)}{" "}
                           DA
                         </span>
@@ -217,7 +217,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
               </TableCell>
             </TableRow>
           ) : (
-            data?.map((row) => <Row key={row.orderId} row={row} />)
+            data?.map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

@@ -53,6 +53,21 @@ export default function CustomerProfile() {
     setConfirmDialogOpenMakeVendor(false);
   };
 
+  const [newAddressCustomer, setNewAddressCustomer] = useState("");
+  const handleAddressChange = (e) => {
+    setNewAddressCustomer(e.target.value);
+  };
+
+  const [confirmDialogOpenAddingAddress, setConfirmDialogOpenAddingAddress] = useState(false);
+  const handleOpenConfirmDialogAddingAddress = () => {
+    setConfirmDialogOpenAddingAddress(true);
+  };
+  const handleCloseDialogAddingAddress = () => {
+    setConfirmDialogOpenAddingAddress(false);
+    setNewAddressCustomer("");
+  };
+
+
   const handleConfirmAsVendor = async () => {
     //API call to make the user a vendor
     try {
@@ -143,6 +158,53 @@ export default function CustomerProfile() {
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error updating selling option");
+      }
+    }
+  };
+
+  const handleConfirmAddingAddress = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/MyStores/addAddress/${decodedToken.id}`,
+        {
+          user: id,
+          address: newAddressCustomer,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchCustomerData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseDialogAddingAddress();
+        handleCloseModalAddAddress();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding address: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding address");
       }
     }
   };
@@ -436,7 +498,8 @@ export default function CustomerProfile() {
                     <input
                       type="text"
                       name="newAddressCustomer"
-                      // onChange={}
+                      value={newAddressCustomer}
+                      onChange={handleAddressChange}
                     />
                   </div>
                 </div>
@@ -449,13 +512,21 @@ export default function CustomerProfile() {
                   </button>
                   <button
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
-                    // onClick={handleAddItem}
+                    onClick={handleOpenConfirmDialogAddingAddress}
                   >
                     Save
                   </button>
                 </div>
               </div>
             </Modal>
+            {/* ConfirmDialog */}
+            <ConfirmDialog
+              open={confirmDialogOpenAddingAddress}
+              onConfirm={handleConfirmAddingAddress}
+              onClose={handleCloseDialogAddingAddress}
+              dialogTitle="Confirm adding address"
+              dialogContentText={`Are you sure you want to add the address "${newAddressCustomer}"?`}
+            />
           </div>
           <div className="customerPrimaryAddress">
             {CustomerData?.storeAddresses.map((address, index) => (

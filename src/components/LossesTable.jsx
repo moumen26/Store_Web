@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Alert, Box, Snackbar } from "@mui/material";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
+import React, { useState } from "react";
+import { Alert, Snackbar } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,13 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { EyeIcon } from "@heroicons/react/24/outline";
 import CircularProgress from "@mui/material/CircularProgress";
 import { formatDate } from "../util/useFullFunctions";
 import Modal from "react-modal";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import ConfirmDialog from "./ConfirmDialog";
-import { sub } from "date-fns";
 import axios from "axios";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -79,7 +74,7 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
   const handleSubmitCreateLoss = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.delete(import.meta.env.VITE_APP_URL_BASE+`/Losses/${selectedLossId}/${decodedToken.id}`,
+      const response = await axios.delete(import.meta.env.VITE_APP_URL_BASE+`/Losses/store/${selectedLossId}/${decodedToken.id}`,
         {
             headers: {
               "Content-Type": "application/json",

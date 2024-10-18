@@ -13,7 +13,6 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useLocation } from "react-router-dom";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import axios from "axios";
-import { sub } from "date-fns";
 
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
@@ -78,7 +77,7 @@ export default function Losses() {
   //fetch data
   const fetchLossesData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Losses/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Losses/store/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -115,7 +114,7 @@ export default function Losses() {
   //fetch statistics
   const fetchLossesstatistics = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Losses/statistics/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Losses/store/statistics/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -157,7 +156,7 @@ export default function Losses() {
   const handleSubmitCreateLoss = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Losses/create/${decodedToken.id}`, 
+      const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Losses/store/create/${decodedToken.id}`, 
         {
           price: price, 
           reason: reason,
@@ -212,12 +211,12 @@ export default function Losses() {
       <div className="flex items-center space-x-6">
         <OrderCard 
           orderCardTitle="Total Losses" 
-          orderCardDetails={Lossesstatistics?.count} 
+          orderCardDetails={Lossesstatistics?.count ? Lossesstatistics?.count : 0} 
           loading={LossesstatisticsLoading}
         />
         <OrderCard 
           orderCardTitle="Total price" 
-          orderCardDetails={`${Lossesstatistics?.total} DA`} 
+          orderCardDetails={`${Lossesstatistics?.total ? Lossesstatistics?.total : (0).toFixed(2)} DA`} 
           loading={LossesstatisticsLoading}
         />
       </div>

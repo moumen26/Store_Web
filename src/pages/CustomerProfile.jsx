@@ -172,7 +172,7 @@ export default function CustomerProfile() {
   // Define a function that fetches the customer data
   const fetchCustomerData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/User/${id}/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Client/${id}/${decodedToken.id}`,
       {
         method: "GET",
         headers: {

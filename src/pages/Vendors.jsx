@@ -31,6 +31,7 @@ export default function Vendors() {
   const [Phone, setPhone] = useState("");
   const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
+  const [RC, setRC] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [selectedWilaya, setSelectedWilaya] = useState(null);
@@ -67,6 +68,9 @@ export default function Vendors() {
   const handleCommuneChange = (e) => {
     setSelectedCommune(e.target.value);
   };
+  const handleRCChange = (e) => {
+    setRC(e.target.value);
+  }
   //clear form
   const clearForm = () => {
     setFirstName("");
@@ -78,6 +82,7 @@ export default function Vendors() {
     setConfirmPassword("");
     setSelectedWilaya(null);
     setSelectedCommune(null);
+    setRC("");
   };
 
   const handleSearchChange = (e) => {
@@ -212,6 +217,7 @@ export default function Vendors() {
           Commune: selectedCommune,
           Email: Email,
           Password: Password,
+          RC: RC,
         },
         {
           headers: {
@@ -355,6 +361,17 @@ export default function Vendors() {
                     name="storeAddress"
                     value={Email}
                     onChange={handleEmailChange}
+                  />
+                </div>
+              </div>
+              <div className="dialogAddCustomerItem items-center">
+                <span>Numero de registre de commerce</span>
+                <div className="inputForm">
+                  <input
+                    type="text"
+                    name="rc"
+                    value={RC}
+                    onChange={handleRCChange}
                   />
                 </div>
               </div>

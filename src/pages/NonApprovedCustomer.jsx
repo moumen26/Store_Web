@@ -17,7 +17,7 @@ export default function NonApprovedCustomer() {
 
   // fetching CustomerData data
   const fetchCustomerData = async () => {
-    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/User/${id}/${decodedToken.id}`,
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Client/${id}/${decodedToken.id}`,
         {
             method: "GET",
             headers: {

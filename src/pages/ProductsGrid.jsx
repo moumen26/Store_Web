@@ -56,11 +56,6 @@ export default function ProductsGrid() {
     setSearchQuery(e.target.value);
   };
 
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
   const handleOpenAddProductModal = () => {
     setIsAddProductModalOpen(true);
   };
@@ -278,7 +273,6 @@ export default function ProductsGrid() {
         <div className="pageTableContainer">
           <ProductsContainer
             searchQuery={searchQuery}
-            onProductClick={handleSelectProduct}
             data={ProductData}
             selectedCategory={Category}
           />

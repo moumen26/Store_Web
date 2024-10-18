@@ -12,7 +12,6 @@ Modal.setAppElement("#root"); // or the ID of your root element
 
 export default function ProductsContainer({
   searchQuery,
-  onSelectProduct,
   data,
   selectedCategory,
 }) {
@@ -22,7 +21,6 @@ export default function ProductsContainer({
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
-    onSelectProduct(product);
   };
 
   const handleCloseModal = () => {

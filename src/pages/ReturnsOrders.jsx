@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonExportExel from "../components/ButtonExportExel";
-import OrdersArchiveTable from "../components/OrdersArchiveTable";
+import OrdersReturnsTable from "../components/OrdersReturnsTable";
 import DashboardCalendar from "../components/DashboardCalendar";
 export default function ReturnsOrders() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,7 +48,7 @@ export default function ReturnsOrders() {
           <ButtonExportExel data={filteredData} filename="Returns Orders" />
         </div>
         <div className="pageTableContainer">
-          <OrdersArchiveTable
+          <OrdersReturnsTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
           />

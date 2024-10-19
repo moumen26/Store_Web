@@ -4,7 +4,11 @@ import {
   ShieldCheckIcon,
   ShieldExclamationIcon,
 } from "@heroicons/react/24/outline";
-import { PhotoIcon } from "@heroicons/react/16/solid";
+import {
+  PhotoIcon,
+  PlusCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
 import InputForm from "../components/InputForm";
 import { wilayasAndCommunes } from "../util/WilayaCommunesData";
 import ButtonDelete from "../components/ButtonDelete";
@@ -18,6 +22,7 @@ import MapIcon from "@mui/icons-material/Map";
 import ConfirmDialog from "../components/ConfirmDialog";
 import ButtonModify from "../components/ButtonModify";
 import axios from "axios";
+import Modal from "react-modal";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -26,6 +31,10 @@ export default function Settings() {
   const location = useLocation();
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [
+    openConfirmationDeleteCategoryDialog,
+    setOpenConfirmationDeleteCategoryDialog,
+  ] = useState(false);
   const handleOpenConfirmationDialog = () => setOpenConfirmationDialog(true);
 
   const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] =
@@ -36,6 +45,24 @@ export default function Settings() {
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
     setOpenUpdateConfirmationDialog(false);
+  };
+
+  const handleOpenDeleteCategoryDialog = () => {
+    setOpenConfirmationDeleteCategoryDialog(true);
+  };
+
+  const handleCloseDeleteCategoryDialog = () => {
+    setOpenConfirmationDeleteCategoryDialog(false);
+  };
+
+  const [openAddCategoryModal, setOpenAddCategoryModal] = useState(false);
+
+  const handleOpenAddCategoryModal = () => {
+    setOpenAddCategoryModal(true);
+  };
+
+  const handleCloseAddCategoryModal = () => {
+    setOpenAddCategoryModal(false);
   };
 
   const [activeTab, setActiveTab] = useState("PersoInf");
@@ -390,6 +417,131 @@ export default function Settings() {
                               TakeMeToGoogleMaps(editableData.storeAddress)
                             }
                           />
+                        </div>
+                      </div>
+                      <div className="flex-col space-y-[12px]">
+                        <span>Store Category</span>
+                        <div className="flex space-x-4 items-center">
+                          <div className="selectedCategories">
+                            {/* {selectedCategories.map((category, index) => ( */}
+                            <div
+                              //  key={index}
+                              className="categoryChip"
+                            >
+                              <span>{/* {category.name} */}Alimentation </span>
+                              {isEditing ? (
+                                <XMarkIcon
+                                  className="deleteIcon"
+                                  onClick={handleOpenDeleteCategoryDialog}
+                                />
+                              ) : (
+                                <></>
+                              )}
+                            </div>
+                            <ConfirmDialog
+                              open={openConfirmationDeleteCategoryDialog}
+                              onClose={handleCloseDeleteCategoryDialog}
+                              // onConfirm={}
+                              dialogTitle="Confirm the deletion of your cetegory"
+                              dialogContentText={`Are you sure you want to delete your cetegory?`}
+                            />
+                            {/* ))} */}
+                          </div>
+                          {isEditing ? (
+                            <>
+                              <PlusCircleIcon
+                                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
+                                onClick={handleOpenAddCategoryModal}
+                              />
+                              <Modal
+                                isOpen={openAddCategoryModal}
+                                onRequestClose={handleCloseAddCategoryModal}
+                                contentLabel="Add new Store Category"
+                                style={{
+                                  overlay: {
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    zIndex: 1000,
+                                  },
+                                  content: {
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    padding: "20px",
+                                    width: "fit-content",
+                                    maxWidth: "40%",
+                                    margin: "auto",
+                                    height: "70%",
+                                    zIndex: 1001,
+                                    overflowY: "auto",
+                                  },
+                                }}
+                              >
+                                {/* {!CategoryLoading ? (
+                                  <div className="customerClass">
+                                    {errorInDialog && (
+                                      <Alert
+                                        severity="error"
+                                        onClose={() => setErrorInDialog(false)}
+                                      >
+                                        Please select at least one category.
+                                      </Alert>
+                                    )}
+                                    <div className="flex items-center space-x-3 title title">
+                                      <h2 className="customerClassTitle">
+                                        Select your Store Category
+                                      </h2>
+                                    </div>
+                                    <div className="storyCategoryClass">
+                                      {CategoryData.length > 0 ? (
+                                        CategoryData?.map((category, index) => (
+                                          <div
+                                            key={index}
+                                            className={`storyCategoryItem ${
+                                              dialogSelectedCategories.includes(
+                                                category
+                                              )
+                                                ? "selected"
+                                                : ""
+                                            }`}
+                                            onClick={() =>
+                                              handleCategorySelect(category)
+                                            }
+                                          >
+                                            <span>{category.name}</span>
+                                          </div>
+                                        ))
+                                      ) : (
+                                        <div>
+                                          <h1>no data is availble</h1>
+                                        </div>
+                                      )}
+                                    </div>
+                                    {
+                                      <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+                                        <button
+                                          className="text-gray-500 cursor-pointer hover:text-gray-700"
+                                          onClick={handleCloseDialog}
+                                        >
+                                          Cancel
+                                        </button>
+                                        <button
+                                          className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                          onClick={handleSaveCategories}
+                                        >
+                                          Save
+                                        </button>
+                                      </div>
+                                    }
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
+                                    <CircularProgress />
+                                  </div>
+                                )} */}
+                              </Modal>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </div>
                       </div>
                     </div>

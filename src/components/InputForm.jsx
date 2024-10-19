@@ -12,7 +12,7 @@ export default function InputForm({
   inputName,
   setChangevalue,
   value,
-  readOnly
+  readOnly,
 }) {
   let iconComponent;
 
@@ -25,6 +25,15 @@ export default function InputForm({
       break;
     case "email":
       iconComponent = <EnvelopeIcon className="inputIcon" />;
+      break;
+    default:
+      iconComponent = null;
+      break;
+  }
+
+  switch (inputName) {
+    case "phoneNumber":
+      iconComponent = <PhoneIcon className="inputIcon" />;
       break;
     default:
       iconComponent = null;

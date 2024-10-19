@@ -157,6 +157,18 @@ export default function Asidebar() {
                     <span className="ml-3">Credit Orders</span>
                   </div>
                 </NavLink>
+                <NavLink to="/ReturnsOrders" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/ReturnsOrders"
+                        ? "asideItemActive"
+                        : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">Returns Orders</span>
+                  </div>
+                </NavLink>
                 <NavLink to="/OrdersArchive" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${
@@ -213,6 +225,18 @@ export default function Asidebar() {
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
                     <span className="ml-3">Credit Purchases</span>
+                  </div>
+                </NavLink>
+                <NavLink to="/ReturnsPurchases" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/ReturnsPurchases"
+                        ? "asideItemActive"
+                        : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">Returns Purchases</span>
                   </div>
                 </NavLink>
                 <NavLink to="/PuchasesArchive" className="flex items-center">

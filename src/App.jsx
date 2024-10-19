@@ -32,6 +32,8 @@ import PurchaseProfile from "./pages/PurchaseProfile";
 import PuchasesArchive from "./pages/PuchasesArchive";
 import Losses from "./pages/Losses";
 import Publicité from "./pages/Publicité";
+import ReturnsPurchases from "./pages/ReturnsPurchases";
+import ReturnsOrders from "./pages/ReturnsOrders";
 
 function App() {
   const { user } = useAuthContext();
@@ -79,6 +81,14 @@ function App() {
           <Route
             path="/Purchases"
             element={user ? <Purchases /> : <SignIn />}
+          />
+          <Route
+            path="/ReturnsOrders"
+            element={user ? <ReturnsOrders /> : <SignIn />}
+          />
+          <Route
+            path="/ReturnsPurchases"
+            element={user ? <ReturnsPurchases /> : <SignIn />}
           />
           <Route
             path="/Publicite"

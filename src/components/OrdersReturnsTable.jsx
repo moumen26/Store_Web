@@ -174,9 +174,9 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
   const location = useLocation();
 
   //fetch data
-  const DelivredfetchOrderData = async () => {
+  const ReturnedfetchOrderData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivred/${
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/returned/${
         decodedToken.id
       }`,
       {
@@ -201,13 +201,13 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
   };
   // useQuery hook to fetch data
   const {
-    data: DelivredOrderData,
-    error: DelivredOrderDataError,
-    isLoading: DelivredOrderDataLoading,
-    refetch: DelivredrefetchOrderData,
+    data: ReturnedOrderData,
+    error: ReturnedOrderDataError,
+    isLoading: ReturnedOrderDataLoading,
+    refetch: ReturnedrefetchOrderData,
   } = useQuery({
-    queryKey: ["DelivredOrderData", user?.token, location.key],
-    queryFn: DelivredfetchOrderData,
+    queryKey: ["ReturnedOrderData", user?.token, location.key],
+    queryFn: ReturnedfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
     staleTime: 0,
@@ -215,8 +215,8 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
 
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    if (DelivredOrderData?.length > 0) {
-      const rowsData = DelivredOrderData.map((order) => ({
+    if (ReturnedOrderData?.length > 0) {
+      const rowsData = ReturnedOrderData.map((order) => ({
         orderId: order._id,
         orderCode: order.code,
         customerFirstName: order.client.firstName,
@@ -235,8 +235,8 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
     } else {
       setRows([]);
     }
-    DelivredrefetchOrderData();
-  }, [DelivredOrderData]);
+    ReturnedrefetchOrderData();
+  }, [ReturnedOrderData]);
   const [filteredRows, setFilteredRows] = useState(rows);
   useEffect(() => {
     const results = rows.filter(
@@ -290,7 +290,7 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
-          ) : DelivredOrderDataLoading ? (
+          ) : ReturnedOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}

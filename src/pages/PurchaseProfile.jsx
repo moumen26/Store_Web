@@ -365,7 +365,8 @@ export default function PurchaseProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/SousPurchase/create/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/SousPurchase/create/${decodedToken.id}`,
         {
           clientSousStocks: productsListToUpdate,
           purchase: id,
@@ -441,13 +442,12 @@ export default function PurchaseProfile() {
             <ChevronRightIcon className="iconAsideBar" />
           </div>
           <div className="orderProfileButtons">
-            {!PurchaseData.closed &&
-              <ButtonModify
-                showIcon={true}
-                buttonSpan="Modify Purchase"
-                onClick={handleOpenModifyPurchaseModal}
-              />
-            }
+            <ButtonModify
+              showIcon={true}
+              buttonSpan="Modify Purchase"
+              onClick={handleOpenModifyPurchaseModal}
+            />
+
             <ButtonExportPDF filename="Purchase_Profile" />
             <ButtonAdd
               showIcon={false}

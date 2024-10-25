@@ -441,13 +441,11 @@ export default function PurchaseProfile() {
             <ChevronRightIcon className="iconAsideBar" />
           </div>
           <div className="orderProfileButtons">
-            {!PurchaseData.closed &&
-              <ButtonModify
-                showIcon={true}
-                buttonSpan="Modify Purchase"
-                onClick={handleOpenModifyPurchaseModal}
-              />
-            }
+            <ButtonModify
+              showIcon={true}
+              buttonSpan="Modify Purchase"
+              onClick={handleOpenModifyPurchaseModal}
+            />
             <ButtonExportPDF filename="Purchase_Profile" />
             <ButtonAdd
               showIcon={false}

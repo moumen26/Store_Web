@@ -138,9 +138,23 @@ export default function Settings() {
     alert("delete");
   };
 
+  const [openAddCategoryConfirmationDialog, setOpenAddCategoryConfirmationDialog] = useState(false);
+  const handleOpenAddCategoryConfirmationDialog = () => {
+    setOpenAddCategoryConfirmationDialog(true);
+  };
+  const handleCloseAddCategoryConfirmationDialog = () => {
+    setOpenAddCategoryConfirmationDialog(false);
+  }
+
   const TakeMeToGoogleMaps = async (val) => {
     alert(val);
   };
+
+  const [selectedCategorie , setSelectedCategorie] = useState("")
+  const handleProductCategoryChange = (e) => {
+    setSelectedCategorie(e.target.value)
+  }
+
 
   //---------------------------------API calls---------------------------------\\
 
@@ -181,6 +195,78 @@ export default function Settings() {
   } = useQuery({
     queryKey: ["CustomerData", user?.token, location.key, id],
     queryFn: fetchCustomerData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetching on window focus
+  });
+
+  // Define a function that fetches the customer data
+  const fetchCategoryData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Category`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      // Handle the error state
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) return {};
+      else throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+
+  //Use the useQuery hook to fetch the Category data
+  const {
+    data: CategoryData,
+    error: CategoryDataError,
+    isLoading: CategoryDataLoading,
+    refetch: refetchCategoryData,
+  } = useQuery({
+    queryKey: ["CategoryData", user?.token, location.key, id],
+    queryFn: fetchCategoryData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetching on window focus
+  });
+
+  // Define a function that fetches the customer data
+  const fetchCategoryDataByStore = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Category/store/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      // Handle the error state
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) return {};
+      else throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+
+  //Use the useQuery hook to fetch the Category data
+  const {
+    data: CategoryDataByStore,
+    error: CategoryDataByStoreError,
+    isLoading: CategoryDataByStoreLoading,
+    refetch: refetchCategoryDataByStoreData,
+  } = useQuery({
+    queryKey: ["CategoryDataByStore", user?.token, location.key, id],
+    queryFn: fetchCategoryDataByStore,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
   });
@@ -248,6 +334,51 @@ export default function Settings() {
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error updating profile");
+      }
+    }
+  };
+  const handleAddCategoriesToStore = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Category/store/add/${decodedToken.id}`,
+        {
+          category: selectedCategorie,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchCategoryData();
+        refetchCategoryDataByStoreData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseAddCategoryModal();
+        handleCloseAddCategoryConfirmationDialog();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding category: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding category");
       }
     }
   };
@@ -419,131 +550,120 @@ export default function Settings() {
                           />
                         </div>
                       </div>
-                      <div className="flex-col space-y-[12px]">
-                        <span>Store Category</span>
-                        <div className="flex space-x-4 items-center">
-                          <div className="selectedCategories">
-                            {/* {selectedCategories.map((category, index) => ( */}
-                            <div
-                              //  key={index}
-                              className="categoryChip"
-                            >
-                              <span>{/* {category.name} */}Alimentation </span>
-                              {isEditing ? (
-                                <XMarkIcon
-                                  className="deleteIcon"
-                                  onClick={handleOpenDeleteCategoryDialog}
-                                />
-                              ) : (
-                                <></>
-                              )}
+                      {!CategoryDataByStoreLoading ? (
+                        <div className="flex-col space-y-[12px]">
+                          <span>Store Category</span>
+                          <div className="flex space-x-4 items-center">
+                            <div className="selectedCategories">
+                              {CategoryDataByStore?.map((category, index) => (
+                                <div
+                                  key={index}
+                                  className="categoryChip"
+                                >
+                                  <span>{category.name}</span>
+                                </div>
+                              ))}
                             </div>
-                            <ConfirmDialog
-                              open={openConfirmationDeleteCategoryDialog}
-                              onClose={handleCloseDeleteCategoryDialog}
-                              // onConfirm={}
-                              dialogTitle="Confirm the deletion of your cetegory"
-                              dialogContentText={`Are you sure you want to delete your cetegory?`}
+                            <PlusCircleIcon
+                              className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
+                              onClick={handleOpenAddCategoryModal}
                             />
-                            {/* ))} */}
-                          </div>
-                          {isEditing ? (
-                            <>
-                              <PlusCircleIcon
-                                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-                                onClick={handleOpenAddCategoryModal}
-                              />
-                              <Modal
-                                isOpen={openAddCategoryModal}
-                                onRequestClose={handleCloseAddCategoryModal}
-                                contentLabel="Add new Store Category"
-                                style={{
-                                  overlay: {
-                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                    zIndex: 1000,
-                                  },
-                                  content: {
-                                    border: "none",
-                                    borderRadius: "8px",
-                                    padding: "20px",
-                                    width: "fit-content",
-                                    maxWidth: "40%",
-                                    margin: "auto",
-                                    height: "70%",
-                                    zIndex: 1001,
-                                    overflowY: "auto",
-                                  },
-                                }}
-                              >
-                                {/* {!CategoryLoading ? (
-                                  <div className="customerClass">
-                                    {errorInDialog && (
-                                      <Alert
-                                        severity="error"
-                                        onClose={() => setErrorInDialog(false)}
-                                      >
-                                        Please select at least one category.
-                                      </Alert>
-                                    )}
-                                    <div className="flex items-center space-x-3 title title">
-                                      <h2 className="customerClassTitle">
-                                        Select your Store Category
-                                      </h2>
-                                    </div>
-                                    <div className="storyCategoryClass">
-                                      {CategoryData.length > 0 ? (
-                                        CategoryData?.map((category, index) => (
-                                          <div
-                                            key={index}
-                                            className={`storyCategoryItem ${
-                                              dialogSelectedCategories.includes(
-                                                category
-                                              )
-                                                ? "selected"
-                                                : ""
-                                            }`}
-                                            onClick={() =>
-                                              handleCategorySelect(category)
-                                            }
+                            <Modal
+                              isOpen={openAddCategoryModal}
+                              onRequestClose={false}
+                              contentLabel="Add new Store Category"
+                              style={{
+                                overlay: {
+                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                  zIndex: 1000,
+                                },
+                                content: {
+                                  border: "none",
+                                  borderRadius: "8px",
+                                  padding: "20px",
+                                  width: "fit-content",
+                                  maxWidth: "40%",
+                                  margin: "auto",
+                                  height: "70%",
+                                  zIndex: 1001,
+                                  overflowY: "auto",
+                                },
+                              }}
+                            >
+                              {!CategoryDataLoading ? (
+                                <div className="customerClass">
+                                  <div className="flex items-center space-x-3 title title">
+                                    <h2 className="customerClassTitle">
+                                      Select your Store Category
+                                    </h2>
+                                  </div>
+                                  <div className="storyCategoryClass">
+                                    {CategoryData.length > 0 ? (
+                                      <div className="dialogAddCustomerItem items-center">
+                                        <span>Product Category :</span>
+                                        <div className="selectStoreWilayaCommune w-[500px]">
+                                          <select
+                                            name="productCategory"
+                                            onChange={handleProductCategoryChange}
                                           >
-                                            <span>{category.name}</span>
-                                          </div>
-                                        ))
-                                      ) : (
-                                        <div>
-                                          <h1>no data is availble</h1>
+                                            <option value="">-- Select Product Category --</option>
+                                            {CategoryData?.map((category) => (
+                                              <option key={category._id} value={category._id}>
+                                                {category.name}
+                                              </option>
+                                            ))}
+                                          </select>
                                         </div>
-                                      )}
-                                    </div>
-                                    {
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <h1>no data is availble</h1>
+                                      </div>
+                                    )}
+                                  </div>
+                                  {!submitionLoading ? (
                                       <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
                                         <button
                                           className="text-gray-500 cursor-pointer hover:text-gray-700"
-                                          onClick={handleCloseDialog}
+                                          onClick={handleCloseAddCategoryModal}
                                         >
                                           Cancel
                                         </button>
                                         <button
                                           className="text-blue-500 cursor-pointer hover:text-blue-700"
-                                          onClick={handleSaveCategories}
+                                          onClick={handleOpenAddCategoryConfirmationDialog}
                                         >
                                           Save
                                         </button>
                                       </div>
-                                    }
-                                  </div>
-                                ) : (
-                                  <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
-                                    <CircularProgress />
-                                  </div>
-                                )} */}
-                              </Modal>
-                            </>
-                          ) : (
-                            <></>
-                          )}
+                                    ) : (
+                                      <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
+                                        <CircularProgress />
+                                      </div>
+                                    )
+                                  }
+                                </div>
+
+                              ) : (
+                                <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
+                                  <CircularProgress />
+                                </div>
+                              )}
+                            </Modal>
+                            <ConfirmDialog
+                              open={openAddCategoryConfirmationDialog}
+                              onClose={handleCloseAddCategoryConfirmationDialog}
+                              onConfirm={handleAddCategoriesToStore}
+                              dialogTitle="Confirm the addition of the category"
+                              dialogContentText={`Are you sure you want to add this category to your store?`}
+                            />
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="flex justify-center items-center">
+                          <CircularProgress />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="deleteContainer flex-col space-y-3">

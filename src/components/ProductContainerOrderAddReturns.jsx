@@ -69,7 +69,7 @@ export default function ProductContainerOrderAddReturns({ searchQuery, onSelectP
         <div className="w-full h-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
-      ) : LastOrderStatusData?.products.length > 0 ? (
+      ) : LastOrderStatusData?.products?.length > 0 ? (
         LastOrderStatusData?.products.map((order) => (
           <ProductCard
             key={order._id}

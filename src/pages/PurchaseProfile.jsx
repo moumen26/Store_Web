@@ -365,7 +365,8 @@ export default function PurchaseProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/SousPurchase/create/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/SousPurchase/create/${decodedToken.id}`,
         {
           clientSousStocks: productsListToUpdate,
           purchase: id,

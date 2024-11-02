@@ -15,11 +15,14 @@ export default function Authentication() {
 
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">User Authentication</h2>
-        {/* <ButtonAdd buttonSpan="New Customer" /> */}
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
+          <h2 className="pagesTitle">User Authentication</h2>
+          {/* <ButtonAdd buttonSpan="New Customer" /> */}
+        </div>
       </div>
+
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

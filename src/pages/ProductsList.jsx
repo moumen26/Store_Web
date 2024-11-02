@@ -263,11 +263,14 @@ export default function ProductsList() {
 
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="pagesContainerTop">
+        <Header />
       <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Products Stock</h2>
         <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
       </div>
+      </div>
+      
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

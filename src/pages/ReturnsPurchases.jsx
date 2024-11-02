@@ -30,8 +30,9 @@ export default function ReturnsPurchases() {
   };
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Returns Purchases</h2>
         <DashboardCalendar
           onDateChange={(start, end) =>
@@ -39,7 +40,9 @@ export default function ReturnsPurchases() {
           }
         />
       </div>
-      <div className="pageTable">
+      </div>
+  
+    <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search
             placeholder="Search by Purchase..."

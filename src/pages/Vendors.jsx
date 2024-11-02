@@ -70,7 +70,7 @@ export default function Vendors() {
   };
   const handleRCChange = (e) => {
     setRC(e.target.value);
-  }
+  };
   //clear form
   const clearForm = () => {
     setFirstName("");
@@ -258,14 +258,17 @@ export default function Vendors() {
 
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Vendors</h2>
-        <ButtonAdd
-          buttonSpan="Add New Vendor"
-          onClick={handleAddCustomerClick}
-        />
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
+          <h2 className="pagesTitle">Vendors</h2>
+          <ButtonAdd
+            buttonSpan="Add New Vendor"
+            onClick={handleAddCustomerClick}
+          />
+        </div>
       </div>
+
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

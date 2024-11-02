@@ -267,14 +267,17 @@ export default function Customers() {
 
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
+      <div className="pagesContainerTop">
+        <Header />
+         <div className="w-full flex items-center justify-between">
         <h2 className="pagesTitle">Customers</h2>
         <ButtonAdd
           buttonSpan="Add New Customer"
           onClick={handleAddCustomerClick}
         />
       </div>
+      </div>
+    
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

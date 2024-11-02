@@ -232,14 +232,17 @@ export default function Fournisseurs() {
 
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Fournisseurs</h2>
-        <ButtonAdd
-          buttonSpan="Add New Fournisseur"
-          onClick={handleAddFournisseurClick}
-        />
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
+          <h2 className="pagesTitle">Fournisseurs</h2>
+          <ButtonAdd
+            buttonSpan="Add New Fournisseur"
+            onClick={handleAddFournisseurClick}
+          />
+        </div>
       </div>
+
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

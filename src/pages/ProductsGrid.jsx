@@ -241,13 +241,15 @@ export default function ProductsGrid() {
 
   return (
     <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Products Grid</h2>
-        <ButtonAdd
-          buttonSpan="Add New Product"
-          onClick={handleOpenAddProductModal}
-        />
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
+          <h2 className="pagesTitle">Products Grid</h2>
+          <ButtonAdd
+            buttonSpan="Add New Product"
+            onClick={handleOpenAddProductModal}
+          />
+        </div>
       </div>
       <div className="pageTable">
         <div className="addProductModalHeader">

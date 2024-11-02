@@ -33,15 +33,17 @@ export default function Orders() {
   };
 
   return (
-    <div className="pagesContainer">
-      <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Orders</h2>
-        <DashboardCalendar
-          onDateChange={(start, end) =>
-            setDateRange({ startDate: start, endDate: end })
-          }
-        />
+    <div className="pagesContainer pageContainerCards">
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="w-full flex items-center justify-between">
+          <h2 className="pagesTitle">Orders</h2>
+          <DashboardCalendar
+            onDateChange={(start, end) =>
+              setDateRange({ startDate: start, endDate: end })
+            }
+          />
+        </div>
       </div>
       <div className="flex items-center space-x-6">
         <OrderCard orderCardTitle="Total Orders" orderCardDetails={0} />

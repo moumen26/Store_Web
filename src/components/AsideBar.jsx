@@ -57,7 +57,7 @@ export default function Asidebar() {
   };
 
   return (
-    <aside>
+    <aside className="aside">
       <ul className="topAsideBar flex-col space-y-[8px]">
         <li>
           <NavLink to="/Dashboard" className="flex items-center">
@@ -73,7 +73,7 @@ export default function Asidebar() {
         </li>
         <div className="flex-col space-y-[8px] sidebar">
           <li className="flex-col space-y-[8px]">
-            <div className="flex items-center cursor-pointer">
+            <div className="flex items-center cursor-pointer w-full">
               <div
                 className={`flex items-center justify-between itemAsideBar`}
                 onClick={handleProductsClick}

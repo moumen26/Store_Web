@@ -34,6 +34,7 @@ import Losses from "./pages/Losses";
 import Publicité from "./pages/Publicité";
 import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
+import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
 
 function App() {
   const { user } = useAuthContext();
@@ -62,11 +63,12 @@ function App() {
       </div>
     );
   }
-
+  //
   return (
     <BrowserRouter>
       <main>
         {user ? <Asidebar /> : <SignIn />}
+        {user ? <AsidebarScreenMedia /> : <SignIn />}
         <Routes>
           {/* private routes */}
           <Route index element={user ? <Dashboard /> : <SignIn />} />

@@ -1246,9 +1246,6 @@
   width: 100px;
 }
 
-.asidebarMedia {
-}
-
 .Header {
   display: flex;
   justify-content: flex-end;
@@ -1306,7 +1303,6 @@
   height: 100%;
 }
 
-
 .itemAsideBar {
   display: flex;
   padding: 0.75rem 1rem;
@@ -1358,6 +1354,17 @@
 
 .asideMedia {
   display: none;
+}
+
+.signUpContainerLeft {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 40%;
+}
+
+.signUpContainerRight {
+  width: 60%;
 }
 
 /* Mobile and tablet */
@@ -1441,5 +1448,15 @@
 
   .titleText {
     font-size: 2rem;
+  }
+
+  .signUpContainerLeft {
+    display: none;
+  }
+
+  .signUpContainerRight {
+    width: 100%;
+    border: 0;
+    padding-top: 3rem;
   }
 }

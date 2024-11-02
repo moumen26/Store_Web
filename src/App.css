@@ -1245,37 +1245,72 @@ aside ul {
   width: 100px;
 }
 
+@media screen and (max-width: 1023px) {
+  .signIn {
+    width: 100%;
+    height: 100%;
+    /* background-color: red; */
+  }
 
-/* <div className="customerClass flex-col space-y-1">
-            <div className="flex justify-between items-center">
-              <h2 className="customerClassTitle">Order Type</h2>
-              <div className="selectOptionClass">
-                <select
-                  className="selectOptionOrderType"
-                  name="selectOptionOrderType"
-                  id="selectOptionOrderType"
-                  value={selectedOption}
-                  onChange={handleOptionChange}
-                >
-                  <option value="deliveryOption">Delivery</option>
-                  <option value="pickupOption">Pick Up</option>
-                </select>
-              </div>
-            </div>
-            {selectedOption === "deliveryOption" && (
-              <div className="flex justify-between items-center">
-                <h2 className="customerClassTitle">Courier</h2>
-                <div className="selectOptionClass">
-                  <select
-                    className="selectOptionOrderType"
-                    name="selectOptionCourier"
-                    id="selectOptionCourier"
-                    value={selectedCourier}
-                    onChange={handleCourierChange}
-                  >
-                    <option value="yalidine">Yalidine</option>
-                  </select>
-                </div>
-              </div>
-            )}
-          </div> */
+  .signInContainerRightContainer {
+    width: 100vw;
+  }
+
+  .inputItem,
+  .buttonDark,
+  .buttonFacebook,
+  .orClass {
+    width: 80%;
+  }
+
+  .inputForm {
+    width: 100%;
+  }
+
+  .inputItem span,
+  .buttonTextLight,
+  .headerText,
+  a,
+  .buttonTextDark {
+    font-size: 14px;
+  }
+
+  .signInContainer {
+    padding: 0;
+  }
+
+  .logInForm {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buttonFacebook img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .logInForm form {
+    width: 100%;
+    align-items: center;
+  }
+
+  .titleText {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .titleText {
+    font-size: 2, 5rem;
+  }
+
+  .inputItem span,
+  .buttonTextLight,
+  .headerText,
+  a,
+  .buttonTextDark {
+    font-size: 16px;
+  }
+}

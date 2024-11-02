@@ -35,6 +35,9 @@ export default function InputForm({
     case "phoneNumber":
       iconComponent = <PhoneIcon className="inputIcon" />;
       break;
+    case "password":
+      iconComponent = <LockClosedIcon className="inputIcon" />;
+      break;
     default:
       iconComponent = null;
       break;

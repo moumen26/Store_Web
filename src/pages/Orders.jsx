@@ -36,7 +36,7 @@ export default function Orders() {
     <div className="pagesContainer pageContainerCards">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Orders</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>

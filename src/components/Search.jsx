@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Search({ placeholder, value, onChange }) {
   return (
-    <div className="inputForm bg-white">
+    <div className="inputForm searchInput bg-white">
       <MagnifyingGlassIcon className="inputIcon" />
       <input
         type="text"

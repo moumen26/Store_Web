@@ -32,7 +32,7 @@ export default function PuchasesArchive() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Puchases Archive</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>

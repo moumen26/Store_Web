@@ -82,7 +82,7 @@ export default function Customers() {
   };
   const handleRCChange = (e) => {
     setRC(e.target.value);
-  }
+  };
   //clear form
   const clearForm = () => {
     setFirstName("");
@@ -226,7 +226,7 @@ export default function Customers() {
           Commune: selectedCommune,
           Email: Email,
           Password: Password,
-          RC: RC
+          RC: RC,
         },
         {
           headers: {
@@ -269,15 +269,15 @@ export default function Customers() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-         <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Customers</h2>
-        <ButtonAdd
-          buttonSpan="Add New Customer"
-          onClick={handleAddCustomerClick}
-        />
+        <div className="titlePageButton">
+          <h2 className="pagesTitle">Customers</h2>
+          <ButtonAdd
+            buttonSpan="Add New Customer"
+            onClick={handleAddCustomerClick}
+          />
+        </div>
       </div>
-      </div>
-    
+
       <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search

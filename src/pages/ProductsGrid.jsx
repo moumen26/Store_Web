@@ -243,7 +243,7 @@ export default function ProductsGrid() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Products Grid</h2>
           <ButtonAdd
             buttonSpan="Add New Product"
@@ -259,7 +259,7 @@ export default function ProductsGrid() {
             onChange={handleSearchChange}
           />
           <div className="flex space-x-5 items-center">
-            <span>Category :</span>
+            <span>Category:</span>
             <div className="selectStoreWilayaCommune w-[300px]">
               <select name="productCategory" onChange={handelCategoryChange}>
                 <option value="">-- Select Product Category --</option>

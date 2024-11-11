@@ -160,14 +160,14 @@ export default function Publicité() {
   return (
     <div className="pagesContainer pubContainer">
       <Header />
-      <div className="w-full flex items-center justify-between">
+      <div className="titlePageButton">
         <h2 className="pagesTitle">Publicité</h2>
         <ButtonAdd
           buttonSpan="Add a Publicité"
           onClick={handleOpenModalAddPub}
         />
       </div>
-      <PubSwiperStore 
+      <PubSwiperStore
         data={StorePublicityData}
         loading={StorePublicityLoading}
         StorePublicityRefetch={StorePublicityRefetch}
@@ -228,13 +228,8 @@ export default function Publicité() {
           <div className="flex space-x-5 items-center">
             <span>Distination :</span>
             <div className="selectStoreWilayaCommune w-[300px]">
-              <select
-                name="productCategory"
-                onChange={handleDistinationChange}
-              >
-                <option value="">
-                  -- Select Distination --
-                </option>
+              <select name="productCategory" onChange={handleDistinationChange}>
+                <option value="">-- Select Distination --</option>
                 <option value="private">private</option>
                 <option value="public">Public</option>
               </select>

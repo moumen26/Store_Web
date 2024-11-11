@@ -32,17 +32,17 @@ export default function ReturnsPurchases() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Returns Purchases</h2>
-        <DashboardCalendar
-          onDateChange={(start, end) =>
-            setDateRange({ startDate: start, endDate: end })
-          }
-        />
+        <div className="titlePageButton">
+          <h2 className="pagesTitle">Returns Purchases</h2>
+          <DashboardCalendar
+            onDateChange={(start, end) =>
+              setDateRange({ startDate: start, endDate: end })
+            }
+          />
+        </div>
       </div>
-      </div>
-  
-    <div className="pageTable">
+
+      <div className="pageTable">
         <div className="w-full flex items-center justify-between">
           <Search
             placeholder="Search by Purchase..."

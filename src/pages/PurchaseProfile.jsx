@@ -19,6 +19,7 @@ import ConfirmDialog from "../components/ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import ButtonModify from "../components/ButtonModify";
 import AddPurchaseRetunsTableDetails from "../components/AddPurchaseRetunsTableDetails";
+import ButtonRetour from "../components/ButtonRetour";
 
 export default function PurchaseProfile() {
   const { id } = useParams();
@@ -123,6 +124,17 @@ export default function PurchaseProfile() {
 
   const handleCloseModifyPurchaseModal = () => {
     setModifyPurchaseModal(false);
+  };
+
+  //Retour Details the Purchase
+  const [retourPurchase, setRetourPurchase] = useState(false);
+
+  const handleOpenRetourPurchase = () => {
+    setRetourPurchase(true);
+  };
+
+  const handleCloseRetourPurchaseModal = () => {
+    setRetourPurchase(false);
   };
 
   //---------------------------------API calls---------------------------------\\
@@ -442,6 +454,11 @@ export default function PurchaseProfile() {
             <ChevronRightIcon className="iconAsideBar" />
           </div>
           <div className="orderProfileButtons">
+            <ButtonRetour
+              showIcon={true}
+              buttonSpan="Retour Details"
+              onClick={handleOpenModifyPurchaseModal}
+            />
             <ButtonModify
               showIcon={true}
               buttonSpan="Modify Purchase"

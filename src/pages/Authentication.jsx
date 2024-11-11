@@ -17,7 +17,7 @@ export default function Authentication() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">User Authentication</h2>
           {/* <ButtonAdd buttonSpan="New Customer" /> */}
         </div>

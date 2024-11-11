@@ -236,7 +236,7 @@
 
 .aside {
   position: fixed;
-  width: 13%;
+  width: 14%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -315,12 +315,12 @@
 
 .pagesContainer {
   overflow: hidden;
-  width: calc(100% - 13%);
+  width: calc(100% - 14%);
   min-height: 100vh;
   background-color: var(--lightColor);
   height: fit-content;
   position: absolute;
-  left: 13%;
+  left: 14%;
   top: 0;
   padding: 24px;
   display: flex;
@@ -491,7 +491,7 @@
 }
 
 .pageTableContainer {
-  height: 90%;
+  overflow: hidden;
 }
 
 .dashboardLatestOrders {
@@ -1379,6 +1379,13 @@
   height: calc(100vh - 13vh - 64px - 48px - 180px);
 }
 
+.titlePageButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1435,11 +1442,29 @@
     width: 100%;
     left: 0;
   }
+
+  .addProductModalHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
 }
 
 /*Tablet */
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
+  .productsContainer {
+    /* row-gap: 0px; */
+    column-gap: 0px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .searchInput{
+    width: 400px;
+  }
+
+
+  
 }
 
 /* Mobile*/
@@ -1449,8 +1474,13 @@
   .buttonTextLight,
   .headerText,
   a,
-  .buttonTextDark {
+  .buttonTextDark,
+  .pageTable span {
     font-size: 14px;
+  }
+
+  .pagesTitle {
+    font-size: 20px;
   }
 
   .buttonFacebook img {
@@ -1470,5 +1500,18 @@
     width: 100%;
     border: 0;
     padding-top: 3rem;
+  }
+
+  .selectStoreWilayaCommune select {
+    font-size: 14px;
+  }
+
+  .pagesContainerTop{
+    height: 18vh;
+  }
+
+  .pageTable{
+  height: calc(100vh - 18vh - 32px - 48px);
+
   }
 }

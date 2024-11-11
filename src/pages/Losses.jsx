@@ -204,7 +204,7 @@ export default function Losses() {
     <div className="pagesContainer pageContainerCards">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Losses</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>

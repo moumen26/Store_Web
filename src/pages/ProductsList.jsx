@@ -265,14 +265,14 @@ export default function ProductsList() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-      <div className="w-full flex items-center justify-between">
-        <h2 className="pagesTitle">Products Stock</h2>
-        <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
+        <div className="titlePageButton">
+          <h2 className="pagesTitle">Products Stock</h2>
+          <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
+        </div>
       </div>
-      </div>
-      
+
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Product..."
             onChange={handleSearchChange}

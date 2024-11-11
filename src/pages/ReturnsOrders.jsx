@@ -32,7 +32,7 @@ export default function ReturnsOrders() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Returns Orders</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>

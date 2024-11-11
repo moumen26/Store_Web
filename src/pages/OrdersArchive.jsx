@@ -32,7 +32,7 @@ export default function OrdersArchive() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <h2 className="pagesTitle">Orders Archive</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>

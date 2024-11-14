@@ -42,7 +42,7 @@ function ConfirmDialog({
             </button>
             <button
               onClick={onConfirm}
-              className="text-red-500 cursor-pointer hover:text-red-700"
+              className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
               Confirm
             </button>

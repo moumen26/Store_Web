@@ -129,7 +129,7 @@ export default function PurchaseProfile() {
   //Retour Details the Purchase
   const [retourPurchase, setRetourPurchase] = useState(false);
 
-  const handleOpenRetourPurchase = () => {
+  const handleOpenRetourPurchaseModal = () => {
     setRetourPurchase(true);
   };
 
@@ -457,7 +457,7 @@ export default function PurchaseProfile() {
             <ButtonRetour
               showIcon={true}
               buttonSpan="Retour Details"
-              onClick={handleOpenModifyPurchaseModal}
+              onClick={handleOpenRetourPurchaseModal}
             />
             <ButtonModify
               showIcon={true}
@@ -544,7 +544,7 @@ export default function PurchaseProfile() {
           <div className="flex flex-row justify-between items-center w-full">
             <h2 className="customerClassTitle">Payment History</h2>
             {PurchaseData.closed == false ? (
-              <>
+              <div className="flex space-x-4">
                 {PurchaseData.deposit == false ? (
                   <ButtonAdd
                     showIcon={false}
@@ -580,11 +580,11 @@ export default function PurchaseProfile() {
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="full payment"
+                    buttonSpan="Full payment"
                     onClick={handleOpenFullyPaidDialog}
                   />
                 )}
-              </>
+              </div>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>
             )}
@@ -772,6 +772,14 @@ export default function PurchaseProfile() {
         onClose={handleCloseUpdateSousPurchaseConfirmDialogOpen}
         dialogTitle="Confirm the purchase modification"
         dialogContentText={`Are you sure you want to modify this purchase?`}
+        isloading={submitionLoading}
+      />
+      <ConfirmDialog
+        open={retourPurchase}
+        // onConfirm={}
+        onClose={handleCloseRetourPurchaseModal}
+        dialogTitle="Confirm Return"
+        dialogContentText={`Are you sure that he returned the entire amount of [amount] to you?`}
         isloading={submitionLoading}
       />
       <Snackbar

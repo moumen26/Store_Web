@@ -236,15 +236,17 @@ export default function Fournisseurs() {
         <Header />
         <div className="titlePageButton">
           <h2 className="pagesTitle">Fournisseurs</h2>
-          <ButtonAdd
-            buttonSpan="Add New Fournisseur"
-            onClick={handleAddFournisseurClick}
-          />
+          <div className="buttonTop">
+            <ButtonAdd
+              buttonSpan="Add New Fournisseur"
+              onClick={handleAddFournisseurClick}
+            />
+          </div>
         </div>
       </div>
 
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Fournisseur..."
             onChange={handleSearchChange}

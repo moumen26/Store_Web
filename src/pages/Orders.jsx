@@ -52,7 +52,7 @@ export default function Orders() {
         <OrderCard orderCardTitle="Returns Orders" orderCardDetails={0} />
       </div>
       <div className="pageTable ordersTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Order..."
             value={searchQuery}

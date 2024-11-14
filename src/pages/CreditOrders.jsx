@@ -50,7 +50,7 @@ export default function CreditOrders() {
         <OrderCard orderCardTitle="Total Amount Credit" orderCardDetails={0} />
       </div>
       <div className="pageTable ordersTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Order..."
             value={searchQuery}

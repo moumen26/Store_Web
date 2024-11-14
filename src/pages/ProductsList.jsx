@@ -267,7 +267,9 @@ export default function ProductsList() {
         <Header />
         <div className="titlePageButton">
           <h2 className="pagesTitle">Products Stock</h2>
-          <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
+          <div className="buttonTop">
+            <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
+          </div>
         </div>
       </div>
 

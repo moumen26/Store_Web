@@ -245,10 +245,12 @@ export default function ProductsGrid() {
         <Header />
         <div className="titlePageButton">
           <h2 className="pagesTitle">Products Grid</h2>
-          <ButtonAdd
-            buttonSpan="Add New Product"
-            onClick={handleOpenAddProductModal}
-          />
+          <div className="buttonTop">
+            <ButtonAdd
+              buttonSpan="Add New Product"
+              onClick={handleOpenAddProductModal}
+            />
+          </div>
         </div>
       </div>
       <div className="pageTable">

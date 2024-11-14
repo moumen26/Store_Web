@@ -57,7 +57,7 @@ export default function CreditPurchases() {
         />
       </div>
       <div className="pageTable ordersTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Purchase..."
             value={searchQuery}

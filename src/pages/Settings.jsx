@@ -389,7 +389,7 @@ export default function Settings() {
         <div className="settingsLeft flex-col space-y-[32px]">
           <h2 className="pagesTitle">User profile management</h2>
           <div
-            className={`flex-col space-y-7 ${
+            className={`flex-col settingsBar space-y-7 ${
               activeTab === "PersoInf" || activeTab === "EmailPass"
                 ? "AllTransparent"
                 : ""

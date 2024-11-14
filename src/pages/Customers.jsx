@@ -271,15 +271,17 @@ export default function Customers() {
         <Header />
         <div className="titlePageButton">
           <h2 className="pagesTitle">Customers</h2>
-          <ButtonAdd
-            buttonSpan="Add New Customer"
-            onClick={handleAddCustomerClick}
-          />
+          <div className="buttonTop">
+            <ButtonAdd
+              buttonSpan="Add New Customer"
+              onClick={handleAddCustomerClick}
+            />
+          </div>
         </div>
       </div>
 
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Customer..."
             onChange={handleSearchChange}

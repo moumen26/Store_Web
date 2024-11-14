@@ -1387,6 +1387,10 @@
   justify-content: space-between;
 }
 
+.DateRangeSelector {
+  gap: 16px;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1449,6 +1453,53 @@
     flex-direction: column;
     align-items: end;
   }
+  .DateRangeSelector {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .titlePageButton {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+  }
+
+  .dateRangeSelector,
+  .buttonTop{
+    width: inherit;
+  }
+  
+  .buttonTop{
+    display: flex;
+    justify-content: end;
+  }
+
+  .pagesContainerTop {
+    min-height: 18vh;
+    height: fit-content;
+  }
+
+  .settingsContainer .pageTable{
+    flex-direction: column;
+  }
+  
+  .settingsLeft{
+   flex-direction: row;
+   width: 100%;
+  }
+
+  .settingsBar{
+    flex-direction: row;
+  }
+
+  .settingItem{
+    width: 40%;
+  }
+
 }
 
 /*Tablet */
@@ -1460,12 +1511,9 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .searchInput{
+  .searchInput {
     width: 400px;
   }
-
-
-  
 }
 
 /* Mobile*/
@@ -1507,12 +1555,14 @@
     font-size: 14px;
   }
 
-  .pagesContainerTop{
-    height: 18vh;
+  .pagesContainerTop {
+    min-height: 18vh;
+    height: fit-content;
   }
 
-  .pageTable{
-  height: calc(100vh - 18vh - 32px - 48px);
-
+  .pageTable {
+    height: calc(100vh - 18vh - 32px - 48px);
   }
+
 }
+

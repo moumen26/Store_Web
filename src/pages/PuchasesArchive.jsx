@@ -42,7 +42,7 @@ export default function PuchasesArchive() {
         </div>
       </div>
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Purchase..."
             onChange={handleSearchChange}

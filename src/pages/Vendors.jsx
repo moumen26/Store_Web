@@ -270,7 +270,7 @@ export default function Vendors() {
       </div>
 
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Vendor..."
             onChange={handleSearchChange}

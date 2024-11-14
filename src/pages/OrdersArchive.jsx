@@ -43,7 +43,7 @@ export default function OrdersArchive() {
       </div>
 
       <div className="pageTable">
-        <div className="w-full flex items-center justify-between">
+        <div className="addProductModalHeader">
           <Search
             placeholder="Search by Order..."
             onChange={handleSearchChange}

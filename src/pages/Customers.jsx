@@ -402,7 +402,7 @@ export default function Customers() {
                 </div>
               </div>
               <div className="dialogAddCustomerItem wilayaCommune">
-                <div className="WilayaCommuneClass ">
+                <div className="WilayaCommuneClass">
                   <span>Wilaya</span>
                   <div className="selectStoreWilayaCommune">
                     <select

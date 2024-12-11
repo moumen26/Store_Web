@@ -245,29 +245,21 @@ export default function Losses() {
             <Modal
               isOpen={openModelAddLoss}
               onRequestClose={handleCloseModalAddLoss}
-              contentLabel="Add Address Modal"
+              contentLabel="Add new Losse"
+              className="addNewModal"
               style={{
                 overlay: {
                   backgroundColor: "rgba(0, 0, 0, 0.5)",
                   zIndex: 1000,
                 },
-                content: {
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "20px",
-                  maxWidth: "40%",
-                  margin: "auto",
-                  height: "fit-content",
-                  zIndex: 1001,
-                },
               }}
             >
               <div className="customerClasss">
                 <h2 className="customerClassTitle">Add New Loss</h2>
-                <div className="flex-col space-y-4">
-                  <div className="flex justify-end items-center space-x-4">
+                <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
+                  <div className="dialogAddCustomerItem">
                     <span>Amount :</span>
-                    <div className="inputForm pl-0">
+                    <div className="inputForm">
                       <input
                         type="number"
                         min={0}
@@ -276,9 +268,9 @@ export default function Losses() {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-end items-center space-x-4">
+                  <div className="dialogAddCustomerItem">
                     <span>Cause :</span>
-                    <div className="inputForm pl-0">
+                    <div className="inputForm">
                       <input
                         type="text"
                         name="lossCause"

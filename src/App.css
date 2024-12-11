@@ -606,6 +606,7 @@
 }
 
 /* Hide scrollbar for WebKit browsers */
+.addNewModal::-webkit-scrollbar,
 .dashboardProductClass::-webkit-scrollbar,
 .tablePages::-webkit-scrollbar,
 .productsContainer::-webkit-scrollbar,
@@ -616,6 +617,7 @@
 }
 
 /* Show scrollbar on hover */
+.addNewModal:hover,
 .dashboardProductClass:hover,
 .tablePages:hover,
 .productsContainer:hover,
@@ -626,6 +628,7 @@
 }
 
 /* Show scrollbar for WebKit browsers on hover */
+.addNewModal:hover::-webkit-scrollbar,
 .dashboardProductClass:hover::-webkit-scrollbar,
 .tablePages:hover::-webkit-scrollbar,
 .productsContainer:hover::-webkit-scrollbar,
@@ -633,6 +636,7 @@
   width: 10px;
 }
 
+.addNewModal:hover::-webkit-scrollbar-thumb,
 .dashboardProductClass:hover::-webkit-scrollbar-thumb,
 .tablePages:hover::-webkit-scrollbar-thumb,
 .scrollProductHistorique:hover::-webkit-scrollbar-thumb,
@@ -641,6 +645,7 @@
   border-radius: 10px;
 }
 
+.addNewModal:hover::-webkit-scrollbar-track,
 .dashboardProductClass:hover::-webkit-scrollbar-track,
 .tablePages:hover::-webkit-scrollbar-track,
 .scrollProductHistorique:hover::-webkit-scrollbar-track,
@@ -1597,10 +1602,9 @@
     width: 100%;
   }
 
-  .WilayaCommuneClass{
+  .WilayaCommuneClass {
     width: 100%;
   }
-
 }
 
 /*Tablet */

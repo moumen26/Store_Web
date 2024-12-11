@@ -260,9 +260,9 @@ export default function ProductsGrid() {
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <div className="flex space-x-5 items-center">
-            <span>Category:</span>
-            <div className="selectStoreWilayaCommune w-[300px]">
+          <div className="span-input">
+            <span>Category</span>
+            <div className="selectStoreWilayaCommune">
               <select name="productCategory" onChange={handelCategoryChange}>
                 <option value="">-- Select Product Category --</option>
                 {CategoryData?.map((category) => (
@@ -287,20 +287,11 @@ export default function ProductsGrid() {
         isOpen={isAddProductModalOpen}
         onRequestClose={handleCloseAddProductModal}
         contentLabel="Add New Product"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "40%",
-            margin: "auto",
-            height: "70%",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -309,8 +300,8 @@ export default function ProductsGrid() {
             <h2 className="dialogTitle">Add New Product to Stock</h2>
             <div className="mt-[16px]">
               <form>
-                <div className="flex-col space-y-8">
-                  <div className="dialogAddCustomerItem items-center">
+                <div className="flex-col space-y-8 mb-5">
+                  <div className="dialogAddCustomerItem">
                     <span>Product Name :</span>
                     <div className="inputForm">
                       <input
@@ -320,7 +311,7 @@ export default function ProductsGrid() {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="dialogAddCustomerItem">
                     <span>Product Size :</span>
                     <div className="inputForm">
                       <input
@@ -330,7 +321,7 @@ export default function ProductsGrid() {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="dialogAddCustomerItem">
                     <span>BoxItems :</span>
                     <div className="inputForm">
                       <input
@@ -340,7 +331,7 @@ export default function ProductsGrid() {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="dialogAddCustomerItem">
                     <span>Product Category :</span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
@@ -356,7 +347,7 @@ export default function ProductsGrid() {
                       </select>
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="dialogAddCustomerItem">
                     <span>Product Brand :</span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
@@ -372,9 +363,9 @@ export default function ProductsGrid() {
                       </select>
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="dialogAddCustomerItem">
                     <span>Product Picture :</span>
-                    <div className="flex items-center space-x-4">
+                    <div className="productPicture">
                       <div
                         className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
                         onClick={handleClick}
@@ -389,7 +380,7 @@ export default function ProductsGrid() {
                           <PhotoIcon className="w-6 h-6 text-slate-400" />
                         )}
                       </div>
-                      <div className="h-[80px] w-[404px] flex items-center justify-center uploadClass">
+                      <div className="uploadClass">
                         <input
                           type="file"
                           accept="image/*"
@@ -398,16 +389,14 @@ export default function ProductsGrid() {
                           onChange={handleImageChange}
                         />
                         <p onClick={handleClick} className="uploadSpan">
-                          <span className="text-blue-600">
-                            Click to upload{" "}
-                          </span>
+                          <span className="text-blue-600">Click to upload </span>
                           or drag and drop SVG, PNG, JPG
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+                <div className="flex justify-end space-x-8">
                   <button
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseAddProductModal}

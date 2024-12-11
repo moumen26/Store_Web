@@ -301,20 +301,11 @@ export default function Customers() {
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
         contentLabel="Add New Customer"
+        className="addNewModal addNewCustomerModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "fit-content",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -322,7 +313,7 @@ export default function Customers() {
           <div className="customerClass pb-0">
             <h2 className="dialogTitle">Add New Customer</h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>First Name</span>
                 <div className="inputForm">
                   <input
@@ -333,7 +324,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Last Name</span>
                 <div className="inputForm">
                   <input
@@ -344,7 +335,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Address</span>
                 <div className="inputForm">
                   <input
@@ -355,7 +346,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Number Phone</span>
                 <div className="inputForm">
                   <input
@@ -366,7 +357,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Email</span>
                 <div className="inputForm">
                   <input
@@ -377,7 +368,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Numero de registre de commerce</span>
                 <div className="inputForm">
                   <input
@@ -388,7 +379,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Password</span>
                 <div className="inputForm">
                   <input
@@ -399,7 +390,7 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem items-center">
+              <div className="dialogAddCustomerItem">
                 <span>Confirm password</span>
                 <div className="inputForm">
                   <input
@@ -410,8 +401,8 @@ export default function Customers() {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem space-x-10 items-center">
-                <div className="flex space-x-8 items-center">
+              <div className="dialogAddCustomerItem wilayaCommune">
+                <div className="WilayaCommuneClass ">
                   <span>Wilaya</span>
                   <div className="selectStoreWilayaCommune">
                     <select
@@ -428,7 +419,7 @@ export default function Customers() {
                     </select>
                   </div>
                 </div>
-                <div className="flex space-x-8 items-center">
+                <div className="WilayaCommuneClass">
                   <span>Commune</span>
                   <div className="selectStoreWilayaCommune">
                     <select

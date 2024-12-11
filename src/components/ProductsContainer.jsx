@@ -71,24 +71,15 @@ export default function ProductsContainer({
           isOpen={isModalOpen}
           onRequestClose={handleCloseModal}
           contentLabel="Product Details"
+          className="productModal"
           style={{
             overlay: {
               backgroundColor: "rgba(0, 0, 0, 0.5)",
               zIndex: 1000,
             },
-            content: {
-              border: "none",
-              borderRadius: "8px",
-              padding: "20px",
-              maxWidth: "30%",
-              margin: "auto",
-              zIndex: 1001,
-
-              height: "fit-content",
-            },
           }}
         >
-          <div className="w-[100%] h-fit flex-col space-y-[20px]">
+          <div className="w-[100%] h-fit flex-col space-y-[32px]">
             <h2 className="customerClassTitle">Product Details</h2>
             <div className="w-full flex justify-center h-[300px]">
               <img

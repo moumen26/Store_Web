@@ -149,7 +149,7 @@
 }
 
 .selectStoreWilayaCommune {
-  width: 280px;
+  width: 300px;
   height: 50px;
   border-radius: 5px;
   border: solid 1px var(--neutralColor);
@@ -1000,6 +1000,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .dialogAddCustomerItem .inputForm {
@@ -1391,6 +1392,70 @@
   gap: 16px;
 }
 
+.span-input {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.productPicture {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.uploadClass {
+  width: 404px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.WilayaCommuneClass {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.productModal {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  width: 30%;
+  margin: auto;
+  z-index: 1001;
+  background-color: var(--whiteColor);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: fit-content;
+}
+
+.addNewModal {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  width: 40%;
+  margin: auto;
+  z-index: 1001;
+  background-color: var(--whiteColor);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: fit-content;
+}
+
+.addNewCustomerModal {
+  width: fit-content;
+}
+
+.wilayaCommune {
+  gap: 32px;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1469,11 +1534,11 @@
   }
 
   .dateRangeSelector,
-  .buttonTop{
+  .buttonTop {
     width: inherit;
   }
-  
-  .buttonTop{
+
+  .buttonTop {
     display: flex;
     justify-content: end;
   }
@@ -1483,21 +1548,57 @@
     height: fit-content;
   }
 
-  .settingsContainer .pageTable{
+  .settingsContainer .pageTable {
     flex-direction: column;
   }
-  
-  .settingsLeft{
-   flex-direction: row;
-   width: 100%;
+
+  .settingsLeft {
+    flex-direction: row;
+    width: 100%;
   }
 
-  .settingsBar{
+  .settingsBar {
     flex-direction: row;
   }
 
-  .settingItem{
+  .settingItem {
     width: 40%;
+  }
+
+  .productModal {
+    width: 85%;
+  }
+
+  .addNewModal {
+    width: 85%;
+    height: 90%;
+    overflow-y: scroll;
+  }
+
+  .dialogAddCustomerItem .inputForm,
+  .dialogAddCustomerItem .selectStoreWilayaCommune {
+    width: 100%;
+  }
+
+  .dialogAddCustomerItem,
+  .WilayaCommuneClass {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .wilayaCommune {
+    gap: 32px;
+  }
+
+  .uploadClass,
+  .WilayaCommuneClass .selectStoreWilayaCommune,
+  .WilayaCommuneClass .selectStoreWilayaCommune select {
+    width: 100%;
+  }
+
+  .WilayaCommuneClass{
+    width: 100%;
   }
 
 }
@@ -1561,8 +1662,38 @@
   }
 
   .pageTable {
-    height: calc(100vh - 18vh - 32px - 48px);
+    height: calc(100vh - 18vh - 16px - 48px);
   }
 
-}
+  .span-input {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 
+  .selectStoreWilayaCommune {
+    width: 100%;
+  }
+
+  .addProductModalHeader {
+    gap: 12px;
+  }
+
+  .pagesContainer {
+    gap: 16px;
+  }
+
+  .pageTableContainer {
+    margin-top: 8px;
+  }
+
+  .productsContainer {
+    place-items: center;
+  }
+
+  .productPicture {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

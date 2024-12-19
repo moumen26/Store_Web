@@ -546,7 +546,7 @@ export default function OrderProfile() {
                 <div className="flex-col space-y-1">
                   <p className="orderProfileSpan">
                     {OrderData?.deliveredLocation
-                      ? OrderData?.deliveredLocation
+                      ? OrderData?.deliveredLocation?.address
                       : "Pickup"}
                   </p>
                   <p className="orderProfileSpan">

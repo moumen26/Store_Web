@@ -1,10 +1,13 @@
 import React from "react";
 
-export default function CustomerPrimaryDelivery({ primaryDeliveryAddress }) {
+export default function CustomerPrimaryDelivery({ 
+  primaryDeliveryAddress,
+  name,
+}) {
   return (
     <div className="customerPrimaryDelivery">
       <h3 className="dashboardCardTitle flex items-center h-[50px]">
-        Billing Address
+        {name}
       </h3>
       <span className="primaryDeliveryAddressSpan">
         {primaryDeliveryAddress}

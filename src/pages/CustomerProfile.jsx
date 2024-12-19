@@ -52,7 +52,10 @@ export default function CustomerProfile() {
     setDialogOpenMakeVendor(false);
     setConfirmDialogOpenMakeVendor(false);
   };
-
+  const [newAddressNameCustomer, setnewAddressNameCustomer] = useState("");
+  const handleAddressNameChange = (e) => {
+    setnewAddressNameCustomer(e.target.value);
+  };
   const [newAddressCustomer, setNewAddressCustomer] = useState("");
   const handleAddressChange = (e) => {
     setNewAddressCustomer(e.target.value);
@@ -171,6 +174,7 @@ export default function CustomerProfile() {
         {
           user: id,
           address: newAddressCustomer,
+          name: newAddressNameCustomer,
         },
         {
           headers: {
@@ -493,6 +497,17 @@ export default function CustomerProfile() {
               <div className="customerClasss">
                 <h2 className="customerClassTitle">Add New Address</h2>
                 <div className="flex justify-end items-center space-x-4">
+                  <span>Name :</span>
+                  <div className="inputForm pl-0">
+                    <input
+                      type="text"
+                      name="newAddressNameCustomer"
+                      value={newAddressNameCustomer}
+                      onChange={handleAddressNameChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end items-center space-x-4">
                   <span>Address :</span>
                   <div className="inputForm pl-0">
                     <input
@@ -529,10 +544,11 @@ export default function CustomerProfile() {
             />
           </div>
           <div className="customerPrimaryAddress">
-            {CustomerData?.storeAddresses.map((address, index) => (
+            {CustomerData?.storeAddresses.map((item, index) => (
               <CustomerPrimaryDelivery
                 key={index}
-                primaryDeliveryAddress={address}
+                name={item.name}
+                primaryDeliveryAddress={item.address}
               />
             ))}
           </div>

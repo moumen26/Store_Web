@@ -76,7 +76,7 @@ export default function OrderProfileDetails({ orderDetails }) {
             {orderDetails.type == "delivery" && (
               <TableCell align="right" className="tableCell">
                 <span className="trTableSpan">
-                  {orderDetails.deliveredLocation}
+                  {orderDetails?.deliveredLocation?.address}
                 </span>
               </TableCell>
             )}

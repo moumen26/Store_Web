@@ -51,7 +51,7 @@ function Row(props) {
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.code}</span>
+          <span className="trTableSpan">{row._id}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{formatDate(row.date)}</span>

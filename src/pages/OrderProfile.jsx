@@ -491,7 +491,7 @@ export default function OrderProfile() {
           <div className="flex items-center space-x-1">
             <span>Orders</span>
             <ChevronRightIcon className="iconAsideBar" />
-            <span>#{OrderData?.code}</span>
+            <span>#{OrderData?._id}</span>
           </div>
           <div className="orderProfileButtons">
             <ButtonModify

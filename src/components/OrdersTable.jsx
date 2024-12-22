@@ -51,7 +51,7 @@ function Row(props) {
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderCode}</span>
+          <span className="trTableSpan">{row.orderId}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{formatDate(row.orderDate)}</span>
@@ -219,7 +219,6 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
     if (NonDelivredOrderData?.length > 0) {
       const rowsData = NonDelivredOrderData.map((order) => ({
         orderId: order._id,
-        orderCode: order.code,
         customerFirstName: order.client.firstName,
         customerLastName: order.client.lastName,
         orderDate: order.date,

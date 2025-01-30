@@ -40,7 +40,7 @@ function Row(props) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productCode}</span>
+        <span className="trTableSpan">{row.stockId}</span>
       </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{row.productName}</span>
@@ -109,7 +109,6 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     productId: PropTypes.string.isRequired,
-    productCode: PropTypes.string.isRequired,
     productBuyingPrice: PropTypes.number.isRequired,
     productBrand: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
@@ -216,16 +215,15 @@ export default function ProductTable({
   useEffect(() => {
     if (STOCKData?.length > 0) {
       const rowsData = STOCKData?.map((stock) => ({
-        productId: stock.product._id,
-        productCode: stock.product.code,
-        productName: stock.product.name,
-        productSize: stock.product.size,
-        productBrand: stock.product.brand.name,
+        productId: stock.product?._id,
+        productName: stock.product?.name,
+        productSize: stock.product?.size,
+        productBrand: stock.product?.brand.name,
         productBuyingPrice: stock.buying,
         productSellPrice: stock.selling,
         productStock: stock.quantity.toString(),
         stockId: stock._id,
-        image: stock.product.image,
+        image: stock.product?.image,
       }));
       setRows(rowsData);
     }
@@ -424,7 +422,7 @@ export default function ProductTable({
           <TableHead className="tableHead">
             <TableRow>
               <TableCell>
-                <span className="thTableSpan">Product Code</span>
+                <span className="thTableSpan">Stock Code</span>
               </TableCell>
               <TableCell>
                 <span className="thTableSpan">Name</span>

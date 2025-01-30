@@ -86,9 +86,6 @@ function Row(props) {
           <span className="trTableSpan">{row.userCommune}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.userAddress}</span>
-        </TableCell>
-        <TableCell className="tableCell">
           <div
             className={`activeClass${row.status == "pending" ? " yellow" : ""}`}
             onClick={handleInactiveClick}
@@ -194,14 +191,14 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
     if (NotApprovedUsersData?.length > 0) {
       const rowsData = NotApprovedUsersData?.map((data) => {
         return {
-          userFirstName: data.user.firstName,
-          userLastName: data.user.lastName,
-          userId: data.user._id,
-          userPhone: data.user.phoneNumber,
-          userWilaya: data.user.wilaya,
-          userCommune: data.user.commune,
-          userAddress: data.user.storeAddresses,
-          status: data.status,
+          userFirstName: data?.user?.firstName,
+          userLastName: data?.user?.lastName,
+          userId: data?.user?._id,
+          userPhone: data?.user?.phoneNumber,
+          userWilaya: data?.user?.wilaya,
+          userCommune: data?.user?.commune,
+          userAddress: data?.user?.storeAddresses,
+          status: data?.status,
           token: user?.token,
           storeID: decodedToken.id,
         };
@@ -259,9 +256,6 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Commune</span>
-              </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Address</span>
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Status</span>

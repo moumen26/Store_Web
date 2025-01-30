@@ -135,7 +135,8 @@ export default function NonApprovedCustomer() {
             {CustomerData?.storeAddresses.map((address, index) => (
               <CustomerPrimaryDelivery
                 key={index}
-                primaryDeliveryAddress={address}
+                name={address.name}
+                primaryDeliveryAddress={address.address}
               />
             ))}
           </div>

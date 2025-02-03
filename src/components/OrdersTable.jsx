@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -208,13 +208,18 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
     isLoading: NonDelivredOrderDataLoading, 
     refetch: NonDelivredrefetchOrderData 
   } = useQuery({
-    queryKey: ['NonDelivredOrderData', user?.token, location.key],
+    queryKey: ['NonDelivredOrderData', user?.token],
     queryFn: NonDelivredfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-    staleTime: 0,
+    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
   const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+
+  // Transform NonDelivredOrderData into rows when it changes
   useEffect(() => {
     if (NonDelivredOrderData?.length > 0) {
       const rowsData = NonDelivredOrderData.map((order) => ({
@@ -231,22 +236,26 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         })),
       }));
       setRows(rowsData);
-      setFilteredRows(rowsData);
-    }else{
+      setFilteredRows(rowsData); // Initialize filteredRows with rowsData
+    } else {
       setRows([]);
+      setFilteredRows([]); // Clear filteredRows if no data
     }
-    NonDelivredrefetchOrderData();
-  }, [NonDelivredOrderData, location.key]);
-  const [filteredRows, setFilteredRows] = useState(rows);
+  }, [NonDelivredOrderData, rows]);
+
+  // Refetch data when location.key changes
   useEffect(() => {
-    const results = rows.filter(
+    NonDelivredrefetchOrderData();
+  }, [location.key, NonDelivredrefetchOrderData]);
+
+  // Memoized filtered rows based on searchQuery
+  const filteredResults = useMemo(() => {
+    if (!searchQuery) return rows;
+
+    return rows.filter(
       (row) =>
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
+        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -254,9 +263,13 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
-    setFilteredRows(results);
-    setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+  }, [rows, searchQuery]);
+
+  // Update filteredRows and filteredData when filteredResults change
+  useEffect(() => {
+    setFilteredRows(filteredResults);
+    setFilteredData(filteredResults);
+  }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"

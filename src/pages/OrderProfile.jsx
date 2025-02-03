@@ -556,7 +556,11 @@ export default function OrderProfile() {
                 </div>
               </div>
             </div>
-            <OrderStatus orderDetails={OrderData} />
+            <OrderStatus 
+              orderDetails={OrderData} 
+              user={user}
+              refetchOrderData={refetchOrderData}
+            />
           </div>
         </div>
       </div>

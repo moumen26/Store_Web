@@ -51,14 +51,14 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
       /> : null,
     },
     {
-      label: orderDetails.type === "pickup" ? "Pickup" : "Delivered",
+      label: orderDetails.type === "pickup" ? "Picked up" : "Delivered",
       icon: <ArchiveBoxIcon className="iconAsideBar"/>,
     },
   ];
 
   const stepsToShow =
     orderDetails.type === "pickup"
-      ? [statusSteps[0], statusSteps[3]]
+      ? [statusSteps[0], statusSteps[1], statusSteps[3], statusSteps[4]]
       : [statusSteps[0], statusSteps[1], statusSteps[2], statusSteps[4]];
 
   //----------------------APIs----------------------

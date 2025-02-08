@@ -61,7 +61,7 @@ function Row(props) {
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.orderStatus)}
+            {orderStatusTextDisplayer(row.orderStatus, row.orderType)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -166,6 +166,7 @@ Row.propTypes = {
     customerLastName: PropTypes.string.isRequired,
     customerFirstName: PropTypes.string.isRequired,
     orderStatus: PropTypes.string.isRequired,
+    orderType: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -229,6 +230,7 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         orderDate: order.date,
         orderAmount: order.total.toString(),
         orderStatus: order.status.toString(),
+        orderType: order.type.toString(),
         orderDetails: order.products.map((item) => ({
           productName: item.product.name,
           productPrice: item.price.toString(),

@@ -68,7 +68,7 @@ function Row(props) {
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.status)}
+            {orderStatusTextDisplayer(row.status, row.type)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">

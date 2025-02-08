@@ -63,7 +63,7 @@ export default function OrderProfileDetails({ orderDetails }) {
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {orderStatusTextDisplayer(orderDetails.status)}
+                {orderStatusTextDisplayer(orderDetails.status, orderDetails.type)}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">

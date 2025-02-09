@@ -502,7 +502,7 @@ export default function OrderProfile() {
             <ButtonExportPDF
               filename="Order_Profile"
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
-              orderId={OrderData?.code}
+              orderId={OrderData?._id}
             />
             <ButtonAdd
               showIcon={false}

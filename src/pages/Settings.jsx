@@ -3,6 +3,7 @@ import {
   UserIcon,
   ShieldCheckIcon,
   ShieldExclamationIcon,
+  CalendarDateRangeIcon,
 } from "@heroicons/react/24/outline";
 import {
   PhotoIcon,
@@ -23,6 +24,8 @@ import ConfirmDialog from "../components/ConfirmDialog";
 import ButtonModify from "../components/ButtonModify";
 import axios from "axios";
 import Modal from "react-modal";
+import InputFormPassword from "../components/InputFormPassword";
+import SubscriptionCard from "../components/SubscriptionCard";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -81,6 +84,7 @@ export default function Settings() {
   );
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingEmailPassword, setIsEditingEmailPassword] = useState(false);
   const [editableData, setEditableData] = useState({
     firstName: "",
     lastName: "",
@@ -405,7 +409,7 @@ export default function Settings() {
               onClick={() => handleTabClick("PersoInf")}
             >
               <UserIcon className="iconAsideBar" />
-              <span className="ml-3">Personal Info</span>
+              <span className="ml-3">Personal Information</span>
             </div>
             <div
               className={`flex items-center settingItem cursor-pointer ${
@@ -415,6 +419,15 @@ export default function Settings() {
             >
               <ShieldCheckIcon className="iconAsideBar" />
               <span className="ml-3">Email & Password</span>
+            </div>
+            <div
+              className={`flex items-center settingItem cursor-pointer ${
+                activeTab === "Subscription" ? "settingItemToggle" : ""
+              }`}
+              onClick={() => handleTabClick("Subscription")}
+            >
+              <CalendarDateRangeIcon className="iconAsideBar" />
+              <span className="ml-3">Subscription</span>
             </div>
           </div>
         </div>
@@ -451,6 +464,7 @@ export default function Settings() {
                         labelForm="Store Name"
                         inputType="text"
                         inputName="storeName"
+                        // inputPlaceholder="Enter your Store Name"
                         value={editableData.storeName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
@@ -459,6 +473,7 @@ export default function Settings() {
                         labelForm="First Name"
                         inputType="text"
                         inputName="firstName"
+                        // inputPlaceholder="Enter your First Name"
                         value={editableData.firstName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
@@ -467,6 +482,7 @@ export default function Settings() {
                         labelForm="Last Name"
                         inputType="text"
                         inputName="lastName"
+                        // inputPlaceholder="Enter your Last Name"
                         value={editableData.lastName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
@@ -475,6 +491,7 @@ export default function Settings() {
                         labelForm="Email Address"
                         inputType="email"
                         inputName="email"
+                        // inputPlaceholder="Enter your Email"
                         value={editableData.email}
                         setChangevalue={handleInputChange}
                         readOnly={true}
@@ -482,6 +499,7 @@ export default function Settings() {
                       <InputForm
                         labelForm="Phone Number"
                         inputType="text"
+                        // inputPlaceholder="Enter your Phone"
                         inputName="phoneNumber"
                         value={editableData.phoneNumber}
                         setChangevalue={handleInputChange}
@@ -698,7 +716,96 @@ export default function Settings() {
           {activeTab === "EmailPass" && (
             <div className="flex-col space-y-7">
               <div className="flex items-center justify-between settingsRightHeader">
-                <h2 className="pagesTitle">Email & Paasword</h2>
+                <h2 className="pagesTitle">Email & Password</h2>
+                <div className="flex space-x-4">
+                  {isEditingEmailPassword ? (
+                    <div className="flex space-x-4">
+                      <ButtonModify
+                        buttonSpan="Cancel"
+                        showIcon={false}
+                        // onClick={handleClickCancel}
+                      />
+                      <ButtonSave
+                      // setOnClick={handleOpenUpdateConfirmationDialog}
+                      />
+                    </div>
+                  ) : (
+                    <ButtonModify
+                      buttonSpan="Modify"
+                      // onClick={handleClickModify}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="flex-col settingsRightScroll">
+                <div>
+                  <div className="settingPersonalInformation">
+                    <InputForm
+                      labelForm="Email Address"
+                      inputType="email"
+                      inputName="email"
+                      // value={editableData.storeName}
+                      // setChangevalue={handleInputChange}
+                      readOnly={!isEditingEmailPassword}
+                    />
+                    <InputForm
+                      labelForm="Confirm Email Address"
+                      inputType="email"
+                      inputName="email"
+                      // value={editableData.firstName}
+                      // setChangevalue={handleInputChange}
+                      readOnly={!isEditingEmailPassword}
+                    />
+                    <InputFormPassword
+                      labelForm="Password"
+                      inputPlaceholder="Enter your password"
+                      inputName="password"
+                      // setChangevalue={handleInputChange}
+                      // value={password}
+                      readOnly={!isEditingEmailPassword}
+                    />
+                    <InputFormPassword
+                      labelForm="Confirm Password"
+                      inputPlaceholder="Confirm your password"
+                      inputName="password"
+                      // setChangevalue={handleInputChange}
+                      // value={password}
+                      readOnly={!isEditingEmailPassword}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {activeTab === "Subscription" && (
+            <div className="flex-col space-y-7">
+              <div className="flex items-center justify-between settingsRightHeader">
+                <h2 className="pagesTitle">Subscription</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <SubscriptionCard
+                  title="Basic Plan"
+                  price="10 DA/month"
+                  features={["Feature 1", "Feature 2", "Feature 3"]}
+                  buttonText="Subscribe"
+                />
+                <SubscriptionCard
+                  title="Standard Plan"
+                  price="25 DA/month"
+                  features={["Feature A", "Feature B", "Feature C"]}
+                  buttonText="Subscribe"
+                />
+                <SubscriptionCard
+                  title="Premium Plan"
+                  price="50 DA/month"
+                  features={[
+                    "Premium Feature 1",
+                    "Premium Feature 2",
+                    "Premium Feature 3",
+                  ]}
+                  buttonText="Subscribe"
+                />
               </div>
             </div>
           )}

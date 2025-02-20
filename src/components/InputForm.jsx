@@ -38,6 +38,9 @@ export default function InputForm({
     case "password":
       iconComponent = <LockClosedIcon className="inputIcon" />;
       break;
+    case "email":
+      iconComponent = <EnvelopeIcon className="inputIcon" />;
+      break;
     default:
       iconComponent = null;
       break;

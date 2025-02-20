@@ -614,54 +614,48 @@
   object-fit: contain;
 }
 
-/* Hide scrollbar for WebKit browsers */
+:root {
+  --sb-track-color: #c9e4ee;
+  --sb-thumb-color: #26667e;
+  --sb-size: 6px;
+  --sb-border-radius: 4px;
+}
+
 .addNewModal::-webkit-scrollbar,
 .dashboardProductClass::-webkit-scrollbar,
 .tablePages::-webkit-scrollbar,
 .productsContainer::-webkit-scrollbar,
 .scrollProductHistorique::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
-  /* Make scrollbar transparent */
+  width: var(--sb-size);
+  height: var(--sb-size);
 }
 
-/* Show scrollbar on hover */
-.addNewModal:hover,
-.dashboardProductClass:hover,
-.tablePages:hover,
-.productsContainer:hover,
-.scrollProductHistorique:hover {
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
-  /* Set scrollbar colors for Firefox */
+.addNewModal::-webkit-scrollbar-track,
+.dashboardProductClass::-webkit-scrollbar-track,
+.tablePages::-webkit-scrollbar-track,
+.productsContainer::-webkit-scrollbar-track,
+.scrollProductHistorique::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: var(--sb-border-radius);
 }
 
-/* Show scrollbar for WebKit browsers on hover */
-.addNewModal:hover::-webkit-scrollbar,
-.dashboardProductClass:hover::-webkit-scrollbar,
-.tablePages:hover::-webkit-scrollbar,
-.productsContainer:hover::-webkit-scrollbar,
-.scrollProductHistorique:hover::-webkit-scrollbar {
-  width: 10px;
+.addNewModal::-webkit-scrollbar-thumb,
+.dashboardProductClass::-webkit-scrollbar-thumb,
+.tablePages::-webkit-scrollbar-thumb,
+.productsContainer::-webkit-scrollbar-thumb,
+.scrollProductHistorique::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: var(--sb-border-radius);
 }
 
-.addNewModal:hover::-webkit-scrollbar-thumb,
-.dashboardProductClass:hover::-webkit-scrollbar-thumb,
-.tablePages:hover::-webkit-scrollbar-thumb,
-.scrollProductHistorique:hover::-webkit-scrollbar-thumb,
-.productsContainer:hover::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
+.addNewModal::-webkit-scrollbar-button,
+.dashboardProductClass::-webkit-scrollbar-button,
+.tablePages::-webkit-scrollbar-button,
+.productsContainer::-webkit-scrollbar-button,
+.scrollProductHistorique::-webkit-scrollbar-button {
+  display: none;
 }
 
-.addNewModal:hover::-webkit-scrollbar-track,
-.dashboardProductClass:hover::-webkit-scrollbar-track,
-.tablePages:hover::-webkit-scrollbar-track,
-.scrollProductHistorique:hover::-webkit-scrollbar-track,
-.productsContainer:hover::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-  border-radius: 10px;
-}
 
 .signIn,
 .signUp {

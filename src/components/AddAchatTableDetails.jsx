@@ -28,7 +28,7 @@ function AddAchatTableDetails({
   onCalculateTotals,
   deliveryAmount,
   setAPIProducts,
-  discount
+  discount,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -381,20 +381,11 @@ function AddAchatTableDetails({
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Add New Stock"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            height: "80%",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -407,7 +398,7 @@ function AddAchatTableDetails({
             <div className="customerClass addProductAchat">
               <h2 className="customerClassTitle">Add Product to Achat</h2>
               <div className="addNewStockClass flex-col">
-                <div className="w-full h-[500px] w-[100%]">
+                <div className="w-full h-fit w-[100%]">
                   <div className="addProductToAchatButton">
                     <div className="addProductModalHeader">
                       <Search
@@ -478,8 +469,8 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <>
-                  <div className=" border-0 mt-8 w-[100%] flex-row productDetailsStock">
-                    <div className="dialogAddCustomerItem items-center">
+                  <div className="border-0 mt-8 w-[100%] flex-row productDetailsStock">
+                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
                       <span>Buying Price :</span>
                       <div className="inputForm flex items-center">
                         <input
@@ -492,7 +483,7 @@ function AddAchatTableDetails({
                         <span className="ml-2">DA</span>
                       </div>
                     </div>
-                    <div className="dialogAddCustomerItem items-center">
+                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
                       <span>Selling Price :</span>
                       <div className="inputForm flex items-center">
                         <input
@@ -505,7 +496,7 @@ function AddAchatTableDetails({
                         <span className="ml-2">DA</span>
                       </div>
                     </div>
-                    <div className="dialogAddCustomerItem items-center">
+                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
                       <span>Stock :</span>
                       <div className="inputForm">
                         <input
@@ -518,7 +509,7 @@ function AddAchatTableDetails({
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
+                  <div className="flex justify-end space-x-8 items-start mt-[20px]">
                     <button
                       className="text-gray-500 cursor-pointer hover:text-gray-700"
                       onClick={handleCloseModal}
@@ -543,20 +534,11 @@ function AddAchatTableDetails({
         isOpen={isAddProdutModalOpen}
         onRequestClose={handleCloseAddProductModal}
         contentLabel="Add new Product"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "40%",
-            margin: "auto",
-            height: "70%",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -642,7 +624,7 @@ function AddAchatTableDetails({
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+              <div className="flex justify-end space-x-8 mt-[20px]">
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseAddProductModal}

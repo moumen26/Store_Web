@@ -64,7 +64,7 @@ export default function ProductContainerPurchaseAddReturns({
   return (
     <div className="productsContainer">
       {LastOrderStatusLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
       ) : LastOrderStatusData?.sousStocks?.length > 0 ? (

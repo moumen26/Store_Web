@@ -472,12 +472,12 @@ export default function PurchaseProfile() {
             />
           </div>
         </div>
-        <div className="customerClass">
+        <div className="customerClass paddingClass">
           <h2 className="customerClassTitle">Purchase Details</h2>
           <PurchaseProfileDetails data={PurchaseData} />
         </div>
         <div className="flex space-x-6 h-full">
-          <div className="customerClass w-[60%]">
+          <div className="customerClass paddingClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Purchase</h2>
             {PurchaseData?.sousPurchases?.map((sousPurchase) => (
               <PurchaseProfileDevicesProductTable
@@ -488,7 +488,7 @@ export default function PurchaseProfile() {
             ))}
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
-            <div className="customerClass">
+            <div className="customerClass paddingClass">
               <h2 className="customerClassTitle">Fournisseur</h2>
               <div className="flex-col space-y-1">
                 <span className="dashboardLatestOrdersDetails">
@@ -523,20 +523,11 @@ export default function PurchaseProfile() {
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Payment History"
+        className="addNewModal PaymentHistory"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "60%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -624,26 +615,17 @@ export default function PurchaseProfile() {
         isOpen={isAddPaymentConfirmDialogOpen}
         onRequestClose={handleCloseAddPaymentConfirmationDialog}
         contentLabel="Add payment"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
           },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "60%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
-          },
         }}
       >
         <div className="customerClass">
           <h2 className="customerClassTitle">Add payment</h2>
-          <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+          <div className="dialogAddCustomerItem items-center">
             <span>Payment Amount :</span>
             <div className="inputForm">
               <input
@@ -675,22 +657,11 @@ export default function PurchaseProfile() {
         isOpen={modifyPurchaseModal}
         onRequestClose={handleCloseModifyPurchaseModal}
         contentLabel="Add Retuns"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            maxHeight: "70%",
-            minHeight: "35%",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -700,7 +671,7 @@ export default function PurchaseProfile() {
             setProductsListToUpdate={setProductsListToUpdate}
           />
           <div className="mt-[16px]">
-            <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+            <div className="flex justify-end space-x-8">
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseModifyPurchaseModal}

@@ -1464,6 +1464,10 @@
   height: fit-content;
 }
 
+.PaymentHistory{
+  width: 80%;
+}
+
 .addNewCustomerModal {
   width: fit-content;
 }

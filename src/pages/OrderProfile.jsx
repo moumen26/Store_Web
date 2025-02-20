@@ -556,8 +556,8 @@ export default function OrderProfile() {
                 </div>
               </div>
             </div>
-            <OrderStatus 
-              orderDetails={OrderData} 
+            <OrderStatus
+              orderDetails={OrderData}
               user={user}
               refetchOrderData={refetchOrderData}
             />
@@ -569,20 +569,11 @@ export default function OrderProfile() {
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Payment History"
+        className="addNewModal PaymentHistory"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "60%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -673,20 +664,11 @@ export default function OrderProfile() {
         isOpen={isAddPaymentDialogOpen}
         onRequestClose={handleCloseAddPaymentDialog}
         contentLabel="Add payment"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "60%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -724,22 +706,11 @@ export default function OrderProfile() {
         isOpen={modifyOrderModal}
         onRequestClose={handleCloseModifyOrderModal}
         contentLabel="Add Retuns"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            maxHeight: "70%",
-            minHeight: "35%",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -749,7 +720,7 @@ export default function OrderProfile() {
             setProductsListToUpdate={setProductsListToUpdate}
           />
           <div className="mt-[16px]">
-            <div className="flex justify-end space-x-8 bottom-5 right-8 absolute">
+            <div className="flex justify-end space-x-8">
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseModifyOrderModal}

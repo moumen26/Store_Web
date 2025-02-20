@@ -79,7 +79,7 @@ export default function ProductsContainer({
             },
           }}
         >
-          <div className="w-[100%] h-fit flex-col space-y-[32px]">
+          <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Product Details</h2>
             <div className="w-full flex justify-center h-[300px]">
               <img
@@ -118,16 +118,15 @@ export default function ProductsContainer({
                 <span className="trTableSpan">{selectedProduct.boxItems}</span>
               </div>
             </div>
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              onClick={handleCloseModal}
-              style={{ marginTop: "20px" }}
-              className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
-            >
-              Close
-            </button>
+            <div className="flex justify-end">
+              <button
+                onClick={handleCloseModal}
+                style={{ marginTop: "20px" }}
+                className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </Modal>
       )}

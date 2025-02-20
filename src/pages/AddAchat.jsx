@@ -26,7 +26,7 @@ export default function AddAchat() {
   const [discount, setDiscount] = useState(0);
   const handleDiscountChange = (e) => {
     setDiscount(e.target.value);
-  }
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRemiseModalOpen, setIsRemiseModalOpen] = useState(false);
   const [Products, setProducts] = useState([]);
@@ -159,10 +159,7 @@ export default function AddAchat() {
               />
             </div>
             <div className="w-full flex justify-end">
-              <AddAchatSubTotal 
-                total={total} 
-                discount={discount}
-              />
+              <AddAchatSubTotal total={total} discount={discount} />
             </div>
           </div>
         </div>
@@ -176,20 +173,11 @@ export default function AddAchat() {
         isOpen={isRemiseModalOpen}
         onRequestClose={handleRemiseCloseModal}
         contentLabel="Add Remise"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "40%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -201,10 +189,10 @@ export default function AddAchat() {
                 <div className="dialogAddCustomerItem items-center">
                   <span>Remise Value :</span>
                   <div className="inputForm relative">
-                    <input 
-                      type="text" 
-                      name="remise" 
-                      className="pr-10" 
+                    <input
+                      type="text"
+                      name="remise"
+                      className="pr-10"
                       onChange={handleDiscountChange}
                     />
                     <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -225,7 +213,7 @@ export default function AddAchat() {
                   type="button"
                   value={"Save"}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
-                  onClick={()=>{
+                  onClick={() => {
                     setIsRemiseModalOpen(false);
                   }}
                 />

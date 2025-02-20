@@ -457,21 +457,11 @@ export default function UpYourAccount() {
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
         contentLabel="Select your Store Category"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            // maxWidth: "40%",
-            width: "fit-content",
-            margin: "auto",
-            height: "70%",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -482,9 +472,8 @@ export default function UpYourAccount() {
                 Please select at least one category.
               </Alert>
             )}
-            <div className="flex items-center space-x-3 title title">
-              <h2 className="customerClassTitle">Select your Store Category</h2>
-            </div>
+            <h2 className="customerClassTitle">Select your Store Category</h2>
+
             <div className="storyCategoryClass">
               {CategoryData.length > 0 ? (
                 CategoryData?.map((category, index) => (

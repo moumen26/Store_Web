@@ -138,23 +138,25 @@ export default function Settings() {
     alert("delete");
   };
 
-  const [openAddCategoryConfirmationDialog, setOpenAddCategoryConfirmationDialog] = useState(false);
+  const [
+    openAddCategoryConfirmationDialog,
+    setOpenAddCategoryConfirmationDialog,
+  ] = useState(false);
   const handleOpenAddCategoryConfirmationDialog = () => {
     setOpenAddCategoryConfirmationDialog(true);
   };
   const handleCloseAddCategoryConfirmationDialog = () => {
     setOpenAddCategoryConfirmationDialog(false);
-  }
+  };
 
   const TakeMeToGoogleMaps = async (val) => {
     alert(val);
   };
 
-  const [selectedCategorie , setSelectedCategorie] = useState("")
+  const [selectedCategorie, setSelectedCategorie] = useState("");
   const handleProductCategoryChange = (e) => {
-    setSelectedCategorie(e.target.value)
-  }
-
+    setSelectedCategorie(e.target.value);
+  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -341,7 +343,8 @@ export default function Settings() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Category/store/add/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Category/store/add/${decodedToken.id}`,
         {
           category: selectedCategorie,
         },
@@ -556,10 +559,7 @@ export default function Settings() {
                           <div className="flex space-x-4 items-center">
                             <div className="selectedCategories">
                               {CategoryDataByStore?.map((category, index) => (
-                                <div
-                                  key={index}
-                                  className="categoryChip"
-                                >
+                                <div key={index} className="categoryChip">
                                   <span>{category.name}</span>
                                 </div>
                               ))}
@@ -572,78 +572,71 @@ export default function Settings() {
                               isOpen={openAddCategoryModal}
                               onRequestClose={false}
                               contentLabel="Add new Store Category"
+                              className="addNewModal"
                               style={{
                                 overlay: {
                                   backgroundColor: "rgba(0, 0, 0, 0.5)",
                                   zIndex: 1000,
                                 },
-                                content: {
-                                  border: "none",
-                                  borderRadius: "8px",
-                                  padding: "20px",
-                                  width: "fit-content",
-                                  maxWidth: "40%",
-                                  margin: "auto",
-                                  height: "70%",
-                                  zIndex: 1001,
-                                  overflowY: "auto",
-                                },
                               }}
                             >
                               {!CategoryDataLoading ? (
                                 <div className="customerClass">
-                                  <div className="flex items-center space-x-3 title title">
+                                  <div className="flex items-center space-x-3">
                                     <h2 className="customerClassTitle">
                                       Select your Store Category
                                     </h2>
                                   </div>
-                                  <div className="storyCategoryClass">
-                                    {CategoryData.length > 0 ? (
-                                      <div className="dialogAddCustomerItem items-center">
-                                        <span>Product Category :</span>
-                                        <div className="selectStoreWilayaCommune w-[500px]">
-                                          <select
-                                            name="productCategory"
-                                            onChange={handleProductCategoryChange}
-                                          >
-                                            <option value="">-- Select Product Category --</option>
-                                            {CategoryData?.map((category) => (
-                                              <option key={category._id} value={category._id}>
-                                                {category.name}
-                                              </option>
-                                            ))}
-                                          </select>
-                                        </div>
+                                  {CategoryData.length > 0 ? (
+                                    <div className="dialogAddCustomerItem items-center">
+                                      <span>Product Category :</span>
+                                      <div className="selectStoreWilayaCommune w-[500px]">
+                                        <select
+                                          name="productCategory"
+                                          onChange={handleProductCategoryChange}
+                                        >
+                                          <option value="">
+                                            -- Select Product Category --
+                                          </option>
+                                          {CategoryData?.map((category) => (
+                                            <option
+                                              key={category._id}
+                                              value={category._id}
+                                            >
+                                              {category.name}
+                                            </option>
+                                          ))}
+                                        </select>
                                       </div>
-                                    ) : (
-                                      <div>
-                                        <h1>no data is availble</h1>
-                                      </div>
-                                    )}
-                                  </div>
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      <h1>no data is availble</h1>
+                                    </div>
+                                  )}
                                   {!submitionLoading ? (
-                                      <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
-                                        <button
-                                          className="text-gray-500 cursor-pointer hover:text-gray-700"
-                                          onClick={handleCloseAddCategoryModal}
-                                        >
-                                          Cancel
-                                        </button>
-                                        <button
-                                          className="text-blue-500 cursor-pointer hover:text-blue-700"
-                                          onClick={handleOpenAddCategoryConfirmationDialog}
-                                        >
-                                          Save
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
-                                        <CircularProgress />
-                                      </div>
-                                    )
-                                  }
+                                    <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                                      <button
+                                        className="text-gray-500 cursor-pointer hover:text-gray-700"
+                                        onClick={handleCloseAddCategoryModal}
+                                      >
+                                        Cancel
+                                      </button>
+                                      <button
+                                        className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                        onClick={
+                                          handleOpenAddCategoryConfirmationDialog
+                                        }
+                                      >
+                                        Save
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
+                                      <CircularProgress />
+                                    </div>
+                                  )}
                                 </div>
-
                               ) : (
                                 <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
                                   <CircularProgress />

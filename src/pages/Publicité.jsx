@@ -179,19 +179,11 @@ export default function Publicité() {
         isOpen={openModelAddPub}
         onRequestClose={handleCloseModalAddPub}
         contentLabel="Add new Publicité"
+        className="addNewModal "
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "40%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
           },
         }}
       >
@@ -216,7 +208,6 @@ export default function Publicité() {
                   or drag and drop SVG, PNG, JPG
                 </p>
               )}
-
               <input
                 id="imageUploadInput"
                 type="file"
@@ -227,7 +218,7 @@ export default function Publicité() {
           </div>
 
           {/* Distination Input select */}
-          <div className="flex space-x-5 items-center">
+          <div className="flex space-x-5 items-center mt-[8px]">
             <span>Distination :</span>
             <div className="selectStoreWilayaCommune w-[300px]">
               <select name="productCategory" onChange={handleDistinationChange}>

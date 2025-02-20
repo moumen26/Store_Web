@@ -134,7 +134,7 @@ export default function AddAchat() {
               <ButtonSave setOnClick={handleOpenConfirmationDialog} />
             </div>
           </div>
-          <div className="customerClass">
+          <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Basic Information</h2>
             <AddAchatProfileDetails />
           </div>

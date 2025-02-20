@@ -511,12 +511,12 @@ export default function OrderProfile() {
             />
           </div>
         </div>
-        <div className="customerClass">
+        <div className="customerClass paddingClass">
           <h2 className="customerClassTitle">Order Details</h2>
           <OrderProfileDetails orderDetails={OrderData} />
         </div>
         <div className="flex space-x-6 h-full">
-          <div className="customerClass w-[60%]">
+          <div className="customerClass paddingClass w-[60%]">
             <h2 className="customerClassTitle">Devices in the Order</h2>
             {OrderStatusData?.map((status) => (
               <OrderProfileDevicesProductTable
@@ -526,7 +526,7 @@ export default function OrderProfile() {
             ))}
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
-            <div className="customerClass">
+            <div className="customerClass paddingClass">
               <h2 className="customerClassTitle">Customer</h2>
               <div className="flex-col space-y-1">
                 <span className="dashboardLatestOrdersDetails">

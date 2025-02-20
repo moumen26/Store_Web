@@ -297,21 +297,11 @@ export default function ProductsList() {
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Add New Stock"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
-          },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "100%",
-            // width: "fit-content",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
           },
         }}
       >
@@ -324,7 +314,7 @@ export default function ProductsList() {
             <div className="customerClass">
               <h2 className="customerClassTitle">Add New Stock</h2>
               <div className="addNewStockClass">
-                <div className="w-full h-[700px] w-[70%]">
+                <div className="w-full h-fit w-[70%] pr-2">
                   <div className="addProductModalHeader">
                     <Search
                       placeholder="Search by Product..."
@@ -388,7 +378,7 @@ export default function ProductsList() {
                     )}
                   </div>
                 </div>
-                <div className="h-[700px] w-[30%] productDetailsStock">
+                <div className="h-fit w-[30%] productDetailsStock">
                   <div className="dialogAddCustomerItem items-center">
                     <span>Buying Price :</span>
                     <div className="inputForm flex items-center">
@@ -415,7 +405,7 @@ export default function ProductsList() {
                       <span className="ml-2">DA</span>
                     </div>
                   </div>
-                  <div className="flex stockClass space-x-4">
+                  <div className="flex stockClass items-center space-x-4">
                     <div className="dialogAddCustomerItem items-center">
                       <span>Stock Box:</span>
                       <div className="inputForm w-[50px]">
@@ -444,7 +434,7 @@ export default function ProductsList() {
                       <span>
                         {selectedProduct?.boxItems * Quantity +
                           Number(QuantityUnity)}
-                        unity
+                        <span className="ml-1">unity</span>
                       </span>
                     )}
                   </div>
@@ -520,23 +510,23 @@ export default function ProductsList() {
                   </div>
                 </div>
               </div>
+              <div className="flex justify-end space-x-8">
+                <button
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  onClick={handleSaveStock}
+                >
+                  Save
+                </button>
+              </div>
             </div>
           </>
         )}
-        <div className="flex justify-end space-x-8 items-start absolute bottom-5 right-8">
-          <button
-            className="text-gray-500 cursor-pointer hover:text-gray-700"
-            onClick={handleCloseModal}
-          >
-            Cancel
-          </button>
-          <button
-            className="text-blue-500 cursor-pointer hover:text-blue-700"
-            onClick={handleSaveStock}
-          >
-            Save
-          </button>
-        </div>
       </Modal>
       {/* Snackbar */}
       <Snackbar

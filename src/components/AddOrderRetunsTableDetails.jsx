@@ -241,21 +241,12 @@ function AddOrderRetunsTableDetails({
         isOpen={addReturnsModal}
         onRequestClose={handleCloseReturnsModal}
         contentLabel="Add Returns"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
-          },
         }}
       >
-        <div className="customerClass space-y-0 pb-0">
+        <div className="customerClass space-y-0">
           <h2 className="dialogTitle">Add Returns to the Order</h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
@@ -271,7 +262,7 @@ function AddOrderRetunsTableDetails({
                 </div>
               </div>
             </div>
-            <div className="h-[55vh]">
+            <div className="h-fit">
               <ProductContainerOrderAddReturns
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}

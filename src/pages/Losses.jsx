@@ -254,8 +254,8 @@ export default function Losses() {
                 },
               }}
             >
-              <div className="customerClasss">
-                <h2 className="customerClassTitle">Add New Loss</h2>
+              <div className="customerClass pb-0">
+                <h2 className="dialogTitle">Add New Loss</h2>
                 <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
                   <div className="dialogAddCustomerItem">
                     <span>Amount :</span>

@@ -65,7 +65,8 @@ export default function AddOrder() {
   const handleSubmitCreateOrder = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.post(import.meta.env.VITE_APP_URL_BASE+`/Receipt/store/${decodedToken.id}`, 
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/store/${decodedToken.id}`,
         {
           client: id,
           products: Products,
@@ -76,10 +77,10 @@ export default function AddOrder() {
           deliveredLocation: DeliveredLocation,
         },
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -96,35 +97,35 @@ export default function AddOrder() {
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error creating new order: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error creating new order");
-        }
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error creating new order: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error creating new order");
+      }
     }
     setProducts([]);
-  }
+  };
 
   return (
     <>
-      {!submitionLoading ?
+      {!submitionLoading ? (
         <div className="pagesContainer addOrder">
           <Header />
           <div className="w-full flex items-center justify-between">
             <h2 className="pagesTitle">Add a new order</h2>
             <div className="flex items-center space-x-2">
               <ButtonCancel />
-              <ButtonSave setOnClick={handleOpenConfirmationDialog}/>
+              <ButtonSave setOnClick={handleOpenConfirmationDialog} />
             </div>
           </div>
-          <div className="customerClass">
+          <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Basic Information</h2>
             <AddOrderProfileDetails
               deliveryAmount={deliveryAmount}
@@ -157,11 +158,11 @@ export default function AddOrder() {
             </div>
           </div>
         </div>
-      :
+      ) : (
         <div className="flex items-center justify-center h-screen">
           <CircularProgress />
         </div>
-      }
+      )}
       <ConfirmDialog
         open={openConfirmationDialog}
         onConfirm={handleSubmitCreateOrder}
@@ -177,7 +178,7 @@ export default function AddOrder() {
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

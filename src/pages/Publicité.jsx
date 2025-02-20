@@ -25,7 +25,7 @@ export default function Publicité() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertType, setAlertType] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [Distination , setDistination] = useState("");
+  const [Distination, setDistination] = useState("");
   const handleDistinationChange = (e) => {
     setDistination(e.target.value);
   };
@@ -56,7 +56,8 @@ export default function Publicité() {
   // fetching StorePublicity data
   const fetchStorePublicityData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Publicity/fetchAllStorePublicities/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE +
+        `/Publicity/fetchAllStorePublicities/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -84,8 +85,8 @@ export default function Publicité() {
   } = useQuery({
     queryKey: ["StorePublicityData", user?.token, location.key],
     queryFn: fetchStorePublicityData,
-    enabled: !!user?.token, 
-    refetchOnWindowFocus: true, 
+    enabled: !!user?.token,
+    refetchOnWindowFocus: true,
   });
 
   //save Publicity API
@@ -97,7 +98,8 @@ export default function Publicité() {
       formData.append("distination", Distination);
 
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/Publicity/createFromStore/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Publicity/createFromStore/${decodedToken.id}`,
         formData,
         {
           headers: {
@@ -193,7 +195,7 @@ export default function Publicité() {
           },
         }}
       >
-        <div className="customerClasss">
+        <div className="customerClass">
           <h2 className="customerClassTitle">Add New Publicité</h2>
 
           {/* Image Upload Section */}

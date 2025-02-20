@@ -79,7 +79,8 @@ function AddPurchaseRetunsTableDetails({
     } else {
       let newQuantity = ClientQuantity;
       if (unitType == "perBox") {
-        newQuantity = newQuantity * Number(newProduct.sousStock.stock.product.boxItems);
+        newQuantity =
+          newQuantity * Number(newProduct.sousStock.stock.product.boxItems);
       }
       if (!newQuantity || newQuantity <= 0) {
         setAlertMessage("Quantity must be greater than 0");
@@ -143,11 +144,14 @@ function AddPurchaseRetunsTableDetails({
       >
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.sousStock.stock.product.name} {row.sousStock.stock.product.size}
+            {row.sousStock.stock.product.name}{" "}
+            {row.sousStock.stock.product.size}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.sousStock.stock.product.brand.name}</span>
+          <span className="trTableSpan">
+            {row.sousStock.stock.product.brand.name}
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.price} DA</span>
@@ -240,21 +244,12 @@ function AddPurchaseRetunsTableDetails({
         isOpen={addReturnsModal}
         onRequestClose={handleCloseReturnsModal}
         contentLabel="Add Returns"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-            overflowY: "auto",
-          },
         }}
       >
-        <div className="customerClass space-y-0 pb-0">
+        <div className="customerClass space-y-0">
           <h2 className="dialogTitle">Add Returns to the Purchase</h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
@@ -270,7 +265,7 @@ function AddPurchaseRetunsTableDetails({
                 </div>
               </div>
             </div>
-            <div className="h-[55vh]">
+            <div className="h-fit">
               <ProductContainerPurchaseAddReturns
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}

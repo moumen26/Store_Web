@@ -483,25 +483,16 @@ export default function ProductTable({
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Product Details"
+        className="addNewModal addNewStockModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
           },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "90%",
-            margin: "auto",
-            minHeight: "90%",
-            height: "fit-content",
-            zIndex: 1001,
-          },
         }}
       >
         {StockLoading ? (
-          <div className="w-full h-[93%] flex items-center justify-center">
+          <div className="h-[80%] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
         ) : StockData ? (
@@ -554,21 +545,32 @@ export default function ProductTable({
                 </div>
               </div>
             </div>
+            <div className="flex justify-end">
+              <button
+                onClick={handleCloseModal}
+                style={{ marginTop: "20px" }}
+                className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
+              >
+                Close
+              </button>
+            </div>
           </>
         ) : (
-          <div className="h-[93%] w-full flex items-center justify-center">
-            <p>Product not found</p>
-          </div>
+          <>
+            <div className="h-[93%] w-full flex items-center justify-center">
+              <p>Product not found</p>
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={handleCloseModal}
+                style={{ marginTop: "20px" }}
+                className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
+              >
+                Close
+              </button>
+            </div>
+          </>
         )}
-        <div className="flex justify-end">
-          <button
-            onClick={handleCloseModal}
-            style={{ marginTop: "20px" }}
-            className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
-          >
-            Close
-          </button>
-        </div>
       </Modal>
 
       {/* Snackbar */}
@@ -590,23 +592,15 @@ export default function ProductTable({
         isOpen={modalIsOpenAddNewStockProduct}
         onRequestClose={handleCloseModalAddNewStockProduct}
         contentLabel="Add Address Modal"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000,
           },
-          content: {
-            border: "none",
-            borderRadius: "8px",
-            padding: "20px",
-            maxWidth: "40%",
-            margin: "auto",
-            height: "fit-content",
-            zIndex: 1001,
-          },
         }}
       >
-        <div className="customerClasss">
+        <div className="customerClass">
           <h2 className="customerClassTitle">Add New Stock</h2>
           <div className="productDetailsStockProduct">
             <div className="dialogAddCustomerItem items-center">

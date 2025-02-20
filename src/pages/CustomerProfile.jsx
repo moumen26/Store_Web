@@ -61,7 +61,8 @@ export default function CustomerProfile() {
     setNewAddressCustomer(e.target.value);
   };
 
-  const [confirmDialogOpenAddingAddress, setConfirmDialogOpenAddingAddress] = useState(false);
+  const [confirmDialogOpenAddingAddress, setConfirmDialogOpenAddingAddress] =
+    useState(false);
   const handleOpenConfirmDialogAddingAddress = () => {
     setConfirmDialogOpenAddingAddress(true);
   };
@@ -69,7 +70,6 @@ export default function CustomerProfile() {
     setConfirmDialogOpenAddingAddress(false);
     setNewAddressCustomer("");
   };
-
 
   const handleConfirmAsVendor = async () => {
     //API call to make the user a vendor
@@ -420,7 +420,7 @@ export default function CustomerProfile() {
           />
         </div>
       </div>
-      <div className="customerClass">
+      <div className="customerClass paddingClass">
         <h2 className="customerClassTitle">Personal Information</h2>
         <div className="personalInformation">
           <div className="flex-col">
@@ -467,7 +467,7 @@ export default function CustomerProfile() {
       </div>
       {CustomerData?.storeAddresses &&
       CustomerData?.storeAddresses.length > 0 ? (
-        <div className="customerClass">
+        <div className="customerClass paddingClass">
           <div className="flex justify-between items-center">
             <h2 className="customerClassTitle">Primary Delivery Address</h2>
             <ButtonAdd
@@ -478,23 +478,15 @@ export default function CustomerProfile() {
               isOpen={modalIsOpenAddAddress}
               onRequestClose={handleCloseModalAddAddress}
               contentLabel="Add Address Modal"
+              className="addNewModal"
               style={{
                 overlay: {
                   backgroundColor: "rgba(0, 0, 0, 0.5)",
                   zIndex: 1000,
                 },
-                content: {
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "20px",
-                  maxWidth: "40%",
-                  margin: "auto",
-                  height: "fit-content",
-                  zIndex: 1001,
-                },
               }}
             >
-              <div className="customerClasss">
+              <div className="customerClass">
                 <h2 className="customerClassTitle">Add New Address</h2>
                 <div className="flex justify-end items-center space-x-4">
                   <span>Name :</span>
@@ -554,7 +546,7 @@ export default function CustomerProfile() {
           </div>
         </div>
       ) : null}
-      <div className="customerClass">
+      <div className="customerClass paddingClass">
         <h2 className="customerClassTitle">Stats</h2>
         <div className="flex space-x-4">
           <CustomerStatsCard
@@ -586,7 +578,7 @@ export default function CustomerProfile() {
           />
         </div>
       </div>
-      <div className="customerClass customerOrdersClass">
+      <div className="customerClass paddingClass customerOrdersClass">
         <div className="flex justify-between items-center">
           <h2 className="customerClassTitle">Orders</h2>
           <Search

@@ -236,7 +236,7 @@
 
 .aside {
   position: fixed;
-  width: 14%;
+  width: 17%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -315,12 +315,12 @@
 
 .pagesContainer {
   overflow: hidden;
-  width: calc(100% - 14%);
+  width: calc(100% - 17%);
   min-height: 100vh;
   background-color: var(--lightColor);
   height: fit-content;
   position: absolute;
-  left: 14%;
+  left: 17%;
   top: 0;
   padding: 24px;
   display: flex;
@@ -463,6 +463,15 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.customerClass{
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.paddingClass{
+  padding: 20px 25px;
 }
 
 .customerOrdersClass {
@@ -1426,7 +1435,7 @@
 .productModal {
   border: none;
   border-radius: 8px;
-  padding: 20px;
+  /* padding: 20px; */
   width: 30%;
   margin: auto;
   z-index: 1001;
@@ -1442,7 +1451,7 @@
   border: none;
   border-radius: 8px;
   padding: 20px;
-  width: 40%;
+  width: 50%;
   margin: auto;
   z-index: 1001;
   background-color: var(--whiteColor);
@@ -1450,11 +1459,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: fit-content;
+  max-height: 90%;
+  overflow-y: scroll;
+  height: fit-content;
 }
 
 .addNewCustomerModal {
   width: fit-content;
+}
+
+.addNewStockModal {
+  width: 95%;
 }
 
 .wilayaCommune {

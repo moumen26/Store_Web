@@ -28,31 +28,43 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
   const statusSteps = [
     {
       label: "Order Placed",
-      icon: !submitionLoading ? <ClipboardDocumentCheckIcon className="iconAsideBar"
-        onClick={() => handleSubmitStatusProgress(0)}
-      /> : null,
+      icon: !submitionLoading ? (
+        <ClipboardDocumentCheckIcon
+          className="iconAsideBar"
+          onClick={() => handleSubmitStatusProgress(0)}
+        />
+      ) : null,
     },
     {
       label: "Preparing your order",
-      icon: !submitionLoading ? <ArchiveBoxArrowDownIcon className="iconAsideBar"
-        onClick={() => handleSubmitStatusProgress(1)}
-      /> : null,
+      icon: !submitionLoading ? (
+        <ArchiveBoxArrowDownIcon
+          className="iconAsideBar"
+          onClick={() => handleSubmitStatusProgress(1)}
+        />
+      ) : null,
     },
     {
       label: "Order on the way to address",
-      icon: !submitionLoading ? <TruckIcon className="iconAsideBar"
-        onClick={() => handleSubmitStatusProgress(2)}
-      /> : null,
+      icon: !submitionLoading ? (
+        <TruckIcon
+          className="iconAsideBar"
+          onClick={() => handleSubmitStatusProgress(2)}
+        />
+      ) : null,
     },
     {
       label: "Ready for Pickup",
-      icon: !submitionLoading ? <TruckIcon className="iconAsideBar"
-        onClick={() => handleSubmitStatusProgress(2)}
-      /> : null,
+      icon: !submitionLoading ? (
+        <TruckIcon
+          className="iconAsideBar"
+          onClick={() => handleSubmitStatusProgress(2)}
+        />
+      ) : null,
     },
     {
       label: orderDetails.type === "pickup" ? "Picked up" : "Delivered",
-      icon: <ArchiveBoxIcon className="iconAsideBar"/>,
+      icon: <ArchiveBoxIcon className="iconAsideBar" />,
     },
   ];
 
@@ -66,7 +78,8 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/status/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/status/${decodedToken.id}`,
         {
           id: orderDetails._id,
           status: val,
@@ -107,7 +120,7 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
     }
   };
   return (
-    <div className={`customerClass ${orderDetails.type}`}>
+    <div className={`customerClass paddingClass ${orderDetails.type}`}>
       <h2 className="customerClassTitle">Order Status</h2>
       <div className="orderStatus">
         <div className="timeLineStatus">
@@ -128,9 +141,7 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
                 <div className="orderStatusItemSpans">
                   <span className="trTableSpan">{step.label}</span>
                 </div>
-                {
-                  step.icon
-                }
+                {step.icon}
               </div>
             </div>
           ))}

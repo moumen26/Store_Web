@@ -162,6 +162,16 @@ export default function Settings() {
     setSelectedCategorie(e.target.value);
   };
 
+  const [openModelSubscibe, setOpenModelSubscibe] = useState(false);
+
+  const handleOpenModalSubscription = () => {
+    setOpenModelSubscibe(true);
+  };
+
+  const handleCloseModalSubscription = () => {
+    setOpenModelSubscibe(false);
+  };
+
   //---------------------------------API calls---------------------------------\\
 
   const [submitionLoading, setSubmitionLoading] = useState(false);
@@ -744,6 +754,7 @@ export default function Settings() {
                       labelForm="Email Address"
                       inputType="email"
                       inputName="email"
+                      inputPlaceholder="Enter your Email"
                       // value={editableData.storeName}
                       // setChangevalue={handleInputChange}
                       readOnly={!isEditingEmailPassword}
@@ -752,6 +763,7 @@ export default function Settings() {
                       labelForm="Confirm Email Address"
                       inputType="email"
                       inputName="email"
+                      inputPlaceholder="Confirm your Email"
                       // value={editableData.firstName}
                       // setChangevalue={handleInputChange}
                       readOnly={!isEditingEmailPassword}
@@ -760,6 +772,7 @@ export default function Settings() {
                       labelForm="Password"
                       inputPlaceholder="Enter your password"
                       inputName="password"
+                      Confir
                       // setChangevalue={handleInputChange}
                       // value={password}
                       readOnly={!isEditingEmailPassword}
@@ -786,31 +799,96 @@ export default function Settings() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <SubscriptionCard
                   title="Basic Plan"
-                  price="10 DA/month"
+                  price="2500 DA/month"
                   features={["Feature 1", "Feature 2", "Feature 3"]}
                   buttonText="Subscribe"
+                  onClick={handleOpenModalSubscription}
                 />
                 <SubscriptionCard
                   title="Standard Plan"
-                  price="25 DA/month"
+                  price="3500 DA/month"
                   features={["Feature A", "Feature B", "Feature C"]}
                   buttonText="Subscribe"
+                  onClick={handleOpenModalSubscription}
                 />
                 <SubscriptionCard
                   title="Premium Plan"
-                  price="50 DA/month"
+                  price="5000 DA/month"
                   features={[
                     "Premium Feature 1",
                     "Premium Feature 2",
                     "Premium Feature 3",
                   ]}
                   buttonText="Subscribe"
+                  onClick={handleOpenModalSubscription}
                 />
               </div>
             </div>
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={openModelSubscibe}
+        onRequestClose={handleCloseModalSubscription}
+        contentLabel="Add new Subscription"
+        className="addNewModal"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div className="customerClass pb-0">
+          <h2 className="dialogTitle">Add New Subscription</h2>
+          <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
+            <div className="dialogAddCustomerItem">
+              <span>Expiry Months :</span>
+              <div className="selectStoreWilayaCommune w-[500px]">
+                <select
+                  name="productCategory"
+                  // onChange={handelSubscriptionChange}
+                >
+                  <option value="" >-- Select Duration --</option>
+                  <option value="month">Month</option>
+                  <option value="trimester">Trimester</option>
+                  <option value="semester">Semester</option>
+                  <option value="year">Year</option>
+                  {/* {SubscriptionsData?.map((sub) => (
+                    <option key={sub._id} value={sub._id}>
+                      {sub.name}
+                    </option>
+                  ))} */}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-8 items-start mt-[20px]">
+            {/* {!submitionLoading ? (
+              <> */}
+            <button
+              className="text-gray-500 cursor-pointer hover:text-gray-700"
+              onClick={handleCloseModalSubscription}
+            >
+              Cancel
+            </button>
+            <button
+              className="text-blue-500 cursor-pointer hover:text-blue-700"
+              // onClick={}
+            >
+              Save
+            </button>
+            {/* </>
+            ) : (
+              <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
+                <CircularProgress />
+              </div>
+            )} */}
+          </div>
+        </div>
+      </Modal>
       <ConfirmDialog
         open={openUpdateConfirmationDialog}
         onConfirm={handleClickSave}

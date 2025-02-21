@@ -3,7 +3,6 @@ import React from "react";
 export default function SubscriptionCard({
   title,
   price,
-  description,
   features,
   buttonText,
   onClick,
@@ -11,8 +10,8 @@ export default function SubscriptionCard({
   return (
     <div className="subscriptionCard p-8 rounded-2xl shadow-lg bg-white border border-gray-200 flex flex-col items-center text-center space-y-6 transform hover:scale-105 transition-transform duration-300">
       <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
-      <p className="text-4xl font-extrabold text-blue-500">{price}</p>
-      <p className="text-gray-600">{description}</p>
+      <p className="text-4xl font-extrabold text-blue-500">{price} DA</p>
+      <p className="text-gray-600">per month</p>
 
       <ul className="mt-4 space-y-3 text-gray-700 text-left w-full">
         {features.map((feature, index) => (

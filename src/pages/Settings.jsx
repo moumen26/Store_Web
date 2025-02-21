@@ -26,11 +26,11 @@ import axios from "axios";
 import Modal from "react-modal";
 import InputFormPassword from "../components/InputFormPassword";
 import SubscriptionCard from "../components/SubscriptionCard";
+import { set } from "date-fns";
 
 export default function Settings() {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
-  const { id } = useParams();
   const location = useLocation();
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -163,12 +163,15 @@ export default function Settings() {
   };
 
   const [openModelSubscibe, setOpenModelSubscibe] = useState(false);
-
-  const handleOpenModalSubscription = () => {
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const handleOpenModalSubscription = (val) => {
+    setSelectedSubscription(val);
     setOpenModelSubscibe(true);
   };
 
   const handleCloseModalSubscription = () => {
+    setSelectedSubscription(null);
     setOpenModelSubscibe(false);
   };
 
@@ -209,7 +212,7 @@ export default function Settings() {
     isLoading: CustomerDataLoading,
     refetch: refetchCustomerDataData,
   } = useQuery({
-    queryKey: ["CustomerData", user?.token, location.key, id],
+    queryKey: ["CustomerData", user?.token, location.key],
     queryFn: fetchCustomerData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
@@ -245,7 +248,7 @@ export default function Settings() {
     isLoading: CategoryDataLoading,
     refetch: refetchCategoryData,
   } = useQuery({
-    queryKey: ["CategoryData", user?.token, location.key, id],
+    queryKey: ["CategoryData", user?.token, location.key],
     queryFn: fetchCategoryData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
@@ -281,10 +284,46 @@ export default function Settings() {
     isLoading: CategoryDataByStoreLoading,
     refetch: refetchCategoryDataByStoreData,
   } = useQuery({
-    queryKey: ["CategoryDataByStore", user?.token, location.key, id],
+    queryKey: ["CategoryDataByStore", user?.token, location.key],
     queryFn: fetchCategoryDataByStore,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetching on window focus
+  });
+  //fetch data
+  const fetchSubscriptionsData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Subscription`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving subscriptions data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const {
+    data: SubscriptionsData,
+    error: SubscriptionsDataError,
+    isLoading: SubscriptionsDataLoading,
+    refetch: refetchSubscriptionsData,
+  } = useQuery({
+    queryKey: ["SubscriptionsData", user?.token, location.key],
+    queryFn: fetchSubscriptionsData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
   });
 
   useEffect(() => {
@@ -399,7 +438,50 @@ export default function Settings() {
       }
     }
   };
-
+  const handleSubmitNewSubscription = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/SubscriptionStore/create`,
+        {
+          Store: decodedToken.id, 
+          Subscription: selectedSubscription, 
+          expiryMonths: selectedDuration,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseModalSubscription();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {      
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating profile: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating profile");
+      }
+    }
+  };
   return (
     <div className="pagesContainer settingsContainer">
       <div className="pageTable h-[100vh] flex-row">
@@ -797,31 +879,30 @@ export default function Settings() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <SubscriptionCard
-                  title="Basic Plan"
-                  price="2500 DA/month"
-                  features={["Feature 1", "Feature 2", "Feature 3"]}
-                  buttonText="Subscribe"
-                  onClick={handleOpenModalSubscription}
-                />
-                <SubscriptionCard
-                  title="Standard Plan"
-                  price="3500 DA/month"
-                  features={["Feature A", "Feature B", "Feature C"]}
-                  buttonText="Subscribe"
-                  onClick={handleOpenModalSubscription}
-                />
-                <SubscriptionCard
-                  title="Premium Plan"
-                  price="5000 DA/month"
-                  features={[
-                    "Premium Feature 1",
-                    "Premium Feature 2",
-                    "Premium Feature 3",
-                  ]}
-                  buttonText="Subscribe"
-                  onClick={handleOpenModalSubscription}
-                />
+                {SubscriptionsDataLoading ? (
+                  <div className="flex justify-center items-center">
+                    <CircularProgress />
+                  </div>
+                  ) : (
+                    SubscriptionsData?.length > 0 ?
+                      SubscriptionsData?.map((sub) => (
+                        <SubscriptionCard
+                          key={sub._id}
+                          title={sub.name}
+                          price={sub.amount}
+                          features={[]}
+                          buttonText="Subscribe"
+                          onClick={() => {
+                            handleOpenModalSubscription(sub._id);
+                          }}
+                        />
+                      ))
+                      :
+                      <div className="flex justify-center items-center">
+                        <p>No subscriptions available</p>
+                      </div>
+                  )
+                }
               </div>
             </div>
           )}
@@ -848,26 +929,21 @@ export default function Settings() {
               <div className="selectStoreWilayaCommune w-[500px]">
                 <select
                   name="productCategory"
-                  // onChange={handelSubscriptionChange}
+                  onChange={(e) => setSelectedDuration(e.target.value)}
                 >
                   <option value="" >-- Select Duration --</option>
-                  <option value="month">Month</option>
-                  <option value="trimester">Trimester</option>
-                  <option value="semester">Semester</option>
-                  <option value="year">Year</option>
-                  {/* {SubscriptionsData?.map((sub) => (
-                    <option key={sub._id} value={sub._id}>
-                      {sub.name}
-                    </option>
-                  ))} */}
+                  <option value="1">Month</option>
+                  <option value="3">Trimester</option>
+                  <option value="6">Semester</option>
+                  <option value="12">Year</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
-            {/* {!submitionLoading ? (
-              <> */}
+            {!submitionLoading ? (
+              <>
             <button
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalSubscription}
@@ -876,16 +952,16 @@ export default function Settings() {
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
-              // onClick={}
+              onClick={handleSubmitNewSubscription}
             >
               Save
             </button>
-            {/* </>
+            </>
             ) : (
               <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
                 <CircularProgress />
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </Modal>

@@ -71,31 +71,16 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("PersoInf");
   const handleTabClick = (tab) => setActiveTab(tab);
 
-  const [selectedWilaya, setSelectedWilaya] = useState("");
-  const [selectedCommune, setSelectedCommune] = useState("");
-  const handleWilayaChange = (e) => {
-    setSelectedWilaya(e.target.value);
-    setSelectedCommune("");
-  };
-  const handleCommuneChange = (e) => setSelectedCommune(e.target.value);
-
-  const sortedWilayaCodes = Object.keys(wilayasAndCommunes).sort(
-    (a, b) => parseInt(a) - parseInt(b)
-  );
-
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingEmailPassword, setIsEditingEmailPassword] = useState(false);
   const [editableData, setEditableData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
-    phoneNumber: "",
     wilaya: "",
     commune: "",
     storeAddress: "",
     storeName: "",
     storeLocation: "",
-    RC: "",
   });
 
   const handleClickModify = () => {
@@ -442,7 +427,7 @@ export default function Settings() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/SubscriptionStore/create`,
+        import.meta.env.VITE_APP_URL_BASE + `/SubscriptionStore/create/${decodedToken?.id}`,
         {
           Store: decodedToken.id, 
           Subscription: selectedSubscription, 
@@ -553,10 +538,24 @@ export default function Settings() {
                   <div>
                     <div className="settingPersonalInformation">
                       <InputForm
+                        labelForm="Email"
+                        inputType="email"
+                        inputName="email"
+                        value={editableData.email}
+                        readOnly={true}
+                      />
+                      <InputForm
+                        labelForm="Phone number"
+                        inputType="phone"
+                        inputName="phone"
+                        value={editableData.phoneNumber}
+                        inputPlaceholder={"Not available"}
+                        readOnly={true}
+                      />
+                      <InputForm
                         labelForm="Store Name"
                         inputType="text"
                         inputName="storeName"
-                        // inputPlaceholder="Enter your Store Name"
                         value={editableData.storeName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
@@ -565,7 +564,6 @@ export default function Settings() {
                         labelForm="First Name"
                         inputType="text"
                         inputName="firstName"
-                        // inputPlaceholder="Enter your First Name"
                         value={editableData.firstName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
@@ -574,29 +572,27 @@ export default function Settings() {
                         labelForm="Last Name"
                         inputType="text"
                         inputName="lastName"
-                        // inputPlaceholder="Enter your Last Name"
                         value={editableData.lastName}
                         setChangevalue={handleInputChange}
                         readOnly={!isEditing}
                       />
-                      <InputForm
-                        labelForm="Email Address"
-                        inputType="email"
-                        inputName="email"
-                        // inputPlaceholder="Enter your Email"
-                        value={editableData.email}
-                        setChangevalue={handleInputChange}
-                        readOnly={true}
-                      />
-                      <InputForm
-                        labelForm="Phone Number"
-                        inputType="text"
-                        // inputPlaceholder="Enter your Phone"
-                        inputName="phoneNumber"
-                        value={editableData.phoneNumber}
-                        setChangevalue={handleInputChange}
-                        readOnly={true}
-                      />
+                      <div className="inputItem">
+                        <span>Address</span>
+                        <div className="inputForm">
+                          <input
+                            type="text"
+                            name="storeAddress"
+                            value={editableData.storeAddress}
+                            onChange={handleInputChange}
+                            readOnly={!isEditing}
+                          />
+                          <MapIcon
+                            onClick={() =>
+                              TakeMeToGoogleMaps(editableData.storeAddress)
+                            }
+                          />
+                        </div>
+                      </div>
                       {isEditing ? (
                         <>
                           <div className="flex-col space-y-[12px] items-center">
@@ -646,23 +642,6 @@ export default function Settings() {
                           />
                         </>
                       )}
-                      <div className="inputItem">
-                        <span>Address</span>
-                        <div className="inputForm">
-                          <input
-                            type="text"
-                            name="storeAddress"
-                            value={editableData.storeAddress}
-                            onChange={handleInputChange}
-                            readOnly={!isEditing}
-                          />
-                          <MapIcon
-                            onClick={() =>
-                              TakeMeToGoogleMaps(editableData.storeAddress)
-                            }
-                          />
-                        </div>
-                      </div>
                       {!CategoryDataByStoreLoading ? (
                         <div className="flex-col space-y-[12px]">
                           <span>Store Category</span>
@@ -837,7 +816,7 @@ export default function Settings() {
                       inputType="email"
                       inputName="email"
                       inputPlaceholder="Enter your Email"
-                      // value={editableData.storeName}
+                      // value={email}
                       // setChangevalue={handleInputChange}
                       readOnly={!isEditingEmailPassword}
                     />
@@ -854,9 +833,8 @@ export default function Settings() {
                       labelForm="Password"
                       inputPlaceholder="Enter your password"
                       inputName="password"
-                      Confir
-                      // setChangevalue={handleInputChange}
                       // value={password}
+                      // setChangevalue={handleInputChange}
                       readOnly={!isEditingEmailPassword}
                     />
                     <InputFormPassword
@@ -865,6 +843,15 @@ export default function Settings() {
                       inputName="password"
                       // setChangevalue={handleInputChange}
                       // value={password}
+                      readOnly={!isEditingEmailPassword}
+                    />
+                    <InputForm
+                      labelForm="Phone number"
+                      inputType="phone"
+                      inputName="phone"
+                      inputPlaceholder="Enter your phone number"
+                      // value={phoneNumber}
+                      // setChangevalue={handleInputChange}
                       readOnly={!isEditingEmailPassword}
                     />
                   </div>

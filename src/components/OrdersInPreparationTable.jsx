@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -27,8 +27,9 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/OrderProfile/${row._id}`);
+    navigate(`/OrderProfile/${row.orderId}`);
   };
+
   return (
     <React.Fragment>
       <TableRow
@@ -46,26 +47,21 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.client.firstName} {row.client.lastName}
+            {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row._id}</span>
+          <span className="trTableSpan">{row.orderId}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.date)}</span>
+          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
-        </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">
-            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2) + ' DA'}
-          </span>
+          <span className="trTableSpan">{row.orderAmount} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.status, row.type)}
+            {orderStatusTextDisplayer(row.orderStatus, row.orderType)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -80,7 +76,7 @@ function Row(props) {
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={8}
+          colSpan={7}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -110,9 +106,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.products.map((orderDetailsRow) => (
+                  {row.orderDetails.map((orderDetailsRow) => (
                     <TableRow
-                      key={orderDetailsRow.product._id}
+                      key={orderDetailsRow.productName}
                       className="tableRow"
                     >
                       <TableCell
@@ -121,24 +117,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.product.name + ' ' + orderDetailsRow.product.size}
+                          {orderDetailsRow.productName}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.price.toFixed(2)} DA
+                          {orderDetailsRow.productPrice}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.quantity}
+                          {orderDetailsRow.productQuantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.price.toFixed(2) *
-                              orderDetailsRow.quantity
+                            orderDetailsRow.productPrice *
+                              orderDetailsRow.productQuantity
                           )}
                         </span>
                       </TableCell>
@@ -155,18 +151,37 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.object.isRequired,
+  row: PropTypes.shape({
+    orderId: PropTypes.string.isRequired,
+    orderCode: PropTypes.string.isRequired,
+    orderAmount: PropTypes.string.isRequired,
+    orderDate: PropTypes.string.isRequired,
+    orderDetails: PropTypes.arrayOf(
+      PropTypes.shape({
+        productName: PropTypes.string.isRequired,
+        productPrice: PropTypes.string.isRequired,
+        productQuantity: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    customerLastName: PropTypes.string.isRequired,
+    customerFirstName: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
+    orderType: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
+
+export default function OrdersInPreparationTable({ searchQuery, setFilteredData }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
 
   //fetch data
-  const fetchCreditedOrdersData = async () => {
+  const NonDelivredfetchOrderData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivredCredited/all/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/all/${
+          decodedToken.id
+        }`,
       {
         method: "GET",
         headers: {
@@ -181,7 +196,7 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
       if (errorData.error.statusCode === 404) {
         return []; // Return an empty array if no data is found
       } else {
-        throw new Error("Error receiving approved users data for this store");
+        throw new Error("Error receiving order data");
       }
     }
 
@@ -189,39 +204,74 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
   };
   // useQuery hook to fetch data
   const { 
-    data: CreditedOrderData, 
-    error: CreditedOrderDataError, 
-    isLoading: CreditedOrderDataLoading, 
-    refetch: refetchCreditedOrderData 
+    data: NonDelivredOrderData, 
+    error: NonDelivredOrderDataError, 
+    isLoading: NonDelivredOrderDataLoading, 
+    refetch: NonDelivredrefetchOrderData 
   } = useQuery({
-    queryKey: ['CreditedOrderData', user?.token, location.key],
-    queryFn: fetchCreditedOrdersData,
+    queryKey: ['NonDelivredOrderData', user?.token],
+    queryFn: NonDelivredfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-    staleTime: 0,
+    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
 
-  // const [rows, setRows] = useState([]);
-  // const [filteredRows, setFilteredRows] = useState(rows);
-  // useEffect(() => {
-  //   const results = rows.filter(
-  //     (row) =>
-  //       row.customerLastName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.customerFirstName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDetails.some((detail) =>
-  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-  //       )
-  //   );
-  //   setFilteredRows(results);
-  //   setFilteredData(results);
-  // }, [searchQuery, setFilteredData]);
+  // Transform NonDelivredOrderData into rows when it changes
+  useEffect(() => {
+    if (NonDelivredOrderData?.length > 0) {
+      const rowsData = NonDelivredOrderData.map((order) => ({
+        orderId: order._id,
+        customerFirstName: order.client.firstName,
+        customerLastName: order.client.lastName,
+        orderDate: order.date,
+        orderAmount: order.total.toString(),
+        orderStatus: order.status.toString(),
+        orderType: order.type.toString(),
+        orderDetails: order.products.map((item) => ({
+          productName: item.product.name,
+          productPrice: item.price.toString(),
+          productQuantity: item.quantity.toString(),
+        })),
+      }));
+      setRows(rowsData);
+      setFilteredRows(rowsData); // Initialize filteredRows with rowsData
+    } else {
+      setRows([]);
+      setFilteredRows([]); // Clear filteredRows if no data
+    }
+  }, [NonDelivredOrderData, rows]);
+
+  // Refetch data when location.key changes
+  useEffect(() => {
+    NonDelivredrefetchOrderData();
+  }, [location.key, NonDelivredrefetchOrderData]);
+
+  // Memoized filtered rows based on searchQuery
+  const filteredResults = useMemo(() => {
+    if (!searchQuery) return rows;
+
+    return rows.filter(
+      (row) =>
+        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderDetails.some((detail) =>
+          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    );
+  }, [rows, searchQuery]);
+
+  // Update filteredRows and filteredData when filteredResults change
+  useEffect(() => {
+    setFilteredRows(filteredResults);
+    setFilteredData(filteredResults);
+  }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -244,9 +294,6 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Amount</span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Payment</span>
-            </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Status</span>
             </TableCell>
@@ -256,20 +303,21 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {CreditedOrderDataLoading ? (
+          {filteredRows.length > 0 ? (
+            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+          ) : NonDelivredOrderDataLoading ? (
             <TableRow>
-              <TableCell colSpan={9} align="center">
+              <TableCell colSpan={7} align="center">
+                {/* <span className="thTableSpan">Loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : CreditedOrderDataError || !CreditedOrderData || CreditedOrderData.length <= 0 ? (
+          ) : (
             <TableRow>
-              <TableCell colSpan={9} align="center">
+              <TableCell colSpan={7} align="center">
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>
-          ) :  (
-            CreditedOrderData.map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -177,7 +177,7 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
   //fetch data
   const ReturnedfetchOrderData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/returned/${
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/returned/all/${
         decodedToken.id
       }`,
       {
@@ -210,11 +210,14 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
     queryKey: ["ReturnedOrderData", user?.token, location.key],
     queryFn: ReturnedfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-    staleTime: 0,
+    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
 
   const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
   useEffect(() => {
     if (ReturnedOrderData?.length > 0) {
       const rowsData = ReturnedOrderData.map((order) => ({
@@ -237,27 +240,29 @@ export default function OrdersReturnsTable({ searchQuery, setFilteredData }) {
       setRows([]);
     }
     ReturnedrefetchOrderData();
-  }, [ReturnedOrderData]);
-  const [filteredRows, setFilteredRows] = useState(rows);
-  useEffect(() => {
-    const results = rows.filter(
-      (row) =>
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
-    setFilteredRows(results);
-    setFilteredData(results);
-  }, [searchQuery, setFilteredData]);
+  }, [ReturnedOrderData, rows, ReturnedrefetchOrderData]);
+  // Memoized filtered rows based on searchQuery
+    const filteredResults = useMemo(() => {
+      if (!searchQuery) return rows;
+  
+      return rows.filter(
+        (row) =>
+          row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          row.orderDetails.some((detail) =>
+            detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+      );
+    }, [rows, searchQuery]);
+  
+    // Update filteredRows and filteredData when filteredResults change
+    useEffect(() => {
+      setFilteredRows(filteredResults);
+      setFilteredData(filteredResults);
+    }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"

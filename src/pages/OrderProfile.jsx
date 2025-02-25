@@ -150,7 +150,7 @@ export default function OrderProfile() {
   //fetch data
   const fetchOrderData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/${id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/${id}/${decodedToken?.id}`,
       {
         method: "GET",
         headers: {
@@ -228,10 +228,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/full/payment/${id}`,
-        {
-          store: decodedToken.id,
-        },
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/full/payment/${id}/${decodedToken.id}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -273,10 +271,9 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/payment/${id}`,
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/payment/${id}/${decodedToken.id}`,
         {
           amount: Amount,
-          store: decodedToken.id,
         },
         {
           headers: {
@@ -320,10 +317,9 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/deposit/${id}`,
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/deposit/${id}/${decodedToken.id}`,
         {
           deposit: val,
-          store: decodedToken.id,
         },
         {
           headers: {
@@ -369,10 +365,9 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credit/${id}`,
+        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credit/${id}/${decodedToken.id}`,
         {
           credited: val,
-          store: decodedToken.id,
         },
         {
           headers: {
@@ -416,10 +411,9 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/create/${id}`,
+        import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/create/${id}/${decodedToken.id}`,
         {
           products: productsListToUpdate,
-          store: decodedToken.id,
         },
         {
           headers: {

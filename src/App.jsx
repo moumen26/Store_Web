@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import ProductsList from "./pages/ProductsList";
 import ProductsGrid from "./pages/ProductsGrid";
 import Orders from "./pages/Orders";
+import OrdersInPreparation from "./pages/OrdersInPreparation";
 import SignIn from "./pages/SignIn";
 import Authentication from "./pages/Authentication";
 import Settings from "./pages/Settings";
@@ -138,7 +139,14 @@ function App() {
             path="/Product/:id"
             element={user ? <ProductDetails /> : <SignIn />}
           />
-          <Route path="/Orders" element={user ? <Orders /> : <SignIn />} />
+          <Route 
+            path="/Orders" 
+            element={user ? <Orders /> : <SignIn />} 
+          />
+          <Route 
+            path="/Orders/InPreparation" 
+            element={user ? <OrdersInPreparation /> : <SignIn />} 
+          />
           <Route
             path="/OrdersArchive"
             element={user ? <OrdersArchive /> : <SignIn />}

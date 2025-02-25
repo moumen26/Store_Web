@@ -145,6 +145,16 @@ export default function Asidebar() {
                     <span className="ml-3">Latest Orders</span>
                   </div>
                 </NavLink>
+                <NavLink to="/Orders/InPreparation" className="flex items-center">
+                  <div
+                    className={`flex items-center itemAsideBar ${
+                      location.pathname === "/Orders/InPreparation" ? "asideItemActive" : ""
+                    }`}
+                  >
+                    <Square2StackIcon className="iconAsideBar opacity-0" />
+                    <span className="ml-3">In preparation orders</span>
+                  </div>
+                </NavLink>
                 <NavLink to="/CreditOrders" className="flex items-center">
                   <div
                     className={`flex items-center itemAsideBar ${

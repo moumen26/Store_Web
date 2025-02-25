@@ -177,9 +177,9 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
   const location = useLocation();
 
   //fetch data
-  const NonDelivredfetchOrderData = async () => {
+  const LatestfetchOrderData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/${
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/latest/all/${
           decodedToken.id
         }`,
       {
@@ -204,13 +204,13 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
   };
   // useQuery hook to fetch data
   const { 
-    data: NonDelivredOrderData, 
-    error: NonDelivredOrderDataError, 
-    isLoading: NonDelivredOrderDataLoading, 
-    refetch: NonDelivredrefetchOrderData 
+    data: LatestOrderData, 
+    error: LatestOrderDataError, 
+    isLoading: LatestOrderDataLoading, 
+    refetch: LatestrefetchOrderData 
   } = useQuery({
-    queryKey: ['NonDelivredOrderData', user?.token],
-    queryFn: NonDelivredfetchOrderData,
+    queryKey: ['LatestOrderData', user?.token],
+    queryFn: LatestfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
     staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
@@ -220,10 +220,10 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
 
-  // Transform NonDelivredOrderData into rows when it changes
+  // Transform LatestOrderData into rows when it changes
   useEffect(() => {
-    if (NonDelivredOrderData?.length > 0) {
-      const rowsData = NonDelivredOrderData.map((order) => ({
+    if (LatestOrderData?.length > 0) {
+      const rowsData = LatestOrderData.map((order) => ({
         orderId: order._id,
         customerFirstName: order.client.firstName,
         customerLastName: order.client.lastName,
@@ -241,14 +241,13 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
       setFilteredRows(rowsData); // Initialize filteredRows with rowsData
     } else {
       setRows([]);
-      setFilteredRows([]); // Clear filteredRows if no data
     }
-  }, [NonDelivredOrderData, rows]);
+  }, [LatestOrderData, rows, LatestfetchOrderData]);
 
-  // Refetch data when location.key changes
-  useEffect(() => {
-    NonDelivredrefetchOrderData();
-  }, [location.key, NonDelivredrefetchOrderData]);
+  // // Refetch data when location.key changes
+  // useEffect(() => {
+  //   LatestrefetchOrderData();
+  // }, [location.key, LatestrefetchOrderData]);
 
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
@@ -305,7 +304,7 @@ export default function OrdersTable({ searchQuery, setFilteredData }) {
         <TableBody>
           {filteredRows.length > 0 ? (
             filteredRows.map((row) => <Row key={row.orderId} row={row} />)
-          ) : NonDelivredOrderDataLoading ? (
+          ) : LatestOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}

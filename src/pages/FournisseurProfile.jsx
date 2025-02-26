@@ -26,9 +26,6 @@ export default function FournisseurProfile() {
 
   const navigate = useNavigate();
 
-  const handleCreateOrder = () => {
-    navigate(`/AddAchat/${id}`);
-  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -138,6 +135,10 @@ export default function FournisseurProfile() {
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
+
+  const handleCreateOrder = () => {
+    navigate(`/AddAchat/${id}`, { state: OneFournisseurData });
+  };
 
   if (OneFournisseurLoading) {
     return (

@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Calendar } from "primereact/calendar";
 
-export default function AddAchatProfileDetails() {
+export default function AddAchatProfileDetails({ fournisseurName, PhoneNumber }) {
 
   return (
     <TableContainer
@@ -20,10 +20,10 @@ export default function AddAchatProfileDetails() {
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Achat_ID</span>
+              <span className="thTableSpan">Fournisseur Name</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Fournisseur Name</span>
+              <span className="thTableSpan">Number Phone</span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -33,10 +33,10 @@ export default function AddAchatProfileDetails() {
             className="tableRow"
           >
             <TableCell className="tableCell">
-              <span className="trTableSpan">achatId</span>
+              <span className="trTableSpan">{fournisseurName}</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">fournisseurName</span>
+              <span className="trTableSpan">{PhoneNumber}</span>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -27,6 +27,7 @@ export default function CustomerProfile() {
   const decodedToken = TokenDecoder();
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -223,12 +224,6 @@ export default function CustomerProfile() {
     setModalIsOpenAddAdress(false);
   };
 
-  const navigate = useNavigate();
-
-  const handleCreateOrder = () => {
-    navigate(`/AddOrder/${id}`);
-  };
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -345,6 +340,10 @@ export default function CustomerProfile() {
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
+
+  const handleCreateOrder = () => {
+    navigate(`/AddOrder/${id}`, { state: CustomerData });
+  };
 
   useEffect(() => {
     //set selling option

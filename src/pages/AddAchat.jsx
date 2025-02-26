@@ -7,7 +7,7 @@ import AddAchatProfileDetails from "../components/AddAchatProfileDetails";
 import AddAchatTableDetails from "../components/AddAchatTableDetails";
 import AddAchatSubTotal from "../components/AddAchatSubTotal";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
@@ -19,6 +19,8 @@ export default function AddAchat() {
   const decodedToken = TokenDecoder();
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fournisseurData = location.state || {};
 
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryAmount, setDeliveryAmount] = useState(0);
@@ -121,7 +123,7 @@ export default function AddAchat() {
     }
     setProducts([]);
   };
-
+  
   return (
     <>
       {!submitionLoading ? (
@@ -136,7 +138,10 @@ export default function AddAchat() {
           </div>
           <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Basic Information</h2>
-            <AddAchatProfileDetails />
+            <AddAchatProfileDetails 
+              fournisseurName={fournisseurData?.firstName + " " + fournisseurData?.lastName}
+              PhoneNumber={fournisseurData?.phoneNumber}
+            />
           </div>
           <div className="pageTable">
             <div className="flex items-center justify-between">

@@ -10,7 +10,7 @@ import axios from "axios";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 export default function AddOrder() {
@@ -19,6 +19,8 @@ export default function AddOrder() {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const CustomerData = location.state || {};
 
   const [total, setTotal] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
@@ -112,7 +114,7 @@ export default function AddOrder() {
     }
     setProducts([]);
   };
-
+  
   return (
     <>
       {!submitionLoading ? (
@@ -128,6 +130,7 @@ export default function AddOrder() {
           <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Basic Information</h2>
             <AddOrderProfileDetails
+              CustomerData={CustomerData}
               deliveryAmount={deliveryAmount}
               setDeliveryAmount={setDeliveryAmount}
               setAPIOrderType={setAPIOrderType}

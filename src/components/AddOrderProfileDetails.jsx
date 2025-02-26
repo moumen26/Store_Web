@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Calendar } from "primereact/calendar";
 
 export default function AddOrderProfileDetails({
+  CustomerData,
   deliveryAmount,
   setDeliveryAmount,
   setAPIOrderType,
@@ -74,9 +75,6 @@ export default function AddOrderProfileDetails({
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Order_ID</span>
-            </TableCell>
-            <TableCell className="tableCell">
               <span className="thTableSpan">Customer Name</span>
             </TableCell>
             {/* <TableCell className="tableCell">
@@ -109,10 +107,7 @@ export default function AddOrderProfileDetails({
             className="tableRow"
           >
             <TableCell className="tableCell">
-              <span className="trTableSpan">orderID</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="trTableSpan">orderCustomer</span>
+              <span className="trTableSpan">{CustomerData?.firstName} {CustomerData?.lastName}</span>
             </TableCell>
             {/* <TableCell className="tableCell">
               <Calendar

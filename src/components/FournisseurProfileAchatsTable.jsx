@@ -15,7 +15,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../util/useFullFunctions";
-import { ro } from "date-fns/locale";
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);

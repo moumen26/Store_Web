@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -145,6 +145,7 @@ function Row(props) {
 export default function PurchasesReturnsTable({
   searchQuery,
   setFilteredData,
+  dateRange,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -182,30 +183,60 @@ export default function PurchasesReturnsTable({
     queryKey: ["ReturnedPurchasesData", user?.token, location.key],
     queryFn: fetchReturnedPurchasesData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
 
-  //const [rows, setRows] = useState([]);
-  // const [filteredRows, setFilteredRows] = useState(rows);
-  // useEffect(() => {
-  //   const results = rows.filter(
-  //     (row) =>
-  //       row.customerLastName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.customerFirstName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDetails.some((detail) =>
-  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-  //       )
-  //   );
-  //   setFilteredRows(results);
-  //   setFilteredData(results);
-  // }, [searchQuery, setFilteredData]);
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+
+  // Transform ReturnedPurchasesData into rows when it changes
+  useEffect(() => {
+    if (ReturnedPurchasesData?.length > 0) {
+      setRows(ReturnedPurchasesData);
+      setFilteredRows(ReturnedPurchasesData); // Initialize filteredRows with ReturnedPurchasesData
+    } else {
+      setRows([]);
+    }
+  }, [ReturnedPurchasesData]);
+
+  // Memoized filtered rows based on searchQuery
+  const filteredResults = useMemo(() => {
+    // If there's no search query and no date range, return all rows
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
+  
+    return rows.filter((row) => {
+      // Check if the row matches the search query
+      const matchesSearchQuery =
+        row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.totalAmount.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.sousPurchases.some((detail) =>
+          detail.sousStock.stock.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+  
+      // Check if the row's order date falls within the specified date range
+      const orderDate = new Date(row.date);
+      const startDate = new Date(dateRange.startDate);
+      const endDate = new Date(dateRange.endDate);
+  
+      const isWithinDateRange =
+        (!dateRange.startDate || orderDate >= startDate) &&
+        (!dateRange.endDate || orderDate <= endDate);
+  
+      // Return true if both conditions are met
+      return matchesSearchQuery && isWithinDateRange;
+    });
+  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
+
+  // Update filteredRows and filteredData when filteredResults change
+  useEffect(() => {
+    setFilteredRows(filteredResults);
+    setFilteredData(filteredResults);
+  }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -238,8 +269,8 @@ export default function PurchasesReturnsTable({
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : ReturnedPurchasesData.length > 0 ? (
-            ReturnedPurchasesData.map((row) => <Row key={row._id} row={row} />)
+          ) : filteredRows.length > 0 ? (
+            filteredRows.map((row) => <Row key={row._id} row={row} />)
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">

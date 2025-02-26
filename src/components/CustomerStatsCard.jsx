@@ -44,7 +44,7 @@ export default function CustomerStatsCard({
   }
 
   // Handle span component for currency
-  let spanComponent = customerStatsCardTitle === "Total Orders" ? "" : " DA";
+  let spanComponent = (customerStatsCardTitle === "Total Orders" || customerStatsCardTitle === "Total Purchases") ? "" : " DA";
 
   return (
     <div className="customerStatsCard">

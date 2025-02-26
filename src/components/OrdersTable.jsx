@@ -236,9 +236,9 @@ export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrd
           productQuantity: item.quantity.toString(),
         })),
       }));
-      setRows(LatestOrderData);
-      setFilteredRows(LatestOrderData); // Initialize filteredRows with LatestOrderData
-      setLatestOrderData(LatestOrderData); // Update LatestOrderData state
+      setRows(rowsData);
+      setFilteredRows(rowsData); // Initialize filteredRows with rowsData
+      setLatestOrderData(rowsData); // Update LatestOrderData state
     } else {
       setRows([]);
     }

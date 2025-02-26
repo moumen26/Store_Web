@@ -29,11 +29,11 @@ export default function Orders() {
       </div>
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total Orders"
+          orderCardTitle="Total orders"
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
-          orderCardTitle="Total Amount"
+          orderCardTitle="Total amount"
           orderCardDetails={
             latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0
           ) + " DA"}

@@ -9,27 +9,11 @@ import CreditPurchasesTable from "../components/CreditPurchasesTable";
 export default function CreditPurchases() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [PurchasesData, setPurchasesData] = useState([]);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
-  useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
-      // Update dashboard content based on the selected date range
-      updateDashboardContent(dateRange.startDate, dateRange.endDate);
-    }
-  }, [dateRange]);
-
-  const updateDashboardContent = (startDate, endDate) => {
-    // Logic to update dashboard content based on selected date range
-    console.log("Selected range:", startDate, endDate);
-    // Fetch or filter data based on date range and update dashboard content
   };
 
   return (
@@ -48,12 +32,14 @@ export default function CreditPurchases() {
 
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total Credit Purchases"
-          orderCardDetails={0}
+          orderCardTitle="Total purchases"
+          orderCardDetails={PurchasesData.length}
         />
         <OrderCard
-          orderCardTitle="Total Amount Purchases"
-          orderCardDetails={0}
+          orderCardTitle="Total amount"
+          orderCardDetails={
+            PurchasesData.reduce((acc, order) => acc + Number(order?.totalAmount), 0
+          ) + " DA"}
         />
       </div>
       <div className="pageTable ordersTable">
@@ -69,6 +55,8 @@ export default function CreditPurchases() {
           <CreditPurchasesTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            setPurchasesData={setPurchasesData}
+            dateRange={dateRange}
           />
         </div>
       </div>

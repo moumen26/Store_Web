@@ -621,41 +621,21 @@
   --sb-border-radius: 4px;
 }
 
-.addNewModal::-webkit-scrollbar,
-.dashboardProductClass::-webkit-scrollbar,
-.tablePages::-webkit-scrollbar,
-.productsContainer::-webkit-scrollbar,
-.scrollProductHistorique::-webkit-scrollbar {
+::-webkit-scrollbar{
   width: var(--sb-size);
   height: var(--sb-size);
 }
-
-.addNewModal::-webkit-scrollbar-track,
-.dashboardProductClass::-webkit-scrollbar-track,
-.tablePages::-webkit-scrollbar-track,
-.productsContainer::-webkit-scrollbar-track,
-.scrollProductHistorique::-webkit-scrollbar-track {
+::-webkit-scrollbar-track{
   background: var(--sb-track-color);
   border-radius: var(--sb-border-radius);
 }
-
-.addNewModal::-webkit-scrollbar-thumb,
-.dashboardProductClass::-webkit-scrollbar-thumb,
-.tablePages::-webkit-scrollbar-thumb,
-.productsContainer::-webkit-scrollbar-thumb,
-.scrollProductHistorique::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb{
   background: var(--sb-thumb-color);
   border-radius: var(--sb-border-radius);
 }
-
-.addNewModal::-webkit-scrollbar-button,
-.dashboardProductClass::-webkit-scrollbar-button,
-.tablePages::-webkit-scrollbar-button,
-.productsContainer::-webkit-scrollbar-button,
-.scrollProductHistorique::-webkit-scrollbar-button {
+::-webkit-scrollbar-button{
   display: none;
 }
-
 
 .signIn,
 .signUp {

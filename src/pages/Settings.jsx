@@ -26,6 +26,8 @@ import axios from "axios";
 import Modal from "react-modal";
 import InputFormPassword from "../components/InputFormPassword";
 import SubscriptionCard from "../components/SubscriptionCard";
+import { Menu, MenuItem } from "@mui/material";
+
 import { set } from "date-fns";
 
 export default function Settings() {
@@ -83,18 +85,47 @@ export default function Settings() {
     storeLocation: "",
   });
 
-  const handleClickModify = () => {
-    setIsEditing(true);
-    setEditableData({
-      firstName: "",
-      lastName: "",
-      wilaya: "",
-      commune: "",
-      storeAddress: "",
-      storeName: "",
-      storeLocation: "",
-      RC: "",
-    });
+  // const handleClickModify = () => {
+  //   setIsEditing(true);
+  //   setEditableData({
+  //     firstName: "",
+  //     lastName: "",
+  //     wilaya: "",
+  //     commune: "",
+  //     storeAddress: "",
+  //     storeName: "",
+  //     storeLocation: "",
+  //     RC: "",
+  //   });
+  // };
+
+  const [showModifyMenu, setShowModifyMenu] = useState(null);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+
+  const handleClickModify = (event) => {
+    setShowModifyMenu(event.currentTarget);
+  };
+
+  const handleCloseModifyMenu = () => {
+    setShowModifyMenu(null);
+  };
+
+  const handleModifyEmail = () => {
+    setIsEditingEmail(true);
+    setIsEditingPassword(false); // Hide password fields
+    handleCloseModifyMenu();
+  };
+
+  const handleModifyPassword = () => {
+    setIsEditingPassword(true);
+    setIsEditingEmail(false); // Hide email fields
+    handleCloseModifyMenu();
+  };
+
+  const handleCancel = () => {
+    setIsEditingEmail(false);
+    setIsEditingPassword(false);
   };
 
   const handleClickCancel = () => {
@@ -427,10 +458,11 @@ export default function Settings() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/SubscriptionStore/create/${decodedToken?.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/SubscriptionStore/create/${decodedToken?.id}`,
         {
-          Store: decodedToken.id, 
-          Subscription: selectedSubscription, 
+          Store: decodedToken.id,
+          Subscription: selectedSubscription,
           expiryMonths: selectedDuration,
         },
         {
@@ -452,7 +484,7 @@ export default function Settings() {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
       }
-    } catch (error) {      
+    } catch (error) {
       if (error.response) {
         setAlertType(true);
         setSnackbarMessage(error.response.data.message);
@@ -789,70 +821,86 @@ export default function Settings() {
               <div className="flex items-center justify-between settingsRightHeader">
                 <h2 className="pagesTitle">Email & Password</h2>
                 <div className="flex space-x-4">
-                  {isEditingEmailPassword ? (
+                  {isEditingEmail || isEditingPassword ? (
                     <div className="flex space-x-4">
                       <ButtonModify
                         buttonSpan="Cancel"
                         showIcon={false}
-                        // onClick={handleClickCancel}
+                        onClick={handleCancel}
                       />
-                      <ButtonSave
-                      // setOnClick={handleOpenUpdateConfirmationDialog}
-                      />
+                      <ButtonSave />
                     </div>
                   ) : (
-                    <ButtonModify
-                      buttonSpan="Modify"
-                      // onClick={handleClickModify}
-                    />
+                    <>
+                      <ButtonModify
+                        buttonSpan="Modify"
+                        onClick={handleClickModify}
+                      />
+                      <Menu
+                        anchorEl={showModifyMenu}
+                        open={Boolean(showModifyMenu)}
+                        onClose={handleCloseModifyMenu}
+                      >
+                        <MenuItem onClick={handleModifyEmail}>
+                          <span>Modify Email</span>
+                        </MenuItem>
+                        <MenuItem onClick={handleModifyPassword}>
+                          <span>Modify Password</span>
+                        </MenuItem>
+                      </Menu>
+                    </>
                   )}
                 </div>
               </div>
+
               <div className="flex-col settingsRightScroll">
                 <div>
                   <div className="settingPersonalInformation">
-                    <InputForm
-                      labelForm="Email Address"
-                      inputType="email"
-                      inputName="email"
-                      inputPlaceholder="Enter your Email"
-                      // value={email}
-                      // setChangevalue={handleInputChange}
-                      readOnly={!isEditingEmailPassword}
-                    />
-                    <InputForm
-                      labelForm="Confirm Email Address"
-                      inputType="email"
-                      inputName="email"
-                      inputPlaceholder="Confirm your Email"
-                      // value={editableData.firstName}
-                      // setChangevalue={handleInputChange}
-                      readOnly={!isEditingEmailPassword}
-                    />
-                    <InputFormPassword
-                      labelForm="Password"
-                      inputPlaceholder="Enter your password"
-                      inputName="password"
-                      // value={password}
-                      // setChangevalue={handleInputChange}
-                      readOnly={!isEditingEmailPassword}
-                    />
-                    <InputFormPassword
-                      labelForm="Confirm Password"
-                      inputPlaceholder="Confirm your password"
-                      inputName="password"
-                      // setChangevalue={handleInputChange}
-                      // value={password}
-                      readOnly={!isEditingEmailPassword}
-                    />
+                    {/* Show Email Fields Only When Editing Email */}
+                    {isEditingPassword === false && (
+                      <>
+                        <InputForm
+                          labelForm="Email Address"
+                          inputType="email"
+                          inputName="email"
+                          inputPlaceholder="Enter your Email"
+                          readOnly={!isEditingEmail}
+                        />
+                        <InputForm
+                          labelForm="Confirm Email Address"
+                          inputType="email"
+                          inputName="email"
+                          inputPlaceholder="Confirm your Email"
+                          readOnly={!isEditingEmail}
+                        />
+                      </>
+                    )}
+
+                    {/* Show Password Fields Only When Editing Password */}
+                    {isEditingEmail === false && (
+                      <>
+                        <InputFormPassword
+                          labelForm="Password"
+                          inputPlaceholder="Enter your password"
+                          inputName="password"
+                          readOnly={!isEditingPassword}
+                        />
+                        <InputFormPassword
+                          labelForm="Confirm Password"
+                          inputPlaceholder="Confirm your password"
+                          inputName="password"
+                          readOnly={!isEditingPassword}
+                        />
+                      </>
+                    )}
+
+                    {/* Phone Number (Always Visible) */}
                     <InputForm
                       labelForm="Phone number"
                       inputType="phone"
                       inputName="phone"
                       inputPlaceholder="Enter your phone number"
-                      // value={phoneNumber}
-                      // setChangevalue={handleInputChange}
-                      readOnly={!isEditingEmailPassword}
+                      readOnly={true}
                     />
                   </div>
                 </div>
@@ -870,26 +918,24 @@ export default function Settings() {
                   <div className="flex justify-center items-center">
                     <CircularProgress />
                   </div>
-                  ) : (
-                    SubscriptionsData?.length > 0 ?
-                      SubscriptionsData?.map((sub) => (
-                        <SubscriptionCard
-                          key={sub._id}
-                          title={sub.name}
-                          price={sub.amount}
-                          features={[]}
-                          buttonText="Subscribe"
-                          onClick={() => {
-                            handleOpenModalSubscription(sub._id);
-                          }}
-                        />
-                      ))
-                      :
-                      <div className="flex justify-center items-center">
-                        <p>No subscriptions available</p>
-                      </div>
-                  )
-                }
+                ) : SubscriptionsData?.length > 0 ? (
+                  SubscriptionsData?.map((sub) => (
+                    <SubscriptionCard
+                      key={sub._id}
+                      title={sub.name}
+                      price={sub.amount}
+                      features={[]}
+                      buttonText="Subscribe"
+                      onClick={() => {
+                        handleOpenModalSubscription(sub._id);
+                      }}
+                    />
+                  ))
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <p>No subscriptions available</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -918,7 +964,7 @@ export default function Settings() {
                   name="productCategory"
                   onChange={(e) => setSelectedDuration(e.target.value)}
                 >
-                  <option value="" >-- Select Duration --</option>
+                  <option value="">-- Select Duration --</option>
                   <option value="1">Month</option>
                   <option value="3">Trimester</option>
                   <option value="6">Semester</option>
@@ -931,19 +977,19 @@ export default function Settings() {
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
             {!submitionLoading ? (
               <>
-            <button
-              className="text-gray-500 cursor-pointer hover:text-gray-700"
-              onClick={handleCloseModalSubscription}
-            >
-              Cancel
-            </button>
-            <button
-              className="text-blue-500 cursor-pointer hover:text-blue-700"
-              onClick={handleSubmitNewSubscription}
-            >
-              Save
-            </button>
-            </>
+                <button
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                  onClick={handleCloseModalSubscription}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  onClick={handleSubmitNewSubscription}
+                >
+                  Save
+                </button>
+              </>
             ) : (
               <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
                 <CircularProgress />

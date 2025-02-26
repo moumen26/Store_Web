@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -27,8 +27,9 @@ function Row(props) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/OrderProfile/${row._id}`);
+    navigate(`/OrderProfile/${row.orderId}`);
   };
+
   return (
     <React.Fragment>
       <TableRow
@@ -46,26 +47,26 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row" className="tableCell">
           <span className="trTableSpan">
-            {row.client.firstName} {row.client.lastName}
+            {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row._id}</span>
+          <span className="trTableSpan">{row.orderId}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.date)}</span>
+          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
+          <span className="trTableSpan">{row.orderAmount} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2) + ' DA'}
+            {row.orderPayments.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2) + ' DA'}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.status, row.type)}
+            {orderStatusTextDisplayer(row.orderStatus, row.orderType)}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -80,7 +81,7 @@ function Row(props) {
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={8}
+          colSpan={7}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -110,9 +111,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.products.map((orderDetailsRow) => (
+                  {row.orderDetails.map((orderDetailsRow) => (
                     <TableRow
-                      key={orderDetailsRow.product._id}
+                      key={orderDetailsRow.productName}
                       className="tableRow"
                     >
                       <TableCell
@@ -121,24 +122,24 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.product.name + ' ' + orderDetailsRow.product.size}
+                          {orderDetailsRow.productName}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.price.toFixed(2)} DA
+                          {orderDetailsRow.productPrice}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.quantity}
+                          {orderDetailsRow.productQuantity}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
                           {Math.round(
-                            orderDetailsRow.price.toFixed(2) *
-                              orderDetailsRow.quantity
+                            orderDetailsRow.productPrice *
+                              orderDetailsRow.productQuantity
                           )}
                         </span>
                       </TableCell>
@@ -155,10 +156,30 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  row: PropTypes.object.isRequired,
+  row: PropTypes.shape({
+    orderId: PropTypes.string.isRequired,
+    orderAmount: PropTypes.string.isRequired,
+    orderDate: PropTypes.string.isRequired,
+    orderDetails: PropTypes.arrayOf(
+      PropTypes.shape({
+        productName: PropTypes.string.isRequired,
+        productPrice: PropTypes.string.isRequired,
+        productQuantity: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    orderPayments: PropTypes.arrayOf(
+      PropTypes.shape({
+        amount: PropTypes.number.isRequired,
+      })
+    ),
+    customerLastName: PropTypes.string.isRequired,
+    customerFirstName: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string.isRequired,
+    orderType: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
+export default function CreditOrdersTable({ searchQuery, setFilteredData, setCreditedOrderData, dateRange }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -201,27 +222,72 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
     staleTime: 0,
   });
 
-  // const [rows, setRows] = useState([]);
-  // const [filteredRows, setFilteredRows] = useState(rows);
-  // useEffect(() => {
-  //   const results = rows.filter(
-  //     (row) =>
-  //       row.customerLastName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.customerFirstName
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase()) ||
-  //       row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       row.orderDetails.some((detail) =>
-  //         detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-  //       )
-  //   );
-  //   setFilteredRows(results);
-  //   setFilteredData(results);
-  // }, [searchQuery, setFilteredData]);
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+
+  // Transform CreditedOrderData into rows when it changes
+  useEffect(() => {
+    if (CreditedOrderData?.length > 0) {
+      const rowsData = CreditedOrderData.map((order) => ({
+        orderId: order._id,
+        customerFirstName: order.client.firstName,
+        customerLastName: order.client.lastName,
+        orderDate: order.date,
+        orderAmount: order.total.toString(),
+        orderStatus: order.status.toString(),
+        orderType: order.type.toString(),
+        orderPayments: order.payment,
+        orderDetails: order.products.map((item) => ({
+          productName: item.product.name,
+          productPrice: item.price.toString(),
+          productQuantity: item.quantity.toString(),
+        })),
+      }));
+      setRows(rowsData);
+      setFilteredRows(rowsData); // Initialize filteredRows with rowsData
+      setCreditedOrderData(rowsData); // Update CreditedOrderData state
+    } else {
+      setRows([]);
+    }
+  }, [CreditedOrderData]);
+
+  // Memoized filtered rows based on searchQuery
+  const filteredResults = useMemo(() => {
+    // If there's no search query and no date range, return all rows
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
+  
+    return rows.filter((row) => {
+      // Check if the row matches the search query
+      const matchesSearchQuery =
+        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderDetails.some((detail) =>
+          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+  
+      // Check if the row's order date falls within the specified date range
+      const orderDate = new Date(row.orderDate);
+      const startDate = new Date(dateRange.startDate);
+      const endDate = new Date(dateRange.endDate);
+  
+      const isWithinDateRange =
+        (!dateRange.startDate || orderDate >= startDate) &&
+        (!dateRange.endDate || orderDate <= endDate);
+  
+      // Return true if both conditions are met
+      return matchesSearchQuery && isWithinDateRange;
+    });
+  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
+
+  // Update filteredRows and filteredData when filteredResults change
+  useEffect(() => {
+    setFilteredRows(filteredResults);
+    setFilteredData(filteredResults);
+    setCreditedOrderData(filteredResults);
+  }, [filteredResults, setFilteredData]);
+
   return (
     <TableContainer
       className="tablePages"
@@ -262,14 +328,14 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData }) {
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : CreditedOrderDataError || !CreditedOrderData || CreditedOrderData.length <= 0 ? (
+          ) : filteredRows.length <= 0 ? (
             <TableRow>
               <TableCell colSpan={9} align="center">
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>
           ) :  (
-            CreditedOrderData.map((row) => <Row key={row._id} row={row} />)
+            filteredRows.map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import ButtonExportExel from "../components/ButtonExportExel";
@@ -9,27 +9,11 @@ import OrderCard from "../components/OrderCard";
 export default function Orders() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [latestOrderData, setLatestOrderData] = useState([]);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
-  useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
-      // Update dashboard content based on the selected date range
-      updateDashboardContent(dateRange.startDate, dateRange.endDate);
-    }
-  }, [dateRange]);
-
-  const updateDashboardContent = (startDate, endDate) => {
-    // Logic to update dashboard content based on selected date range
-    console.log("Selected range:", startDate, endDate);
-    // Fetch or filter data based on date range and update dashboard content
   };
 
   return (
@@ -39,17 +23,21 @@ export default function Orders() {
         <div className="titlePageButton">
           <h2 className="pagesTitle">Orders</h2>
           <DashboardCalendar
-            onDateChange={(start, end) =>
-              setDateRange({ startDate: start, endDate: end })
-            }
+            onDateChange={(start, end) => setDateRange({ startDate: start, endDate: end })}
           />
         </div>
       </div>
       <div className="flex items-center space-x-6">
-        <OrderCard orderCardTitle="Total Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Completed Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Orders In Progress" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Returns Orders" orderCardDetails={0} />
+        <OrderCard
+          orderCardTitle="Total Orders"
+          orderCardDetails={latestOrderData.length}
+        />
+        <OrderCard
+          orderCardTitle="Total Amount"
+          orderCardDetails={
+            latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0
+          ) + " DA"}
+        />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
@@ -64,6 +52,8 @@ export default function Orders() {
           <OrdersTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            setLatestOrderData={setLatestOrderData}
+            dateRange={dateRange}
           />
         </div>
       </div>

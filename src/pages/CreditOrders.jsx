@@ -9,27 +9,11 @@ import CreditOrdersTable from "../components/CreditOrderSTable";
 export default function CreditOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [latestOrderData, setCreditedOrderData] = useState([]);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
-  });
-
-  useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
-      // Update dashboard content based on the selected date range
-      updateDashboardContent(dateRange.startDate, dateRange.endDate);
-    }
-  }, [dateRange]);
-
-  const updateDashboardContent = (startDate, endDate) => {
-    // Logic to update dashboard content based on selected date range
-    console.log("Selected range:", startDate, endDate);
-    // Fetch or filter data based on date range and update dashboard content
   };
 
   return (
@@ -46,8 +30,20 @@ export default function CreditOrders() {
         </div>
       </div>
       <div className="flex items-center space-x-6">
-        <OrderCard orderCardTitle="Total Credit Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Total Amount Credit" orderCardDetails={0} />
+        <OrderCard
+          orderCardTitle="Total orders"
+          orderCardDetails={latestOrderData.length}
+        />
+        <OrderCard
+          orderCardTitle="Total amount"
+          orderCardDetails={
+            latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0) + " DA"}
+        />
+        <OrderCard
+          orderCardTitle="Total payments"
+          orderCardDetails={
+            latestOrderData.reduce((acc, order) => acc + order.orderPayments.reduce((acc, payment) => acc + Number(payment?.amount), 0), 0) + " DA"}
+        />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
@@ -62,6 +58,8 @@ export default function CreditOrders() {
           <CreditOrdersTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            setCreditedOrderData={setCreditedOrderData}
+            dateRange={dateRange}
           />
         </div>
       </div>

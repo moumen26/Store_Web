@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { Calendar } from "primereact/calendar";
-import "primereact/resources/themes/saga-blue/theme.css"; // Import your theme
-import "primereact/resources/primereact.min.css"; // Import PrimeReact core styles
-import "primeicons/primeicons.css"; // Import PrimeIcons
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 export default function DashboardCalendar({ onDateChange }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
-  const today = new Date(); // Get today's date
+  const today = new Date();
 
   const handleStartDateChange = (date) => {
-    setStartDate(date);
-    if (endDate && date > endDate) {
-      setEndDate(null); // Clear end date if it is before the new start date
+    if (date !== startDate) {
+      setStartDate(date);
+      if (endDate && date > endDate) {
+        setEndDate(null); // Reset end date if it's before the new start date
+      }
+      onDateChange(date, endDate);
     }
-    onDateChange(date, endDate);
   };
 
   const handleEndDateChange = (date) => {
-    setEndDate(date);
-    onDateChange(startDate, date);
+    if (date !== endDate) {
+      setEndDate(date);
+      onDateChange(startDate, date);
+    }
   };
 
   return (
@@ -35,8 +38,7 @@ export default function DashboardCalendar({ onDateChange }) {
             showIcon
             dateFormat="dd-mm-yy"
             className="calendar"
-            style={{ outline: "none" }}
-            maxDate={today} // Prevent selecting future dates
+            maxDate={today}
           />
         </div>
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
@@ -48,11 +50,21 @@ export default function DashboardCalendar({ onDateChange }) {
             showIcon
             dateFormat="dd-mm-yy"
             className="calendar"
-            disabled={!startDate} // Disable end date calendar if start date is not selected
-            minDate={startDate} // Set minimum selectable date for end date calendar
-            maxDate={today} // Prevent selecting future dates
+            disabled={!startDate}
+            minDate={startDate}
+            maxDate={today}
           />
         </div>
+        <button
+          className="clearDateRange"
+          onClick={() => {
+            setStartDate(null);
+            setEndDate(null);
+            onDateChange(null, null);
+          }}
+        >
+          Clear
+        </button>
       </div>
     </div>
   );

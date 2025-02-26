@@ -9,28 +9,14 @@ import OrderCard from "../components/OrderCard";
 export default function OrdersInPreparation() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-
+  const [latestOrderData, setNonDelivredOrderData] = useState([]);
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
-  });
 
-  useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
-      // Update dashboard content based on the selected date range
-      updateDashboardContent(dateRange.startDate, dateRange.endDate);
-    }
-  }, [dateRange]);
-
-  const updateDashboardContent = (startDate, endDate) => {
-    // Logic to update dashboard content based on selected date range
-    console.log("Selected range:", startDate, endDate);
-    // Fetch or filter data based on date range and update dashboard content
-  };
 
   return (
     <div className="pagesContainer pageContainerCards">
@@ -46,10 +32,25 @@ export default function OrdersInPreparation() {
         </div>
       </div>
       <div className="flex items-center space-x-6">
-        <OrderCard orderCardTitle="Total Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Completed Orders" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Orders In Progress" orderCardDetails={0} />
-        <OrderCard orderCardTitle="Returns Orders" orderCardDetails={0} />
+        <OrderCard
+          orderCardTitle="Total Orders"
+          orderCardDetails={latestOrderData.length}
+        />
+        <OrderCard orderCardTitle="In preparation orders" orderCardDetails={
+          latestOrderData.filter(order => order?.orderStatus == 1).length
+        } />
+        <OrderCard orderCardTitle="Ready & On the way orders" orderCardDetails={
+          latestOrderData.filter(order => order?.orderStatus == 2).length
+        } />
+        <OrderCard orderCardTitle="Picked up & Delivred orders" orderCardDetails={
+          latestOrderData.filter(order => order?.orderStatus == 3).length
+        } />
+        <OrderCard
+          orderCardTitle="Total Amount"
+          orderCardDetails={
+            latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0
+          ) + " DA"}
+        />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
@@ -64,6 +65,8 @@ export default function OrdersInPreparation() {
           <OrdersInPreparationTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            setNonDelivredOrderData={setNonDelivredOrderData}
+            dateRange={dateRange}
           />
         </div>
       </div>

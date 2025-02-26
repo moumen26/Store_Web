@@ -169,7 +169,7 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function OrdersArchiveTable({ searchQuery, setFilteredData }) {
+export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateRange }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -240,24 +240,36 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData }) {
     }else{
       setRows([]);
     }
-    DelivredrefetchOrderData();
-  }, [DelivredOrderData, rows, DelivredrefetchOrderData]);
+  }, [DelivredOrderData]);
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
-    if (!searchQuery) return rows;
-
-    return rows.filter(
-      (row) =>
+    // If there's no search query and no date range, return all rows
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
+  
+    return rows.filter((row) => {
+      // Check if the row matches the search query
+      const matchesSearchQuery =
         row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDetails.some((detail) =>
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
-  }, [rows, searchQuery]);
+        );
+  
+      // Check if the row's order date falls within the specified date range
+      const orderDate = new Date(row.orderDate);
+      const startDate = new Date(dateRange.startDate);
+      const endDate = new Date(dateRange.endDate);
+  
+      const isWithinDateRange =
+        (!dateRange.startDate || orderDate >= startDate) &&
+        (!dateRange.endDate || orderDate <= endDate);
+  
+      // Return true if both conditions are met
+      return matchesSearchQuery && isWithinDateRange;
+    });
+  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
 
   // Update filteredRows and filteredData when filteredResults change
   useEffect(() => {

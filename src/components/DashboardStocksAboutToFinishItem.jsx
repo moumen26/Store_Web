@@ -3,7 +3,7 @@ import React from "react";
 export default function DashboardTopSellingProductItem({
   ProductImage,
   ProductName,
-  ProductSales,
+  ProductDestocking,
   ProductStocks,
   ProductBrand
 }) {
@@ -36,7 +36,9 @@ export default function DashboardTopSellingProductItem({
           </span>
         </div>
         <span className="dashboardSpan">{ProductStocks} remaining stock</span>
-        <p className="dashboardSpan">{ProductSales} sales</p>
+        {ProductDestocking > 0 &&
+            <p className="dashboardSpan">{ProductDestocking} destockage</p>
+        }
       </div>
     </div>
   );

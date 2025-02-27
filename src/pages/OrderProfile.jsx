@@ -19,6 +19,7 @@ import axios from "axios";
 import ButtonModify from "../components/ButtonModify";
 import { TokenDecoder } from "../util/DecodeToken";
 import AddOrderRetunsTableDetails from "../components/AddOrderRetunsTableDetails";
+import RetireButton from "../components/RetireButton";
 
 export default function OrderProfile() {
   const { id } = useParams();
@@ -135,6 +136,16 @@ export default function OrderProfile() {
     setAddRetunsModal(false);
   };
 
+  const [retireOrder, setRetireOrder] = useState(false);
+
+  const handleOpenRetireOrderModal = () => {
+    setRetireOrder(true);
+  };
+
+  const handleCloseRetireOrderModal = () => {
+    setRetireOrder(false);
+  };
+
   //---------------------------------API calls---------------------------------\\
 
   const [productsListToUpdate, setProductsListToUpdate] = useState([]);
@@ -228,7 +239,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/full/payment/${id}/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/full/payment/${id}/${decodedToken.id}`,
         {},
         {
           headers: {
@@ -271,7 +283,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/payment/${id}/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/payment/${id}/${decodedToken.id}`,
         {
           amount: Amount,
         },
@@ -317,7 +330,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/deposit/${id}/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/deposit/${id}/${decodedToken.id}`,
         {
           deposit: val,
         },
@@ -365,7 +379,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
-        import.meta.env.VITE_APP_URL_BASE + `/Receipt/credit/${id}/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/credit/${id}/${decodedToken.id}`,
         {
           credited: val,
         },
@@ -411,7 +426,8 @@ export default function OrderProfile() {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/ReceiptStatus/create/${id}/${decodedToken.id}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/ReceiptStatus/create/${id}/${decodedToken.id}`,
         {
           products: productsListToUpdate,
         },
@@ -488,6 +504,11 @@ export default function OrderProfile() {
             <span>#{OrderData?._id}</span>
           </div>
           <div className="orderProfileButtons">
+            <RetireButton
+              showIcon={true}
+              buttonSpan="Retire Order"
+              onClick={handleOpenRetireOrderModal}
+            />
             <ButtonModify
               showIcon={true}
               buttonSpan="Modify Order"
@@ -738,6 +759,15 @@ export default function OrderProfile() {
         onClose={handleCloseFullyPaidConfirmationDialog}
         dialogTitle="Confirm full payment"
         dialogContentText={`Are you sure you want to confirm the full payment?`}
+        isloading={submitionLoading}
+      />
+
+      <ConfirmDialog
+        open={retireOrder}
+        // onConfirm={}
+        onClose={handleCloseRetireOrderModal}
+        dialogTitle="Confirm Retire"
+        dialogContentText={`Are you sure you want to cancel this order?`}
         isloading={submitionLoading}
       />
 

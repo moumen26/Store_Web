@@ -10,7 +10,6 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { use } from "react";
 
 export default function Dashboard() {
   const { user } = useAuthContext();

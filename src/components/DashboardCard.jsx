@@ -14,14 +14,14 @@ export default function DashboardCard({
   let iconComponent;
 
   switch (dashboardCardTitle) {
-    case "Today profit":
+    case "Profit":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     case "Total orders":
       iconComponent = <DocumentChartBarIcon className="iconPages" />;
       break;
     case "Total amount":
-      iconComponent = <CircleStackIcon className="iconPages" />;
+      iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     default:
       iconComponent = <CircleStackIcon className="iconPages" />;

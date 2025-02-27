@@ -257,7 +257,7 @@ export default function Dashboard() {
       </div>
       <div className="flex items-center space-x-6">
         <DashboardCard
-          dashboardCardTitle="Today profit"
+          dashboardCardTitle="Profit"
           dashboardCardAmount={OrdersStats?.totalProfit}
           OrdersStatsLoading={OrdersStatsLoading}
         />

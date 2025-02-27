@@ -135,7 +135,7 @@ export default function VendorsTable({ searchQuery, setFilteredData, data, dataL
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No customers found</span>
+                <span className="thTableSpan">No Vendor found</span>
               </TableCell>
             </TableRow>
           )}

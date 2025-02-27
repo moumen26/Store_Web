@@ -19,7 +19,7 @@ const newCostumerData = [
 
 export default function DashboardNewCostumers({
   LastNewAccessCustomers,
-  LastNewAccessCustomersLoading
+  LastNewAccessCustomersLoading,
 }) {
   return (
     <div className="dashboardNewCostumers">
@@ -27,24 +27,27 @@ export default function DashboardNewCostumers({
         <h3 className="dashboardTitleItem">New Costumers</h3>
       </div>
       <div className="flex-col h-[410px] space-y-6">
-        {!LastNewAccessCustomersLoading ? 
-          LastNewAccessCustomers?.length > 0 ?
+        {!LastNewAccessCustomersLoading ? (
+          LastNewAccessCustomers?.length > 0 ? (
             LastNewAccessCustomers.map((costumer, index) => (
               <DashboardNewCostumerItem
                 key={index}
-                CostumerName={costumer.user?.firstName + " " + costumer.user?.lastName}
+                CostumerName={
+                  costumer.user?.firstName + " " + costumer.user?.lastName
+                }
                 CostumerId={costumer.user?._id}
               />
-            )) 
-            :
+            ))
+          ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="dashboardSpan">No costumer available</span>
+              <span className="thTableSpan">No ccustomer available</span>
             </div>
-          : 
-            <div className="w-full h-full flex items-center justify-center">
-              <CircularProgress color="inherit" />
-            </div>
-        }
+          )
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       </div>
     </div>
   );

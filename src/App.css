@@ -604,13 +604,57 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  /* scrollbar-width: none;
+  -ms-overflow-style: none; */
+}
+
+.dashboardProductClass{
+  overflow-y: scroll;
+}
+
+.clearDateRange {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+  color: #333;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+}
+
+.clearDateRange:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.clearDateRange:active {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(0.96);
+}
+
+.clearDateRange:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+
+.productImgClass{
+  width: 80px;
+  height: 80px;
 }
 
 .productImg {
-  width: 80px;
-  height: 80px;
+  height: 100%;
+  width: 90%;
   object-fit: contain;
 }
 
@@ -625,16 +669,17 @@
   width: var(--sb-size);
   height: var(--sb-size);
 }
-::-webkit-scrollbar-track{
-  background: var(--sb-track-color);
-  border-radius: var(--sb-border-radius);
-}
+
 ::-webkit-scrollbar-thumb{
   background: var(--sb-thumb-color);
   border-radius: var(--sb-border-radius);
 }
 ::-webkit-scrollbar-button{
   display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .signIn,
@@ -1419,6 +1464,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   height: fit-content;
+}
+
+.justifyEnd{
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
 .addNewModal {

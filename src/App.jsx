@@ -36,6 +36,7 @@ import Publicité from "./pages/Publicité";
 import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
+import { CircularProgress } from "@mui/material";
 
 function App() {
   const { user } = useAuthContext();
@@ -56,11 +57,12 @@ function App() {
   }, []);
   if (!isOnline) {
     return (
-      <div className="CircularProgress-app">
-        <div className="CircularProgress-container">
-          {/* <CircularProgress className='CircularProgress' /> */}
-        </div>
-        <h1>Pas de connexion Internet...</h1>
+      <div className="w-full h-full flex items-center justify-center flex-col">
+        <CircularProgress color="error" />
+        <h1 style={{
+          color: 'red'
+        }}
+        >Pas de connexion Internet ...</h1>
       </div>
     );
   }

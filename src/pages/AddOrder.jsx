@@ -30,7 +30,7 @@ export default function AddOrder() {
   const [DeliveredLocation, setDeliveredLocation] = useState(null);
   const [Products, setProducts] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-
+  
   const handleNavigateClick = (path) => {
     navigate(path);
   };

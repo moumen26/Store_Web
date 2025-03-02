@@ -7,8 +7,7 @@ import Paper from "@mui/material/Paper";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import CircularProgress from "@mui/material/CircularProgress";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Dialog from "@mui/material/Dialog";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -17,8 +16,10 @@ import Alert from "@mui/material/Alert";
 import ConfirmDialog from "./ConfirmDialog";
 import Search from "./Search";
 import Modal from "react-modal";
-
 import ProductsContainerAddOrder from "./ProductContainerAddOrder";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { TokenDecoder } from "../util/DecodeToken";
+import { useQuery } from "@tanstack/react-query";
 
 function AddOrderTableDetails({
   openModal,
@@ -41,6 +42,11 @@ function AddOrderTableDetails({
   const [alertType, setAlertType] = useState("error");
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  
+  const handelCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  }
 
   useEffect(() => {
     const calculateTotals = () => {
@@ -183,6 +189,48 @@ function AddOrderTableDetails({
     );
   };
 
+  //---------------------------------API calls---------------------------------\\
+
+  const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
+  // fetching Category data
+  const fetchCategoryData = async () => {
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Category/store/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Category data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: CategoryData = [],
+    error: CategoryError,
+    isLoading: CategoryLoading,
+    refetch: CategoryRefetch,
+  } = useQuery({
+    queryKey: ["CategoryData", user?.token],
+    queryFn: fetchCategoryData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // enable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
+  });
+  
   return (
     <>
       <TableContainer
@@ -265,14 +313,14 @@ function AddOrderTableDetails({
                 <div className="selectStoreWilayaCommune w-[300px]">
                   <select
                     name="productCategory"
-                    // onChange={handelCategoryChange}
+                    onChange={handelCategoryChange}
                   >
-                    {/* <option value="">-- Select Product Category --</option>
+                    <option value="">-- Select Product Category --</option>
                     {CategoryData?.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>
-                    ))} */}
+                    ))}
                   </select>
                 </div>
               </div>
@@ -280,6 +328,7 @@ function AddOrderTableDetails({
             <div className="h-fit">
               <ProductsContainerAddOrder
                 searchQuery={searchQuery}
+                selectedCategory={selectedCategory}
                 onSelectProduct={handleSelectProduct}
               />
             </div>

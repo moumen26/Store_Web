@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
 import ElioImage from "../assets/images/Elio.png";
 import PrilImage from "../assets/images/Pril.png";
@@ -15,7 +15,7 @@ import { CircularProgress } from "@mui/material";
 Modal.setAppElement("#root"); // or the ID of your root element
 
 
-export default function ProductsContainerAddOrder({ searchQuery, onSelectProduct }) {
+export default function ProductsContainerAddOrder({ searchQuery, selectedCategory, onSelectProduct }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleSelectProduct = (product) => {
@@ -58,8 +58,24 @@ export default function ProductsContainerAddOrder({ searchQuery, onSelectProduct
     queryKey: ["StockData", user?.token],
     queryFn: fetchStockData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+    refetchOnWindowFocus: true, // enable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
+  
+  // Filtering logic
+  const filteredProducts = useMemo(() => {
+    if (!StockData) return [];
+
+    return StockData.filter(stock => {
+      const matchesSearchQuery = stock.product?.brand?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                  stock.product?.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory ? stock.product?.category == selectedCategory : true;
+
+      return matchesSearchQuery && matchesCategory;
+    });
+  }, [StockData, searchQuery, selectedCategory]);
 
   return (
     <div className="productsContainer">
@@ -68,11 +84,11 @@ export default function ProductsContainerAddOrder({ searchQuery, onSelectProduct
           <CircularProgress color="inherit" />
         </div>
         :
-        StockData?.length > 0 ? (
-          StockData?.map((stock) => (
+        filteredProducts.length > 0 ? (
+          filteredProducts.map((stock) => (
             <ProductCard
               key={stock._id}
-              productName={stock.product?.brand?.name + ' ' + stock.product?.name + ' ' + stock.product?.size}
+              productName={`${stock.product?.brand?.name} ${stock.product?.name} ${stock.product?.size}`}
               productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${stock.product?.image}`}
               onClick={() => handleSelectProduct(stock)}
               selected={selectedProduct && stock?._id === selectedProduct._id}

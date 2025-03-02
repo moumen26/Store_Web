@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -317,6 +317,20 @@ function AddAchatTableDetails({
       setImage(file);
     }
   };
+
+  // Filtering logic
+  const filteredProducts = useMemo(() => {
+    if (!ProductData) return [];
+    
+    return ProductData.filter(product => {
+      const matchesSearchQuery = product?.brand?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                  product?.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory ? product?.category?._id == selectedCategory : true;
+
+      return matchesSearchQuery && matchesCategory;
+    });
+  }, [ProductData, searchQuery, selectedCategory]);
+
   return (
     <>
       <TableContainer
@@ -441,8 +455,8 @@ function AddAchatTableDetails({
                   </div>
 
                   <div className="productsContainer p-0 mt-5 h-[90%]">
-                    {ProductData?.length > 0 ? (
-                      ProductData?.map((product) => (
+                    {filteredProducts?.length > 0 ? (
+                      filteredProducts?.map((product) => (
                         <ProductCard
                           key={product._id}
                           productName={

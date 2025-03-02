@@ -1,4 +1,5 @@
 import {
+  ArchiveBoxIcon,
   ArrowLeftStartOnRectangleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/16/solid";
@@ -10,10 +11,17 @@ import {
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { TokenDecoder } from "../util/DecodeToken";
+import { useQuery } from "@tanstack/react-query";
+import { formatDate } from "../util/useFullFunctions";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
+import axios from "axios";
 
 export default function Header() {
   const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
+  const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -23,12 +31,94 @@ export default function Header() {
     logout();
   };
 
-  const notifications = [
-    { id: 1, message: "New order received!", time: "2 min ago" },
-    { id: 2, message: "Your profile was updated.", time: "10 min ago" },
-    { id: 3, message: "System maintenance at 3 AM.", time: "1 hour ago" },
-    { id: 4, message: "New feature released!", time: "3 hours ago" },
-  ];
+  //fetch data
+  const fetchNotificationsByStore = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/Notification/store/new/${
+        decodedToken.id
+      }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving notifications data for this store");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const {
+    data: NotificationsByStore,
+    error: NotificationsByStoreError,
+    isLoading: NotificationsByStoreLoading,
+    refetch: refetchNotificationsByStore,
+  } = useQuery({
+    queryKey: ["NotificationsByStore", user?.token, location.key],
+    queryFn: fetchNotificationsByStore,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // enable refetch on window focus (optional)
+    staleTime: 1000 * 60, // Data is fresh for 1 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
+  });
+
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleSubmitMarkNotificationAsRead = async (val) => {
+    if (submitionLoading) return;
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE + `/Notification/asRead/${val}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        refetchNotificationsByStore();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error mark as read notification: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error mark as read notification");
+      }
+    }
+  };
 
   return (
     <div className="Header relative flex items-center space-x-6">
@@ -38,9 +128,9 @@ export default function Header() {
         onClick={() => setShowNotifications(!showNotifications)}
       >
         <BellAlertIcon className="w-6 h-6 text-gray-600" />
-        {notifications.length > 0 && (
+        {NotificationsByStore?.length > 0 && (
           <span className="absolute top-[-4px] right-[-3px] bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-            {notifications.length}
+            {NotificationsByStore.length}
           </span>
         )}
       </div>
@@ -63,28 +153,43 @@ export default function Header() {
         </div>
 
         <div className="max-h-80 overflow-y-auto space-y-2 p-4 pt-0">
-          {notifications.length > 0 ? (
-            notifications.map((notif) => (
-              <div
-                key={notif.id}
-                className="p-3 flex items-center space-x-3 rounded-lg hover:bg-gray-100 transition"
-              >
-                <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white">
-                  🔔
+          {!NotificationsByStoreLoading ?
+            NotificationsByStore.length > 0 ? (
+              NotificationsByStore.map((notif) => (
+                <div
+                  key={notif._id}
+                  className="p-3 flex items-center space-x-3 rounded-lg hover:bg-gray-100 transition"
+                >
+                  <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white">
+                    🔔
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-gray-800 text-sm font-medium">
+                      {notif.message}
+                    </p>
+                    <span className="text-gray-500 text-xs">{formatDate(notif.createdAt)}</span>
+                  </div>
+                  <ArchiveBoxIcon 
+                    style={{
+                      color: !submitionLoading ? "red" : "gray",
+                      width: "50px",
+                      height: "50px",
+                      cursor: "pointer"
+                    }} 
+                    onClick={() => handleSubmitMarkNotificationAsRead(notif._id)}
+                  />
                 </div>
-                <div className="flex flex-col">
-                  <p className="text-gray-800 text-sm font-medium">
-                    {notif.message}
-                  </p>
-                  <span className="text-gray-500 text-xs">{notif.time}</span>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-sm text-center py-4">
-              No new notifications
-            </p>
-          )}
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm text-center py-4">
+                No notification are available.
+              </p>
+            ) 
+            : 
+              <div className="w-full h-full flex items-center justify-center">
+                <CircularProgress color="inherit" size={20}/>
+              </div>          
+          }
         </div>
       </div>
 
@@ -144,6 +249,20 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

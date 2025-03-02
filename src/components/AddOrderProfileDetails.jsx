@@ -156,22 +156,19 @@ export default function AddOrderProfileDetails({
                   </select>
                 </TableCell> */}
                 <TableCell align="right" className="tableCell">
-                  {/* <div className="inputWrapper">
-                    <input
-                      type="text"
-                      value={deliveryAddress}
-                      onChange={handleDeliveryAddressChange}
-                      className="inputTable"
-                    />
-                  </div> */}
                   <select
                     value={deliveryAddress}
                     onChange={handleDeliveryAddressChange}
                     className="inputTable inputSelect w-[200px]"
                   >
-                    <option value="">Select an address</option>
-                    <option value="pickup">Pickup</option>
-                    <option value="delivery">Delivery</option>
+                    <option value={null}>Select an address</option>
+                    {CustomerData?.storeAddresses?.length > 0 &&
+                      CustomerData.storeAddresses.map((address) => (
+                        <option key={address._id} value={address.address}>
+                          {address.address}
+                        </option>
+                      ))
+                    }
                   </select>
                 </TableCell>
                 <TableCell align="right" className="tableCell">

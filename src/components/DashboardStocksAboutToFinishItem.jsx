@@ -41,12 +41,12 @@ export default function DashboardTopSellingProductItem({
                 : "spanAvailable spanAvailableRed"
             }
           >
-            {ProductStocks > 0 ? "Available" : "Unavailable"}
+            {ProductStocks > 0 ? "Disponible" : "Indisponible"}
           </span>
         </div>
-        <span className="dashboardSpan">{ProductStocks} remaining stock</span>
+        <span className="dashboardSpan">{ProductStocks} stock restant</span>
         {ProductDestocking > 0 && (
-          <p className="dashboardSpan">{ProductDestocking} destockage</p>
+          <p className="dashboardSpan">{ProductDestocking} déstockage</p>
         )}
       </div>
     </div>

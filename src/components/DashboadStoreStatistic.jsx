@@ -9,7 +9,7 @@ import React from "react";
 
 export default function DashboadStoreStatistic({
   StatsData,
-  StatsDataLoading
+  StatsDataLoading,
 }) {
   return (
     <div className="dashboadStoreStatistic">
@@ -21,7 +21,7 @@ export default function DashboadStoreStatistic({
           <>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 clcassName="dashboardText">Total orders</h3>
+                <h3 clcassName="dashboardText">Total des commandes</h3>
                 <p className="dashboardSpan">{StatsData?.totalReceipts}</p>
               </div>
               <div className="flex items-center justify-center">
@@ -30,7 +30,7 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 clcassName="dashboardText">Total stocks</h3>
+                <h3 clcassName="dashboardText">Total des produits</h3>
                 <p className="dashboardSpan">{StatsData?.totalStocks}</p>
               </div>
               <div className="flex items-center justify-center">
@@ -39,7 +39,7 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 clcassName="dashboardText">Total cutomers</h3>
+                <h3 clcassName="dashboardText">Total des clients</h3>
                 <p className="dashboardSpan">{StatsData?.totalCustomers}</p>
               </div>
               <div className="flex items-center justify-center">
@@ -48,7 +48,7 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 clcassName="dashboardText">Total vendors</h3>
+                <h3 clcassName="dashboardText">Total des vendeurs</h3>
                 <p className="dashboardSpan">{StatsData?.totalSellers}</p>
               </div>
               <div className="flex items-center justify-center">
@@ -56,12 +56,11 @@ export default function DashboadStoreStatistic({
               </div>
             </div>
           </>
-        )
-        : 
+        ) : (
           <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        }
+        )}
       </div>
     </div>
   );

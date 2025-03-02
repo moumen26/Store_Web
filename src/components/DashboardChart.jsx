@@ -19,7 +19,9 @@ export default function DashboardChart() {
   // Utility function to fetch data
   const fetchData = async (endpoint) => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/${endpoint}/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/${endpoint}/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -67,7 +69,7 @@ export default function DashboardChart() {
 
     const getLabels = () => {
       if (!chartApiData || chartApiData.length === 0) return [];
-    
+
       // Extract labels from the API response
       return chartApiData.map((item) => item._id);
     };
@@ -130,11 +132,13 @@ export default function DashboardChart() {
 
   // Handle loading and error states
   if (chartApiLoading) {
-    return <div className="dashboadChart">
-      <div className="w-full h-full flex items-center justify-center">
-        <CircularProgress color="inherit" />
+    return (
+      <div className="dashboadChart">
+        <div className="w-full h-full flex items-center justify-center">
+          <CircularProgress color="inherit" />
+        </div>
       </div>
-    </div>;
+    );
   }
 
   if (chartApiError) {
@@ -144,12 +148,12 @@ export default function DashboardChart() {
   return (
     <div className="dashboadChart">
       <div className="w-full flex items-center justify-between ">
-        <h3 className="dashboardTitleItem">Sales Overtime</h3>
+        <h3 className="dashboardTitleItem">Ventes au fil du temps</h3>
         <div className="flex items-center space-x-8">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <div className="cercleChartItemRevenue"></div>
-              <span className="spanChartItemRevenue">Revenue</span>
+              <span className="spanChartItemRevenue">Revenu</span>
             </div>
           </div>
           <div className="selectOptionChartClass">
@@ -160,10 +164,10 @@ export default function DashboardChart() {
               value={selectedOption}
               onChange={handleChange}
             >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
+              <option value="daily">Jour</option>
+              <option value="weekly">Semaine</option>
+              <option value="monthly">Mois</option>
+              <option value="yearly">Année</option>
             </select>
           </div>
         </div>

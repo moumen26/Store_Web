@@ -26,7 +26,9 @@ export default function Dashboard() {
     let response;
     if (dateRange.startDate && dateRange.endDate) {
       response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/orders/stats/${decodedToken.id}?startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`,
+        `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/orders/stats/${
+          decodedToken.id
+        }?startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`,
         {
           method: "GET",
           headers: {
@@ -37,7 +39,9 @@ export default function Dashboard() {
       );
     } else {
       response = await fetch(
-        `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/orders/today/${decodedToken.id}`,
+        `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/orders/today/${
+          decodedToken.id
+        }`,
         {
           method: "GET",
           headers: {
@@ -82,7 +86,9 @@ export default function Dashboard() {
   //fetch data
   const fetchTopSellingStocks = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/top-selling-products/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/top-selling-products/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -162,7 +168,9 @@ export default function Dashboard() {
   //fetch data
   const fetchLastNewAccessCustomers = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/last-new-access-customers/${decodedToken.id}`,
+      `${
+        import.meta.env.VITE_APP_URL_BASE
+      }/Dashboard/last-new-access-customers/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -202,7 +210,9 @@ export default function Dashboard() {
   //fetch data
   const fetchStocksAboutToFinish = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/stocks-about-to-finish/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Dashboard/stocks-about-to-finish/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -244,9 +254,9 @@ export default function Dashboard() {
       <Header />
       <div className="w-full flex items-center justify-between">
         <div className="flex-col space-y-[6px]">
-          <h2 className="pagesTitle">Welcome back, {user?.infos?.firstName}</h2>
+          <h2 className="pagesTitle">Bienvenue, {user?.infos?.firstName}</h2>
           <span className="pagesSousTitle">
-            Here's you current sales overview
+            Voici un aperçu de vos ventes actuelles{" "}
           </span>
         </div>
         <DashboardCalendar
@@ -257,38 +267,38 @@ export default function Dashboard() {
       </div>
       <div className="flex items-center space-x-6">
         <DashboardCard
-          dashboardCardTitle="Profit"
-          dashboardCardAmount={OrdersStats?.totalProfit}
+          dashboardCardTitle="Montant total"
+          dashboardCardAmount={OrdersStats?.totalAmount}
           OrdersStatsLoading={OrdersStatsLoading}
         />
         <DashboardCard
-          dashboardCardTitle="Total orders"
+          dashboardCardTitle="Total des commandes"
           dashboardCardAmount={OrdersStats?.totalReceipts}
           OrdersStatsLoading={OrdersStatsLoading}
         />
         <DashboardCard
-          dashboardCardTitle="Total amount"
-          dashboardCardAmount={OrdersStats?.totalAmount}
+          dashboardCardTitle="Profit"
+          dashboardCardAmount={OrdersStats?.totalProfit}
           OrdersStatsLoading={OrdersStatsLoading}
         />
       </div>
       <div className="flex items-center justify-between space-x-6">
         <DashboardChart />
-        <DashboardTopSellingProduct 
+        <DashboardTopSellingProduct
           TopSellingStocks={TopSellingStocks}
           TopSellingStocksLoading={TopSellingStocksLoading}
         />
       </div>
       <div className="w-full flex justify-between space-x-6">
-        <DashboadStoreStatistic 
+        <DashboadStoreStatistic
           StatsData={StatsData}
           StatsDataLoading={StatsDataLoading}
         />
-        <DashboardTopStocksAboutToFinish 
+        <DashboardTopStocksAboutToFinish
           StocksAboutToFinish={StocksAboutToFinish}
           StocksAboutToFinishLoading={StocksAboutToFinishLoading}
         />
-        <DashboardNewCostumers 
+        <DashboardNewCostumers
           LastNewAccessCustomers={LastNewAccessCustomers}
           LastNewAccessCustomersLoading={LastNewAccessCustomersLoading}
         />

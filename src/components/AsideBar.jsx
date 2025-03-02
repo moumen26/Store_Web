@@ -80,7 +80,7 @@ export default function Asidebar() {
               >
                 <div className="flex">
                   <ArchiveBoxIcon className="iconAsideBar" />
-                  <span className="ml-3">Products</span>
+                  <span className="ml-3">Produits</span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isProductsOpen ? "rotate-180" : ""}`}
@@ -98,7 +98,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Products Stock</span>
+                    <span className="ml-3">Stock de produits</span>
                   </div>
                 </NavLink>
                 <NavLink to="/ProductsGrid" className="flex items-center">
@@ -110,7 +110,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Products Grid</span>
+                    <span className="ml-3">Grille des produits</span>
                   </div>
                 </NavLink>
               </div>
@@ -126,7 +126,7 @@ export default function Asidebar() {
               >
                 <div className="flex">
                   <ShoppingBagIcon className="iconAsideBar" />
-                  <span className="ml-3">Orders</span>
+                  <span className="ml-3">Commandes</span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isOrdersOpen ? "rotate-180" : ""}`}
@@ -142,7 +142,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Latest Orders</span>
+                    <span className="ml-3">Dernières commandes</span>
                   </div>
                 </NavLink>
                 <NavLink
@@ -157,7 +157,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">In preparation orders</span>
+                    <span className="ml-3">Commandes en préparation</span>
                   </div>
                 </NavLink>
                 <NavLink to="/CreditOrders" className="flex items-center">
@@ -169,7 +169,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Credit Orders</span>
+                    <span className="ml-3">Commandes à crédit</span>
                   </div>
                 </NavLink>
                 <NavLink to="/ReturnsOrders" className="flex items-center">
@@ -181,7 +181,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Returns Orders</span>
+                    <span className="ml-3">Retours de commandes</span>
                   </div>
                 </NavLink>
                 <NavLink to="/OrdersArchive" className="flex items-center">
@@ -193,7 +193,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Orders Archive</span>
+                    <span className="ml-3">Archive des commandes</span>
                   </div>
                 </NavLink>
               </div>
@@ -209,7 +209,7 @@ export default function Asidebar() {
               >
                 <div className="flex">
                   <ClipboardDocumentCheckIcon className="iconAsideBar" />
-                  <span className="ml-3">Purchases</span>
+                  <span className="ml-3">Achats</span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isAchatsOpen ? "rotate-180" : ""}`}
@@ -227,7 +227,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Latest Purchases</span>
+                    <span className="ml-3">Derniers achats</span>
                   </div>
                 </NavLink>
                 <NavLink to="/CreditPurchases" className="flex items-center">
@@ -239,7 +239,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Credit Purchases</span>
+                    <span className="ml-3">Achats à crédit</span>
                   </div>
                 </NavLink>
                 <NavLink to="/ReturnsPurchases" className="flex items-center">
@@ -251,7 +251,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Returns Purchases</span>
+                    <span className="ml-3">Retours d'achats</span>
                   </div>
                 </NavLink>
                 <NavLink to="/PuchasesArchive" className="flex items-center">
@@ -263,7 +263,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Purchases Archive</span>
+                    <span className="ml-3">Archive des achats</span>
                   </div>
                 </NavLink>
               </div>
@@ -278,7 +278,7 @@ export default function Asidebar() {
               }`}
             >
               <UserGroupIcon className="iconAsideBar" />
-              <span className="ml-3">Customers</span>
+              <span className="ml-3">Clients</span>
             </div>
           </NavLink>
         </li>
@@ -290,7 +290,7 @@ export default function Asidebar() {
               }`}
             >
               <UsersIcon className="iconAsideBar" />
-              <span className="ml-3">Vendors</span>
+              <span className="ml-3">Vendeurs</span>
             </div>
           </NavLink>
         </li>
@@ -314,7 +314,7 @@ export default function Asidebar() {
               }`}
             >
               <UserPlusIcon className="iconAsideBar" />
-              <span className="ml-3">User Authentication</span>
+              <span className="ml-3">Authentification utilisateur</span>
             </div>
           </NavLink>
         </li>
@@ -326,7 +326,7 @@ export default function Asidebar() {
               }`}
             >
               <ArrowTrendingDownIcon className="iconAsideBar" />
-              <span className="ml-3">Losses</span>
+              <span className="ml-3">Pertes</span>
             </div>
           </NavLink>
         </li>

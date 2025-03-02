@@ -20,7 +20,7 @@ export default function DashboardCard({
     case "Total orders":
       iconComponent = <DocumentChartBarIcon className="iconPages" />;
       break;
-    case "Total amount":
+    case "Montant total":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     default:

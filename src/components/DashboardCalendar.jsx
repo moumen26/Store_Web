@@ -30,7 +30,7 @@ export default function DashboardCalendar({ onDateChange }) {
     <div className="dateRangeSelector">
       <div className="flex DateRangeSelector">
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
-          <label htmlFor="startDate">Start Date :</label>
+          <label htmlFor="startDate">Date de début :</label>
           <Calendar
             id="startDate"
             value={startDate}
@@ -42,7 +42,7 @@ export default function DashboardCalendar({ onDateChange }) {
           />
         </div>
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
-          <label htmlFor="endDate">End Date :</label>
+          <label htmlFor="endDate">Date de fin :</label>
           <Calendar
             id="endDate"
             value={endDate}

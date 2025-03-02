@@ -24,7 +24,7 @@ export default function DashboardNewCostumers({
   return (
     <div className="dashboardNewCostumers">
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">New Costumers</h3>
+        <h3 className="dashboardTitleItem">Nouveaux clients</h3>
       </div>
       <div className="flex-col h-[410px] space-y-6">
         {!LastNewAccessCustomersLoading ? (
@@ -40,7 +40,7 @@ export default function DashboardNewCostumers({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan">No ccustomer available</span>
+              <span className="thTableSpan">Aucun client disponible</span>
             </div>
           )
         ) : (

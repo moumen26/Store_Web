@@ -9,7 +9,7 @@ export default function DashboardTopSellingProduct({
   return (
     <div className="dashboardTopSellingProduct">
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">Top Selling Product</h3>
+        <h3 className="dashboardTitleItem">Produit le plus vendu</h3>
       </div>
       <div className="dashboardProductClass">
         {!TopSellingStocksLoading ?
@@ -26,7 +26,7 @@ export default function DashboardTopSellingProduct({
             ))
             :
             <div className="w-full h-full flex items-center justify-center">
-              <span className="dashboardSpan">No product found</span>
+              <span className="dashboardSpan">Aucun produit trouvé</span>
             </div>
           :
           <div className="w-full h-full flex items-center justify-center">

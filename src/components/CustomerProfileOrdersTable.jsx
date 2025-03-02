@@ -195,7 +195,7 @@ export default function CustomerProfileOrdersTable({
   return (
     <TableContainer
       component={Paper}
-      className="tableContainer"
+      className="tablePages"
       style={{ boxShadow: "none" }}
     >
       <Table>

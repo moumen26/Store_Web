@@ -325,7 +325,7 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 15px;
 }
 
 .settingsContainer {
@@ -474,10 +474,6 @@
   padding: 20px 25px;
 }
 
-.customerOrdersClass {
-  max-height: 500px;
-}
-
 .dashboardTopSellingProduct {
   width: 40%;
 }
@@ -493,10 +489,9 @@
   gap: 16px;
 }
 
-.ordersTable {
-  max-height: 78vh;
-  min-height: 55vh;
-  height: fit-content;
+.pageContainerCards .pageTable{
+  /* min-height: calc(60vh - 32px - 47px); */
+  height: calc(100vh - 32px);
 }
 
 .pageTableContainer {
@@ -612,40 +607,6 @@
   overflow-y: scroll;
 }
 
-.clearDateRange {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  backdrop-filter: blur(10px);
-  color: #333;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease-in-out;
-}
-
-.clearDateRange:hover {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
-.clearDateRange:active {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 255, 255, 0.8);
-  transform: scale(0.96);
-}
-
-.clearDateRange:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 
 .productImgClass{
   width: 80px;
@@ -654,7 +615,7 @@
 
 .productImg {
   height: 100%;
-  width: 90%;
+  width: 80%;
   object-fit: contain;
 }
 
@@ -795,7 +756,7 @@
 
 .productCard {
   width: 200px;
-  height: 280px;
+  height: 290px;
   border-radius: 20px;
   border: 1px solid var(--neutralColor);
   cursor: pointer;
@@ -811,9 +772,9 @@
 
 .productImage {
   width: 100%;
-  height: 70%;
+  height: 65%;
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: center;
 }
 
@@ -1283,6 +1244,7 @@
 
 .Header {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 80px;
 }
@@ -1404,21 +1366,19 @@
 
 .pagesContainerTop {
   width: 100%;
-  height: 13vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.pageContainerCards .pageTable {
-  height: calc(100vh - 13vh - 64px - 48px - 180px);
-}
 
 .titlePageButton {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 16px;
 }
 
 .DateRangeSelector {
@@ -1503,6 +1463,11 @@
 
 .wilayaCommune {
   gap: 32px;
+}
+
+.customerOrdersClass {
+  height: calc(100vh - 32px);
+  /* max-height: 500px; */
 }
 
 /* Mobile and tablet */

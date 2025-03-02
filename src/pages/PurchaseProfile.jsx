@@ -477,7 +477,7 @@ export default function PurchaseProfile() {
           <PurchaseProfileDetails data={PurchaseData} />
         </div>
         <div className="flex space-x-6 h-full">
-          <div className="customerClass paddingClass w-[60%]">
+          <div className="customerClass paddingClass w-[65%] ">
             <h2 className="customerClassTitle">Devices in the Purchase</h2>
             {PurchaseData?.sousPurchases?.map((sousPurchase) => (
               <PurchaseProfileDevicesProductTable

@@ -27,7 +27,7 @@ export default function Orders() {
           />
         </div>
       </div>
-      <div className="flex items-center space-x-6">
+      <div className="CardClass flex items-center space-x-6">
         <OrderCard
           orderCardTitle="Total orders"
           orderCardDetails={latestOrderData.length}

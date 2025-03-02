@@ -6,9 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {formatDate} from "../util/useFullFunctions";
+import { formatDate } from "../util/useFullFunctions";
 
-export default function PurchaseProfileDetails({data}) {
+export default function PurchaseProfileDetails({ data }) {
   return (
     <TableContainer
       component={Paper}
@@ -38,29 +38,35 @@ export default function PurchaseProfileDetails({data}) {
             className="tableRow"
           >
             <TableCell className="tableCell">
-              <span className="trTableSpan">{data.fournisseur.firstName} {data.fournisseur.lastName}</span>
+              <span className="trTableSpan">
+                {data.fournisseur.firstName} {data.fournisseur.lastName}
+              </span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="trTableSpan">{formatDate(data.date)}</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {data.credit == true ?
-                    <span className="credit">Credit</span>
-                  :
-                    data.deposit  == true ?
-                      <span className="deposit">Deposit</span>
-                    : 
-                      data.closed == true ?
-                        <span className="closed">Closed</span>
-                        :
-                        <span className="open">Open</span>
-                }
+                {data.credit == true ? (
+                  <span className="trTableSpan">Credit</span>
+                ) : data.deposit == true ? (
+                  <span className="trTableSpan">Deposit</span>
+                ) : data.closed == true ? (
+                  <span className="trTableSpan">Closed</span>
+                ) : (
+                  <span className="trTableSpan">Open</span>
+                )}
               </span>
             </TableCell>
 
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">{data.totalAmount.toFixed(2) - data.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)} DA</span>
+              <span className="trTableSpan">
+                {data.totalAmount.toFixed(2) -
+                  data.payment
+                    .reduce((sum, pay) => sum + pay.amount, 0)
+                    .toFixed(2)}{" "}
+                DA
+              </span>
             </TableCell>
           </TableRow>
         </TableBody>

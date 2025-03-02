@@ -145,10 +145,15 @@ export default function Asidebar() {
                     <span className="ml-3">Latest Orders</span>
                   </div>
                 </NavLink>
-                <NavLink to="/Orders/InPreparation" className="flex items-center">
+                <NavLink
+                  to="/Orders/InPreparation"
+                  className="flex items-center"
+                >
                   <div
                     className={`flex items-center itemAsideBar ${
-                      location.pathname === "/Orders/InPreparation" ? "asideItemActive" : ""
+                      location.pathname === "/Orders/InPreparation"
+                        ? "asideItemActive"
+                        : ""
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
@@ -334,34 +339,6 @@ export default function Asidebar() {
             >
               <DevicePhoneMobileIcon className="iconAsideBar" />
               <span className="ml-3">Publicité</span>
-            </div>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/Settings" className=" flex items-center">
-            <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/Settings" ? "asideItemActive" : ""
-              }`}
-            >
-              <Cog6ToothIcon className="iconAsideBar" />
-              <span className="ml-3">Settings</span>
-            </div>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/SignUp"
-            className=" flex items-center"
-            onClick={submitLogout}
-          >
-            <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/SignUp" ? "asideItemActive" : ""
-              }`}
-            >
-              <ArrowLeftStartOnRectangleIcon className="iconAsideBar" />
-              <span className="ml-3">Log out</span>
             </div>
           </NavLink>
         </li>

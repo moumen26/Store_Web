@@ -107,7 +107,9 @@ export default function AddOrderProfileDetails({
             className="tableRow"
           >
             <TableCell className="tableCell">
-              <span className="trTableSpan">{CustomerData?.firstName} {CustomerData?.lastName}</span>
+              <span className="trTableSpan">
+                {CustomerData?.firstName} {CustomerData?.lastName}
+              </span>
             </TableCell>
             {/* <TableCell className="tableCell">
               <Calendar
@@ -154,14 +156,23 @@ export default function AddOrderProfileDetails({
                   </select>
                 </TableCell> */}
                 <TableCell align="right" className="tableCell">
-                  <div className="inputWrapper">
+                  {/* <div className="inputWrapper">
                     <input
                       type="text"
                       value={deliveryAddress}
                       onChange={handleDeliveryAddressChange}
                       className="inputTable"
                     />
-                  </div>
+                  </div> */}
+                  <select
+                    value={deliveryAddress}
+                    onChange={handleDeliveryAddressChange}
+                    className="inputTable inputSelect w-[200px]"
+                  >
+                    <option value="">Select an address</option>
+                    <option value="pickup">Pickup</option>
+                    <option value="delivery">Delivery</option>
+                  </select>
                 </TableCell>
                 <TableCell align="right" className="tableCell">
                   <div className="inputWrapper">

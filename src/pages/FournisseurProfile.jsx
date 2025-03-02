@@ -241,7 +241,7 @@ export default function FournisseurProfile() {
             />
           </div>
         </div>
-        <div className="customerClass paddingClass customerOrdersClass">
+        <div className="customerClass justify-start paddingClass customerOrdersClass">
           <div className="flex justify-between items-center">
             <h2 className="customerClassTitle">Achats</h2>
             <Search

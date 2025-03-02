@@ -485,7 +485,7 @@ export default function CustomerProfile() {
                 },
               }}
             >
-              <div className="customerClass">
+              <div className="customerClass p-0">
                 <h2 className="customerClassTitle">Add New Address</h2>
                 <div className="flex justify-end items-center space-x-4">
                   <span>Name :</span>
@@ -577,7 +577,7 @@ export default function CustomerProfile() {
           />
         </div>
       </div>
-      <div className="customerClass paddingClass customerOrdersClass">
+      <div className="customerClass justify-start paddingClass customerOrdersClass">
         <div className="flex justify-between items-center">
           <h2 className="customerClassTitle">Orders</h2>
           <Search

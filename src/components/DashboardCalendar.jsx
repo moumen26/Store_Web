@@ -56,7 +56,9 @@ export default function DashboardCalendar({ onDateChange }) {
           />
         </div>
         <button
-          className="clearDateRange"
+          className="relative text-gray-700 font-semibold transition-all duration-300 
+             after:content-[''] after:absolute after:left-0 after:bottom-[10px] after:w-0 after:h-[1px] after:bg-gray-700 after:transition-all after:duration-300 
+             hover:after:w-full"
           onClick={() => {
             setStartDate(null);
             setEndDate(null);

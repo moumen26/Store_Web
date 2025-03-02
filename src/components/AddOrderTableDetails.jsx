@@ -284,7 +284,7 @@ function AddOrderTableDetails({
               />
             </div>
             <div className="flex flex-col space-y-2 mb-4">
-              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+              <div className="flex items-center justify-end space-x-4">
                 <span>Unit Type :</span>
                 <RadioGroup
                   aria-label="unit-type"
@@ -292,7 +292,7 @@ function AddOrderTableDetails({
                   value={unitType}
                   onChange={(e) => setUnitType(e.target.value)}
                 >
-                  <div className="w-[500px]">
+                  <div className="w-[350px]">
                     <FormControlLabel
                       value="perUnit"
                       control={

@@ -4,6 +4,8 @@ import {
   ShieldCheckIcon,
   ShieldExclamationIcon,
   CalendarDateRangeIcon,
+  ArrowLeftCircleIcon,
+  ArrowLongLeftIcon,
 } from "@heroicons/react/24/outline";
 import {
   PhotoIcon,
@@ -14,7 +16,7 @@ import InputForm from "../components/InputForm";
 import { wilayasAndCommunes } from "../util/WilayaCommunesData";
 import ButtonDelete from "../components/ButtonDelete";
 import ButtonSave from "../components/ButtonSave";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
@@ -29,6 +31,7 @@ import SubscriptionCard from "../components/SubscriptionCard";
 import { Menu, MenuItem } from "@mui/material";
 
 import { set } from "date-fns";
+import { ArrowLeftIcon } from "@mui/x-date-pickers";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -503,6 +506,16 @@ export default function Settings() {
     <div className="pagesContainer settingsContainer">
       <div className="pageTable h-[100vh] flex-row">
         <div className="settingsLeft flex-col space-y-[32px]">
+          <Link
+            to="/dashboard"
+            className="relative flex items-center space-x-2 text-gray-700 font-semibold transition-all duration-300"
+          >
+            <span className="relative flex items-center space-x-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[1px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
+              <ArrowLongLeftIcon className="w-5 h-5 text-gray-600" />
+              <span>Back to Dashboard</span>
+            </span>
+          </Link>
+
           <h2 className="pagesTitle">User profile management</h2>
           <div
             className={`flex-col settingsBar space-y-7 ${
@@ -702,7 +715,7 @@ export default function Settings() {
                               }}
                             >
                               {!CategoryDataLoading ? (
-                                <div className="customerClass">
+                                <div className="customerClass p-0">
                                   <div className="flex items-center space-x-3">
                                     <h2 className="customerClassTitle">
                                       Select your Store Category

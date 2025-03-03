@@ -893,28 +893,25 @@ export default function Settings() {
                     {isEditingEmail === false && (
                       <>
                         <InputFormPassword
-                          labelForm="Password"
-                          inputPlaceholder="Enter your password"
-                          inputName="password"
+                          labelForm="Old password"
+                          inputPlaceholder="Enter your old password"
+                          inputName="Oldpassword"
                           readOnly={!isEditingPassword}
                         />
                         <InputFormPassword
-                          labelForm="Confirm Password"
+                          labelForm="New password"
+                          inputPlaceholder="Enter your new password"
+                          inputName="Newpassword"
+                          readOnly={!isEditingPassword}
+                        />
+                        <InputFormPassword
+                          labelForm="Confirm password"
                           inputPlaceholder="Confirm your password"
-                          inputName="password"
+                          inputName="Cpassword"
                           readOnly={!isEditingPassword}
                         />
                       </>
                     )}
-
-                    {/* Phone Number (Always Visible) */}
-                    <InputForm
-                      labelForm="Phone number"
-                      inputType="phone"
-                      inputName="phone"
-                      inputPlaceholder="Enter your phone number"
-                      readOnly={true}
-                    />
                   </div>
                 </div>
               </div>

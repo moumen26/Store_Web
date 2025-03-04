@@ -14,7 +14,7 @@ function ConfirmDialog({
   onConfirm,
   dialogTitle,
   dialogContentText,
-  isloading = false
+  isloading = false,
 }) {
   return (
     <Dialog
@@ -23,7 +23,7 @@ function ConfirmDialog({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      {!isloading ?
+      {!isloading ? (
         <>
           <DialogTitle id="alert-dialog-title">
             <h2 className="customerClassTitle">{dialogTitle}</h2>
@@ -48,21 +48,21 @@ function ConfirmDialog({
             </button>
           </div>
         </>
-        :
-          <>
-            <DialogTitle id="alert-dialog-title">
-              <h2 className="customerClassTitle">{dialogTitle}</h2>
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <span className="trTableSpan">{dialogContentText}</span>
-              </DialogContentText>
-            </DialogContent>
-            <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
-              <CircularProgress />
-            </div>
-          </>
-      }
+      ) : (
+        <>
+          <DialogTitle id="alert-dialog-title">
+            <h2 className="customerClassTitle">{dialogTitle}</h2>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <span className="trTableSpan">{dialogContentText}</span>
+            </DialogContentText>
+          </DialogContent>
+          <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
+            <CircularProgress color="inherit" />
+          </div>
+        </>
+      )}
     </Dialog>
   );
 }

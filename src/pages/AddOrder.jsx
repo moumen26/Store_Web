@@ -30,7 +30,7 @@ export default function AddOrder() {
   const [DeliveredLocation, setDeliveredLocation] = useState(null);
   const [Products, setProducts] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  
+
   const handleNavigateClick = (path) => {
     navigate(path);
   };
@@ -114,7 +114,7 @@ export default function AddOrder() {
     }
     setProducts([]);
   };
-  
+
   return (
     <>
       {!submitionLoading ? (
@@ -163,7 +163,7 @@ export default function AddOrder() {
         </div>
       ) : (
         <div className="flex items-center justify-center h-screen">
-          <CircularProgress />
+          <CircularProgress color="inherit" />
         </div>
       )}
       <ConfirmDialog

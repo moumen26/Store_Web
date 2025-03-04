@@ -114,7 +114,7 @@ export default function PaymentHistorique({
                     {data.length == 0 ? (
                       <span>no payment availble</span>
                     ) : (
-                      <CircularProgress size={4} />
+                      <CircularProgress color="inherit" size={4} />
                     )}
                   </TableCell>
                 </TableRow>

@@ -298,7 +298,7 @@ export default function Losses() {
                     </>
                   ) : (
                     <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
-                      <CircularProgress />
+                      <CircularProgress color="inherit" />
                     </div>
                   )}
                 </div>

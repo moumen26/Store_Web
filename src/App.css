@@ -1151,7 +1151,8 @@
 }
 
 .scrollProductHistorique {
-  height: 335px;
+  max-height: 335px;
+  height: fit-content;
   overflow-y: scroll;
 }
 
@@ -1470,6 +1471,7 @@
   height: calc(100vh - 32px);
   /* max-height: 500px; */
 }
+
 
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {

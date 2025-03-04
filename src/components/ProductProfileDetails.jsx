@@ -23,12 +23,6 @@ function ProductProfileRow({ data }) {
         <span className="trTableSpan">{data?.product?.boxItems}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{data?.buying} DA</span>
-      </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{data?.selling} DA</span>
-      </TableCell>
-      <TableCell className="tableCell">
         <span className="trTableSpan">{data?.quantity}</span>
       </TableCell>
       <TableCell className="tableCell">
@@ -49,32 +43,27 @@ export default function ProductProfileDetails({ data }) {
     >
       <Table aria-label="product profile details">
         <TableHead className="tableHead">
-          <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Product Code</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Name</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Brand</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Box Items</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Buying Price</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Selling Price</span>
-            </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Stock unity</span>
-            </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Stock box</span>
-            </TableCell>
-          </TableRow>
+        <TableRow>
+  <TableCell className="tableCell">
+    <span className="thTableSpan">Code Produit</span>
+  </TableCell>
+  <TableCell className="tableCell">
+    <span className="thTableSpan">Nom</span>
+  </TableCell>
+  <TableCell className="tableCell">
+    <span className="thTableSpan">Marque</span>
+  </TableCell>
+  <TableCell className="tableCell">
+    <span className="thTableSpan">Articles par boîte</span>
+  </TableCell>
+  <TableCell>
+    <span className="thTableSpan">Unité de stock</span>
+  </TableCell>
+  <TableCell>
+    <span className="thTableSpan">Boîte de stock</span>
+  </TableCell>
+</TableRow>
+
         </TableHead>
         <TableBody>
           <ProductProfileRow data={data} />

@@ -266,9 +266,12 @@ export default function ProductsList() {
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Products Stock</h2>
+          <h2 className="pagesTitle">Stock des produits</h2>
           <div className="buttonTop">
-            <ButtonAdd buttonSpan="Add New Stock" onClick={handleOpenModal} />
+            <ButtonAdd
+              buttonSpan="Ajouter un nouveau stock"
+              onClick={handleOpenModal}
+            />
           </div>
         </div>
       </div>
@@ -276,10 +279,10 @@ export default function ProductsList() {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Product..."
+            placeholder="Rechercher par produit..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Products" />
+          <ButtonExportExel data={filteredData} filename="Produits" />
         </div>
         <div className="pageTableContainer">
           <ProductTable
@@ -312,24 +315,24 @@ export default function ProductsList() {
         ) : (
           <>
             <div className="customerClass">
-              <h2 className="customerClassTitle">Add New Stock</h2>
+              <h2 className="customerClassTitle">Ajouter un nouveau stock</h2>
               <div className="addNewStockClass">
                 <div className="w-full h-fit w-[70%] pr-2">
                   <div className="addProductModalHeader">
                     <Search
-                      placeholder="Search by Product..."
+                      placeholder="Rechercher par produit..."
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />
                     <div className="flex space-x-5 items-center">
-                      <span>Category :</span>
+                      <span>Categorie :</span>
                       <div className="selectStoreWilayaCommune w-[300px]">
                         <select
                           name="productCategory"
                           onChange={handleSelectedCategoryChange}
                         >
                           <option value="">
-                            -- Select Product Category --
+                            -- Sélectionner une catégorie --
                           </option>
                           {CategoryData.map((category) => (
                             <option key={category._id} value={category._id}>
@@ -374,13 +377,15 @@ export default function ProductsList() {
                         />
                       ))
                     ) : (
-                      <p>No products available</p>
+                      <span className="thTableSpan">
+                        Aucun produit disponible
+                      </span>
                     )}
                   </div>
                 </div>
                 <div className="h-fit w-[30%] productDetailsStock">
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Buying Price :</span>
+                    <span>Prix d'achat :</span>
                     <div className="inputForm flex items-center">
                       <input
                         type="number"
@@ -393,7 +398,7 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Selling Price :</span>
+                    <span>Prix de vente :</span>
                     <div className="inputForm flex items-center">
                       <input
                         type="number"
@@ -407,7 +412,7 @@ export default function ProductsList() {
                   </div>
                   <div className="flex stockClass items-center space-x-4">
                     <div className="dialogAddCustomerItem items-center">
-                      <span>Stock Box:</span>
+                      <span>Boîte de stock :</span>
                       <div className="inputForm w-[50px]">
                         <input
                           type="number"
@@ -419,7 +424,8 @@ export default function ProductsList() {
                       </div>
                     </div>
                     <div className="dialogAddCustomerItem items-center">
-                      <span>Stock Unity:</span>
+                      <span>Unité de stock :</span>
+
                       <div className="inputForm">
                         <input
                           type="number"
@@ -430,16 +436,16 @@ export default function ProductsList() {
                         />
                       </div>
                     </div>
-                    {selectedProduct?.boxItems && (
+                    {/* {selectedProduct?.boxItems && (
                       <span>
                         {selectedProduct?.boxItems * Quantity +
                           Number(QuantityUnity)}
-                        <span className="ml-1">unity</span>
+                        <span className="ml-1">Unité</span>
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Limited value :</span>
+                    <span>Valeur limitée :</span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -451,7 +457,7 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Déstockage value:</span>
+                    <span>Valeur de déstockage :</span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -463,7 +469,7 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Exparation Date :</span>
+                    <span>Date d'expiration :</span>
                     <div className="inputForm">
                       <input
                         type="date"
@@ -474,7 +480,7 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Buying Method :</span>
+                    <span>Méthode d'achat :</span>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -483,7 +489,7 @@ export default function ProductsList() {
                           name="buyingByUnit"
                         />
                       }
-                      label={<span>Buying by Unit</span>}
+                      label={<span>Achat par unité</span>}
                     />
                     <FormControlLabel
                       control={
@@ -493,7 +499,7 @@ export default function ProductsList() {
                           name="buyingByBox"
                         />
                       }
-                      label={<span>Buying by Box</span>}
+                      label={<span>Achat par carton</span>}
                     />
                   </div>
                   <div className="space-x-0 items-center">
@@ -506,7 +512,7 @@ export default function ProductsList() {
                         />
                       }
                     />
-                    <span>Add to Proposed List</span>
+                    <span>Ajouter à la liste proposée</span>
                   </div>
                 </div>
               </div>
@@ -515,13 +521,13 @@ export default function ProductsList() {
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseModal}
                 >
-                  Cancel
+                  Annuler
                 </button>
                 <button
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={handleSaveStock}
                 >
-                  Save
+                  Enregistrer
                 </button>
               </div>
             </div>

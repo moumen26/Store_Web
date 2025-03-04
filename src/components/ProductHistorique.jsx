@@ -27,92 +27,41 @@ function ProductHistoriqueRow({
       onChange(field, value);
     }
   };
-  
+
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
         <span className="trTableSpan">{formatDate(historique.date)}</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.buying}
-            onChange={(e) => handleNumericChange("buying", e.target.value)}
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.buying} DA</span>
-        )}
+        <span className="trTableSpan">{historique.buying} DA</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.selling}
-            onChange={(e) => handleNumericChange("selling", e.target.value)}
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.selling} DA</span>
-        )}
+        <span className="trTableSpan">{historique.selling} DA</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.quantity}
-            onChange={(e) => handleNumericChange("quantity", e.target.value)}
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.quantity}</span>
-        )}
+        <span className="trTableSpan">{historique.quantity}</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
+        {/* {isEditing ? (
           <input
             type="text"
             value={editedHistorique.exparationDate}
             onChange={(e) => onChange("exparationDate", e.target.value)}
             className="editable-input"
           />
-        ) : (
-          <span className="trTableSpan">{historique.exparationDate ? historique.exparationDate : 'undefined'}</span>
-        )}
+        ) : ( */}
+        <span className="trTableSpan">
+          {historique.exparationDate ? historique.exparationDate : "undefined"}
+        </span>
+        {/* )} */}
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">
-          {isEditing ? (
-            <>
-              <button
-                className="text-green-500 cursor-pointer hover:text-green-700"
-                onClick={onSaveClick}
-              >
-                Save
-              </button>
-              <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={onCancelClick}
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <PencilIcon
-                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={onEditClick}
-              />
-              <TrashIcon
-                className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-                onClick={onDeleteClick}
-              />
-            </>
-          )}
+          <TrashIcon
+            className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
+            onClick={onDeleteClick}
+          />
         </div>
       </TableCell>
     </TableRow>
@@ -131,7 +80,10 @@ ProductHistoriqueRow.propTypes = {
 };
 
 // Main component
-export default function ProductHistorique({ StockStatusData, StockStatusLoading }) {
+export default function ProductHistorique({
+  StockStatusData,
+  StockStatusLoading,
+}) {
   const { user } = useAuthContext();
 
   const [isEditing, setIsEditing] = useState(null);
@@ -160,9 +112,7 @@ export default function ProductHistorique({ StockStatusData, StockStatusLoading 
     }));
   };
 
-  const handleDeleteClick = (historique) => {
-    
-  };
+  const handleDeleteClick = (historique) => {};
 
   return (
     <TableContainer component={Paper} style={{ boxShadow: "none" }}>
@@ -173,16 +123,16 @@ export default function ProductHistorique({ StockStatusData, StockStatusLoading 
               <span className="thTableSpan">Date</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Buying Price</span>
+              <span className="thTableSpan">Prix d'achat</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Selling Price</span>
+              <span className="thTableSpan">Prix de vente</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Quantity</span>
+              <span className="thTableSpan">Quantité</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Exparation Date </span>
+              <span className="thTableSpan">Date d'expiration</span>
             </TableCell>
             <TableCell align="right">
               <span className="thTableSpan">Action</span>
@@ -190,34 +140,33 @@ export default function ProductHistorique({ StockStatusData, StockStatusLoading 
           </TableRow>
         </TableHead>
         <TableBody>
-          {StockStatusLoading ? 
+          {StockStatusLoading ? (
             <TableRow>
-            <TableCell colSpan={8} align="center">
-              <CircularProgress />
-            </TableCell>
-          </TableRow>
-          :(
-              !StockStatusData || StockStatusData.length <= 0 ? 
-                <TableRow>
-                  <TableCell colSpan={8} align="center">
-                    No Data Available
-                  </TableCell>
-                </TableRow>
-              : StockStatusData?.map((historique) => (
-                <ProductHistoriqueRow
-                  key={historique._id}
-                  historique={historique}
-                  isEditing={isEditing === historique._id}
-                  onEditClick={() => handleEditClick(historique)}
-                  onSaveClick={handleSaveClick}
-                  onCancelClick={handleCancelClick}
-                  onChange={handleChange}
-                  editedHistorique={editedHistorique}
-                  onDeleteClick={() => handleDeleteClick(historique)}
-                />
-              ))
-            )
-          }
+              <TableCell colSpan={8} align="center">
+                <CircularProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          ) : !StockStatusData || StockStatusData.length <= 0 ? (
+            <TableRow>
+              <TableCell className="thTableSpan" colSpan={8} align="center">
+                Aucune donnée disponible
+              </TableCell>
+            </TableRow>
+          ) : (
+            StockStatusData?.map((historique) => (
+              <ProductHistoriqueRow
+                key={historique._id}
+                historique={historique}
+                isEditing={isEditing === historique._id}
+                onEditClick={() => handleEditClick(historique)}
+                onSaveClick={handleSaveClick}
+                onCancelClick={handleCancelClick}
+                onChange={handleChange}
+                editedHistorique={editedHistorique}
+                onDeleteClick={() => handleDeleteClick(historique)}
+              />
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

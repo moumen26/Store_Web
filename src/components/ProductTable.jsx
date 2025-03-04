@@ -17,7 +17,7 @@ import ProductArchiveHistorique from "./ProductArchiveHistorique";
 import ButtonAdd from "./ButtonAdd";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Radio, RadioGroup, Snackbar } from "@mui/material";
 import axios from "axios";
 
 import Checkbox from "@mui/material/Checkbox";
@@ -422,25 +422,25 @@ export default function ProductTable({
           <TableHead className="tableHead">
             <TableRow>
               <TableCell>
-                <span className="thTableSpan">Stock Code</span>
+                <span className="thTableSpan">Code Stock</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Name</span>
+                <span className="thTableSpan">Nom</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Size</span>
+                <span className="thTableSpan">Taille</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Brand</span>
+                <span className="thTableSpan">Marque</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Buying Price</span>
+                <span className="thTableSpan">Prix d'achat</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Selling Price</span>
+                <span className="thTableSpan">Prix de vente</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Stock unity</span>
+                <span className="thTableSpan">Unité de stock</span>
               </TableCell>
               <TableCell align="right">
                 <span className="thTableSpan">Actions</span>
@@ -451,7 +451,7 @@ export default function ProductTable({
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={8} align="center">
-                  <CircularProgress />
+                  <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
             ) : filteredRows.length > 0 ? (
@@ -498,7 +498,7 @@ export default function ProductTable({
         ) : StockData ? (
           <>
             <div className="customerClass">
-              <h2 className="customerClassTitle">Product Details</h2>
+              <h2 className="customerClassTitle">Détails du produit</h2>
               <ProductProfileDetails
                 data={StockData}
                 isLoading={StockLoading}
@@ -512,9 +512,9 @@ export default function ProductTable({
                     isLoading={StockLoading}
                   />
                   <div className="flex items-center justify-between mt-[24px]">
-                    <h2 className="customerClassTitle">Stock History</h2>
+                    <h2 className="customerClassTitle">Historique du stock</h2>
                     <ButtonAdd
-                      buttonSpan="Add New Stock"
+                      buttonSpan="Ajouter un nouveau stock"
                       onClick={handleOpenModalAddNewStockProduct}
                     />
                   </div>
@@ -527,8 +527,8 @@ export default function ProductTable({
                 </div>
               </div>
               <div className="w-[25%] h-fit flex-col space-y-5 mt-[16px]">
-                <h2 className="customerClassTitle">Product Image</h2>
-                <div className="w-full flex justify-center h-[390px]">
+                <h2 className="customerClassTitle">Image du Produit</h2>
+                <div className="w-full flex justify-center h-[380px]">
                   <img
                     className="text-center"
                     srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
@@ -551,14 +551,14 @@ export default function ProductTable({
                 style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
               >
-                Close
+                Fermer
               </button>
             </div>
           </>
         ) : (
           <>
             <div className="h-[93%] w-full flex items-center justify-center">
-              <p>Product not found</p>
+              <span className="thTableSpan">Aucun produit disponible</span>
             </div>
             <div className="flex justify-end">
               <button
@@ -566,7 +566,7 @@ export default function ProductTable({
                 style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
               >
-                Close
+                Fermer
               </button>
             </div>
           </>
@@ -600,11 +600,11 @@ export default function ProductTable({
           },
         }}
       >
-        <div className="customerClass">
-          <h2 className="customerClassTitle">Add New Stock</h2>
+        <div className="customerClass p-0">
+          <h2 className="customerClassTitle">Ajouter un Nouveau Stock</h2>
           <div className="productDetailsStockProduct">
             <div className="dialogAddCustomerItem items-center">
-              <span>Buying Price :</span>
+              <span>Prix d'achat :</span>
               <div className="inputForm flex items-center">
                 <input
                   type="number"
@@ -617,7 +617,7 @@ export default function ProductTable({
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>Selling Price :</span>
+              <span>Prix de vente :</span>
               <div className="inputForm flex items-center">
                 <input
                   type="number"
@@ -628,6 +628,41 @@ export default function ProductTable({
                 />
                 <span className="ml-2">DA</span>
               </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Type d'unité :</span>
+              <RadioGroup
+                className="w-[500px]"
+                aria-label="unit-type"
+                name="unit-type"
+                // value={unitType}
+                // onChange={(e) => setUnitType(e.target.value)}
+              >
+                <div className="w-[350px]">
+                  <FormControlLabel
+                    // value="perUnit"
+                    control={
+                      <Radio
+                        sx={{
+                          "&.Mui-checked": { color: "#26667e" },
+                        }}
+                      />
+                    }
+                    label={<span>Per Unit</span>}
+                  />
+                  <FormControlLabel
+                    // value="perBox"
+                    control={
+                      <Radio
+                        sx={{
+                          "&.Mui-checked": { color: "#26667e" },
+                        }}
+                      />
+                    }
+                    label={<span>Per Box</span>}
+                  />
+                </div>
+              </RadioGroup>
             </div>
             <div className="dialogAddCustomerItem items-center">
               <span>Stock :</span>
@@ -645,7 +680,7 @@ export default function ProductTable({
               )} */}
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>Exparation Date :</span>
+              <span>Date d'expiration :</span>
               <div className="inputForm">
                 <input
                   type="date"
@@ -661,13 +696,13 @@ export default function ProductTable({
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalAddNewStockProduct}
             >
-              Cancel
+              Annuler
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
               onClick={handleAddNewStock}
             >
-              Save
+              Enregistrer
             </button>
           </div>
         </div>

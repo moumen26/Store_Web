@@ -196,28 +196,34 @@ export default function Header() {
                       key={notif._id}
                       className="p-3 flex items-center space-x-4 rounded-lg hover:bg-gray-100 transition"
                     >
-                      <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-white">
-                        🔔
+                      <div className="flex space-x-3 w-[95%] items-center">
+                        <div
+                          className={`notifTypeIcon w-1 h-14 rounded-full flex items-center justify-center
+    ${notif.type === "alert" ? "bg-red-100" : "bg-blue-100"}
+  `}
+                        ></div>
+
+                        <div className="flex flex-col w-[95%]">
+                          <p className="text-gray-800 text-sm font-medium">
+                            {notif.message}
+                          </p>
+                          <span className="text-gray-500 text-xs">
+                            {formatTime(notif.createdAt)}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex flex-col">
-                        <p className="text-gray-800 text-sm font-medium">
-                          {notif.message}
-                        </p>
-                        <span className="text-gray-500 text-xs">
-                          {formatTime(notif.createdAt)}
-                        </span>
+                      <div>
+                        <ArchiveBoxIcon
+                          className={`w-5 h-5 cursor-pointer transition-colors duration-200 ${
+                            !submitionLoading
+                              ? "text-red-300 hover:text-red-500"
+                              : "text-gray-500"
+                          }`}
+                          onClick={() =>
+                            handleSubmitMarkNotificationAsRead(notif._id)
+                          }
+                        />
                       </div>
-                      <ArchiveBoxIcon
-                        style={{
-                          color: !submitionLoading ? "red" : "gray",
-                          width: "50px",
-                          height: "50px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() =>
-                          handleSubmitMarkNotificationAsRead(notif._id)
-                        }
-                      />
                     </div>
                   ))}
                 </div>

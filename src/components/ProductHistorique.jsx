@@ -37,17 +37,7 @@ function ProductHistoriqueRow({
         <span className="trTableSpan">{historique.buying} DA</span>
       </TableCell>
       <TableCell className="tableCell">
-        {isEditing ? (
-          <input
-            type="number"
-            value={editedHistorique.selling}
-            onChange={(e) => handleNumericChange("selling", e.target.value)}
-            className="editable-input w-[100px]"
-            min="0"
-          />
-        ) : (
-          <span className="trTableSpan">{historique.selling} DA</span>
-        )}
+        <span className="trTableSpan">{historique.selling} DA</span>
       </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{historique.quantity}</span>
@@ -68,33 +58,10 @@ function ProductHistoriqueRow({
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">
-          {isEditing ? (
-            <>
-              <button
-                className="text-green-500 cursor-pointer hover:text-green-700"
-                onClick={onSaveClick}
-              >
-                Save
-              </button>
-              <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={onCancelClick}
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <PencilIcon
-                className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={onEditClick}
-              />
-              <TrashIcon
-                className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
-                onClick={onDeleteClick}
-              />
-            </>
-          )}
+          <TrashIcon
+            className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
+            onClick={onDeleteClick}
+          />
         </div>
       </TableCell>
     </TableRow>
@@ -156,16 +123,16 @@ export default function ProductHistorique({
               <span className="thTableSpan">Date</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Buying Price</span>
+              <span className="thTableSpan">Prix d'achat</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Selling Price</span>
+              <span className="thTableSpan">Prix de vente</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Quantity</span>
+              <span className="thTableSpan">Quantité</span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Exparation Date </span>
+              <span className="thTableSpan">Date d'expiration</span>
             </TableCell>
             <TableCell align="right">
               <span className="thTableSpan">Action</span>
@@ -181,8 +148,8 @@ export default function ProductHistorique({
             </TableRow>
           ) : !StockStatusData || StockStatusData.length <= 0 ? (
             <TableRow>
-              <TableCell colSpan={8} align="center">
-                No Data Available
+              <TableCell className="thTableSpan" colSpan={8} align="center">
+                Aucune donnée disponible
               </TableCell>
             </TableRow>
           ) : (

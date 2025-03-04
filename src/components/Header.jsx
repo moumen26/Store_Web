@@ -183,7 +183,7 @@ export default function Header() {
           />
         </div>
 
-        <div className="max-h-80 overflow-y-auto space-y-2 p-4 pt-0">
+        <div className="max-h-[400px] overflow-y-auto space-y-2 p-4 pt-0">
           {!NotificationsByStoreLoading ? (
             Object.entries(groupedNotifications || {}).map(
               ([dateLabel, notifications]) => (

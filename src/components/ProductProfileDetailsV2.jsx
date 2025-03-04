@@ -12,16 +12,52 @@ function ProductProfileRow({ data }) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
+        {/* {isEditing ? (
+          <input
+            type="text"
+            value={}
+            onChange={}
+            className="editable-input"
+          />
+        ) : ( */}
         <span className="trTableSpan">{data?.selling} DA</span>
+        {/* )} */}
       </TableCell>
       <TableCell className="tableCell">
+        {/* {isEditing ? (
+          <input
+            type="text"
+            value={}
+            onChange={}
+            className="editable-input"
+          />
+        ) : ( */}
         <span className="trTableSpan">{data?.buyingMathode}</span>
+        {/* )} */}
       </TableCell>
       <TableCell className="tableCell">
+        {/* {isEditing ? (
+          <input
+            type="text"
+            value={}
+            onChange={}
+            className="editable-input"
+          />
+        ) : ( */}
         <span className="trTableSpan">{data?.quantityLimit}</span>
+        {/* )} */}
       </TableCell>
       <TableCell className="tableCell">
+        {/* {isEditing ? (
+          <input
+            type="text"
+            value={}
+            onChange={}
+            className="editable-input"
+          />
+        ) : ( */}
         <span className="trTableSpan">{data?.destocking}</span>
+        {/* )} */}
       </TableCell>
       <TableCell className="tableCell w-[100px]">
         <div className="flex items-center justify-end space-x-3">
@@ -65,16 +101,16 @@ export default function ProductProfileDetailsV2({ data }) {
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Selling Price</span>
+              <span className="thTableSpan">Prix de vente</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Buying methode</span>
+              <span className="thTableSpan">Méthode d'achat</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Limited quantity</span>
+              <span className="thTableSpan">Quantité limite</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Destocking</span>
+              <span className="thTableSpan">Déstockage</span>
             </TableCell>
             <TableCell align="right">
               <span className="thTableSpan">Action</span>

@@ -56,7 +56,7 @@ export default function ButtonExportExcel({ data, filename }) {
   return (
     <button className="buttonExport" onClick={handleExport}>
       <DocumentArrowDownIcon className="iconAsideBar" />
-      <span className="buttonTextDark">Export</span>
+      <span className="buttonTextDark">Exporter</span>
     </button>
   );
 }

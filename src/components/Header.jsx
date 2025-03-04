@@ -137,7 +137,7 @@ export default function Header() {
 
       {/* Notifications Dropdown */}
       <div
-        className={`absolute right-[455px] top-0 w-[350px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform
+        className={`absolute right-[455px] top-0 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform
         ${
           showNotifications
             ? "scale-100 opacity-100"
@@ -158,9 +158,9 @@ export default function Header() {
               NotificationsByStore.map((notif) => (
                 <div
                   key={notif._id}
-                  className="p-3 flex items-center space-x-3 rounded-lg hover:bg-gray-100 transition"
+                  className="p-3 flex items-center space-x-4 rounded-lg hover:bg-gray-100 transition"
                 >
-                  <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-white">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-white">
                     🔔
                   </div>
                   <div className="flex flex-col">

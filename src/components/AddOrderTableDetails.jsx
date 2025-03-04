@@ -43,10 +43,10 @@ function AddOrderTableDetails({
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
   const [selectedCategory, setSelectedCategory] = useState("");
-  
+
   const handelCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
-  }
+  };
 
   useEffect(() => {
     const calculateTotals = () => {
@@ -230,7 +230,7 @@ function AddOrderTableDetails({
     retry: 2, // Retry failed requests 2 times
     retryDelay: 1000, // Delay between retries (1 second)
   });
-  
+
   return (
     <>
       <TableContainer
@@ -279,7 +279,7 @@ function AddOrderTableDetails({
                   {rows.length === 0 ? (
                     <span>Add products</span>
                   ) : (
-                    <CircularProgress size={24} />
+                    <CircularProgress color="inherit" size={24} />
                   )}
                 </TableCell>
               </TableRow>

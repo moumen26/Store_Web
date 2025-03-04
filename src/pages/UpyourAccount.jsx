@@ -514,7 +514,7 @@ export default function UpYourAccount() {
           </div>
         ) : (
           <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
-            <CircularProgress />
+            <CircularProgress color="inherit" />
           </div>
         )}
       </Modal>

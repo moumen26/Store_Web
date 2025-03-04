@@ -23,12 +23,6 @@ function ProductProfileRow({ data }) {
         <span className="trTableSpan">{data?.product?.boxItems}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{data?.buying} DA</span>
-      </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{data?.selling} DA</span>
-      </TableCell>
-      <TableCell className="tableCell">
         <span className="trTableSpan">{data?.quantity}</span>
       </TableCell>
       <TableCell className="tableCell">
@@ -61,12 +55,6 @@ export default function ProductProfileDetails({ data }) {
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Box Items</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Buying Price</span>
-            </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Selling Price</span>
             </TableCell>
             <TableCell>
               <span className="thTableSpan">Stock unity</span>

@@ -451,7 +451,7 @@ export default function ProductTable({
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={8} align="center">
-                  <CircularProgress />
+                  <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
             ) : filteredRows.length > 0 ? (
@@ -528,7 +528,7 @@ export default function ProductTable({
               </div>
               <div className="w-[25%] h-fit flex-col space-y-5 mt-[16px]">
                 <h2 className="customerClassTitle">Product Image</h2>
-                <div className="w-full flex justify-center h-[390px]">
+                <div className="w-full flex justify-center h-[380px]">
                   <img
                     className="text-center"
                     srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(

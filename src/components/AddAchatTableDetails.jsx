@@ -21,6 +21,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
 import { PhotoIcon } from "@heroicons/react/16/solid";
 import ButtonAdd from "./ButtonAdd";
+import { Radio, RadioGroup } from "@mui/material";
 
 function AddAchatTableDetails({
   isModalOpen,
@@ -321,11 +322,16 @@ function AddAchatTableDetails({
   // Filtering logic
   const filteredProducts = useMemo(() => {
     if (!ProductData) return [];
-    
-    return ProductData.filter(product => {
-      const matchesSearchQuery = product?.brand?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                  product?.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory ? product?.category?._id == selectedCategory : true;
+
+    return ProductData.filter((product) => {
+      const matchesSearchQuery =
+        product?.brand?.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        product?.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory
+        ? product?.category?._id == selectedCategory
+        : true;
 
       return matchesSearchQuery && matchesCategory;
     });
@@ -382,7 +388,7 @@ function AddAchatTableDetails({
                   {rows.length === 0 ? (
                     <span>Add products</span>
                   ) : (
-                    <CircularProgress size={24} />
+                    <CircularProgress color="inherit" size={24} />
                   )}
                 </TableCell>
               </TableRow>
@@ -483,43 +489,82 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <>
-                  <div className="border-0 mt-8 w-[100%] flex-row productDetailsStock">
-                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                      <span>Buying Price :</span>
-                      <div className="inputForm flex items-center">
-                        <input
-                          type="number"
-                          name="buyingPrice"
-                          value={buyingPrice}
-                          min={0}
-                          onChange={handleBuyingPriceChange}
-                        />
-                        <span className="ml-2">DA</span>
+                  <div className="border-0 mt-8 w-[100%] flex-row justify-end space-x-8 productDetailsStock">
+                    <div className="flex flex-col space-y-2 mb-4">
+                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                        <span>Buying Price :</span>
+                        <div className="inputForm flex items-center">
+                          <input
+                            type="number"
+                            name="buyingPrice"
+                            value={buyingPrice}
+                            min={0}
+                            onChange={handleBuyingPriceChange}
+                          />
+                          <span className="ml-2">DA</span>
+                        </div>
+                      </div>
+                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                        <span>Selling Price :</span>
+                        <div className="inputForm flex items-center">
+                          <input
+                            type="number"
+                            name="sellingPrice"
+                            value={sellingPrice}
+                            min={0}
+                            onChange={handleSellingPriceChange}
+                          />
+                          <span className="ml-2">DA</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                      <span>Selling Price :</span>
-                      <div className="inputForm flex items-center">
-                        <input
-                          type="number"
-                          name="sellingPrice"
-                          value={sellingPrice}
-                          min={0}
-                          onChange={handleSellingPriceChange}
-                        />
-                        <span className="ml-2">DA</span>
+
+                    <div className="flex flex-col space-y-2 mb-4">
+                      <div className="flex items-center justify-end space-x-4">
+                        <span>Unit Type :</span>
+                        <RadioGroup
+                          aria-label="unit-type"
+                          name="unit-type"
+                          // value={unitType}
+                          // onChange={(e) => setUnitType(e.target.value)}
+                        >
+                          <div className="w-[350px]">
+                            <FormControlLabel
+                              // value="perUnit"
+                              control={
+                                <Radio
+                                  sx={{
+                                    "&.Mui-checked": { color: "#26667e" },
+                                  }}
+                                />
+                              }
+                              label={<span>Per Unit</span>}
+                            />
+                            <FormControlLabel
+                              // value="perBox"
+                              control={
+                                <Radio
+                                  sx={{
+                                    "&.Mui-checked": { color: "#26667e" },
+                                  }}
+                                />
+                              }
+                              label={<span>Per Box</span>}
+                            />
+                          </div>
+                        </RadioGroup>
                       </div>
-                    </div>
-                    <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                      <span>Stock :</span>
-                      <div className="inputForm">
-                        <input
-                          type="number"
-                          name="stock"
-                          value={ClientQuantity}
-                          min={0}
-                          onChange={handleClientQuantityChange}
-                        />
+                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                        <span>Stock :</span>
+                        <div className="inputForm">
+                          <input
+                            type="number"
+                            name="stock"
+                            value={ClientQuantity}
+                            min={0}
+                            onChange={handleClientQuantityChange}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

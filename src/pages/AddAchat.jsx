@@ -123,7 +123,7 @@ export default function AddAchat() {
     }
     setProducts([]);
   };
-  
+
   return (
     <>
       {!submitionLoading ? (
@@ -138,8 +138,10 @@ export default function AddAchat() {
           </div>
           <div className="customerClass paddingClass">
             <h2 className="customerClassTitle">Basic Information</h2>
-            <AddAchatProfileDetails 
-              fournisseurName={fournisseurData?.firstName + " " + fournisseurData?.lastName}
+            <AddAchatProfileDetails
+              fournisseurName={
+                fournisseurData?.firstName + " " + fournisseurData?.lastName
+              }
               PhoneNumber={fournisseurData?.phoneNumber}
             />
           </div>
@@ -170,7 +172,7 @@ export default function AddAchat() {
         </div>
       ) : (
         <div className="flex items-center justify-center h-screen">
-          <CircularProgress />
+          <CircularProgress color="inherit" />
         </div>
       )}
 

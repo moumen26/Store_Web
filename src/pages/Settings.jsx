@@ -88,25 +88,25 @@ export default function Settings() {
     storeLocation: "",
   });
 
-  // const handleClickModify = () => {
-  //   setIsEditing(true);
-  //   setEditableData({
-  //     firstName: "",
-  //     lastName: "",
-  //     wilaya: "",
-  //     commune: "",
-  //     storeAddress: "",
-  //     storeName: "",
-  //     storeLocation: "",
-  //     RC: "",
-  //   });
-  // };
+  const handleClickModify = () => {
+    setIsEditing(true);
+    setEditableData({
+      firstName: "",
+      lastName: "",
+      wilaya: "",
+      commune: "",
+      storeAddress: "",
+      storeName: "",
+      storeLocation: "",
+      RC: "",
+    });
+  };
 
   const [showModifyMenu, setShowModifyMenu] = useState(null);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-  const handleClickModify = (event) => {
+  const handleClickModifyMenu = (event) => {
     setShowModifyMenu(event.currentTarget);
   };
 
@@ -767,13 +767,13 @@ export default function Settings() {
                                     </div>
                                   ) : (
                                     <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
-                                      <CircularProgress />
+                                      <CircularProgress color="inherit" />
                                     </div>
                                   )}
                                 </div>
                               ) : (
                                 <div className="flex items-center justify-center space-x-8 pr-8 h-[60px] mt-2">
-                                  <CircularProgress />
+                                  <CircularProgress color="inherit" />
                                 </div>
                               )}
                             </Modal>
@@ -788,7 +788,7 @@ export default function Settings() {
                         </div>
                       ) : (
                         <div className="flex justify-center items-center">
-                          <CircularProgress />
+                          <CircularProgress color="inherit" />
                         </div>
                       )}
                     </div>
@@ -817,7 +817,7 @@ export default function Settings() {
                 </div>
               ) : (
                 <div className="flex justify-center items-center h-full">
-                  <CircularProgress />
+                  <CircularProgress color="inherit" />
                 </div>
               )}
               <ConfirmDialog
@@ -847,7 +847,7 @@ export default function Settings() {
                     <>
                       <ButtonModify
                         buttonSpan="Modify"
-                        onClick={handleClickModify}
+                        onClick={handleClickModifyMenu}
                       />
                       <Menu
                         anchorEl={showModifyMenu}
@@ -888,7 +888,6 @@ export default function Settings() {
                         />
                       </>
                     )}
-
                     {/* Show Password Fields Only When Editing Password */}
                     {isEditingEmail === false && (
                       <>
@@ -906,15 +905,6 @@ export default function Settings() {
                         />
                       </>
                     )}
-
-                    {/* Phone Number (Always Visible) */}
-                    <InputForm
-                      labelForm="Phone number"
-                      inputType="phone"
-                      inputName="phone"
-                      inputPlaceholder="Enter your phone number"
-                      readOnly={true}
-                    />
                   </div>
                 </div>
               </div>
@@ -929,7 +919,7 @@ export default function Settings() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {SubscriptionsDataLoading ? (
                   <div className="flex justify-center items-center">
-                    <CircularProgress />
+                    <CircularProgress color="inherit" />
                   </div>
                 ) : SubscriptionsData?.length > 0 ? (
                   SubscriptionsData?.map((sub) => (
@@ -1005,7 +995,7 @@ export default function Settings() {
               </>
             ) : (
               <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
-                <CircularProgress />
+                <CircularProgress color="inherit" />
               </div>
             )}
           </div>

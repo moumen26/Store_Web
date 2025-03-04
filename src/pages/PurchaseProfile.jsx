@@ -452,6 +452,9 @@ export default function PurchaseProfile() {
           <div className="flex items-center space-x-1">
             <span>Purchases</span>
             <ChevronRightIcon className="iconAsideBar" />
+            <span>
+              
+            </span>
           </div>
           <div className="orderProfileButtons">
             <ButtonRetour
@@ -587,7 +590,7 @@ export default function PurchaseProfile() {
             />
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-4">
           <div className="flex flex-row justify-center items-center w-full">
             <h2
               className="customerClassTitle"

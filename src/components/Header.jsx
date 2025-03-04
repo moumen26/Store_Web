@@ -120,6 +120,37 @@ export default function Header() {
     }
   };
 
+  const formatDate = (date) => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const dateObj = new Date(date);
+    if (dateObj.toDateString() === today.toDateString()) {
+      return "Today";
+    } else if (dateObj.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    } else {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return dateObj.toLocaleDateString(undefined, options);
+    }
+  };
+
+  const formatTime = (date) => {
+    const options = { hour: "2-digit", minute: "2-digit" };
+    return new Date(date).toLocaleTimeString(undefined, options);
+  };
+
+  // Group notifications by formatted date
+  const groupedNotifications = NotificationsByStore?.reduce((acc, notif) => {
+    const formattedDate = formatDate(notif.createdAt);
+    if (!acc[formattedDate]) {
+      acc[formattedDate] = [];
+    }
+    acc[formattedDate].push(notif);
+    return acc;
+  }, {});
+
   return (
     <div className="Header relative flex items-center space-x-6">
       {/* Notification Icon */}
@@ -153,43 +184,50 @@ export default function Header() {
         </div>
 
         <div className="max-h-80 overflow-y-auto space-y-2 p-4 pt-0">
-          {!NotificationsByStoreLoading ?
-            NotificationsByStore.length > 0 ? (
-              NotificationsByStore.map((notif) => (
-                <div
-                  key={notif._id}
-                  className="p-3 flex items-center space-x-4 rounded-lg hover:bg-gray-100 transition"
-                >
-                  <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-white">
-                    🔔
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-gray-800 text-sm font-medium">
-                      {notif.message}
-                    </p>
-                    <span className="text-gray-500 text-xs">{formatDate(notif.createdAt)}</span>
-                  </div>
-                  <ArchiveBoxIcon 
-                    style={{
-                      color: !submitionLoading ? "red" : "gray",
-                      width: "50px",
-                      height: "50px",
-                      cursor: "pointer"
-                    }} 
-                    onClick={() => handleSubmitMarkNotificationAsRead(notif._id)}
-                  />
+          {!NotificationsByStoreLoading ? (
+            Object.entries(groupedNotifications || {}).map(
+              ([dateLabel, notifications]) => (
+                <div key={dateLabel}>
+                  <h4 className="text-gray-700 font-semibold text-sm mb-2">
+                    {dateLabel}
+                  </h4>
+                  {notifications.map((notif) => (
+                    <div
+                      key={notif._id}
+                      className="p-3 flex items-center space-x-4 rounded-lg hover:bg-gray-100 transition"
+                    >
+                      <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-white">
+                        🔔
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-gray-800 text-sm font-medium">
+                          {notif.message}
+                        </p>
+                        <span className="text-gray-500 text-xs">
+                          {formatTime(notif.createdAt)}
+                        </span>
+                      </div>
+                      <ArchiveBoxIcon
+                        style={{
+                          color: !submitionLoading ? "red" : "gray",
+                          width: "50px",
+                          height: "50px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() =>
+                          handleSubmitMarkNotificationAsRead(notif._id)
+                        }
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-sm text-center py-4">
-                No notification are available.
-              </p>
-            ) 
-            : 
-              <div className="w-full h-full flex items-center justify-center">
-                <CircularProgress color="inherit" size={20}/>
-              </div>          
-          }
+              )
+            )
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <CircularProgress color="inherit" size={20} />
+            </div>
+          )}
         </div>
       </div>
 

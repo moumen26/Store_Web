@@ -199,8 +199,8 @@ export default function Header() {
                       <div className="flex space-x-3 w-[95%] items-center">
                         <div
                           className={`notifTypeIcon w-1 h-14 rounded-full flex items-center justify-center
-    ${notif.type === "alert" ? "bg-red-100" : "bg-blue-100"}
-  `}
+                          ${notif.type === "subscription_expiry" ? "bg-red-200" : !notif.type === "store_access_request" ? "bg-blue-200" : "bg-yellow-200"}
+                        `}
                         ></div>
 
                         <div className="flex flex-col w-[95%]">
@@ -216,8 +216,8 @@ export default function Header() {
                         <ArchiveBoxIcon
                           className={`w-5 h-5 cursor-pointer transition-colors duration-200 ${
                             !submitionLoading
-                              ? "text-red-300 hover:text-red-500"
-                              : "text-gray-500"
+                              ? "text-gray-300 hover:text-red-500"
+                              : "text-red-300"
                           }`}
                           onClick={() =>
                             handleSubmitMarkNotificationAsRead(notif._id)

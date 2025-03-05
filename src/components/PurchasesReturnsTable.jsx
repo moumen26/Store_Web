@@ -99,17 +99,14 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   {row.sousPurchases?.map((purchaseDetailsRow) => (
-                    <TableRow
-                      key={purchaseDetailsRow._id}
-                      className="tableRow"
-                    >
+                    <TableRow key={purchaseDetailsRow._id} className="tableRow">
                       <TableCell
                         component="th"
                         scope="row"
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                        {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
+                          {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -127,7 +124,8 @@ function Row(props) {
                           {Math.round(
                             purchaseDetailsRow.price.toString() *
                               purchaseDetailsRow.quantity.toString()
-                          ).toFixed(2)} DA
+                          ).toFixed(2)}{" "}
+                          DA
                         </span>
                       </TableCell>
                     </TableRow>
@@ -154,7 +152,8 @@ export default function PurchasesReturnsTable({
   // fetching Purchases data
   const fetchReturnedPurchasesData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/returned/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE +
+        `/Purchase/all/returned/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -205,28 +204,38 @@ export default function PurchasesReturnsTable({
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
     // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-  
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
     return rows.filter((row) => {
       // Check if the row matches the search query
       const matchesSearchQuery =
         row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.totalAmount.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.firstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.lastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.totalAmount
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.sousPurchases.some((detail) =>
-          detail.sousStock.stock.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          detail.sousStock.stock.product.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
         );
-  
+
       // Check if the row's order date falls within the specified date range
       const orderDate = new Date(row.date);
       const startDate = new Date(dateRange.startDate);
       const endDate = new Date(dateRange.endDate);
-  
+
       const isWithinDateRange =
         (!dateRange.startDate || orderDate >= startDate) &&
         (!dateRange.endDate || orderDate <= endDate);
-  
+
       // Return true if both conditions are met
       return matchesSearchQuery && isWithinDateRange;
     });
@@ -270,7 +279,9 @@ export default function PurchasesReturnsTable({
               </TableCell>
             </TableRow>
           ) : filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row._id} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row._id} row={row} />)
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">

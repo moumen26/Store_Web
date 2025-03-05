@@ -99,17 +99,14 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   {row.sousPurchases?.map((purchaseDetailsRow) => (
-                    <TableRow
-                      key={purchaseDetailsRow._id}
-                      className="tableRow"
-                    >
+                    <TableRow key={purchaseDetailsRow._id} className="tableRow">
                       <TableCell
                         component="th"
                         scope="row"
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                        {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
+                          {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -142,7 +139,11 @@ function Row(props) {
   );
 }
 
-export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dateRange }) {
+export default function PurchaseArchiveTable({
+  searchQuery,
+  setFilteredData,
+  dateRange,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -150,7 +151,8 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
   // fetching Archive Purchases data
   const fetchArchivePurchasesData = async () => {
     const response = await fetch(
-      import.meta.env.VITE_APP_URL_BASE + `/Purchase/all/closed/${decodedToken.id}`,
+      import.meta.env.VITE_APP_URL_BASE +
+        `/Purchase/all/closed/${decodedToken.id}`,
       {
         method: "GET",
         headers: {
@@ -184,7 +186,7 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
     retry: 2, // Retry failed requests 2 times
     retryDelay: 1000, // Delay between retries (1 second)
   });
-  
+
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
 
@@ -201,28 +203,38 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
     // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-  
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
     return rows.filter((row) => {
       // Check if the row matches the search query
       const matchesSearchQuery =
         row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.totalAmount.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.firstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.fournisseur.lastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.totalAmount
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.sousPurchases.some((detail) =>
-          detail.sousStock.stock.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          detail.sousStock.stock.product.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
         );
-  
+
       // Check if the row's order date falls within the specified date range
       const orderDate = new Date(row.date);
       const startDate = new Date(dateRange.startDate);
       const endDate = new Date(dateRange.endDate);
-  
+
       const isWithinDateRange =
         (!dateRange.startDate || orderDate >= startDate) &&
         (!dateRange.endDate || orderDate <= endDate);
-  
+
       // Return true if both conditions are met
       return matchesSearchQuery && isWithinDateRange;
     });
@@ -242,7 +254,7 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
       <Table aria-label="collapsible table" className="table">
         <TableHead className="tableHead">
           <TableRow>
-          <TableCell className="tableCell" />
+            <TableCell className="tableCell" />
             <TableCell className="tableCell">
               <span className="thTableSpan">Fournisseur</span>
             </TableCell>
@@ -258,7 +270,7 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
           </TableRow>
         </TableHead>
         <TableBody>
-        {ArchivePurchasesLoading ? (
+          {ArchivePurchasesLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}
@@ -266,7 +278,9 @@ export default function PurchaseArchiveTable({ searchQuery, setFilteredData, dat
               </TableCell>
             </TableRow>
           ) : filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row._id} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row._id} row={row} />)
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">

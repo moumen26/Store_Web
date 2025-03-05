@@ -43,27 +43,26 @@ export default function ProductProfileDetails({ data }) {
     >
       <Table aria-label="product profile details">
         <TableHead className="tableHead">
-        <TableRow>
-  <TableCell className="tableCell">
-    <span className="thTableSpan">Code Produit</span>
-  </TableCell>
-  <TableCell className="tableCell">
-    <span className="thTableSpan">Nom</span>
-  </TableCell>
-  <TableCell className="tableCell">
-    <span className="thTableSpan">Marque</span>
-  </TableCell>
-  <TableCell className="tableCell">
-    <span className="thTableSpan">Articles par boîte</span>
-  </TableCell>
-  <TableCell>
-    <span className="thTableSpan">Unité de stock</span>
-  </TableCell>
-  <TableCell>
-    <span className="thTableSpan">Boîte de stock</span>
-  </TableCell>
-</TableRow>
-
+          <TableRow>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Code Produit</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Nom</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Marque</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Articles par boîte</span>
+            </TableCell>
+            <TableCell>
+              <span className="thTableSpan">Unité de stock</span>
+            </TableCell>
+            <TableCell>
+              <span className="thTableSpan">Boîte de stock</span>
+            </TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           <ProductProfileRow data={data} />

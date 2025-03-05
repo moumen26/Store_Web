@@ -242,7 +242,9 @@ export default function CustomerProfileOrdersTable({
               </TableCell>
             </TableRow>
           ) : (
-            filteredRows.map((row) => <Row key={row._id} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

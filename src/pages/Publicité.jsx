@@ -160,14 +160,16 @@ export default function Publicité() {
   }
 
   return (
-    <div className="pagesContainer pubContainer">
-      <Header />
-      <div className="titlePageButton">
-        <h2 className="pagesTitle">Publicité</h2>
-        <ButtonAdd
-          buttonSpan="Add a Publicité"
-          onClick={handleOpenModalAddPub}
-        />
+    <div className="pagesContainer">
+      <div className="pagesContainerTop">
+        <Header />
+        <div className="titlePageButton">
+          <h2 className="pagesTitle">Publicité</h2>
+          <ButtonAdd
+            buttonSpan="Add a Publicité"
+            onClick={handleOpenModalAddPub}
+          />
+        </div>
       </div>
       <PubSwiperStore
         data={StorePublicityData}

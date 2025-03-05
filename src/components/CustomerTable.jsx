@@ -62,7 +62,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function CustomerTable({ searchQuery, setFilteredData, data, dataLoading }) {
+export default function CustomerTable({
+  searchQuery,
+  setFilteredData,
+  data,
+  dataLoading,
+}) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data?.length > 0) {
@@ -75,11 +80,11 @@ export default function CustomerTable({ searchQuery, setFilteredData, data, data
         customerCommune: data.user.commune,
       }));
       setRows(rowsData);
-    }else{
+    } else {
       setRows([]);
     }
   }, [data]);
-  
+
   const filteredRows = rows.filter(
     (row) =>
       row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -125,7 +130,9 @@ export default function CustomerTable({ searchQuery, setFilteredData, data, data
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.customerId} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row.customerId} row={row} />)
           ) : dataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">

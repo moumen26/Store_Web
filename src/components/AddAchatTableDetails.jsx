@@ -49,21 +49,23 @@ function AddAchatTableDetails({
   const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
   const handleQuantityPerBoxChange = (e) => {
     setQuantityPerBox(e.target.value);
-    
-    const boxQuantity = Number(Number(e.target.value) * Number(selectedProduct?.boxItems));
-    if (boxQuantity > 0) 
+
+    const boxQuantity = Number(
+      Number(e.target.value) * Number(selectedProduct?.boxItems)
+    );
+    if (boxQuantity > 0)
       setClientQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
-    else
-      setClientQuantity(Number(QuantityPerUnity));
-  }
+    else setClientQuantity(Number(QuantityPerUnity));
+  };
   const handleQuantityPerUnityChange = (e) => {
     setQuantityPerUnity(e.target.value);
-    const boxQuantity = Number(Number(QuantityPerBox) * Number(selectedProduct?.boxItems));
-    if (boxQuantity > 0) 
+    const boxQuantity = Number(
+      Number(QuantityPerBox) * Number(selectedProduct?.boxItems)
+    );
+    if (boxQuantity > 0)
       setClientQuantity(Number(boxQuantity) + Number(e.target.value));
-    else
-      setClientQuantity(Number(e.target.value));
-  }
+    else setClientQuantity(Number(e.target.value));
+  };
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setNewItem((prevState) => ({
@@ -164,7 +166,8 @@ function AddAchatTableDetails({
       return;
     }
 
-    const productQuantity = Number(ClientQuantity) / Number(newItem.product.boxItems);
+    const productQuantity =
+      Number(ClientQuantity) / Number(newItem.product.boxItems);
 
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
@@ -223,7 +226,9 @@ function AddAchatTableDetails({
           <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.boxQuantity >= 1 ? row.boxQuantity.toFixed(0) : "Under 1 box"}</span>
+          <span className="trTableSpan">
+            {row.boxQuantity >= 1 ? row.boxQuantity.toFixed(0) : "Under 1 box"}
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.quantity}</span>
@@ -502,10 +507,10 @@ function AddAchatTableDetails({
                     )}
                   </div>
                 </div>
-                {selectedProduct && 
+                {selectedProduct && (
                   <>
                     <div className="border-0 mt-8 w-[100%] flex-row justify-end space-x-8 productDetailsStock">
-                      <div className="flex flex-col space-y-2 mb-4">
+                      <div className="flex flex-col space-y-3 mb-4">
                         <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
                           <span>Buying Price :</span>
                           <div className="inputForm flex items-center">
@@ -534,9 +539,9 @@ function AddAchatTableDetails({
                         </div>
                       </div>
 
-                      <div className="flex flex-col space-y-2 mb-4">
-                        <div className="flex items-center justify-end space-x-4">
-                          <span>Quantity per box:</span>
+                      <div className="flex flex-col space-y-3 mb-4">
+                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                          <span>Quantity per box :</span>
                           <div className="inputForm">
                             <input
                               type="number"
@@ -548,7 +553,7 @@ function AddAchatTableDetails({
                           </div>
                         </div>
                         <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Quantity per unity:</span>
+                          <span>Quantity per unity :</span>
                           <div className="inputForm">
                             <input
                               type="number"
@@ -559,8 +564,8 @@ function AddAchatTableDetails({
                             />
                           </div>
                         </div>
-                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Total quantity:</span>
+                        <div className="w-fit space-x-3 items-center">
+                          <span>Total quantity :</span>
                           <span>{ClientQuantity} unity</span>
                         </div>
                       </div>
@@ -580,7 +585,7 @@ function AddAchatTableDetails({
                       </button>
                     </div>
                   </>
-                }
+                )}
               </div>
             </div>
           </>

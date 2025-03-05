@@ -61,7 +61,9 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.orderPayments.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2) + ' DA'}
+            {row.orderPayments
+              .reduce((sum, pay) => sum + pay.amount, 0)
+              .toFixed(2) + " DA"}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -179,7 +181,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function CreditOrdersTable({ searchQuery, setFilteredData, setCreditedOrderData, dateRange }) {
+export default function CreditOrdersTable({
+  searchQuery,
+  setFilteredData,
+  setCreditedOrderData,
+  dateRange,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -187,7 +194,9 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData, setCre
   //fetch data
   const fetchCreditedOrdersData = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivredCredited/all/${decodedToken.id}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivredCredited/all/${
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -209,13 +218,13 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData, setCre
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: CreditedOrderData, 
-    error: CreditedOrderDataError, 
-    isLoading: CreditedOrderDataLoading, 
-    refetch: refetchCreditedOrderData 
+  const {
+    data: CreditedOrderData,
+    error: CreditedOrderDataError,
+    isLoading: CreditedOrderDataLoading,
+    refetch: refetchCreditedOrderData,
   } = useQuery({
-    queryKey: ['CreditedOrderData', user?.token, location.key],
+    queryKey: ["CreditedOrderData", user?.token, location.key],
     queryFn: fetchCreditedOrdersData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -254,28 +263,33 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData, setCre
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
     // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-  
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
     return rows.filter((row) => {
       // Check if the row matches the search query
       const matchesSearchQuery =
-        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDetails.some((detail) =>
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         );
-  
+
       // Check if the row's order date falls within the specified date range
       const orderDate = new Date(row.orderDate);
       const startDate = new Date(dateRange.startDate);
       const endDate = new Date(dateRange.endDate);
-  
+
       const isWithinDateRange =
         (!dateRange.startDate || orderDate >= startDate) &&
         (!dateRange.endDate || orderDate <= endDate);
-  
+
       // Return true if both conditions are met
       return matchesSearchQuery && isWithinDateRange;
     });
@@ -334,8 +348,10 @@ export default function CreditOrdersTable({ searchQuery, setFilteredData, setCre
                 <span className="thTableSpan">No orders found</span>
               </TableCell>
             </TableRow>
-          ) :  (
-            filteredRows.map((row) => <Row key={row._id} row={row} />)
+          ) : (
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row._id} row={row} />)
           )}
         </TableBody>
       </Table>

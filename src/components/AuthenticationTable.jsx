@@ -267,13 +267,15 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
           </TableHead>
           <TableBody>
             {filteredRows.length > 0 ? (
-              filteredRows.map((row) => (
-                <Row
-                  key={row.userId}
-                  row={row}
-                  handleConfirmAlert={handleConfirmAlert}
-                />
-              ))
+              [...filteredRows]
+                .reverse()
+                .map((row) => (
+                  <Row
+                    key={row.userId}
+                    row={row}
+                    handleConfirmAlert={handleConfirmAlert}
+                  />
+                ))
             ) : notApprovedUsersLoading ? (
               <TableRow>
                 <TableCell colSpan={7} align="center">

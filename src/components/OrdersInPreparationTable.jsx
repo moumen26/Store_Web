@@ -170,8 +170,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-
-export default function OrdersInPreparationTable({ searchQuery, setFilteredData, setNonDelivredOrderData, dateRange }) {
+export default function OrdersInPreparationTable({
+  searchQuery,
+  setFilteredData,
+  setNonDelivredOrderData,
+  dateRange,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -180,8 +184,8 @@ export default function OrdersInPreparationTable({ searchQuery, setFilteredData,
   const NonDelivredfetchOrderData = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Receipt/noneDelivred/all/${
-          decodedToken.id
-        }`,
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -203,13 +207,13 @@ export default function OrdersInPreparationTable({ searchQuery, setFilteredData,
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: NonDelivredOrderData, 
-    error: NonDelivredOrderDataError, 
-    isLoading: NonDelivredOrderDataLoading, 
-    refetch: NonDelivredrefetchOrderData 
+  const {
+    data: NonDelivredOrderData,
+    error: NonDelivredOrderDataError,
+    isLoading: NonDelivredOrderDataLoading,
+    refetch: NonDelivredrefetchOrderData,
   } = useQuery({
-    queryKey: ['NonDelivredOrderData', user?.token],
+    queryKey: ["NonDelivredOrderData", user?.token],
     queryFn: NonDelivredfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
@@ -248,33 +252,38 @@ export default function OrdersInPreparationTable({ searchQuery, setFilteredData,
 
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
-      // If there's no search query and no date range, return all rows
-      if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-    
-      return rows.filter((row) => {
-        // Check if the row matches the search query
-        const matchesSearchQuery =
-          row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          row.orderDetails.some((detail) =>
-            detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-    
-        // Check if the row's order date falls within the specified date range
-        const orderDate = new Date(row.orderDate);
-        const startDate = new Date(dateRange.startDate);
-        const endDate = new Date(dateRange.endDate);
-    
-        const isWithinDateRange =
-          (!dateRange.startDate || orderDate >= startDate) &&
-          (!dateRange.endDate || orderDate <= endDate);
-    
-        // Return true if both conditions are met
-        return matchesSearchQuery && isWithinDateRange;
-      });
-    }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
+    // If there's no search query and no date range, return all rows
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
+    return rows.filter((row) => {
+      // Check if the row matches the search query
+      const matchesSearchQuery =
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.orderDetails.some((detail) =>
+          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+      // Check if the row's order date falls within the specified date range
+      const orderDate = new Date(row.orderDate);
+      const startDate = new Date(dateRange.startDate);
+      const endDate = new Date(dateRange.endDate);
+
+      const isWithinDateRange =
+        (!dateRange.startDate || orderDate >= startDate) &&
+        (!dateRange.endDate || orderDate <= endDate);
+
+      // Return true if both conditions are met
+      return matchesSearchQuery && isWithinDateRange;
+    });
+  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
 
   // Update filteredRows and filteredData when filteredResults change
   useEffect(() => {
@@ -314,7 +323,9 @@ export default function OrdersInPreparationTable({ searchQuery, setFilteredData,
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row.orderId} row={row} />)
           ) : NonDelivredOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">

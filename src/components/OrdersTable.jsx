@@ -169,8 +169,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-
-export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrderData, dateRange }) {
+export default function OrdersTable({
+  searchQuery,
+  setFilteredData,
+  setLatestOrderData,
+  dateRange,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -179,8 +183,8 @@ export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrd
   const LatestfetchOrderData = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Receipt/latest/all/${
-          decodedToken.id
-        }`,
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -202,13 +206,13 @@ export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrd
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: LatestOrderData, 
-    error: LatestOrderDataError, 
-    isLoading: LatestOrderDataLoading, 
-    refetch: LatestrefetchOrderData 
+  const {
+    data: LatestOrderData,
+    error: LatestOrderDataError,
+    isLoading: LatestOrderDataLoading,
+    refetch: LatestrefetchOrderData,
   } = useQuery({
-    queryKey: ['LatestOrderData', user?.token],
+    queryKey: ["LatestOrderData", user?.token],
     queryFn: LatestfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
@@ -247,28 +251,33 @@ export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrd
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
     // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-  
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
     return rows.filter((row) => {
       // Check if the row matches the search query
       const matchesSearchQuery =
-        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDetails.some((detail) =>
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         );
-  
+
       // Check if the row's order date falls within the specified date range
       const orderDate = new Date(row.orderDate);
       const startDate = new Date(dateRange.startDate);
       const endDate = new Date(dateRange.endDate);
-  
+
       const isWithinDateRange =
         (!dateRange.startDate || orderDate >= startDate) &&
         (!dateRange.endDate || orderDate <= endDate);
-  
+
       // Return true if both conditions are met
       return matchesSearchQuery && isWithinDateRange;
     });
@@ -312,7 +321,9 @@ export default function OrdersTable({ searchQuery, setFilteredData, setLatestOrd
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row.orderId} row={row} />)
           ) : LatestOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">

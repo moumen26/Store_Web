@@ -17,7 +17,7 @@ export default function Authentication() {
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
-        <div className="titlePageButton">
+        <div className="titlePageButton h-[48px]">
           <h2 className="pagesTitle">User Authentication</h2>
           {/* <ButtonAdd buttonSpan="New Customer" /> */}
         </div>

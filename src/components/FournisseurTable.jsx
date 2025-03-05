@@ -62,7 +62,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function FournisseurTable({ searchQuery, setFilteredData, data, loading }) {  
+export default function FournisseurTable({
+  searchQuery,
+  setFilteredData,
+  data,
+  loading,
+}) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data?.length > 0) {
@@ -122,7 +127,9 @@ export default function FournisseurTable({ searchQuery, setFilteredData, data, l
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.fournisseurId} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row.fournisseurId} row={row} />)
           ) : loading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">

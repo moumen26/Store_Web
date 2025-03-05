@@ -223,4 +223,4 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
       </Table>
     </TableContainer>
   );
-}
+} 

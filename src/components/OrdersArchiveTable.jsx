@@ -169,7 +169,11 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateRange }) {
+export default function OrdersArchiveTable({
+  searchQuery,
+  setFilteredData,
+  dateRange,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -178,8 +182,8 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateR
   const DelivredfetchOrderData = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivred/all/${
-          decodedToken.id
-        }`,
+        decodedToken.id
+      }`,
       {
         method: "GET",
         headers: {
@@ -201,13 +205,13 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateR
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: DelivredOrderData, 
-    error: DelivredOrderDataError, 
-    isLoading: DelivredOrderDataLoading, 
-    refetch: DelivredrefetchOrderData 
+  const {
+    data: DelivredOrderData,
+    error: DelivredOrderDataError,
+    isLoading: DelivredOrderDataLoading,
+    refetch: DelivredrefetchOrderData,
   } = useQuery({
-    queryKey: ['DelivredOrderData', user?.token, location.key],
+    queryKey: ["DelivredOrderData", user?.token, location.key],
     queryFn: DelivredfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
@@ -237,35 +241,40 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateR
       }));
       setRows(rowsData);
       setFilteredRows(rowsData);
-    }else{
+    } else {
       setRows([]);
     }
   }, [DelivredOrderData]);
   // Memoized filtered rows based on searchQuery
   const filteredResults = useMemo(() => {
     // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate)) return rows;
-  
+    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
+      return rows;
+
     return rows.filter((row) => {
       // Check if the row matches the search query
       const matchesSearchQuery =
-        row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        row.customerLastName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        row.customerFirstName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
         row.orderDetails.some((detail) =>
           detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
         );
-  
+
       // Check if the row's order date falls within the specified date range
       const orderDate = new Date(row.orderDate);
       const startDate = new Date(dateRange.startDate);
       const endDate = new Date(dateRange.endDate);
-  
+
       const isWithinDateRange =
         (!dateRange.startDate || orderDate >= startDate) &&
         (!dateRange.endDate || orderDate <= endDate);
-  
+
       // Return true if both conditions are met
       return matchesSearchQuery && isWithinDateRange;
     });
@@ -308,7 +317,9 @@ export default function OrdersArchiveTable({ searchQuery, setFilteredData, dateR
         </TableHead>
         <TableBody>
           {filteredRows.length > 0 ? (
-            filteredRows.map((row) => <Row key={row.orderId} row={row} />)
+            [...filteredRows]
+              .reverse()
+              .map((row) => <Row key={row.orderId} row={row} />)
           ) : DelivredOrderDataLoading ? (
             <TableRow>
               <TableCell colSpan={7} align="center">

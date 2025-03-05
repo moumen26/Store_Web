@@ -143,7 +143,7 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
                 </TableCell>
               </TableRow>
             ) : data.length > 0 ? (
-              data.map((row) => <Row key={row._id} row={row} handleDeleteClick={handleCloseDeleteLossClick}/>)
+              [...data].reverse().map((row) => <Row key={row._id} row={row} handleDeleteClick={handleCloseDeleteLossClick}/>)
             ) : (
               <TableRow>
                 <TableCell colSpan={7} align="center">

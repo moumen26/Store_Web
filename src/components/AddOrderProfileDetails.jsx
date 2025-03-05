@@ -102,7 +102,7 @@ export default function AddOrderProfileDetails({
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow
+          <TableRow 
             sx={{ "& > *": { borderBottom: "unset" } }}
             className="tableRow"
           >

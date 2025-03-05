@@ -11,12 +11,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ConfirmDialog from "./ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import { formatDate } from "../util/useFullFunctions";
-function ProductHistoriqueRow({
-  historique,
-  onDeleteClick,
-  isClosed = false
-}) {
-
+function ProductHistoriqueRow({ historique, onDeleteClick, isClosed = false }) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
@@ -25,7 +20,7 @@ function ProductHistoriqueRow({
       <TableCell className="tableCell">
         <span className="trTableSpan">{historique.amount} DA</span>
       </TableCell>
-      {isClosed && 
+      {isClosed && (
         <TableCell className="tableCell w-[100px]">
           <div className="flex items-center justify-end space-x-3">
             <TrashIcon
@@ -34,7 +29,7 @@ function ProductHistoriqueRow({
             />
           </div>
         </TableCell>
-      }
+      )}
     </TableRow>
   );
 }
@@ -45,10 +40,7 @@ ProductHistoriqueRow.propTypes = {
 };
 
 // Main component
-export default function PaymentHistorique({ 
-  data, 
-  isClosed = false
-}) {
+export default function PaymentHistorique({ data, isClosed = false }) {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deletedProductName, setDeletedProductName] = useState("");
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -61,13 +53,13 @@ export default function PaymentHistorique({
 
   const handleConfirmDelete = () => {
     alert(`delete ${deleteItemId}`);
-  }
+  };
 
   const handleCancelDelete = () => {
-    setDeleteItemId('');
-    setDeletedProductName('');
+    setDeleteItemId("");
+    setDeletedProductName("");
     setIsConfirmDialogOpen(false);
-  }
+  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -91,16 +83,18 @@ export default function PaymentHistorique({
               <TableCell>
                 <span className="thTableSpan">Amount</span>
               </TableCell>
-              {isClosed && 
+              {isClosed && (
                 <TableCell align="right">
                   <span className="thTableSpan">Action</span>
                 </TableCell>
-              }
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
             {data.length > 0 ? (
-                data.map((historique) => (
+              [...data]
+                .reverse()
+                .map((historique) => (
                   <ProductHistoriqueRow
                     key={historique._id}
                     historique={historique}
@@ -108,17 +102,17 @@ export default function PaymentHistorique({
                     isClosed={isClosed}
                   />
                 ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    {data.length == 0 ? (
-                      <span>no payment availble</span>
-                    ) : (
-                      <CircularProgress color="inherit" size={4} />
-                    )}
-                  </TableCell>
-                </TableRow>
-              )}
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  {data.length == 0 ? (
+                    <span>no payment availble</span>
+                  ) : (
+                    <CircularProgress color="inherit" size={4} />
+                  )}
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

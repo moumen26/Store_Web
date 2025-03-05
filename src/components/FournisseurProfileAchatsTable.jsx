@@ -14,7 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { formatDate } from "../util/useFullFunctions";
+import { formatDate, formatNumber } from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -46,7 +46,9 @@ function Row(props) {
           <span className="trTableSpan">{row.sousPurchases.length}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(row.totalAmount)} DA
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan text-[#28a745]">
@@ -137,7 +139,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.price.toFixed(2)} DA
+                          {formatNumber(detailsRow.price)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -223,4 +225,4 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
       </Table>
     </TableContainer>
   );
-} 
+}

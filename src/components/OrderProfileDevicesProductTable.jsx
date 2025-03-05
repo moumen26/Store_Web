@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatNumber } from "../util/useFullFunctions";
 
 function priceRow(qty, unit) {
   return qty * unit;
@@ -106,10 +107,10 @@ export default function OrderProfileDevicesProductTable({
                 <span className="trTableSpan">{row.box}</span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.unit.toFixed(2)}</span>
+                <span className="trTableSpan">{formatNumber(row.unit)}</span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.price.toFixed(2)}</span>
+                <span className="trTableSpan">{formatNumber(row.price)}</span>
               </TableCell>
             </TableRow>
           ))}
@@ -119,7 +120,9 @@ export default function OrderProfileDevicesProductTable({
               <span className="dashboardLatestOrdersDetails">Subtotal</span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{invoiceSubtotal.toFixed(2)}</span>
+              <span className="trTableSpan">
+                {formatNumber(invoiceSubtotal)}
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -131,7 +134,7 @@ export default function OrderProfileDevicesProductTable({
             <TableCell align="right"></TableCell>
             <TableCell align="right">
               <span className="trTableSpan">
-                {orderDeliveryAmount.toFixed(2)}
+                {formatNumber(orderDeliveryAmount)}
               </span>
             </TableCell>
           </TableRow>

@@ -18,7 +18,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
-import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import { formatDate, formatNumber, orderStatusTextDisplayer } from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -54,7 +54,7 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
+          <span className="trTableSpan">{formatNumber(row.totalAmount)} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">

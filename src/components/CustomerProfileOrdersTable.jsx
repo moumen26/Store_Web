@@ -14,7 +14,11 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon } from "@heroicons/react/24/outline";
-import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import {
+  formatDate,
+  formatNumber,
+  orderStatusTextDisplayer,
+} from "../util/useFullFunctions";
 
 function Row(props) {
   const { row } = props;
@@ -46,7 +50,7 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.total.toFixed(2)} DA</span>
+          <span className="trTableSpan">{formatNumber(row.total)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan text-[#28a745]">
@@ -58,7 +62,7 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan text-[#008080]">
-            {row.profit.toFixed(2)} DA
+            {formatNumber(row.profit)} DA
           </span>
         </TableCell>
         <TableCell className="tableCell">

@@ -18,6 +18,7 @@ import Modal from "react-modal";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
+import { formatNumber } from "../util/useFullFunctions";
 
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
@@ -555,24 +556,27 @@ export default function CustomerProfile() {
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Amount"
-            customerStatsCardDetails={OrderStatisticsData?.total.toFixed(2)}
+            customerStatsCardDetails={formatNumber(OrderStatisticsData?.total)}
             loading={OrderStatisticsDataLoading}
           />
+
           <CustomerStatsCard
             customerStatsCardTitle="Total Paid"
-            customerStatsCardDetails={OrderStatisticsData?.totalPaid.toFixed(2)}
+            customerStatsCardDetails={formatNumber(
+              OrderStatisticsData?.totalPaid
+            )}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Unpaid"
-            customerStatsCardDetails={`- ${OrderStatisticsData?.creditanpaid.toFixed(
-              2
+            customerStatsCardDetails={`- ${formatNumber(
+              OrderStatisticsData?.creditanpaid
             )}`}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
             customerStatsCardTitle="Total Profit"
-            customerStatsCardDetails={OrderStatisticsData?.profit.toFixed(2)}
+            customerStatsCardDetails={formatNumber(OrderStatisticsData?.profit)}
             loading={OrderStatisticsDataLoading}
           />
         </div>

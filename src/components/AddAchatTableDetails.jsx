@@ -229,6 +229,7 @@ function AddAchatTableDetails({
           <span className="trTableSpan">
             {row.boxQuantity >= 1 ? row.boxQuantity.toFixed(0) : "Under 1 box"}
           </span>
+          
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.quantity}</span>

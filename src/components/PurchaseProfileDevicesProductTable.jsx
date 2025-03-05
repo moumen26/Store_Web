@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatNumber } from "../util/useFullFunctions";
 
 function priceRow(qty, unit) {
   return qty * unit;
@@ -15,7 +16,10 @@ function subtotal(items) {
   return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-export default function PurchaseProfileDevicesProductTable({PurchaseData, discount}) {
+export default function PurchaseProfileDevicesProductTable({
+  PurchaseData,
+  discount,
+}) {
   const rows = PurchaseData?.sousStocks?.map((item) => {
     let totalBoxes = item.quantity / item.sousStock.stock.product.boxItems;
     const decimalPart = totalBoxes % 1;
@@ -85,7 +89,7 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData, discou
           </TableRow>
         </TableHead>
         <TableBody>
-        {rows?.map((row, index) => (
+          {rows?.map((row, index) => (
             <TableRow key={index}>
               <TableCell>
                 <span className="trTableSpan">
@@ -99,10 +103,10 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData, discou
                 <span className="trTableSpan">{row.box}</span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.unit.toFixed(2)} DA</span>
+                <span className="trTableSpan">{formatNumber(row.unit)} DA</span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.price.toFixed(2)} DA</span>
+                <span className="trTableSpan">{formatNumber(row.price)} DA</span>
               </TableCell>
             </TableRow>
           ))}
@@ -117,10 +121,14 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData, discou
           </TableRow>
           <TableRow>
             <TableCell colSpan={4}>
-              <span className="dashboardLatestOrdersDetails">Total sans remise</span>
+              <span className="dashboardLatestOrdersDetails">
+                Total sans remise
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{invoiceSubtotal.toFixed(2)} DA</span>
+              <span className="trTableSpan">
+                {formatNumber(invoiceSubtotal)} DA
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -128,7 +136,12 @@ export default function PurchaseProfileDevicesProductTable({PurchaseData, discou
               <span className="dashboardLatestOrdersDetails">Total final</span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{(invoiceSubtotal - ((invoiceSubtotal*discount)/100)).toFixed(2)} DA</span>
+              <span className="trTableSpan">
+                {(invoiceSubtotal - (invoiceSubtotal * discount) / 100).toFixed(
+                  2
+                )}{" "}
+                DA
+              </span>
             </TableCell>
           </TableRow>
         </TableBody>

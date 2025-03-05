@@ -497,7 +497,7 @@ export default function OrderProfile() {
       <Header />
 
       <div id="exportable-content" className="space-y-[32px]">
-        <div className="w-full flex items-center justify-between">
+        <div className="titlePageButton">
           <div className="flex items-center space-x-1">
             <span>Orders</span>
             <ChevronRightIcon className="iconAsideBar" />

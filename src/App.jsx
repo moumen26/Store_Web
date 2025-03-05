@@ -170,7 +170,6 @@ function App() {
             path="/CustomerProfile/:id"
             element={user ? <CustomerProfile /> : <SignIn />}
           />
-          z
           <Route
             path="/NAPCustomerProfile/:id"
             element={user ? <NonApprovedCustomer /> : <SignIn />}

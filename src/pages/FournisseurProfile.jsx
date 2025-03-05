@@ -10,6 +10,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { CircularProgress } from "@mui/material";
+import Modal from "react-modal";
+
+import ButtonLight from "../components/ButtonLight";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function FournisseurProfile() {
   const { id } = useParams();
@@ -26,6 +30,15 @@ export default function FournisseurProfile() {
 
   const navigate = useNavigate();
 
+  const [addPayementModal, setAddPayementModal] = useState(false);
+
+  const handleOpenAddPayementModal = () => {
+    setAddPayementModal(true);
+  };
+
+  const handleCloseDialogVendor = () => {
+    setAddPayementModal(false);
+  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -160,11 +173,68 @@ export default function FournisseurProfile() {
           <ChevronRightIcon className="iconAsideBar" />
           <span>#{OneFournisseurData?._id}</span>
         </div>
-        <ButtonAdd
-          buttonSpan="Create Achat"
-          showIcon={false}
-          onClick={handleCreateOrder}
-        />
+        <div className="flex space-x-2">
+          <ButtonLight
+            buttonSpan="Add payement"
+            onClick={handleOpenAddPayementModal}
+          />
+          <ButtonAdd
+            buttonSpan="Create Achat"
+            showIcon={false}
+            onClick={handleCreateOrder}
+          />
+
+          <Modal
+            isOpen={addPayementModal}
+            onRequestClose={handleCloseDialogVendor}
+            contentLabel="Add new Payement"
+            className="addNewModal"
+            style={{
+              overlay: {
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 1000,
+              },
+            }}
+          >
+            <div className="customerClass p-0">
+              <h2 className="customerClassTitle">Add New Payement</h2>
+              <div className="dialogAddCustomerItem">
+                <span>Amount :</span>
+                <div className="inputForm">
+                  <input
+                    type="number"
+                    min={0}
+                    // name="addPayement"
+                    // onChange={}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                {/* {!submitionLoading ? ( */}
+                <>
+                  <button
+                    className="text-gray-500 cursor-pointer hover:text-gray-700"
+                    onClick={handleCloseDialogVendor}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="text-blue-500 cursor-pointer hover:text-blue-700"
+                    // onClick={}
+                  >
+                    Save
+                  </button>
+                </>
+                {/* ) : (
+                  <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
+                    <CircularProgress color="inherit" />
+                  </div>
+                )} */}
+              </div>
+            </div>
+          </Modal>
+        </div>
       </div>
       <div className="customerClass paddingClass">
         <h2 className="customerClassTitle">Personal Information</h2>
@@ -221,22 +291,24 @@ export default function FournisseurProfile() {
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Amount"
-              customerStatsCardDetails={AchatStatisticsData?.totalAmount.toFixed(
-                2
+              customerStatsCardDetails={formatNumber(
+                AchatStatisticsData?.totalAmount
               )}
             />
+
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Paid"
-              customerStatsCardDetails={AchatStatisticsData?.totalPayment.toFixed(
-                2
+              customerStatsCardDetails={formatNumber(
+                AchatStatisticsData?.totalPayment
               )}
             />
+
             <CustomerStatsCard
               loading={AchatStatisticsDataLoading}
               customerStatsCardTitle="Total Unpaid"
-              customerStatsCardDetails={`- ${AchatStatisticsData?.totalCreditUnpaid.toFixed(
-                2
+              customerStatsCardDetails={`- ${formatNumber(
+                AchatStatisticsData?.totalCreditUnpaid
               )}`}
             />
           </div>

@@ -452,16 +452,16 @@ export default function PurchaseProfile() {
           <div className="flex items-center space-x-1">
             <span>Purchases</span>
             <ChevronRightIcon className="iconAsideBar" />
-            <span>
-              
-            </span>
+            <span>#{PurchaseData?._id}</span>
           </div>
           <div className="orderProfileButtons">
-            <ButtonRetour
-              showIcon={true}
-              buttonSpan="Retour Details"
-              onClick={handleOpenRetourPurchaseModal}
-            />
+            {PurchaseData?.closed && PurchaseData?.sousPurchases?.length > 1 && 
+              <ButtonRetour
+                showIcon={true}
+                buttonSpan="Retour Details"
+                onClick={handleOpenRetourPurchaseModal}
+              />
+            }
             <ButtonModify
               showIcon={true}
               buttonSpan="Modify Purchase"

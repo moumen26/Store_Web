@@ -83,6 +83,7 @@ ProductHistoriqueRow.propTypes = {
 export default function ProductHistorique({
   StockStatusData,
   StockStatusLoading,
+  handleOpenStockStatusConfirmationDialog
 }) {
   const { user } = useAuthContext();
 
@@ -163,7 +164,7 @@ export default function ProductHistorique({
                 onCancelClick={handleCancelClick}
                 onChange={handleChange}
                 editedHistorique={editedHistorique}
-                onDeleteClick={() => handleDeleteClick(historique)}
+                onDeleteClick={() => handleOpenStockStatusConfirmationDialog(historique._id)}
               />
             ))
           )}

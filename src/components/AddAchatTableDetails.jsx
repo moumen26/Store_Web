@@ -42,21 +42,34 @@ function AddAchatTableDetails({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
-  const [deletedProductName, setDeletedProductName] = useState("");
-  const [unitType, setUnitType] = useState("perUnit");
-
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [deletedProductName, setDeletedProductName] = useState("");
+  const [ClientQuantity, setClientQuantity] = useState(0);
+  const [QuantityPerBox, setQuantityPerBox] = useState(0);
+  const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
+  const handleQuantityPerBoxChange = (e) => {
+    setQuantityPerBox(e.target.value);
+    
+    const boxQuantity = Number(Number(e.target.value) * Number(selectedProduct?.boxItems));
+    if (boxQuantity > 0) 
+      setClientQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
+    else
+      setClientQuantity(Number(QuantityPerUnity));
+  }
+  const handleQuantityPerUnityChange = (e) => {
+    setQuantityPerUnity(e.target.value);
+    const boxQuantity = Number(Number(QuantityPerBox) * Number(selectedProduct?.boxItems));
+    if (boxQuantity > 0) 
+      setClientQuantity(Number(boxQuantity) + Number(e.target.value));
+    else
+      setClientQuantity(Number(e.target.value));
+  }
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setNewItem((prevState) => ({
       ...prevState,
       product: product,
     }));
-  };
-
-  const [ClientQuantity, setClientQuantity] = useState(0);
-  const handleClientQuantityChange = (e) => {
-    setClientQuantity(e.target.value);
   };
 
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -87,7 +100,7 @@ function AddAchatTableDetails({
   useEffect(() => {
     const calculateTotals = () => {
       const subtotal = rows.reduce(
-        (acc, row) => acc + row.unityQuantity * row.buying,
+        (acc, row) => acc + row.quantity * row.buying,
         0
       );
       const total = subtotal + deliveryAmount;
@@ -111,7 +124,7 @@ function AddAchatTableDetails({
       name: updatedItem.product.name,
       productID: updatedItem.productID,
       quantity: updatedItem.quantity,
-      unityQuantity: updatedItem.unityQuantity,
+      boxQuantity: updatedItem.boxQuantity,
       buying: updatedItem.buying,
       selling: updatedItem.selling,
     }));
@@ -151,15 +164,14 @@ function AddAchatTableDetails({
       return;
     }
 
-    const productQuantity =
-      Number(ClientQuantity) * Number(newItem.product.boxItems);
+    const productQuantity = Number(ClientQuantity) / Number(newItem.product.boxItems);
 
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
       ...newItem,
       name: newItem.product.name,
       quantity: ClientQuantity,
-      unityQuantity: productQuantity,
+      boxQuantity: productQuantity,
       buying: buyingPrice,
       selling: sellingPrice,
       uniqueId: Date.now().toString(),
@@ -180,6 +192,8 @@ function AddAchatTableDetails({
 
     handleCloseModal();
     setNewItem(null);
+    setQuantityPerBox(0);
+    setQuantityPerUnity(0);
     setClientQuantity(0);
     setBuyingPrice(0);
     setSellingPrice(0);
@@ -191,7 +205,7 @@ function AddAchatTableDetails({
   };
 
   const OrderRow = ({ row, onDelete }) => {
-    const productAmount = Number(row.buying) * Number(row.unityQuantity);
+    const productAmount = Number(row.buying) * Number(row.quantity);
 
     return (
       <TableRow
@@ -209,10 +223,10 @@ function AddAchatTableDetails({
           <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.quantity}</span>
+          <span className="trTableSpan">{row.boxQuantity >= 1 ? row.boxQuantity.toFixed(0) : "Under 1 box"}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.unityQuantity}</span>
+          <span className="trTableSpan">{row.quantity}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.buying} DA</span>
@@ -488,101 +502,85 @@ function AddAchatTableDetails({
                     )}
                   </div>
                 </div>
-                <>
-                  <div className="border-0 mt-8 w-[100%] flex-row justify-end space-x-8 productDetailsStock">
-                    <div className="flex flex-col space-y-2 mb-4">
-                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                        <span>Buying Price :</span>
-                        <div className="inputForm flex items-center">
-                          <input
-                            type="number"
-                            name="buyingPrice"
-                            value={buyingPrice}
-                            min={0}
-                            onChange={handleBuyingPriceChange}
-                          />
-                          <span className="ml-2">DA</span>
-                        </div>
-                      </div>
-                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                        <span>Selling Price :</span>
-                        <div className="inputForm flex items-center">
-                          <input
-                            type="number"
-                            name="sellingPrice"
-                            value={sellingPrice}
-                            min={0}
-                            onChange={handleSellingPriceChange}
-                          />
-                          <span className="ml-2">DA</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col space-y-2 mb-4">
-                      <div className="flex items-center justify-end space-x-4">
-                        <span>Unit Type :</span>
-                        <RadioGroup
-                          aria-label="unit-type"
-                          name="unit-type"
-                          // value={unitType}
-                          // onChange={(e) => setUnitType(e.target.value)}
-                        >
-                          <div className="w-[350px]">
-                            <FormControlLabel
-                              // value="perUnit"
-                              control={
-                                <Radio
-                                  sx={{
-                                    "&.Mui-checked": { color: "#26667e" },
-                                  }}
-                                />
-                              }
-                              label={<span>Per Unit</span>}
+                {selectedProduct && 
+                  <>
+                    <div className="border-0 mt-8 w-[100%] flex-row justify-end space-x-8 productDetailsStock">
+                      <div className="flex flex-col space-y-2 mb-4">
+                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                          <span>Buying Price :</span>
+                          <div className="inputForm flex items-center">
+                            <input
+                              type="number"
+                              name="buyingPrice"
+                              value={buyingPrice}
+                              min={0}
+                              onChange={handleBuyingPriceChange}
                             />
-                            <FormControlLabel
-                              // value="perBox"
-                              control={
-                                <Radio
-                                  sx={{
-                                    "&.Mui-checked": { color: "#26667e" },
-                                  }}
-                                />
-                              }
-                              label={<span>Per Box</span>}
+                            <span className="ml-2">DA</span>
+                          </div>
+                        </div>
+                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                          <span>Selling Price :</span>
+                          <div className="inputForm flex items-center">
+                            <input
+                              type="number"
+                              name="sellingPrice"
+                              value={sellingPrice}
+                              min={0}
+                              onChange={handleSellingPriceChange}
+                            />
+                            <span className="ml-2">DA</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col space-y-2 mb-4">
+                        <div className="flex items-center justify-end space-x-4">
+                          <span>Quantity per box:</span>
+                          <div className="inputForm">
+                            <input
+                              type="number"
+                              name="stock"
+                              value={QuantityPerBox}
+                              min={0}
+                              onChange={handleQuantityPerBoxChange}
                             />
                           </div>
-                        </RadioGroup>
-                      </div>
-                      <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                        <span>Stock :</span>
-                        <div className="inputForm">
-                          <input
-                            type="number"
-                            name="stock"
-                            value={ClientQuantity}
-                            min={0}
-                            onChange={handleClientQuantityChange}
-                          />
+                        </div>
+                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                          <span>Quantity per unity:</span>
+                          <div className="inputForm">
+                            <input
+                              type="number"
+                              name="stock"
+                              value={QuantityPerUnity}
+                              min={0}
+                              onChange={handleQuantityPerUnityChange}
+                            />
+                          </div>
+                        </div>
+                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                          <span>Total quantity:</span>
+                          <span>{ClientQuantity} unity</span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex justify-end space-x-8 items-start mt-[20px]">
-                    <button
-                      className="text-gray-500 cursor-pointer hover:text-gray-700"
-                      onClick={handleCloseModal}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="text-blue-500 cursor-pointer hover:text-blue-700"
-                      onClick={handleAddItem}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </>
+                    <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                      <button
+                        className="text-gray-500 cursor-pointer hover:text-gray-700"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="text-blue-500 cursor-pointer hover:text-blue-700"
+                        onClick={handleAddItem}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </>
+                }
               </div>
             </div>
           </>

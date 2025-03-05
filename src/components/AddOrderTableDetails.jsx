@@ -33,7 +33,6 @@ function AddOrderTableDetails({
     setSearchQuery(e.target.value);
   };
   const [rows, setRows] = useState([]);
-  const [ClientQuantity, setClientQuantity] = useState(0);
   const [newItem, setNewItem] = useState(null);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -43,7 +42,25 @@ function AddOrderTableDetails({
   const [deletedProductName, setDeletedProductName] = useState("");
   const [unitType, setUnitType] = useState("perUnit");
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const [ClientQuantity, setClientQuantity] = useState(0);
+  const [QuantityPerBox, setQuantityPerBox] = useState(0);
+  const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
+  const handleQuantityPerBoxChange = (e) => {
+    setQuantityPerBox(e.target.value); 
+    const boxQuantity = Number(Number(e.target.value) * Number(newItem?.product?.boxItems));
+    if (boxQuantity > 0) 
+      setClientQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
+    else
+      setClientQuantity(Number(QuantityPerUnity));
+  }
+  const handleQuantityPerUnityChange = (e) => {
+    setQuantityPerUnity(e.target.value);
+    const boxQuantity = Number(Number(QuantityPerBox) * Number(newItem?.product?.boxItems));
+    if (boxQuantity > 0) 
+      setClientQuantity(Number(boxQuantity) + Number(e.target.value));
+    else
+      setClientQuantity(Number(e.target.value));
+  }
   const handelCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
@@ -51,7 +68,7 @@ function AddOrderTableDetails({
   useEffect(() => {
     const calculateTotals = () => {
       const subtotal = rows.reduce(
-        (acc, row) => acc + row.ClientQuantity * row.product.selling,
+        (acc, row) => acc + row.ClientQuantity * row.selling,
         0
       );
       const total = Number(subtotal) + Number(deliveryAmount);
@@ -63,7 +80,7 @@ function AddOrderTableDetails({
   const handleDeleteClick = (uniqueId) => {
     setDeleteItemId(uniqueId);
     const deletedProduct = rows.find((row) => row.uniqueId === uniqueId);
-    setDeletedProductName(deletedProduct.product.product.name);
+    setDeletedProductName(deletedProduct.product.name);
     setIsConfirmDialogOpen(true);
   };
 
@@ -89,7 +106,7 @@ function AddOrderTableDetails({
   };
 
   const handleAddItem = () => {
-    if (!newItem || !newItem.product._id) {
+    if (!newItem || !newItem._id) {
       setAlertMessage("Please select a product.");
       setAlertType("error");
       setSnackbarOpen(true);
@@ -105,11 +122,6 @@ function AddOrderTableDetails({
       return;
     }
 
-    if (unitType === "perBox") {
-      productQuantity =
-        Number(productQuantity) * Number(newItem.product.product.boxItems);
-    }
-
     // Update newItem with the correct ClientQuantity
     const updatedItem = {
       ...newItem,
@@ -122,9 +134,9 @@ function AddOrderTableDetails({
     setAPIProducts((prevState) => [
       ...prevState,
       {
-        stock: updatedItem.product._id,
+        stock: updatedItem._id,
         quantity: updatedItem.ClientQuantity,
-        price: updatedItem.product.selling,
+        price: updatedItem.selling,
       },
     ]);
 
@@ -138,41 +150,34 @@ function AddOrderTableDetails({
   };
 
   const handleSelectProduct = (product) => {
-    setNewItem((prevState) => ({
-      ...prevState,
-      product: product,
-    }));
-  };
-  const handleProductQuantityChange = (e) => {
-    const value = e.target.value;
-    setClientQuantity(value);
+    setNewItem(product);
   };
 
   const OrderRow = ({ row, onDelete }) => {
-    const productAmount = row.product.selling * row.ClientQuantity;
+    const productAmount = row.selling * row.ClientQuantity;
 
     return (
       <TableRow
-        key={row.product._id}
+        key={row._id}
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product._id}</span>
+          <span className="trTableSpan">{row._id}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.product.product.name + " " + row.product.product.size}
+            {row.product.name + " " + row.product.size}
           </span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.product.brand?.name}</span>
+          <span className="trTableSpan">{row.product.brand?.name}</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{row.ClientQuantity}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.selling} DA</span>
+          <span className="trTableSpan">{row.selling} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{productAmount} DA</span>
@@ -332,54 +337,40 @@ function AddOrderTableDetails({
                 onSelectProduct={handleSelectProduct}
               />
             </div>
-            <div className="flex flex-col space-y-2 mb-4">
-              <div className="flex items-center justify-end space-x-4">
-                <span>Unit Type :</span>
-                <RadioGroup
-                  aria-label="unit-type"
-                  name="unit-type"
-                  value={unitType}
-                  onChange={(e) => setUnitType(e.target.value)}
-                >
-                  <div className="w-[350px]">
-                    <FormControlLabel
-                      value="perUnit"
-                      control={
-                        <Radio
-                          sx={{
-                            "&.Mui-checked": { color: "#26667e" },
-                          }}
-                        />
-                      }
-                      label={<span>Per Unit</span>}
-                    />
-                    <FormControlLabel
-                      value="perBox"
-                      control={
-                        <Radio
-                          sx={{
-                            "&.Mui-checked": { color: "#26667e" },
-                          }}
-                        />
-                      }
-                      label={<span>Per Box</span>}
-                    />
+            {newItem && 
+              <div className="flex flex-col space-y-2 mb-4">
+                <div className="flex items-center justify-end space-x-4">
+                  <div className="flex items-center justify-end space-x-4">
+                    <span>Quantity per box:</span>
+                    <div className="inputForm">
+                      <input
+                        type="number"
+                        name="stock"
+                        value={QuantityPerBox}
+                        min={0}
+                        onChange={handleQuantityPerBoxChange}
+                      />
+                    </div>
                   </div>
-                </RadioGroup>
-              </div>
-              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
-                <span>Quantity :</span>
-                <div className="inputForm">
-                  <input
-                    type="number"
-                    name="productQuantity"
-                    value={ClientQuantity}
-                    min={0}
-                    onChange={handleProductQuantityChange}
-                  />
+                  <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                    <span>Quantity per unity:</span>
+                    <div className="inputForm">
+                      <input
+                        type="number"
+                        name="stock"
+                        value={QuantityPerUnity}
+                        min={0}
+                        onChange={handleQuantityPerUnityChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                    <span>Total quantity:</span>
+                    <span>{ClientQuantity} unity</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
             <button

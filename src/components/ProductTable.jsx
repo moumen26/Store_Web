@@ -13,15 +13,14 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ProductProfileDetails from "./ProductProfileDetails";
 import ProductProfileDetailsV2 from "./ProductProfileDetailsV2";
 import ProductHistorique from "./ProductHistorique";
-import ProductArchiveHistorique from "./ProductArchiveHistorique";
 import ButtonAdd from "./ButtonAdd";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, Radio, RadioGroup, Snackbar } from "@mui/material";
 import axios from "axios";
-
-import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { TokenDecoder } from "../util/DecodeToken";
+import ConfirmDialog from "./ConfirmDialog";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
@@ -36,6 +35,7 @@ function Row(props) {
     onCancelClick,
     onChange,
     editedRow,
+    handleOpenStockStatusConfirmationDialog
   } = props;
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
@@ -134,8 +134,10 @@ export default function ProductTable({
   refetch,
 }) {
   const { user } = useAuthContext();
+  const decodedToken = TokenDecoder();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStockId, setSelectedStockId] = useState(null);
+  const [selectedStockStatusId, setSelectedStockStatusId] = useState(null);
   const [editingRowId, setEditingRowId] = useState(null);
   const [editedRow, setEditedRow] = useState({});
   const [rows, setRows] = useState([]);
@@ -143,12 +145,26 @@ export default function ProductTable({
   const [alertType, setAlertType] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [submitionLoading, setSubmitionLoading] = useState(false);
-
-  //new stock form
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const handleSelectProduct = (product) => {
-    setSelectedProduct(product);
-  };
+  const [Quantity, setQuantity] = useState(0);
+  const [QuantityPerBox, setQuantityPerBox] = useState(0);
+  const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
+  const handleQuantityPerBoxChange = (e) => {
+    setQuantityPerBox(e.target.value);
+    
+    const boxQuantity = Number(Number(e.target.value) * Number(StockData?.product?.boxItems));
+    if (boxQuantity > 0) 
+      setQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
+    else
+      setQuantity(Number(QuantityPerUnity));
+  }
+  const handleQuantityPerUnityChange = (e) => {
+    setQuantityPerUnity(e.target.value);
+    const boxQuantity = Number(Number(QuantityPerBox) * Number(StockData?.product?.boxItems));
+    if (boxQuantity > 0) 
+      setQuantity(Number(boxQuantity) + Number(e.target.value));
+    else
+      setQuantity(Number(e.target.value));
+  }
 
   const [BuyingPrice, setBuyingPrice] = useState(0);
   const handleBuyingPriceChange = (e) => {
@@ -157,10 +173,6 @@ export default function ProductTable({
   const [SellingPrice, setSellingPrice] = useState(0);
   const handleSellingPriceChange = (e) => {
     setSellingPrice(e.target.value);
-  };
-  const [Quantity, setQuantity] = useState(0);
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
   };
   const [ExparationDate, setExparationDate] = useState("");
   const handleExparationDateChange = (e) => {
@@ -200,8 +212,7 @@ export default function ProductTable({
     setSelectedStockId(null);
   };
 
-  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
-    useState(false);
+  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] = useState(false);
 
   const handleOpenModalAddNewStockProduct = () => {
     setModalIsOpenAddNewStockProduct(true);
@@ -210,6 +221,16 @@ export default function ProductTable({
   const handleCloseModalAddNewStockProduct = () => {
     clearForm();
     setModalIsOpenAddNewStockProduct(false);
+  };
+
+  const [openDeleteStockStatusConfirmationDialog, setOpenDeleteStockStatusConfirmationDialog] = useState(false);
+  const handleOpenStockStatusConfirmationDialog = (val) => {
+    setOpenDeleteStockStatusConfirmationDialog(true);
+    setSelectedStockStatusId(val);
+  };
+  const handleCloseStockStatusConfirmationDialog = () => {
+    setOpenDeleteStockStatusConfirmationDialog(false);
+    setSelectedStockStatusId(null);
   };
 
   useEffect(() => {
@@ -276,7 +297,7 @@ export default function ProductTable({
   // fetching specific Stock status data
   const fetchStockStatusById = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${selectedStockId}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${decodedToken?.id}/${selectedStockId}`,
       {
         method: "GET",
         headers: {
@@ -360,13 +381,13 @@ export default function ProductTable({
     }
   };
 
-  // create new stock data
-  const handleAddNewStock = async () => {
+  // create new stock Status
+  const handleAddNewStockStatus = async () => {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
         import.meta.env.VITE_APP_URL_BASE +
-          `/StockStatus/create/${selectedStockId}`,
+          `/StockStatus/create/${decodedToken?.id}/${selectedStockId}`,
         {
           BuyingPrice: BuyingPrice,
           SellingPrice: SellingPrice,
@@ -407,6 +428,50 @@ export default function ProductTable({
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error creating stock");
+      }
+    }
+  };
+  // delete stock Status
+  const handleDeleteStockStatus = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.delete(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/StockStatus/delete/${decodedToken?.id}/${selectedStockStatusId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        StockStatusRefetch();
+        StockRefetch();
+        refetch();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseStockStatusConfirmationDialog();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error deleting stock status: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error deleting stock status");
       }
     }
   };
@@ -466,6 +531,7 @@ export default function ProductTable({
                   onCancelClick={handleCancelClick}
                   onChange={handleChange}
                   editedRow={editedRow}
+                  handleOpenStockStatusConfirmationDialog={handleOpenStockStatusConfirmationDialog}
                 />
               ))
             ) : (
@@ -509,7 +575,10 @@ export default function ProductTable({
                 <div className="customerClass pt-0">
                   <ProductProfileDetailsV2
                     data={StockData}
-                    isLoading={StockLoading}
+                    setAlertType={setAlertType}
+                    setSnackbarMessage={setSnackbarMessage}
+                    setSnackbarOpen={setSnackbarOpen}
+                    handleRefetchDataChange={StockRefetch}
                   />
                   <div className="flex items-center justify-between mt-[24px]">
                     <h2 className="customerClassTitle">Historique du stock</h2>
@@ -522,6 +591,7 @@ export default function ProductTable({
                     <ProductHistorique
                       StockStatusData={StockStatusData}
                       StockStatusLoading={StockStatusLoading}
+                      handleOpenStockStatusConfirmationDialog={handleOpenStockStatusConfirmationDialog}
                     />
                   </div>
                 </div>
@@ -573,21 +643,6 @@ export default function ProductTable({
         )}
       </Modal>
 
-      {/* Snackbar */}
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={alertType ? "error" : "success"}
-          sx={{ width: "100%" }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-
       <Modal
         isOpen={modalIsOpenAddNewStockProduct}
         onRequestClose={handleCloseModalAddNewStockProduct}
@@ -629,56 +684,6 @@ export default function ProductTable({
                 <span className="ml-2">DA</span>
               </div>
             </div>
-            <div className="flex items-center justify-between">
-              <span>Type d'unité :</span>
-              <RadioGroup
-                className="w-[500px]"
-                aria-label="unit-type"
-                name="unit-type"
-                // value={unitType}
-                // onChange={(e) => setUnitType(e.target.value)}
-              >
-                <div className="w-[350px]">
-                  <FormControlLabel
-                    // value="perUnit"
-                    control={
-                      <Radio
-                        sx={{
-                          "&.Mui-checked": { color: "#26667e" },
-                        }}
-                      />
-                    }
-                    label={<span>Per Unit</span>}
-                  />
-                  <FormControlLabel
-                    // value="perBox"
-                    control={
-                      <Radio
-                        sx={{
-                          "&.Mui-checked": { color: "#26667e" },
-                        }}
-                      />
-                    }
-                    label={<span>Per Box</span>}
-                  />
-                </div>
-              </RadioGroup>
-            </div>
-            <div className="dialogAddCustomerItem items-center">
-              <span>Stock :</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="stock"
-                  value={Quantity}
-                  min={0}
-                  onChange={handleQuantityChange}
-                />
-              </div>
-              {/* {selectedProduct?.boxItems && (
-                <span>{selectedProduct?.boxItems * Quantity} unity</span>
-              )} */}
-            </div>
             <div className="dialogAddCustomerItem items-center">
               <span>Date d'expiration :</span>
               <div className="inputForm">
@@ -690,6 +695,32 @@ export default function ProductTable({
                 />
               </div>
             </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Quantity per box:</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="stock"
+                  value={QuantityPerBox}
+                  min={0}
+                  onChange={handleQuantityPerBoxChange}
+                />
+              </div>
+              <span>Quantity per unity:</span>
+              <div className="inputForm">
+                <input
+                  type="number"
+                  name="stock"
+                  value={QuantityPerUnity}
+                  min={0}
+                  onChange={handleQuantityPerUnityChange}
+                />
+              </div>
+            </div>
+            <div className="dialogAddCustomerItem items-center">
+              <span>Toatal quantité :</span>
+              <span>{Quantity} unity</span>
+            </div>
           </div>
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
             <button
@@ -700,13 +731,36 @@ export default function ProductTable({
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
-              onClick={handleAddNewStock}
+              onClick={handleAddNewStockStatus}
             >
               Enregistrer
             </button>
           </div>
         </div>
       </Modal>
+        
+      <ConfirmDialog
+        open={openDeleteStockStatusConfirmationDialog}
+        onConfirm={handleDeleteStockStatus}
+        onClose={handleCloseStockStatusConfirmationDialog}
+        dialogTitle={"Confirmer la suppression d\'un stock"}
+        dialogContentText={`Etes-vous sûr de vouloir mettre à jour votre stock ? Cette action diminuera votre quantité de stock actuelle, assurez-vous de supprimer le bon stock`}
+        isloading={submitionLoading}
+      />
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={alertType ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

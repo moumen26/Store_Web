@@ -30,9 +30,6 @@ import InputFormPassword from "../components/InputFormPassword";
 import SubscriptionCard from "../components/SubscriptionCard";
 import { Menu, MenuItem } from "@mui/material";
 
-import { set } from "date-fns";
-import { ArrowLeftIcon } from "@mui/x-date-pickers";
-
 export default function Settings() {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -45,14 +42,21 @@ export default function Settings() {
   ] = useState(false);
   const handleOpenConfirmationDialog = () => setOpenConfirmationDialog(true);
 
-  const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] =
-    useState(false);
-  const handleOpenUpdateConfirmationDialog = () =>
-    setOpenUpdateConfirmationDialog(true);
+  const [openUpdateConfirmationDialog, setOpenUpdateConfirmationDialog] = useState(false);
+  const handleOpenUpdateConfirmationDialog = () => setOpenUpdateConfirmationDialog(true);
+  
+  const [openUpdateEmailPasswordConfirmationDialog, setOpenUpdateEmailPasswordConfirmationDialog] = useState(false);
+  const handleOpenUpdateEmailPasswordConfirmationDialog = () => setOpenUpdateEmailPasswordConfirmationDialog(true);
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [updatedConfirmEmail, setUpdatedConfirmEmail] = useState("");
+  const [updatedNewPassword, setUpdatedNewPassword] = useState("");
+  const [updatedConfirmPassword, setUpdatedConfirmPassword] = useState("");
+  const [updatedOldPassword, setUpdatedOldPassword] = useState("");
 
   const handleCloseDialog = () => {
     setOpenConfirmationDialog(false);
     setOpenUpdateConfirmationDialog(false);
+    setOpenUpdateEmailPasswordConfirmationDialog(false);
   };
 
   const handleOpenDeleteCategoryDialog = () => {
@@ -502,6 +506,89 @@ export default function Settings() {
       }
     }
   };
+  const handleUpdateEmailPassword = async () => {
+    try {
+      let response;
+      if(isEditingPassword) {
+        setSubmitionLoading(true);
+        if(updatedNewPassword != updatedConfirmPassword) {
+          setAlertType(true);
+          setSnackbarMessage("Passwords do not match");
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+          return;
+        }
+        response = await axios.patch(
+          import.meta.env.VITE_APP_URL_BASE + `/Auth/updateStorePassword/${decodedToken.id}`,
+          {
+            OldPassword: updatedOldPassword, 
+            NewPassword: updatedNewPassword,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+      } else if(isEditingEmail) {
+        setSubmitionLoading(true);
+        if(updatedEmail != updatedConfirmEmail) {
+          setAlertType(true);
+          setSnackbarMessage("Emails do not match");
+          setSnackbarOpen(true);
+          setSubmitionLoading(false);
+          return;
+        }
+        response = await axios.patch(
+          import.meta.env.VITE_APP_URL_BASE + `/Auth/updateStoreEmail/${decodedToken.id}`,
+          {
+            Email: updatedEmail,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+      } else {
+        return;
+      }
+      
+      if (response.status === 200) {
+        refetchCustomerDataData();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseDialog();
+        setUpdatedEmail('')
+        setUpdatedConfirmEmail('')
+        setUpdatedNewPassword('')
+        setUpdatedConfirmPassword('')
+        setUpdatedOldPassword('')
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating email or password: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating email or password");
+      }
+    }
+  };
   return (
     <div className="pagesContainer settingsContainer">
       <div className="pageTable h-[100vh] flex-row">
@@ -841,7 +928,9 @@ export default function Settings() {
                         showIcon={false}
                         onClick={handleCancel}
                       />
-                      <ButtonSave />
+                      <ButtonSave 
+                        setOnClick={handleOpenUpdateEmailPasswordConfirmationDialog}
+                      />
                     </div>
                   ) : (
                     <>
@@ -878,6 +967,8 @@ export default function Settings() {
                           inputName="email"
                           inputPlaceholder="Enter your Email"
                           readOnly={!isEditingEmail}
+                          setChangevalue={(e) => setUpdatedEmail(e.target.value)}
+                          value={updatedEmail}
                         />
                         <InputForm
                           labelForm="Confirm Email Address"
@@ -885,6 +976,8 @@ export default function Settings() {
                           inputName="email"
                           inputPlaceholder="Confirm your Email"
                           readOnly={!isEditingEmail}
+                          setChangevalue={(e) => setUpdatedConfirmEmail(e.target.value)}
+                          value={updatedConfirmEmail}
                         />
                       </>
                     )}
@@ -896,18 +989,24 @@ export default function Settings() {
                           inputPlaceholder="Enter your old password"
                           inputName="Oldpassword"
                           readOnly={!isEditingPassword}
+                          setChangevalue={(e) => setUpdatedOldPassword(e.target.value)}
+                          value={updatedOldPassword}
                         />
                         <InputFormPassword
                           labelForm="New password"
                           inputPlaceholder="Enter your new password"
                           inputName="Newpassword"
                           readOnly={!isEditingPassword}
+                          setChangevalue={(e) => setUpdatedNewPassword(e.target.value)}
+                          value={updatedNewPassword}
                         />
                         <InputFormPassword
                           labelForm="Confirm password"
                           inputPlaceholder="Confirm your password"
                           inputName="Cpassword"
                           readOnly={!isEditingPassword}
+                          setChangevalue={(e) => setUpdatedConfirmPassword(e.target.value)}
+                          value={updatedConfirmPassword}
                         />
                       </>
                     )}
@@ -1013,6 +1112,13 @@ export default function Settings() {
         onClose={handleCloseDialog}
         dialogTitle="Confirm profile update"
         dialogContentText={`Are you sure you want to update your profile?`}
+      />
+      <ConfirmDialog
+        open={openUpdateEmailPasswordConfirmationDialog}
+        onConfirm={handleUpdateEmailPassword}
+        onClose={handleCloseDialog}
+        dialogTitle={isEditingPassword ? "Confirm password update" : "Confirm email update"}
+        dialogContentText={`Are you sure you want to update your ${isEditingPassword ? "password" : "email"}?`}
       />
       <Snackbar
         open={snackbarOpen}

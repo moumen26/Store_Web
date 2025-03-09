@@ -17,7 +17,7 @@ import { EyeIcon } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
-import { formatDate, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import { formatDate, formatNumber, orderStatusTextDisplayer } from "../util/useFullFunctions";
 import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
@@ -57,7 +57,7 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.orderAmount} DA</span>
+          <span className="trTableSpan">{formatNumber(Number(row.orderAmount))} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
@@ -122,7 +122,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productPrice}
+                          {formatNumber(Number(orderDetailsRow.productPrice))}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -132,10 +132,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            orderDetailsRow.productPrice *
-                              orderDetailsRow.productQuantity
-                          )}
+                          {formatNumber(Number(orderDetailsRow.productPrice) * Number(orderDetailsRow.productQuantity))}
                         </span>
                       </TableCell>
                     </TableRow>

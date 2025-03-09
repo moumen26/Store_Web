@@ -469,7 +469,49 @@ export default function OrderProfile() {
       }
     }
   };
-
+  //cancel order API
+  const handleCancelOrder = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/cancel/${decodedToken.id}/${id}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseRetireOrderModal();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error cancel receipt: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error cancel receipt");
+      }
+    }
+  };
   if (OrderDataLoading || OrderStatusDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -504,16 +546,20 @@ export default function OrderProfile() {
             <span>#{OrderData?._id}</span>
           </div>
           <div className="orderProfileButtons">
-            <RetireButton
-              showIcon={true}
-              buttonSpan="Retire Order"
-              onClick={handleOpenRetireOrderModal}
-            />
-            <ButtonModify
-              showIcon={true}
-              buttonSpan="Modify Order"
-              onClick={handleOpenModifyOrderModal}
-            />
+            {OrderData?.status == 0 &&
+              <RetireButton
+                showIcon={true}
+                buttonSpan="Retire Order"
+                onClick={handleOpenRetireOrderModal}
+              />
+            }
+            {OrderData?.status >= 0 &&
+              <ButtonModify
+                showIcon={true}
+                buttonSpan="Modify Order"
+                onClick={handleOpenModifyOrderModal}
+              />
+            }
             <ButtonExportPDF
               filename="Order_Profile"
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
@@ -597,14 +643,15 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">Payment History</h2>
             {OrderData.status != 10 ? (
               <div className="flex space-x-4">
-                {OrderData.credit == true ? null : OrderData.deposit ==
-                  false ? (
+                {OrderData.credit == true ? null : OrderData.deposit == false ? (
+                  OrderData?.status >= 0 && 
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it deposit"
                     onClick={handleOpenDepositConfirmationDialog}
                   />
                 ) : (
+                  OrderData?.status >= 0 && 
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it undeposit"
@@ -613,12 +660,14 @@ export default function OrderProfile() {
                 )}
                 {OrderData.deposit == true ? null : OrderData.credit ==
                   false ? (
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Make it credited"
-                    onClick={handleOpenCreditedConfirmationDialog}
-                  />
+                    OrderData?.status >= 0 && 
+                    <ButtonAdd
+                      showIcon={false}
+                      buttonSpan="Make it credited"
+                      onClick={handleOpenCreditedConfirmationDialog}
+                    />
                 ) : (
+                  OrderData?.status >= 0 && 
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it uncredited"
@@ -626,12 +675,14 @@ export default function OrderProfile() {
                   />
                 )}
                 {OrderData.credit == true ? (
+                  OrderData?.status >= 0 && 
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Add payment"
                     onClick={handleOpenAddPaymentDialog}
                   />
                 ) : (
+                  OrderData?.status >= 0 && 
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Full payment"
@@ -764,7 +815,7 @@ export default function OrderProfile() {
 
       <ConfirmDialog
         open={retireOrder}
-        // onConfirm={}
+        onConfirm={handleCancelOrder}
         onClose={handleCloseRetireOrderModal}
         dialogTitle="Confirm Retire"
         dialogContentText={`Are you sure you want to cancel this order?`}

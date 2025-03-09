@@ -9,8 +9,10 @@ const formatDate = (dateString) => {
 };
 const orderStatusTextDisplayer = (status, type) => {
   switch (status.toString()) {
+    case "-2":
+      return "Order was cancelled by store";
     case "-1":
-      return "till he sell everything";
+      return "Order was cancelled by client";
     case "0":
       return "Order Placed";
     case "1":

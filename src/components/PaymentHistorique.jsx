@@ -11,6 +11,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ConfirmDialog from "./ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import { formatDate } from "../util/useFullFunctions";
+import axios from "axios";
 function ProductHistoriqueRow({ historique, onDeleteClick, isClosed = false }) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
@@ -40,7 +41,7 @@ ProductHistoriqueRow.propTypes = {
 };
 
 // Main component
-export default function PaymentHistorique({ data, isClosed = false }) {
+export default function PaymentHistorique({ data, isClosed = false, id, user, decodedToken, refetchPurchaseData }) {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deletedProductName, setDeletedProductName] = useState("");
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -49,10 +50,6 @@ export default function PaymentHistorique({ data, isClosed = false }) {
     setDeleteItemId(historique._id);
     setDeletedProductName(historique.amount);
     setIsConfirmDialogOpen(true);
-  };
-
-  const handleConfirmDelete = () => {
-    alert(`delete ${deleteItemId}`);
   };
 
   const handleCancelDelete = () => {
@@ -66,9 +63,52 @@ export default function PaymentHistorique({ data, isClosed = false }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
+  const [submitionLoading, setSubmitionLoading] = useState(false);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+  };
+
+  //delete payment API
+  const handleOnConfirmDeletePayment = async () => {
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.delete(
+        import.meta.env.VITE_APP_URL_BASE + `/Purchase/payment/${decodedToken?.id}/${id}/${deleteItemId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchPurchaseData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCancelDelete();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error deleting payment: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error deleting payment", error.message);
+      }
+    }
   };
 
   return (
@@ -118,10 +158,11 @@ export default function PaymentHistorique({ data, isClosed = false }) {
       </TableContainer>
       <ConfirmDialog
         open={isConfirmDialogOpen}
-        onConfirm={handleConfirmDelete}
+        onConfirm={handleOnConfirmDeletePayment}
         onClose={handleCancelDelete}
         dialogTitle="Confirm Delete"
         dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
+        isloading={submitionLoading}
       />
 
       <Snackbar

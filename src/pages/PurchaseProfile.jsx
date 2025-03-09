@@ -420,6 +420,7 @@ export default function PurchaseProfile() {
       }
     }
   };
+  
 
   if (PurchaseDataLoading) {
     return (
@@ -562,6 +563,7 @@ export default function PurchaseProfile() {
                   <ButtonAdd
                     showIcon={false}
                     buttonSpan="Make it uncredited"
+                    color="red"
                     onClick={handleOpenUnCreditedConfirmationDialog}
                   />
                 )}
@@ -587,6 +589,10 @@ export default function PurchaseProfile() {
             <PaymentHistorique
               data={PurchaseData.payment}
               isClosed={!PurchaseData.closed}
+              user={user}
+              decodedToken={decodedToken}
+              id={id}
+              refetchPurchaseData={refetchPurchaseData}
             />
           </div>
         </div>

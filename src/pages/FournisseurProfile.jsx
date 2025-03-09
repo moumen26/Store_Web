@@ -9,17 +9,27 @@ import FournisseurProfileAchatsTable from "../components/FournisseurProfileAchat
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
-import { CircularProgress } from "@mui/material";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import Modal from "react-modal";
 
 import ButtonLight from "../components/ButtonLight";
 import { formatNumber } from "../util/useFullFunctions";
+import axios from "axios";
 
 export default function FournisseurProfile() {
   const { id } = useParams();
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
+
+  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertType, setAlertType] = useState(true);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [PaymentAmount, setPaymentAmount] = useState(0);
+  const handlePaymentAmountChange = (e) => {
+    setPaymentAmount(e.target.value);
+  }
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -36,7 +46,7 @@ export default function FournisseurProfile() {
     setAddPayementModal(true);
   };
 
-  const handleCloseDialogVendor = () => {
+  const handleCloseAddPaymentDialog = () => {
     setAddPayementModal(false);
   };
 
@@ -149,6 +159,54 @@ export default function FournisseurProfile() {
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
+  const handleConfirmAddPayment = async () => {
+    //API call to make the user a vendor
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Purchase/process/payments/${decodedToken.id}`,
+        {
+          amount: PaymentAmount,
+          fournisseurId: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        AchatStatisticsDataRefetch();
+        AchatDataByFournisseurRefetch();
+        setAlertType(false);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleCloseAddPaymentDialog();
+      } else {
+        setAlertType(true);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error adding new payment: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error adding new payment");
+      }
+    }
+  };
+
   const handleCreateOrder = () => {
     navigate(`/AddAchat/${id}`, { state: OneFournisseurData });
   };
@@ -186,7 +244,7 @@ export default function FournisseurProfile() {
 
           <Modal
             isOpen={addPayementModal}
-            onRequestClose={handleCloseDialogVendor}
+            onRequestClose={handleCloseAddPaymentDialog}
             contentLabel="Add new Payement"
             className="addNewModal"
             style={{
@@ -204,33 +262,33 @@ export default function FournisseurProfile() {
                   <input
                     type="number"
                     min={0}
-                    // name="addPayement"
-                    // onChange={}
+                    name="addPayement"
+                    onChange={handlePaymentAmountChange}
                   />
                 </div>
               </div>
 
               <div className="flex justify-end space-x-8 items-start mt-[20px]">
-                {/* {!submitionLoading ? ( */}
-                <>
-                  <button
-                    className="text-gray-500 cursor-pointer hover:text-gray-700"
-                    onClick={handleCloseDialogVendor}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="text-blue-500 cursor-pointer hover:text-blue-700"
-                    // onClick={}
-                  >
-                    Save
-                  </button>
-                </>
-                {/* ) : (
+                {!submitionLoading ? (
+                  <>
+                    <button
+                      className="text-gray-500 cursor-pointer hover:text-gray-700"
+                      onClick={handleCloseAddPaymentDialog}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="text-blue-500 cursor-pointer hover:text-blue-700"
+                      onClick={handleConfirmAddPayment}
+                    >
+                      Save
+                    </button>
+                  </>
+                ) : (
                   <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
                     <CircularProgress color="inherit" />
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           </Modal>
@@ -327,6 +385,20 @@ export default function FournisseurProfile() {
             data={AchatDataByFournisseur}
             loading={AchatDataByFournisseurLoading}
           />
+          {/* Snackbar */}
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={4000}
+            onClose={() => setSnackbarOpen(false)}
+          >
+            <Alert
+              onClose={() => setSnackbarOpen(false)}
+              severity={alertType ? "error" : "success"}
+              sx={{ width: "100%" }}
+            >
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
         </div>
       </>
     </div>

@@ -17,14 +17,14 @@ export default function DashboardCard({
     case "Profit":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
-    case "Total orders":
-      iconComponent = <DocumentChartBarIcon className="iconPages" />;
+    case "Total des commandes":
+      iconComponent = <CircleStackIcon className="iconPages" />;
       break;
     case "Montant total":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     default:
-      iconComponent = <CircleStackIcon className="iconPages" />;
+      iconComponent = <DocumentChartBarIcon className="iconPages" />;
       break;
   }
 

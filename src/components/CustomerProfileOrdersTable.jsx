@@ -54,9 +54,9 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan text-[#28a745]">
-            {Number(
+            {formatNumber(Number(
               row.payment.reduce((sum, pay) => sum + pay.amount, 0)
-            ).toFixed(2)}{" "}
+            ))}{" "}
             DA
           </span>
         </TableCell>
@@ -138,7 +138,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {detailsRow.price.toFixed(2)} DA
+                          {formatNumber(detailsRow.price)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -148,9 +148,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            detailsRow.price * detailsRow.quantity
-                          ).toFixed(2)}{" "}
+                          {formatNumber(Number(detailsRow.price) * Number(detailsRow.quantity))}{" "}
                           DA
                         </span>
                       </TableCell>

@@ -17,7 +17,11 @@ import { EyeIcon } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
-import { formatDate, formatNumber, orderStatusTextDisplayer } from "../util/useFullFunctions";
+import {
+  formatDate,
+  formatNumber,
+  orderStatusTextDisplayer,
+} from "../util/useFullFunctions";
 import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
@@ -57,13 +61,15 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatNumber(Number(row.orderAmount))} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(Number(row.orderAmount))} DA
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.orderPayments
-              .reduce((sum, pay) => sum + pay.amount, 0)
-              .toFixed(2) + " DA"}
+            {formatNumber(
+              row.orderPayments.reduce((sum, pay) => sum + pay.amount, 0)
+            )}{" "} DA
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -83,7 +89,7 @@ function Row(props) {
       <TableRow>
         <TableCell
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={7}
+          colSpan={8}
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -139,7 +145,10 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {formatNumber(Number(orderDetailsRow.productPrice) * Number(orderDetailsRow.productQuantity))}
+                          {formatNumber(
+                            Number(orderDetailsRow.productPrice) *
+                              Number(orderDetailsRow.productQuantity)
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>

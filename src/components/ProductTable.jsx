@@ -21,6 +21,7 @@ import axios from "axios";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { TokenDecoder } from "../util/DecodeToken";
 import ConfirmDialog from "./ConfirmDialog";
+import { formatNumber } from "../util/useFullFunctions";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
@@ -48,7 +49,9 @@ function Row(props) {
         </span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productBuyingPrice} DA</span>
+        <span className="trTableSpan">
+          {formatNumber(row.productBuyingPrice)} DA
+        </span>
       </TableCell>
       <TableCell className="tableCell">
         {isEditing ? (
@@ -61,7 +64,9 @@ function Row(props) {
             className="editable-input"
           />
         ) : (
-          <span className="trTableSpan">{row.productSellPrice} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(row.productSellPrice)} DA
+          </span>
         )}
       </TableCell>
       <TableCell className="tableCell">

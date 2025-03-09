@@ -54,11 +54,15 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.totalAmount.toFixed(2)} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(row.totalAmount)} DA
+          </span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">
-            {row.payment.reduce((sum, pay) => sum + pay.amount, 0).toFixed(2)}{" "}
+            {formatNumber(
+              row.payment.reduce((sum, pay) => sum + pay.amount, 0)
+            )}{" "}
             DA
           </span>{" "}
         </TableCell>
@@ -127,10 +131,12 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            purchaseDetailsRow.price.toString() *
-                              purchaseDetailsRow.quantity.toString()
-                          ).toFixed(2)}
+                          {formatNumber(
+                            Math.round(
+                              purchaseDetailsRow.price.toString() *
+                                purchaseDetailsRow.quantity.toString()
+                            )
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>

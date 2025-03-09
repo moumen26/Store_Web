@@ -123,10 +123,12 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            purchaseDetailsRow.price.toString() *
-                              purchaseDetailsRow.quantity.toString()
-                          ).toFixed(2)}
+                          {formatNumber(
+                            Math.round(
+                              purchaseDetailsRow.price.toString() *
+                                purchaseDetailsRow.quantity.toString()
+                            )
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>

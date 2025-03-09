@@ -54,7 +54,9 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatNumber(row.totalAmount)} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(row.totalAmount)} DA
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -111,7 +113,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {purchaseDetailsRow.price.toFixed(2)} DA
+                          {formatNumber(purchaseDetailsRow.price)} DA
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -121,10 +123,12 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {Math.round(
-                            purchaseDetailsRow.price.toString() *
-                              purchaseDetailsRow.quantity.toString()
-                          ).toFixed(2)}{" "}
+                          {formatNumber(
+                            Math.round(
+                              purchaseDetailsRow.price.toString() *
+                                purchaseDetailsRow.quantity.toString()
+                            )
+                          )}{" "}
                           DA
                         </span>
                       </TableCell>

@@ -27,8 +27,17 @@ export default function AddAchat() {
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
   const handleDiscountChange = (e) => {
-    setDiscount(e.target.value);
+    let value = e.target.value;
+
+    value = value.replace(/\D/g, "");
+
+    let numericValue = Number(value);
+    if (numericValue > 100) numericValue = 100;
+
+    e.target.value = numericValue;
+    setDiscount(numericValue);
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRemiseModalOpen, setIsRemiseModalOpen] = useState(false);
   const [Products, setProducts] = useState([]);
@@ -49,6 +58,8 @@ export default function AddAchat() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setQuantityPerBox(0);
+    setQuantityPerUnity(0);
   };
 
   const handleRemiseOpenModal = () => {
@@ -188,7 +199,7 @@ export default function AddAchat() {
           },
         }}
       >
-        <div className="customerClass pb-0">
+        <div className="customerClass p-0">
           <h2 className="customerClassTitle">Add Remise</h2>
           <div className="mt-[16px]">
             <form>
@@ -201,6 +212,7 @@ export default function AddAchat() {
                       name="remise"
                       className="pr-10"
                       onChange={handleDiscountChange}
+                      placeholder="Enter discount (0-100)"
                     />
                     <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                       %

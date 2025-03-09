@@ -46,21 +46,23 @@ function AddOrderTableDetails({
   const [QuantityPerBox, setQuantityPerBox] = useState(0);
   const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
   const handleQuantityPerBoxChange = (e) => {
-    setQuantityPerBox(e.target.value); 
-    const boxQuantity = Number(Number(e.target.value) * Number(newItem?.product?.boxItems));
-    if (boxQuantity > 0) 
+    setQuantityPerBox(e.target.value);
+    const boxQuantity = Number(
+      Number(e.target.value) * Number(newItem?.product?.boxItems)
+    );
+    if (boxQuantity > 0)
       setClientQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
-    else
-      setClientQuantity(Number(QuantityPerUnity));
-  }
+    else setClientQuantity(Number(QuantityPerUnity));
+  };
   const handleQuantityPerUnityChange = (e) => {
     setQuantityPerUnity(e.target.value);
-    const boxQuantity = Number(Number(QuantityPerBox) * Number(newItem?.product?.boxItems));
-    if (boxQuantity > 0) 
+    const boxQuantity = Number(
+      Number(QuantityPerBox) * Number(newItem?.product?.boxItems)
+    );
+    if (boxQuantity > 0)
       setClientQuantity(Number(boxQuantity) + Number(e.target.value));
-    else
-      setClientQuantity(Number(e.target.value));
-  }
+    else setClientQuantity(Number(e.target.value));
+  };
   const handelCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
@@ -76,6 +78,13 @@ function AddOrderTableDetails({
     };
     calculateTotals();
   }, [rows, deliveryAmount, onCalculateTotals]);
+
+  useEffect(() => {
+    if (newItem) {
+      setQuantityPerBox(0);
+      setQuantityPerUnity(0);
+    }
+  }, [newItem]);
 
   const handleDeleteClick = (uniqueId) => {
     setDeleteItemId(uniqueId);
@@ -337,40 +346,38 @@ function AddOrderTableDetails({
                 onSelectProduct={handleSelectProduct}
               />
             </div>
-            {newItem && 
-              <div className="flex flex-col space-y-2 mb-4">
+            {newItem && (
+              <div className="flex items-center justify-between">
                 <div className="flex items-center justify-end space-x-4">
-                  <div className="flex items-center justify-end space-x-4">
-                    <span>Quantity per box:</span>
-                    <div className="inputForm">
-                      <input
-                        type="number"
-                        name="stock"
-                        value={QuantityPerBox}
-                        min={0}
-                        onChange={handleQuantityPerBoxChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                    <span>Quantity per unity:</span>
-                    <div className="inputForm">
-                      <input
-                        type="number"
-                        name="stock"
-                        value={QuantityPerUnity}
-                        min={0}
-                        onChange={handleQuantityPerUnityChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                    <span>Total quantity:</span>
-                    <span>{ClientQuantity} unity</span>
+                  <span>Quantity per box :</span>
+                  <div className="inputForm">
+                    <input
+                      type="number"
+                      name="stock"
+                      value={QuantityPerBox}
+                      min={0}
+                      onChange={handleQuantityPerBoxChange}
+                    />
                   </div>
                 </div>
+                <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                  <span>Quantity per unity :</span>
+                  <div className="inputForm">
+                    <input
+                      type="number"
+                      name="stock"
+                      value={QuantityPerUnity}
+                      min={0}
+                      onChange={handleQuantityPerUnityChange}
+                    />
+                  </div>
+                </div>
+                <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
+                  <span>Total quantity :</span>
+                  <span>{ClientQuantity} unity</span>
+                </div>
               </div>
-            }
+            )}
           </div>
           <div className="flex justify-end space-x-8 items-start mt-[20px]">
             <button

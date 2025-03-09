@@ -296,7 +296,7 @@ export default function ProductsGrid() {
         }}
       >
         {!submitionLoading || BrandLoading || CategoryLoading ? (
-          <div className="customerClass">
+          <div className="customerClass pb-0">
             <h2 className="dialogTitle">Add New Product to Stock</h2>
             <div className="mt-[16px]">
               <form>

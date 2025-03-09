@@ -35,7 +35,7 @@ function Row(props) {
     onCancelClick,
     onChange,
     editedRow,
-    handleOpenStockStatusConfirmationDialog
+    handleOpenStockStatusConfirmationDialog,
   } = props;
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
@@ -43,13 +43,9 @@ function Row(props) {
         <span className="trTableSpan">{row.stockId}</span>
       </TableCell>
       <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productName}</span>
-      </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productSize}</span>
-      </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{row.productBrand}</span>
+        <span className="trTableSpan">
+          {row.productBrand} {row.productName} {row.productSize}
+        </span>
       </TableCell>
       <TableCell className="tableCell">
         <span className="trTableSpan">{row.productBuyingPrice} DA</span>
@@ -150,21 +146,23 @@ export default function ProductTable({
   const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
   const handleQuantityPerBoxChange = (e) => {
     setQuantityPerBox(e.target.value);
-    
-    const boxQuantity = Number(Number(e.target.value) * Number(StockData?.product?.boxItems));
-    if (boxQuantity > 0) 
+
+    const boxQuantity = Number(
+      Number(e.target.value) * Number(StockData?.product?.boxItems)
+    );
+    if (boxQuantity > 0)
       setQuantity(Number(boxQuantity) + Number(QuantityPerUnity));
-    else
-      setQuantity(Number(QuantityPerUnity));
-  }
+    else setQuantity(Number(QuantityPerUnity));
+  };
   const handleQuantityPerUnityChange = (e) => {
     setQuantityPerUnity(e.target.value);
-    const boxQuantity = Number(Number(QuantityPerBox) * Number(StockData?.product?.boxItems));
-    if (boxQuantity > 0) 
+    const boxQuantity = Number(
+      Number(QuantityPerBox) * Number(StockData?.product?.boxItems)
+    );
+    if (boxQuantity > 0)
       setQuantity(Number(boxQuantity) + Number(e.target.value));
-    else
-      setQuantity(Number(e.target.value));
-  }
+    else setQuantity(Number(e.target.value));
+  };
 
   const [BuyingPrice, setBuyingPrice] = useState(0);
   const handleBuyingPriceChange = (e) => {
@@ -212,7 +210,8 @@ export default function ProductTable({
     setSelectedStockId(null);
   };
 
-  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] = useState(false);
+  const [modalIsOpenAddNewStockProduct, setModalIsOpenAddNewStockProduct] =
+    useState(false);
 
   const handleOpenModalAddNewStockProduct = () => {
     setModalIsOpenAddNewStockProduct(true);
@@ -223,7 +222,10 @@ export default function ProductTable({
     setModalIsOpenAddNewStockProduct(false);
   };
 
-  const [openDeleteStockStatusConfirmationDialog, setOpenDeleteStockStatusConfirmationDialog] = useState(false);
+  const [
+    openDeleteStockStatusConfirmationDialog,
+    setOpenDeleteStockStatusConfirmationDialog,
+  ] = useState(false);
   const handleOpenStockStatusConfirmationDialog = (val) => {
     setOpenDeleteStockStatusConfirmationDialog(true);
     setSelectedStockStatusId(val);
@@ -297,7 +299,9 @@ export default function ProductTable({
   // fetching specific Stock status data
   const fetchStockStatusById = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${decodedToken?.id}/${selectedStockId}`,
+      `${import.meta.env.VITE_APP_URL_BASE}/StockStatus/${
+        decodedToken?.id
+      }/${selectedStockId}`,
       {
         method: "GET",
         headers: {
@@ -493,12 +497,6 @@ export default function ProductTable({
                 <span className="thTableSpan">Nom</span>
               </TableCell>
               <TableCell>
-                <span className="thTableSpan">Taille</span>
-              </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Marque</span>
-              </TableCell>
-              <TableCell>
                 <span className="thTableSpan">Prix d'achat</span>
               </TableCell>
               <TableCell>
@@ -531,12 +529,14 @@ export default function ProductTable({
                   onCancelClick={handleCancelClick}
                   onChange={handleChange}
                   editedRow={editedRow}
-                  handleOpenStockStatusConfirmationDialog={handleOpenStockStatusConfirmationDialog}
+                  handleOpenStockStatusConfirmationDialog={
+                    handleOpenStockStatusConfirmationDialog
+                  }
                 />
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} align="center">
+                <TableCell colSpan={6} align="center">
                   No Data Available
                 </TableCell>
               </TableRow>
@@ -591,7 +591,9 @@ export default function ProductTable({
                     <ProductHistorique
                       StockStatusData={StockStatusData}
                       StockStatusLoading={StockStatusLoading}
-                      handleOpenStockStatusConfirmationDialog={handleOpenStockStatusConfirmationDialog}
+                      handleOpenStockStatusConfirmationDialog={
+                        handleOpenStockStatusConfirmationDialog
+                      }
                     />
                   </div>
                 </div>
@@ -738,12 +740,12 @@ export default function ProductTable({
           </div>
         </div>
       </Modal>
-        
+
       <ConfirmDialog
         open={openDeleteStockStatusConfirmationDialog}
         onConfirm={handleDeleteStockStatus}
         onClose={handleCloseStockStatusConfirmationDialog}
-        dialogTitle={"Confirmer la suppression d\'un stock"}
+        dialogTitle={"Confirmer la suppression d'un stock"}
         dialogContentText={`Etes-vous sûr de vouloir mettre à jour votre stock ? Cette action diminuera votre quantité de stock actuelle, assurez-vous de supprimer le bon stock`}
         isloading={submitionLoading}
       />

@@ -632,7 +632,7 @@ export default function PurchaseProfile() {
           },
         }}
       >
-        <div className="customerClass">
+        <div className="customerClass p-0">
           <h2 className="customerClassTitle">Add payment</h2>
           <div className="dialogAddCustomerItem items-center">
             <span>Payment Amount :</span>

@@ -577,7 +577,7 @@ export default function OrderProfile() {
           <OrderProfileDetails orderDetails={OrderData} />
         </div>
         <div className="flex space-x-6 h-full">
-          <div className="customerClass paddingClass w-[60%]">
+          <div className="customerClass paddingClass w-[65%]">
             <h2 className="customerClassTitle">Devices in the Order</h2>
             {OrderStatusData?.map((status) => (
               <OrderProfileDevicesProductTable
@@ -586,7 +586,7 @@ export default function OrderProfile() {
               />
             ))}
           </div>
-          <div className="w-[40%] flex-col space-y-[32px]">
+          <div className="w-[35%] flex-col space-y-[32px]">
             <div className="customerClass paddingClass">
               <h2 className="customerClassTitle">Customer</h2>
               <div className="flex-col space-y-1">
@@ -738,7 +738,7 @@ export default function OrderProfile() {
           },
         }}
       >
-        <div className="customerClass">
+        <div className="customerClass p-0">
           <h2 className="customerClassTitle">Add payment</h2>
           <div className="dialogAddCustomerItem items-center">
             <span>Payment Amount :</span>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   ArchiveBoxArrowDownIcon,
   ArchiveBoxIcon,
+  CheckBadgeIcon,
   CheckIcon,
   ClipboardDocumentCheckIcon,
   TruckIcon,
@@ -68,7 +69,7 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
     },
     {
       label: "Fully Paid",
-      icon: <ArchiveBoxIcon className="iconAsideBar" />,
+      icon: <CheckBadgeIcon className="iconAsideBar" />,
     },
   ];
 

@@ -52,7 +52,7 @@ function ProductHistoriqueRow({
           />
         ) : ( */}
         <span className="trTableSpan">
-          {historique.exparationDate ? historique.exparationDate : "undefined"}
+          {historique.exparationDate ? historique.exparationDate : "/"}
         </span>
         {/* )} */}
       </TableCell>

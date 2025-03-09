@@ -364,7 +364,13 @@ export default function ProductsList() {
                       ).map((product) => (
                         <ProductCard
                           key={product._id}
-                          productName={product.name}
+                          productName={
+                            product.brand?.name +
+                            " " +
+                            product.name +
+                            " " +
+                            product.size
+                          }
                           productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
                             "/api",
                             ""
@@ -457,7 +463,7 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Valeur de déstockage :</span>
+                    <span>Valeur de <br></br> déstockage :</span>
                     <div className="inputForm">
                       <input
                         type="number"

@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PhotoIcon } from "@heroicons/react/16/solid";
 import ButtonAdd from "./ButtonAdd";
 import { Radio, RadioGroup } from "@mui/material";
+import { formatNumber } from "../util/useFullFunctions";
 
 function AddAchatTableDetails({
   isModalOpen,
@@ -226,19 +227,13 @@ function AddAchatTableDetails({
           <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">
-            {row.boxQuantity >= 1 ? row.boxQuantity.toFixed(0) : "Under 1 box"}
-          </span>
-          
-        </TableCell>
-        <TableCell className="tableCell">
           <span className="trTableSpan">{row.quantity}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.buying} DA</span>
+          <span className="trTableSpan">{formatNumber(row.buying)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{productAmount} DA</span>
+          <span className="trTableSpan">{formatNumber(productAmount)} DA</span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex items-center justify-end space-x-3">
@@ -376,9 +371,7 @@ function AddAchatTableDetails({
               <TableCell className="tableCell">
                 <span className="thTableSpan">Brand</span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Box</span>
-              </TableCell>
+
               <TableCell className="tableCell">
                 <span className="thTableSpan">Quantity</span>
               </TableCell>
@@ -404,7 +397,7 @@ function AddAchatTableDetails({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} align="center">
+                <TableCell colSpan={7} align="center">
                   {rows.length === 0 ? (
                     <span>Add products</span>
                   ) : (

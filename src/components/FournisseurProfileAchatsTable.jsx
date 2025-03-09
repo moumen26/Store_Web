@@ -42,9 +42,7 @@ function Row(props) {
         <TableCell className="tableCell">
           <span className="trTableSpan">{formatDate(row.date)}</span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.sousPurchases.length}</span>
-        </TableCell>
+
         <TableCell className="tableCell">
           <span className="trTableSpan">
             {formatNumber(row.totalAmount)} DA
@@ -52,7 +50,9 @@ function Row(props) {
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan text-[#28a745]">
-            {formatNumber(row.payment.reduce((sum, pay) => sum + pay.amount, 0))}{" "}
+            {formatNumber(
+              row.payment.reduce((sum, pay) => sum + pay.amount, 0)
+            )}{" "}
             DA
           </span>
         </TableCell>
@@ -149,7 +149,10 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {formatNumber(Number(detailsRow.price) * Number(detailsRow.quantity))}{" "}
+                          {formatNumber(
+                            Number(detailsRow.price) *
+                              Number(detailsRow.quantity)
+                          )}{" "}
                           DA
                         </span>
                       </TableCell>
@@ -183,9 +186,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
             <TableCell className="tableCell">
               <span className="thTableSpan">Purchase Date</span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase items</span>
-            </TableCell>
+
             <TableCell className="tableCell">
               <span className="thTableSpan">Total Amount</span>
             </TableCell>
@@ -206,7 +207,7 @@ export default function FournisseurProfileAchatsTable({ data = [], loading }) {
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={8} align="center">
+              <TableCell colSpan={7} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>

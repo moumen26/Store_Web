@@ -76,7 +76,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <span className="dashboardLatestOrdersDetails">
-                Order Details
+                Purchase Details
               </span>
               <Table size="small" aria-label="purchases" className="table">
                 <TableHead>

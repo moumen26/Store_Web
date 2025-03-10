@@ -83,7 +83,7 @@ ProductHistoriqueRow.propTypes = {
 export default function ProductHistorique({
   StockStatusData,
   StockStatusLoading,
-  handleOpenStockStatusConfirmationDialog
+  handleOpenStockStatusConfirmationDialog,
 }) {
   const { user } = useAuthContext();
 
@@ -116,7 +116,10 @@ export default function ProductHistorique({
   const handleDeleteClick = (historique) => {};
 
   return (
-    <TableContainer component={Paper} style={{ boxShadow: "none" }}>
+    <TableContainer
+      component={Paper}
+      style={{ boxShadow: "none", width: "100%" }}
+    >
       <Table aria-label="product historique">
         <TableHead>
           <TableRow>
@@ -164,7 +167,9 @@ export default function ProductHistorique({
                 onCancelClick={handleCancelClick}
                 onChange={handleChange}
                 editedHistorique={editedHistorique}
-                onDeleteClick={() => handleOpenStockStatusConfirmationDialog(historique._id)}
+                onDeleteClick={() =>
+                  handleOpenStockStatusConfirmationDialog(historique._id)
+                }
               />
             ))
           )}

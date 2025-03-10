@@ -81,7 +81,7 @@ export default function DashboardChart() {
         {
           label: "Revenue",
           data: chartApiData.map((item) => item.totalProfit),
-          fill: false,
+          fill: true,
           borderColor: documentStyle.getPropertyValue("--mainColor"),
           tension: 0.4,
         },
@@ -141,10 +141,6 @@ export default function DashboardChart() {
     );
   }
 
-  if (chartApiError) {
-    return <div>Error: {chartApiError.message}</div>;
-  }
-
   return (
     <div className="dashboadChart">
       <div className="w-full flex items-center justify-between ">
@@ -153,7 +149,7 @@ export default function DashboardChart() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <div className="cercleChartItemRevenue"></div>
-              <span className="spanChartItemRevenue">Revenu</span>
+              <span className="spanChartItemRevenue">Montant total</span>
             </div>
           </div>
           <div className="selectOptionChartClass">
@@ -164,7 +160,6 @@ export default function DashboardChart() {
               value={selectedOption}
               onChange={handleChange}
             >
-              <option value="daily">Jour</option>
               <option value="weekly">Semaine</option>
               <option value="monthly">Mois</option>
               <option value="yearly">Année</option>

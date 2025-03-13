@@ -563,7 +563,7 @@ export default function ProductTable({
         }}
       >
         {StockLoading ? (
-          <div className="h-[80%] flex items-center justify-center">
+          <div className="h-[80vh] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
         ) : StockData ? (
@@ -575,7 +575,7 @@ export default function ProductTable({
                 isLoading={StockLoading}
               />
             </div>
-            <div className="flex justify-between">
+            <div className="flex space-x-4 justify-between">
               <div className="w-[70%]">
                 <div className="customerClass pt-0">
                   <ProductProfileDetailsV2
@@ -603,9 +603,9 @@ export default function ProductTable({
                   </div>
                 </div>
               </div>
-              <div className="w-[25%] h-fit flex-col space-y-5 mt-[16px]">
+              <div className="w-[30%] h-fit flex-col space-y-5 mt-[16px]">
                 <h2 className="customerClassTitle">Image du Produit</h2>
-                <div className="w-full flex justify-center h-[380px]">
+                <div className="w-full flex justify-center h-[300px]">
                   <img
                     className="text-center"
                     srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
@@ -626,7 +626,7 @@ export default function ProductTable({
               <button
                 onClick={handleCloseModal}
                 style={{ marginTop: "20px" }}
-                className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
+                className="text-gray-500 cursor-pointer hover:text-gray-700 pr-3"
               >
                 Fermer
               </button>
@@ -641,7 +641,7 @@ export default function ProductTable({
               <button
                 onClick={handleCloseModal}
                 style={{ marginTop: "20px" }}
-                className="text-gray-500 cursor-pointer hover:text-gray-700 pr-8"
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
               >
                 Fermer
               </button>
@@ -702,7 +702,7 @@ export default function ProductTable({
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem items-center">
+            <div className="dialogAddCustomerItem space-x-4 items-center">
               <span>Quantity per box:</span>
               <div className="inputForm">
                 <input
@@ -724,7 +724,7 @@ export default function ProductTable({
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem items-center">
+            <div className="space-x-4 items-center">
               <span>Toatal quantité :</span>
               <span>{Quantity} unity</span>
             </div>

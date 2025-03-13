@@ -765,7 +765,7 @@
 
 .productCard .productName {
   width: 100%;
-  height: 30%;
+  height: 25%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -773,7 +773,7 @@
 
 .productImage {
   width: 100%;
-  height: 65%;
+  height: 75%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1151,7 +1151,7 @@
 }
 
 .scrollProductHistorique {
-  max-height: 335px;
+  max-height: 300px;
   height: fit-content;
   overflow-y: scroll;
 }
@@ -1461,6 +1461,7 @@
 
 .addNewStockModal {
   width: 95%;
+  max-height: 90%;
 }
 
 .wilayaCommune {

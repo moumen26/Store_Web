@@ -162,6 +162,11 @@
   width: 100%;
 }
 
+.selectStoreWilayaCommune select option:disabled {
+  font-size: 12px;
+  color: gray;
+}
+
 .inputIcon {
   width: 24px;
   color: #26667e;
@@ -371,8 +376,8 @@
   gap: 16px;
 }
 
-.settingsRightScroll::-webkit-scrollbar,
-.topAsideBar::-webkit-scrollbar {
+.settingsRightScroll::-webkit-scrollbar
+/* .topAsideBar::-webkit-scrollbar */ {
   display: none;
 }
 
@@ -466,12 +471,12 @@
   justify-content: space-between;
 }
 
-.customerClass{
+.customerClass {
   padding-bottom: 10px;
   padding-top: 10px;
 }
 
-.paddingClass{
+.paddingClass {
   padding: 20px 25px;
 }
 
@@ -490,7 +495,7 @@
   gap: 16px;
 }
 
-.pageContainerCards .pageTable{
+.pageContainerCards .pageTable {
   /* min-height: calc(60vh - 32px - 47px); */
   height: calc(100vh - 32px);
 }
@@ -604,12 +609,11 @@
   -ms-overflow-style: none; */
 }
 
-.dashboardProductClass{
+.dashboardProductClass {
   overflow-y: scroll;
 }
 
-
-.productImgClass{
+.productImgClass {
   width: 80px;
   height: 80px;
 }
@@ -627,22 +631,33 @@
   --sb-border-radius: 4px;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: var(--sb-size);
   height: var(--sb-size);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: var(--sb-border-radius);
 }
-::-webkit-scrollbar-button{
+::-webkit-scrollbar-button {
   display: none;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.topAsideBar::-webkit-scrollbar{
+  width: 3px;
+}
+
+.topAsideBar::-webkit-scrollbar-thumb {
+  opacity: 0.5;
+  background: var(--sb-track-color);
+}
+
+
 
 .signIn,
 .signUp {
@@ -1374,7 +1389,6 @@
   justify-content: space-between;
 }
 
-
 .titlePageButton {
   width: 100%;
   display: flex;
@@ -1428,7 +1442,7 @@
   height: fit-content;
 }
 
-.justifyEnd{
+.justifyEnd {
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -1438,7 +1452,7 @@
   border: none;
   border-radius: 8px;
   padding: 20px;
-  width: 50%;
+  width: 55%;
   margin: auto;
   z-index: 1001;
   background-color: var(--whiteColor);
@@ -1451,7 +1465,7 @@
   height: fit-content;
 }
 
-.PaymentHistory{
+.PaymentHistory {
   width: 80%;
 }
 
@@ -1472,7 +1486,6 @@
   height: calc(100vh - 32px);
   /* max-height: 500px; */
 }
-
 
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {

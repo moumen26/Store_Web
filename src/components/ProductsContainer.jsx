@@ -63,7 +63,7 @@ export default function ProductsContainer({
             />
           ))
       ) : (
-        <p>No products available</p>
+        <span className="thTableSpan">Aucun produit disponible</span>
       )}
 
       {selectedProduct && (
@@ -80,7 +80,7 @@ export default function ProductsContainer({
           }}
         >
           <div className="customerClass paddingClass">
-            <h2 className="customerClassTitle">Product Details</h2>
+            <h2 className="customerClassTitle">Détails du Produit</h2>
             <div className="w-full flex justify-center h-[300px]">
               <img
                 className="text-center"
@@ -98,23 +98,23 @@ export default function ProductsContainer({
             </div>
             <div className="flex-col space-y-3">
               <div className="flex space-x-3">
-                <span className="thTableSpan">Product Code</span>
+                <span className="thTableSpan">Code du Produit</span>
                 <span className="trTableSpan">{selectedProduct.code}</span>
               </div>
               <div className="flex space-x-3">
-                <span className="thTableSpan">Name</span>
+                <span className="thTableSpan">Nom</span>
                 <span className="trTableSpan">
                   {selectedProduct.name} {selectedProduct.size}
                 </span>
               </div>
               <div className="flex space-x-3">
-                <span className="thTableSpan">Brand</span>
+                <span className="thTableSpan">Marque</span>
                 <span className="trTableSpan">
                   {selectedProduct.brand.name}
                 </span>
               </div>
               <div className="flex space-x-3">
-                <span className="thTableSpan">Box Items</span>
+                <span className="thTableSpan">Articles par Boîte</span>
                 <span className="trTableSpan">{selectedProduct.boxItems}</span>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function ProductsContainer({
                 style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
               >
-                Close
+                Fermer
               </button>
             </div>
           </div>

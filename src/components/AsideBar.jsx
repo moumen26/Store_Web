@@ -157,7 +157,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Commandes en préparation</span>
+                    <span className="ml-3">Commandes en cours</span>
                   </div>
                 </NavLink>
                 <NavLink to="/CreditOrders" className="flex items-center">

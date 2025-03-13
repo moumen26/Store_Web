@@ -17,7 +17,11 @@ import { EyeIcon } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import CircularProgress from "@mui/material/CircularProgress";
-import { formatDate, orderStatusTextDisplayer, formatNumber } from "../util/useFullFunctions";
+import {
+  formatDate,
+  orderStatusTextDisplayer,
+  formatNumber,
+} from "../util/useFullFunctions";
 import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
@@ -57,7 +61,9 @@ function Row(props) {
           <span className="trTableSpan">{formatDate(row.orderDate)}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{formatNumber(Number(row.orderAmount))} DA</span>
+          <span className="trTableSpan">
+            {formatNumber(Number(row.orderAmount))} DA
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
@@ -80,27 +86,29 @@ function Row(props) {
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ margin: 1 }} className="pt-2">
               <span className="dashboardLatestOrdersDetails">
-                Order Details
+                Détails de la Commande
               </span>
-              <Table size="small" aria-label="purchases" className="table">
+              <Table size="small" aria-label="purchases" className="table mt-2">
                 <TableHead>
                   <TableRow>
                     <TableCell className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Product Name
+                        Nom du Produit
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Amount (DA)</span>
+                      <span className="thTableSpan thDetails">
+                        Montant (DA)
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantity</span>
+                      <span className="thTableSpan thDetails">Quantité</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Total price (DA)
+                        Prix Total (DA)
                       </span>
                     </TableCell>
                   </TableRow>
@@ -117,7 +125,8 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productName}
+                          {orderDetailsRow.productName}{" "}
+                          {orderDetailsRow.productSize}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -132,7 +141,10 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {formatNumber(Number(orderDetailsRow.productPrice) * Number(orderDetailsRow.productQuantity))}
+                          {formatNumber(
+                            Number(orderDetailsRow.productPrice) *
+                              Number(orderDetailsRow.productQuantity)
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -234,6 +246,7 @@ export default function OrdersTable({
         orderDetails: order.products.map((item) => ({
           productName: item.product.name,
           productPrice: item.price.toString(),
+          productSize: item.product.size.toString(),
           productQuantity: item.quantity.toString(),
         })),
       }));
@@ -297,19 +310,19 @@ export default function OrdersTable({
           <TableRow>
             <TableCell className="tableCell" />
             <TableCell className="tableCell">
-              <span className="thTableSpan">Customer</span>
+              <span className="thTableSpan">Client</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Order ID</span>
+              <span className="thTableSpan">ID de la Commande</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Order Date</span>
+              <span className="thTableSpan">Date de Commande</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Amount</span>
+              <span className="thTableSpan">Montant</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Status</span>
+              <span className="thTableSpan">Statut</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>
@@ -331,7 +344,7 @@ export default function OrdersTable({
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">No orders found</span>
+                <span className="thTableSpan">Aucune commande trouvée</span>
               </TableCell>
             </TableRow>
           )}

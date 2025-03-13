@@ -10,20 +10,21 @@ export default function OrdersInPreparation() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setNonDelivredOrderData] = useState([]);
-  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
-  
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
-
 
   return (
     <div className="pagesContainer pageContainerCards">
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Orders</h2>
+          <h2 className="pagesTitle">Commandes en cours</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -33,33 +34,45 @@ export default function OrdersInPreparation() {
       </div>
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total Orders"
+          orderCardTitle="Total des Commandes"
           orderCardDetails={latestOrderData.length}
         />
-        <OrderCard orderCardTitle="In preparation orders" orderCardDetails={
-          latestOrderData.filter(order => order?.orderStatus == 1).length
-        } />
-        <OrderCard orderCardTitle="Ready & On the way orders" orderCardDetails={
-          latestOrderData.filter(order => order?.orderStatus == 2).length
-        } />
-        <OrderCard orderCardTitle="Picked up & Delivred orders" orderCardDetails={
-          latestOrderData.filter(order => order?.orderStatus == 3).length
-        } />
         <OrderCard
-          orderCardTitle="Total Amount"
+          orderCardTitle="Commandes en préparation"
           orderCardDetails={
-            latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0
-          ) + " DA"}
+            latestOrderData.filter((order) => order?.orderStatus == 1).length
+          }
+        />
+        <OrderCard
+          orderCardTitle="Commandes prêtes et en cours de livraison"
+          orderCardDetails={
+            latestOrderData.filter((order) => order?.orderStatus == 2).length
+          }
+        />
+        <OrderCard
+          orderCardTitle="Commandes récupérées et livrées"
+          orderCardDetails={
+            latestOrderData.filter((order) => order?.orderStatus == 3).length
+          }
+        />
+        <OrderCard
+          orderCardTitle="Montant Total"
+          orderCardDetails={
+            latestOrderData.reduce(
+              (acc, order) => acc + Number(order?.orderAmount),
+              0
+            ) + " DA"
+          }
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Order..."
+            placeholder="Rechercher par commande..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Orders" />
+          <ButtonExportExel data={filteredData} filename="Commande" />
         </div>
         <div className="pageTableContainer">
           <OrdersInPreparationTable

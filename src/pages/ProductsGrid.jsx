@@ -244,10 +244,10 @@ export default function ProductsGrid() {
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Products Grid</h2>
+          <h2 className="pagesTitle">Produits</h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Add New Product"
+              buttonSpan="Ajouter un Nouveau Produit"
               onClick={handleOpenAddProductModal}
             />
           </div>
@@ -256,15 +256,17 @@ export default function ProductsGrid() {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Product..."
+            placeholder="Rechercher par Produit..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
           <div className="span-input">
-            <span>Category</span>
+            <span>Catégorie</span>
             <div className="selectStoreWilayaCommune">
               <select name="productCategory" onChange={handelCategoryChange}>
-                <option value="">-- Select Product Category --</option>
+                <option value="" disabled selected>
+                  -- Sélectionnez la Catégorie de Produit --
+                </option>
                 {CategoryData?.map((category) => (
                   <option key={category._id} value={category._id}>
                     {category.name}
@@ -297,12 +299,12 @@ export default function ProductsGrid() {
       >
         {!submitionLoading || BrandLoading || CategoryLoading ? (
           <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Add New Product to Stock</h2>
+            <h2 className="dialogTitle">Ajouter un Nouveau Produit au Stock</h2>
             <div className="mt-[16px]">
               <form>
                 <div className="flex-col space-y-8 mb-5">
                   <div className="dialogAddCustomerItem">
-                    <span>Product Name :</span>
+                    <span>Nom du Produit :</span>
                     <div className="inputForm">
                       <input
                         type="text"
@@ -312,7 +314,7 @@ export default function ProductsGrid() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Product Size :</span>
+                    <span>Taille du Produit :</span>
                     <div className="inputForm">
                       <input
                         type="text"
@@ -322,7 +324,7 @@ export default function ProductsGrid() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>BoxItems :</span>
+                    <span>Articles par Boîte :</span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -332,13 +334,15 @@ export default function ProductsGrid() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Product Category :</span>
+                    <span>Catégorie de Produit :</span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
                         name="productCategory"
                         onChange={handleProductCategoryChange}
                       >
-                        <option value="">-- Select Product Category --</option>
+                        <option value="" disabled selected>
+                          -- Sélectionnez la Catégorie de Produit --
+                        </option>
                         {CategoryData?.map((category) => (
                           <option key={category._id} value={category._id}>
                             {category.name}
@@ -348,13 +352,15 @@ export default function ProductsGrid() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Product Brand :</span>
+                    <span>Marque du Produit :</span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
                         name="productCategory"
                         onChange={handleProductBrandChange}
                       >
-                        <option value="">-- Select Product Brand --</option>
+                        <option value="" disabled selected>
+                          -- Sélectionnez la Marque du Produit --
+                        </option>
                         {BrandData?.map((category) => (
                           <option key={category._id} value={category._id}>
                             {category.name}
@@ -364,7 +370,7 @@ export default function ProductsGrid() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Product Picture :</span>
+                    <span>Image du Produit :</span>
                     <div className="productPicture">
                       <div
                         className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
@@ -389,8 +395,10 @@ export default function ProductsGrid() {
                           onChange={handleImageChange}
                         />
                         <p onClick={handleClick} className="uploadSpan">
-                          <span className="text-blue-600">Click to upload </span>
-                          or drag and drop SVG, PNG, JPG
+                          <span className="text-blue-600">
+                            Cliquez pour télécharger{" "}
+                          </span>
+                          ou glissez-déposez un fichier SVG, PNG, JPG
                         </p>
                       </div>
                     </div>
@@ -401,11 +409,11 @@ export default function ProductsGrid() {
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseAddProductModal}
                   >
-                    Cancel
+                    Annuler
                   </button>
                   <input
                     type="button"
-                    value={"Save"}
+                    value={"Enregistrer"}
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
                     onClick={handleSavePRODUCT}
                   />

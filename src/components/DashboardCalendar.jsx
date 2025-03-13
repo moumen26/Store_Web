@@ -2,12 +2,62 @@ import React, { useState } from "react";
 import { Calendar } from "primereact/calendar";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
+import { locale, addLocale } from "primereact/api";
 import "primeicons/primeicons.css";
 
 export default function DashboardCalendar({ onDateChange }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const today = new Date();
+
+  addLocale("fr", {
+    firstDayOfWeek: 1,
+    dayNames: [
+      "dimanche",
+      "lundi",
+      "mardi",
+      "mercredi",
+      "jeudi",
+      "vendredi",
+      "samedi",
+    ],
+    dayNamesShort: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+    dayNamesMin: ["D", "L", "M", "M", "J", "V", "S"],
+    monthNames: [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ],
+    monthNamesShort: [
+      "Janv",
+      "Févr",
+      "Mars",
+      "Avr",
+      "Mai",
+      "Juin",
+      "Juil",
+      "Août",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Déc",
+    ],
+    today: "Aujourd'hui",
+    clear: "Effacer",
+    dateFormat: "dd-mm-yy",
+    weekHeader: "Sem",
+  });
+
+  locale("fr"); // Set the locale globally
 
   const handleStartDateChange = (date) => {
     if (date !== startDate) {
@@ -65,7 +115,7 @@ export default function DashboardCalendar({ onDateChange }) {
             onDateChange(null, null);
           }}
         >
-          Clear
+          Effacer
         </button>
       </div>
     </div>

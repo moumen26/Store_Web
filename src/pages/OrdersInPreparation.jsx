@@ -68,7 +68,7 @@ export default function OrdersInPreparation() {
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par commande..."
+            placeholder="Rechercher par Commande..."
             value={searchQuery}
             onChange={handleSearchChange}
           />

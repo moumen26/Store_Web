@@ -125,7 +125,8 @@ function Row(props) {
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {orderDetailsRow.productName}
+                          {orderDetailsRow.productName} {" "}
+                          {orderDetailsRow.productSize}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -168,6 +169,7 @@ Row.propTypes = {
       PropTypes.shape({
         productName: PropTypes.string.isRequired,
         productPrice: PropTypes.string.isRequired,
+        productSize: PropTypes.string.isRequired,
         productQuantity: PropTypes.string.isRequired,
       })
     ).isRequired,
@@ -246,6 +248,7 @@ export default function OrdersInPreparationTable({
         orderDetails: order.products.map((item) => ({
           productName: item.product.name,
           productPrice: item.price.toString(),
+          productSize: item.product.size.toString(),
           productQuantity: item.quantity.toString(),
         })),
       }));

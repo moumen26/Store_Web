@@ -25,7 +25,7 @@ export default function Orders() {
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Dernière Commandes</h2>
+          <h2 className="pagesTitle">Dernière commandes</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })

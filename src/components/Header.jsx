@@ -32,6 +32,8 @@ export default function Header() {
   };
 
   //fetch data
+  const notificationSound = new Audio("/notification.mp3");
+
   const fetchNotificationsByStore = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Notification/store/new/${
@@ -55,8 +57,15 @@ export default function Header() {
       }
     }
 
-    return await response.json(); // Return the data if the response is successful
+    const data = await response.json();
+
+    if (data.length > 0) {
+      notificationSound.play();
+    }
+
+    return data;
   };
+
   // useQuery hook to fetch data
   const {
     data: NotificationsByStore,
@@ -127,9 +136,9 @@ export default function Header() {
 
     const dateObj = new Date(date);
     if (dateObj.toDateString() === today.toDateString()) {
-      return "Today";
+      return "Aujourd'hui";
     } else if (dateObj.toDateString() === yesterday.toDateString()) {
-      return "Yesterday";
+      return "Hier";
     } else {
       const options = { year: "numeric", month: "long", day: "numeric" };
       return dateObj.toLocaleDateString(undefined, options);
@@ -199,7 +208,13 @@ export default function Header() {
                       <div className="flex space-x-3 w-[95%] items-center">
                         <div
                           className={`notifTypeIcon w-1 h-14 rounded-full flex items-center justify-center
-                          ${notif.type === "subscription_expiry" ? "bg-red-200" : notif.type === "store_access_request" ? "bg-blue-200" : "bg-yellow-200"}
+                          ${
+                            notif.type === "subscription_expiry"
+                              ? "bg-red-200"
+                              : notif.type === "store_access_request"
+                              ? "bg-blue-200"
+                              : "bg-yellow-200"
+                          }
                         `}
                         ></div>
 

@@ -7,18 +7,21 @@ import DashboardCalendar from "../components/DashboardCalendar";
 export default function OrdersArchive() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-  
+
   return (
     <div className="pagesContainer">
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Orders Archive</h2>
+          <h2 className="pagesTitle">Archive des commandes</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -30,10 +33,13 @@ export default function OrdersArchive() {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Order..."
+            placeholder="Rechercher par commande..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Orders Archive" />
+          <ButtonExportExel
+            data={filteredData}
+            filename="Archive des Commandes"
+          />
         </div>
         <div className="pageTableContainer">
           <OrdersArchiveTable

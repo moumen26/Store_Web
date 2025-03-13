@@ -181,7 +181,7 @@ export default function Asidebar() {
                     }`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Retours de commandes</span>
+                    <span className="ml-3">Commandes de retour</span>
                   </div>
                 </NavLink>
                 <NavLink to="/OrdersArchive" className="flex items-center">

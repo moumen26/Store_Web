@@ -7,7 +7,10 @@ import DashboardCalendar from "../components/DashboardCalendar";
 export default function ReturnsOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -18,7 +21,7 @@ export default function ReturnsOrders() {
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Returns Orders</h2>
+          <h2 className="pagesTitle">Commandes de retour</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -29,10 +32,13 @@ export default function ReturnsOrders() {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Order..."
+            placeholder="Rechercher par commande..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Returns Orders" />
+          <ButtonExportExel
+            data={filteredData}
+            filename="Commandes de Retour"
+          />
         </div>
         <div className="pageTableContainer">
           <OrdersReturnsTable

@@ -168,6 +168,7 @@ Row.propTypes = {
       PropTypes.shape({
         productName: PropTypes.string.isRequired,
         productPrice: PropTypes.string.isRequired,
+        productSize: PropTypes.string.isRequired,
         productQuantity: PropTypes.string.isRequired,
       })
     ).isRequired,

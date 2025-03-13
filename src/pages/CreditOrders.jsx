@@ -10,7 +10,10 @@ export default function CreditOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setCreditedOrderData] = useState([]);
-  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -21,7 +24,7 @@ export default function CreditOrders() {
       <div className="pagesContainerTop">
         <Header />
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Credit Orders</h2>
+          <h2 className="pagesTitle">Commandes à crédit</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -31,28 +34,41 @@ export default function CreditOrders() {
       </div>
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total orders"
+          orderCardTitle="Total des commandes"
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
-          orderCardTitle="Total amount"
+          orderCardTitle="Montant total"
           orderCardDetails={
-            latestOrderData.reduce((acc, order) => acc + Number(order?.orderAmount), 0) + " DA"}
+            latestOrderData.reduce(
+              (acc, order) => acc + Number(order?.orderAmount),
+              0
+            ) + " DA"
+          }
         />
         <OrderCard
-          orderCardTitle="Total payments"
+          orderCardTitle="Total des paiements"
           orderCardDetails={
-            latestOrderData.reduce((acc, order) => acc + order.orderPayments.reduce((acc, payment) => acc + Number(payment?.amount), 0), 0) + " DA"}
+            latestOrderData.reduce(
+              (acc, order) =>
+                acc +
+                order.orderPayments.reduce(
+                  (acc, payment) => acc + Number(payment?.amount),
+                  0
+                ),
+              0
+            ) + " DA"
+          }
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Order..."
+            placeholder="Rechercher par Commande..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Orders" />
+          <ButtonExportExel data={filteredData} filename="Commandes" />
         </div>
         <div className="pageTableContainer">
           <CreditOrdersTable

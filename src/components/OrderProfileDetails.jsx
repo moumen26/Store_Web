@@ -33,7 +33,7 @@ export default function OrderProfileDetails({ orderDetails }) {
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Delivery Date</span>
             </TableCell>
-            {orderDetails.type == "delivery" && (
+            {orderDetails?.type == "delivery" && (
               <TableCell align="right" className="tableCell">
                 <span className="thTableSpan">Delivery address</span>
               </TableCell>
@@ -50,30 +50,30 @@ export default function OrderProfileDetails({ orderDetails }) {
           >
             <TableCell className="tableCell">
               <span className="trTableSpan">
-                {orderDetails.client.firstName} {orderDetails.client.lastName}
+                {orderDetails?.client.firstName} {orderDetails?.client.lastName}
               </span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="trTableSpan">
-                {formatDate(orderDetails.date)}
+                {formatDate(orderDetails?.date)}
               </span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="trTableSpan">{orderDetails.type}</span>
+              <span className="trTableSpan">{orderDetails?.type}</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {orderStatusTextDisplayer(orderDetails.status, orderDetails.type)}
+                {orderStatusTextDisplayer(orderDetails?.status, orderDetails?.type)}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {orderDetails.expextedDeliveryDate
-                  ? formatDate(orderDetails.expextedDeliveryDate)
+                {orderDetails?.expextedDeliveryDate
+                  ? formatDate(Date(orderDetails?.expextedDeliveryDate))
                   : "not defined"}
               </span>
             </TableCell>
-            {orderDetails.type == "delivery" && (
+            {orderDetails?.type == "delivery" && (
               <TableCell align="right" className="tableCell">
                 <span className="trTableSpan">
                   {orderDetails?.deliveredLocation?.address}
@@ -82,7 +82,7 @@ export default function OrderProfileDetails({ orderDetails }) {
             )}
             <TableCell align="right" className="tableCell">
               <span className="trTableSpan">
-                {(orderDetails.total - orderDetails.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)} DA
+                {(orderDetails?.total - orderDetails?.payment.reduce((sum, pay) => sum + pay.amount, 0)).toFixed(2)} DA
               </span>
             </TableCell>
           </TableRow>

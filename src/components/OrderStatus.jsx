@@ -68,6 +68,10 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
       icon: <ArchiveBoxIcon className="iconAsideBar" />,
     },
     {
+      label: "Returned",
+      icon: <ArchiveBoxIcon className="iconAsideBar" />,
+    },
+    {
       label: "Fully Paid",
       icon: <CheckBadgeIcon className="iconAsideBar" />,
     },
@@ -75,8 +79,8 @@ export default function OrderStatus({ orderDetails, user, refetchOrderData }) {
 
   const stepsToShow =
     orderDetails.type === "pickup"
-      ? [statusSteps[0], statusSteps[1], statusSteps[3], statusSteps[4], statusSteps[5]]
-      : [statusSteps[0], statusSteps[1], statusSteps[2], statusSteps[4], statusSteps[5]];
+      ? [statusSteps[0], statusSteps[1], statusSteps[3], statusSteps[4], statusSteps[5], statusSteps[6]]
+      : [statusSteps[0], statusSteps[1], statusSteps[2], statusSteps[4], statusSteps[5], statusSteps[6]];
 
   //----------------------APIs----------------------
   const handleSubmitStatusProgress = async (val) => {

@@ -76,9 +76,7 @@ export default function NonApprovedCustomer() {
           <span>Customers</span>
           <ChevronRightIcon className="iconAsideBar" />
           <span>
-            {CustomerData
-              ? `${CustomerData?.firstName} ${CustomerData?.lastName}`
-              : "Customer Details"}
+            #{CustomerData?._id}
           </span>
         </div>
       </div>
@@ -103,12 +101,14 @@ export default function NonApprovedCustomer() {
               {CustomerData?.phoneNumber}
             </h3>
           </div>
-          <div className="flex-col">
-            <span className="personalInformationSpan">Email Address</span>
-            <h3 className="personalInformationDetails">
-              {CustomerData?.email}
-            </h3>
-          </div>
+          {CustomerData?.email &&
+            <div className="flex-col">
+              <span className="personalInformationSpan">Email Address</span>
+              <h3 className="personalInformationDetails">
+                {CustomerData?.email}
+              </h3>
+            </div>
+          }
           <div className="flex-col">
             <span className="personalInformationSpan">Wilaya</span>
             <h3 className="personalInformationDetails">
@@ -122,8 +122,8 @@ export default function NonApprovedCustomer() {
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">ID</span>
-            <h3 className="personalInformationDetails">{CustomerData?.code}</h3>
+            <span className="personalInformationSpan">Numero de register commerce</span>
+            <h3 className="personalInformationDetails">{CustomerData?.r_commerce}</h3>
           </div>
         </div>
       </div>

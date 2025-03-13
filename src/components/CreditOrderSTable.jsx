@@ -233,8 +233,10 @@ export default function CreditOrdersTable({
     queryKey: ["CreditedOrderData", user?.token, location.key],
     queryFn: fetchCreditedOrdersData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: refetch on window focus
-    staleTime: 0,
+    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
+    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: 1000, // Delay between retries (1 second)
   });
 
   const [rows, setRows] = useState([]);

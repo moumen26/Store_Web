@@ -7,43 +7,47 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
 import { TokenDecoder } from "../util/DecodeToken";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function NonApprovedCustomer() {
+export default function NonApprovedCustomer({ onToggle, isCollapsed }) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
   const decodedToken = TokenDecoder();
 
-
   // fetching CustomerData data
   const fetchCustomerData = async () => {
-    const response = await fetch(import.meta.env.VITE_APP_URL_BASE+`/Client/${id}/${decodedToken.id}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user?.token}`,
-            },
-        }
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Client/${id}/${decodedToken.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
     );
 
     // Handle the error state
     if (!response.ok) {
-        const errorData = await response.json();
-        if(errorData.error.statusCode == 404)
-            return [];
-        else
-            throw new Error("Error receiving Customer data");
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Customer data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
-  const { data: CustomerData, error: CustomerDataError, isLoading: CustomerDataLoading, refetch: CustomerDataRefetch } = useQuery({
-      queryKey: ['CustomerData', user?.token, location.key, id],
-      queryFn: fetchCustomerData,
-      enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-      refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  const {
+    data: CustomerData,
+    error: CustomerDataError,
+    isLoading: CustomerDataLoading,
+    refetch: CustomerDataRefetch,
+  } = useQuery({
+    queryKey: ["CustomerData", user?.token, location.key, id],
+    queryFn: fetchCustomerData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
 
   if (CustomerDataLoading) {
@@ -70,14 +74,20 @@ export default function NonApprovedCustomer() {
   }
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>{" "}
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <span>Customers</span>
           <ChevronRightIcon className="iconAsideBar" />
-          <span>
-            #{CustomerData?._id}
-          </span>
+          <span>#{CustomerData?._id}</span>
         </div>
       </div>
       <div className="customerClass">
@@ -101,14 +111,14 @@ export default function NonApprovedCustomer() {
               {CustomerData?.phoneNumber}
             </h3>
           </div>
-          {CustomerData?.email &&
+          {CustomerData?.email && (
             <div className="flex-col">
               <span className="personalInformationSpan">Email Address</span>
               <h3 className="personalInformationDetails">
                 {CustomerData?.email}
               </h3>
             </div>
-          }
+          )}
           <div className="flex-col">
             <span className="personalInformationSpan">Wilaya</span>
             <h3 className="personalInformationDetails">
@@ -122,8 +132,12 @@ export default function NonApprovedCustomer() {
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Numero de register commerce</span>
-            <h3 className="personalInformationDetails">{CustomerData?.r_commerce}</h3>
+            <span className="personalInformationSpan">
+              Numero de register commerce
+            </span>
+            <h3 className="personalInformationDetails">
+              {CustomerData?.r_commerce}
+            </h3>
           </div>
         </div>
       </div>

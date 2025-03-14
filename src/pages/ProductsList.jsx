@@ -14,10 +14,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Alert, Snackbar } from "@mui/material";
 import { TokenDecoder } from "../util/DecodeToken";
 import axios from "axios";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
 Modal.setAppElement("#root");
 
-export default function ProductsList() {
+export default function ProductsList({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [searchQuery, setSearchQuery] = useState("");
@@ -264,7 +265,15 @@ export default function ProductsList() {
   return (
     <div className="pagesContainer">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>{" "}
         <div className="titlePageButton">
           <h2 className="pagesTitle">Stock des produits</h2>
           <div className="buttonTop">
@@ -463,7 +472,9 @@ export default function ProductsList() {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Valeur de <br></br> déstockage :</span>
+                    <span>
+                      Valeur de <br></br> déstockage :
+                    </span>
                     <div className="inputForm">
                       <input
                         type="number"

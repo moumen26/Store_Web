@@ -13,6 +13,8 @@ import PaymentHistorique from "../components/PaymentHistorique";
 import PurchaseProfileDetails from "../components/PurchaseProfileDetails";
 import PurchaseProfileDevicesProductTable from "../components/PurchaseProfileDevicesProductTable";
 import { TokenDecoder } from "../util/DecodeToken";
+import { EqualsIcon } from "@heroicons/react/16/solid";
+
 import axios from "axios";
 import { is } from "date-fns/locale";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -21,7 +23,7 @@ import ButtonModify from "../components/ButtonModify";
 import AddPurchaseRetunsTableDetails from "../components/AddPurchaseRetunsTableDetails";
 import ButtonRetour from "../components/ButtonRetour";
 
-export default function PurchaseProfile() {
+export default function PurchaseProfile({ onToggle, isCollapsed }) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -420,7 +422,6 @@ export default function PurchaseProfile() {
       }
     }
   };
-  
 
   if (PurchaseDataLoading) {
     return (
@@ -447,7 +448,15 @@ export default function PurchaseProfile() {
 
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>{" "}
       <div id="exportable-content" className="space-y-[32px]">
         <div className="titlePageButton">
           <div className="flex items-center space-x-1">
@@ -456,13 +465,14 @@ export default function PurchaseProfile() {
             <span>#{PurchaseData?._id}</span>
           </div>
           <div className="orderProfileButtons">
-            {PurchaseData?.closed && PurchaseData?.sousPurchases?.length > 1 && 
-              <ButtonRetour
-                showIcon={true}
-                buttonSpan="Retour Details"
-                onClick={handleOpenRetourPurchaseModal}
-              />
-            }
+            {PurchaseData?.closed &&
+              PurchaseData?.sousPurchases?.length > 1 && (
+                <ButtonRetour
+                  showIcon={true}
+                  buttonSpan="Retour Details"
+                  onClick={handleOpenRetourPurchaseModal}
+                />
+              )}
             <ButtonModify
               showIcon={true}
               buttonSpan="Modify Purchase"
@@ -661,7 +671,6 @@ export default function PurchaseProfile() {
           </button>
         </div>
       </Modal>
-
       <Modal
         isOpen={modifyPurchaseModal}
         onRequestClose={handleCloseModifyPurchaseModal}
@@ -697,7 +706,6 @@ export default function PurchaseProfile() {
           </div>
         </div>
       </Modal>
-
       <ConfirmDialog
         open={isFullyPaidConfirmationOpen}
         onConfirm={handleOnConfirmFullyPaid}

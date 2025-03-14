@@ -13,8 +13,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import Modal from "react-modal";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function AddAchat() {
+export default function AddAchat({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -139,7 +140,15 @@ export default function AddAchat() {
     <>
       {!submitionLoading ? (
         <div className="pagesContainer addOrder">
-          <Header />
+          <div className="flexHeader">
+            <div
+              onClick={onToggle}
+              className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+            >
+              <EqualsIcon className="iconAsideBarClose" />
+            </div>
+            <Header />
+          </div>{" "}
           <div className="w-full flex items-center justify-between">
             <h2 className="pagesTitle">Add a new achat</h2>
             <div className="flex items-center space-x-2">

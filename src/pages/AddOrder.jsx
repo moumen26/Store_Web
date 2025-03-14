@@ -12,8 +12,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function AddOrder() {
+export default function AddOrder({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -119,7 +120,15 @@ export default function AddOrder() {
     <>
       {!submitionLoading ? (
         <div className="pagesContainer addOrder">
-          <Header />
+          <div className="flexHeader">
+            <div
+              onClick={onToggle}
+              className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+            >
+              <EqualsIcon className="iconAsideBarClose" />
+            </div>
+            <Header />
+          </div>{" "}
           <div className="w-full flex items-center justify-between">
             <h2 className="pagesTitle">Add a new order</h2>
             <div className="flex items-center space-x-2">

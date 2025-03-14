@@ -13,6 +13,7 @@ import {
   UserPlusIcon,
   UsersIcon,
   DevicePhoneMobileIcon,
+  EqualsIcon,
 } from "@heroicons/react/16/solid";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";

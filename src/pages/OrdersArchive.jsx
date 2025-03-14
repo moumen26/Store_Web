@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
+import { EqualsIcon } from "@heroicons/react/16/solid";
+
 import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersArchiveTable from "../components/OrdersArchiveTable";
 import DashboardCalendar from "../components/DashboardCalendar";
-export default function OrdersArchive() {
+
+export default function OrdersArchive({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({
@@ -19,7 +22,15 @@ export default function OrdersArchive() {
   return (
     <div className="pagesContainer">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>{" "}
         <div className="titlePageButton">
           <h2 className="pagesTitle">Archive des commandes</h2>
           <DashboardCalendar

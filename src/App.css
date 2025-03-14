@@ -247,6 +247,11 @@
   flex-direction: column;
   border-right: 1px solid var(--neutralColor);
   padding: 8% 1% 1% 1%;
+  transition: transform 0.5s ease;
+}
+
+.aside.collapsed {
+  transform: translateX(-100%);
 }
 
 .aside ul {
@@ -295,6 +300,11 @@
   cursor: pointer;
 }
 
+.iconAsideBarClose {
+  width: 16px;
+  cursor: pointer;
+}
+
 .iconPages {
   width: 26px;
 }
@@ -330,6 +340,23 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  transition: all 0.3s ease;
+}
+
+main.main-expanded .pagesContainer {
+  left: 17% !important;
+  width: calc(100% - 17%) !important;
+}
+
+main.main-collapsed .pagesContainer {
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.flexHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .settingsContainer {
@@ -648,7 +675,7 @@
   background: transparent;
 }
 
-.topAsideBar::-webkit-scrollbar{
+.topAsideBar::-webkit-scrollbar {
   width: 3px;
 }
 
@@ -656,8 +683,6 @@
   opacity: 0.5;
   background: var(--sb-track-color);
 }
-
-
 
 .signIn,
 .signUp {

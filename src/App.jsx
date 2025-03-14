@@ -59,128 +59,381 @@ function App() {
     return (
       <div className="w-full h-full flex items-center justify-center flex-col">
         <CircularProgress color="error" />
-        <h1 style={{
-          color: 'red'
-        }}
-        >Pas de connexion Internet ...</h1>
+        <h1
+          style={{
+            color: "red",
+          }}
+        >
+          Pas de connexion Internet ...
+        </h1>
       </div>
     );
   }
-  //
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
+    console.log("isCollapsed:", isCollapsed);
+  };
+
   return (
     <BrowserRouter>
-      <main>
-        {user ? <Asidebar /> : <SignIn />}
+      <main className={isCollapsed ? "main-collapsed" : "main-expanded"}>
+        {user ? (
+          <Asidebar onToggle={handleToggle} isCollapsed={isCollapsed} />
+        ) : (
+          <SignIn />
+        )}
         {user ? <AsidebarScreenMedia /> : <SignIn />}
         <Routes>
           {/* private routes */}
           <Route index element={user ? <Dashboard /> : <SignIn />} />
           <Route
             path="/Dashboard"
-            element={user ? <Dashboard /> : <SignIn />}
+            element={
+              user ? (
+                <Dashboard onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/Customers"
-            element={user ? <Customers /> : <SignIn />}
+            element={
+              user ? (
+                <Customers onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/Purchases"
-            element={user ? <Purchases /> : <SignIn />}
+            element={
+              user ? (
+                <Purchases onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/ReturnsOrders"
-            element={user ? <ReturnsOrders /> : <SignIn />}
+            element={
+              user ? (
+                <ReturnsOrders
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/ReturnsPurchases"
-            element={user ? <ReturnsPurchases /> : <SignIn />}
+            element={
+              user ? (
+                <ReturnsPurchases
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/Publicite"
-            element={user ? <Publicité /> : <SignIn />}
+            element={
+              user ? (
+                <Publicité onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/CreditPurchases"
-            element={user ? <CreditPurchases /> : <SignIn />}
+            element={
+              user ? (
+                <CreditPurchases
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
-          <Route path="/Losses" element={user ? <Losses /> : <SignIn />} />
+          <Route
+            path="/Losses"
+            element={
+              user ? (
+                <Losses onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
+          />
           <Route
             path="/Fournisseurs"
-            element={user ? <Fournisseurs /> : <SignIn />}
+            element={
+              user ? (
+                <Fournisseurs
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/FournisseurProfile/:id"
-            element={user ? <FournisseurProfile /> : <SignIn />}
+            element={
+              user ? (
+                <FournisseurProfile
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
-          <Route path="/Vendors" element={user ? <Vendors /> : <SignIn />} />
+          <Route
+            path="/Vendors"
+            element={
+              user ? (
+                <Vendors onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
+          />
           <Route
             path="/AddOrder/:id"
-            element={user ? <AddOrder /> : <SignIn />}
+            element={
+              user ? (
+                <AddOrder onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/AddAchat/:id"
-            element={user ? <AddAchat /> : <SignIn />}
+            element={
+              user ? (
+                <AddAchat onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/ProductsList"
-            element={user ? <ProductsList /> : <SignIn />}
+            element={
+              user ? (
+                <ProductsList
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/PuchasesArchive"
-            element={user ? <PuchasesArchive /> : <SignIn />}
+            element={
+              user ? (
+                <PuchasesArchive
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/ProductsGrid"
-            element={user ? <ProductsGrid /> : <SignIn />}
+            element={
+              user ? (
+                <ProductsGrid
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/PurchaseProfile/:id"
-            element={user ? <PurchaseProfile /> : <SignIn />}
+            element={
+              user ? (
+                <PurchaseProfile
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/Product/:id"
-            element={user ? <ProductDetails /> : <SignIn />}
+            element={
+              user ? (
+                <ProductDetails
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
-          <Route 
-            path="/Orders" 
-            element={user ? <Orders /> : <SignIn />} 
+          <Route
+            path="/Orders"
+            element={
+              user ? (
+                <Orders onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
           />
-          <Route 
-            path="/Orders/InPreparation" 
-            element={user ? <OrdersInPreparation /> : <SignIn />} 
+          <Route
+            path="/Orders/InPreparation"
+            element={
+              user ? (
+                <OrdersInPreparation
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/OrdersArchive"
-            element={user ? <OrdersArchive /> : <SignIn />}
+            element={
+              user ? (
+                <OrdersArchive
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/CreditOrders"
-            element={user ? <CreditOrders /> : <SignIn />}
+            element={
+              user ? (
+                <CreditOrders
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
-          <Route path="/Settings" element={user ? <Settings /> : <SignIn />} />
+          <Route
+            path="/Settings"
+            element={
+              user ? (
+                <Settings onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
+          />
           <Route
             path="/Authentication"
-            element={user ? <Authentication /> : <SignIn />}
+            element={
+              user ? (
+                <Authentication
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/Client/:id"
-            element={user ? <Authentication /> : <SignIn />}
+            element={
+              user ? (
+                <Authentication
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/CustomerProfile/:id"
-            element={user ? <CustomerProfile /> : <SignIn />}
+            element={
+              user ? (
+                <CustomerProfile
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/NAPCustomerProfile/:id"
-            element={user ? <NonApprovedCustomer /> : <SignIn />}
+            element={
+              user ? (
+                <NonApprovedCustomer
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/OrderProfile/:id"
-            element={user ? <OrderProfile /> : <SignIn />}
+            element={
+              user ? (
+                <OrderProfile
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           <Route
             path="/LetsUpYourAccount"
-            element={user ? <LetsUpYourAccount /> : <SignIn />}
+            element={
+              user ? (
+                <LetsUpYourAccount
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                />
+              ) : (
+                <SignIn />
+              )
+            }
           />
           {/* public routes */}
           <Route

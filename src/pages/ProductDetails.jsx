@@ -4,8 +4,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useLocation, useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function ProductDetails() {
+export default function ProductDetails({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const { id } = useParams();
   const location = useLocation();
@@ -35,13 +36,13 @@ export default function ProductDetails() {
     return await response.json(); // Return the data if the response is successful
   };
   // useQuery hook to fetch data
-  const { 
-    data: ProductData, 
-    error: ProductDataError, 
-    isLoading: ProductDataLoading, 
-    refetch: refetchProductData 
+  const {
+    data: ProductData,
+    error: ProductDataError,
+    isLoading: ProductDataLoading,
+    refetch: refetchProductData,
   } = useQuery({
-    queryKey: ['ProductData', user?.token, location.key, id],
+    queryKey: ["ProductData", user?.token, location.key, id],
     queryFn: fetchProductData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: refetch on window focus
@@ -68,7 +69,15 @@ export default function ProductDetails() {
   }
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>{" "}
       <div className="w-full flex items-center justify-between">
         <div>
           <h2 className="pagesTitle">Products Details</h2>

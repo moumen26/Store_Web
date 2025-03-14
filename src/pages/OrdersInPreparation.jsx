@@ -5,8 +5,9 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import OrdersInPreparationTable from "../components/OrdersInPreparationTable";
 import OrderCard from "../components/OrderCard";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function OrdersInPreparation() {
+export default function OrdersInPreparation({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setNonDelivredOrderData] = useState([]);
@@ -22,7 +23,15 @@ export default function OrdersInPreparation() {
   return (
     <div className="pagesContainer pageContainerCards">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>{" "}
         <div className="titlePageButton">
           <h2 className="pagesTitle">Commandes en cours</h2>
           <DashboardCalendar

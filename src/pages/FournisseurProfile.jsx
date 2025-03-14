@@ -11,12 +11,13 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import Modal from "react-modal";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
 import ButtonLight from "../components/ButtonLight";
 import { formatNumber } from "../util/useFullFunctions";
 import axios from "axios";
 
-export default function FournisseurProfile() {
+export default function FournisseurProfile({ onToggle, isCollapsed }) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -29,7 +30,7 @@ export default function FournisseurProfile() {
   const [PaymentAmount, setPaymentAmount] = useState(0);
   const handlePaymentAmountChange = (e) => {
     setPaymentAmount(e.target.value);
-  }
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -224,7 +225,15 @@ export default function FournisseurProfile() {
   }
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>{" "}
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <span>Fournisseur</span>

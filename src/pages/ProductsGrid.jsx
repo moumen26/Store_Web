@@ -11,12 +11,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { EqualsIcon } from "@heroicons/react/16/solid";
+
 import { TokenDecoder } from "../util/DecodeToken";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root");
 
-export default function ProductsGrid() {
+export default function ProductsGrid({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const location = useLocation();
   const decodedToken = TokenDecoder();
@@ -242,7 +244,15 @@ export default function ProductsGrid() {
   return (
     <div className="pagesContainer">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>{" "}
         <div className="titlePageButton">
           <h2 className="pagesTitle">Produits</h2>
           <div className="buttonTop">

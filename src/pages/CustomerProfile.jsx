@@ -20,10 +20,12 @@ import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
 import { formatNumber } from "../util/useFullFunctions";
 
+import { EqualsIcon } from "@heroicons/react/16/solid";
+
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
 
-export default function CustomerProfile() {
+export default function CustomerProfile({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -378,7 +380,15 @@ export default function CustomerProfile() {
   }
   return (
     <div className="pagesContainer">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-1">
           <span>Customers</span>

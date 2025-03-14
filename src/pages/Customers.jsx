@@ -16,8 +16,9 @@ import { CircularProgress, Snackbar } from "@mui/material";
 import Modal from "react-modal";
 
 import { useLocation } from "react-router-dom";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Customers() {
+export default function Customers({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -268,7 +269,15 @@ export default function Customers() {
   return (
     <div className="pagesContainer">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>
         <div className="titlePageButton">
           <h2 className="pagesTitle">Customers</h2>
           <div className="buttonTop">

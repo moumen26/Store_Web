@@ -10,8 +10,9 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Dashboard() {
+export default function Dashboard({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [dateRange, setDateRange] = useState({
@@ -251,7 +252,15 @@ export default function Dashboard() {
 
   return (
     <div className="pagesContainer scrollPage">
-      <Header />
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>{" "}
       <div className="w-full flex items-center justify-between">
         <div className="flex-col space-y-[6px]">
           <h2 className="pagesTitle">Bienvenue, {user?.infos?.firstName}</h2>

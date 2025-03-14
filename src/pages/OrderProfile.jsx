@@ -20,8 +20,9 @@ import ButtonModify from "../components/ButtonModify";
 import { TokenDecoder } from "../util/DecodeToken";
 import AddOrderRetunsTableDetails from "../components/AddOrderRetunsTableDetails";
 import RetireButton from "../components/RetireButton";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function OrderProfile() {
+export default function OrderProfile({ onToggle, isCollapsed }) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -536,8 +537,15 @@ export default function OrderProfile() {
   }
   return (
     <div className="pagesContainer">
-      <Header />
-
+      <div className="flexHeader">
+        <div
+          onClick={onToggle}
+          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+        >
+          <EqualsIcon className="iconAsideBarClose" />
+        </div>
+        <Header />
+      </div>
       <div id="exportable-content" className="space-y-[32px]">
         <div className="titlePageButton">
           <div className="flex items-center space-x-1">
@@ -546,20 +554,20 @@ export default function OrderProfile() {
             <span>#{OrderData?._id}</span>
           </div>
           <div className="orderProfileButtons">
-            {OrderData?.status == 0 &&
+            {OrderData?.status == 0 && (
               <RetireButton
                 showIcon={true}
                 buttonSpan="Retire Order"
                 onClick={handleOpenRetireOrderModal}
               />
-            }
-            {OrderData?.status >= 0 &&
+            )}
+            {OrderData?.status >= 0 && (
               <ButtonModify
                 showIcon={true}
                 buttonSpan="Modify Order"
                 onClick={handleOpenModifyOrderModal}
               />
-            }
+            )}
             <ButtonExportPDF
               filename="Order_Profile"
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
@@ -643,52 +651,55 @@ export default function OrderProfile() {
             <h2 className="customerClassTitle">Payment History</h2>
             {OrderData.status != 10 ? (
               <div className="flex space-x-4">
-                {OrderData.credit == true ? null : OrderData.deposit == false ? (
-                  OrderData?.status >= 0 && 
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Make it deposit"
-                    onClick={handleOpenDepositConfirmationDialog}
-                  />
-                ) : (
-                  OrderData?.status >= 0 && 
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Make it undeposit"
-                    onClick={handleOpenUnDepositConfirmationDialog}
-                  />
-                )}
-                {OrderData.deposit == true ? null : OrderData.credit ==
-                  false ? (
-                    OrderData?.status >= 0 && 
-                    <ButtonAdd
-                      showIcon={false}
-                      buttonSpan="Make it credited"
-                      onClick={handleOpenCreditedConfirmationDialog}
-                    />
-                ) : (
-                  OrderData?.status >= 0 && 
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Make it uncredited"
-                    onClick={handleOpenUnCreditedConfirmationDialog}
-                  />
-                )}
-                {OrderData.credit == true ? (
-                  OrderData?.status >= 0 && 
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Add payment"
-                    onClick={handleOpenAddPaymentDialog}
-                  />
-                ) : (
-                  OrderData?.status >= 0 && 
-                  <ButtonAdd
-                    showIcon={false}
-                    buttonSpan="Full payment"
-                    onClick={handleOpenFullyPaidDialog}
-                  />
-                )}
+                {OrderData.credit == true
+                  ? null
+                  : OrderData.deposit == false
+                  ? OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Make it deposit"
+                        onClick={handleOpenDepositConfirmationDialog}
+                      />
+                    )
+                  : OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Make it undeposit"
+                        onClick={handleOpenUnDepositConfirmationDialog}
+                      />
+                    )}
+                {OrderData.deposit == true
+                  ? null
+                  : OrderData.credit == false
+                  ? OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Make it credited"
+                        onClick={handleOpenCreditedConfirmationDialog}
+                      />
+                    )
+                  : OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Make it uncredited"
+                        onClick={handleOpenUnCreditedConfirmationDialog}
+                      />
+                    )}
+                {OrderData.credit == true
+                  ? OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Add payment"
+                        onClick={handleOpenAddPaymentDialog}
+                      />
+                    )
+                  : OrderData?.status >= 0 && (
+                      <ButtonAdd
+                        showIcon={false}
+                        buttonSpan="Full payment"
+                        onClick={handleOpenFullyPaidDialog}
+                      />
+                    )}
               </div>
             ) : (
               <h2 className="customerClassTitle">{`Fully paid`}</h2>

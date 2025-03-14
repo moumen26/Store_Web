@@ -6,8 +6,9 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import OrdersTable from "../components/OrdersTable";
 import OrderCard from "../components/OrderCard";
 import { formatNumber } from "../util/useFullFunctions";
+import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Orders() {
+export default function Orders({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setLatestOrderData] = useState([]);
@@ -23,7 +24,15 @@ export default function Orders() {
   return (
     <div className="pagesContainer pageContainerCards">
       <div className="pagesContainerTop">
-        <Header />
+        <div className="flexHeader">
+          <div
+            onClick={onToggle}
+            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
+          >
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header />
+        </div>{" "}
         <div className="titlePageButton">
           <h2 className="pagesTitle">Dernière commandes</h2>
           <DashboardCalendar

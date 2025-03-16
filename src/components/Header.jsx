@@ -14,11 +14,13 @@ import { useLogout } from "../hooks/useLogout";
 import { NavLink, useLocation } from "react-router-dom";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
-import { formatDate } from "../util/useFullFunctions";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import axios from "axios";
 
-export default function Header() {
+import franceIcon from "../assets/icons/france-icon.png";
+import arabicIcon from "../assets/icons/arab-icon.png";
+
+export default function Header({ language, toggleLanguage }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -129,30 +131,33 @@ export default function Header() {
     }
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date, language) => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
     const dateObj = new Date(date);
     if (dateObj.toDateString() === today.toDateString()) {
-      return "Aujourd'hui";
+      return language === "ar" ? "اليوم" : "Aujourd'hui";
     } else if (dateObj.toDateString() === yesterday.toDateString()) {
-      return "Hier";
+      return language === "ar" ? "أمس" : "Hier";
     } else {
       const options = { year: "numeric", month: "long", day: "numeric" };
-      return dateObj.toLocaleDateString(undefined, options);
+      return dateObj.toLocaleDateString(
+        language === "ar" ? "ar-FR" : "fr-FR",
+        options
+      );
     }
   };
 
   const formatTime = (date) => {
     const options = { hour: "2-digit", minute: "2-digit" };
-    return new Date(date).toLocaleTimeString(undefined, options);
+    return new Date(date).toLocaleTimeString("fr-FR", options);
   };
 
   // Group notifications by formatted date
   const groupedNotifications = NotificationsByStore?.reduce((acc, notif) => {
-    const formattedDate = formatDate(notif.createdAt);
+    const formattedDate = formatDate(notif.createdAt, language);
     if (!acc[formattedDate]) {
       acc[formattedDate] = [];
     }
@@ -162,6 +167,29 @@ export default function Header() {
 
   return (
     <div className="Header relative flex items-center space-x-6">
+      <div className="flex h-8 items-center justify-center">
+        <select
+          className="bg-gray-100"
+          value={language}
+          onChange={(e) => toggleLanguage(e.target.value)}
+          style={{
+            padding: "7px 14px",
+            color: "#000",
+            border: "1px solid #c9e4ee",
+            borderRadius: "5px",
+            outline: "none",
+
+            cursor: "pointer",
+          }}
+        >
+          <option className="cursor-pointer" value="fr">
+            <p className="text-gray-800 font-medium text-[14px]">FR</p>
+          </option>
+          <option className="cursor-pointer" value="ar">
+            <p className="text-gray-800 font-medium text-[14px]">AR</p>
+          </option>
+        </select>
+      </div>
       {/* Notification Icon */}
       <div
         className="relative cursor-pointer p-2 bg-gray-100 rounded-full"
@@ -177,15 +205,19 @@ export default function Header() {
 
       {/* Notifications Dropdown */}
       <div
-        className={`absolute right-[455px] top-0 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform
-        ${
-          showNotifications
-            ? "scale-100 opacity-100"
-            : "scale-95 opacity-0 pointer-events-none"
-        } transition-transform duration-200 ease-out`}
+        className={`absolute right-[435px] top-10 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
+          language === "ar" ? "right-[190px]" : ""
+        }
+  ${
+    showNotifications
+      ? "scale-100 opacity-100"
+      : "scale-95 opacity-0 pointer-events-none"
+  } transition-transform duration-200 ease-out`}
       >
         <div className="flex justify-between items-center p-4">
-          <h3 className="text-lg font-semibold text-gray-700">Notifications</h3>
+          <h3 className="text-lg font-semibold text-gray-700">
+            {language === "ar" ? "الإشعارات" : "Notifications"}
+          </h3>
           <XMarkIcon
             className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer"
             onClick={() => setShowNotifications(false)}
@@ -208,14 +240,14 @@ export default function Header() {
                       <div className="flex space-x-3 w-[95%] items-center">
                         <div
                           className={`notifTypeIcon w-1 h-14 rounded-full flex items-center justify-center
-                          ${
-                            notif.type === "subscription_expiry"
-                              ? "bg-red-200"
-                              : notif.type === "store_access_request"
-                              ? "bg-blue-200"
-                              : "bg-yellow-200"
-                          }
-                        `}
+                    ${
+                      notif.type === "subscription_expiry"
+                        ? "bg-red-200"
+                        : notif.type === "store_access_request"
+                        ? "bg-blue-200"
+                        : "bg-yellow-200"
+                    }
+                  `}
                         ></div>
 
                         <div className="flex flex-col w-[95%]">
@@ -253,12 +285,16 @@ export default function Header() {
       </div>
 
       {/* User Info */}
-      <div className="flex items-center relative">
+      <div className="headerCompte flex items-center relative">
         <div
           className="flex items-center cursor-pointer justify-between w-[300px]"
           onClick={() => setShowUserMenu(!showUserMenu)}
         >
-          <div className="flex space-x-3 items-center">
+          <div
+            className={`flex items-center space-x-3 ${
+              language === "ar" ? "gap-x-3" : ""
+            }`}
+          >
             <div className="w-[48px] h-[48px] rounded-full bg-slate-500"></div>
             <div className="flex flex-col">
               <p className="text-gray-800 font-medium text-[14px]">
@@ -295,7 +331,9 @@ export default function Header() {
               className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer"
             >
               <Cog6ToothIcon className="w-5 h-5 text-gray-600" />
-              <p className="text-gray-700 text-sm">Settings</p>
+              <p className="text-gray-700 text-sm">
+                {language === "ar" ? "الإعدادات" : "Settings"}
+              </p>
             </NavLink>
             <NavLink
               to="/"
@@ -303,11 +341,14 @@ export default function Header() {
               className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer"
             >
               <ArrowLeftStartOnRectangleIcon className="w-5 h-5 text-red-600" />
-              <p className="text-red-600 text-sm">Logout</p>
+              <p className="text-red-600 text-sm">
+                {language === "ar" ? "تسجيل الخروج" : "Logout"}
+              </p>
             </NavLink>
           </div>
         </div>
       </div>
+
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}

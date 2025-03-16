@@ -1,10 +1,9 @@
 import {
   ArchiveBoxIcon,
-  ArrowLeftStartOnRectangleIcon,
   ArrowTrendingDownIcon,
   ChevronDownIcon,
   ClipboardDocumentCheckIcon,
-  Cog6ToothIcon,
+  DevicePhoneMobileIcon,
   ShoppingBagIcon,
   Square2StackIcon,
   Squares2X2Icon,
@@ -12,14 +11,12 @@ import {
   UserIcon,
   UserPlusIcon,
   UsersIcon,
-  DevicePhoneMobileIcon,
-  EqualsIcon,
 } from "@heroicons/react/16/solid";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 
-export default function Asidebar() {
+export default function Asidebar({ language }) {
   const location = useLocation();
 
   const [isProductsOpen, setIsProductsOpen] = useState(false);
@@ -58,7 +55,7 @@ export default function Asidebar() {
   };
 
   return (
-    <aside className="aside">
+    <aside className={`aside ${language === "ar" ? "rtl" : ""}`}>
       <ul className="topAsideBar flex-col space-y-[8px]">
         <li>
           <NavLink to="/Dashboard" className="flex items-center">
@@ -67,10 +64,12 @@ export default function Asidebar() {
                 location.pathname === "/" || location.pathname === "/Dashboard"
                   ? "asideItemActive"
                   : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <Squares2X2Icon className="iconAsideBar" />
-              <span className="ml-3">Dashboard</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Dashboard" : "الرئيسية"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -78,12 +77,20 @@ export default function Asidebar() {
           <li className="flex-col space-y-[8px]">
             <div className="flex items-center cursor-pointer w-full">
               <div
-                className={`flex items-center justify-between itemAsideBar`}
+                className={`flex items-center justify-between itemAsideBar ${
+                  language === "ar" ? "flex-row-reverse" : ""
+                }`}
                 onClick={handleProductsClick}
               >
-                <div className="flex">
+                <div
+                  className={`flex ${
+                    language === "ar" ? "flex-row-reverse" : ""
+                  }`}
+                >
                   <ArchiveBoxIcon className="iconAsideBar" />
-                  <span className="ml-3">Produits</span>
+                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    {language === "fr" ? "Produits" : "المنتجات"}
+                  </span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isProductsOpen ? "rotate-180" : ""}`}
@@ -98,10 +105,14 @@ export default function Asidebar() {
                       location.pathname === "/ProductsList"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Stock de produits</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Stock de produits"
+                        : "مخزون المنتجات"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/ProductsGrid" className="flex items-center">
@@ -110,10 +121,14 @@ export default function Asidebar() {
                       location.pathname === "/ProductsGrid"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Grille des produits</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Grille des produits"
+                        : "شبكة المنتجات"}
+                    </span>
                   </div>
                 </NavLink>
               </div>
@@ -124,12 +139,21 @@ export default function Asidebar() {
           <li className="flex-col space-y-[8px]">
             <div className="flex items-center cursor-pointer">
               <div
-                className={`flex items-center justify-between itemAsideBar`}
+                className={`flex items-center justify-between itemAsideBar ${
+                  language === "ar" ? "flex-row-reverse" : ""
+                }`}
                 onClick={handleOrdersClick}
               >
-                <div className="flex">
+                <div
+                  className={`flex ${
+                    language === "ar" ? "flex-row-reverse" : ""
+                  }`}
+                >
+                  {" "}
                   <ShoppingBagIcon className="iconAsideBar" />
-                  <span className="ml-3">Commandes</span>
+                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    {language === "fr" ? "Commandes" : "الطلبات"}
+                  </span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isOrdersOpen ? "rotate-180" : ""}`}
@@ -142,10 +166,14 @@ export default function Asidebar() {
                   <div
                     className={`flex items-center itemAsideBar ${
                       location.pathname === "/Orders" ? "asideItemActive" : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Dernières commandes</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Dernières commandes"
+                        : "أحدث الطلبات"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink
@@ -157,10 +185,14 @@ export default function Asidebar() {
                       location.pathname === "/Orders/InPreparation"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Commandes en cours</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Commandes en cours"
+                        : "الطلبات قيد التحضير"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/CreditOrders" className="flex items-center">
@@ -169,10 +201,14 @@ export default function Asidebar() {
                       location.pathname === "/CreditOrders"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Commandes à crédit</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Commandes à crédit"
+                        : "الطلبات بالائتمان"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/ReturnsOrders" className="flex items-center">
@@ -181,10 +217,14 @@ export default function Asidebar() {
                       location.pathname === "/ReturnsOrders"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Commandes de retour</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Commandes de retour"
+                        : "طلبات الإرجاع"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/OrdersArchive" className="flex items-center">
@@ -193,10 +233,14 @@ export default function Asidebar() {
                       location.pathname === "/OrdersArchive"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Archive des commandes</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Archive des commandes"
+                        : "أرشيف الطلبات"}
+                    </span>
                   </div>
                 </NavLink>
               </div>
@@ -207,12 +251,21 @@ export default function Asidebar() {
           <li className="flex-col space-y-[8px]">
             <div className="flex items-center cursor-pointer">
               <div
-                className={`flex items-center justify-between itemAsideBar`}
+                className={`flex items-center justify-between itemAsideBar ${
+                  language === "ar" ? "flex-row-reverse" : ""
+                }`}
                 onClick={handleAchatsClick}
               >
-                <div className="flex">
+                <div
+                  className={`flex ${
+                    language === "ar" ? "flex-row-reverse" : ""
+                  }`}
+                >
+                  {" "}
                   <ClipboardDocumentCheckIcon className="iconAsideBar" />
-                  <span className="ml-3">Achats</span>
+                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    {language === "fr" ? "Achats" : "المشتريات"}
+                  </span>
                 </div>
                 <ChevronDownIcon
                   className={`iconPages ${isAchatsOpen ? "rotate-180" : ""}`}
@@ -227,10 +280,12 @@ export default function Asidebar() {
                       location.pathname === "/Purchases"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Derniers achats</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr" ? "Derniers achats" : "أحدث المشتريات"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/CreditPurchases" className="flex items-center">
@@ -239,10 +294,14 @@ export default function Asidebar() {
                       location.pathname === "/CreditPurchases"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Achats à crédit</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Achats à crédit"
+                        : "المشتريات بالائتمان"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/ReturnsPurchases" className="flex items-center">
@@ -251,10 +310,14 @@ export default function Asidebar() {
                       location.pathname === "/ReturnsPurchases"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Retours d'achats</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Retours d'achats"
+                        : "إرجاع المشتريات"}
+                    </span>
                   </div>
                 </NavLink>
                 <NavLink to="/PuchasesArchive" className="flex items-center">
@@ -263,10 +326,14 @@ export default function Asidebar() {
                       location.pathname === "/PuchasesArchive"
                         ? "asideItemActive"
                         : ""
-                    }`}
+                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
                   >
                     <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className="ml-3">Archive des achats</span>
+                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                      {language === "fr"
+                        ? "Archive des achats"
+                        : "أرشيف المشتريات"}
+                    </span>
                   </div>
                 </NavLink>
               </div>
@@ -278,10 +345,12 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar ${
                 location.pathname === "/Customers" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <UserGroupIcon className="iconAsideBar" />
-              <span className="ml-3">Clients</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Clients" : "العملاء"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -290,10 +359,12 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Vendors" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <UsersIcon className="iconAsideBar" />
-              <span className="ml-3">Vendeurs</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Vendeurs" : "البائعين"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -302,10 +373,12 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Fournisseurs" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <UserIcon className="iconAsideBar" />
-              <span className="ml-3">Fournisseurs</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Fournisseurs" : "الموردين"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -314,10 +387,14 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Authentication" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <UserPlusIcon className="iconAsideBar" />
-              <span className="ml-3">Authentification utilisateur</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr"
+                  ? "Authentification utilisateur"
+                  : "مصادقة المستخدم"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -326,10 +403,12 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Losses" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <ArrowTrendingDownIcon className="iconAsideBar" />
-              <span className="ml-3">Pertes</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Pertes" : "الخسائر"}
+              </span>
             </div>
           </NavLink>
         </li>
@@ -338,10 +417,12 @@ export default function Asidebar() {
             <div
               className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
                 location.pathname === "/Publicite" ? "asideItemActive" : ""
-              }`}
+              } ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <DevicePhoneMobileIcon className="iconAsideBar" />
-              <span className="ml-3">Publicité</span>
+              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                {language === "fr" ? "Publicité" : "الإعلانات"}
+              </span>
             </div>
           </NavLink>
         </li>

@@ -4,35 +4,52 @@ import { CircularProgress } from "@mui/material";
 
 export default function DashboardTopSellingProduct({
   TopSellingStocks,
-  TopSellingStocksLoading
+  TopSellingStocksLoading,
+  language,
 }) {
   return (
-    <div className="dashboardTopSellingProduct">
+    <div
+      className={`dashboardTopSellingProduct ${language === "ar" ? "rtl" : ""}`}
+    >
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">Produits les plus vendus</h3>
+        <h3 className="dashboardTitleItem">
+          {language === "fr"
+            ? "Produits les plus vendus"
+            : "المنتجات الأكثر مبيعًا"}
+        </h3>
       </div>
       <div className="dashboardProductClass">
-        {!TopSellingStocksLoading ?
-          TopSellingStocks?.length > 0 ?
+        {!TopSellingStocksLoading ? (
+          TopSellingStocks?.length > 0 ? (
             TopSellingStocks.map((product, index) => (
               <DashboardTopSellingProductItem
                 key={product.stock._id}
                 ProductImage={product.stock?.product?.image}
-                ProductName={product.stock?.product?.name + " " + product?.stock?.product?.size}
+                ProductName={
+                  product.stock?.product?.name +
+                  " " +
+                  product?.stock?.product?.size
+                }
                 ProductBrand={product.stock?.product?.brand?.name}
                 ProductSales={product?.totalQuantity}
                 ProductStocks={product.stock?.quantity}
+                language={language}
               />
             ))
-            :
+          ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="dashboardSpan">Aucun produit trouvé</span>
+              <span className="dashboardSpan">
+                {language === "fr"
+                  ? "Aucun produit trouvé"
+                  : "لم يتم العثور على أي منتج"}
+              </span>
             </div>
-          :
+          )
+        ) : (
           <div className="w-full h-full flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
-        }
+        )}
       </div>
     </div>
   );

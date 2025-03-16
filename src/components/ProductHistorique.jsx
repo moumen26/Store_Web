@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { CircularProgress } from "@mui/material";
 import { formatDate } from "../util/useFullFunctions";
+
 function ProductHistoriqueRow({
   historique,
   isEditing,
@@ -21,6 +22,7 @@ function ProductHistoriqueRow({
   onChange,
   editedHistorique,
   onDeleteClick,
+  language,
 }) {
   const handleNumericChange = (field, value) => {
     if (!isNaN(value) || value != "") {
@@ -30,34 +32,47 @@ function ProductHistoriqueRow({
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{formatDate(historique.date)}</span>
       </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{historique.buying} DA</span>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span className="trTableSpan">
+          {historique.buying} {language === "ar" ? "دج" : "DA"}
+        </span>
       </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{historique.selling} DA</span>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span className="trTableSpan">
+          {historique.selling} {language === "ar" ? "دج" : "DA"}
+        </span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{historique.quantity}</span>
       </TableCell>
-      <TableCell className="tableCell">
-        {/* {isEditing ? (
-          <input
-            type="text"
-            value={editedHistorique.exparationDate}
-            onChange={(e) => onChange("exparationDate", e.target.value)}
-            className="editable-input"
-          />
-        ) : ( */}
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">
           {historique.exparationDate ? historique.exparationDate : "/"}
         </span>
-        {/* )} */}
       </TableCell>
-      <TableCell className="tableCell w-[100px]">
-        <div className="flex items-center justify-end space-x-3">
+      <TableCell align="right" className="tableCell w-[100px]">
+        <div
+          className="flex items-center justify-end space-x-3"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <TrashIcon
             className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
             onClick={onDeleteClick}
@@ -77,6 +92,7 @@ ProductHistoriqueRow.propTypes = {
   onChange: PropTypes.func.isRequired,
   editedHistorique: PropTypes.object.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 // Main component
@@ -84,6 +100,7 @@ export default function ProductHistorique({
   StockStatusData,
   StockStatusLoading,
   handleOpenStockStatusConfirmationDialog,
+  language,
 }) {
   const { user } = useAuthContext();
 
@@ -123,37 +140,68 @@ export default function ProductHistorique({
       <Table aria-label="product historique">
         <TableHead>
           <TableRow>
-            <TableCell>
-              <span className="thTableSpan">Date</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "التاريخ" : "Date"}
+              </span>
+            </TableCell>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
+              </span>
+            </TableCell>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "سعر البيع" : "Prix de vente"}
+              </span>
+            </TableCell>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الكمية" : "Quantité"}
+              </span>
+            </TableCell>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar"
+                  ? "تاريخ انتهاء الصلاحية"
+                  : "Date d'expiration"}
+              </span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">Prix d'achat</span>
-            </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Prix de vente</span>
-            </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Quantité</span>
-            </TableCell>
-            <TableCell>
-              <span className="thTableSpan">Date d'expiration</span>
-            </TableCell>
-            <TableCell align="right">
-              <span className="thTableSpan">Action</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "إجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {StockStatusLoading ? (
             <TableRow>
-              <TableCell colSpan={8} align="center">
+              <TableCell colSpan={6} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
           ) : !StockStatusData || StockStatusData.length <= 0 ? (
             <TableRow>
-              <TableCell className="thTableSpan" colSpan={8} align="center">
-                Aucune donnée disponible
+              <TableCell className="thTableSpan" colSpan={6} align="center">
+                {language === "ar"
+                  ? "لا توجد بيانات متاحة"
+                  : "Aucune donnée disponible"}
               </TableCell>
             </TableRow>
           ) : (
@@ -170,6 +218,7 @@ export default function ProductHistorique({
                 onDeleteClick={() =>
                   handleOpenStockStatusConfirmationDialog(historique._id)
                 }
+                language={language}
               />
             ))
           )}
@@ -178,3 +227,10 @@ export default function ProductHistorique({
     </TableContainer>
   );
 }
+
+ProductHistorique.propTypes = {
+  StockStatusData: PropTypes.array.isRequired,
+  StockStatusLoading: PropTypes.bool.isRequired,
+  handleOpenStockStatusConfirmationDialog: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+};

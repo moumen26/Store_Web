@@ -19,12 +19,24 @@ function getInitials(name) {
   return initials.toUpperCase();
 }
 
-export default function DashboardNewCostumerItem({ CostumerName, CostumerId }) {
+export default function DashboardNewCostumerItem({
+  CostumerName,
+  CostumerId,
+  language,
+}) {
   const backgroundColor = getRandomColor();
   const initials = getInitials(CostumerName);
   return (
-    <div className="flex items-center justify-between pl-[20px] pr-[20px]">
-      <div className="flex items-center space-x-3">
+    <div
+      className={`flex items-center justify-between pl-[20px] pr-[20px] ${
+        language === "ar" ? "rtl" : ""
+      }`}
+    >
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-3" : "space-x-3"
+        }`}
+      >
         <div
           className="w-[50px] h-[50px] rounded-md flex items-center justify-center"
           style={{ backgroundColor }}
@@ -32,8 +44,12 @@ export default function DashboardNewCostumerItem({ CostumerName, CostumerId }) {
           <span className="alphSpan">{initials}</span>
         </div>
         <div className="flex-col space-y-1">
-          <h3 clcassName="dashboardText">{CostumerName}</h3>
-          <p className="dashboardSpan">Customer ID #{CostumerId}</p>
+          <h3 className="dashboardText">{CostumerName}</h3>
+          <p className="dashboardSpan">
+            {language === "fr"
+              ? `Customer ID #${CostumerId}`
+              : `معرف العميل #${CostumerId}`}
+          </p>
         </div>
       </div>
       <EllipsisVerticalIcon className="iconAsideBar" />

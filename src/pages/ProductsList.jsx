@@ -18,7 +18,7 @@ import { EqualsIcon } from "@heroicons/react/16/solid";
 
 Modal.setAppElement("#root");
 
-export default function ProductsList({ onToggle, isCollapsed }) {
+export default function ProductsList({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [searchQuery, setSearchQuery] = useState("");
@@ -253,17 +253,18 @@ export default function ProductsList({ onToggle, isCollapsed }) {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
       } else if (error.request) {
-        // Request was made but no response was received
         console.error("Error creating stock: No response received");
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Error creating stock");
       }
     }
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -272,13 +273,19 @@ export default function ProductsList({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Stock des produits</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "مخزون المنتجات" : "Stock des produits"}
+          </h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Ajouter un nouveau stock"
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة مخزون جديد"
+                  : "Ajouter un nouveau stock"
+              }
               onClick={handleOpenModal}
             />
           </div>
@@ -288,13 +295,23 @@ export default function ProductsList({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par produit..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق المنتج..."
+                : "Rechercher par produit..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
-          <ButtonExportExel data={filteredData} filename="Produits" />
+          <ButtonExportExel
+            language={language}
+            data={filteredData}
+            filename={language === "ar" ? "المنتجات" : "Produits"}
+          />
         </div>
         <div className="pageTableContainer">
           <ProductTable
+            language={language}
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             STOCKData={StockData}
@@ -308,7 +325,7 @@ export default function ProductsList({ onToggle, isCollapsed }) {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Add New Stock"
+        contentLabel={language === "ar" ? "إضافة مخزون جديد" : "Add New Stock"}
         className="addNewModal addNewStockModal"
         style={{
           overlay: {
@@ -323,25 +340,41 @@ export default function ProductsList({ onToggle, isCollapsed }) {
           </div>
         ) : (
           <>
-            <div className="customerClass">
-              <h2 className="customerClassTitle">Ajouter un nouveau stock</h2>
+            <div
+              className="customerClass"
+              style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+            >
+              <h2 className="customerClassTitle">
+                {language === "ar"
+                  ? "إضافة مخزون جديد"
+                  : "Ajouter un nouveau stock"}
+              </h2>
               <div className="addNewStockClass">
-                <div className="w-full h-fit w-[70%] pr-2">
+                <div className="w-full h-fit w-[69%] pr-2">
                   <div className="addProductModalHeader">
                     <Search
-                      placeholder="Rechercher par produit..."
+                      placeholder={
+                        language === "ar"
+                          ? "البحث عن طريق المنتج..."
+                          : "Rechercher par produit..."
+                      }
                       value={searchQuery}
                       onChange={handleSearchChange}
+                      language={language}
                     />
                     <div className="flex space-x-5 items-center">
-                      <span>Categorie :</span>
+                      <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                        {language === "ar" ? "الفئة :" : "Categorie :"}
+                      </span>
                       <div className="selectStoreWilayaCommune w-[300px]">
                         <select
                           name="productCategory"
                           onChange={handleSelectedCategoryChange}
                         >
-                          <option value="">
-                            -- Sélectionner une catégorie --
+                          <option value="" disabled>
+                            {language === "ar"
+                              ? "-- اختر فئة --"
+                              : "-- Sélectionner une catégorie --"}
                           </option>
                           {CategoryData.map((category) => (
                             <option key={category._id} value={category._id}>
@@ -393,14 +426,24 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                       ))
                     ) : (
                       <span className="thTableSpan">
-                        Aucun produit disponible
+                        {language === "ar"
+                          ? "لا توجد منتجات متاحة"
+                          : "Aucun produit disponible"}
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="h-fit w-[30%] productDetailsStock">
+                <div
+                  className={`h-fit w-[31%] productDetailsStock ${
+                    language === "ar"
+                      ? "border-l-0 border-r-[1px] pr-[32px]  "
+                      : ""
+                  }`}
+                >
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Prix d'achat :</span>
+                    <span>
+                      {language === "ar" ? "سعر الشراء :" : "Prix d'achat :"}
+                    </span>
                     <div className="inputForm flex items-center">
                       <input
                         type="number"
@@ -409,11 +452,13 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                         min={0}
                         onChange={handleBuyingPriceChange}
                       />
-                      <span className="ml-2">DA</span>
+                      {language === "ar" ? "دج" : "DA"}
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Prix de vente :</span>
+                    <span>
+                      {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
+                    </span>
                     <div className="inputForm flex items-center">
                       <input
                         type="number"
@@ -422,13 +467,21 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                         min={0}
                         onChange={handleSellingPriceChange}
                       />
-                      <span className="ml-2">DA</span>
+                      {language === "ar" ? "دج" : "DA"}
                     </div>
                   </div>
-                  <div className="flex stockClass items-center space-x-4">
-                    <div className="dialogAddCustomerItem items-center">
-                      <span>Boîte de stock :</span>
-                      <div className="inputForm w-[50px]">
+                  <div
+                    className={`flex gap-x-4 items-center justify-between${
+                      language === "ar" ? "justify-between" : ""
+                    }`}
+                  >
+                    <div className="w-[50%] flex items-center">
+                      <span>
+                        {language === "ar"
+                          ? "صندوق المخزون :"
+                          : "Boîte de stock :"}
+                      </span>
+                      <div className="inputForm w-[80%]">
                         <input
                           type="number"
                           name="stock"
@@ -438,10 +491,13 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                         />
                       </div>
                     </div>
-                    <div className="dialogAddCustomerItem items-center">
-                      <span>Unité de stock :</span>
-
-                      <div className="inputForm">
+                    <div className="w-[50%] flex items-center">
+                      <span>
+                        {language === "ar"
+                          ? "وحدة المخزون :"
+                          : "Unité de stock :"}
+                      </span>
+                      <div className="inputForm w-[80%]">
                         <input
                           type="number"
                           name="unity"
@@ -451,16 +507,13 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                         />
                       </div>
                     </div>
-                    {/* {selectedProduct?.boxItems && (
-                      <span>
-                        {selectedProduct?.boxItems * Quantity +
-                          Number(QuantityUnity)}
-                        <span className="ml-1">Unité</span>
-                      </span>
-                    )} */}
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Valeur limitée :</span>
+                    <span>
+                      {language === "ar"
+                        ? "القيمة المحدودة :"
+                        : "Valeur limitée :"}
+                    </span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -473,7 +526,9 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                   </div>
                   <div className="dialogAddCustomerItem items-center">
                     <span>
-                      Valeur de <br></br> déstockage :
+                      {language === "ar"
+                        ? "قيمة التخفيض :"
+                        : "Valeur de déstockage :"}
                     </span>
                     <div className="inputForm">
                       <input
@@ -486,7 +541,11 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Date d'expiration :</span>
+                    <span>
+                      {language === "ar"
+                        ? "تاريخ انتهاء الصلاحية :"
+                        : "Date d'expiration :"}
+                    </span>
                     <div className="inputForm">
                       <input
                         type="date"
@@ -497,7 +556,11 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>Méthode d'achat :</span>
+                    <span>
+                      {language === "ar"
+                        ? "طريقة الشراء :"
+                        : "Méthode d'achat :"}
+                    </span>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -506,7 +569,13 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                           name="buyingByUnit"
                         />
                       }
-                      label={<span>Achat par unité</span>}
+                      label={
+                        <span>
+                          {language === "ar"
+                            ? "شراء بالوحدة"
+                            : "Achat par unité"}
+                        </span>
+                      }
                     />
                     <FormControlLabel
                       control={
@@ -516,10 +585,20 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                           name="buyingByBox"
                         />
                       }
-                      label={<span>Achat par carton</span>}
+                      label={
+                        <span>
+                          {language === "ar"
+                            ? "شراء بالكرتون"
+                            : "Achat par carton"}
+                        </span>
+                      }
                     />
                   </div>
-                  <div className="space-x-0 items-center">
+                  <div
+                    className={`flex items-center space-x-0 ${
+                      language === "ar" ? "gap-x-8 pr-0" : ""
+                    }`}
+                  >
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -529,22 +608,30 @@ export default function ProductsList({ onToggle, isCollapsed }) {
                         />
                       }
                     />
-                    <span>Ajouter à la liste proposée</span>
+                    <span>
+                      {language === "ar"
+                        ? "إضافة إلى القائمة المقترحة"
+                        : "Ajouter à la liste proposée"}
+                    </span>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end space-x-8">
+              <div
+                className={`flex justify-end space-x-8 ${
+                  language === "ar" ? "gap-x-8" : ""
+                }`}
+              >
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseModal}
                 >
-                  Annuler
+                  {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <button
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={handleSaveStock}
                 >
-                  Enregistrer
+                  {language === "ar" ? "حفظ" : "Enregistrer"}
                 </button>
               </div>
             </div>

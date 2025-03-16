@@ -240,7 +240,6 @@
 }
 
 .aside {
-  position: fixed;
   width: 17%;
   height: 100vh;
   display: flex;
@@ -327,31 +326,8 @@
   display: flex;
 }
 
-.pagesContainer {
-  overflow: hidden;
-  width: calc(100% - 17%);
-  min-height: 100vh;
-  background-color: var(--lightColor);
-  height: fit-content;
-  position: absolute;
-  left: 17%;
-  top: 0;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  transition: all 0.3s ease;
-}
 
-main.main-expanded .pagesContainer {
-  left: 17% !important;
-  width: calc(100% - 17%) !important;
-}
 
-main.main-collapsed .pagesContainer {
-  left: 0 !important;
-  width: 100% !important;
-}
 
 .flexHeader {
   display: flex;
@@ -744,6 +720,11 @@ main.main-collapsed .pagesContainer {
   padding-right: 0;
   outline: none;
   cursor: pointer;
+}
+
+.rtl .calendar {
+  padding-left: 0;
+  padding-right: 15px;
 }
 
 .tablePages {
@@ -1751,4 +1732,57 @@ main.main-collapsed .pagesContainer {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+
+main{
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+}
+
+.flex-ar{
+  display: flex;
+  flex-direction: row;
+}
+
+.aside {
+  width: 17%;
+  height: 100%;
+  transition: all 0.3s ease;
+  overflow-y: hidden;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+}
+
+.flex-ar .aside {
+  position: fixed;
+  right: 0;
+  left: auto;
+}
+
+.pagesContainer {
+  /* position: fixed; */
+  position: absolute;
+  overflow: hidden;
+  width: calc(100% - 17%);
+  min-height: 100vh;
+  background-color: var(--lightColor);
+  height: fit-content;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+/* main.main-expanded .pagesContainer {
+  left: 17% !important;
+  width: calc(100% - 17%) !important;
+} */
+
+main.main-collapsed .pagesContainer {
+  left: 0 !important;
+  width: 100% !important;
 }

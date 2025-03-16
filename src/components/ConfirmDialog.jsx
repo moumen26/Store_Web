@@ -14,10 +14,12 @@ function ConfirmDialog({
   onConfirm,
   dialogTitle,
   dialogContentText,
+  language,
   isloading = false,
 }) {
   return (
     <Dialog
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
       open={open}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
@@ -33,18 +35,22 @@ function ConfirmDialog({
               <span className="trTableSpan">{dialogContentText}</span>
             </DialogContentText>
           </DialogContent>
-          <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+          <div
+            className={`flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2 ${
+              language === "ar" ? "gap-x-8" : ""
+            }`}
+          >
             <button
               onClick={onClose}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
             >
-              Annuler
+              {language === "ar" ? "إلغاء" : "Annuler"}
             </button>
             <button
               onClick={onConfirm}
               className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
-              Confirmer
+              {language === "ar" ? "تأكيد" : "Confirmer"}
             </button>
           </div>
         </>

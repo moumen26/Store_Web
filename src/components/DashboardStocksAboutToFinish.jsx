@@ -5,11 +5,18 @@ import { CircularProgress } from "@mui/material";
 export default function DashboardStocksAboutToFinish({
   StocksAboutToFinish,
   StocksAboutToFinishLoading,
+  language,
 }) {
   return (
-    <div className="dashboardTopSellingProduct">
+    <div
+      className={`dashboardTopSellingProduct ${language === "ar" ? "rtl" : ""}`}
+    >
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">Stocks en rupture imminent</h3>
+        <h3 className="dashboardTitleItem">
+          {language === "fr"
+            ? "Stocks en rupture imminent"
+            : "المخزون على وشك النفاد"}
+        </h3>
       </div>
       <div className="dashboardProductClass">
         {!StocksAboutToFinishLoading ? (
@@ -24,12 +31,15 @@ export default function DashboardStocksAboutToFinish({
                 ProductBrand={product.product?.brand?.name}
                 ProductDestocking={product?.destocking}
                 ProductStocks={product?.quantity}
+                language={language}
               />
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <span className="dashboardSpan">
-                Aucun stock en rupture imminente disponible
+                {language === "fr"
+                  ? "Aucun stock en rupture imminente disponible"
+                  : "لا يوجد مخزون على وشك النفاد"}
               </span>
             </div>
           )

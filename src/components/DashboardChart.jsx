@@ -5,7 +5,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
 
-export default function DashboardChart() {
+export default function DashboardChart({ language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [chartData, setChartData] = useState({});
@@ -142,14 +142,18 @@ export default function DashboardChart() {
   }
 
   return (
-    <div className="dashboadChart">
+    <div className={`dashboadChart ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full flex items-center justify-between ">
-        <h3 className="dashboardTitleItem">Ventes au fil du temps</h3>
-        <div className="flex items-center space-x-8">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-1">
+        <h3 className="dashboardTitleItem">
+          {language === "fr" ? "Ventes au fil du temps" : "المبيعات على مر الزمن"}
+        </h3>
+        <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"}`}>
+          <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"}`}>
+            <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"}`}>
               <div className="cercleChartItemRevenue"></div>
-              <span className="spanChartItemRevenue">Montant total (DA)</span>
+              <span className="spanChartItemRevenue">
+                {language === "fr" ? "Montant total (DA)" : "المبلغ الإجمالي (دج)"}
+              </span>
             </div>
           </div>
           <div className="selectOptionChartClass">
@@ -160,9 +164,9 @@ export default function DashboardChart() {
               value={selectedOption}
               onChange={handleChange}
             >
-              <option value="weekly">Semaine</option>
-              <option value="monthly">Mois</option>
-              <option value="yearly">Année</option>
+              <option value="weekly">{language === "fr" ? "Semaine" : "أسبوع"}</option>
+              <option value="monthly">{language === "fr" ? "Mois" : "شهر"}</option>
+              <option value="yearly">{language === "fr" ? "Année" : "سنة"}</option>
             </select>
           </div>
         </div>

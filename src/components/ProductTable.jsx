@@ -26,34 +26,47 @@ import { formatNumber } from "../util/useFullFunctions";
 // Set the app element for accessibility
 Modal.setAppElement("#root");
 
-function Row(props) {
-  const {
-    row,
-    isEditing,
-    onEditClick,
-    onViewClick,
-    onSaveClick,
-    onCancelClick,
-    onChange,
-    editedRow,
-    handleOpenStockStatusConfirmationDialog,
-  } = props;
+function Row({
+  language,
+  row,
+  isEditing,
+  onEditClick,
+  onViewClick,
+  onSaveClick,
+  onCancelClick,
+  onChange,
+  editedRow,
+  handleOpenStockStatusConfirmationDialog,
+}) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.stockId}</span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">
           {row.productBrand} {row.productName} {row.productSize}
         </span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">
-          {formatNumber(row.productBuyingPrice)} DA
+          {formatNumber(row.productBuyingPrice)}{" "}
+          {language === "ar" ? "دج" : "DA"}
         </span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         {isEditing ? (
           <input
             type="text"
@@ -65,15 +78,24 @@ function Row(props) {
           />
         ) : (
           <span className="trTableSpan">
-            {formatNumber(row.productSellPrice)} DA
+            {formatNumber(row.productSellPrice)}{" "}
+            {language === "ar" ? "دج" : "DA"}
           </span>
         )}
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.productStock}</span>
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
-        <div className="flex items-center justify-end space-x-3">
+        <div
+          className={`flex items-center justify-end space-x-3 ${
+            language === "ar" ? "gap-x-3" : ""
+          }`}
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           {!isEditing && (
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
@@ -81,20 +103,24 @@ function Row(props) {
             />
           )}
           {isEditing ? (
-            <>
+            <div
+              className={`flex justify-end space-x-4 ${
+                language === "ar" ? "gap-x-4" : ""
+              }`}
+            >
               <button
                 className="text-green-500 cursor-pointer hover:text-green-700"
                 onClick={() => onSaveClick(row.stockId)}
               >
-                Save
+                {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={() => onCancelClick()}
               >
-                Cancel
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
-            </>
+            </div>
           ) : (
             <PencilIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
@@ -133,6 +159,7 @@ export default function ProductTable({
   STOCKData,
   isLoading,
   refetch,
+  language,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -495,30 +522,57 @@ export default function ProductTable({
         <Table aria-label="collapsible table">
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell>
-                <span className="thTableSpan">Code Stock</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "رمز المخزون" : "Code Stock"}
+                </span>
               </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Nom</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "اسم" : "Nom"}
+                </span>
               </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Prix d'achat</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
+                </span>
               </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Prix de vente</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "سعر البيع" : "Prix de vente"}
+                </span>
               </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Unité de stock</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "وحدة المخزون" : "Unité de stock"}
+                </span>
               </TableCell>
-              <TableCell align="right">
-                <span className="thTableSpan">Actions</span>
+              <TableCell className="tableCell" align="right">
+                <span className="thTableSpan">
+                  {language === "ar" ? "إجراءات" : "Actions"}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={8} align="center">
+                <TableCell colSpan={6} align="center">
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
@@ -537,12 +591,15 @@ export default function ProductTable({
                   handleOpenStockStatusConfirmationDialog={
                     handleOpenStockStatusConfirmationDialog
                   }
+                  language={language}
                 />
               ))
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  No Data Available
+                  {language === "ar"
+                    ? "لا توجد بيانات متاحة"
+                    : "Aucune donnée disponible"}
                 </TableCell>
               </TableRow>
             )}
@@ -553,7 +610,7 @@ export default function ProductTable({
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Product Details"
+        contentLabel={language === "ar" ? "تفاصيل المنتج" : "Product Details"}
         className="addNewModal addNewStockModal"
         style={{
           overlay: {
@@ -567,10 +624,13 @@ export default function ProductTable({
             <CircularProgress color="inherit" />
           </div>
         ) : StockData ? (
-          <>
+          <div style={{ direction: language === "ar" ? "rtl" : "ltr" }}>
             <div className="customerClass">
-              <h2 className="customerClassTitle">Détails du produit</h2>
+              <h2 className="customerClassTitle">
+                {language === "ar" ? "تفاصيل المنتج" : "Détails du produit"}
+              </h2>
               <ProductProfileDetails
+                language={language}
                 data={StockData}
                 isLoading={StockLoading}
               />
@@ -579,6 +639,7 @@ export default function ProductTable({
               <div className="w-[70%]">
                 <div className="customerClass pt-0">
                   <ProductProfileDetailsV2
+                    language={language}
                     data={StockData}
                     setAlertType={setAlertType}
                     setSnackbarMessage={setSnackbarMessage}
@@ -586,14 +647,23 @@ export default function ProductTable({
                     handleRefetchDataChange={StockRefetch}
                   />
                   <div className="flex items-center justify-between mt-[24px]">
-                    <h2 className="customerClassTitle">Historique du stock</h2>
+                    <h2 className="customerClassTitle">
+                      {language === "ar"
+                        ? "تاريخ المخزون"
+                        : "Historique du stock"}
+                    </h2>
                     <ButtonAdd
-                      buttonSpan="Ajouter un nouveau stock"
+                      buttonSpan={
+                        language === "ar"
+                          ? "إضافة مخزون جديد"
+                          : "Ajouter un nouveau stock"
+                      }
                       onClick={handleOpenModalAddNewStockProduct}
                     />
                   </div>
                   <div className="scrollProductHistorique mt-[8px]">
                     <ProductHistorique
+                      language={language}
                       StockStatusData={StockStatusData}
                       StockStatusLoading={StockStatusLoading}
                       handleOpenStockStatusConfirmationDialog={
@@ -603,8 +673,13 @@ export default function ProductTable({
                   </div>
                 </div>
               </div>
-              <div className="w-[30%] h-fit flex-col space-y-5 mt-[16px]">
-                <h2 className="customerClassTitle">Image du Produit</h2>
+              <div
+                style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+                className="w-[30%] h-fit flex-col space-y-5 mt-[16px]"
+              >
+                <h2 className="customerClassTitle">
+                  {language === "ar" ? "صورة المنتج" : "Image du Produit"}
+                </h2>
                 <div className="w-full flex justify-center h-[300px]">
                   <img
                     className="text-center"
@@ -622,20 +697,24 @@ export default function ProductTable({
                 </div>
               </div>
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end px-[25px]">
               <button
                 onClick={handleCloseModal}
                 style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 pr-3"
               >
-                Fermer
+                {language === "ar" ? "إغلاق" : "Fermer"}
               </button>
             </div>
-          </>
+          </div>
         ) : (
           <>
             <div className="h-[93%] w-full flex items-center justify-center">
-              <span className="thTableSpan">Aucun produit disponible</span>
+              <span className="thTableSpan">
+                {language === "ar"
+                  ? "لا توجد منتجات متاحة"
+                  : "Aucun produit disponible"}
+              </span>
             </div>
             <div className="flex justify-end">
               <button
@@ -643,7 +722,7 @@ export default function ProductTable({
                 style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
               >
-                Fermer
+                {language === "ar" ? "إغلاق" : "Fermer"}
               </button>
             </div>
           </>
@@ -653,7 +732,7 @@ export default function ProductTable({
       <Modal
         isOpen={modalIsOpenAddNewStockProduct}
         onRequestClose={handleCloseModalAddNewStockProduct}
-        contentLabel="Add Address Modal"
+        contentLabel={language === "ar" ? "إضافة عنوان" : "Add Address Modal"}
         className="addNewModal"
         style={{
           overlay: {
@@ -662,11 +741,20 @@ export default function ProductTable({
           },
         }}
       >
-        <div className="customerClass p-0">
-          <h2 className="customerClassTitle">Ajouter un Nouveau Stock</h2>
+        <div
+          className="customerClass p-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2 className="customerClassTitle">
+            {language === "ar"
+              ? "إضافة مخزون جديد"
+              : "Ajouter un Nouveau Stock"}
+          </h2>
           <div className="productDetailsStockProduct">
             <div className="dialogAddCustomerItem items-center">
-              <span>Prix d'achat :</span>
+              <span>
+                {language === "ar" ? "سعر الشراء :" : "Prix d'achat :"}
+              </span>
               <div className="inputForm flex items-center">
                 <input
                   type="number"
@@ -675,11 +763,13 @@ export default function ProductTable({
                   min={0}
                   onChange={handleBuyingPriceChange}
                 />
-                <span className="ml-2">DA</span>
+                <span className="ml-2">{language === "ar" ? "دج" : "DA"}</span>
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>Prix de vente :</span>
+              <span>
+                {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
+              </span>
               <div className="inputForm flex items-center">
                 <input
                   type="number"
@@ -688,11 +778,15 @@ export default function ProductTable({
                   min={0}
                   onChange={handleSellingPriceChange}
                 />
-                <span className="ml-2">DA</span>
+                <span className="ml-2">{language === "ar" ? "دج" : "DA"}</span>
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>Date d'expiration :</span>
+              <span>
+                {language === "ar"
+                  ? "تاريخ انتهاء الصلاحية :"
+                  : "Date d'expiration :"}
+              </span>
               <div className="inputForm">
                 <input
                   type="date"
@@ -702,56 +796,93 @@ export default function ProductTable({
                 />
               </div>
             </div>
-            <div className="dialogAddCustomerItem space-x-4 items-center">
-              <span>Quantity per box:</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="stock"
-                  value={QuantityPerBox}
-                  min={0}
-                  onChange={handleQuantityPerBoxChange}
-                />
+            <div
+              className={`flex gap-x-4 items-center justify-between${
+                language === "ar" ? "justify-between" : ""
+              }`}
+            >
+              <div className="w-[50%] flex items-center">
+                <span>
+                  {language === "ar"
+                    ? "الكمية لكل صندوق:"
+                    : "Quantity per box:"}
+                </span>
+                <div className="inputForm w-[100%]">
+                  <input
+                    type="number"
+                    name="stock"
+                    value={QuantityPerBox}
+                    min={0}
+                    onChange={handleQuantityPerBoxChange}
+                  />
+                </div>
               </div>
-              <span>Quantity per unity:</span>
-              <div className="inputForm">
-                <input
-                  type="number"
-                  name="stock"
-                  value={QuantityPerUnity}
-                  min={0}
-                  onChange={handleQuantityPerUnityChange}
-                />
+              <div className="w-[50%] flex items-center">
+                <span>
+                  {language === "ar"
+                    ? "الكمية لكل وحدة:"
+                    : "Quantity per unity:"}
+                </span>
+                <div className="inputForm w-[100%]">
+                  <input
+                    type="number"
+                    name="stock"
+                    value={QuantityPerUnity}
+                    min={0}
+                    onChange={handleQuantityPerUnityChange}
+                  />
+                </div>
               </div>
             </div>
-            <div className="space-x-4 items-center">
-              <span>Toatal quantité :</span>
-              <span>{Quantity} unity</span>
+            <div
+              className={`flex gap-x-4 items-center${
+                language === "ar" ? "" : ""
+              }`}
+            >
+              <span>
+                {language === "ar" ? "إجمالي الكمية :" : "Total quantité :"}
+              </span>
+              <span>
+                {Quantity} {language === "ar" ? "وحدة" : "unity"}
+              </span>
             </div>
           </div>
-          <div className="flex justify-end space-x-8 items-start mt-[20px]">
+          <div
+            className={`flex justify-end space-x-8 ${
+              language === "ar" ? "gap-x-8" : ""
+            }`}
+          >
             <button
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalAddNewStockProduct}
             >
-              Annuler
+              {language === "ar" ? "إلغاء" : "Annuler"}
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
               onClick={handleAddNewStockStatus}
             >
-              Enregistrer
+              {language === "ar" ? "حفظ" : "Enregistrer"}
             </button>
           </div>
         </div>
       </Modal>
 
       <ConfirmDialog
+        language={language}
         open={openDeleteStockStatusConfirmationDialog}
         onConfirm={handleDeleteStockStatus}
         onClose={handleCloseStockStatusConfirmationDialog}
-        dialogTitle={"Confirmer la suppression d'un stock"}
-        dialogContentText={`Etes-vous sûr de vouloir mettre à jour votre stock ? Cette action diminuera votre quantité de stock actuelle, assurez-vous de supprimer le bon stock`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد حذف المخزون"
+            : "Confirmer la suppression d'un stock"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تحديث مخزونك؟ سيؤدي هذا الإجراء إلى تقليل كمية المخزون الحالية لديك، تأكد من حذف المخزون الصحيح"
+            : "Etes-vous sûr de vouloir mettre à jour votre stock ? Cette action diminuera votre quantité de stock actuelle, assurez-vous de supprimer le bon stock"
+        }
         isloading={submitionLoading}
       />
       {/* Snackbar */}

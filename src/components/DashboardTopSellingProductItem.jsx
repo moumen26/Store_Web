@@ -6,9 +6,10 @@ export default function DashboardTopSellingProductItem({
   ProductSales,
   ProductStocks,
   ProductBrand,
+  language,
 }) {
   return (
-    <div className="dashboardTopSellingProductItem">
+    <div className={`dashboardTopSellingProductItem ${language === "ar" ? "rtl" : ""}`}>
       <div className="flex items-center w-[50%]">
         <div className="productImgClass">
           <img
@@ -25,8 +26,8 @@ export default function DashboardTopSellingProductItem({
           <p className="dashboardSpan">{ProductBrand}</p>
         </div>
       </div>
-      <div className="flex-col space-y-1 w-[50%]  justifyEnd">
-        <div className="flex items-center space-x-1">
+      <div className="flex-col space-y-1 w-[50%] justifyEnd">
+        <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"}`}>
           <div
             className={
               ProductStocks > 0
@@ -41,11 +42,21 @@ export default function DashboardTopSellingProductItem({
                 : "spanAvailable spanAvailableRed"
             }
           >
-            {ProductStocks > 0 ? "Disponible" : "Indisponible"}{" "}
+            {ProductStocks > 0
+              ? language === "fr"
+                ? "Disponible"
+                : "متاح"
+              : language === "fr"
+              ? "Indisponible"
+              : "غير متاح"}{" "}
           </span>
         </div>
-        <span className="dashboardSpan">{ProductStocks} stock restant</span>
-        <p className="dashboardSpan">{ProductSales} ventes</p>
+        <span className="dashboardSpan">
+          {ProductStocks} {language === "fr" ? "stock restant" : "المخزون المتبقي"}
+        </span>
+        <p className="dashboardSpan">
+          {ProductSales} {language === "fr" ? "ventes" : "مبيعات"}
+        </p>
       </div>
     </div>
   );

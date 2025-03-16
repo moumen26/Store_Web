@@ -2,7 +2,7 @@ import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import * as XLSX from "xlsx";
 
-export default function ButtonExportExcel({ data, filename }) {
+export default function ButtonExportExcel({ data, filename, language }) {
   const handleExport = () => {
     // Create a new workbook and add a worksheet
     const workbook = XLSX.utils.book_new();
@@ -54,9 +54,15 @@ export default function ButtonExportExcel({ data, filename }) {
   };
 
   return (
-    <button className="buttonExport" onClick={handleExport}>
+    <button
+      className="buttonExport"
+      onClick={handleExport}
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <DocumentArrowDownIcon className="iconAsideBar" />
-      <span className="buttonTextDark">Exporter</span>
+      <span className="buttonTextDark">
+        {language === "ar" ? "تصدير" : "Exporter"}
+      </span>
     </button>
   );
 }

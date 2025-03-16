@@ -13,13 +13,32 @@ import { useQuery } from "@tanstack/react-query";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
 
-export default function Dashboard({ onToggle, isCollapsed }) {
+export default function Dashboard({ onToggle, language, toggleLanguage }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
   });
+
+  const text = {
+    fr: {
+      title: "Tableau de bord",
+      welcome: "Bienvenue, ",
+      overview: "Voici un aperçu de vos ventes actuelles",
+      totalAmount: "Montant total",
+      totalOrders: "Total des commandes",
+      profit: "Profit",
+    },
+    ar: {
+      title: "لوحة القيادة",
+      welcome: "مرحبًا, ",
+      overview: "إليك نظرة عامة على مبيعاتك الحالية",
+      totalAmount: "المبلغ الإجمالي",
+      totalOrders: "إجمالي الطلبات",
+      profit: "الربح",
+    },
+  };
 
   //---------------------------------API calls---------------------------------\\
 
@@ -252,7 +271,10 @@ export default function Dashboard({ onToggle, isCollapsed }) {
   });
 
   return (
-    <div className="pagesContainer scrollPage">
+    <div
+      className="pagesContainer scrollPage"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
         <div
           onClick={onToggle}
@@ -260,57 +282,77 @@ export default function Dashboard({ onToggle, isCollapsed }) {
         >
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
-      </div>{" "}
+        <Header toggleLanguage={toggleLanguage} language={language} />
+      </div>
       <div className="w-full flex items-center justify-between">
         <div className="flex-col space-y-[6px]">
-          <h2 className="pagesTitle">Bienvenue, {user?.infos?.firstName}</h2>
-          <span className="pagesSousTitle">
-            Voici un aperçu de vos ventes actuelles{" "}
-          </span>
+          <h2 className="pagesTitle">
+            {text[language].welcome} {user?.infos?.firstName}
+          </h2>
+          <span className="pagesSousTitle">{text[language].overview}</span>
         </div>
         <DashboardCalendar
           onDateChange={(start, end) =>
             setDateRange({ startDate: start, endDate: end })
           }
+          language={language}
         />
       </div>
-      <div className="flex items-center space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <DashboardCard
-          dashboardCardTitle="Montant total"
+          dashboardCardTitle={text[language].totalAmount}
           dashboardCardAmount={formatNumber(OrdersStats?.totalAmount)}
           OrdersStatsLoading={OrdersStatsLoading}
+          language={language}
         />
         <DashboardCard
-          dashboardCardTitle="Total des commandes"
+          dashboardCardTitle={text[language].totalOrders}
           dashboardCardAmount={OrdersStats?.totalReceipts}
+          language={language}
           OrdersStatsLoading={OrdersStatsLoading}
         />
         <DashboardCard
-          dashboardCardTitle="Profit"
+          dashboardCardTitle={text[language].profit}
           dashboardCardAmount={formatNumber(OrdersStats?.totalProfit)}
+          language={language}
           OrdersStatsLoading={OrdersStatsLoading}
         />
       </div>
-      <div className="flex items-center justify-between space-x-6">
-        <DashboardChart />
+      <div
+        className={`flex items-center justify-between ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
+        <DashboardChart language={language} />
         <DashboardTopSellingProduct
           TopSellingStocks={TopSellingStocks}
           TopSellingStocksLoading={TopSellingStocksLoading}
+          language={language}
         />
       </div>
-      <div className="w-full flex justify-between space-x-6">
+      <div
+        className={`w-full flex justify-between ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <DashboadStoreStatistic
           StatsData={StatsData}
           StatsDataLoading={StatsDataLoading}
+          language={language}
         />
         <DashboardTopStocksAboutToFinish
           StocksAboutToFinish={StocksAboutToFinish}
           StocksAboutToFinishLoading={StocksAboutToFinishLoading}
+          language={language}
         />
         <DashboardNewCostumers
           LastNewAccessCustomers={LastNewAccessCustomers}
           LastNewAccessCustomersLoading={LastNewAccessCustomersLoading}
+          language={language}
         />
       </div>
     </div>

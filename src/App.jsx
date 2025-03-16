@@ -41,6 +41,8 @@ import { CircularProgress } from "@mui/material";
 function App() {
   const { user } = useAuthContext();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [language, setLanguage] = useState("fr"); // Default language is French
 
   useEffect(() => {
     const handleOnlineStatusChange = () => {
@@ -55,32 +57,109 @@ function App() {
       window.removeEventListener("offline", handleOnlineStatusChange);
     };
   }, []);
-  if (!isOnline) {
-    return (
-      <div className="w-full h-full flex items-center justify-center flex-col">
-        <CircularProgress color="error" />
-        <h1
-          style={{
-            color: "red",
-          }}
-        >
-          Pas de connexion Internet ...
-        </h1>
-      </div>
-    );
-  }
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
     console.log("isCollapsed:", isCollapsed);
   };
 
+  const toggleLanguage = () => {
+    setLanguage((prevLanguage) => (prevLanguage === "fr" ? "ar" : "fr"));
+  };
+
+  const text = {
+    fr: {
+      noInternet: "Pas de connexion Internet ...",
+      dashboard: "Tableau de bord",
+      customers: "Clients",
+      purchases: "Achats",
+      returnsOrders: "Retours de commandes",
+      returnsPurchases: "Retours d'achats",
+      publicity: "Publicité",
+      creditPurchases: "Achats à crédit",
+      losses: "Pertes",
+      suppliers: "Fournisseurs",
+      vendors: "Vendeurs",
+      addOrder: "Ajouter une commande",
+      addPurchase: "Ajouter un achat",
+      productsList: "Liste des produits",
+      purchasesArchive: "Archive des achats",
+      productsGrid: "Grille des produits",
+      purchaseProfile: "Profil d'achat",
+      productDetails: "Détails du produit",
+      orders: "Commandes",
+      ordersInPreparation: "Commandes en préparation",
+      ordersArchive: "Archive des commandes",
+      creditOrders: "Commandes à crédit",
+      settings: "Paramètres",
+      authentication: "Authentification",
+      clientProfile: "Profil du client",
+      nonApprovedClientProfile: "Profil du client non approuvé",
+      orderProfile: "Profil de la commande",
+      letsUpYourAccount: "Améliorons votre compte",
+      signUp: "S'inscrire",
+      verifyCode: "Vérifier le code",
+      signIn: "Se connecter",
+      upYourAccount: "Améliorer votre compte",
+    },
+    ar: {
+      noInternet: "لا يوجد اتصال بالإنترنت ...",
+      dashboard: "لوحة القيادة",
+      customers: "العملاء",
+      purchases: "المشتريات",
+      returnsOrders: "إرجاع الطلبات",
+      returnsPurchases: "إرجاع المشتريات",
+      publicity: "الإعلانات",
+      creditPurchases: "المشتريات بالائتمان",
+      losses: "الخسائر",
+      suppliers: "الموردين",
+      vendors: "البائعين",
+      addOrder: "إضافة طلب",
+      addPurchase: "إضافة شراء",
+      productsList: "قائمة المنتجات",
+      purchasesArchive: "أرشيف المشتريات",
+      productsGrid: "شبكة المنتجات",
+      purchaseProfile: "ملف الشراء",
+      productDetails: "تفاصيل المنتج",
+      orders: "الطلبات",
+      ordersInPreparation: "الطلبات قيد التحضير",
+      ordersArchive: "أرشيف الطلبات",
+      creditOrders: "الطلبات بالائتمان",
+      settings: "الإعدادات",
+      authentication: "المصادقة",
+      clientProfile: "ملف العميل",
+      nonApprovedClientProfile: "ملف العميل غير المعتمد",
+      orderProfile: "ملف الطلب",
+      letsUpYourAccount: "لنرفع حسابك",
+      signUp: "التسجيل",
+      verifyCode: "التحقق من الرمز",
+      signIn: "تسجيل الدخول",
+      upYourAccount: "رفع حسابك",
+    },
+  };
+
+  if (!isOnline) {
+    return (
+      <div className="w-full h-full flex items-center justify-center flex-col">
+        <CircularProgress color="error" />
+        <h1 style={{ color: "red" }}>{text[language].noInternet}</h1>
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
-      <main className={isCollapsed ? "main-collapsed" : "main-expanded"}>
+      <main
+        className={`flex ${isCollapsed ? "main-collapsed" : "main-expanded"} ${
+          language === "ar" ? "flex-ar" : ""
+        }`}
+      >
         {user ? (
-          <Asidebar onToggle={handleToggle} isCollapsed={isCollapsed} />
+          <Asidebar
+            language={language}
+            onToggle={handleToggle}
+            isCollapsed={isCollapsed}
+          />
         ) : (
           <SignIn />
         )}
@@ -91,7 +170,11 @@ function App() {
             index
             element={
               user ? (
-                <Dashboard onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Dashboard
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               ) : (
                 <SignIn />
               )
@@ -101,7 +184,11 @@ function App() {
             path="/Dashboard"
             element={
               user ? (
-                <Dashboard onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Dashboard
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               ) : (
                 <SignIn />
               )
@@ -111,7 +198,11 @@ function App() {
             path="/Customers"
             element={
               user ? (
-                <Customers onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Customers
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               ) : (
                 <SignIn />
               )
@@ -121,7 +212,11 @@ function App() {
             path="/Purchases"
             element={
               user ? (
-                <Purchases onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Purchases
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -134,6 +229,7 @@ function App() {
                 <ReturnsOrders
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -147,6 +243,7 @@ function App() {
                 <ReturnsPurchases
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -157,7 +254,11 @@ function App() {
             path="/Publicite"
             element={
               user ? (
-                <Publicité onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Publicité
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -170,6 +271,7 @@ function App() {
                 <CreditPurchases
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -180,7 +282,11 @@ function App() {
             path="/Losses"
             element={
               user ? (
-                <Losses onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Losses
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -193,6 +299,7 @@ function App() {
                 <Fournisseurs
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -206,6 +313,7 @@ function App() {
                 <FournisseurProfile
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -216,7 +324,11 @@ function App() {
             path="/Vendors"
             element={
               user ? (
-                <Vendors onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Vendors
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -226,7 +338,11 @@ function App() {
             path="/AddOrder/:id"
             element={
               user ? (
-                <AddOrder onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <AddOrder
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -236,7 +352,11 @@ function App() {
             path="/AddAchat/:id"
             element={
               user ? (
-                <AddAchat onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <AddAchat
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -248,7 +368,8 @@ function App() {
               user ? (
                 <ProductsList
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -262,6 +383,7 @@ function App() {
                 <PuchasesArchive
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -275,6 +397,7 @@ function App() {
                 <ProductsGrid
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -288,6 +411,7 @@ function App() {
                 <PurchaseProfile
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -301,6 +425,7 @@ function App() {
                 <ProductDetails
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -311,7 +436,11 @@ function App() {
             path="/Orders"
             element={
               user ? (
-                <Orders onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Orders
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -324,6 +453,7 @@ function App() {
                 <OrdersInPreparation
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -337,6 +467,7 @@ function App() {
                 <OrdersArchive
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -350,6 +481,7 @@ function App() {
                 <CreditOrders
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -360,7 +492,11 @@ function App() {
             path="/Settings"
             element={
               user ? (
-                <Settings onToggle={handleToggle} isCollapsed={isCollapsed} />
+                <Settings
+                  onToggle={handleToggle}
+                  isCollapsed={isCollapsed}
+                  language={language}
+                />
               ) : (
                 <SignIn />
               )
@@ -373,6 +509,7 @@ function App() {
                 <Authentication
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -386,6 +523,7 @@ function App() {
                 <Authentication
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -399,6 +537,7 @@ function App() {
                 <CustomerProfile
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -412,6 +551,7 @@ function App() {
                 <NonApprovedCustomer
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -425,6 +565,7 @@ function App() {
                 <OrderProfile
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />
@@ -438,6 +579,7 @@ function App() {
                 <LetsUpYourAccount
                   onToggle={handleToggle}
                   isCollapsed={isCollapsed}
+                  language={language}
                 />
               ) : (
                 <SignIn />

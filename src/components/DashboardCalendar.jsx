@@ -5,7 +5,7 @@ import "primereact/resources/primereact.min.css";
 import { locale, addLocale } from "primereact/api";
 import "primeicons/primeicons.css";
 
-export default function DashboardCalendar({ onDateChange }) {
+export default function DashboardCalendar({ onDateChange, language }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const today = new Date();
@@ -57,7 +57,54 @@ export default function DashboardCalendar({ onDateChange }) {
     weekHeader: "Sem",
   });
 
-  locale("fr"); // Set the locale globally
+  addLocale("ar", {
+    firstDayOfWeek: 0,
+    dayNames: [
+      "الأحد",
+      "الإثنين",
+      "الثلاثاء",
+      "الأربعاء",
+      "الخميس",
+      "الجمعة",
+      "السبت",
+    ],
+    dayNamesShort: ["أحد", "إثن", "ثلاث", "أربع", "خميس", "جمع", "سبت"],
+    dayNamesMin: ["ح", "ن", "ث", "ر", "خ", "ج", "س"],
+    monthNames: [
+      "يناير",
+      "فبراير",
+      "مارس",
+      "أبريل",
+      "مايو",
+      "يونيو",
+      "يوليو",
+      "أغسطس",
+      "سبتمبر",
+      "أكتوبر",
+      "نوفمبر",
+      "ديسمبر",
+    ],
+    monthNamesShort: [
+      "ينا",
+      "فبر",
+      "مار",
+      "أبر",
+      "ماي",
+      "يون",
+      "يول",
+      "أغس",
+      "سبت",
+      "أكت",
+      "نوف",
+      "ديس",
+    ],
+    today: "اليوم",
+    clear: "مسح",
+    dateFormat: "dd-mm-yy",
+    weekHeader: "أسبوع",
+  });
+
+  locale(language); // Set the locale based on the selected language
 
   const handleStartDateChange = (date) => {
     if (date !== startDate) {
@@ -77,10 +124,15 @@ export default function DashboardCalendar({ onDateChange }) {
   };
 
   return (
-    <div className="dateRangeSelector">
+    <div className={`dateRangeSelector ${language === "ar" ? "rtl" : ""}`}>
       <div className="flex DateRangeSelector">
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
-          <label htmlFor="startDate">Date de début :</label>
+          <label
+            htmlFor="startDate"
+            className={language === "ar" ? "ml-4" : ""}
+          >
+            {language === "fr" ? "Date de début :" : "تاريخ البدء : "}
+          </label>
           <Calendar
             id="startDate"
             value={startDate}
@@ -92,7 +144,9 @@ export default function DashboardCalendar({ onDateChange }) {
           />
         </div>
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
-          <label htmlFor="endDate">Date de fin :</label>
+          <label htmlFor="endDate" className={language === "ar" ? "ml-4" : ""}>
+            {language === "fr" ? "Date de fin :" : " تاريخ الانتهاء :"}
+          </label>
           <Calendar
             id="endDate"
             value={endDate}
@@ -115,7 +169,7 @@ export default function DashboardCalendar({ onDateChange }) {
             onDateChange(null, null);
           }}
         >
-          Effacer
+          {language === "fr" ? "Effacer" : "مسح"}
         </button>
       </div>
     </div>

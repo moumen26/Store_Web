@@ -2,29 +2,17 @@ import React from "react";
 import DashboardNewCostumerItem from "./DashboardNewCostumerItem";
 import { CircularProgress } from "@mui/material";
 
-const newCostumerData = [
-  {
-    CostumerName: "Khaldi Abdelmoumen",
-    CostumerId: "0920496",
-  },
-  {
-    CostumerName: "Boumrar Zineddein",
-    CostumerId: "0920496",
-  },
-  {
-    CostumerName: "Khaldi Abdelmoumen",
-    CostumerId: "0920496",
-  },
-];
-
 export default function DashboardNewCostumers({
   LastNewAccessCustomers,
   LastNewAccessCustomersLoading,
+  language,
 }) {
   return (
-    <div className="dashboardNewCostumers">
+    <div className={`dashboardNewCostumers ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">Nouveaux clients</h3>
+        <h3 className="dashboardTitleItem">
+          {language === "fr" ? "Nouveaux clients" : "العملاء الجدد"}
+        </h3>
       </div>
       <div className="flex-col h-[410px] space-y-6">
         {!LastNewAccessCustomersLoading ? (
@@ -36,11 +24,16 @@ export default function DashboardNewCostumers({
                   costumer.user?.firstName + " " + costumer.user?.lastName
                 }
                 CostumerId={costumer.user?._id}
+                language={language}
               />
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan">Aucun client disponible</span>
+              <span className="thTableSpan">
+                {language === "fr"
+                  ? "Aucun client disponible"
+                  : "لا يوجد عملاء متاحون"}
+              </span>
             </div>
           )
         ) : (

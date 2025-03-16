@@ -38,13 +38,13 @@ function ConfirmDialog({
               onClick={onClose}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
             >
-              Cancel
+              Annuler
             </button>
             <button
               onClick={onConfirm}
               className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
-              Confirm
+              Confirmer
             </button>
           </div>
         </>

@@ -802,7 +802,7 @@ export default function Settings() {
                               }}
                             >
                               {!CategoryDataLoading ? (
-                                <div className="customerClass p-0">
+                                <div className="customerClass pb-0">
                                   <div className="flex items-center space-x-3">
                                     <h2 className="customerClassTitle">
                                       Select your Store Category

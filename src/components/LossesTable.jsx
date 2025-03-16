@@ -50,7 +50,13 @@ function Row(props) {
   );
 }
 
-export default function LossesTable({ searchQuery, setFilteredData, data, loading , refetchLossesData}) {
+export default function LossesTable({
+  searchQuery,
+  setFilteredData,
+  data,
+  loading,
+  refetchLossesData,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [isDeleteLossOpen, setIsDeleteLossOpen] = useState(false);
@@ -74,12 +80,14 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
   const handleSubmitCreateLoss = async () => {
     try {
       setSubmitionLoading(true);
-      const response = await axios.delete(import.meta.env.VITE_APP_URL_BASE+`/Losses/store/${selectedLossId}/${decodedToken.id}`,
+      const response = await axios.delete(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Losses/store/${selectedLossId}/${decodedToken.id}`,
         {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user?.token}`,
-            }
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
         }
       );
       if (response.status === 200) {
@@ -96,20 +104,20 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
         setSubmitionLoading(false);
       }
     } catch (error) {
-        if (error.response) {
-          setAlertType(true);
-          setSnackbarMessage(error.response.data.message);
-          setSnackbarOpen(true);
-          setSubmitionLoading(false);
-        } else if (error.request) {
-          // Request was made but no response was received
-          console.error("Error deleting loss: No response received");
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error("Error deleting loss", error);
-        }
+      if (error.response) {
+        setAlertType(true);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error deleting loss: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error deleting loss", error);
+      }
     }
-  }
+  };
 
   return (
     <>
@@ -125,7 +133,7 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
                 <span className="thTableSpan">Cause</span>
               </TableCell>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Amount</span>
+                <span className="thTableSpan">Montant</span>
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Date</span>
@@ -138,16 +146,24 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={4} align="center">
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
             ) : data.length > 0 ? (
-              [...data].reverse().map((row) => <Row key={row._id} row={row} handleDeleteClick={handleCloseDeleteLossClick}/>)
+              [...data]
+                .reverse()
+                .map((row) => (
+                  <Row
+                    key={row._id}
+                    row={row}
+                    handleDeleteClick={handleCloseDeleteLossClick}
+                  />
+                ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">No losses found</span>
+                <TableCell colSpan={4} align="center">
+                  <span className="thTableSpan">Aucune perte trouvée</span>
                 </TableCell>
               </TableRow>
             )}
@@ -158,8 +174,8 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
         open={isDeleteLossOpen}
         onConfirm={handleSubmitCreateLoss}
         onClose={handleCloseDeleteLoss}
-        dialogTitle="Confirm deletion"
-        dialogContentText={`Are you sure you want to delete this loss?`}
+        dialogTitle="Confirmer la suppression"
+        dialogContentText={`Êtes-vous sûr de vouloir supprimer cette perte ?`}
         isloading={submitionLoading}
       />
       {/* Snackbar */}
@@ -170,7 +186,7 @@ export default function LossesTable({ searchQuery, setFilteredData, data, loadin
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
-          severity= {alertType ? "error" : "success"}
+          severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}

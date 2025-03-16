@@ -33,8 +33,8 @@ export default function CreditPurchases({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Credit Purchases</h2>
-          <DashboardCalendar
+        <h2 className="pagesTitle">Achats à crédit</h2>
+        <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
@@ -44,11 +44,11 @@ export default function CreditPurchases({ onToggle, isCollapsed }) {
 
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total purchases"
+          orderCardTitle="Total des achats"
           orderCardDetails={PurchasesData.length}
         />
         <OrderCard
-          orderCardTitle="Total amount"
+          orderCardTitle="Montant total"
           orderCardDetails={
             PurchasesData.reduce(
               (acc, order) => acc + Number(order?.totalAmount),
@@ -60,11 +60,11 @@ export default function CreditPurchases({ onToggle, isCollapsed }) {
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Purchase..."
+            placeholder="Rechercher par achat..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Purchases" />
+          <ButtonExportExel data={filteredData} filename="Achats à crédit" />
         </div>
         <div className="pageTableContainer">
           <CreditPurchasesTable

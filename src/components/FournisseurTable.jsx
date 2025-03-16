@@ -25,6 +25,9 @@ function Row(props) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
       <TableCell className="tableCell">
+        <span className="trTableSpan">{row.fournisseurId}</span>
+      </TableCell>
+      <TableCell className="tableCell">
         <span className="trTableSpan">
           <span className="mr-1 trTableSpan">{row.fournisseurFirstName}</span>
           <span className="trTableSpan">{row.fournisseurLastName}</span>
@@ -109,10 +112,13 @@ export default function FournisseurTable({
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Name</span>
+              <span className="thTableSpan">ID du fournisseur</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Phone Number</span>
+              <span className="thTableSpan">Nom</span>
+            </TableCell>
+            <TableCell className="tableCell">
+              <span className="thTableSpan">Numéro de téléphone</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Wilaya</span>
@@ -140,7 +146,7 @@ export default function FournisseurTable({
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No Fournisseur found</span>
+                <span className="thTableSpan">Aucun fournisseur trouvé</span>
               </TableCell>
             </TableRow>
           )}

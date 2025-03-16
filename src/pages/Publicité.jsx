@@ -155,7 +155,7 @@ export default function Publicité({ onToggle, isCollapsed }) {
       <div className="pagesContainer">
         <Header />
         <div className="customerClass">
-          <h2 className="customerClassTitle">no data is available</h2>
+          <h2 className="customerClassTitle">Aucune donnée disponible</h2>
         </div>
       </div>
     );
@@ -176,7 +176,7 @@ export default function Publicité({ onToggle, isCollapsed }) {
         <div className="titlePageButton">
           <h2 className="pagesTitle">Publicité</h2>
           <ButtonAdd
-            buttonSpan="Add a Publicité"
+            buttonSpan="Ajouter une publicité"
             onClick={handleOpenModalAddPub}
           />
         </div>
@@ -190,8 +190,8 @@ export default function Publicité({ onToggle, isCollapsed }) {
       <Modal
         isOpen={openModelAddPub}
         onRequestClose={handleCloseModalAddPub}
-        contentLabel="Add new Publicité"
-        className="addNewModal "
+        contentLabel="Ajouter une nouvelle publicité"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -199,8 +199,8 @@ export default function Publicité({ onToggle, isCollapsed }) {
           },
         }}
       >
-        <div className="customerClass">
-          <h2 className="customerClassTitle">Add New Publicité</h2>
+        <div className="customerClass pb-0">
+          <h2 className="customerClassTitle">Ajouter une nouvelle publicité</h2>
 
           {/* Image Upload Section */}
           <div className="mt-[20px]">
@@ -216,8 +216,10 @@ export default function Publicité({ onToggle, isCollapsed }) {
                 />
               ) : (
                 <p className="uploadSpan">
-                  <span className="text-blue-600">Click to upload </span>
-                  or drag and drop SVG, PNG, JPG
+                  <span className="text-blue-600">
+                    Cliquez pour télécharger{" "}
+                  </span>
+                  ou faites glisser et déposez SVG, PNG, JPG
                 </p>
               )}
               <input
@@ -234,8 +236,8 @@ export default function Publicité({ onToggle, isCollapsed }) {
             <span>Distination :</span>
             <div className="selectStoreWilayaCommune w-[300px]">
               <select name="productCategory" onChange={handleDistinationChange}>
-                <option value="">-- Select Distination --</option>
-                <option value="private">private</option>
+                <option value="">-- Sélectionner la destination --</option>
+                <option value="private">Privé</option>
                 <option value="public">Public</option>
               </select>
             </div>
@@ -247,13 +249,13 @@ export default function Publicité({ onToggle, isCollapsed }) {
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalAddPub}
             >
-              Cancel
+              Annuler
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
               onClick={handleSavePublicity}
             >
-              Save
+              Enregistrer{" "}
             </button>
           </div>
         </div>

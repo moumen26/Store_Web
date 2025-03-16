@@ -74,27 +74,29 @@ function Row(props) {
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ margin: 1 }} className="pt-2">
               <span className="dashboardLatestOrdersDetails">
-                Purchase Details
+                Détails de l'achat
               </span>
-              <Table size="small" aria-label="purchases" className="table">
+              <Table size="small" aria-label="purchases" className="table mt-2">
                 <TableHead>
                   <TableRow>
                     <TableCell className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Product Name
+                        Nom du produit
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Amount (DA)</span>
+                      <span className="thTableSpan thDetails">
+                        Montant (DA)
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantity</span>
+                      <span className="thTableSpan thDetails">Quantité</span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Total price (DA)
+                        Prix total (DA)
                       </span>
                     </TableCell>
                   </TableRow>
@@ -263,10 +265,10 @@ export default function PurchaseArchiveTable({
               <span className="thTableSpan">Fournisseur</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase Date</span>
+              <span className="thTableSpan">Date d'achat</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Amount</span>
+              <span className="thTableSpan">Montant</span>
             </TableCell>
             <TableCell align="right" className="tableCell">
               <span className="thTableSpan">Action</span>
@@ -288,7 +290,7 @@ export default function PurchaseArchiveTable({
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">No archive purchases found</span>
+                <span className="thTableSpan">Aucun achat trouvé</span>
               </TableCell>
             </TableRow>
           )}

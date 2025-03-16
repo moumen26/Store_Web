@@ -61,7 +61,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function VendorsTable({ searchQuery, setFilteredData, data, dataLoading }) {
+export default function VendorsTable({
+  searchQuery,
+  setFilteredData,
+  data,
+  dataLoading,
+}) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
     if (data?.length > 0) {
@@ -74,11 +79,11 @@ export default function VendorsTable({ searchQuery, setFilteredData, data, dataL
         customerCommune: data.user.commune,
       }));
       setRows(rowsData);
-    }else{
+    } else {
       setRows([]);
     }
   }, [data]);
-  
+
   const filteredRows = rows.filter(
     (row) =>
       row.customerLastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,13 +108,13 @@ export default function VendorsTable({ searchQuery, setFilteredData, data, dataL
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Customer_ID</span>
+              <span className="thTableSpan">ID du client</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Name</span>
+              <span className="thTableSpan">Nom</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Phone Number</span>
+              <span className="thTableSpan">Numéro de téléphone</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Wilaya</span>
@@ -127,7 +132,7 @@ export default function VendorsTable({ searchQuery, setFilteredData, data, dataL
             filteredRows.map((row) => <Row key={row.customerId} row={row} />)
           ) : dataLoading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={6} align="center">
                 {/* <span className="thTableSpan">loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
@@ -135,7 +140,7 @@ export default function VendorsTable({ searchQuery, setFilteredData, data, dataL
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No Vendor found</span>
+              <span className="thTableSpan">Aucun vendeur trouvé</span>
               </TableCell>
             </TableRow>
           )}

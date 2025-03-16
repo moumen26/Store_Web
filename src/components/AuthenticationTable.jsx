@@ -246,10 +246,10 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
           <TableHead className="tableHead">
             <TableRow>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Full Name</span>
+                <span className="thTableSpan">Nom complet</span>
               </TableCell>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Phone Number</span>
+                <span className="thTableSpan">Numéro de téléphone</span>
               </TableCell>
               <TableCell className="tableCell">
                 <span className="thTableSpan">Wilaya</span>
@@ -258,7 +258,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
                 <span className="thTableSpan">Commune</span>
               </TableCell>
               <TableCell className="tableCell">
-                <span className="thTableSpan">Status</span>
+                <span className="thTableSpan">Statut</span>
               </TableCell>
               <TableCell align="right" className="tableCell">
                 <span className="thTableSpan">Action</span>
@@ -278,15 +278,15 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
                 ))
             ) : notApprovedUsersLoading ? (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={6} align="center">
                   {/* <span className="thTableSpan">loading...</span> */}
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center">
-                  <span className="thTableSpan">No users found</span>
+                <TableCell colSpan={6} align="center">
+                  <span className="thTableSpan">Aucun utilisateur trouvé</span>
                 </TableCell>
               </TableRow>
             )}

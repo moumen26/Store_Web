@@ -32,7 +32,7 @@ export default function PuchasesArchive({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Puchases Archive</h2>
+          <h2 className="pagesTitle">Archive des achats</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -43,10 +43,10 @@ export default function PuchasesArchive({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Purchase..."
+            placeholder="Rechercher par achat..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Orders Archive" />
+          <ButtonExportExel data={filteredData} filename="Archive des achats" />
         </div>
         <div className="pageTableContainer">
           <PurchaseArchiveTable

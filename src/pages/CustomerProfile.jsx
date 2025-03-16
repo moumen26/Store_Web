@@ -496,7 +496,7 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
                 },
               }}
             >
-              <div className="customerClass p-0">
+              <div className="customerClass pb-0">
                 <h2 className="customerClassTitle">Add New Address</h2>
                 <div className="flex justify-end items-center space-x-4">
                   <span>Name :</span>

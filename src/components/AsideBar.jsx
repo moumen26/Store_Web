@@ -64,7 +64,9 @@ export default function Asidebar() {
           <NavLink to="/Dashboard" className="flex items-center">
             <div
               className={`flex items-center itemAsideBar ${
-                location.pathname === "/Dashboard" ? "asideItemActive" : ""
+                location.pathname === "/" || location.pathname === "/Dashboard"
+                  ? "asideItemActive"
+                  : ""
               }`}
             >
               <Squares2X2Icon className="iconAsideBar" />

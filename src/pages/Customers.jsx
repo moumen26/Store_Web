@@ -279,10 +279,10 @@ export default function Customers({ onToggle, isCollapsed }) {
           <Header />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Customers</h2>
+          <h2 className="pagesTitle">Clients</h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Add New Customer"
+              buttonSpan="Ajouter un nouveau client"
               onClick={handleAddCustomerClick}
             />
           </div>
@@ -292,10 +292,10 @@ export default function Customers({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Customer..."
+            placeholder="Rechercher par client..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Customers" />
+          <ButtonExportExel data={filteredData} filename="Clients" />
         </div>
         <div className="pageTableContainer">
           <CustomerTable
@@ -309,7 +309,7 @@ export default function Customers({ onToggle, isCollapsed }) {
       <Modal
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
-        contentLabel="Add New Customer"
+        contentLabel="Ajouter un nouveau client"
         className="addNewModal addNewCustomerModal"
         style={{
           overlay: {
@@ -320,10 +320,10 @@ export default function Customers({ onToggle, isCollapsed }) {
       >
         {!submitionLoading ? (
           <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Add New Customer</h2>
+            <h2 className="dialogTitle">Ajouter un nouveau client</h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem">
-                <span>First Name</span>
+                <span>Prénom</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -334,7 +334,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Last Name</span>
+                <span>Nom</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -345,7 +345,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Address</span>
+                <span>Adresse</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -356,7 +356,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Number Phone</span>
+                <span>Numéro de téléphone</span>
                 <div className="inputForm">
                   <input
                     type="phone"
@@ -378,7 +378,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Numero de registre de commerce</span>
+                <span>Numéro de registre de commerce</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -389,7 +389,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Password</span>
+                <span>Mot de passe</span>
                 <div className="inputForm">
                   <input
                     type="password"
@@ -400,7 +400,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Confirm password</span>
+                <span>Confirmer le mot de passe</span>
                 <div className="inputForm">
                   <input
                     type="password"
@@ -419,7 +419,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                       value={selectedWilaya}
                       onChange={handleWilayaChange}
                     >
-                      <option value="">Select Wilaya</option>
+                      <option value="">Sélectionner Wilaya</option>
                       {wilayas.map((wilaya) => (
                         <option key={wilaya.value} value={wilaya.value}>
                           {wilaya.label}
@@ -436,7 +436,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                       value={selectedCommune}
                       onChange={handleCommuneChange}
                     >
-                      <option value="">Select Commune</option>
+                      <option value="">Sélectionner Commune</option>
                       {communes.map((commune) => (
                         <option key={commune.value} value={commune.value}>
                           {commune.label}
@@ -452,7 +452,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
               >
-                Cancel
+                Annuler
               </button>
               <button
                 className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
@@ -461,7 +461,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 onClick={handleSaveCustomer}
                 disabled={!isFormValid}
               >
-                Save
+                Enregistrer
               </button>
             </div>
           </div>

@@ -214,7 +214,7 @@ export default function Losses({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Losses</h2>
+          <h2 className="pagesTitle">Pertes</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -224,14 +224,14 @@ export default function Losses({ onToggle, isCollapsed }) {
       </div>
       <div className="flex items-center space-x-6">
         <OrderCard
-          orderCardTitle="Total Losses"
+          orderCardTitle="Total des pertes"
           orderCardDetails={
             Lossesstatistics?.count ? Lossesstatistics?.count : 0
           }
           loading={LossesstatisticsLoading}
         />
         <OrderCard
-          orderCardTitle="Total price"
+          orderCardTitle="Montant total"
           orderCardDetails={`${
             Lossesstatistics?.total ? Lossesstatistics?.total : (0).toFixed(2)
           } DA`}
@@ -241,20 +241,20 @@ export default function Losses({ onToggle, isCollapsed }) {
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Loss..."
+            placeholder="Rechercher par perte..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
           <div className="flex space-x-2">
-            <ButtonExportExel data={filteredData} filename="Losses" />
+            <ButtonExportExel data={filteredData} filename="Pertes" />
             <ButtonAdd
-              buttonSpan="Add a Loss"
+              buttonSpan="Ajouter une perte"
               onClick={handleOpenModalAddLoss}
             />
             <Modal
               isOpen={openModelAddLoss}
               onRequestClose={handleCloseModalAddLoss}
-              contentLabel="Add new Losse"
+              contentLabel="Ajouter une nouvelle perte"
               className="addNewModal"
               style={{
                 overlay: {
@@ -263,11 +263,13 @@ export default function Losses({ onToggle, isCollapsed }) {
                 },
               }}
             >
-              <div className="customerClass p-0">
-                <h2 className="customerClassTitle">Add New Loss</h2>
+              <div className="customerClass pb-0">
+                <h2 className="customerClassTitle">
+                  Ajouter une nouvelle perte
+                </h2>
                 <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
                   <div className="dialogAddCustomerItem">
-                    <span>Amount :</span>
+                    <span>Montant :</span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -296,13 +298,13 @@ export default function Losses({ onToggle, isCollapsed }) {
                         className="text-gray-500 cursor-pointer hover:text-gray-700"
                         onClick={handleCloseModalAddLoss}
                       >
-                        Cancel
+                        Annuler
                       </button>
                       <button
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         onClick={handleSubmitCreateLoss}
                       >
-                        Save
+                        Enregistrer
                       </button>
                     </>
                   ) : (

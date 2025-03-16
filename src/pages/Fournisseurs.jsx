@@ -247,7 +247,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
           <h2 className="pagesTitle">Fournisseurs</h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Add New Fournisseur"
+              buttonSpan="Ajouter un nouveau fournisseur"
               onClick={handleAddFournisseurClick}
             />
           </div>
@@ -257,7 +257,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Fournisseur..."
+            placeholder="Rechercher par fournisseur..."
             onChange={handleSearchChange}
           />
           <ButtonExportExel data={filteredData} filename="Fournisseurs" />
@@ -274,7 +274,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
       <Modal
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
-        contentLabel="Add New Fournisseur"
+        contentLabel="Ajouter un nouveau fournisseur"
         className="addNewModal addNewCustomerModal"
         style={{
           overlay: {
@@ -285,10 +285,10 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
       >
         {!submitionLoading || CitiesLoading || FournisseurLoading ? (
           <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Add New Fournisseur</h2>
+            <h2 className="dialogTitle">Ajouter un nouveau fournisseur</h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem">
-                <span>First Name</span>
+                <span>Prénom</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -299,7 +299,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Last Name</span>
+                <span>Nom</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -310,7 +310,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Number Phone</span>
+                <span>Numéro de téléphone</span>
                 <div className="inputForm">
                   <input
                     type="phone"
@@ -321,7 +321,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Address</span>
+                <span>Adresse</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -340,7 +340,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                       value={selectedWilaya}
                       onChange={handleWilayaInputChange}
                     >
-                      <option value="">Select Wilaya</option>
+                      <option value="">Sélectionner Wilaya</option>
                       {wilayas.map((wilaya) => (
                         <option key={wilaya.value} value={wilaya.value}>
                           {wilaya.label}
@@ -357,7 +357,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                       value={selectedCommune}
                       onChange={handleCommuneInputChange}
                     >
-                      <option value="">Select Commune</option>
+                      <option value="">Sélectionner Commune</option>
                       {communes.map((commune) => (
                         <option key={commune.value} value={commune.value}>
                           {commune.label}
@@ -373,7 +373,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
               >
-                Cancel
+                Annuler
               </button>
               <button
                 className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
@@ -382,7 +382,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 onClick={handleSaveFournisseur}
                 disabled={!isFormValid}
               >
-                Save
+                Enregistrer
               </button>
             </div>
           </div>

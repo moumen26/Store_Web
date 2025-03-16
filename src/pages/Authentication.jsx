@@ -27,7 +27,7 @@ export default function Authentication({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton h-[48px]">
-          <h2 className="pagesTitle">User Authentication</h2>
+          <h2 className="pagesTitle">Authentification des utilisateurs</h2>
           {/* <ButtonAdd buttonSpan="New Customer" /> */}
         </div>
       </div>
@@ -35,12 +35,12 @@ export default function Authentication({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by User..."
+            placeholder="Rechercher par utilisateur..."
             onChange={handleSearchChange}
           />
           <ButtonExportExel
             data={filteredData}
-            filename="User Authentication"
+            filename="Authentification des utilisateurs"
           />
         </div>
         <div className="pageTableContainer">

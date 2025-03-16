@@ -87,7 +87,16 @@ function App() {
         {user ? <AsidebarScreenMedia /> : <SignIn />}
         <Routes>
           {/* private routes */}
-          <Route index element={user ? <Dashboard /> : <SignIn />} />
+          <Route
+            index
+            element={
+              user ? (
+                <Dashboard onToggle={handleToggle} isCollapsed={isCollapsed} />
+              ) : (
+                <SignIn />
+              )
+            }
+          />
           <Route
             path="/Dashboard"
             element={

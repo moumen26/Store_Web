@@ -109,13 +109,13 @@ export default function CustomerTable({
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Customer_ID</span>
+              <span className="thTableSpan">ID du vendeur</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Name</span>
+              <span className="thTableSpan">Nom</span>
             </TableCell>
             <TableCell className="tableCell">
-              <span className="thTableSpan">Phone Number</span>
+              <span className="thTableSpan">Numéro de téléphone</span>
             </TableCell>
             <TableCell className="tableCell">
               <span className="thTableSpan">Wilaya</span>
@@ -135,7 +135,7 @@ export default function CustomerTable({
               .map((row) => <Row key={row.customerId} row={row} />)
           ) : dataLoading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={6} align="center">
                 {/* <span className="thTableSpan">loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
@@ -143,7 +143,7 @@ export default function CustomerTable({
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">No customers found</span>
+                <span className="thTableSpan">Aucun client trouvé</span>
               </TableCell>
             </TableRow>
           )}

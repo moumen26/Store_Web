@@ -32,7 +32,7 @@ export default function ReturnsPurchases({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Returns Purchases</h2>
+          <h2 className="pagesTitle">Achats de retour</h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
@@ -44,10 +44,10 @@ export default function ReturnsPurchases({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Search by Purchase..."
+            placeholder="Rechercher par achat..."
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Returns Purchases" />
+          <ButtonExportExel data={filteredData} filename="Achats de retour" />
         </div>
         <div className="pageTableContainer">
           <PurchasesReturnsTable

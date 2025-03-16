@@ -11,6 +11,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function Dashboard({ onToggle, isCollapsed }) {
   const { user } = useAuthContext();
@@ -277,7 +278,7 @@ export default function Dashboard({ onToggle, isCollapsed }) {
       <div className="flex items-center space-x-6">
         <DashboardCard
           dashboardCardTitle="Montant total"
-          dashboardCardAmount={OrdersStats?.totalAmount}
+          dashboardCardAmount={formatNumber(OrdersStats?.totalAmount)}
           OrdersStatsLoading={OrdersStatsLoading}
         />
         <DashboardCard
@@ -287,7 +288,7 @@ export default function Dashboard({ onToggle, isCollapsed }) {
         />
         <DashboardCard
           dashboardCardTitle="Profit"
-          dashboardCardAmount={OrdersStats?.totalProfit}
+          dashboardCardAmount={formatNumber(OrdersStats?.totalProfit)}
           OrdersStatsLoading={OrdersStatsLoading}
         />
       </div>

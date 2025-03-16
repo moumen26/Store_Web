@@ -149,7 +149,7 @@ export default function DashboardChart() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <div className="cercleChartItemRevenue"></div>
-              <span className="spanChartItemRevenue">Montant total</span>
+              <span className="spanChartItemRevenue">Montant total (DA)</span>
             </div>
           </div>
           <div className="selectOptionChartClass">

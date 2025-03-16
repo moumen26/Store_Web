@@ -6,6 +6,7 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import OrderCard from "../components/OrderCard";
 import CreditOrdersTable from "../components/CreditOrderSTable";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function CreditOrders({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,23 +50,27 @@ export default function CreditOrders({ onToggle, isCollapsed }) {
         <OrderCard
           orderCardTitle="Montant total"
           orderCardDetails={
-            latestOrderData.reduce(
-              (acc, order) => acc + Number(order?.orderAmount),
-              0
+            formatNumber(
+              latestOrderData.reduce(
+                (acc, order) => acc + Number(order?.orderAmount),
+                0
+              )
             ) + " DA"
           }
         />
         <OrderCard
           orderCardTitle="Total des paiements"
           orderCardDetails={
-            latestOrderData.reduce(
-              (acc, order) =>
-                acc +
-                order.orderPayments.reduce(
-                  (acc, payment) => acc + Number(payment?.amount),
-                  0
-                ),
-              0
+            formatNumber(
+              latestOrderData.reduce(
+                (acc, order) =>
+                  acc +
+                  order.orderPayments.reduce(
+                    (acc, payment) => acc + Number(payment?.amount),
+                    0
+                  ),
+                0
+              )
             ) + " DA"
           }
         />

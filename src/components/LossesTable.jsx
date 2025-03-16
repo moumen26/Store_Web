@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
-import { formatDate } from "../util/useFullFunctions";
+import { formatDate, formatNumber } from "../util/useFullFunctions";
 import Modal from "react-modal";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import ConfirmDialog from "./ConfirmDialog";
@@ -32,7 +32,7 @@ function Row(props) {
           <span className="trTableSpan">{row.reason}</span>
         </TableCell>
         <TableCell className="tableCell">
-          <span className="trTableSpan">{row.price} DA</span>
+          <span className="trTableSpan">{formatNumber(row.price)} DA</span>
         </TableCell>
         <TableCell className="tableCell">
           <span className="trTableSpan">{formatDate(row.date)}</span>

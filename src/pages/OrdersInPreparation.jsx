@@ -6,6 +6,7 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import OrdersInPreparationTable from "../components/OrdersInPreparationTable";
 import OrderCard from "../components/OrderCard";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function OrdersInPreparation({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -67,9 +68,11 @@ export default function OrdersInPreparation({ onToggle, isCollapsed }) {
         <OrderCard
           orderCardTitle="Montant Total"
           orderCardDetails={
-            latestOrderData.reduce(
-              (acc, order) => acc + Number(order?.orderAmount),
-              0
+            formatNumber(
+              latestOrderData.reduce(
+                (acc, order) => acc + Number(order?.orderAmount),
+                0
+              )
             ) + " DA"
           }
         />

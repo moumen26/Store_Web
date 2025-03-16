@@ -7,6 +7,7 @@ import OrderCard from "../components/OrderCard";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
 import PurchasesTable from "../components/PurchasesTable";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function Purchases({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,9 +52,11 @@ export default function Purchases({ onToggle, isCollapsed }) {
         <OrderCard
           orderCardTitle="Montant total"
           orderCardDetails={
-            PurchasesData.reduce(
-              (acc, order) => acc + Number(order?.totalAmount),
-              0
+            formatNumber(
+              PurchasesData.reduce(
+                (acc, order) => acc + Number(order?.totalAmount),
+                0
+              )
             ) + " DA"
           }
         />

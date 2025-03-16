@@ -6,6 +6,7 @@ import DashboardCalendar from "../components/DashboardCalendar";
 import OrderCard from "../components/OrderCard";
 import CreditPurchasesTable from "../components/CreditPurchasesTable";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { formatNumber } from "../util/useFullFunctions";
 
 export default function CreditPurchases({ onToggle, isCollapsed }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,8 +34,8 @@ export default function CreditPurchases({ onToggle, isCollapsed }) {
           <Header />
         </div>{" "}
         <div className="titlePageButton">
-        <h2 className="pagesTitle">Achats à crédit</h2>
-        <DashboardCalendar
+          <h2 className="pagesTitle">Achats à crédit</h2>
+          <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
@@ -50,9 +51,11 @@ export default function CreditPurchases({ onToggle, isCollapsed }) {
         <OrderCard
           orderCardTitle="Montant total"
           orderCardDetails={
-            PurchasesData.reduce(
-              (acc, order) => acc + Number(order?.totalAmount),
-              0
+            formatNumber(
+              PurchasesData.reduce(
+                (acc, order) => acc + Number(order?.totalAmount),
+                0
+              )
             ) + " DA"
           }
         />

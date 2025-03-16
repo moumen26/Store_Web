@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import axios from "axios";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { formatNumber } from "../util/useFullFunctions";
 
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
@@ -232,9 +233,9 @@ export default function Losses({ onToggle, isCollapsed }) {
         />
         <OrderCard
           orderCardTitle="Montant total"
-          orderCardDetails={`${
-            Lossesstatistics?.total ? Lossesstatistics?.total : (0).toFixed(2)
-          } DA`}
+          orderCardDetails={`${formatNumber(
+            Lossesstatistics?.total ? Lossesstatistics?.total : 0
+          )} DA`}
           loading={LossesstatisticsLoading}
         />
       </div>

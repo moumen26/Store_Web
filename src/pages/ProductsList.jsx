@@ -371,7 +371,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                           name="productCategory"
                           onChange={handleSelectedCategoryChange}
                         >
-                          <option value="" disabled>
+                          <option value="" disabled selected>
                             {language === "ar"
                               ? "-- اختر فئة --"
                               : "-- Sélectionner une catégorie --"}
@@ -596,7 +596,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   </div>
                   <div
                     className={`flex items-center space-x-0 ${
-                      language === "ar" ? "gap-x-8 pr-0" : ""
+                      language === "ar" ? "gap-x-4" : ""
                     }`}
                   >
                     <FormControlLabel
@@ -617,8 +617,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div
-                className={`flex justify-end space-x-8 ${
-                  language === "ar" ? "gap-x-8" : ""
+                className={`flex justify-end ${
+                  language === "ar" ? "gap-x-8" : "space-x-8"
                 }`}
               >
                 <button

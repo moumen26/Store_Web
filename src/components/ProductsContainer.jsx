@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import ElioImage from "../assets/images/Elio.png";
-import PrilImage from "../assets/images/Pril.png";
 import Modal from "react-modal";
 import ProductProfileDetails from "./ProductProfileDetails";
 import ProductHistorique from "./ProductHistorique";
@@ -14,6 +12,7 @@ export default function ProductsContainer({
   searchQuery,
   data,
   selectedCategory,
+  language,
 }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +26,7 @@ export default function ProductsContainer({
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
+
   return (
     <div className="productsContainer">
       {data?.length > 0 ? (
@@ -63,14 +63,18 @@ export default function ProductsContainer({
             />
           ))
       ) : (
-        <span className="thTableSpan">Aucun produit disponible</span>
+        <span className="thTableSpan">
+          {language === "ar"
+            ? "لا توجد منتجات متاحة"
+            : "Aucun produit disponible"}
+        </span>
       )}
 
       {selectedProduct && (
         <Modal
           isOpen={isModalOpen}
           onRequestClose={handleCloseModal}
-          contentLabel="Product Details"
+          contentLabel={language === "ar" ? "تفاصيل المنتج" : "Product Details"}
           className="productModal"
           style={{
             overlay: {
@@ -79,8 +83,13 @@ export default function ProductsContainer({
             },
           }}
         >
-          <div className="customerClass paddingClass">
-            <h2 className="customerClassTitle">Détails du Produit</h2>
+          <div
+            className="customerClass paddingClass"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          >
+            <h2 className="customerClassTitle">
+              {language === "ar" ? "تفاصيل المنتج" : "Détails du Produit"}
+            </h2>
             <div className="w-full flex justify-center h-[300px]">
               <img
                 className="text-center"
@@ -96,35 +105,61 @@ export default function ProductsContainer({
                 style={{ width: "auto", height: "100%" }}
               />
             </div>
-            <div className="flex-col space-y-3">
-              <div className="flex space-x-3">
-                <span className="thTableSpan">Code du Produit</span>
+            <div className="flex-col space-y-3 mt-4">
+              <div
+                className={`flex space-x-3 ${
+                  language === "ar" ? "gap-x-3" : ""
+                }`}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "رمز المنتج" : "Code du Produit"}
+                </span>
                 <span className="trTableSpan">{selectedProduct.code}</span>
               </div>
-              <div className="flex space-x-3">
-                <span className="thTableSpan">Nom</span>
+              <div
+                className={`flex space-x-3 ${
+                  language === "ar" ? "gap-x-3" : ""
+                }`}
+              >
+                {" "}
+                <span className="thTableSpan">
+                  {language === "ar" ? "اسم" : "Nom"}
+                </span>
                 <span className="trTableSpan">
                   {selectedProduct.name} {selectedProduct.size}
                 </span>
               </div>
-              <div className="flex space-x-3">
-                <span className="thTableSpan">Marque</span>
+              <div
+                className={`flex space-x-3 ${
+                  language === "ar" ? "gap-x-3" : ""
+                }`}
+              >
+                {" "}
+                <span className="thTableSpan">
+                  {language === "ar" ? "ماركة" : "Marque"}
+                </span>
                 <span className="trTableSpan">
                   {selectedProduct.brand.name}
                 </span>
               </div>
-              <div className="flex space-x-3">
-                <span className="thTableSpan">Articles par Boîte</span>
+              <div
+                className={`flex space-x-3 ${
+                  language === "ar" ? "gap-x-3" : ""
+                }`}
+              >
+                {" "}
+                <span className="thTableSpan">
+                  {language === "ar" ? "عناصر لكل صندوق" : "Articles par Boîte"}
+                </span>
                 <span className="trTableSpan">{selectedProduct.boxItems}</span>
               </div>
             </div>
             <div className="flex justify-end">
               <button
                 onClick={handleCloseModal}
-                style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
               >
-                Fermer
+                {language === "ar" ? "إغلاق" : "Fermer"}
               </button>
             </div>
           </div>

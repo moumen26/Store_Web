@@ -214,8 +214,8 @@ function App() {
               user ? (
                 <Purchases
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -228,8 +228,8 @@ function App() {
               user ? (
                 <ReturnsOrders
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -242,8 +242,8 @@ function App() {
               user ? (
                 <ReturnsPurchases
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -256,8 +256,8 @@ function App() {
               user ? (
                 <Publicité
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -270,8 +270,8 @@ function App() {
               user ? (
                 <CreditPurchases
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -284,8 +284,8 @@ function App() {
               user ? (
                 <Losses
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -298,8 +298,8 @@ function App() {
               user ? (
                 <Fournisseurs
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -312,8 +312,8 @@ function App() {
               user ? (
                 <FournisseurProfile
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -326,8 +326,8 @@ function App() {
               user ? (
                 <Vendors
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -340,8 +340,8 @@ function App() {
               user ? (
                 <AddOrder
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -354,8 +354,8 @@ function App() {
               user ? (
                 <AddAchat
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -382,8 +382,8 @@ function App() {
               user ? (
                 <PuchasesArchive
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -396,8 +396,8 @@ function App() {
               user ? (
                 <ProductsGrid
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -410,8 +410,8 @@ function App() {
               user ? (
                 <PurchaseProfile
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -424,8 +424,8 @@ function App() {
               user ? (
                 <ProductDetails
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -438,8 +438,8 @@ function App() {
               user ? (
                 <Orders
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -452,8 +452,8 @@ function App() {
               user ? (
                 <OrdersInPreparation
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -466,8 +466,8 @@ function App() {
               user ? (
                 <OrdersArchive
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -480,8 +480,8 @@ function App() {
               user ? (
                 <CreditOrders
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -494,8 +494,8 @@ function App() {
               user ? (
                 <Settings
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -508,8 +508,8 @@ function App() {
               user ? (
                 <Authentication
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -522,8 +522,8 @@ function App() {
               user ? (
                 <Authentication
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -536,8 +536,8 @@ function App() {
               user ? (
                 <CustomerProfile
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -550,8 +550,8 @@ function App() {
               user ? (
                 <NonApprovedCustomer
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -564,8 +564,8 @@ function App() {
               user ? (
                 <OrderProfile
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />
@@ -578,8 +578,8 @@ function App() {
               user ? (
                 <LetsUpYourAccount
                   onToggle={handleToggle}
-                  isCollapsed={isCollapsed}
                   language={language}
+                  toggleLanguage={toggleLanguage}
                 />
               ) : (
                 <SignIn />

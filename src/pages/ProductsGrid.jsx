@@ -18,7 +18,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 // Set the app element for accessibility
 Modal.setAppElement("#root");
 
-export default function ProductsGrid({ onToggle, isCollapsed }) {
+export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const location = useLocation();
   const decodedToken = TokenDecoder();
@@ -242,7 +242,10 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -251,13 +254,19 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
+          <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Produits</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "المنتجات" : "Produits"}
+          </h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Ajouter un Nouveau Produit"
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة منتج جديد"
+                  : "Ajouter un Nouveau Produit"
+              }
               onClick={handleOpenAddProductModal}
             />
           </div>
@@ -266,16 +275,23 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par Produit..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق المنتج..."
+                : "Rechercher par Produit..."
+            }
             value={searchQuery}
             onChange={handleSearchChange}
+            language={language}
           />
           <div className="span-input">
-            <span>Catégorie</span>
+            <span>{language === "ar" ? "الفئة :" : "Catégorie"}</span>
             <div className="selectStoreWilayaCommune">
               <select name="productCategory" onChange={handelCategoryChange}>
                 <option value="" disabled selected>
-                  -- Sélectionnez la Catégorie de Produit --
+                  {language === "ar"
+                    ? "-- اختر فئة المنتج --"
+                    : "-- Sélectionnez la Catégorie de Produit --"}
                 </option>
                 {CategoryData?.map((category) => (
                   <option key={category._id} value={category._id}>
@@ -290,6 +306,7 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
           <ProductsContainer
             searchQuery={searchQuery}
             data={ProductData}
+            language={language}
             selectedCategory={Category}
           />
         </div>
@@ -298,7 +315,7 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
       <Modal
         isOpen={isAddProductModalOpen}
         onRequestClose={handleCloseAddProductModal}
-        contentLabel="Add New Product"
+        contentLabel={language === "ar" ? "إضافة منتج جديد" : "Add New Product"}
         className="addNewModal"
         style={{
           overlay: {
@@ -308,13 +325,22 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
         }}
       >
         {!submitionLoading || BrandLoading || CategoryLoading ? (
-          <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Ajouter un Nouveau Produit au Stock</h2>
+          <div
+            className="customerClass pb-0"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          >
+            <h2 className="dialogTitle">
+              {language === "ar"
+                ? "إضافة منتج جديد إلى المخزون"
+                : "Ajouter un Nouveau Produit au Stock"}
+            </h2>
             <div className="mt-[16px]">
               <form>
                 <div className="flex-col space-y-8 mb-5">
                   <div className="dialogAddCustomerItem">
-                    <span>Nom du Produit :</span>
+                    <span>
+                      {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
+                    </span>
                     <div className="inputForm">
                       <input
                         type="text"
@@ -324,7 +350,11 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Taille du Produit :</span>
+                    <span>
+                      {language === "ar"
+                        ? "حجم المنتج :"
+                        : "Taille du Produit :"}
+                    </span>
                     <div className="inputForm">
                       <input
                         type="text"
@@ -334,7 +364,11 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Articles par Boîte :</span>
+                    <span>
+                      {language === "ar"
+                        ? "العناصر لكل صندوق :"
+                        : "Articles par Boîte :"}
+                    </span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -344,14 +378,20 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Catégorie de Produit :</span>
+                    <span>
+                      {language === "ar"
+                        ? "فئة المنتج :"
+                        : "Catégorie de Produit :"}
+                    </span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
                         name="productCategory"
                         onChange={handleProductCategoryChange}
                       >
                         <option value="" disabled selected>
-                          -- Sélectionnez la Catégorie de Produit --
+                          {language === "ar"
+                            ? "-- اختر فئة المنتج --"
+                            : "-- Sélectionnez la Catégorie de Produit --"}
                         </option>
                         {CategoryData?.map((category) => (
                           <option key={category._id} value={category._id}>
@@ -362,14 +402,20 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Marque du Produit :</span>
+                    <span>
+                      {language === "ar"
+                        ? "ماركة المنتج :"
+                        : "Marque du Produit :"}
+                    </span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
                         name="productCategory"
                         onChange={handleProductBrandChange}
                       >
                         <option value="" disabled selected>
-                          -- Sélectionnez la Marque du Produit --
+                          {language === "ar"
+                            ? "-- اختر ماركة المنتج --"
+                            : "-- Sélectionnez la Marque du Produit --"}
                         </option>
                         {BrandData?.map((category) => (
                           <option key={category._id} value={category._id}>
@@ -380,7 +426,11 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Image du Produit :</span>
+                    <span>
+                      {language === "ar"
+                        ? "صورة المنتج :"
+                        : "Image du Produit :"}
+                    </span>
                     <div className="productPicture">
                       <div
                         className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
@@ -388,7 +438,7 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                       >
                         {image ? (
                           <img
-                            src={image}
+                            src={URL.createObjectURL(image)}
                             alt="Preview"
                             className="w-full h-full object-cover rounded-full"
                           />
@@ -406,24 +456,32 @@ export default function ProductsGrid({ onToggle, isCollapsed }) {
                         />
                         <p onClick={handleClick} className="uploadSpan">
                           <span className="text-blue-600">
-                            Cliquez pour télécharger{" "}
+                            {language === "ar"
+                              ? "انقر لتحميل"
+                              : "Cliquez pour télécharger"}{" "}
                           </span>
-                          ou glissez-déposez un fichier SVG, PNG, JPG
+                          {language === "ar"
+                            ? "أو اسحب وأفلت ملف SVG أو PNG أو JPG"
+                            : "ou glissez-déposez un fichier SVG, PNG, JPG"}
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-end space-x-8">
+                <div
+                  className={`flex justify-end space-x-8 ${
+                    language === "ar" ? "space-x-reverse" : ""
+                  }`}
+                >
                   <button
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseAddProductModal}
                   >
-                    Annuler
+                    {language === "ar" ? "إلغاء" : "Annuler"}
                   </button>
                   <input
                     type="button"
-                    value={"Enregistrer"}
+                    value={language === "ar" ? "حفظ" : "Enregistrer"}
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
                     onClick={handleSavePRODUCT}
                   />

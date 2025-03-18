@@ -316,18 +316,20 @@ export default function Header({ language, toggleLanguage }) {
           } transition-transform duration-200 ease-out`}
         >
           {/* User Info */}
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-200"
+          >
             <p className="text-gray-800 font-semibold">
               {user?.infos?.firstName} {user?.infos?.lastName}
             </p>
-            <span className="text-gray-500 text-sm">{user?.infos?.email}</span>
           </div>
 
           {/* Menu Items */}
           <div className="p-2">
             <NavLink
               to="/Settings"
-              className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer"
+              className={`flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer ${
+                language === "ar" ? "gap-x-2" : ""
+              }`}
             >
               <Cog6ToothIcon className="w-5 h-5 text-gray-600" />
               <p className="text-gray-700 text-sm">
@@ -337,7 +339,9 @@ export default function Header({ language, toggleLanguage }) {
             <NavLink
               to="/"
               onClick={submitLogout}
-              className="flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer"
+              className={`flex items-center space-x-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer ${
+                language === "ar" ? "gap-x-2" : ""
+              }`}
             >
               <ArrowLeftStartOnRectangleIcon className="w-5 h-5 text-red-600" />
               <p className="text-red-600 text-sm">

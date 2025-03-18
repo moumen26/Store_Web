@@ -22,7 +22,7 @@ import AddOrderRetunsTableDetails from "../components/AddOrderRetunsTableDetails
 import RetireButton from "../components/RetireButton";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function OrderProfile({ onToggle, isCollapsed }) {
+export default function OrderProfile({ onToggle, language, toggleLanguage }) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -544,7 +544,7 @@ export default function OrderProfile({ onToggle, isCollapsed }) {
         >
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
+        <Header toggleLanguage={toggleLanguage} language={language} />
       </div>
       <div id="exportable-content" className="space-y-[32px]">
         <div className="titlePageButton">
@@ -629,6 +629,7 @@ export default function OrderProfile({ onToggle, isCollapsed }) {
               orderDetails={OrderData}
               user={user}
               refetchOrderData={refetchOrderData}
+              language={language}
             />
           </div>
         </div>

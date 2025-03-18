@@ -1788,3 +1788,23 @@ main.main-collapsed .pagesContainer {
   left: 0 !important;
   width: 100% !important;
 }
+/* 
+.custom-steps .ant-steps-item-icon {
+  background-color: #e7f2f7 !important;
+  border-color: #e7f2f7 !important;
+}
+
+.custom-steps .ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #62b5ce !important;
+  border-color: #62b5ce !important;
+}
+
+.custom-steps .ant-steps-item-process .ant-steps-item-icon {
+  background-color: #62b5ce !important;
+  border-color: #62b5ce !important;
+}
+
+.custom-steps .ant-steps-item-wait .ant-steps-item-icon {
+  background-color: #c9e4ee !important;
+  border-color: #c9e4ee !important;
+} */

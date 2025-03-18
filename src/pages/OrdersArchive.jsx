@@ -7,7 +7,7 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersArchiveTable from "../components/OrdersArchiveTable";
 import DashboardCalendar from "../components/DashboardCalendar";
 
-export default function OrdersArchive({ onToggle, isCollapsed }) {
+export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({
@@ -20,7 +20,10 @@ export default function OrdersArchive({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -29,27 +32,37 @@ export default function OrdersArchive({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Archive des commandes</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "أرشيف الطلبات" : "Archive des commandes"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
-
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par commande..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الطلب..."
+                : "Rechercher par commande..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
           <ButtonExportExel
             data={filteredData}
-            filename="Archive des Commandes"
+            filename={
+              language === "ar" ? "أرشيف الطلبات" : "Archive des Commandes"
+            }
+            language={language}
           />
         </div>
         <div className="pageTableContainer">
@@ -57,6 +70,7 @@ export default function OrdersArchive({ onToggle, isCollapsed }) {
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             dateRange={dateRange}
+            language={language}
           />
         </div>
       </div>

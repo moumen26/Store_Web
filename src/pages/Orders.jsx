@@ -21,23 +21,6 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
     setSearchQuery(e.target.value);
   };
 
-  const translations = {
-    fr: {
-      title: "Dernière commandes",
-      totalOrders: "Total des commandes",
-      totalAmount: "Montant total",
-      searchPlaceholder: "Rechercher par Commande...",
-    },
-    ar: {
-      title: "أحدث الطلبات",
-      totalOrders: "إجمالي الطلبات",
-      totalAmount: "المبلغ الإجمالي",
-      searchPlaceholder: "البحث عن طريق الطلب...",
-    },
-  };
-
-  const currentTranslations = translations[language];
-
   return (
     <div
       className="pagesContainer pageContainerCards"

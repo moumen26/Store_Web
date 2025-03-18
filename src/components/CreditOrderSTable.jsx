@@ -25,7 +25,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
@@ -49,37 +49,64 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" className="tableCell">
+        <TableCell
+          component="th"
+          scope="row"
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
             {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.orderId}</span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.orderDate)}</span>
-        </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
-            {formatNumber(Number(row.orderAmount))} DA
+            {formatDate(row.orderDate, language)}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span className="trTableSpan">
+            {formatNumber(Number(row.orderAmount))}{" "}
+            {language === "ar" ? "دج" : "DA"}
+          </span>
+        </TableCell>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
             {formatNumber(
               row.orderPayments.reduce((sum, pay) => sum + pay.amount, 0)
             )}{" "}
-            DA
+            {language === "ar" ? "دج" : "DA"}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.orderStatus, row.orderType)}
+            {orderStatusTextDisplayer(row.orderStatus, row.orderType, language)}
           </span>
         </TableCell>
-        <TableCell align="right" className="tableCell">
-          <div className="flex justify-end pr-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleViewClick}
@@ -95,32 +122,39 @@ function Row(props) {
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} className="pt-2">
-              <span className="dashboardLatestOrdersDetails">
-                Détails de la Commande
-              </span>
-              <Table
-                size="small"
-                aria-label="purchases"
-                className="table mt-2"
-              >
+              <div className="w-[100%] flex">
+                <span className="dashboardLatestOrdersDetails">
+                  {language === "ar"
+                    ? "تفاصيل الطلب"
+                    : "Détails de la Commande"}
+                </span>
+              </div>
+              <Table size="small" aria-label="purchases" className="table mt-2">
                 <TableHead>
                   <TableRow>
-                    <TableCell className="tableCell">
+                    <TableCell
+                      className="tableCell"
+                      align={language === "ar" ? "right" : "left"}
+                    >
                       <span className="thTableSpan thDetails">
-                        Nom du Produit
+                        {language === "ar" ? "اسم المنتج" : "Nom du Produit"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Montant (DA)
+                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantité</span>
+                      <span className="thTableSpan thDetails">
+                        {language === "ar" ? "الكمية" : "Quantité"}
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Prix Total (DA)
+                        {language === "ar"
+                          ? "السعر الإجمالي (دج)"
+                          : "Prix Total (DA)"}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -135,6 +169,7 @@ function Row(props) {
                         component="th"
                         scope="row"
                         className="tableCell"
+                        align={language === "ar" ? "right" : "left"}
                       >
                         <span className="trTableSpan trDetails">
                           {orderDetailsRow.productName}{" "}
@@ -194,6 +229,7 @@ Row.propTypes = {
     orderStatus: PropTypes.string.isRequired,
     orderType: PropTypes.string.isRequired,
   }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default function CreditOrdersTable({
@@ -201,6 +237,7 @@ export default function CreditOrdersTable({
   setFilteredData,
   setCreditedOrderData,
   dateRange,
+  language,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -330,26 +367,55 @@ export default function CreditOrdersTable({
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell" />
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Client</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "العميل" : "Client"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">ID de la Commande</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Date de Commande</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "تاريخ الطلب" : "Date de Commande"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Montant</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "المبلغ" : "Montant"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Paiement</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الدفع" : "Paiement"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Statut</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "الحالة" : "Statut"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Action</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "الإجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -363,16 +429,28 @@ export default function CreditOrdersTable({
           ) : filteredRows.length <= 0 ? (
             <TableRow>
               <TableCell colSpan={8} align="center">
-                <span className="thTableSpan">Aucune commande trouvée</span>
+                <span className="thTableSpan">
+                  {language === "ar"
+                    ? "لم يتم العثور على طلبات"
+                    : "Aucune commande trouvée"}
+                </span>
               </TableCell>
             </TableRow>
           ) : (
             [...filteredRows]
               .reverse()
-              .map((row) => <Row key={row._id} row={row} />)
+              .map((row) => <Row key={row._id} row={row} language={language} />)
           )}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
+
+CreditOrdersTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+  setCreditedOrderData: PropTypes.func.isRequired,
+  dateRange: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
+};

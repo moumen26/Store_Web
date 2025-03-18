@@ -18,7 +18,7 @@ import Modal from "react-modal";
 import { useLocation } from "react-router-dom";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Customers({ onToggle, isCollapsed }) {
+export default function Customers({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -267,7 +267,11 @@ export default function Customers({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
+      {" "}
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -276,26 +280,40 @@ export default function Customers({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
+          <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Clients</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "العملاء" : "Clients"}
+          </h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Ajouter un nouveau client"
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة عميل جديد"
+                  : "Ajouter un nouveau client"
+              }
               onClick={handleAddCustomerClick}
             />
           </div>
         </div>
       </div>
-
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par client..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق العميل..."
+                : "Rechercher par client..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
-          <ButtonExportExel data={filteredData} filename="Clients" />
+          <ButtonExportExel
+            data={filteredData}
+            filename={language === "ar" ? "العملاء" : "Clients"}
+            language={language}
+          />
         </div>
         <div className="pageTableContainer">
           <CustomerTable
@@ -303,13 +321,16 @@ export default function Customers({ onToggle, isCollapsed }) {
             setFilteredData={setFilteredData}
             data={CustomersData}
             dataLoading={CustomersDataLoading}
+            language={language}
           />
         </div>
       </div>
       <Modal
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
-        contentLabel="Ajouter un nouveau client"
+        contentLabel={
+          language === "ar" ? "إضافة عميل جديد" : "Ajouter un nouveau client"
+        }
         className="addNewModal addNewCustomerModal"
         style={{
           overlay: {
@@ -319,11 +340,18 @@ export default function Customers({ onToggle, isCollapsed }) {
         }}
       >
         {!submitionLoading ? (
-          <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Ajouter un nouveau client</h2>
+          <div
+            className="customerClass pb-0"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          >
+            <h2 className="dialogTitle">
+              {language === "ar"
+                ? "إضافة عميل جديد"
+                : "Ajouter un nouveau client"}
+            </h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem">
-                <span>Prénom</span>
+                <span>{language === "ar" ? "الاسم الأول" : "Prénom"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -334,7 +362,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Nom</span>
+                <span>{language === "ar" ? "الاسم الأخير" : "Nom"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -345,7 +373,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Adresse</span>
+                <span>{language === "ar" ? "العنوان" : "Adresse"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -356,7 +384,9 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Numéro de téléphone</span>
+                <span>
+                  {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="phone"
@@ -367,7 +397,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Email</span>
+                <span>{language === "ar" ? "البريد الإلكتروني" : "Email"}</span>
                 <div className="inputForm">
                   <input
                     type="email"
@@ -378,7 +408,11 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Numéro de registre de commerce</span>
+                <span>
+                  {language === "ar"
+                    ? "رقم السجل التجاري"
+                    : "Numéro de registre de commerce"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -389,7 +423,9 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Mot de passe</span>
+                <span>
+                  {language === "ar" ? "كلمة المرور" : "Mot de passe"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="password"
@@ -400,7 +436,11 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Confirmer le mot de passe</span>
+                <span>
+                  {language === "ar"
+                    ? "تأكيد كلمة المرور"
+                    : "Confirmer le mot de passe"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="password"
@@ -412,14 +452,18 @@ export default function Customers({ onToggle, isCollapsed }) {
               </div>
               <div className="dialogAddCustomerItem wilayaCommune">
                 <div className="WilayaCommuneClass">
-                  <span>Wilaya</span>
+                  <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurWilaya"
                       value={selectedWilaya}
                       onChange={handleWilayaChange}
                     >
-                      <option value="">Sélectionner Wilaya</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر الولاية"
+                          : "Sélectionner Wilaya"}
+                      </option>
                       {wilayas.map((wilaya) => (
                         <option key={wilaya.value} value={wilaya.value}>
                           {wilaya.label}
@@ -429,14 +473,18 @@ export default function Customers({ onToggle, isCollapsed }) {
                   </div>
                 </div>
                 <div className="WilayaCommuneClass">
-                  <span>Commune</span>
+                  <span>{language === "ar" ? "البلدية" : "Commune"}</span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurCommune"
                       value={selectedCommune}
                       onChange={handleCommuneChange}
                     >
-                      <option value="">Sélectionner Commune</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر البلدية"
+                          : "Sélectionner Commune"}
+                      </option>
                       {communes.map((commune) => (
                         <option key={commune.value} value={commune.value}>
                           {commune.label}
@@ -447,12 +495,16 @@ export default function Customers({ onToggle, isCollapsed }) {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end space-x-8 mt-[20px]">
+            <div
+              className={`flex justify-end ${
+                language === "ar" ? "gap-x-8" : "space-x-8"
+              }`}
+            >
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
               >
-                Annuler
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
               <button
                 className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
@@ -461,7 +513,7 @@ export default function Customers({ onToggle, isCollapsed }) {
                 onClick={handleSaveCustomer}
                 disabled={!isFormValid}
               >
-                Enregistrer
+                {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>
             </div>
           </div>
@@ -471,7 +523,6 @@ export default function Customers({ onToggle, isCollapsed }) {
           </div>
         )}
       </Modal>
-
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}

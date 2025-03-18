@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import { EqualsIcon } from "@heroicons/react/16/solid";
-
 import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersReturnsTable from "../components/OrdersReturnsTable";
 import DashboardCalendar from "../components/DashboardCalendar";
 
-export default function ReturnsOrders({ onToggle, isCollapsed }) {
+export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({
@@ -20,7 +19,11 @@ export default function ReturnsOrders({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
+      {" "}
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -29,26 +32,37 @@ export default function ReturnsOrders({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Commandes de retour</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "طلبات الإرجاع" : "Commandes de retour"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par commande..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الطلب..."
+                : "Rechercher par commande..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
           <ButtonExportExel
             data={filteredData}
-            filename="Commandes de Retour"
+            filename={
+              language === "ar" ? "طلبات الإرجاع" : "Commandes de Retour"
+            }
+            language={language}
           />
         </div>
         <div className="pageTableContainer">
@@ -56,6 +70,7 @@ export default function ReturnsOrders({ onToggle, isCollapsed }) {
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             dateRange={dateRange}
+            language={language}
           />
         </div>
       </div>

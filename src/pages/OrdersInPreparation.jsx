@@ -8,7 +8,11 @@ import OrderCard from "../components/OrderCard";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
 
-export default function OrdersInPreparation({ onToggle, isCollapsed }) {
+export default function OrdersInPreparation({
+  onToggle,
+  toggleLanguage,
+  language,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setNonDelivredOrderData] = useState([]);
@@ -22,7 +26,10 @@ export default function OrdersInPreparation({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer pageContainerCards">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -31,60 +38,92 @@ export default function OrdersInPreparation({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Commandes en cours</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "الطلبات قيد التحضير" : "Commandes en cours"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
-      <div className="flex items-center space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <OrderCard
-          orderCardTitle="Total des Commandes"
+          orderCardTitle={
+            language === "ar" ? "إجمالي الطلبات" : "Total des Commandes"
+          }
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
-          orderCardTitle="Commandes en préparation"
+          orderCardTitle={
+            language === "ar"
+              ? "الطلبات قيد التحضير"
+              : "Commandes en préparation"
+          }
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 1).length
           }
         />
         <OrderCard
-          orderCardTitle="Commandes prêtes et en cours de livraison"
+          orderCardTitle={
+            language === "ar"
+              ? "الطلبات الجاهزة وقيد التسليم"
+              : "Commandes prêtes et en cours de livraison"
+          }
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 2).length
           }
         />
         <OrderCard
-          orderCardTitle="Commandes récupérées et livrées"
+          orderCardTitle={
+            language === "ar"
+              ? "الطلبات المستلمة والمسلّمة"
+              : "Commandes récupérées et livrées"
+          }
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 3).length
           }
         />
         <OrderCard
-          orderCardTitle="Montant Total"
+          orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant Total"}
           orderCardDetails={
             formatNumber(
               latestOrderData.reduce(
                 (acc, order) => acc + Number(order?.orderAmount),
                 0
               )
-            ) + " DA"
+            ) + (language === "fr" ? " DA" : " دج")
           }
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par Commande..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الطلب..."
+                : "Rechercher par commande..."
+            }
+            language={language}
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Commande" />
+          <ButtonExportExel
+            language={language}
+            data={filteredData}
+            filename={
+              language === "ar" ? "الطلبات قيد التحضير" : "Commandes en cours"
+            }
+          />
         </div>
         <div className="pageTableContainer">
           <OrdersInPreparationTable
@@ -92,6 +131,7 @@ export default function OrdersInPreparation({ onToggle, isCollapsed }) {
             setFilteredData={setFilteredData}
             setNonDelivredOrderData={setNonDelivredOrderData}
             dateRange={dateRange}
+            language={language}
           />
         </div>
       </div>

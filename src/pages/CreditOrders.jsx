@@ -8,7 +8,7 @@ import CreditOrdersTable from "../components/CreditOrderSTable";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
 
-export default function CreditOrders({ onToggle, isCollapsed }) {
+export default function CreditOrders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setCreditedOrderData] = useState([]);
@@ -22,7 +22,10 @@ export default function CreditOrders({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer pageContainerCards">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -31,35 +34,46 @@ export default function CreditOrders({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Commandes à crédit</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "الطلبات على الحساب" : "Commandes à crédit"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
-      <div className="flex items-center space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <OrderCard
-          orderCardTitle="Total des commandes"
+          orderCardTitle={
+            language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
+          }
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
-          orderCardTitle="Montant total"
+          orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant total"}
           orderCardDetails={
             formatNumber(
               latestOrderData.reduce(
                 (acc, order) => acc + Number(order?.orderAmount),
                 0
               )
-            ) + " DA"
+            ) + (language === "ar" ? " دج" : " DA")
           }
         />
         <OrderCard
-          orderCardTitle="Total des paiements"
+          orderCardTitle={
+            language === "ar" ? "إجمالي المدفوعات" : "Total des paiements"
+          }
           orderCardDetails={
             formatNumber(
               latestOrderData.reduce(
@@ -71,18 +85,29 @@ export default function CreditOrders({ onToggle, isCollapsed }) {
                   ),
                 0
               )
-            ) + " DA"
+            ) + (language === "ar" ? " دج" : " DA")
           }
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par Commande..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الطلب..."
+                : "Rechercher par Commande..."
+            }
             value={searchQuery}
             onChange={handleSearchChange}
+            language={language}
           />
-          <ButtonExportExel data={filteredData} filename="Commandes" />
+          <ButtonExportExel
+            data={filteredData}
+            filename={
+              language === "ar" ? "الطلبات على الحساب" : "Commandes à crédit"
+            }
+            language={language}
+          />
         </div>
         <div className="pageTableContainer">
           <CreditOrdersTable
@@ -90,6 +115,7 @@ export default function CreditOrders({ onToggle, isCollapsed }) {
             setFilteredData={setFilteredData}
             setCreditedOrderData={setCreditedOrderData}
             dateRange={dateRange}
+            language={language}
           />
         </div>
       </div>

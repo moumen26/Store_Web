@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
   const navigate = useNavigate();
 
   const handleViewClick = () => {
@@ -21,26 +21,48 @@ function Row(props) {
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.customerId}</span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">
           <span className="mr-1 trTableSpan">{row.customerFirstName}</span>
           <span className="trTableSpan">{row.customerLastName}</span>
         </span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.customerPhone}</span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.customerWilaya}</span>
       </TableCell>
-      <TableCell align="right" className="tableCell">
+      <TableCell
+        align={language === "ar" ? "right" : "left"}
+        className="tableCell"
+      >
         <span className="trTableSpan">{row.customerCommune}</span>
       </TableCell>
-      <TableCell align="right" className="tableCell">
-        <div className="flex justify-end pr-3">
+      <TableCell
+        align={language === "ar" ? "right" : "right"}
+        className="tableCell w-[100px]"
+      >
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "justify-start" : "justify-end"
+          }`}
+        >
           <EyeIcon
             className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleViewClick}
@@ -60,6 +82,7 @@ Row.propTypes = {
     customerFirstName: PropTypes.string.isRequired,
     customerCommune: PropTypes.string.isRequired,
   }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default function CustomerTable({
@@ -67,6 +90,7 @@ export default function CustomerTable({
   setFilteredData,
   data,
   dataLoading,
+  language,
 }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
@@ -108,23 +132,53 @@ export default function CustomerTable({
       <Table aria-label="collapsible table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">ID du vendeur</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "معرف العميل" : "ID du client"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Nom</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الاسم" : "Nom"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Numéro de téléphone</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Wilaya</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الولاية" : "Wilaya"}
+              </span>
             </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Commune</span>
+            <TableCell
+              align={language === "ar" ? "right" : "left"}
+              className="tableCell"
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "البلدية" : "Commune"}
+              </span>
             </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Action</span>
+            <TableCell
+              align={language === "ar" ? "right" : "right"}
+              className="tableCell"
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الإجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -132,18 +186,23 @@ export default function CustomerTable({
           {filteredRows.length > 0 ? (
             [...filteredRows]
               .reverse()
-              .map((row) => <Row key={row.customerId} row={row} />)
+              .map((row) => (
+                <Row key={row.customerId} row={row} language={language} />
+              ))
           ) : dataLoading ? (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                {/* <span className="thTableSpan">loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">Aucun client trouvé</span>
+                <span className="thTableSpan">
+                  {language === "ar"
+                    ? "لم يتم العثور على عملاء"
+                    : "Aucun client trouvé"}
+                </span>
               </TableCell>
             </TableRow>
           )}
@@ -152,3 +211,11 @@ export default function CustomerTable({
     </TableContainer>
   );
 }
+
+CustomerTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+  dataLoading: PropTypes.bool.isRequired,
+  language: PropTypes.string.isRequired,
+};

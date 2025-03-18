@@ -1,39 +1,77 @@
-import moment from "moment";
+const arabicMonthNames = [
+  "جانفي",
+  "فيفري",
+  "مارس",
+  "أفريل",
+  "ماي",
+  "جوان",
+  "جويلية",
+  "أوت",
+  "سبتمبر",
+  "أكتوبر",
+  "نوفمبر",
+  "ديسمبر",
+];
 
-const formatDate = (dateString) => {
-  const isoDateString = new Date(dateString).toISOString();
+const formatDate = (dateString, language = "fr") => {
+  const dateObj = new Date(dateString);
+  const options = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
 
-  moment.locale("fr");
+  let formattedDate = dateObj.toLocaleDateString(
+    language === "ar" ? "ar-FR" : "fr-FR",
+    options
+  );
 
-  return moment.utc(isoDateString).format("D MMMM YYYY [à] HH:mm:ss");
-};
-const orderStatusTextDisplayer = (status, type) => {
-  switch (status.toString()) {
-    case "-2":
-      return "Order was cancelled by store";
-    case "-1":
-      return "Order was cancelled by client";
-    case "0":
-      return "Order Placed";
-    case "1":
-      return "Preparing your order";
-    case "2":
-      return type?.toString() == "pickup"
-        ? "Ready for Pickup"
-        : "Order on the way to address";
-    case "3":
-      return type?.toString() == "pickup" ? "Picked up" : "Delivered";
-    case "4":
-      return "Order returned";
-    case "10":
-      return "Fully paid";
-    default:
-      return "Order Placed";
+  if (language === "ar") {
+    const monthIndex = dateObj.getMonth();
+    const arabicMonthName = arabicMonthNames[monthIndex];
+    formattedDate = formattedDate.replace(
+      dateObj.toLocaleString("ar-FR", { month: "long" }),
+      arabicMonthName
+    );
   }
+
+  return formattedDate;
+};
+
+const orderStatusTextDisplayer = (status, type, language = "fr") => {
+  const translations = {
+    fr: {
+      "-2": "Commande annulée par le magasin",
+      "-1": "Commande annulée par le client",
+      "0": "Commande passée",
+      "1": "Préparation de votre commande",
+      "2": type?.toString() === "pickup" ? "Prêt pour le retrait" : "Commande en route vers l'adresse",
+      "3": type?.toString() === "pickup" ? "Retirée" : "Livrée",
+      "4": "Commande retournée",
+      "10": "Entièrement payée",
+      default: "Commande passée",
+    },
+    ar: {
+      "-2": "تم إلغاء الطلب من قبل المتجر",
+      "-1": "تم إلغاء الطلب من قبل العميل",
+      "0": "تم تقديم الطلب",
+      "1": "جارٍ تحضير طلبك",
+      "2": type?.toString() === "pickup" ? "جاهز للاستلام" : "الطلب في الطريق إلى العنوان",
+      "3": type?.toString() === "pickup" ? "تم الاستلام" : "تم التوصيل",
+      "4": "تم إرجاع الطلب",
+      "10": "مدفوع بالكامل",
+      default: "تم تقديم الطلب",
+    },
+  };
+
+  return translations[language][status.toString()] || translations[language].default;
 };
 
 const formatNumber = (num) => {
-  if (num == null) return "0.00"; // Handle undefined/null values
+  if (num == null) return "0.00";
   return num.toLocaleString("de-DE", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

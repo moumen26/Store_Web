@@ -804,8 +804,8 @@ export default function ProductTable({
               <div className="w-[50%] flex items-center">
                 <span>
                   {language === "ar"
-                    ? "الكمية لكل صندوق:"
-                    : "Quantity per box:"}
+                    ? "الكمية بالصندوق :"
+                    : "Quantity per box :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
@@ -820,8 +820,8 @@ export default function ProductTable({
               <div className="w-[50%] flex items-center">
                 <span>
                   {language === "ar"
-                    ? "الكمية لكل وحدة:"
-                    : "Quantity per unity:"}
+                    ? "الكمية بالوحدة :"
+                    : "Quantity per unity :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input

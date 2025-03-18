@@ -350,7 +350,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   : "Ajouter un nouveau stock"}
               </h2>
               <div className="addNewStockClass">
-                <div className="w-full h-fit w-[69%] pr-2">
+                <div className="w-full h-fit w-[65%] pr-2">
                   <div className="addProductModalHeader">
                     <Search
                       placeholder={
@@ -434,9 +434,9 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   </div>
                 </div>
                 <div
-                  className={`h-fit w-[31%] productDetailsStock ${
+                  className={`h-fit w-[35%] productDetailsStock ${
                     language === "ar"
-                      ? "border-l-0 border-r-[1px] pr-[32px]  "
+                      ? "border-l-0 border-r-[1px] pr-[32px] pl-0"
                       : ""
                   }`}
                 >
@@ -555,44 +555,51 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem items-center">
+                  <div className="items-center">
                     <span>
                       {language === "ar"
                         ? "طريقة الشراء :"
                         : "Méthode d'achat :"}
                     </span>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={productState.buyingByUnit}
-                          onChange={handleCheckboxChange}
-                          name="buyingByUnit"
-                        />
-                      }
-                      label={
-                        <span>
-                          {language === "ar"
-                            ? "شراء بالوحدة"
-                            : "Achat par unité"}
-                        </span>
-                      }
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={productState.buyingByBox}
-                          onChange={handleCheckboxChange}
-                          name="buyingByBox"
-                        />
-                      }
-                      label={
-                        <span>
-                          {language === "ar"
-                            ? "شراء بالكرتون"
-                            : "Achat par carton"}
-                        </span>
-                      }
-                    />
+
+                    <div
+                      className={`flex items-center space-x-2 mt-3 ${
+                        language === "ar" ? "gap-x-8" : ""
+                      }`}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={productState.buyingByUnit}
+                            onChange={handleCheckboxChange}
+                            name="buyingByUnit"
+                          />
+                        }
+                        label={
+                          <span>
+                            {language === "ar"
+                              ? "شراء بالوحدة"
+                              : "Achat par unité"}
+                          </span>
+                        }
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={productState.buyingByBox}
+                            onChange={handleCheckboxChange}
+                            name="buyingByBox"
+                          />
+                        }
+                        label={
+                          <span>
+                            {language === "ar"
+                              ? "شراء بالكرتون"
+                              : "Achat par carton"}
+                          </span>
+                        }
+                      />
+                    </div>
                   </div>
                   <div
                     className={`flex items-center space-x-0 ${

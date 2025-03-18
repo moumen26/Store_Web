@@ -326,9 +326,6 @@
   display: flex;
 }
 
-
-
-
 .flexHeader {
   display: flex;
   align-items: center;
@@ -337,14 +334,20 @@
 
 .settingsContainer {
   width: 100%;
+  position: absolute;
   left: 0;
   height: 100vh;
+  display: flex;
+  background-color: var(--lightColor);
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
 }
 
 .settingsContainer .pageTable {
   padding: 0;
-  height: calc(100vh - 48px);
   gap: 0;
+  height: 100%;
 }
 
 .settingsRightHeader {
@@ -1734,14 +1737,13 @@
   }
 }
 
-
-main{
+main {
   display: flex;
   flex-direction: row-reverse;
   position: relative;
 }
 
-.flex-ar{
+.flex-ar {
   display: flex;
   flex-direction: row;
 }

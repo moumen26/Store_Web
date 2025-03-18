@@ -8,7 +8,7 @@ import OrderCard from "../components/OrderCard";
 import { formatNumber } from "../util/useFullFunctions";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Orders({ onToggle, isCollapsed }) {
+export default function Orders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [latestOrderData, setLatestOrderData] = useState([]);
@@ -21,8 +21,28 @@ export default function Orders({ onToggle, isCollapsed }) {
     setSearchQuery(e.target.value);
   };
 
+  const translations = {
+    fr: {
+      title: "Dernière commandes",
+      totalOrders: "Total des commandes",
+      totalAmount: "Montant total",
+      searchPlaceholder: "Rechercher par Commande...",
+    },
+    ar: {
+      title: "أحدث الطلبات",
+      totalOrders: "إجمالي الطلبات",
+      totalAmount: "المبلغ الإجمالي",
+      searchPlaceholder: "البحث عن طريق الطلب...",
+    },
+  };
+
+  const currentTranslations = translations[language];
+
   return (
-    <div className="pagesContainer pageContainerCards">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -31,45 +51,66 @@ export default function Orders({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Dernière commandes</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "أحدث الطلبات" : "Dernière commandes"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
-      <div className="CardClass flex items-center space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <OrderCard
-          orderCardTitle="Total des commandes"
+          orderCardTitle={
+            language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
+          }
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
-          orderCardTitle="Montant total"
+          orderCardTitle={
+            language === "ar" ? "المبلغ الإجمالي" : "Montant total"
+          }
           orderCardDetails={
             formatNumber(
               latestOrderData.reduce(
                 (acc, order) => acc + Number(order?.orderAmount),
                 0
               )
-            ) + " DA"
+            ) + (language === "fr" ? " DA" : " دج")
           }
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par Commande..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الطلب..."
+                : "Rechercher par commande..."
+            }
             value={searchQuery}
+            language={language}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel data={filteredData} filename="Commandes" />
+          <ButtonExportExel
+            data={filteredData}
+            language={language}
+            filename={language === "ar" ? "الطلبات" : "Commandes"}
+          />
         </div>
         <div className="pageTableContainer">
           <OrdersTable
+            language={language}
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             setLatestOrderData={setLatestOrderData}

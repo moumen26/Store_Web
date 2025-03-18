@@ -205,14 +205,13 @@ export default function Header({ language, toggleLanguage }) {
 
       {/* Notifications Dropdown */}
       <div
-        className={`absolute right-[435px] top-10 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
-          language === "ar" ? "right-[190px]" : ""
-        }
-  ${
-    showNotifications
-      ? "scale-100 opacity-100"
-      : "scale-95 opacity-0 pointer-events-none"
-  } transition-transform duration-200 ease-out`}
+        className={`absolute ${
+          language === "ar" ? "right-0" : "left-0"
+        } top-12 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
+          showNotifications
+            ? "scale-100 opacity-100"
+            : "scale-95 opacity-0 pointer-events-none"
+        } transition-transform duration-200 ease-out`}
       >
         <div className="flex justify-between items-center p-4">
           <h3 className="text-lg font-semibold text-gray-700">

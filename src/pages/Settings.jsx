@@ -590,7 +590,7 @@ export default function Settings() {
     }
   };
   return (
-    <div className="pagesContainer settingsContainer">
+    <div className="settingsContainer">
       <div className="pageTable h-[100vh] flex-row">
         <div className="settingsLeft flex-col space-y-[32px]">
           <Link

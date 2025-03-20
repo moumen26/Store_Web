@@ -139,7 +139,10 @@ function Row(props) {
                         {language === "ar" ? "الكمية" : "Quantité"}
                       </span>
                     </TableCell>
-                    <TableCell align="right" className="tableCell">
+                    <TableCell
+                      align={language === "ar" ? "left" : "right"}
+                      className="tableCell"
+                    >
                       <span className="thTableSpan thDetails">
                         {language === "ar"
                           ? "السعر الإجمالي (دج)"
@@ -175,7 +178,10 @@ function Row(props) {
                           {orderDetailsRow.productQuantity}
                         </span>
                       </TableCell>
-                      <TableCell align="right" className="tableCell">
+                      <TableCell
+                        align={language === "ar" ? "left" : "right"}
+                        className="tableCell"
+                      >
                         <span className="trTableSpan trDetails">
                           {formatNumber(
                             Number(orderDetailsRow.productPrice) *

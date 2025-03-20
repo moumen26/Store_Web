@@ -14,36 +14,57 @@ import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
   const navigate = useNavigate();
 
   const handleViewClick = () => {
     navigate(`/FournisseurProfile/${row.fournisseurId}`);
-    // navigate("/CustomerProfile", { state: { customer: row } });
   };
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.fournisseurId}</span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">
           <span className="mr-1 trTableSpan">{row.fournisseurFirstName}</span>
           <span className="trTableSpan">{row.fournisseurLastName}</span>
         </span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.fournisseurPhone}</span>
       </TableCell>
-      <TableCell className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.fournisseurWilaya}</span>
       </TableCell>
-      <TableCell align="right" className="tableCell">
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
         <span className="trTableSpan">{row.fournisseurCommune}</span>
       </TableCell>
-      <TableCell align="right" className="tableCell">
-        <div className="flex justify-end pr-3">
+      <TableCell
+        align={language === "ar" ? "right" : "right"}
+        className="tableCell w-[100px]"
+      >
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "justify-start" : "justify-end"
+          }`}
+        >
           <EyeIcon
             className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleViewClick}
@@ -63,6 +84,7 @@ Row.propTypes = {
     fournisseurFirstName: PropTypes.string.isRequired,
     fournisseurCommune: PropTypes.string.isRequired,
   }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default function FournisseurTable({
@@ -70,6 +92,7 @@ export default function FournisseurTable({
   setFilteredData,
   data,
   loading,
+  language,
 }) {
   const [rows, setRows] = useState([]);
   useEffect(() => {
@@ -111,23 +134,53 @@ export default function FournisseurTable({
       <Table aria-label="collapsible table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">ID du fournisseur</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "معرف المورد" : "ID du fournisseur"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Nom</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الاسم" : "Nom"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Numéro de téléphone</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Wilaya</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الولاية" : "Wilaya"}
+              </span>
             </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Commune</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "البلدية" : "Commune"}
+              </span>
             </TableCell>
-            <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Action</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "right"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الإجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -135,18 +188,23 @@ export default function FournisseurTable({
           {filteredRows.length > 0 ? (
             [...filteredRows]
               .reverse()
-              .map((row) => <Row key={row.fournisseurId} row={row} />)
+              .map((row) => (
+                <Row key={row.fournisseurId} row={row} language={language} />
+              ))
           ) : loading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
-                {/* <span className="thTableSpan">loading...</span> */}
+              <TableCell colSpan={6} align="center">
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">Aucun fournisseur trouvé</span>
+                <span className="thTableSpan">
+                  {language === "ar"
+                    ? "لم يتم العثور على موردين"
+                    : "Aucun fournisseur trouvé"}
+                </span>
               </TableCell>
             </TableRow>
           )}
@@ -155,3 +213,11 @@ export default function FournisseurTable({
     </TableContainer>
   );
 }
+
+FournisseurTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  language: PropTypes.string.isRequired,
+};

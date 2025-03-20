@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Fournisseurs({ onToggle, isCollapsed }) {
+export default function Fournisseurs({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -232,7 +232,10 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -241,13 +244,19 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
+          <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Fournisseurs</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "الموردين" : "Fournisseurs"}
+          </h2>
           <div className="buttonTop">
             <ButtonAdd
-              buttonSpan="Ajouter un nouveau fournisseur"
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة مورد جديد"
+                  : "Ajouter un nouveau fournisseur"
+              }
               onClick={handleAddFournisseurClick}
             />
           </div>
@@ -257,10 +266,19 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par fournisseur..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق المورد..."
+                : "Rechercher par fournisseur..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
-          <ButtonExportExel data={filteredData} filename="Fournisseurs" />
+          <ButtonExportExel
+            data={filteredData}
+            filename={language === "ar" ? "الموردين" : "Fournisseurs"}
+            language={language}
+          />
         </div>
         <div className="pageTableContainer">
           <FournisseurTable
@@ -268,13 +286,18 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
             setFilteredData={setFilteredData}
             data={FournisseurData}
             loading={FournisseurLoading}
+            language={language}
           />
         </div>
       </div>
       <Modal
         isOpen={openDialog}
         onRequestClose={handleCloseDialog}
-        contentLabel="Ajouter un nouveau fournisseur"
+        contentLabel={
+          language === "ar"
+            ? "إضافة مورد جديد"
+            : "Ajouter un nouveau fournisseur"
+        }
         className="addNewModal addNewCustomerModal"
         style={{
           overlay: {
@@ -284,11 +307,18 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
         }}
       >
         {!submitionLoading || CitiesLoading || FournisseurLoading ? (
-          <div className="customerClass pb-0">
-            <h2 className="dialogTitle">Ajouter un nouveau fournisseur</h2>
+          <div
+            className="customerClass pb-0"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          >
+            <h2 className="dialogTitle">
+              {language === "ar"
+                ? "إضافة مورد جديد"
+                : "Ajouter un nouveau fournisseur"}
+            </h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem">
-                <span>Prénom</span>
+                <span>{language === "ar" ? "الاسم الأول" : "Prénom"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -299,7 +329,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Nom</span>
+                <span>{language === "ar" ? "الاسم الأخير" : "Nom"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -310,7 +340,9 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Numéro de téléphone</span>
+                <span>
+                  {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="phone"
@@ -321,7 +353,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>Adresse</span>
+                <span>{language === "ar" ? "العنوان" : "Adresse"}</span>
                 <div className="inputForm">
                   <input
                     type="text"
@@ -333,14 +365,18 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
               </div>
               <div className="dialogAddCustomerItem wilayaCommune">
                 <div className="WilayaCommuneClass">
-                  <span>Wilaya</span>
+                  <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurWilaya"
                       value={selectedWilaya}
                       onChange={handleWilayaInputChange}
                     >
-                      <option value="">Sélectionner Wilaya</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر ولاية"
+                          : "Sélectionner Wilaya"}
+                      </option>
                       {wilayas.map((wilaya) => (
                         <option key={wilaya.value} value={wilaya.value}>
                           {wilaya.label}
@@ -350,14 +386,18 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                   </div>
                 </div>
                 <div className="WilayaCommuneClass">
-                  <span>Commune</span>
+                  <span>{language === "ar" ? "البلدية" : "Commune"}</span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurCommune"
                       value={selectedCommune}
                       onChange={handleCommuneInputChange}
                     >
-                      <option value="">Sélectionner Commune</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر بلدية"
+                          : "Sélectionner Commune"}
+                      </option>
                       {communes.map((commune) => (
                         <option key={commune.value} value={commune.value}>
                           {commune.label}
@@ -368,12 +408,16 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end space-x-8 mt-[20px]">
+            <div
+              className={`flex justify-end ${
+                language === "ar" ? "gap-x-8" : "space-x-8"
+              }`}
+            >
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
               >
-                Annuler
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
               <button
                 className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
@@ -382,7 +426,7 @@ export default function Fournisseurs({ onToggle, isCollapsed }) {
                 onClick={handleSaveFournisseur}
                 disabled={!isFormValid}
               >
-                Enregistrer
+                {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>
             </div>
           </div>

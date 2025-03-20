@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDate, formatNumber } from "../util/useFullFunctions";
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
@@ -36,7 +36,10 @@ function Row(props) {
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <IconButton
             aria-label="expand row"
             size="small"
@@ -45,21 +48,39 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" className="tableCell">
+        <TableCell
+          component="th"
+          scope="row"
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
             {row.fournisseur.firstName} {row.fournisseur.lastName}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.date)}</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span className="trTableSpan">{formatDate(row.date, language)}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
-            {formatNumber(row.totalAmount)} DA
+            {formatNumber(row.totalAmount)} {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
-        <TableCell align="right" className="tableCell">
-          <div className="flex justify-end pr-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleViewClick}
@@ -75,28 +96,40 @@ function Row(props) {
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} className="pt-2">
-              <span className="dashboardLatestOrdersDetails">
-                Détails de l'achat
-              </span>
+              <div className="w-[100%] flex">
+                <span className="dashboardLatestOrdersDetails">
+                  {language === "ar" ? "تفاصيل الشراء" : "Détails de l'achat"}
+                </span>
+              </div>
               <Table size="small" aria-label="purchases" className="table mt-2">
                 <TableHead>
                   <TableRow>
-                    <TableCell className="tableCell">
+                    <TableCell
+                      className="tableCell"
+                      align={language === "ar" ? "right" : "left"}
+                    >
                       <span className="thTableSpan thDetails">
-                        Nom du produit
+                        {language === "ar" ? "اسم المنتج" : "Nom du produit"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Montant (DA)
+                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantité</span>
-                    </TableCell>
-                    <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Prix total (DA)
+                        {language === "ar" ? "الكمية" : "Quantité"}
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      align={language === "ar" ? "left" : "right"}
+                      className="tableCell"
+                    >
+                      <span className="thTableSpan thDetails">
+                        {language === "ar"
+                          ? "السعر الإجمالي (دج)"
+                          : "Prix total (DA)"}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -108,6 +141,7 @@ function Row(props) {
                         component="th"
                         scope="row"
                         className="tableCell"
+                        align={language === "ar" ? "right" : "left"}
                       >
                         <span className="trTableSpan trDetails">
                           {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
@@ -115,7 +149,7 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {formatNumber(purchaseDetailsRow.price)}
+                          {formatNumber(purchaseDetailsRow.price)}{" "}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -123,14 +157,17 @@ function Row(props) {
                           {purchaseDetailsRow.quantity.toString()}
                         </span>
                       </TableCell>
-                      <TableCell align="right" className="tableCell">
+                      <TableCell
+                        align={language === "ar" ? "left" : "right"}
+                        className="tableCell"
+                      >
                         <span className="trTableSpan trDetails">
                           {formatNumber(
                             Math.round(
                               purchaseDetailsRow.price.toString() *
                                 purchaseDetailsRow.quantity.toString()
                             )
-                          )}
+                          )}{" "}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -145,10 +182,16 @@ function Row(props) {
   );
 }
 
+Row.propTypes = {
+  row: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
+};
+
 export default function PurchaseArchiveTable({
   searchQuery,
   setFilteredData,
   dateRange,
+  language,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -261,24 +304,41 @@ export default function PurchaseArchiveTable({
         <TableHead className="tableHead">
           <TableRow>
             <TableCell className="tableCell" />
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Fournisseur</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "المورد" : "Fournisseur"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Date d'achat</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "تاريخ الشراء" : "Date d'achat"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Montant</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "المبلغ" : "Montant"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Action</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "الإجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {ArchivePurchasesLoading ? (
             <TableRow>
-              <TableCell colSpan={7} align="center">
+              <TableCell colSpan={6} align="center">
                 {/* <span className="thTableSpan">Loading...</span> */}
                 <CircularProgress color="inherit" />
               </TableCell>
@@ -286,11 +346,15 @@ export default function PurchaseArchiveTable({
           ) : filteredRows.length > 0 ? (
             [...filteredRows]
               .reverse()
-              .map((row) => <Row key={row._id} row={row} />)
+              .map((row) => <Row key={row._id} row={row} language={language} />)
           ) : (
             <TableRow>
-              <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">Aucun achat trouvé</span>
+              <TableCell colSpan={6} align="center">
+                <span className="thTableSpan">
+                  {language === "ar"
+                    ? "لم يتم العثور على مشتريات"
+                    : "Aucun achat trouvé"}
+                </span>
               </TableCell>
             </TableRow>
           )}

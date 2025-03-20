@@ -6,7 +6,7 @@ import AuthenticationTable from "../components/AuthenticationTable";
 import ButtonExportExel from "../components/ButtonExportExel";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function Authentication({ onToggle, isCollapsed }) {
+export default function Authentication({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -15,7 +15,10 @@ export default function Authentication({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -24,10 +27,14 @@ export default function Authentication({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
+          <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton h-[48px]">
-          <h2 className="pagesTitle">Authentification des utilisateurs</h2>
+          <h2 className="pagesTitle">
+            {language === "ar"
+              ? "مصادقة المستخدمين"
+              : "Authentification des utilisateurs"}
+          </h2>
           {/* <ButtonAdd buttonSpan="New Customer" /> */}
         </div>
       </div>
@@ -35,18 +42,29 @@ export default function Authentication({ onToggle, isCollapsed }) {
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par utilisateur..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق المستخدم..."
+                : "Rechercher par utilisateur..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
           <ButtonExportExel
             data={filteredData}
-            filename="Authentification des utilisateurs"
+            filename={
+              language === "ar"
+                ? "مصادقة المستخدمين"
+                : "Authentification des utilisateurs"
+            }
+            language={language}
           />
         </div>
         <div className="pageTableContainer">
           <AuthenticationTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
+            language={language}
           />
         </div>
       </div>

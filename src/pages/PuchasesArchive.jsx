@@ -7,7 +7,11 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import PurchaseArchiveTable from "../components/PurchasesArchiveTable";
 
-export default function PuchasesArchive({ onToggle, isCollapsed }) {
+export default function PuchasesArchive({
+  onToggle,
+  toggleLanguage,
+  language,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({
@@ -20,7 +24,10 @@ export default function PuchasesArchive({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -29,30 +36,45 @@ export default function PuchasesArchive({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Archive des achats</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "أرشيف المشتريات" : "Archive des achats"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
       <div className="pageTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par achat..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الشراء..."
+                : "Rechercher par achat..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
-          <ButtonExportExel data={filteredData} filename="Archive des achats" />
+          <ButtonExportExel
+            data={filteredData}
+            filename={
+              language === "ar" ? "أرشيف المشتريات" : "Archive des achats"
+            }
+            language={language}
+          />
         </div>
         <div className="pageTableContainer">
           <PurchaseArchiveTable
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             dateRange={dateRange}
+            language={language}
           />
         </div>
       </div>

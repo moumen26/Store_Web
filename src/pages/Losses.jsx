@@ -19,7 +19,7 @@ import { formatNumber } from "../util/useFullFunctions";
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
 
-export default function Losses({ onToggle, isCollapsed }) {
+export default function Losses({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
@@ -203,7 +203,10 @@ export default function Losses({ onToggle, isCollapsed }) {
   };
 
   return (
-    <div className="pagesContainer pageContainerCards">
+    <div
+      className="pagesContainer pageContainerCards"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -212,50 +215,80 @@ export default function Losses({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
-        </div>{" "}
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Pertes</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "الخسائر" : "Pertes"}
+          </h2>
           <DashboardCalendar
             onDateChange={(start, end) =>
               setDateRange({ startDate: start, endDate: end })
             }
+            language={language}
           />
         </div>
       </div>
-      <div className="flex items-center space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
+        }`}
+      >
         <OrderCard
-          orderCardTitle="Total des pertes"
+          orderCardTitle={
+            language === "ar" ? "إجمالي الخسائر" : "Total des pertes"
+          }
           orderCardDetails={
             Lossesstatistics?.count ? Lossesstatistics?.count : 0
           }
           loading={LossesstatisticsLoading}
         />
         <OrderCard
-          orderCardTitle="Montant total"
+          orderCardTitle={
+            language === "ar" ? "المبلغ الإجمالي" : "Montant total"
+          }
           orderCardDetails={`${formatNumber(
             Lossesstatistics?.total ? Lossesstatistics?.total : 0
-          )} DA`}
+          )} ${language === "ar" ? "دج" : "DA"}`}
           loading={LossesstatisticsLoading}
         />
       </div>
       <div className="pageTable ordersTable">
         <div className="addProductModalHeader">
           <Search
-            placeholder="Rechercher par perte..."
+            placeholder={
+              language === "ar"
+                ? "البحث عن طريق الخسارة..."
+                : "Rechercher par perte..."
+            }
             value={searchQuery}
             onChange={handleSearchChange}
+            language={language}
           />
-          <div className="flex space-x-2">
-            <ButtonExportExel data={filteredData} filename="Pertes" />
+          <div
+            className={`flex items-center space-x-2 ${
+              language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+            }`}
+          >
+            <ButtonExportExel
+              data={filteredData}
+              filename={language === "ar" ? "الخسائر" : "Pertes"}
+              language={language}
+            />
             <ButtonAdd
-              buttonSpan="Ajouter une perte"
+              buttonSpan={
+                language === "ar" ? "إضافة خسارة" : "Ajouter une perte"
+              }
               onClick={handleOpenModalAddLoss}
             />
             <Modal
               isOpen={openModelAddLoss}
               onRequestClose={handleCloseModalAddLoss}
-              contentLabel="Ajouter une nouvelle perte"
+              contentLabel={
+                language === "ar"
+                  ? "إضافة خسارة جديدة"
+                  : "Ajouter une nouvelle perte"
+              }
               className="addNewModal"
               style={{
                 overlay: {
@@ -264,13 +297,18 @@ export default function Losses({ onToggle, isCollapsed }) {
                 },
               }}
             >
-              <div className="customerClass pb-0">
+              <div
+                className="customerClass pb-0"
+                style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+              >
                 <h2 className="customerClassTitle">
-                  Ajouter une nouvelle perte
+                  {language === "ar"
+                    ? "إضافة خسارة جديدة"
+                    : "Ajouter une nouvelle perte"}
                 </h2>
                 <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
                   <div className="dialogAddCustomerItem">
-                    <span>Montant :</span>
+                    <span>{language === "ar" ? "المبلغ :" : "Montant :"}</span>
                     <div className="inputForm">
                       <input
                         type="number"
@@ -281,7 +319,7 @@ export default function Losses({ onToggle, isCollapsed }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>Cause :</span>
+                    <span>{language === "ar" ? "السبب :" : "Cause :"}</span>
                     <div className="inputForm">
                       <input
                         type="text"
@@ -292,20 +330,24 @@ export default function Losses({ onToggle, isCollapsed }) {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                <div
+                  className={`flex justify-end ${
+                    language === "ar" ? "gap-x-8" : "space-x-8"
+                  }`}
+                >
                   {!submitionLoading ? (
                     <>
                       <button
                         className="text-gray-500 cursor-pointer hover:text-gray-700"
                         onClick={handleCloseModalAddLoss}
                       >
-                        Annuler
+                        {language === "ar" ? "إلغاء" : "Annuler"}
                       </button>
                       <button
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         onClick={handleSubmitCreateLoss}
                       >
-                        Enregistrer
+                        {language === "ar" ? "حفظ" : "Enregistrer"}
                       </button>
                     </>
                   ) : (
@@ -325,6 +367,7 @@ export default function Losses({ onToggle, isCollapsed }) {
             data={LossesData}
             loading={LossesDataLoading}
             refetchLossesData={refetchData}
+            language={language}
           />
         </div>
       </div>

@@ -18,7 +18,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
 
-export default function Publicité({ onToggle, isCollapsed }) {
+export default function Publicité({ onToggle, toggleLanguage, language }) {
   const decodedToken = TokenDecoder();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -143,7 +143,7 @@ export default function Publicité({ onToggle, isCollapsed }) {
   if (StorePublicityLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
-        <Header />
+        <Header toggleLanguage={toggleLanguage} language={language} />
         <div className="w-full h-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
@@ -153,16 +153,23 @@ export default function Publicité({ onToggle, isCollapsed }) {
   if (StorePublicityError) {
     return (
       <div className="pagesContainer">
-        <Header />
+        <Header toggleLanguage={toggleLanguage} language={language} />
         <div className="customerClass">
-          <h2 className="customerClassTitle">Aucune donnée disponible</h2>
+          <h2 className="customerClassTitle">
+            {language === "ar"
+              ? "لا توجد بيانات متاحة"
+              : "Aucune donnée disponible"}
+          </h2>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="pagesContainerTop">
         <div className="flexHeader">
           <div
@@ -171,12 +178,16 @@ export default function Publicité({ onToggle, isCollapsed }) {
           >
             <EqualsIcon className="iconAsideBarClose" />
           </div>
-          <Header />
+          <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">Publicité</h2>
+          <h2 className="pagesTitle">
+            {language === "ar" ? "الإعلانات" : "Publicité"}
+          </h2>
           <ButtonAdd
-            buttonSpan="Ajouter une publicité"
+            buttonSpan={
+              language === "ar" ? "إضافة إعلان" : "Ajouter une publicité"
+            }
             onClick={handleOpenModalAddPub}
           />
         </div>
@@ -186,11 +197,16 @@ export default function Publicité({ onToggle, isCollapsed }) {
         loading={StorePublicityLoading}
         StorePublicityRefetch={StorePublicityRefetch}
         user={user}
+        language={language}
       />
       <Modal
         isOpen={openModelAddPub}
         onRequestClose={handleCloseModalAddPub}
-        contentLabel="Ajouter une nouvelle publicité"
+        contentLabel={
+          language === "ar"
+            ? "إضافة إعلان جديد"
+            : "Ajouter une nouvelle publicité"
+        }
         className="addNewModal"
         style={{
           overlay: {
@@ -199,8 +215,15 @@ export default function Publicité({ onToggle, isCollapsed }) {
           },
         }}
       >
-        <div className="customerClass pb-0">
-          <h2 className="customerClassTitle">Ajouter une nouvelle publicité</h2>
+        <div
+          className="customerClass pb-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2 className="customerClassTitle">
+            {language === "ar"
+              ? "إضافة إعلان جديد"
+              : "Ajouter une nouvelle publicité"}
+          </h2>
 
           {/* Image Upload Section */}
           <div className="mt-[20px]">
@@ -217,9 +240,13 @@ export default function Publicité({ onToggle, isCollapsed }) {
               ) : (
                 <p className="uploadSpan">
                   <span className="text-blue-600">
-                    Cliquez pour télécharger{" "}
+                    {language === "ar"
+                      ? "انقر لتحميل"
+                      : "Cliquez pour télécharger"}{" "}
                   </span>
-                  ou faites glisser et déposez SVG, PNG, JPG
+                  {language === "ar"
+                    ? "أو اسحب وأسقط SVG, PNG, JPG"
+                    : "ou faites glisser et déposez SVG, PNG, JPG"}
                 </p>
               )}
               <input
@@ -232,30 +259,47 @@ export default function Publicité({ onToggle, isCollapsed }) {
           </div>
 
           {/* Distination Input select */}
-          <div className="flex space-x-5 items-center mt-[8px]">
-            <span>Distination :</span>
+          <div
+            className={`flex space-x-5 items-center mt-[8px] ${
+              language === "ar" ? "gap-x-5" : "space-x-5"
+            }`}
+          >
+            <span>{language === "ar" ? "الوجهة :" : "Distination :"}</span>
             <div className="selectStoreWilayaCommune w-[300px]">
               <select name="productCategory" onChange={handleDistinationChange}>
-                <option value="">-- Sélectionner la destination --</option>
-                <option value="private">Privé</option>
-                <option value="public">Public</option>
+                <option value="" disabled selected>
+                  {language === "ar"
+                    ? "-- اختر الوجهة --"
+                    : "-- Sélectionner la destination --"}
+                </option>
+                <option value="private">
+                  {language === "ar" ? "خاص" : "Privé"}
+                </option>
+                <option value="public">
+                  {language === "ar" ? "عام" : "Public"}
+                </option>
               </select>
             </div>
           </div>
 
           {/* Save and Cancel Buttons */}
-          <div className="flex justify-end space-x-8 items-start mt-[20px]">
+          <div
+            className={`flex justify-end ${
+              language === "ar" ? "gap-x-8" : "space-x-8"
+            }`}
+          >
+            {" "}
             <button
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalAddPub}
             >
-              Annuler
+              {language === "ar" ? "إلغاء" : "Annuler"}
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
               onClick={handleSavePublicity}
             >
-              Enregistrer{" "}
+              {language === "ar" ? "حفظ" : "Enregistrer"}{" "}
             </button>
           </div>
         </div>

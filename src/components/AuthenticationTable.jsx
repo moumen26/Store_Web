@@ -18,7 +18,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
 
 function Row(props) {
-  const { row, handleConfirmAlert } = props;
+  const { row, handleConfirmAlert, language } = props;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -61,7 +61,7 @@ function Row(props) {
         handleConfirmAlert(`${data.message}`);
       }
     } catch (error) {
-      console.error("Error activating user to acces store:", error);
+      console.error("Error activating user to access store:", error);
     }
   };
   return (
@@ -100,8 +100,15 @@ function Row(props) {
             </span>
           </div>
         </TableCell>
-        <TableCell align="right" className="tableCell w-[100px]">
-          <div className="flex justify-end pr-3">
+        <TableCell
+          align={language === "ar" ? "right" : "left"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex ${
+              language === "ar" ? "justify-start pr-3" : "justify-end pr-3"
+            }`}
+          >
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleViewClick}
@@ -114,8 +121,14 @@ function Row(props) {
         open={open}
         onClose={handleClose}
         onConfirm={handleConfirm}
-        dialogTitle="Confirm User Activation"
-        dialogContentText="Are you sure you want to activate this user?"
+        dialogTitle={
+          language === "ar" ? "تأكيد تفعيل المستخدم" : "Confirm User Activation"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تفعيل هذا المستخدم؟"
+            : "Are you sure you want to activate this user?"
+        }
       />
     </Fragment>
   );
@@ -135,9 +148,14 @@ Row.propTypes = {
     storeID: PropTypes.string.isRequired,
   }).isRequired,
   handleConfirmAlert: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
-export default function CustomerTable({ searchQuery, setFilteredData }) {
+export default function AuthenticationTable({
+  searchQuery,
+  setFilteredData,
+  language,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
 
@@ -245,23 +263,53 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
         <Table aria-label="collapsible table">
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Nom complet</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الاسم الكامل" : "Nom complet"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Numéro de téléphone</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Wilaya</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الولاية" : "Wilaya"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Commune</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "البلدية" : "Commune"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Statut</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الحالة" : "Statut"}
+                </span>
               </TableCell>
-              <TableCell align="right" className="tableCell">
-                <span className="thTableSpan">Action</span>
+              <TableCell
+                align={language === "ar" ? "right" : "left"}
+                className="tableCell"
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الإجراء" : "Action"}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -274,6 +322,7 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
                     key={row.userId}
                     row={row}
                     handleConfirmAlert={handleConfirmAlert}
+                    language={language}
                   />
                 ))
             ) : notApprovedUsersLoading ? (
@@ -286,7 +335,11 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  <span className="thTableSpan">Aucun utilisateur trouvé</span>
+                  <span className="thTableSpan">
+                    {language === "ar"
+                      ? "لم يتم العثور على مستخدمين"
+                      : "Aucun utilisateur trouvé"}
+                  </span>
                 </TableCell>
               </TableRow>
             )}
@@ -306,3 +359,9 @@ export default function CustomerTable({ searchQuery, setFilteredData }) {
     </Fragment>
   );
 }
+
+AuthenticationTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  setFilteredData: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+};

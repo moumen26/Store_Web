@@ -13,10 +13,10 @@ import ConfirmDialog from "../components/ConfirmDialog";
 export default function SignUp() {
   const navigate = useNavigate();
 
-  const [Email, setEmail] = useState("");
+  const [Phone, setPhone] = useState("");
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
   };
 
   const [submitionLoading, setSubmitionLoading] = useState(false);
@@ -33,16 +33,16 @@ export default function SignUp() {
   };
 
   const handleViewClick = (id) => {
-    navigate(`/VerifyCode/${id}`);
+    navigate(`/UpYourAccount/${id}`);
   };
   //send otp API
   const handleSendOTP = async () => {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
-        import.meta.env.VITE_APP_URL_BASE + `/auth/signup/store`,
+        import.meta.env.VITE_APP_URL_BASE + `/auth/signup/store/v2`,
         {
-          Email: Email,
+          phone: Phone,
         },
         {
           headers: {
@@ -56,7 +56,7 @@ export default function SignUp() {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
         handleCloseConfirmDialog();
-        setEmail("");
+        setPhone("");
         handleViewClick(response.data.store);
       } else {
         setAlertType(true);
@@ -117,11 +117,11 @@ export default function SignUp() {
             </div>
             <InputForm
               labelForm="Phone Number"
-              inputType="email"
+              inputType="number"
               inputPlaceholder="+213"
               inputName="phoneNumber"
-              value={Email}
-              setChangevalue={handleEmailChange}
+              value={Phone}
+              setChangevalue={handlePhoneChange}
             />
             <ButtonDark
               buttonSpan="Get Started - For Free"
@@ -138,7 +138,7 @@ export default function SignUp() {
         onClose={handleCloseConfirmDialog}
         onConfirm={handleSendOTP}
         dialogTitle="Confirm Account Creation"
-        dialogContentText={`Are you sure you want to create new store account with this email: ${Email}?`}
+        dialogContentText={`Are you sure you want to create new store account with this phone number: ${Phone}?`}
         isloading={submitionLoading}
       />
       <Snackbar

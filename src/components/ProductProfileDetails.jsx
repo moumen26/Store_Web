@@ -14,7 +14,7 @@ function ProductProfileRow({ data, language }) {
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{data?.product?.code}</span>
+        <span className="trTableSpan">{data?.product?._id}</span>
       </TableCell>
       <TableCell
         className="tableCell"

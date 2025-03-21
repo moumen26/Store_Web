@@ -475,7 +475,7 @@ export default function UpYourAccount() {
             <h2 className="customerClassTitle">Select your Store Category</h2>
 
             <div className="storyCategoryClass">
-              {CategoryData.length > 0 ? (
+              {CategoryData?.length > 0 ? (
                 CategoryData?.map((category, index) => (
                   <div
                     key={index}

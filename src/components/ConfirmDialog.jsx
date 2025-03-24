@@ -36,8 +36,8 @@ function ConfirmDialog({
             </DialogContentText>
           </DialogContent>
           <div
-            className={`flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2 ${
-              language === "ar" ? "gap-x-8" : ""
+            className={`flex justify-end space-x-4 ${
+              language === "ar" ? "gap-x-4" : ""
             }`}
           >
             <button

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerStatsCard from "../components/CustomerStatsCard";
@@ -17,7 +17,11 @@ import ButtonLight from "../components/ButtonLight";
 import { formatNumber } from "../util/useFullFunctions";
 import axios from "axios";
 
-export default function FournisseurProfile({ onToggle, isCollapsed }) {
+export default function FournisseurProfile({
+  onToggle,
+  toggleLanguage,
+  language,
+}) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -224,7 +228,10 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
     );
   }
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
         <div
           onClick={onToggle}
@@ -232,29 +239,43 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
         >
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
+        <Header toggleLanguage={toggleLanguage} language={language} />
       </div>{" "}
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center space-x-1">
-          <span>Fournisseur</span>
-          <ChevronRightIcon className="iconAsideBar" />
+          <span>{language === "ar" ? "الموردين" : "Fournisseurs"}</span>
+
+          {language === "ar" ? (
+            <ChevronLeftIcon className="iconAsideBar" />
+          ) : (
+            <ChevronRightIcon className="iconAsideBar" />
+          )}
+
           <span>#{OneFournisseurData?._id}</span>
         </div>
-        <div className="flex space-x-2">
+        <div
+          className={`flex items-center space-x-2 ${
+            language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+          }`}
+        >
+          {" "}
           <ButtonLight
-            buttonSpan="Add payement"
+            buttonSpan={language === "ar" ? "إضافة دفع" : "Add payment"}
             onClick={handleOpenAddPayementModal}
           />
           <ButtonAdd
-            buttonSpan="Create Achat"
+            buttonSpan={language === "ar" ? "إنشاء عملية شراء" : "Create Achat"}
             showIcon={false}
             onClick={handleCreateOrder}
           />
-
           <Modal
             isOpen={addPayementModal}
             onRequestClose={handleCloseAddPaymentDialog}
-            contentLabel="Add new Payement"
+            contentLabel={
+              language === "ar"
+                ? "إضافة دفعة جديدة"
+                : "Ajouter un nouveau paiement"
+            }
             className="addNewModal"
             style={{
               overlay: {
@@ -263,10 +284,17 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
               },
             }}
           >
-            <div className="customerClass p-0">
-              <h2 className="customerClassTitle">Add New Payement</h2>
+            <div
+              className="customerClass pb-0"
+              style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+            >
+              <h2 className="customerClassTitle">
+                {language === "ar"
+                  ? "إضافة دفعة جديدة"
+                  : "Ajouter un nouveau paiement"}
+              </h2>
               <div className="dialogAddCustomerItem">
-                <span>Amount :</span>
+                <span>{language === "ar" ? "المبلغ :" : "Montant :"}</span>
                 <div className="inputForm">
                   <input
                     type="number"
@@ -277,20 +305,25 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-8 items-start mt-[20px]">
+              <div
+                className={`flex justify-end ${
+                  language === "ar" ? "gap-x-4" : "space-x-4"
+                }`}
+              >
+                {" "}
                 {!submitionLoading ? (
                   <>
                     <button
                       className="text-gray-500 cursor-pointer hover:text-gray-700"
                       onClick={handleCloseAddPaymentDialog}
                     >
-                      Cancel
+                      {language === "ar" ? "إلغاء" : "Annuler"}
                     </button>
                     <button
                       className="text-blue-500 cursor-pointer hover:text-blue-700"
                       onClick={handleConfirmAddPayment}
                     >
-                      Save
+                      {language === "ar" ? "حفظ" : "Enregistrer"}
                     </button>
                   </>
                 ) : (
@@ -304,41 +337,57 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
         </div>
       </div>
       <div className="customerClass paddingClass">
-        <h2 className="customerClassTitle">Personal Information</h2>
+        <h2 className="customerClassTitle">
+          {language === "ar"
+            ? "المعلومات الشخصية"
+            : "Informations personnelles"}
+        </h2>
         <div className="personalInformation">
           <div className="flex-col">
-            <span className="personalInformationSpan">First Name</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "الاسم" : "Prénom"}
+            </span>
             <h3 className="personalInformationDetails">
               {OneFournisseurData?.firstName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Last Name</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "اللقب" : "Nom"}
+            </span>
             <h3 className="personalInformationDetails">
               {OneFournisseurData?.lastName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Number Phone</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+            </span>
             <h3 className="personalInformationDetails">
               {OneFournisseurData?.phoneNumber}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Wilaya</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "الولاية" : "Wilaya"}
+            </span>
             <h3 className="personalInformationDetails">
               {OneFournisseurData?.wilaya}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Commune</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "البلدية" : "Commune"}
+            </span>
             <h3 className="personalInformationDetails">
               {OneFournisseurData?.commune}
             </h3>
           </div>
           {OneFournisseurData?.address && (
             <div className="flex-col">
-              <span className="personalInformationSpan">Address</span>
+              <span className="personalInformationSpan">
+                {language === "ar" ? "العنوان" : "Adresse"}
+              </span>
               <h3 className="personalInformationDetails">
                 {OneFournisseurData?.address}
               </h3>
@@ -348,32 +397,49 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
       </div>
       <>
         <div className="customerClass paddingClass">
-          <h2 className="customerClassTitle">Stats</h2>
-          <div className="flex space-x-4">
+          <h2 className="customerClassTitle">
+            {language === "ar" ? "الإحصائيات" : "Statistiques"}
+          </h2>
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"
+            }`}
+          >
+            {" "}
             <CustomerStatsCard
+              language={language}
               loading={AchatStatisticsDataLoading}
-              customerStatsCardTitle="Total Purchases"
+              customerStatsCardTitle={
+                language === "ar" ? "إجمالي المشتريات" : "Total des achats"
+              }
               customerStatsCardDetails={AchatStatisticsData?.count}
             />
             <CustomerStatsCard
+              language={language}
               loading={AchatStatisticsDataLoading}
-              customerStatsCardTitle="Total Amount"
+              customerStatsCardTitle={
+                language === "ar" ? "إجمالي المبلغ" : "Montant total"
+              }
               customerStatsCardDetails={formatNumber(
                 AchatStatisticsData?.totalAmount
               )}
             />
-
             <CustomerStatsCard
+              language={language}
               loading={AchatStatisticsDataLoading}
-              customerStatsCardTitle="Total Paid"
+              customerStatsCardTitle={
+                language === "ar" ? "إجمالي المدفوع" : "Total payé"
+              }
               customerStatsCardDetails={formatNumber(
                 AchatStatisticsData?.totalPayment
               )}
             />
-
             <CustomerStatsCard
+              language={language}
               loading={AchatStatisticsDataLoading}
-              customerStatsCardTitle="Total Unpaid"
+              customerStatsCardTitle={
+                language === "ar" ? "إجمالي غير المدفوع" : "Total impayé"
+              }
               customerStatsCardDetails={`- ${formatNumber(
                 AchatStatisticsData?.totalCreditUnpaid
               )}`}
@@ -382,13 +448,21 @@ export default function FournisseurProfile({ onToggle, isCollapsed }) {
         </div>
         <div className="customerClass justify-start paddingClass customerOrdersClass">
           <div className="flex justify-between items-center">
-            <h2 className="customerClassTitle">Achats</h2>
+            <h2 className="customerClassTitle">
+              {language === "ar" ? "المشتريات" : "Achats"}
+            </h2>
             <Search
-              placeholder="Search by Achat..."
+              placeholder={
+                language === "ar"
+                  ? "البحث عن طريق الشراء..."
+                  : "Rechercher par l'achat..."
+              }
               onChange={handleSearchChange}
+              language={language}
             />
           </div>
           <FournisseurProfileAchatsTable
+            language={language}
             searchQuery={searchQuery}
             setFilteredData={setFilteredData}
             data={AchatDataByFournisseur}

@@ -31,6 +31,7 @@ function AddAchatTableDetails({
   deliveryAmount,
   setAPIProducts,
   discount,
+  language,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchChange = (e) => {
@@ -208,7 +209,7 @@ function AddAchatTableDetails({
     setSnackbarOpen(false);
   };
 
-  const OrderRow = ({ row, onDelete }) => {
+  const OrderRow = ({ row, onDelete, language }) => {
     const productAmount = Number(row.buying) * Number(row.quantity);
 
     return (
@@ -399,7 +400,7 @@ function AddAchatTableDetails({
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {rows.length === 0 ? (
-                    <span>Add products</span>
+                    <span className="thTableSpan">Add products</span>
                   ) : (
                     <CircularProgress color="inherit" size={24} />
                   )}

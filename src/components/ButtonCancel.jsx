@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ButtonCancel() {
+export default function ButtonCancel({ language }) {
   const navigate = useNavigate();
 
   const handleCancel = () => {
@@ -10,7 +10,9 @@ export default function ButtonCancel() {
 
   return (
     <button className="buttonLight" onClick={handleCancel}>
-      <span className="buttonTextDark">Cancel</span>
+      <span className="buttonTextDark">
+        {language === "ar" ? "إلغاء" : "Annuler"}
+      </span>
     </button>
   );
 }

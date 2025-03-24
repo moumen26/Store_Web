@@ -64,49 +64,77 @@ function Row(props) {
       console.error("Error activating user to access store:", error);
     }
   };
+
   return (
     <Fragment>
       <TableRow
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
             <span className="mr-1 trTableSpan">{row.userFirstName}</span>
             <span className="trTableSpan">{row.userLastName}</span>
           </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.userPhone}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.userWilaya}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.userCommune}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <div
-            className={`activeClass${row.status == "pending" ? " yellow" : ""}`}
+            className={`activeClass ${
+              row.status === "pending" ? "border border-yellow-600" : ""
+            }`}
             onClick={handleInactiveClick}
           >
             <div className="cercleActive"></div>
             <span
               className={`inactiveSpan trTableSpan ${
-                row.status == "pending" ? " yellow" : ""
+                row.status === "pending" ? "text-yellow-600" : ""
               }`}
             >
-              {row.status}
+              {language === "ar"
+                ? row.status === "pending"
+                  ? "قيد الانتظار"
+                  : row.status === "active"
+                  ? "نشط"
+                  : "غير نشط"
+                : row.status === "pending"
+                ? "En attente"
+                : row.status === "active"
+                ? "Actif"
+                : "Inactif"}
             </span>
           </div>
         </TableCell>
         <TableCell
-          align={language === "ar" ? "right" : "left"}
+          align={language === "ar" ? "right" : "right"}
           className="tableCell w-[100px]"
         >
           <div
-            className={`flex ${
-              language === "ar" ? "justify-start pr-3" : "justify-end pr-3"
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
             }`}
           >
             <EyeIcon
@@ -304,7 +332,7 @@ export default function AuthenticationTable({
                 </span>
               </TableCell>
               <TableCell
-                align={language === "ar" ? "right" : "left"}
+                align={language === "ar" ? "right" : "right"}
                 className="tableCell"
               >
                 <span className="thTableSpan">

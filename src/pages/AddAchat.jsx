@@ -15,7 +15,7 @@ import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import Modal from "react-modal";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function AddAchat({ onToggle, isCollapsed }) {
+export default function AddAchat({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -139,7 +139,10 @@ export default function AddAchat({ onToggle, isCollapsed }) {
   return (
     <>
       {!submitionLoading ? (
-        <div className="pagesContainer addOrder">
+        <div
+          className="pagesContainer addOrder"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <div className="flexHeader">
             <div
               onClick={onToggle}
@@ -147,18 +150,32 @@ export default function AddAchat({ onToggle, isCollapsed }) {
             >
               <EqualsIcon className="iconAsideBarClose" />
             </div>
-            <Header />
-          </div>{" "}
+            <Header toggleLanguage={toggleLanguage} language={language} />
+          </div>
           <div className="w-full flex items-center justify-between">
-            <h2 className="pagesTitle">Add a new achat</h2>
-            <div className="flex items-center space-x-2">
-              <ButtonCancel />
-              <ButtonSave setOnClick={handleOpenConfirmationDialog} />
+            <h2 className="pagesTitle">
+              {language === "ar"
+                ? "إضافة شراء جديد"
+                : "Ajouter un nouvel achat"}
+            </h2>
+            <div
+              className={`flex items-center space-x-2 ${
+                language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+              }`}
+            >
+              <ButtonCancel language={language} />
+              <ButtonSave
+                setOnClick={handleOpenConfirmationDialog}
+                language={language}
+              />
             </div>
           </div>
           <div className="customerClass paddingClass">
-            <h2 className="customerClassTitle">Basic Information</h2>
+            <h2 className="customerClassTitle">
+              {language === "ar" ? "معلومات أساسية" : "Informations de base"}
+            </h2>
             <AddAchatProfileDetails
+              language={language}
               fournisseurName={
                 fournisseurData?.firstName + " " + fournisseurData?.lastName
               }
@@ -168,12 +185,23 @@ export default function AddAchat({ onToggle, isCollapsed }) {
           <div className="pageTable">
             <div className="flex items-center justify-between">
               <h2 className="customerClassTitle">Achat Details</h2>
-              <div className="flex space-x-2">
+              <div
+                className={`flex items-center space-x-2 ${
+                  language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+                }`}
+              >
                 <ButtonAdd
-                  buttonSpan="Add Remise"
+                  buttonSpan={
+                    language === "ar" ? "إضافة تخفيض" : "Ajouter une remise"
+                  }
                   onClick={handleRemiseOpenModal}
                 />
-                <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+                <ButtonAdd
+                  buttonSpan={
+                    language === "ar" ? "إضافة عنصر" : "Ajouter un élément"
+                  }
+                  onClick={handleOpenModal}
+                />
               </div>
             </div>
             <div className="pageTableContainer">
@@ -182,11 +210,16 @@ export default function AddAchat({ onToggle, isCollapsed }) {
                 handleCloseModal={handleCloseModal}
                 onCalculateTotals={handleCalculateTotals}
                 deliveryAmount={deliveryAmount}
+                language={language}
                 setAPIProducts={setProducts}
               />
             </div>
             <div className="w-full flex justify-end">
-              <AddAchatSubTotal total={total} discount={discount} />
+              <AddAchatSubTotal
+                total={total}
+                discount={discount}
+                language={language}
+              />
             </div>
           </div>
         </div>
@@ -199,7 +232,7 @@ export default function AddAchat({ onToggle, isCollapsed }) {
       <Modal
         isOpen={isRemiseModalOpen}
         onRequestClose={handleRemiseCloseModal}
-        contentLabel="Add Remise"
+        contentLabel={language === "ar" ? "إضافة تخفيض" : "Ajouter une remise"}
         className="addNewModal"
         style={{
           overlay: {
@@ -208,20 +241,33 @@ export default function AddAchat({ onToggle, isCollapsed }) {
           },
         }}
       >
-        <div className="customerClass p-0">
-          <h2 className="customerClassTitle">Add Remise</h2>
+        <div
+          className="customerClass pb-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2 className="customerClassTitle">
+            {language === "ar" ? "إضافة تخفيض" : "Ajouter une remise"}
+          </h2>
           <div className="mt-[16px]">
             <form>
               <div className="flex-col space-y-8">
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Remise Value :</span>
+                  <span>
+                    {language === "ar"
+                      ? "قيمة التخفيض :"
+                      : "Valeur de la remise :"}
+                  </span>
                   <div className="inputForm relative">
                     <input
                       type="text"
                       name="remise"
                       className="pr-10"
                       onChange={handleDiscountChange}
-                      placeholder="Enter discount (0-100)"
+                      placeholder={
+                        language === "ar"
+                          ? "أدخل قيمة التخفيض (0-100)"
+                          : "Enter discount (0-100)"
+                      }
                     />
                     <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                       %
@@ -230,16 +276,21 @@ export default function AddAchat({ onToggle, isCollapsed }) {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-8 mt-[20px]">
+              <div
+                className={`flex justify-end mt-2 ${
+                  language === "ar" ? "gap-x-8" : "space-x-8"
+                }`}
+              >
+                {" "}
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleRemiseCloseModal}
                 >
-                  Cancel
+                  {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <input
                   type="button"
-                  value={"Save"}
+                  value={language === "ar" ? "حفظ" : "Enregistrer"}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={() => {
                     setIsRemiseModalOpen(false);

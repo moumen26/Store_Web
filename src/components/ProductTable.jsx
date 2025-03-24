@@ -597,9 +597,11 @@ export default function ProductTable({
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  {language === "ar"
-                    ? "لا توجد بيانات متاحة"
-                    : "Aucune donnée disponible"}
+                  <span className="thTableSpan">
+                    {language === "ar"
+                      ? "لا توجد بيانات متاحة"
+                      : "Aucune donnée disponible"}
+                  </span>
                 </TableCell>
               </TableRow>
             )}

@@ -187,12 +187,16 @@
 .buttonDarkSave,
 .buttonLight {
   width: 400px;
+  /* width: fit-content; */
+
   height: 50px;
   border-radius: 5px;
   background-color: var(--darkColor);
 }
 .buttonLight {
   width: 100px;
+  width: fit-content;
+
   background-color: var(--greyColor);
 }
 
@@ -206,6 +210,8 @@
 
 .buttonDarkSave {
   width: 100px;
+  width: fit-content;
+
 }
 
 .buttonDelete {

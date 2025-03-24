@@ -6,39 +6,47 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { formatNumber } from "../util/useFullFunctions";
 
-function AddAchatSubTotal({ total, discount = 0 }) {
+function AddAchatSubTotal({ total, discount = 0, language }) {
   return (
     <Paper style={{ marginTop: "16px", boxShadow: "none", width: "40%" }}>
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Remise</span>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span className="dashboardLatestOrdersDetails">
+                {language === "ar" ? "تخفيض" : "Remise"}
+              </span>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align={language === "ar" ? "right" : "left"}>
               <span className="trTableSpan">{discount} %</span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>
+            <TableCell align={language === "ar" ? "right" : "left"}>
               <span className="dashboardLatestOrdersDetails">
-                Total sans remise
+                {language === "ar"
+                  ? "الإجمالي بدون تخفيض"
+                  : "Total sans remise"}
               </span>
             </TableCell>
-            <TableCell align="right">
-              <span className="trTableSpan">{formatNumber(total)} DA</span>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span className="trTableSpan">
+                {formatNumber(total)} {language === "ar" ? "دج " : " DA"}
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Total</span>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span className="dashboardLatestOrdersDetails">
+                {language === "ar" ? "الإجمالي" : "Total"}
+              </span>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align={language === "ar" ? "right" : "left"}>
               <span className="trTableSpan">
                 {discount > 0
                   ? formatNumber(total - (total * discount) / 100)
                   : formatNumber(total)}{" "}
-                DA
+                {language === "ar" ? "دج " : " DA"}
               </span>
             </TableCell>
           </TableRow>

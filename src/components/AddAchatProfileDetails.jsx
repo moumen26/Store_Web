@@ -8,8 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Calendar } from "primereact/calendar";
 
-export default function AddAchatProfileDetails({ fournisseurName, PhoneNumber }) {
-
+export default function AddAchatProfileDetails({
+  fournisseurName,
+  PhoneNumber,
+  language,
+}) {
   return (
     <TableContainer
       component={Paper}
@@ -19,11 +22,21 @@ export default function AddAchatProfileDetails({ fournisseurName, PhoneNumber })
       <Table aria-label="order profile details">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Fournisseur Name</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "اسم المورد" : "Nom du fournisseur"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Number Phone</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -32,10 +45,16 @@ export default function AddAchatProfileDetails({ fournisseurName, PhoneNumber })
             sx={{ "& > *": { borderBottom: "unset" } }}
             className="tableRow"
           >
-            <TableCell className="tableCell">
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
               <span className="trTableSpan">{fournisseurName}</span>
             </TableCell>
-            <TableCell className="tableCell">
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
               <span className="trTableSpan">{PhoneNumber}</span>
             </TableCell>
           </TableRow>

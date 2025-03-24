@@ -69,7 +69,8 @@ function Row(props) {
           align={language === "ar" ? "right" : "left"}
         >
           <span className="trTableSpan">
-            {formatNumber(row.totalAmount)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.totalAmount)}
+            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
         <TableCell

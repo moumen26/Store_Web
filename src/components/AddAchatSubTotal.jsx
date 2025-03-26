@@ -8,7 +8,10 @@ import { formatNumber } from "../util/useFullFunctions";
 
 function AddAchatSubTotal({ total, discount = 0, language }) {
   return (
-    <Paper style={{ marginTop: "16px", boxShadow: "none", width: "40%" }}>
+    <Paper
+      className="paperAddAchat"
+      style={{ marginTop: "16px", boxShadow: "none" }}
+    >
       <Table>
         <TableBody>
           <TableRow>

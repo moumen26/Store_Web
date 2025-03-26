@@ -218,26 +218,52 @@ function AddAchatTableDetails({
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.product._id}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.product.name}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.product.brand.name}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row.quantity}</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{formatNumber(row.buying)} DA</span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{formatNumber(productAmount)} DA</span>
         </TableCell>
-        <TableCell align="right" className="tableCell">
-          <div className="flex items-center justify-end space-x-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
+            {" "}
             <TrashIcon
               className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
               onClick={() => onDelete(row.uniqueId)}
@@ -363,30 +389,62 @@ function AddAchatTableDetails({
         <Table>
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product_ID</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "معرف المنتج" : "ID Produit"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "المنتج" : "Produit"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Brand</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الماركة" : "Marque"}
+                </span>
               </TableCell>
-
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Quantity</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "الكمية" : "Quantité"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Price</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "السعر" : "Prix"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Amount</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span className="thTableSpan">
+                  {language === "ar" ? "المبلغ" : "Montant"}
+                </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
-                <span className="thTableSpan pr-1">Action</span>
+                <span className="thTableSpan pr-1">
+                  {language === "ar" ? "إجراء" : "Action"}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {rows.length > 0 ? (
               rows.map((row) => (
@@ -394,13 +452,18 @@ function AddAchatTableDetails({
                   key={row.productId}
                   row={row}
                   onDelete={handleDeleteClick}
+                  language={language}
                 />
               ))
             ) : (
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {rows.length === 0 ? (
-                    <span className="thTableSpan">Add products</span>
+                    <span className="thTableSpan">
+                      {language === "ar"
+                        ? "إضافة منتجات"
+                        : "Ajouter des produits"}
+                    </span>
                   ) : (
                     <CircularProgress color="inherit" size={24} />
                   )}

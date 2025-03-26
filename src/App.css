@@ -1560,6 +1560,27 @@
   width: fit-content;
 }
 
+.customerTop {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customerClass.Stats .flexCard {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.flexCard .customerStatsCard {
+  width: 100%;
+}
+
+.paperAddAchat {
+  width: 40%;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1730,21 +1751,17 @@
   .searchInput {
     width: 400px;
   }
+
+  .customerClass.Stats .flexCard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .flexCard .customerStatsCard {
+    width: 100%;
+  }
 }
 
 /* Mobile*/
-
-.customerTop {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.customerClass.Stats .flexCard {
-  display: flex;
-  gap: 8px;
-}
 
 @media screen and (max-width: 767px) {
   .customerTop {
@@ -1759,7 +1776,7 @@
   }
 
   .customerClass.Stats .flexCard {
-    flex-direction: column;
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .customerClass.Stats .flexCard .customerStatsCard {
@@ -1905,6 +1922,10 @@
 
   .dashboadStoreStatistic .dashboardTitleItem {
     margin-bottom: 24px;
+  }
+
+  .paperAddAchat {
+    width: 100%;
   }
 }
 

@@ -5,35 +5,48 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-function AddOrderSubTotal({ subtotal, deliveryAmount, total }) {
+function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
   return (
-    <Paper style={{ marginTop: "16px", boxShadow: "none", width: '40%'}}>
+    <Paper
+      className="paperAddAchat"
+      style={{ marginTop: "16px", boxShadow: "none" }}
+    >
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Subtotal</span>
-            </TableCell>
-            <TableCell align="right">
-              <span className="trTableSpan">{subtotal} DA</span>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
+            <TableCell align={language === "ar" ? "right" : "left"}>
               <span className="dashboardLatestOrdersDetails">
-                Delivery Amount
+                {language === "ar" ? "المجموع" : "Sous-total"}
               </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{deliveryAmount} DA</span>
+              <span className="trTableSpan">
+                {subtotal} {language === "ar" ? "دج" : "DA"}
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Total</span>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span className="dashboardLatestOrdersDetails">
+                {language === "ar" ? "مبلغ التوصيل" : "Montant de livraison"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{total} DA</span>
+              <span className="trTableSpan">
+                {deliveryAmount} {language === "ar" ? "دج" : "DA"}
+              </span>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span className="dashboardLatestOrdersDetails">
+                {language === "ar" ? "الإجمالي" : "Total"}
+              </span>
+            </TableCell>
+            <TableCell align="right">
+              <span className="trTableSpan">
+                {total} {language === "ar" ? "دج" : "DA"}
+              </span>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 
-export default function AddOrder({ onToggle, isCollapsed }) {
+export default function AddOrder({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -119,23 +119,38 @@ export default function AddOrder({ onToggle, isCollapsed }) {
   return (
     <>
       {!submitionLoading ? (
-        <div className="pagesContainer addOrder">
+        <div
+          className="pagesContainer addOrder"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <div className="flexHeader">
             <div onClick={onToggle} className="equalsIcon">
               <EqualsIcon className="iconAsideBarClose" />
             </div>
-            <Header />
+            <Header toggleLanguage={toggleLanguage} language={language} />
           </div>{" "}
-          <div className="w-full flex items-center justify-between">
-            <h2 className="pagesTitle">Add a new order</h2>
-            <div className="flex items-center space-x-2">
-              <ButtonCancel />
-              <ButtonSave setOnClick={handleOpenConfirmationDialog} />
+          <div className="titlePageButton">
+            <h2 className="pagesTitle">
+              {language === "ar"
+                ? "إضافة طلب جديد"
+                : "Ajouter une nouvelle commande"}
+            </h2>
+            <div
+              className={`buttonTop flex items-center space-x-2 ${
+                language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+              }`}
+            >
+              <ButtonCancel language={language} />
+              <ButtonSave
+                language={language}
+                setOnClick={handleOpenConfirmationDialog}
+              />
             </div>
           </div>
           <div className="customerClass paddingClass">
-            <h2 className="customerClassTitle">Basic Information</h2>
+            {language === "ar" ? "معلومات أساسية" : "Informations de base"}
             <AddOrderProfileDetails
+              language={language}
               CustomerData={CustomerData}
               deliveryAmount={deliveryAmount}
               setDeliveryAmount={setDeliveryAmount}
@@ -146,11 +161,19 @@ export default function AddOrder({ onToggle, isCollapsed }) {
           </div>
           <div className="pageTable">
             <div className="flex items-center justify-between">
-              <h2 className="customerClassTitle">Order Details</h2>
-              <ButtonAdd buttonSpan="Add item" onClick={handleOpenModal} />
+              <h2 className="customerClassTitle">
+                {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
+              </h2>
+              <ButtonAdd
+                buttonSpan={
+                  language === "ar" ? "إضافة عنصر" : "Ajouter un article"
+                }
+                onClick={handleOpenModal}
+              />
             </div>
             <div className="pageTableContainer">
               <AddOrderTableDetails
+                language={language}
                 openModal={openModal}
                 handleCloseModal={handleCloseModal}
                 onCalculateTotals={handleCalculateTotals}
@@ -163,6 +186,7 @@ export default function AddOrder({ onToggle, isCollapsed }) {
                 subtotal={subtotal}
                 deliveryAmount={deliveryAmount}
                 total={total}
+                language={language}
               />
             </div>
           </div>

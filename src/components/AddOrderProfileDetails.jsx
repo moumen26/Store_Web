@@ -14,6 +14,7 @@ export default function AddOrderProfileDetails({
   setDeliveryAmount,
   setAPIOrderType,
   setAPIDeliveryDate,
+  language,
   setAPIDeliveryAddress,
 }) {
   const getCurrentAlgeriaTime = () => {
@@ -74,39 +75,58 @@ export default function AddOrderProfileDetails({
       <Table aria-label="order profile details">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Customer Name</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "اسم العميل" : "Nom du client"}
+              </span>
             </TableCell>
-            {/* <TableCell className="tableCell">
-              <span className="thTableSpan">Order Date</span>
-            </TableCell> */}
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Order Type</span>
+
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "نوع الطلب" : "Type de commande"}
+              </span>
             </TableCell>
+
             {orderType === "delivery" && (
               <>
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">Delivery Date</span>
+                  <span className="thTableSpan">
+                    {language === "ar" ? "تاريخ التوصيل" : "Date de livraison"}
+                  </span>
                 </TableCell>
-                {/* <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">Courier</span>
-                </TableCell> */}
+
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">Address</span>
+                  <span className="thTableSpan">
+                    {language === "ar" ? "العنوان" : "Adresse"}
+                  </span>
                 </TableCell>
+
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">Delivery Amount</span>
+                  <span className="thTableSpan">
+                    {language === "ar"
+                      ? "مبلغ التوصيل"
+                      : "Montant de livraison"}
+                  </span>
                 </TableCell>
               </>
             )}
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow 
+          <TableRow
             sx={{ "& > *": { borderBottom: "unset" } }}
             className="tableRow"
           >
-            <TableCell className="tableCell">
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
               <span className="trTableSpan">
                 {CustomerData?.firstName} {CustomerData?.lastName}
               </span>
@@ -121,15 +141,26 @@ export default function AddOrderProfileDetails({
               />
             </TableCell> */}
 
-            <TableCell className="tableCell">
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
               <select
                 value={orderType}
                 onChange={handleOrderTypeChange}
                 className="inputTable inputSelect w-[200px]"
               >
-                <option value="">Select a type</option>
-                <option value="pickup">Pickup</option>
-                <option value="delivery">Delivery</option>
+                <option value="" disabled selected>
+                  {language === "ar"
+                    ? "اختر نوع الطلب"
+                    : "Sélectionnez un type"}
+                </option>
+                <option value="pickup">
+                  {language === "ar" ? "استلام من المتجر" : "Retrait"}
+                </option>
+                <option value="delivery">
+                  {language === "ar" ? "توصيل" : "Livraison"}
+                </option>
               </select>
             </TableCell>
             {orderType === "delivery" && (
@@ -161,18 +192,25 @@ export default function AddOrderProfileDetails({
                     onChange={handleDeliveryAddressChange}
                     className="inputTable inputSelect w-[200px]"
                   >
-                    <option value={null}>Select an address</option>
+                    <option value={null} disabled selected>
+                      {language === "ar"
+                        ? "اختر عنوانًا"
+                        : "Sélectionnez une adresse"}
+                    </option>
                     {CustomerData?.storeAddresses?.length > 0 &&
                       CustomerData.storeAddresses.map((address) => (
                         <option key={address._id} value={address.address}>
                           {address.address}
                         </option>
-                      ))
-                    }
+                      ))}
                   </select>
                 </TableCell>
                 <TableCell align="right" className="tableCell">
-                  <div className="inputWrapper">
+                  <div
+                    className={`inputWrapper ${
+                      language === "ar" ? "flex-row-reverse" : "flex-row"
+                    }`}
+                  >
                     <input
                       type="number"
                       value={deliveryAmount}
@@ -180,7 +218,9 @@ export default function AddOrderProfileDetails({
                       min="0"
                       className="inputTable"
                     />
-                    <span className="inputSpan">DA</span>
+                    <span className="inputSpan">
+                      {language === "ar" ? "دج" : "DA"}
+                    </span>
                   </div>
                 </TableCell>
               </>

@@ -144,21 +144,19 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           <div className="flexHeader">
-            <div
-              onClick={onToggle}
-              className="equalsIcon"            >
+            <div onClick={onToggle} className="equalsIcon">
               <EqualsIcon className="iconAsideBarClose" />
             </div>
             <Header toggleLanguage={toggleLanguage} language={language} />
           </div>
-          <div className="w-full flex items-center justify-between">
+          <div className="titlePageButton">
             <h2 className="pagesTitle">
               {language === "ar"
                 ? "إضافة شراء جديد"
                 : "Ajouter un nouvel achat"}
             </h2>
             <div
-              className={`flex items-center space-x-2 ${
+              className={`buttonTop flex items-center space-x-2 ${
                 language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
               }`}
             >
@@ -182,10 +180,12 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
             />
           </div>
           <div className="pageTable">
-            <div className="flex items-center justify-between">
-              <h2 className="customerClassTitle">Achat Details</h2>
+            <div className="titlePageButton">
+              <h2 className="customerClassTitle">
+                {language === "ar" ? "تفاصيل الشراء" : "Détails d'achat"}
+              </h2>
               <div
-                className={`flex items-center space-x-2 ${
+                className={`buttonTop flex items-center space-x-2 ${
                   language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
                 }`}
               >

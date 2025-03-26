@@ -29,7 +29,7 @@ export default function DashboardNewCostumers({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan">
+              <span className="thTableSpan text-center">
                 {language === "fr"
                   ? "Aucun client disponible"
                   : "لا يوجد عملاء متاحون"}

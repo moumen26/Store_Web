@@ -265,10 +265,7 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
       {" "}
       <div className="pagesContainerTop">
         <div className="flexHeader">
-          <div
-            onClick={onToggle}
-            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-          >
+          <div onClick={onToggle} className="equalsIcon">
             <EqualsIcon className="iconAsideBarClose" />
           </div>
           <Header toggleLanguage={toggleLanguage} language={language} />
@@ -277,14 +274,16 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
           <h2 className="pagesTitle">
             {language === "ar" ? "البائعون" : "Vendeurs"}
           </h2>
-          <ButtonAdd
-            buttonSpan={
-              language === "ar"
-                ? "إضافة بائع جديد"
-                : "Ajouter un nouveau vendeur"
-            }
-            onClick={handleAddCustomerClick}
-          />
+          <div className="buttonTop">
+            <ButtonAdd
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة بائع جديد"
+                  : "Ajouter un nouveau vendeur"
+              }
+              onClick={handleAddCustomerClick}
+            />
+          </div>
         </div>
       </div>
       <div className="pageTable">

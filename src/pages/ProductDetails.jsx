@@ -70,10 +70,7 @@ export default function ProductDetails({ onToggle, isCollapsed }) {
   return (
     <div className="pagesContainer">
       <div className="flexHeader">
-        <div
-          onClick={onToggle}
-          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-        >
+        <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
         <Header />

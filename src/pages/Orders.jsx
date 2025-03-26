@@ -28,10 +28,7 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
     >
       <div className="pagesContainerTop">
         <div className="flexHeader">
-          <div
-            onClick={onToggle}
-            className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-          >
+          <div onClick={onToggle} className="equalsIcon">
             <EqualsIcon className="iconAsideBarClose" />
           </div>
           <Header toggleLanguage={toggleLanguage} language={language} />
@@ -48,11 +45,7 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      <div
-        className={`flex items-center ${
-          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
-        }`}
-      >
+      <div className="cardMediaScreen">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des commandes"

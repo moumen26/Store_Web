@@ -166,7 +166,7 @@ export default function Header({ language, toggleLanguage }) {
   }, {});
 
   return (
-    <div className="Header relative flex items-center space-x-6">
+    <div className="Header">
       <div className="flex h-8 items-center justify-center">
         <select
           className="bg-gray-100"
@@ -205,8 +205,8 @@ export default function Header({ language, toggleLanguage }) {
 
       {/* Notifications Dropdown */}
       <div
-        className={`absolute ${
-          language === "ar" ? "right-0" : "left-0"
+        className={`absolute NotificationsDropDown ${
+          language === "ar" ? "right-[375px]" : "left-[375px]"
         } top-12 w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
           showNotifications
             ? "scale-100 opacity-100"

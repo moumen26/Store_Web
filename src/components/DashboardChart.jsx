@@ -143,11 +143,11 @@ export default function DashboardChart({ language }) {
 
   return (
     <div className={`dashboadChart ${language === "ar" ? "rtl" : ""}`}>
-      <div className="w-full flex items-center justify-between ">
-        <h3 className="dashboardTitleItem">
+      <div className="w-full dashboadChartTop">
+        <h3 className="dashboardTitleItem w-fit">
           {language === "fr" ? "Ventes au fil du temps" : "المبيعات على مر الزمن"}
         </h3>
-        <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"}`}>
+        <div className={`selectTime ${language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"}`}>
           <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"}`}>
             <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"}`}>
               <div className="cercleChartItemRevenue"></div>

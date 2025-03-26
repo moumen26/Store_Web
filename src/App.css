@@ -211,7 +211,6 @@
 .buttonDarkSave {
   width: 100px;
   width: fit-content;
-
 }
 
 .buttonDelete {
@@ -507,7 +506,8 @@
   gap: 16px;
 }
 
-.pageContainerCards .pageTable {
+.pageContainerCards .pageTable,
+.pageContainerProductGrid .pageTable {
   /* min-height: calc(60vh - 32px - 47px); */
   height: calc(100vh - 32px);
 }
@@ -819,11 +819,44 @@
   width: 100%;
   height: 100%;
   display: grid;
-  padding: 10px 0px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   row-gap: 16px;
   column-gap: 10px;
   overflow: auto;
+  justify-items: center;
+}
+
+.equalsIcon {
+  width: fit-content;
+  height: fit-content;
+  padding: 4px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #c9e4ee;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.NotificationsDropDown {
+  width: 450px;
+}
+
+.cardMediaScreen {
+  display: grid;
+  row-gap: 8px;
+  column-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gridCols {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.productsContainerSpan {
+  height: calc(100vh - 40px - 50px - 16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .customerClass {
@@ -1502,6 +1535,31 @@
   /* max-height: 500px; */
 }
 
+.dashboardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashbordFlex {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboadChartTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboadChartTop .selectTime {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: fit-content;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1553,11 +1611,23 @@
     z-index: 9999;
   }
 
-  .pagesContainer {
+  main.main-expanded .pagesContainer {
     overflow: hidden;
     width: 100%;
     left: 0;
   }
+
+  .responsive-card {
+    width: 100% !important;
+  }
+
+  /* .dashboardCardTitle {
+    font-size: 14px;
+  }
+
+  .dashboardCardAmount {
+    font-size: 22px;
+  } */
 
   .addProductModalHeader {
     display: flex;
@@ -1664,7 +1734,44 @@
 
 /* Mobile*/
 
+.customerTop {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customerClass.Stats .flexCard {
+  display: flex;
+  gap: 8px;
+}
+
 @media screen and (max-width: 767px) {
+  .customerTop {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .customerTop .flex:last-child {
+    width: 100%;
+    justify-content: end;
+  }
+
+  .customerClass.Stats .flexCard {
+    flex-direction: column;
+  }
+
+  .customerClass.Stats .flexCard .customerStatsCard {
+    width: 100%;
+  }
+
+  .customerOrdersClass .flex:first-child {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
   .inputItem span,
   .buttonTextLight,
   .headerText,
@@ -1740,6 +1847,64 @@
   .productPicture {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .cardMediaScreen {
+    grid-template-columns: repeat(1, 1fr); /* Full width on smaller screens */
+  }
+
+  .Header {
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr); /* Full width on smaller screens */
+    justify-items: flex-end;
+    display: grid;
+    grid-auto-flow: row dense; /* Ensures reverse stacking */
+  }
+
+  .NotificationsDropDown {
+    width: 80vw;
+  }
+
+  .equalsIcon {
+    display: none;
+  }
+
+  .dashboardTop {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .dashbordFlex {
+    flex-direction: column;
+  }
+
+  .dashboardFlexBottom {
+    flex-direction: column-reverse;
+  }
+
+  .dashboadChart,
+  .dashboardTopSellingProduct,
+  .dashboadStoreStatistic,
+  .dashboardNewCostumers {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .dashboadChartTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .dashboadChartTop .selectTime {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .dashboadStoreStatistic .dashboardTitleItem {
+    margin-bottom: 24px;
   }
 }
 

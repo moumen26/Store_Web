@@ -12,10 +12,11 @@ export default function OrderCard({
       {!loading ? (
         <Card
           style={{
-            width: "25%",
+            width: "100%",
             height: "180px",
             borderRadius: 20,
           }}
+          className="responsive-card"
         >
           <div className="w-full h-[140px] flex flex-col justify-between">
             <h3 className="dashboardCardTitle">{orderCardTitle}</h3>
@@ -25,7 +26,7 @@ export default function OrderCard({
       ) : (
         <Card
           style={{
-            width: "25%",
+            width: "100%",
             height: 200,
             borderRadius: 20,
           }}

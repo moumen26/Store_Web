@@ -140,7 +140,7 @@ function App() {
 
   if (!isOnline) {
     return (
-      <div className="w-full h-full flex items-center justify-center flex-col">
+      <div className="w-full h-[100vh] flex items-center justify-center flex-col">
         <CircularProgress color="error" />
         <h1 style={{ color: "red" }}>{text[language].noInternet}</h1>
       </div>
@@ -150,9 +150,11 @@ function App() {
   return (
     <BrowserRouter>
       <main
-        className={`flex ${isCollapsed ? "main-collapsed" : "main-expanded"} ${
-          language === "ar" ? "flex-ar" : ""
-        }`}
+        className={`flex ${
+          isCollapsed && window.innerWidth > 1023
+            ? "main-collapsed"
+            : "main-expanded"
+        } ${language === "ar" ? "flex-ar" : ""}`}
       >
         {user ? (
           <Asidebar

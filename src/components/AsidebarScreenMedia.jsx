@@ -60,7 +60,8 @@ export default function AsidebarScreenMedia() {
   };
 
   return (
-    <div className={`asideMedia ${isSidebarOpen ? "asidemediaActive" : ""}`}>
+    <div className={`asideMedia ${isSidebarOpen ? "asidemediaActive" : ""}`}
+    >
       {/* Toggle Icon for Sidebar */}
       <div className="toggleIcon cursor-pointer" onClick={toggleSidebar}>
         {isSidebarOpen ? (

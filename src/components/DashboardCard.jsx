@@ -1,10 +1,11 @@
+import { CircularProgress } from "@mui/material";
+import React from "react";
+import { Card } from "antd";
 import {
   BanknotesIcon,
   CircleStackIcon,
   DocumentChartBarIcon,
 } from "@heroicons/react/16/solid";
-import { CircularProgress } from "@mui/material";
-import React from "react";
 
 export default function DashboardCard({
   dashboardCardTitle,
@@ -33,32 +34,47 @@ export default function DashboardCard({
   }
 
   return (
-    <div className={`dashboardCard ${language === "ar" ? "rtl" : ""}`}>
+    <>
       {!OrdersStatsLoading ? (
-        <>
-          <div className="flex justify-between items-center">
-            <h3 className="dashboardCardTitle">{dashboardCardTitle}</h3>
-            <div className="bg-white w-[50px] h-[50px] rounded-lg flex items-center justify-center">
+        <Card
+          style={{
+            width: "100%",
+            height: "180px",
+            borderRadius: 20,
+          }}
+          className="responsive-card"
+        >
+          <div className="w-full h-[140px] flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <h3 className="dashboardCardTitle">{dashboardCardTitle}</h3>
               {iconComponent}
             </div>
+            <div className="flex justify-between items-center">
+              <h2 className="dashboardCardAmount">
+                {dashboardCardAmount}
+                {dashboardCardTitle !== "Total des commandes" &&
+                dashboardCardTitle !== "إجمالي الطلبات"
+                  ? language === "fr"
+                    ? "DA"
+                    : " دج"
+                  : ""}
+              </h2>
+            </div>
           </div>
-          <div>
-            <h2 className="dashboardCardAmount">
-              {dashboardCardAmount}{" "}
-              {dashboardCardTitle !== "Total des commandes" &&
-              dashboardCardTitle !== "إجمالي الطلبات"
-                ? language === "fr"
-                  ? "DA"
-                  : "دج"
-                : ""}
-            </h2>
-          </div>
-        </>
+        </Card>
       ) : (
-        <div className="w-full h-full flex items-center justify-center">
-          <CircularProgress color="inherit" />
-        </div>
+        <Card
+          style={{
+            width: "100%",
+            height: "200px",
+            borderRadius: 20,
+          }}
+        >
+          <div className="w-full h-[160px] flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        </Card>
       )}
-    </div>
+    </>
   );
 }

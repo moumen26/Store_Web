@@ -233,15 +233,12 @@ export default function FournisseurProfile({
       style={{ direction: language === "ar" ? "rtl" : "ltr" }}
     >
       <div className="flexHeader">
-        <div
-          onClick={onToggle}
-          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-        >
+        <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
         <Header toggleLanguage={toggleLanguage} language={language} />
       </div>{" "}
-      <div className="w-full flex items-center justify-between">
+      <div className="customerTop">
         <div className="flex items-center space-x-1">
           <span>{language === "ar" ? "الموردين" : "Fournisseurs"}</span>
 
@@ -396,15 +393,11 @@ export default function FournisseurProfile({
         </div>
       </div>
       <>
-        <div className="customerClass paddingClass">
+        <div className="customerClass paddingClass Stats">
           <h2 className="customerClassTitle">
             {language === "ar" ? "الإحصائيات" : "Statistiques"}
           </h2>
-          <div
-            className={`flex items-center ${
-              language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"
-            }`}
-          >
+          <div className="flexCard">
             {" "}
             <CustomerStatsCard
               language={language}

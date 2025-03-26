@@ -38,7 +38,7 @@ export default function DashboardTopSellingProduct({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan">
+              <span className="thTableSpan text-center">
                 {language === "fr"
                   ? "Aucun produit trouvé"
                   : "لم يتم العثور على أي منتج"}

@@ -28,46 +28,52 @@ export default function ProductsContainer({
   };
 
   return (
-    <div className="productsContainer">
+    <>
       {data?.length > 0 ? (
-        data
-          ?.filter(
-            (product) =>
-              (product.code
-                ?.toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-                product.name
+        <div className="productsContainer">
+          {data
+            ?.filter(
+              (product) =>
+                (product.code
                   ?.toLowerCase()
                   .includes(searchQuery.toLowerCase()) ||
-                product.brand?.name
-                  ?.toLowerCase()
-                  .includes(searchQuery.toLowerCase()) ||
-                product.category?.name
-                  ?.toLowerCase()
-                  .includes(searchQuery.toLowerCase())) &&
-              (selectedCategory == "" ||
-                product.category?._id == selectedCategory)
-          )
-          .map((product) => (
-            <ProductCard
-              key={product._id}
-              productName={
-                product.brand?.name + " " + product.name + " " + product.size
-              }
-              productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                "/api",
-                ""
-              )}/files/${product.image}`}
-              onClick={() => handleSelectProduct(product)}
-              selected={selectedProduct && product._id === selectedProduct._id}
-            />
-          ))
+                  product.name
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                  product.brand?.name
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                  product.category?.name
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase())) &&
+                (selectedCategory === "" ||
+                  product.category?._id === selectedCategory)
+            )
+            .map((product) => (
+              <ProductCard
+                key={product._id}
+                productName={
+                  product.brand?.name + " " + product.name + " " + product.size
+                }
+                productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
+                  "/api",
+                  ""
+                )}/files/${product.image}`}
+                onClick={() => handleSelectProduct(product)}
+                selected={
+                  selectedProduct && product._id === selectedProduct._id
+                }
+              />
+            ))}
+        </div>
       ) : (
-        <span className="thTableSpan">
-          {language === "ar"
-            ? "لا توجد منتجات متاحة"
-            : "Aucun produit disponible"}
-        </span>
+        <div className="productsContainerSpan">
+          <span className="thTableSpan">
+            {language === "ar"
+              ? "لا توجد منتجات متاحة"
+              : "Aucun produit disponible"}
+          </span>
+        </div>
       )}
 
       {selectedProduct && (
@@ -114,7 +120,7 @@ export default function ProductsContainer({
                 <span className="thTableSpan">
                   {language === "ar" ? "رمز المنتج" : "Code du Produit"}
                 </span>
-                <span className="trTableSpan">{selectedProduct.code}</span>
+                <span className="trTableSpan">{selectedProduct._id}</span>
               </div>
               <div
                 className={`flex space-x-3 ${
@@ -165,6 +171,6 @@ export default function ProductsContainer({
           </div>
         </Modal>
       )}
-    </div>
+    </>
   );
 }

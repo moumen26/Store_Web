@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { useLocation, useParams } from "react-router-dom";
 import ButtonAdd from "../components/ButtonAdd";
 import CustomerPrimaryDelivery from "../components/CustomerPrimaryDelivery";
@@ -25,7 +25,11 @@ import { EqualsIcon } from "@heroicons/react/16/solid";
 // Ensure you set the root element for accessibility
 Modal.setAppElement("#root");
 
-export default function CustomerProfile({ onToggle, isCollapsed }) {
+export default function CustomerProfile({
+  onToggle,
+  toggleLanguage,
+  language,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const { id } = useParams();
@@ -379,24 +383,28 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
     );
   }
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
-        <div
-          onClick={onToggle}
-          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-        >
+        <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
+        <Header toggleLanguage={toggleLanguage} language={language} />
       </div>
-      <div className="w-full flex items-center justify-between">
+      <div className="customerTop">
         <div className="flex items-center space-x-1">
-          <span>Customers</span>
-          <ChevronRightIcon className="iconAsideBar" />
+          <span>{language === "ar" ? "العملاء" : "Clients"}</span>
+          {language === "ar" ? (
+            <ChevronLeftIcon className="iconAsideBar" />
+          ) : (
+            <ChevronRightIcon className="iconAsideBar" />
+          )}{" "}
           <span>
             {CustomerData
               ? `${CustomerData?.firstName} ${CustomerData?.lastName}`
-              : "Customer Details"}
+              : ""}
           </span>
         </div>
         <div className="flex space-x-2">
@@ -411,67 +419,99 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
             open={dialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
             onConfirm={handleConfirmAsVendor}
-            dialogTitle="Confirm Vendor"
-            dialogContentText="Are you sure you want to make this a vendor?"
+            dialogTitle={
+              language === "ar" ? "تأكيد البائع" : "Confirmer le vendeur"
+            }
+            dialogContentText={
+              language === "ar"
+                ? "هل أنت متأكد أنك تريد جعله بائعًا؟"
+                : "Êtes-vous sûr de vouloir en faire un vendeur ?"
+            }
             isloading={submitionLoading}
           />
+
           <ConfirmDialog
             open={confirmDialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
             onConfirm={handleConfirmAsCustomer}
-            dialogTitle="Cancel Vendor Option"
-            dialogContentText="Are you sure you want to cancel the vendor option and make it a customer?"
+            dialogTitle={
+              language === "ar"
+                ? "إلغاء خيار البائع"
+                : "Annuler l'option vendeur"
+            }
+            dialogContentText={
+              language === "ar"
+                ? "هل أنت متأكد أنك تريد إلغاء خيار البائع وجعله زبونًا؟"
+                : "Êtes-vous sûr de vouloir annuler l'option vendeur et en faire un client ?"
+            }
             isloading={submitionLoading}
           />
+
           <ButtonAdd
-            buttonSpan="Create Order"
+            buttonSpan={language === "ar" ? "إنشاء طلب" : "Créer une commande"}
             showIcon={false}
             onClick={handleCreateOrder}
           />
         </div>
       </div>
       <div className="customerClass paddingClass">
-        <h2 className="customerClassTitle">Personal Information</h2>
+        <h2 className="customerClassTitle">
+          {language === "ar"
+            ? "المعلومات الشخصية"
+            : "Informations personnelles"}
+        </h2>
         <div className="personalInformation">
           <div className="flex-col">
-            <span className="personalInformationSpan">First Name</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "الاسم" : "Prénom"}
+            </span>
             <h3 className="personalInformationDetails">
               {CustomerData?.firstName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Last Name</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "اللقب" : "Nom"}
+            </span>
             <h3 className="personalInformationDetails">
               {CustomerData?.lastName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Number Phone</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+            </span>
             <h3 className="personalInformationDetails">
               {CustomerData?.phoneNumber}
             </h3>
           </div>
-          <div className="flex-col">
+          {/* <div className="flex-col">
             <span className="personalInformationSpan">Email Address</span>
             <h3 className="personalInformationDetails">
               {CustomerData?.email}
             </h3>
-          </div>
+          </div> */}
           <div className="flex-col">
-            <span className="personalInformationSpan">Wilaya</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "الولاية" : "Wilaya"}
+            </span>
             <h3 className="personalInformationDetails">
               {CustomerData?.wilaya}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Commune</span>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "البلدية" : "Commune"}
+            </span>
             <h3 className="personalInformationDetails">
               {CustomerData?.commune}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">ID</span>
-            <h3 className="personalInformationDetails">{CustomerData?.code}</h3>
+            <span className="personalInformationSpan">
+              {language === "ar" ? "المعرف" : "ID"}
+            </span>
+            <h3 className="personalInformationDetails">{CustomerData?._id}</h3>
           </div>
         </div>
       </div>
@@ -479,15 +519,23 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
       CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass paddingClass">
           <div className="flex justify-between items-center">
-            <h2 className="customerClassTitle">Primary Delivery Address</h2>
+            <h2 className="customerClassTitle">
+              {language === "ar" ? "عنوان التسليم" : "Adresse de livraison"}
+            </h2>
             <ButtonAdd
-              buttonSpan="Add New Address"
+              buttonSpan={
+                language === "ar"
+                  ? "إضافة عنوان جديد"
+                  : "Ajouter une nouvelle adresse"
+              }
               onClick={handleOpenModalAddAddress}
             />
             <Modal
               isOpen={modalIsOpenAddAddress}
               onRequestClose={handleCloseModalAddAddress}
-              contentLabel="Add Address Modal"
+              contentLabel={
+                language === "ar" ? "إضافة عنوان جديد" : "Ajouter une adresse"
+              }
               className="addNewModal"
               style={{
                 overlay: {
@@ -497,9 +545,13 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
               }}
             >
               <div className="customerClass pb-0">
-                <h2 className="customerClassTitle">Add New Address</h2>
+                <h2 className="customerClassTitle">
+                  {language === "ar"
+                    ? "إضافة عنوان جديد"
+                    : "Ajouter une nouvelle adresse"}
+                </h2>
                 <div className="flex justify-end items-center space-x-4">
-                  <span>Name :</span>
+                  <span>{language === "ar" ? "الاسم :" : "Nom :"}</span>
                   <div className="inputForm pl-0">
                     <input
                       type="text"
@@ -510,7 +562,7 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
                   </div>
                 </div>
                 <div className="flex justify-end items-center space-x-4">
-                  <span>Address :</span>
+                  <span>{language === "ar" ? "العنوان :" : "Adresse :"}</span>
                   <div className="inputForm pl-0">
                     <input
                       type="text"
@@ -520,29 +572,42 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
                     />
                   </div>
                 </div>
-                <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                <div
+                  className={`flex justify-end space-x-4 ${
+                    language === "ar" ? "gap-x-4" : ""
+                  }`}
+                >
                   <button
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseModalAddAddress}
                   >
-                    Cancel
+                    {language === "ar" ? "إلغاء" : "Annuler"}
                   </button>
                   <button
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
                     onClick={handleOpenConfirmDialogAddingAddress}
                   >
-                    Save
+                    {language === "ar" ? "حفظ" : "Enregistrer"}
                   </button>
                 </div>
               </div>
             </Modal>
+
             {/* ConfirmDialog */}
             <ConfirmDialog
               open={confirmDialogOpenAddingAddress}
               onConfirm={handleConfirmAddingAddress}
               onClose={handleCloseDialogAddingAddress}
-              dialogTitle="Confirm adding address"
-              dialogContentText={`Are you sure you want to add the address "${newAddressCustomer}"?`}
+              dialogTitle={
+                language === "ar"
+                  ? "تأكيد إضافة العنوان"
+                  : "Confirmer l'ajout de l'adresse"
+              }
+              dialogContentText={
+                language === "ar"
+                  ? `هل أنت متأكد أنك تريد إضافة العنوان "${newAddressCustomer}"؟`
+                  : `Êtes-vous sûr de vouloir ajouter l'adresse "${newAddressCustomer}" ?`
+              }
             />
           </div>
           <div className="customerPrimaryAddress">
@@ -556,47 +621,71 @@ export default function CustomerProfile({ onToggle, isCollapsed }) {
           </div>
         </div>
       ) : null}
-      <div className="customerClass paddingClass">
-        <h2 className="customerClassTitle">Stats</h2>
-        <div className="flex space-x-4">
+      <div className="customerClass paddingClass Stats">
+        <h2 className="customerClassTitle">
+          {language === "ar" ? "الإحصائيات" : "Statistiques"}
+        </h2>
+        <div className="flexCard">
           <CustomerStatsCard
-            customerStatsCardTitle="Total Orders"
+            customerStatsCardTitle={
+              language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
+            }
             customerStatsCardDetails={OrderStatisticsData?.count}
             loading={OrderStatisticsDataLoading}
+            language={language}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Amount"
+            customerStatsCardTitle={
+              language === "ar" ? "المبلغ الإجمالي" : "Montant total"
+            }
             customerStatsCardDetails={formatNumber(OrderStatisticsData?.total)}
             loading={OrderStatisticsDataLoading}
+            language={language}
           />
-
           <CustomerStatsCard
-            customerStatsCardTitle="Total Paid"
+            customerStatsCardTitle={
+              language === "ar" ? "إجمالي المدفوع" : "Total payé"
+            }
             customerStatsCardDetails={formatNumber(
               OrderStatisticsData?.totalPaid
             )}
+            language={language}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Unpaid"
+            customerStatsCardTitle={
+              language === "ar" ? "إجمالي غير المدفوع" : "Total impayé"
+            }
             customerStatsCardDetails={`- ${formatNumber(
               OrderStatisticsData?.creditanpaid
             )}`}
+            language={language}
             loading={OrderStatisticsDataLoading}
           />
           <CustomerStatsCard
-            customerStatsCardTitle="Total Profit"
+            customerStatsCardTitle={
+              language === "ar" ? "إجمالي الأرباح" : "Total des bénéfices"
+            }
+            language={language}
             customerStatsCardDetails={formatNumber(OrderStatisticsData?.profit)}
             loading={OrderStatisticsDataLoading}
           />
         </div>
       </div>
+
       <div className="customerClass justify-start paddingClass customerOrdersClass">
         <div className="flex justify-between items-center">
-          <h2 className="customerClassTitle">Orders</h2>
+          <h2 className="customerClassTitle">
+            {language === "ar" ? "الطلبات" : "Commandes"}
+          </h2>
           <Search
-            placeholder="Search by Order..."
+            placeholder={
+              language === "ar"
+                ? "البحث حسب الطلب..."
+                : "Rechercher par commande..."
+            }
             onChange={handleSearchChange}
+            language={language}
           />
         </div>
         <CustomerProfileOrdersTable

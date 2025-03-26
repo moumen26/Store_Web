@@ -276,15 +276,12 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
       style={{ direction: language === "ar" ? "rtl" : "ltr" }}
     >
       <div className="flexHeader">
-        <div
-          onClick={onToggle}
-          className="w-fit h-fit p-1 flex justify-center items-center border border-[#c9e4ee] rounded-[4px] cursor-pointer"
-        >
+        <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
         <Header toggleLanguage={toggleLanguage} language={language} />
       </div>
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full dashboardTop">
         <div className="flex-col space-y-[6px]">
           <h2 className="pagesTitle">
             {text[language].welcome} {user?.infos?.firstName}
@@ -298,11 +295,7 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
           language={language}
         />
       </div>
-      <div
-        className={`flex items-center ${
-          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
-        }`}
-      >
+      <div className="cardMediaScreen">
         <DashboardCard
           dashboardCardTitle={text[language].totalAmount}
           dashboardCardAmount={formatNumber(OrdersStats?.totalAmount)}
@@ -322,11 +315,7 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
           OrdersStatsLoading={OrdersStatsLoading}
         />
       </div>
-      <div
-        className={`flex items-center justify-between ${
-          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
-        }`}
-      >
+      <div className="dashbordFlex">
         <DashboardChart language={language} />
         <DashboardTopSellingProduct
           TopSellingStocks={TopSellingStocks}
@@ -334,11 +323,7 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
           language={language}
         />
       </div>
-      <div
-        className={`w-full flex justify-between ${
-          language === "ar" ? "space-x-reverse space-x-6" : "space-x-6"
-        }`}
-      >
+      <div className="dashbordFlex dashboardFlexBottom">
         <DashboadStoreStatistic
           StatsData={StatsData}
           StatsDataLoading={StatsDataLoading}

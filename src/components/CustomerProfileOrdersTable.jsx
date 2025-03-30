@@ -21,7 +21,7 @@ import {
 } from "../util/useFullFunctions";
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -43,40 +43,79 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" className="tableCell">
+        <TableCell
+          component="th"
+          scope="row"
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">{row._id}</span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.date)}</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span className="trTableSpan">{formatDate(row.date, language)}</span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatNumber(row.total)} DA</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span className="trTableSpan">
+            {formatNumber(row.total)} {language === "ar" ? "دج " : " DA"}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan text-[#28a745]">
-            {formatNumber(Number(
-              row.payment.reduce((sum, pay) => sum + pay.amount, 0)
-            ))}{" "}
-            DA
+            {formatNumber(
+              Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0))
+            )}{" "}
+            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan text-[#008080]">
-            {formatNumber(row.profit)} DA
+            {formatNumber(row.profit)} {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
           <span className="trTableSpan">
-            {row.credit ? "credit" : row.deposit ? "deposit" : "normal"}
+            {row.credit
+              ? language === "ar"
+                ? "دَيْن"
+                : "Crédit"
+              : row.deposit
+              ? language === "ar"
+                ? "عربون"
+                : "Dépôt"
+              : language === "ar"
+              ? "عادي"
+              : "Normal"}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <span className="trTableSpan">
-            {orderStatusTextDisplayer(row.status, row.type)}
+            {orderStatusTextDisplayer(row.status, row.type, language)}
           </span>
         </TableCell>
-        <TableCell align="right" className="tableCell">
-          <div className="flex justify-end pr-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
             <EyeIcon
               className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleViewClick}
@@ -91,30 +130,51 @@ function Row(props) {
           className="tableCell"
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <span className="dashboardLatestOrdersDetails">
-                Order Details
-              </span>
-              <Table size="small" aria-label="purchases" className="table">
+            <Box sx={{ margin: 1 }} className="pt-2">
+              <div className="w-[100%] flex">
+                <span className="dashboardLatestOrdersDetails">
+                  {language === "ar"
+                    ? "تفاصيل الطلب"
+                    : "Détails de la Commande"}
+                </span>
+              </div>
+              <Table size="small" aria-label="purchases" className="table mt-2">
                 <TableHead>
                   <TableRow>
-                    <TableCell className="tableCell">
+                    <TableCell
+                      className="tableCell"
+                      align={language === "ar" ? "right" : "left"}
+                    >
                       <span className="thTableSpan thDetails">
-                        Product Name
+                        {language === "ar" ? "اسم المنتج" : "Nom du Produit"}
                       </span>
                     </TableCell>
-                    <TableCell className="tableCell">
-                      <span className="thTableSpan thDetails">Brand</span>
-                    </TableCell>
-                    <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Amount (DA)</span>
-                    </TableCell>
-                    <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">Quantity</span>
+                    <TableCell
+                      className="tableCell"
+                      align={language === "ar" ? "right" : "left"}
+                    >
+                      <span className="thTableSpan thDetails">
+                        {language === "ar" ? "العلامة التجارية" : "Marque"}
+                      </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
                       <span className="thTableSpan thDetails">
-                        Total price (DA)
+                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
+                      </span>
+                    </TableCell>
+                    <TableCell align="right" className="tableCell">
+                      <span className="thTableSpan thDetails">
+                        {language === "ar" ? "الكمية" : "Quantité"}
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      align={language === "ar" ? "left" : "right"}
+                      className="tableCell"
+                    >
+                      <span className="thTableSpan thDetails">
+                        {language === "ar"
+                          ? "السعر الإجمالي (دج)"
+                          : "Prix Total (DA)"}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -125,20 +185,24 @@ function Row(props) {
                       <TableCell
                         component="th"
                         scope="row"
+                        align={language === "ar" ? "right" : "left"}
                         className="tableCell"
                       >
                         <span className="trTableSpan trDetails">
-                          {detailsRow.product.name}
+                          {detailsRow.product.name} {detailsRow.product.size}
                         </span>
                       </TableCell>
-                      <TableCell className="tableCell">
+                      <TableCell
+                        align={language === "ar" ? "right" : "left"}
+                        className="tableCell"
+                      >
                         <span className="trTableSpan trDetails">
                           {detailsRow.product.brand.name}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
                         <span className="trTableSpan trDetails">
-                          {formatNumber(detailsRow.price)} DA
+                          {formatNumber(detailsRow.price)}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -146,10 +210,15 @@ function Row(props) {
                           {detailsRow.quantity}
                         </span>
                       </TableCell>
-                      <TableCell align="right" className="tableCell">
+                      <TableCell
+                        align={language === "ar" ? "left" : "right"}
+                        className="tableCell"
+                      >
                         <span className="trTableSpan trDetails">
-                          {formatNumber(Number(detailsRow.price) * Number(detailsRow.quantity))}{" "}
-                          DA
+                          {formatNumber(
+                            Number(detailsRow.price) *
+                              Number(detailsRow.quantity)
+                          )}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -173,6 +242,7 @@ export default function CustomerProfileOrdersTable({
   setFilteredData,
   data = [],
   loading,
+  language,
 }) {
   const [filteredRows, setFilteredRows] = useState(data);
 
@@ -204,29 +274,63 @@ export default function CustomerProfileOrdersTable({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Order ID</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "معرف العميل" : "ID du client"}
+              </span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Order Date</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "تاريخ الطلب" : "Date de commande"}
+              </span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Amount</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "المبلغ" : "Montant"}
+              </span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Payment</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الدفع" : "Paiement"}
+              </span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Profit</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "الربح" : "Profit"}
+              </span>
             </TableCell>
-            <TableCell className="tableHeadCell">
-              <span className="thTableSpan">Type</span>
+            <TableCell
+              className="tableHeadCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span className="thTableSpan">
+                {language === "ar" ? "النوع" : "Type"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
-              <span className="thTableSpan">Status</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "الحالة" : "Statut"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
-              <span className="thTableSpan">Actions</span>
+              <span className="thTableSpan">
+                {language === "ar" ? "الإجراء" : "Action"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -240,13 +344,17 @@ export default function CustomerProfileOrdersTable({
           ) : !filteredRows || filteredRows.lenght <= 0 ? (
             <TableRow>
               <TableCell colSpan={9} align="center">
-                <span className="thTableSpan">No Purchases found</span>
+                <span className="thTableSpan">
+                  {language === "ar"
+                    ? "لم يتم العثور على طلبات"
+                    : "Aucune commande trouvée"}
+                </span>{" "}
               </TableCell>
             </TableRow>
           ) : (
             [...filteredRows]
               .reverse()
-              .map((row) => <Row key={row._id} row={row} />)
+              .map((row) => <Row key={row._id} row={row} language={language} />)
           )}
         </TableBody>
       </Table>

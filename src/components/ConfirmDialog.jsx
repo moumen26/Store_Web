@@ -26,7 +26,7 @@ function ConfirmDialog({
       aria-describedby="alert-dialog-description"
     >
       {!isloading ? (
-        <>
+        <div className="pb-2">
           <DialogTitle id="alert-dialog-title">
             <h2 className="customerClassTitle">{dialogTitle}</h2>
           </DialogTitle>
@@ -37,7 +37,7 @@ function ConfirmDialog({
           </DialogContent>
           <div
             className={`flex justify-end space-x-4 ${
-              language === "ar" ? "gap-x-4" : ""
+              language === "ar" ? "gap-x-4" : "px-4"
             }`}
           >
             <button
@@ -53,7 +53,7 @@ function ConfirmDialog({
               {language === "ar" ? "تأكيد" : "Confirmer"}
             </button>
           </div>
-        </>
+        </div>
       ) : (
         <>
           <DialogTitle id="alert-dialog-title">

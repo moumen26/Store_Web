@@ -49,7 +49,10 @@ export default function CustomerProfile({
   const [buttonVendorText, setButtonVendorText] = useState("");
 
   const handleButtonVendorClick = () => {
-    if (buttonVendorText === "Make Vendor") {
+    if (
+      buttonVendorText === "Make Vendor" ||
+      buttonVendorText === "جعله بائعًا"
+    ) {
       setDialogOpenMakeVendor(true);
     } else {
       setConfirmDialogOpenMakeVendor(true);
@@ -377,7 +380,11 @@ export default function CustomerProfile({
       <div className="pagesContainer">
         <Header />
         <div className="customerClass">
-          <h2 className="customerClassTitle">no data is available</h2>
+          <h2 className="customerClassTitle">
+            {language === "ar"
+              ? "لا توجد بيانات متاحة"
+              : "Aucune donnée disponible"}
+          </h2>
         </div>
       </div>
     );
@@ -413,12 +420,14 @@ export default function CustomerProfile({
             <ButtonLight
               buttonSpan={buttonVendorText}
               onClick={handleButtonVendorClick}
+              language={language}
             />
           )}
           <ConfirmDialog
             open={dialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
             onConfirm={handleConfirmAsVendor}
+            language={language}
             dialogTitle={
               language === "ar" ? "تأكيد البائع" : "Confirmer le vendeur"
             }
@@ -693,6 +702,7 @@ export default function CustomerProfile({
           setFilteredData={setFilteredData}
           data={OrderData}
           loading={OrderDataLoading}
+          language={language}
         />
       </div>
       {/* Snackbar */}

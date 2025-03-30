@@ -397,7 +397,7 @@ export default function FournisseurProfile({
           <h2 className="customerClassTitle">
             {language === "ar" ? "الإحصائيات" : "Statistiques"}
           </h2>
-          <div className="flexCard">
+          <div className="flexCard fournisseurFlexCard">
             {" "}
             <CustomerStatsCard
               language={language}

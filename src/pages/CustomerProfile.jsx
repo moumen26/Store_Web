@@ -414,7 +414,12 @@ export default function CustomerProfile({
               : ""}
           </span>
         </div>
-        <div className="flex space-x-2">
+        <div
+          className={`flex items-center space-x-2 ${
+            language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+          }`}
+        >
+          {" "}
           {(CustomerData?.isSeller == true ||
             CustomerData?.isSeller == false) && (
             <ButtonLight
@@ -438,7 +443,6 @@ export default function CustomerProfile({
             }
             isloading={submitionLoading}
           />
-
           <ConfirmDialog
             open={confirmDialogOpenMakeVendor}
             onClose={handleCloseDialogVendor}
@@ -455,7 +459,6 @@ export default function CustomerProfile({
             }
             isloading={submitionLoading}
           />
-
           <ButtonAdd
             buttonSpan={language === "ar" ? "إنشاء طلب" : "Créer une commande"}
             showIcon={false}

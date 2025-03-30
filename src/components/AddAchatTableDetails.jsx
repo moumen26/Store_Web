@@ -477,7 +477,9 @@ function AddAchatTableDetails({
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Add New Stock"
+        contentLabel={
+          language === "ar" ? "إضافة مخزون جديد" : "Ajouter un nouveau stock"
+        }
         className="addNewModal addNewStockModal"
         style={{
           overlay: {
@@ -492,19 +494,33 @@ function AddAchatTableDetails({
           </div>
         ) : (
           <>
-            <div className="customerClass addProductAchat">
-              <h2 className="customerClassTitle">Add Product to Achat</h2>
+            <div
+              className="customerClass addProductAchat"
+              style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+            >
+              <h2 className="customerClassTitle">
+                {language === "ar"
+                  ? "إضافة منتج إلى الشراء"
+                  : "Ajouter un produit à l'achat"}
+              </h2>
               <div className="addNewStockClass flex-col">
                 <div className="w-full h-fit w-[100%]">
                   <div className="addProductToAchatButton">
                     <div className="addProductModalHeader">
                       <Search
-                        placeholder="Search by Product..."
+                        placeholder={
+                          language === "ar"
+                            ? "ابحث عن المنتج..."
+                            : "Rechercher un produit..."
+                        }
                         value={searchQuery}
+                        language={language}
                         onChange={handleSearchChange}
                       />
-                      <div className="flex space-x-5 items-center">
-                        <span>Category :</span>
+                      <div className="flex items-center">
+                        <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                          {language === "ar" ? "الفئة :" : "Catégorie :"}
+                        </span>
                         <div className="selectStoreWilayaCommune w-[300px]">
                           <select
                             name="productCategory"
@@ -513,7 +529,9 @@ function AddAchatTableDetails({
                             {CategoryData ? (
                               <>
                                 <option value="">
-                                  -- Select Product Category --
+                                  {language === "ar"
+                                    ? "-- اختر فئة المنتج --"
+                                    : "-- Sélectionner une catégorie --"}
                                 </option>
                                 {CategoryData.map((category) => (
                                   <option
@@ -525,30 +543,32 @@ function AddAchatTableDetails({
                                 ))}
                               </>
                             ) : (
-                              <option value="">No categories available</option>
+                              <option value="">
+                                {language === "ar"
+                                  ? "لا توجد فئات متاحة"
+                                  : "Aucune catégorie disponible"}
+                              </option>
                             )}
                           </select>
                         </div>
                       </div>
                     </div>
                     <ButtonAdd
-                      buttonSpan="Add New Product"
+                      buttonSpan={
+                        language === "ar"
+                          ? "إضافة منتج جديد"
+                          : "Ajouter un nouveau produit"
+                      }
                       onClick={handleOpenAddProductModal}
                     />
                   </div>
 
                   <div className="productsContainer p-0 mt-5 h-[90%]">
                     {filteredProducts?.length > 0 ? (
-                      filteredProducts?.map((product) => (
+                      filteredProducts.map((product) => (
                         <ProductCard
                           key={product._id}
-                          productName={
-                            product.brand?.name +
-                            " " +
-                            product.name +
-                            " " +
-                            product.size
-                          }
+                          productName={`${product.brand?.name} ${product.name} ${product.size}`}
                           productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
                             "/api",
                             ""
@@ -561,16 +581,26 @@ function AddAchatTableDetails({
                         />
                       ))
                     ) : (
-                      <p>No products available</p>
+                      <p>
+                        {language === "ar"
+                          ? "لا توجد منتجات متاحة"
+                          : "Aucun produit disponible"}
+                      </p>
                     )}
                   </div>
                 </div>
                 {selectedProduct && (
                   <>
-                    <div className="border-0 mt-8 w-[100%] flex-row justify-end space-x-8 productDetailsStock">
-                      <div className="flex flex-col space-y-3 mb-4">
-                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Buying Price :</span>
+                    <div className="mt-8 w-[100%] productDetailsStockAdd">
+                      <div className="flex flex-col space-y-3 mb-4 w-[50%]">
+                        <div className="w-fit dialogAddCustomerItem items-center">
+                          <span
+                            className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                          >
+                            {language === "ar"
+                              ? "سعر الشراء :"
+                              : "Prix d'achat :"}
+                          </span>
                           <div className="inputForm flex items-center">
                             <input
                               type="number"
@@ -579,11 +609,19 @@ function AddAchatTableDetails({
                               min={0}
                               onChange={handleBuyingPriceChange}
                             />
-                            <span className="ml-2">DA</span>
+                            <span className="ml-2">
+                              {language === "ar" ? "دج" : "DA"}
+                            </span>
                           </div>
                         </div>
-                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Selling Price :</span>
+                        <div className="w-fit dialogAddCustomerItem items-center">
+                          <span
+                            className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                          >
+                            {language === "ar"
+                              ? "سعر البيع :"
+                              : "Prix de vente :"}
+                          </span>
                           <div className="inputForm flex items-center">
                             <input
                               type="number"
@@ -592,14 +630,22 @@ function AddAchatTableDetails({
                               min={0}
                               onChange={handleSellingPriceChange}
                             />
-                            <span className="ml-2">DA</span>
+                            <span className="ml-2">
+                              {language === "ar" ? "دج" : "DA"}
+                            </span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex flex-col space-y-3 mb-4">
-                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Quantity per box :</span>
+                      <div className="flex flex-col space-y-3 mb-4 w-[50%]">
+                        <div className="w-fit dialogAddCustomerItem items-center">
+                          <span
+                            className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                          >
+                            {language === "ar"
+                              ? "الكمية لكل صندوق :"
+                              : "Quantité par boîte :"}
+                          </span>
                           <div className="inputForm">
                             <input
                               type="number"
@@ -610,8 +656,14 @@ function AddAchatTableDetails({
                             />
                           </div>
                         </div>
-                        <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                          <span>Quantity per unity :</span>
+                        <div className="w-fit dialogAddCustomerItem items-center">
+                          <span
+                            className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                          >
+                            {language === "ar"
+                              ? "الكمية لكل وحدة :"
+                              : "Quantité par unité :"}
+                          </span>
                           <div className="inputForm">
                             <input
                               type="number"
@@ -622,24 +674,39 @@ function AddAchatTableDetails({
                             />
                           </div>
                         </div>
-                        <div className="w-fit space-x-3 items-center">
-                          <span>Total quantity :</span>
-                          <span>{ClientQuantity} unity</span>
-                        </div>
                       </div>
                     </div>
-                    <div className="flex justify-end space-x-8 items-start mt-[20px]">
+                    <div className="w-fit space-x-3 items-center">
+                      <span
+                        className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                      >
+                        {language === "ar"
+                          ? "إجمالي الكمية :"
+                          : "Quantité totale :"}
+                      </span>
+                      <span
+                        className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                      >
+                        {ClientQuantity} {language === "ar" ? "وحدة" : "unité"}
+                      </span>
+                    </div>
+                    <div
+                      className={`flex justify-end ${
+                        language === "ar" ? "gap-x-8" : "space-x-8"
+                      }`}
+                    >
+                      {" "}
                       <button
                         className="text-gray-500 cursor-pointer hover:text-gray-700"
                         onClick={handleCloseModal}
                       >
-                        Cancel
+                        {language === "ar" ? "إلغاء" : "Annuler"}
                       </button>
                       <button
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         onClick={handleAddItem}
                       >
-                        Save
+                        {language === "ar" ? "حفظ" : "Enregistrer"}
                       </button>
                     </div>
                   </>
@@ -653,7 +720,7 @@ function AddAchatTableDetails({
       <Modal
         isOpen={isAddProdutModalOpen}
         onRequestClose={handleCloseAddProductModal}
-        contentLabel="Add new Product"
+        contentLabel={language === "ar" ? "إضافة منتج جديد" : "Add New Product"}
         className="addNewModal"
         style={{
           overlay: {
@@ -662,34 +729,57 @@ function AddAchatTableDetails({
           },
         }}
       >
-        <div className="customerClass">
-          <h2 className="customerClassTitle">Add New Product to Stock</h2>
+        <div
+          className="customerClass pb-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2 className="dialogTitle">
+            {language === "ar"
+              ? "إضافة منتج جديد إلى المخزون"
+              : "Ajouter un Nouveau Produit au Stock"}
+          </h2>
           <div className="mt-[16px]">
             <form>
               <div className="flex-col space-y-8">
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Product Name :</span>
+                  <span>
+                    {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
+                  </span>
                   <div className="inputForm">
                     <input type="text" name="productName" />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Product Size :</span>
+                  <span>
+                    {language === "ar" ? "حجم المنتج :" : "Taille du Produit :"}
+                  </span>{" "}
                   <div className="inputForm">
                     <input type="text" name="productName" />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>BoxItems :</span>
+                  <span>
+                    {language === "ar"
+                      ? "العناصر لكل صندوق :"
+                      : "Articles par Boîte :"}
+                  </span>{" "}
                   <div className="inputForm">
                     <input type="number" name="productName" />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Product Category :</span>
+                  <span>
+                    {language === "ar"
+                      ? "فئة المنتج :"
+                      : "Catégorie de Produit :"}
+                  </span>{" "}
                   <div className="selectStoreWilayaCommune w-[500px]">
                     <select name="productCategory">
-                      <option value="">-- Select Product Category --</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "-- اختر فئة المنتج --"
+                          : "-- Sélectionnez la Catégorie de Produit --"}
+                      </option>{" "}
                       {/* {CategoryData?.map((category) => (
                         <option key={category._id} value={category._id}>
                           {category.name}
@@ -699,10 +789,18 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Product Brand :</span>
+                  <span>
+                    {language === "ar"
+                      ? "ماركة المنتج :"
+                      : "Marque du Produit :"}
+                  </span>{" "}
                   <div className="selectStoreWilayaCommune w-[500px]">
                     <select name="productCategory">
-                      <option value="">-- Select Product Brand --</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "-- اختر ماركة المنتج --"
+                          : "-- Sélectionnez la Marque du Produit --"}
+                      </option>{" "}
                       {/* {BrandData?.map((category) => (
                         <option key={category._id} value={category._id}>
                           {category.name}
@@ -712,8 +810,10 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>Product Picture :</span>
-                  <div className="flex items-center space-x-4">
+                  <span>
+                    {language === "ar" ? "صورة المنتج :" : "Image du Produit :"}
+                  </span>{" "}
+                  <div className="productPicture">
                     <div
                       className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
                       onClick={handleClick}
@@ -737,23 +837,34 @@ function AddAchatTableDetails({
                         onChange={handleImageChange}
                       />
                       <p onClick={handleClick} className="uploadSpan">
-                        <span className="text-blue-600">Click to upload </span>
-                        or drag and drop SVG, PNG, JPG
+                        <span className="text-blue-600">
+                          {language === "ar"
+                            ? "انقر لتحميل"
+                            : "Cliquez pour télécharger"}{" "}
+                        </span>
+                        {language === "ar"
+                          ? "أو اسحب وأفلت ملف SVG أو PNG أو JPG"
+                          : "ou glissez-déposez un fichier SVG, PNG, JPG"}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end space-x-8 mt-[20px]">
+              <div
+                className={`flex justify-end space-x-8 mt-4 ${
+                  language === "ar" ? "space-x-reverse" : ""
+                }`}
+              >
+                {" "}
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseAddProductModal}
                 >
-                  Cancel
+                  {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <input
                   type="button"
-                  value={"Save"}
+                  value={language === "ar" ? "حفظ" : "Enregistrer"}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   // onClick={handleSavePRODUCT}
                 />

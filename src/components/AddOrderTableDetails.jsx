@@ -367,8 +367,13 @@ function AddOrderTableDetails({
       <Modal
         isOpen={openModal}
         onRequestClose={handleCloseModal}
-        contentLabel="Add Product to the Order"
+        contentLabel={
+          language === "ar"
+            ? "إضافة منتج إلى الطلب"
+            : "Ajouter un produit à la commande"
+        }
         className="addNewModal addNewStockModal"
+        ariaHideApp={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -376,23 +381,41 @@ function AddOrderTableDetails({
           },
         }}
       >
-        <div className="customerClass addProductAchat">
-          <h2 className="dialogTitle">Add Product to the Order</h2>
+        <div
+          className="customerClass addProductAchat"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2 className="dialogTitle">
+            {language === "ar"
+              ? "إضافة منتج إلى الطلب"
+              : "Ajouter un produit à la commande"}
+          </h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
               <Search
-                placeholder="Search by Product..."
+                placeholder={
+                  language === "ar"
+                    ? "ابحث عن المنتج..."
+                    : "Rechercher un produit..."
+                }
                 value={searchQuery}
+                language={language}
                 onChange={handleSearchChange}
               />
-              <div className="flex space-x-5 items-center">
-                <span>Category :</span>
+              <div className="flex items-center">
+                <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                  {language === "ar" ? "الفئة :" : "Catégorie :"}
+                </span>
                 <div className="selectStoreWilayaCommune w-[300px]">
                   <select
                     name="productCategory"
                     onChange={handelCategoryChange}
                   >
-                    <option value="">-- Select Product Category --</option>
+                    <option value="" disabled selected>
+                      {language === "ar"
+                        ? "-- اختر فئة المنتج --"
+                        : "-- Sélectionner une catégorie --"}
+                    </option>
                     {CategoryData?.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
@@ -410,9 +433,13 @@ function AddOrderTableDetails({
               />
             </div>
             {newItem && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center justify-end space-x-4">
-                  <span>Quantity per box :</span>
+              <div className="flexItemsCenterBetween">
+                <div className="w-fit dialogAddCustomerItem items-center">
+                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                    {language === "ar"
+                      ? "الكمية لكل صندوق :"
+                      : "Quantité par boîte :"}
+                  </span>
                   <div className="inputForm">
                     <input
                       type="number"
@@ -423,8 +450,12 @@ function AddOrderTableDetails({
                     />
                   </div>
                 </div>
-                <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                  <span>Quantity per unity :</span>
+                <div className="w-fit dialogAddCustomerItem items-center">
+                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                    {language === "ar"
+                      ? "الكمية لكل وحدة :"
+                      : "Quantité par unité :"}
+                  </span>
                   <div className="inputForm">
                     <input
                       type="number"
@@ -435,25 +466,43 @@ function AddOrderTableDetails({
                     />
                   </div>
                 </div>
-                <div className="w-fit space-x-3 dialogAddCustomerItem items-center">
-                  <span>Total quantity :</span>
-                  <span>{ClientQuantity} unity</span>
+                <div className="w-fit dialogAddCustomerItem items-center">
+                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                    {language === "ar"
+                      ? "إجمالي الكمية :"
+                      : "Quantité totale :"}
+                  </span>
+                  <span>
+                    {ClientQuantity} {language === "ar" ? "وحدة" : "unité"}
+                  </span>
                 </div>
               </div>
             )}
           </div>
-          <div className="flex justify-end space-x-8 items-start mt-[20px]">
+          <div
+            className={`flex justify-end ${
+              language === "ar" ? "gap-x-8" : "space-x-8"
+            }`}
+          >
+            {" "}
             <button
               onClick={handleCloseModal}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
+              aria-label={language === "ar" ? "إغلاق" : "Fermer"}
             >
-              Close
+              {language === "ar" ? "إغلاق" : "Fermer"}
             </button>
             <button
               onClick={handleAddItem}
-              className="text-blue-500 cursor-pointer hover:text-blue-700"
+              className={`cursor-pointer ${
+                !newItem || ClientQuantity === 0
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-blue-500 hover:text-blue-700"
+              }`}
+              aria-label={language === "ar" ? "تأكيد" : "Confirmer"}
+              disabled={!newItem || ClientQuantity === 0}
             >
-              Confirm
+              {language === "ar" ? "تأكيد" : "Confirmer"}
             </button>
           </div>
         </div>

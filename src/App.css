@@ -1581,6 +1581,16 @@
   width: 40%;
 }
 
+.addProductModalHeader > .flex {
+  gap: 8px;
+}
+
+.flexItemsCenterBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* Mobile and tablet */
 @media screen and (max-width: 1023px) {
   .asideMedia {
@@ -1737,6 +1747,13 @@
   .WilayaCommuneClass {
     width: 100%;
   }
+
+  .addProductModalHeader {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+
+
 }
 
 /*Tablet */
@@ -1758,6 +1775,25 @@
 
   .flexCard .customerStatsCard {
     width: 100%;
+  }
+
+  .flexItemsCenterBetween {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .flexItemsCenterBetween .dialogAddCustomerItem {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .addNewStockModal {
+    height: fit-content;
+  }
+
+  .addNewStockModal .customerClass {
+    padding: 0;
   }
 }
 
@@ -1849,6 +1885,17 @@
     gap: 12px;
   }
 
+  .addProductModalHeader > .flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .addProductModalHeader .selectStoreWilayaCommune {
+    padding: 0;
+    width: 100%;
+  }
+
   .pagesContainer {
     gap: 16px;
   }
@@ -1925,6 +1972,31 @@
   }
 
   .paperAddAchat {
+    width: 100%;
+  }
+
+  .addProductModalHeader > .flex {
+    width: 100%;
+  }
+
+  .flexItemsCenterBetween {
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .flexItemsCenterBetween .dialogAddCustomerItem {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .flexItemsCenterBetween .dialogAddCustomerItem:last-child {
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 8px;
+  }
+
+  .flexItemsCenterBetween .dialogAddCustomerItem .inputForm {
     width: 100%;
   }
 }

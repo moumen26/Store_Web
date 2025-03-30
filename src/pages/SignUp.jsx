@@ -10,7 +10,7 @@ import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmDialog";
 
-export default function SignUp() {
+export default function SignUp({ onToggle, language, toggleLanguage }) {
   const navigate = useNavigate();
 
   const [Phone, setPhone] = useState("");
@@ -83,40 +83,45 @@ export default function SignUp() {
   return (
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">Stock</h2>
+        <h2 className="headerText logoText">MOZAGRO</h2>
         <div className="flex items-center space-x-5">
           <span href="/" className="headerText alreadyText">
-            Already have an account?
+            {language === "ar"
+              ? "لديك حساب بالفعل؟"
+              : "Vous avez déjà un compte ?"}
           </span>
-          <div className="flex items-center">
+          <div className="flex items-center w-fit">
             <a href="/SignIn" className="headerText signInText">
-              SignIn
+              {language === "ar" ? "تسجيل الدخول" : "Se connecter"}
             </a>
-            <ChevronRightIcon color="#26667E" />
+            <ChevronRightIcon color="#26667E" className="iconAsideBar" />
           </div>
         </div>
       </div>
       <div className="signUpContainer w-full flex items-center justify-center">
-        <div className="signUpContainerRight h-full border-r-2 border-[#C9E4EE]">
+        <div className="signUpContainerRight border-r-2 border-[#C9E4EE]">
           <div className="signUpContainerRightContainer">
             <h2 className="titleText">
-              Scale your store into <br />
-              Stock
+              {language === "ar"
+                ? "قم بتوسيع متجرك إلى MOZAGRO"
+                : "Développez votre magasin avec MOZAGRO"}
             </h2>
             <span className="spanText">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
-              quibusdam cumque amet ipsum eligendi omnis, aut ipsam,
-              perspiciatis et nam, nihil nulla maxime similique modi excepturi
-              dignissimos magni! Tempore, molestiae.
+              {language === "ar"
+                ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع MOZAGRO كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
+                : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOZAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
             </span>
-            <ButtonFacebok />
+
+            <ButtonFacebok language={language} />
             <div className="orClass">
               <div className="lineOr"></div>
-              <span className="orText">or</span>
+              <span className="orText">{language === "ar" ? "أو" : "ou"}</span>
               <div className="lineOr"></div>
             </div>
             <InputForm
-              labelForm="Phone Number"
+              labelForm={
+                language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"
+              }
               inputType="number"
               inputPlaceholder="+213"
               inputName="phoneNumber"
@@ -124,7 +129,11 @@ export default function SignUp() {
               setChangevalue={handlePhoneChange}
             />
             <ButtonDark
-              buttonSpan="Get Started - For Free"
+              buttonSpan={
+                language === "ar"
+                  ? "ابدأ الآن - مجانًا"
+                  : "Commencer - Gratuitement"
+              }
               setOnClick={handleClickOpenConfirmationDialog}
             />
           </div>
@@ -137,10 +146,19 @@ export default function SignUp() {
         open={openConfirmDialog}
         onClose={handleCloseConfirmDialog}
         onConfirm={handleSendOTP}
-        dialogTitle="Confirm Account Creation"
-        dialogContentText={`Are you sure you want to create new store account with this phone number: ${Phone}?`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد إنشاء الحساب"
+            : "Confirmer la création du compte"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إنشاء حساب متجر جديد بهذا الرقم: ${Phone}؟`
+            : `Êtes-vous sûr de vouloir créer un compte de magasin avec ce numéro de téléphone : ${Phone} ?`
+        }
         isloading={submitionLoading}
       />
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}

@@ -163,9 +163,21 @@ function App() {
             isCollapsed={isCollapsed}
           />
         ) : (
-          <SignIn />
+          <SignIn
+            onToggle={handleToggle}
+            language={language}
+            toggleLanguage={toggleLanguage}
+          />
         )}
-        {user ? <AsidebarScreenMedia /> : <SignIn />}
+        {user ? (
+          <AsidebarScreenMedia />
+        ) : (
+          <SignIn
+            onToggle={handleToggle}
+            language={language}
+            toggleLanguage={toggleLanguage}
+          />
+        )}
         <Routes>
           {/* private routes */}
           <Route
@@ -178,7 +190,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -192,7 +208,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -206,7 +226,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -220,7 +244,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -234,7 +262,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -248,7 +280,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -262,7 +298,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -276,7 +316,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -290,7 +334,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -304,7 +352,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -318,7 +370,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -332,7 +388,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -346,7 +406,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -360,7 +424,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -374,7 +442,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -388,7 +460,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -402,7 +478,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -416,7 +496,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -430,7 +514,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -444,7 +532,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -458,7 +550,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -472,7 +568,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -486,7 +586,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -500,7 +604,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -514,7 +622,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -528,7 +640,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -542,7 +658,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -556,7 +676,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -570,7 +694,11 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
@@ -584,26 +712,70 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn />
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
               )
             }
           />
           {/* public routes */}
           <Route
             path="/SignUp"
-            element={!user ? <SignUp /> : <Navigate to="/" />}
+            element={
+              !user ? (
+                <SignUp
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
           <Route
             path="/VerifyCode/:id"
-            element={!user ? <VerifyCode /> : <Navigate to="/" />}
+            element={
+              !user ? (
+                <VerifyCode
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
           <Route
             path="/SignIn"
-            element={!user ? <SignIn /> : <Navigate to="/" />}
+            element={
+              !user ? (
+                <SignIn
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
           <Route
             path="/UpYourAccount/:id"
-            element={!user ? <UpYourAccount /> : <Navigate to="/" />}
+            element={
+              !user ? (
+                <UpYourAccount
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
         </Routes>
       </main>

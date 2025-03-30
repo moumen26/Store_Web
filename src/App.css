@@ -49,11 +49,13 @@
 .signInText {
   color: var(--blackColor);
   font-weight: bold;
+  width: fit-content;
 }
 
 .signUpContainer,
 .signInContainer {
-  height: calc(100vh - 82px);
+  min-height: calc(100vh - 82px);
+  height: fit-content;
 }
 
 .signUpContainerRight,
@@ -229,7 +231,7 @@
 .logInForm {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 24px;
   margin-top: 32px;
 }
@@ -1436,6 +1438,7 @@
 
 .signUpContainerRight {
   width: 60%;
+  height: calc(100vh - 80px);
 }
 
 .pagesContainerTop {
@@ -1453,6 +1456,10 @@
   align-items: center;
   justify-content: space-between;
   /* margin-top: 16px; */
+}
+
+.upYourAccount .signUpContainerRightContainer .logInForm {
+  align-items: flex-start;
 }
 
 .DateRangeSelector {
@@ -1603,6 +1610,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.upYourAccount .signUpContainerRightContainer .logInForm .flex {
+  gap: 32px;
 }
 
 /* Mobile and tablet */
@@ -1815,7 +1826,50 @@
   .productDetailsStockAdd .dialogAddCustomerItem {
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
+  }
 
+  .upYourAccount {
+    width: 100%;
+    /* flex-direction: column; */
+  }
+
+  .upYourAccount .signUpContainerRight {
+    width: 100%;
+    padding-bottom: 32px;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .flex {
+    width: 100%;
+    gap: 32px;
+  }
+
+  .upYourAccount
+    .signUpContainerRightContainer
+    .logInForm
+    .flex
+    .selectStoreWilayaCommune {
+    width: 100%;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .flex .inputItem,
+  .upYourAccount .signUpContainerRightContainer .logInForm .storeCategory,
+  .upYourAccount .signUpContainerRightContainer .logInForm .buttonDark {
+    width: 100%;
+  }
+
+  .upYourAccount .signUpContainerLeft {
+    display: none;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .buttonAdd {
+    align-self: flex-start;
+  }
+
+  .upYourAccount
+    .signUpContainerRightContainer
+    .logInForm
+    > .flex:nth-child(4) {
     width: 100%;
   }
 }
@@ -1872,6 +1926,51 @@
 
   .signUpContainerLeft {
     display: none;
+  }
+
+  .upYourAccount {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .upYourAccount .signUpContainerRight {
+    width: 100%;
+    padding-bottom: 32px;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .flex {
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+  }
+
+  .upYourAccount
+    .signUpContainerRightContainer
+    .logInForm
+    .flex
+    .selectStoreWilayaCommune {
+    width: 100%;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .flex .inputItem,
+  .upYourAccount .signUpContainerRightContainer .logInForm .storeCategory,
+  .upYourAccount .signUpContainerRightContainer .logInForm .buttonDark {
+    width: 100%;
+  }
+
+  .upYourAccount .signUpContainerLeft {
+    display: none;
+  }
+
+  .upYourAccount .signUpContainerRightContainer .logInForm .buttonAdd {
+    align-self: flex-start;
+  }
+
+  .upYourAccount
+    .signUpContainerRightContainer
+    .logInForm
+    > .flex:nth-child(4) {
+    width: 100%;
   }
 
   .signUpContainerRight {

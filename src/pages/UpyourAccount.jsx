@@ -14,7 +14,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Modal from "react-modal";
 
-export default function UpYourAccount() {
+export default function UpYourAccount(language, onToggle, toggleLanguage) {
   const { user } = useAuthContext();
   const { id } = useParams();
   const location = useLocation();
@@ -310,90 +310,149 @@ export default function UpYourAccount() {
   return (
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">Stock</h2>
+        <h2 className="headerText logoText">MOZAGRO</h2>
+        <div className="flex h-8 items-center justify-center">
+          <select
+            className="bg-gray-100"
+            value={language}
+            onChange={(e) => toggleLanguage(e.target.value)}
+            style={{
+              padding: "7px 14px",
+              color: "#000",
+              border: "1px solid #c9e4ee",
+              borderRadius: "5px",
+              outline: "none",
+
+              cursor: "pointer",
+            }}
+          >
+            <option className="cursor-pointer" value="fr">
+              <p className="text-gray-800 font-medium text-[14px]">FR</p>
+            </option>
+            <option className="cursor-pointer" value="ar">
+              <p className="text-gray-800 font-medium text-[14px]">AR</p>
+            </option>
+          </select>
+        </div>{" "}
       </div>
-      <div className="signUpContainer w-full flex items-center justify-center">
-        <div className="signUpContainerRight w-[60%] h-full border-r-2 border-[#C9E4EE]">
+      <div className="signUpContainer upYourAccount w-full flex items-center justify-center">
+        <div className="signUpContainerRight w-[65%] h-full border-r-2 border-[#C9E4EE]">
           <div className="signUpContainerRightContainer">
             <h2 className="titleText">
-              Let’s set up your <br />
-              Account.
+              {language === "ar" ? (
+                <>لنقم بإعداد حسابك.</>
+              ) : (
+                <>Configurons votre compte.</>
+              )}
             </h2>
+
             <div className="logInForm mt-0">
-              <div className="flex space-x-8">
+              <div className="flex">
                 <InputForm
-                  labelForm="First Name"
+                  labelForm={language === "ar" ? "الاسم" : "Prénom"}
                   inputType="text"
-                  inputPlaceholder="Your first name"
+                  inputPlaceholder={language === "ar" ? "اسمك" : "Votre prénom"}
                   inputName="firstName"
                   setChangevalue={handleFirstNameChange}
                   value={FirstName}
                 />
                 <InputForm
-                  labelForm="Last Name"
+                  labelForm={language === "ar" ? "الاسم العائلي" : "Nom"}
                   inputType="text"
-                  inputPlaceholder="Your last name"
+                  inputPlaceholder={
+                    language === "ar" ? "اسمك العائلي" : "Votre nom"
+                  }
                   inputName="lastName"
                   setChangevalue={handleLastNameChange}
                   value={LastName}
                 />
               </div>
-              <div className="flex space-x-8">
+              <div className="flex">
                 <InputForm
-                  labelForm="Password"
+                  labelForm={language === "ar" ? "كلمة المرور" : "Mot de passe"}
                   inputType="password"
-                  inputPlaceholder="Your password"
+                  inputPlaceholder={
+                    language === "ar"
+                      ? "كلمة المرور الخاصة بك"
+                      : "Votre mot de passe"
+                  }
                   inputName="Password"
                   setChangevalue={handlePasswordChange}
                   value={Password}
                 />
                 <InputForm
-                  labelForm="Confirm password"
+                  labelForm={
+                    language === "ar"
+                      ? "تأكيد كلمة المرور"
+                      : "Confirmer le mot de passe"
+                  }
                   inputType="password"
-                  inputPlaceholder="Confirm your password"
+                  inputPlaceholder={
+                    language === "ar"
+                      ? "أكد كلمة المرور الخاصة بك"
+                      : "Confirmez votre mot de passe"
+                  }
                   inputName="ConfirmPassword"
                   setChangevalue={handleConfirmPasswordChange}
                   value={ConfirmPassword}
                 />
               </div>
-              <div className="flex space-x-8">
+              <div className="flex">
                 <InputForm
-                  labelForm="Store Name"
+                  labelForm={
+                    language === "ar" ? "اسم المتجر" : "Nom du magasin"
+                  }
                   inputType="text"
-                  inputPlaceholder="Your Store Name"
+                  inputPlaceholder={
+                    language === "ar" ? "اسم متجرك" : "Nom de votre magasin"
+                  }
                   inputName="storeName"
                   setChangevalue={handleStoreNameChange}
                   value={StoreName}
                 />
                 <InputForm
-                  labelForm="Address "
+                  labelForm={language === "ar" ? "العنوان" : "Adresse"}
                   inputType="text"
-                  inputPlaceholder="Your address"
+                  inputPlaceholder={
+                    language === "ar" ? "عنوانك" : "Votre adresse"
+                  }
                   inputName="storeAddress"
                   setChangevalue={handleAddressChange}
                   value={Address}
                 />
               </div>
-              <div className="flex space-x-8">
+              <div className="flex">
                 <InputForm
-                  labelForm="Commercial register number"
+                  labelForm={
+                    language === "ar"
+                      ? "رقم السجل التجاري"
+                      : "Numéro de registre du commerce"
+                  }
                   inputType="number"
-                  inputPlaceholder="Your commercial register number"
+                  inputPlaceholder={
+                    language === "ar"
+                      ? "رقم السجل التجاري الخاص بك"
+                      : "Votre numéro de registre du commerce"
+                  }
                   inputName="RC"
                   setChangevalue={handleR_CommerceChange}
                   value={R_Commerce}
                 />
               </div>
-              <div className="flex space-x-8">
+              <div className="flex">
                 <div className="flex-col space-y-[12px] items-center">
-                  <span>Wilaya</span>
+                  <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
                   <div className="selectStoreWilayaCommune w-[400px]">
                     <select
                       name="storeWilaya"
                       value={selectedWilaya}
                       onChange={handleWilayaChange}
                     >
-                      <option value="">Select Wilaya</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر الولاية"
+                          : "Sélectionnez une wilaya"}
+                      </option>
                       {wilayas.map((wilaya) => (
                         <option key={wilaya.value} value={wilaya.value}>
                           {wilaya.label}
@@ -403,14 +462,18 @@ export default function UpYourAccount() {
                   </div>
                 </div>
                 <div className="flex-col space-y-[12px] items-center">
-                  <span>Commune</span>
+                  <span>{language === "ar" ? "البلدية" : "Commune"}</span>
                   <div className="selectStoreWilayaCommune w-[400px]">
                     <select
                       name="storeCommune"
                       value={selectedCommune}
                       onChange={handleCommuneChange}
                     >
-                      <option value="">Select Commune</option>
+                      <option value="" disabled selected>
+                        {language === "ar"
+                          ? "اختر البلدية"
+                          : "Sélectionnez une commune"}
+                      </option>
                       {communes.map((commune) => (
                         <option key={commune.value} value={commune.value}>
                           {commune.label}
@@ -420,8 +483,10 @@ export default function UpYourAccount() {
                   </div>
                 </div>
               </div>
-              <div className="flex-col space-y-[12px]">
-                <span>Store Category</span>
+              <div className="flex-col storeCategory space-y-[12px]">
+                <span>
+                  {language === "ar" ? "فئة المتجر" : "Catégorie du magasin"}
+                </span>
                 <div className="selectedCategories">
                   {selectedCategories.map((category, index) => (
                     <div key={index} className="categoryChip">
@@ -440,16 +505,20 @@ export default function UpYourAccount() {
                 type="button"
               >
                 <PlusIcon className="iconAsideBar" />
-                <span className="buttonTextLight">Add Store Category</span>
+                <span className="buttonTextLight">
+                  {language === "ar"
+                    ? "إضافة فئة المتجر"
+                    : "Ajouter une catégorie"}
+                </span>
               </button>
               <ButtonDark
-                buttonSpan="Continue"
+                buttonSpan={language === "ar" ? "متابعة" : "Continuer"}
                 setOnClick={handleUpdateStore}
               />
             </div>
           </div>
         </div>
-        <div className="w-[40%] h-full flex justify-center items-center imageBorder">
+        <div className="w-[35%] signUpContainerLeft h-full flex justify-center items-center imageBorder">
           <img className="h-[90%]" src={UpAccountImage} alt="Up Account" />
         </div>
       </div>

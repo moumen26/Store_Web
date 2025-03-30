@@ -6,7 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-export default function SignIn() {
+export default function SignIn({ onToggle, language, toggleLanguage }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -72,30 +72,40 @@ export default function SignIn() {
   return (
     <div className="signIn">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">Stock</h2>
+        <h2 className="headerText logoText">MOZAGRO</h2>
       </div>
       <div className="signInContainer w-full flex items-center justify-center">
         <div className="signInContainerRightContainer">
-          <h2 className="titleText text-center">Log in to Stock</h2>
+          <h2 className="titleText text-center">
+            {language === "ar"
+              ? "تسجيل الدخول إلى MOZAGRO"
+              : "Connectez-vous à MOZAGRO"}
+          </h2>
           <div className="logInForm">
             <form onSubmit={handleLoginSubmit}>
               <InputForm
-                labelForm="Phone Number"
+                labelForm={
+                  language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"
+                }
                 inputType="phone"
                 inputPlaceholder="+213"
                 inputName="phoneNumber"
                 setChangevalue={handleUsernameChange}
               />
               <InputForm
-                labelForm="Password"
+                labelForm={language === "ar" ? "كلمة المرور" : "Mot de passe"}
                 inputType="password"
                 inputPlaceholder="Your password"
                 inputName="password"
                 setChangevalue={handlePasswordChange}
               />
-              <a href="">Forgot Password?</a>
+              <a href="" className="forgotPasswordText">
+                {language === "ar"
+                  ? "نسيت كلمة المرور؟"
+                  : "Mot de passe oublié ?"}
+              </a>
               <ButtonDark
-                buttonSpan="Log in"
+                buttonSpan={language === "ar" ? "تسجيل الدخول" : "Se connecter"}
                 setOnClick={handleLoginSubmit}
                 loading={loading}
               />
@@ -105,13 +115,15 @@ export default function SignIn() {
               <span className="orText">or</span>
               <div className="lineOr"></div>
             </div>
-            <ButtonFacebok />
+            <ButtonFacebok language={language} />
             <div className="flex w-full justify-center items-center space-x-2">
               <span href="/" className="headerText alreadyText">
-                New to Stock?
+                {language === "ar"
+                  ? "جديد في MOZAGRO؟"
+                  : "Nouveau sur MOZAGRO ?"}
               </span>
               <a href="/SignUp" className="headerText signInText">
-                Sign Up
+                {language === "ar" ? "إنشاء حساب" : "S'inscrire"}
               </a>
             </div>
           </div>

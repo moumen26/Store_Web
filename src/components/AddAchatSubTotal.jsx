@@ -21,7 +21,7 @@ function AddAchatSubTotal({ total, discount = 0, language }) {
               </span>
             </TableCell>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="trTableSpan">{discount} %</span>
+              <span className="trTableSpan">{formatNumber(discount)} DA</span>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -47,8 +47,8 @@ function AddAchatSubTotal({ total, discount = 0, language }) {
             <TableCell align={language === "ar" ? "right" : "left"}>
               <span className="trTableSpan">
                 {discount > 0
-                  ? formatNumber(total - (total * discount) / 100)
-                  : formatNumber(total)}{" "}
+                  ? formatNumber(Number(total) - Number(discount))
+                  : formatNumber(Number(total))}{" "}
                 {language === "ar" ? "دج " : " DA"}
               </span>
             </TableCell>

@@ -116,7 +116,7 @@ export default function PurchaseProfileDevicesProductTable({
               <span className="dashboardLatestOrdersDetails">Remise</span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">{discount} %</span>
+              <span className="trTableSpan">{formatNumber(discount)} DA</span>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -137,9 +137,7 @@ export default function PurchaseProfileDevicesProductTable({
             </TableCell>
             <TableCell align="right">
               <span className="trTableSpan">
-                {(invoiceSubtotal - (invoiceSubtotal * discount) / 100).toFixed(
-                  2
-                )}{" "}
+                {formatNumber(Number(invoiceSubtotal) - Number(discount))}{" "}
                 DA
               </span>
             </TableCell>

@@ -146,7 +146,7 @@ export default function PaymentHistorique({ data, isClosed = false, id, user, de
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {data.length == 0 ? (
-                    <span>no payment availble</span>
+                    <span>aucun paiement disponible</span>
                   ) : (
                     <CircularProgress color="inherit" size={4} />
                   )}

@@ -33,7 +33,6 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
     value = value.replace(/\D/g, "");
 
     let numericValue = Number(value);
-    if (numericValue > 100) numericValue = 100;
 
     e.target.value = numericValue;
     setDiscount(numericValue);
@@ -265,11 +264,11 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
                       placeholder={
                         language === "ar"
                           ? "أدخل قيمة التخفيض (0-100)"
-                          : "Enter discount (0-100)"
+                          : "Saisissez la remise"
                       }
                     />
                     <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                      %
+                      DA
                     </span>
                   </div>
                 </div>

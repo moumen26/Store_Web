@@ -85,8 +85,8 @@ function Row(props) {
         >
           <span className="trTableSpan">
             {row.closed
-              ? "The full amount has been paid."
-              : "The full amount has not been paid yet."}
+              ? "Le montant total a été payé."
+              : "Le montant total n'a pas encore été payé."}
           </span>
         </TableCell>
         <TableCell

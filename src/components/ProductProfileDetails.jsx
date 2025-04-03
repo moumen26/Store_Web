@@ -45,7 +45,7 @@ function ProductProfileRow({ data, language }) {
         align={language === "ar" ? "right" : "left"}
       >
         <span className="trTableSpan">
-          {(data?.quantity / data?.product?.boxItems).toFixed(0)}
+          {Math.floor((data?.quantity || 0) / (data?.product?.boxItems || 1))} boîtes and {(data?.quantity || 0) % (data?.product?.boxItems || 1)} unités
         </span>
       </TableCell>
     </TableRow>

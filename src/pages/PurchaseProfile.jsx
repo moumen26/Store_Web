@@ -503,7 +503,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
               <h2 className="customerClassTitle">Fournisseur</h2>
               <div className="flex-col space-y-1">
                 <span className="dashboardLatestOrdersDetails">
-                  Contact Information
+                  Les coordonnées
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
@@ -514,7 +514,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
               </div>
               <div className="flex-col space-y-1">
                 <span className="dashboardLatestOrdersDetails">
-                  Default Address
+                  Adresse par défaut
                 </span>
                 <div className="flex-col space-y-1">
                   <p className="orderProfileSpan">
@@ -544,7 +544,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
       >
         <div className="customerClass">
           <div className="flex flex-row justify-between items-center w-full">
-            <h2 className="customerClassTitle">Payment History</h2>
+            <h2 className="customerClassTitle">Historique des paiements</h2>
             {PurchaseData.closed == false ? (
               <div className="flex space-x-4">
                 {PurchaseData.deposit == false ? (
@@ -556,7 +556,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Make it undeposit"
+                    buttonSpan="Faites-le sans dépôt"
                     onClick={handleOpenUnDepositConfirmationDialog}
                   />
                 )}
@@ -577,13 +577,13 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
                 {PurchaseData.credit == true ? (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Add payment"
+                    buttonSpan="Ajouter un paiement"
                     onClick={handleOpenAddPaymentDialog}
                   />
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Full payment"
+                    buttonSpan="Ajouter le paiement total"
                     onClick={handleOpenFullyPaidDialog}
                   />
                 )}
@@ -612,7 +612,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
               Total : {PurchaseData.totalAmount} DA
             </h2>
             <h2 className="customerClassTitle">
-              Rest to pay :{" "}
+              Reste à payer :{" "}
               {PurchaseData.totalAmount -
                 PurchaseData.payment.reduce((sum, pay) => sum + pay.amount, 0)}
               DA

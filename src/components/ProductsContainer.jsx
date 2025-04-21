@@ -68,7 +68,12 @@ export default function ProductsContainer({
         </div>
       ) : (
         <div className="productsContainerSpan">
-          <span className="thTableSpan">
+          <span
+            className="thTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar"
               ? "لا توجد منتجات متاحة"
               : "Aucun produit disponible"}
@@ -93,7 +98,13 @@ export default function ProductsContainer({
             className="customerClass paddingClass"
             style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
-            <h2 className="customerClassTitle">
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="customerClassTitle"
+            >
               {language === "ar" ? "تفاصيل المنتج" : "Détails du Produit"}
             </h2>
             <div className="w-full flex justify-center h-[300px]">
@@ -117,10 +128,24 @@ export default function ProductsContainer({
                   language === "ar" ? "gap-x-3" : ""
                 }`}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "رمز المنتج" : "Code du Produit"}
                 </span>
-                <span className="trTableSpan">{selectedProduct._id}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="trTableSpan"
+                >
+                  {selectedProduct._id}
+                </span>
               </div>
               <div
                 className={`flex space-x-3 ${
@@ -128,10 +153,22 @@ export default function ProductsContainer({
                 }`}
               >
                 {" "}
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "اسم" : "Nom"}
                 </span>
-                <span className="trTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="trTableSpan"
+                >
                   {selectedProduct.name} {selectedProduct.size}
                 </span>
               </div>
@@ -141,10 +178,22 @@ export default function ProductsContainer({
                 }`}
               >
                 {" "}
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "ماركة" : "Marque"}
                 </span>
-                <span className="trTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="trTableSpan"
+                >
                   {selectedProduct.brand.name}
                 </span>
               </div>
@@ -154,15 +203,33 @@ export default function ProductsContainer({
                 }`}
               >
                 {" "}
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "عناصر لكل صندوق" : "Articles par Boîte"}
                 </span>
-                <span className="trTableSpan">{selectedProduct.boxItems}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="trTableSpan"
+                >
+                  {selectedProduct.boxItems}
+                </span>
               </div>
             </div>
             <div className="flex justify-end">
               <button
                 onClick={handleCloseModal}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
               >
                 {language === "ar" ? "إغلاق" : "Fermer"}

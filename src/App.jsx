@@ -37,6 +37,7 @@ import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
 import { CircularProgress } from "@mui/material";
+import Logo from "../src/assets/Logo-error.png";
 
 function App() {
   const { user } = useAuthContext();
@@ -70,6 +71,7 @@ function App() {
   const text = {
     fr: {
       noInternet: "Pas de connexion Internet ...",
+      tryAgainLater: "Veuillez vérifier votre connexion et réessayer",
       dashboard: "Tableau de bord",
       customers: "Clients",
       purchases: "Achats",
@@ -103,7 +105,8 @@ function App() {
       upYourAccount: "Améliorer votre compte",
     },
     ar: {
-      noInternet: "لا يوجد اتصال بالإنترنت ...",
+      noInternet: "لا يوجد اتصال بالإنترنت...",
+      tryAgainLater: "يرجى التحقق من الاتصال وحاول مرة أخرى.",
       dashboard: "لوحة القيادة",
       customers: "العملاء",
       purchases: "المشتريات",
@@ -138,11 +141,51 @@ function App() {
     },
   };
 
+  const [bounce, setBounce] = useState(false);
+
+  useEffect(() => {
+    // Create a bouncing effect every 2 seconds
+    const interval = setInterval(() => {
+      setBounce(true);
+      setTimeout(() => setBounce(false), 500);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (!isOnline) {
     return (
-      <div className="w-full h-[100vh] flex items-center justify-center flex-col">
-        <CircularProgress color="error" />
-        <h1 style={{ color: "red" }}>{text[language].noInternet}</h1>
+      <div className="w-full h-screen flex items-center justify-center flex-col gap-6">
+        <div className="flex flex-col items-center">
+          <div
+            className={`transition-transform duration-500 mb-4 ${
+              bounce ? "translate-y-2" : ""
+            }`}
+          >
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-[100px] opacity-80 animate-pulse"
+            />
+          </div>
+          <h1
+            style={{
+              fontFamily: language === "ar" ? "Cairo, sans-serif" : "",
+            }}
+            className="text-red-500 text-xl font-medium"
+          >
+            {text[language].noInternet}
+          </h1>
+          <p
+            style={{
+              fontFamily: language === "ar" ? "Cairo, sans-serif" : "",
+            }}
+            className="text-gray-500"
+          >
+            {text[language].tryAgainLater ||
+              "Please check your connection and try again."}
+          </p>
+        </div>
       </div>
     );
   }

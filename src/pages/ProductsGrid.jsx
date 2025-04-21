@@ -254,11 +254,17 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "المنتجات" : "Produits"}
           </h2>
           <div className="buttonTop">
             <ButtonAdd
+              language={language}
               buttonSpan={
                 language === "ar"
                   ? "إضافة منتج جديد"
@@ -282,16 +288,37 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
             language={language}
           />
           <div className="span-input">
-            <span>{language === "ar" ? "الفئة :" : "Catégorie"}</span>
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الفئة :" : "Catégorie"}
+            </span>
             <div className="selectStoreWilayaCommune">
-              <select name="productCategory" onChange={handelCategoryChange}>
+              <select
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                name="productCategory"
+                onChange={handelCategoryChange}
+              >
                 <option value="" disabled selected>
                   {language === "ar"
                     ? "-- اختر فئة المنتج --"
                     : "-- Sélectionnez la Catégorie de Produit --"}
                 </option>
                 {CategoryData?.map((category) => (
-                  <option key={category._id} value={category._id}>
+                  <option
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                    key={category._id}
+                    value={category._id}
+                  >
                     {category.name}
                   </option>
                 ))}
@@ -326,7 +353,13 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
             className="customerClass pb-0"
             style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
-            <h2 className="dialogTitle">
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="dialogTitle"
+            >
               {language === "ar"
                 ? "إضافة منتج جديد إلى المخزون"
                 : "Ajouter un Nouveau Produit au Stock"}
@@ -335,11 +368,22 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
               <form>
                 <div className="flex-col space-y-8 mb-5">
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="text"
                         name="productName"
                         onChange={handleProductNameChange}
@@ -347,13 +391,24 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "حجم المنتج :"
                         : "Taille du Produit :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="text"
                         name="productName"
                         onChange={handleProductSizeChange}
@@ -361,13 +416,24 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "العناصر لكل صندوق :"
                         : "Articles par Boîte :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         name="productName"
                         onChange={handleProductBoxItemsChange}
@@ -375,7 +441,12 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "فئة المنتج :"
                         : "Catégorie de Produit :"}
@@ -399,7 +470,12 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "ماركة المنتج :"
                         : "Marque du Produit :"}
@@ -423,7 +499,12 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "صورة المنتج :"
                         : "Image du Produit :"}
@@ -445,14 +526,28 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       </div>
                       <div className="uploadClass">
                         <input
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                            display: "none",
+                          }}
                           type="file"
                           accept="image/*"
                           ref={fileInputRef}
-                          style={{ display: "none" }}
                           onChange={handleImageChange}
                         />
                         <p onClick={handleClick} className="uploadSpan">
-                          <span className="text-blue-600">
+                          <span
+                            className="text-blue-600"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
                             {language === "ar"
                               ? "انقر لتحميل"
                               : "Cliquez pour télécharger"}{" "}
@@ -473,10 +568,18 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                   <button
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseAddProductModal}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                   >
                     {language === "ar" ? "إلغاء" : "Annuler"}
                   </button>
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="button"
                     value={language === "ar" ? "حفظ" : "Enregistrer"}
                     className="text-blue-500 cursor-pointer hover:text-blue-700"

@@ -4,6 +4,8 @@ import ButtonDark from "../components/ButtonDark";
 import ButtonFacebok from "../components/ButtonFacebok";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Snackbar from "@mui/material/Snackbar";
+import Logo from "../assets/Logo-mosagro.png";
+
 import Alert from "@mui/material/Alert";
 
 export default function SignIn({ onToggle, language, toggleLanguage }) {
@@ -71,18 +73,54 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
 
   return (
     <div className="signIn">
-      <div className="w-full h-[80px] flex justify-between items-center pl-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">MOZAGRO</h2>
+      <div
+        className={`w-full h-[80px] flex justify-start items-center border-b-2 border-[#a] ${
+          language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
+        }`}
+        style={{
+          paddingLeft: language === "ar" ? "0" : "2.5rem",
+          paddingRight: language === "ar" ? "2.5rem" : "0",
+        }}
+      >
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
+          }`}
+        >
+          <img src={Logo} alt="Store Logo" className="h-8" />
+          <h2
+            className={`logoText ${
+              language === "ar" ? "font-cairo-Regular" : ""
+            }`}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "موساجرو" : "MOSAGRO"}
+          </h2>
+        </div>
       </div>
       <div className="signInContainer w-full flex items-center justify-center">
         <div className="signInContainerRightContainer">
-          <h2 className="titleText text-center">
-            {language === "ar"
-              ? "تسجيل الدخول إلى MOZAGRO"
-              : "Connectez-vous à MOZAGRO"}
+          <h2
+            className={`titleText text-center ${
+              language === "ar" ? "font-cairo-Regular" : ""
+            }`}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "تسجيل الدخول" : "Connectez-vous"}
           </h2>
-          <div className="logInForm">
-            <form onSubmit={handleLoginSubmit}>
+          <div
+            className={`logInForm ${
+              language === "ar" ? "text-right" : "text-left"
+            }`}
+          >
+            <form
+              onSubmit={handleLoginSubmit}
+              dir={language === "ar" ? "rtl" : "ltr"}
+            >
               <InputForm
                 labelForm={
                   language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"
@@ -91,6 +129,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 inputPlaceholder="+213"
                 inputName="phoneNumber"
                 setChangevalue={handleUsernameChange}
+                isRtl={language === "ar"}
+                language={language}
               />
               <InputForm
                 labelForm={language === "ar" ? "كلمة المرور" : "Mot de passe"}
@@ -98,29 +138,59 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 inputPlaceholder="Your password"
                 inputName="password"
                 setChangevalue={handlePasswordChange}
+                isRtl={language === "ar"}
+                language={language}
               />
-              <a href="" className="forgotPasswordText">
-                {language === "ar"
-                  ? "نسيت كلمة المرور؟"
-                  : "Mot de passe oublié ?"}
-              </a>
+              <div
+                className={`w-full flex ${
+                  language === "ar" ? "justify-start" : "justify-end"
+                }`}
+              >
+                <a
+                  href=""
+                  className="forgotPasswordText"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar"
+                    ? "نسيت كلمة المرور؟"
+                    : "Mot de passe oublié ?"}
+                </a>
+              </div>
               <ButtonDark
                 buttonSpan={language === "ar" ? "تسجيل الدخول" : "Se connecter"}
                 setOnClick={handleLoginSubmit}
                 loading={loading}
+                language={language}
               />
             </form>
             <div className="orClass">
               <div className="lineOr"></div>
-              <span className="orText">or</span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="orText"
+              >
+                {language === "ar" ? "أو" : "or"}
+              </span>
               <div className="lineOr"></div>
             </div>
             <ButtonFacebok language={language} />
-            <div className="flex w-full justify-center items-center space-x-2">
+            <div
+              className={`flex w-full justify-center items-center ${
+                language === "ar"
+                  ? "flex-row-reverse space-x-reverse"
+                  : "space-x-2"
+              }`}
+            >
               <span href="/" className="headerText alreadyText">
                 {language === "ar"
-                  ? "جديد في MOZAGRO؟"
-                  : "Nouveau sur MOZAGRO ?"}
+                  ? "جديد في موساجرو؟"
+                  : "Nouveau sur MOSAGRO ?"}
               </span>
               <a href="/SignUp" className="headerText signInText">
                 {language === "ar" ? "إنشاء حساب" : "S'inscrire"}
@@ -133,6 +203,10 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: language === "ar" ? "left" : "right",
+        }}
       >
         <Alert
           onClose={handleCloseSnackbar}

@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 import React, { useState } from "react";
+import Logo from "../assets/Logo-mosagro.png";
 
 import SignUpImage from "../assets/images/SignUpImage.png";
 import ButtonFacebok from "../components/ButtonFacebok";
@@ -83,7 +84,11 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
   return (
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">MOZAGRO</h2>
+        <div className="flex items-center space-x-2">
+          <img src={Logo} alt="Store Logo" className="h-8" />
+          <h2 className="headerText logoText">MOSAGRO</h2>
+        </div>
+
         <div className="flex items-center space-x-5">
           <span href="/" className="headerText alreadyText">
             {language === "ar"
@@ -103,13 +108,13 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
           <div className="signUpContainerRightContainer">
             <h2 className="titleText">
               {language === "ar"
-                ? "قم بتوسيع متجرك إلى MOZAGRO"
-                : "Développez votre magasin avec MOZAGRO"}
+                ? "قم بتوسيع متجرك إلى MOSAGRO"
+                : "Développez votre magasin avec MOSAGRO"}
             </h2>
             <span className="spanText">
               {language === "ar"
-                ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع MOZAGRO كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
-                : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOZAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
+                ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع MOSAGRO كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
+                : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOSAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
             </span>
 
             <ButtonFacebok language={language} />

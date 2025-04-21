@@ -129,6 +129,9 @@ export default function DashboardCalendar({ onDateChange, language }) {
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
           <label
             htmlFor="startDate"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             className={language === "ar" ? "ml-4" : ""}
           >
             {language === "fr" ? "Date de début :" : "تاريخ البدء : "}
@@ -144,7 +147,13 @@ export default function DashboardCalendar({ onDateChange, language }) {
           />
         </div>
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
-          <label htmlFor="endDate" className={language === "ar" ? "ml-4" : ""}>
+          <label
+            htmlFor="endDate"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className={language === "ar" ? "ml-4" : ""}
+          >
             {language === "fr" ? "Date de fin :" : " تاريخ الانتهاء :"}
           </label>
           <Calendar
@@ -167,6 +176,9 @@ export default function DashboardCalendar({ onDateChange, language }) {
             setStartDate(null);
             setEndDate(null);
             onDateChange(null, null);
+          }}
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
           {language === "fr" ? "Effacer" : "مسح"}

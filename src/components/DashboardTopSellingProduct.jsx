@@ -12,7 +12,12 @@ export default function DashboardTopSellingProduct({
       className={`dashboardTopSellingProduct ${language === "ar" ? "rtl" : ""}`}
     >
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">
+        <h3
+          className="dashboardTitleItem"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "fr"
             ? "Produits les plus vendus"
             : "المنتجات الأكثر مبيعًا"}
@@ -38,7 +43,13 @@ export default function DashboardTopSellingProduct({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan text-center">
+              <span
+                className="thTableSpan text-center"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr"
                   ? "Aucun produit trouvé"
                   : "لم يتم العثور على أي منتج"}

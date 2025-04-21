@@ -310,7 +310,7 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
   return (
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">MOZAGRO</h2>
+        <h2 className="headerText logoText">MOSAGRO</h2>
         <div className="flex h-8 items-center justify-center">
           <select
             className="bg-gray-100"

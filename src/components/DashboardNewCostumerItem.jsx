@@ -44,7 +44,14 @@ export default function DashboardNewCostumerItem({
           <span className="alphSpan">{initials}</span>
         </div>
         <div className="flex-col space-y-1">
-          <h3 className="dashboardText">{CostumerName}</h3>
+          <h3
+            className="dashboardText"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {CostumerName}
+          </h3>
           <p className="dashboardSpan">
             {language === "fr"
               ? `Customer ID #${CostumerId}`

@@ -15,6 +15,23 @@ import {
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
+import Logo from "../assets/Logo-mosagro.png";
+
+// Custom Tailwind color scheme matching your CSS variables
+const tailwindColors = {
+  greyDark: "#888888",
+  main: "#3e9cb9",
+  neutral: "#c9e4ee",
+  dark: "#26667e",
+  text: "#62b5ce",
+  light: "#e7f2f7",
+  black: "#000",
+  white: "#fff",
+  grey: "#ededed",
+  color: "#f7f7f7",
+  red: "#ff0000",
+  green: "#298f00",
+};
 
 export default function Asidebar({ language }) {
   const location = useLocation();
@@ -22,6 +39,36 @@ export default function Asidebar({ language }) {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isAchatsOpen, setIsAchatsOpen] = useState(false);
+
+  // Auto-expand the dropdown when a child route is active
+  useEffect(() => {
+    const path = location.pathname;
+
+    // Check if the current path matches any product routes
+    if (path.includes("/Products")) {
+      setIsProductsOpen(true);
+    }
+
+    // Check if the current path matches any order routes
+    if (
+      path.includes("/Orders") ||
+      path.includes("CreditOrders") ||
+      path.includes("ReturnsOrders") ||
+      path.includes("OrdersArchive")
+    ) {
+      setIsOrdersOpen(true);
+    }
+
+    // Check if the current path matches any purchases routes
+    if (
+      path.includes("/Purchases") ||
+      path.includes("CreditPurchases") ||
+      path.includes("ReturnsPurchases") ||
+      path.includes("PuchasesArchive")
+    ) {
+      setIsAchatsOpen(true);
+    }
+  }, [location.pathname]);
 
   const handleProductsClick = () => {
     setIsProductsOpen((prevState) => !prevState);
@@ -54,77 +101,158 @@ export default function Asidebar({ language }) {
     logout();
   };
 
+  // Custom classes based on your color scheme
+  const activeItemClass = "bg-[#e7f2f7] text-[#3e9cb9] border-[#3e9cb9]";
+  const hoverItemClass = "hover:bg-[#e7f2f7] hover:text-[#3e9cb9]";
+  const normalItemClass = "text-[#26667e]";
+  const iconClass = "text-current";
+  const chevronClass = "text-[#888888]";
+
+  // Style for active submenu items
+  const activeSubmenuClass = "bg-[#e7f2f7] text-[#3e9cb9] font-medium";
+  const normalSubmenuClass = "text-[#62b5ce] font-normal";
+
   return (
-    <aside className={`aside ${language === "ar" ? "rtl" : ""}`}>
-      <ul className="topAsideBar flex-col space-y-[8px]">
+    <aside
+      className={`w-[17%] h-screen fixed top-0 ${
+        language === "ar" ? "right-0 border-l" : "left-0 border-r"
+      } bg-white border-[#ededed] shadow-sm overflow-y-auto p-6 pt-10 transition-all duration-300`}
+    >
+      {/* Logo */}
+      <div className="flex justify-center mb-10">
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
+          }`}
+        >
+          <img src={Logo} alt="Store Logo" className="h-10" />
+          <h2
+            className={`logoTextAside ${
+              language === "ar" ? "font-cairo-Regular" : ""
+            }`}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "موزاجرو" : "MOSAGRO"}
+          </h2>
+        </div>
+      </div>
+
+      <ul className="flex flex-col space-y-2 list-none p-0 m-0">
         <li>
-          <NavLink to="/Dashboard" className="flex items-center">
+          <NavLink
+            to="/Dashboard"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar ${
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/" || location.pathname === "/Dashboard"
-                  ? "asideItemActive"
+                  ? activeItemClass
                   : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <Squares2X2Icon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <Squares2X2Icon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Dashboard" : "الرئيسية"}
               </span>
             </div>
           </NavLink>
         </li>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex flex-col space-y-2 sidebar">
+          <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer w-full">
               <div
-                className={`flex items-center justify-between itemAsideBar ${
-                  language === "ar" ? "flex-row-reverse" : ""
-                }`}
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                  location.pathname.includes("/Products") ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse" : ""}`}
                 onClick={handleProductsClick}
               >
                 <div
-                  className={`flex ${
+                  className={`flex items-center ${
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  <ArchiveBoxIcon className="iconAsideBar" />
-                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                  <ArchiveBoxIcon className={`w-5 h-5 ${iconClass}`} />
+                  <span
+                    className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "fr" ? "Produits" : "المنتجات"}
                   </span>
                 </div>
                 <ChevronDownIcon
-                  className={`iconPages ${isProductsOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
+                    isProductsOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
             </div>
             {isProductsOpen && (
-              <div className="flex-col space-y-[8px]">
-                <NavLink to="/ProductsList" className="flex items-center">
+              <div className="flex flex-col space-y-2 pl-4">
+                <NavLink
+                  to="/ProductsList"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/ProductsList"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Stock de produits"
                         : "مخزون المنتجات"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/ProductsGrid" className="flex items-center">
+                <NavLink
+                  to="/ProductsGrid"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/ProductsGrid"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Grille des produits"
                         : "شبكة المنتجات"}
@@ -135,41 +263,67 @@ export default function Asidebar({ language }) {
             )}
           </li>
         </div>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex flex-col space-y-2 sidebar">
+          <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer">
               <div
-                className={`flex items-center justify-between itemAsideBar ${
-                  language === "ar" ? "flex-row-reverse" : ""
-                }`}
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                  location.pathname.includes("/Orders") ||
+                  location.pathname.includes("CreditOrders") ||
+                  location.pathname.includes("ReturnsOrders") ||
+                  location.pathname.includes("OrdersArchive")
+                    ? activeItemClass
+                    : ""
+                } ${language === "ar" ? "flex-row-reverse" : ""}`}
                 onClick={handleOrdersClick}
               >
                 <div
-                  className={`flex ${
+                  className={`flex items-center ${
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  {" "}
-                  <ShoppingBagIcon className="iconAsideBar" />
-                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                  <ShoppingBagIcon className={`w-5 h-5 ${iconClass}`} />
+                  <span
+                    className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "fr" ? "Commandes" : "الطلبات"}
                   </span>
                 </div>
                 <ChevronDownIcon
-                  className={`iconPages ${isOrdersOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
+                    isOrdersOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
             </div>
             {isOrdersOpen && (
-              <div className="flex-col space-y-[8px]">
-                <NavLink to="/Orders" className="flex items-center">
+              <div className="flex flex-col space-y-2 pl-4">
+                <NavLink
+                  to="/Orders"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
-                      location.pathname === "/Orders" ? "asideItemActive" : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
+                      location.pathname === "/Orders"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Dernières commandes"
                         : "أحدث الطلبات"}
@@ -178,65 +332,110 @@ export default function Asidebar({ language }) {
                 </NavLink>
                 <NavLink
                   to="/Orders/InPreparation"
-                  className="flex items-center"
+                  className={({ isActive }) => `flex items-center`}
                 >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/Orders/InPreparation"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Commandes en cours"
                         : "الطلبات قيد التحضير"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/CreditOrders" className="flex items-center">
+                <NavLink
+                  to="/CreditOrders"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/CreditOrders"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Commandes à crédit"
                         : "الطلبات بالائتمان"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/ReturnsOrders" className="flex items-center">
+                <NavLink
+                  to="/ReturnsOrders"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/ReturnsOrders"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Commandes de retour"
                         : "طلبات الإرجاع"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/OrdersArchive" className="flex items-center">
+                <NavLink
+                  to="/OrdersArchive"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/OrdersArchive"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Archive des commandes"
                         : "أرشيف الطلبات"}
@@ -247,89 +446,151 @@ export default function Asidebar({ language }) {
             )}
           </li>
         </div>
-        <div className="flex-col space-y-[8px] sidebar">
-          <li className="flex-col space-y-[8px]">
+        <div className="flex flex-col space-y-2 sidebar">
+          <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer">
               <div
-                className={`flex items-center justify-between itemAsideBar ${
-                  language === "ar" ? "flex-row-reverse" : ""
-                }`}
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                  location.pathname.includes("/Purchases") ||
+                  location.pathname.includes("CreditPurchases") ||
+                  location.pathname.includes("ReturnsPurchases") ||
+                  location.pathname.includes("PuchasesArchive")
+                    ? activeItemClass
+                    : ""
+                } ${language === "ar" ? "flex-row-reverse" : ""}`}
                 onClick={handleAchatsClick}
               >
                 <div
-                  className={`flex ${
+                  className={`flex items-center ${
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  {" "}
-                  <ClipboardDocumentCheckIcon className="iconAsideBar" />
-                  <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                  <ClipboardDocumentCheckIcon
+                    className={`w-5 h-5 ${iconClass}`}
+                  />
+                  <span
+                    className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "fr" ? "Achats" : "المشتريات"}
                   </span>
                 </div>
                 <ChevronDownIcon
-                  className={`iconPages ${isAchatsOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
+                    isAchatsOpen ? "rotate-180" : ""
+                  }`}
                 />
               </div>
             </div>
             {isAchatsOpen && (
-              <div className="flex-col space-y-[8px]">
-                <NavLink to="/Purchases" className="flex items-center">
+              <div className="flex flex-col space-y-2 pl-4">
+                <NavLink
+                  to="/Purchases"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/Purchases"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr" ? "Derniers achats" : "أحدث المشتريات"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/CreditPurchases" className="flex items-center">
+                <NavLink
+                  to="/CreditPurchases"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/CreditPurchases"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Achats à crédit"
                         : "المشتريات بالائتمان"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/ReturnsPurchases" className="flex items-center">
+                <NavLink
+                  to="/ReturnsPurchases"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/ReturnsPurchases"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Retours d'achats"
                         : "إرجاع المشتريات"}
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/PuchasesArchive" className="flex items-center">
+                <NavLink
+                  to="/PuchasesArchive"
+                  className={({ isActive }) => `flex items-center`}
+                >
                   <div
-                    className={`flex items-center itemAsideBar ${
+                    className={`flex items-center w-full px-4 py-2 rounded-lg ${
                       location.pathname === "/PuchasesArchive"
-                        ? "asideItemActive"
-                        : ""
-                    } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
+                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                      language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
-                    <Square2StackIcon className="iconAsideBar opacity-0" />
-                    <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+                    <span
+                      className={`text-sm ${
+                        language === "ar" ? "mr-7" : "ml-7"
+                      }`}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "fr"
                         ? "Archive des achats"
                         : "أرشيف المشتريات"}
@@ -341,56 +602,108 @@ export default function Asidebar({ language }) {
           </li>
         </div>
         <li>
-          <NavLink to="/Customers" className=" flex items-center">
+          <NavLink
+            to="/Customers"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar ${
-                location.pathname === "/Customers" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Customers" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <UserGroupIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <UserGroupIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Clients" : "العملاء"}
               </span>
             </div>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Vendors" className=" flex items-center">
+          <NavLink
+            to="/Vendors"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Vendors" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Vendors" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <UsersIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <UsersIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Vendeurs" : "البائعين"}
               </span>
             </div>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Fournisseurs" className=" flex items-center">
+          <NavLink
+            to="/Fournisseurs"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Fournisseurs" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Fournisseurs" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <UserIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <UserIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Fournisseurs" : "الموردين"}
               </span>
             </div>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Authentication" className=" flex items-center">
+          <NavLink
+            to="/Authentication"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Authentication" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Authentication" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <UserPlusIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <UserPlusIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr"
                   ? "Authentification utilisateur"
                   : "مصادقة المستخدم"}
@@ -399,28 +712,54 @@ export default function Asidebar({ language }) {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Losses" className=" flex items-center">
+          <NavLink
+            to="/Losses"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Losses" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Losses" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <ArrowTrendingDownIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <ArrowTrendingDownIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Pertes" : "الخسائر"}
               </span>
             </div>
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Publicite" className=" flex items-center">
+          <NavLink
+            to="/Publicite"
+            className={({ isActive }) => `flex items-center`}
+          >
             <div
-              className={`flex items-center itemAsideBar AuthenticationItemAsideBar  ${
-                location.pathname === "/Publicite" ? "asideItemActive" : ""
-              } ${language === "ar" ? "flex-row-reverse" : ""}`}
+              className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
+                location.pathname === "/Publicite" ? activeItemClass : ""
+              } ${
+                language === "ar"
+                  ? "flex-row-reverse border-r-4 pr-3"
+                  : "border-l-4"
+              }`}
             >
-              <DevicePhoneMobileIcon className="iconAsideBar" />
-              <span className={`ml-3 ${language === "ar" ? "mr-3" : ""}`}>
+              <DevicePhoneMobileIcon className={`w-5 h-5 ${iconClass}`} />
+              <span
+                className={`${language === "ar" ? "mr-3" : "ml-3"}`}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr" ? "Publicité" : "الإعلانات"}
               </span>
             </div>

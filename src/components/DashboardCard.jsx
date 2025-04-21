@@ -12,6 +12,7 @@ export default function DashboardCard({
   dashboardCardAmount,
   OrdersStatsLoading = false,
   language,
+  className = "",
 }) {
   let iconComponent;
 
@@ -38,19 +39,32 @@ export default function DashboardCard({
       {!OrdersStatsLoading ? (
         <Card
           style={{
-            width: "100%",
             height: "180px",
             borderRadius: 20,
           }}
-          className="responsive-card"
+          className={`responsive-card ${className}`}
         >
           <div className="w-full h-[140px] flex flex-col justify-between">
             <div className="flex justify-between items-center">
-              <h3 className="dashboardCardTitle">{dashboardCardTitle}</h3>
+              <h3
+                className="dashboardCardTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {dashboardCardTitle}
+              </h3>
               {iconComponent}
             </div>
             <div className="flex justify-between items-center">
-              <h2 className="dashboardCardAmount">
+              <h2
+                className="dashboardCardAmount"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {dashboardCardAmount}
                 {dashboardCardTitle !== "Total des commandes" &&
                 dashboardCardTitle !== "إجمالي الطلبات"
@@ -65,10 +79,10 @@ export default function DashboardCard({
       ) : (
         <Card
           style={{
-            width: "100%",
             height: "200px",
             borderRadius: 20,
           }}
+          className={className}
         >
           <div className="w-full h-[160px] flex items-center justify-center">
             <CircularProgress color="inherit" />

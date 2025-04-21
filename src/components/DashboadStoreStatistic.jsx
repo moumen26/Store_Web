@@ -15,7 +15,12 @@ export default function DashboadStoreStatistic({
   return (
     <div className={`dashboadStoreStatistic ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">
+        <h3
+          className="dashboardTitleItem"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "fr" ? "Statistiques du magasin" : "إحصائيات المتجر"}
         </h3>
       </div>
@@ -24,7 +29,13 @@ export default function DashboadStoreStatistic({
           <>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 className="dashboardText">
+                <h3
+                  className="dashboardText"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "fr" ? "Total des commandes" : "إجمالي الطلبات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalReceipts}</p>
@@ -35,7 +46,13 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 className="dashboardText">
+                <h3
+                  className="dashboardText"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "fr" ? "Total des produits" : "إجمالي المنتجات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalStocks}</p>
@@ -46,7 +63,13 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 className="dashboardText">
+                <h3
+                  className="dashboardText"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "fr" ? "Total des clients" : "إجمالي العملاء"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalCustomers}</p>
@@ -57,7 +80,13 @@ export default function DashboadStoreStatistic({
             </div>
             <div className="flex items-center justify-between pl-[20px] pr-[20px]">
               <div className="flex-col space-y-1">
-                <h3 className="dashboardText">
+                <h3
+                  className="dashboardText"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "fr" ? "Total des vendeurs" : "إجمالي البائعين"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalSellers}</p>

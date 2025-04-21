@@ -48,13 +48,14 @@ export default function Purchases({ onToggle, toggleLanguage, language }) {
         </div>
       </div>
 
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         {" "}
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي المشتريات" : "Total des achats"
           }
           orderCardDetails={PurchasesData.length}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
           orderCardTitle={
@@ -68,6 +69,7 @@ export default function Purchases({ onToggle, toggleLanguage, language }) {
               )
             ) + (language === "fr" ? " DA" : " دج")
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
       </div>
       <div className="pageTable ordersTable">

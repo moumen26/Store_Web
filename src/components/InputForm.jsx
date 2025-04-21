@@ -13,6 +13,7 @@ export default function InputForm({
   setChangevalue,
   value,
   readOnly,
+  language,
 }) {
   let iconComponent;
 
@@ -48,7 +49,13 @@ export default function InputForm({
 
   return (
     <div className="inputItem">
-      <span>{labelForm}</span>
+      <span
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
+      >
+        {labelForm}
+      </span>
       <div className="inputForm">
         {iconComponent}
         <input

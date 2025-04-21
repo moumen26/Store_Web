@@ -6,32 +6,49 @@ export default function OrderCard({
   orderCardTitle,
   orderCardDetails,
   loading = false,
+  language,
+  className = "",
 }) {
   return (
     <>
       {!loading ? (
         <Card
           style={{
-            width: "100%",
             height: "180px",
             borderRadius: 20,
           }}
-          className="responsive-card"
+          className={`responsive-card ${className}`}
         >
           <div className="w-full h-[140px] flex flex-col justify-between">
-            <h3 className="dashboardCardTitle">{orderCardTitle}</h3>
-            <h2 className="dashboardCardAmount">{orderCardDetails}</h2>
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="dashboardCardTitle"
+            >
+              {orderCardTitle}
+            </h3>
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="dashboardCardAmount"
+            >
+              {orderCardDetails}
+            </h2>
           </div>
         </Card>
       ) : (
         <Card
           style={{
-            width: "100%",
-            height: 200,
+            height: "180px",
             borderRadius: 20,
           }}
+          className={className}
         >
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full h-[140px] flex items-center justify-center">
             <CircularProgress color="inherit" />
           </div>
         </Card>

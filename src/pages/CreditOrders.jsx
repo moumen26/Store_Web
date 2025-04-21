@@ -45,12 +45,13 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
           }
           orderCardDetails={latestOrderData.length}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
           orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant total"}
@@ -62,11 +63,13 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
               )
             ) + (language === "ar" ? " دج" : " DA")
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي المدفوعات" : "Total des paiements"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={
             formatNumber(
               latestOrderData.reduce(

@@ -50,17 +50,19 @@ export default function CreditPurchases({
         </div>
       </div>
 
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي المشتريات" : "Total des achats"
           }
           orderCardDetails={PurchasesData.length}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
           orderCardTitle={
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={
             formatNumber(
               PurchasesData.reduce(

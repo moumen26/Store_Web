@@ -23,12 +23,35 @@ export default function ProductCard({
         />
       </div>
       <div className="productName flex-col items-center space-y-1">
-        <span className="productSpan text-center">{productName}</span>
+        <span
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+          className="productSpan text-center"
+        >
+          {productName}
+        </span>
 
         {productQuantity && (
-          <span className="productSpan">{productQuantity} unity</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="productSpan"
+          >
+            {productQuantity} unity
+          </span>
         )}
-        {productPrice && <span className="productSpan">{productPrice} DA</span>}
+        {productPrice && (
+          <span
+            className="productSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {productPrice} DA
+          </span>
+        )}
       </div>
     </div>
   );

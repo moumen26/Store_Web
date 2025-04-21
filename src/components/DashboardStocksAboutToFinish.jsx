@@ -12,7 +12,12 @@ export default function DashboardStocksAboutToFinish({
       className={`dashboardTopSellingProduct ${language === "ar" ? "rtl" : ""}`}
     >
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">
+        <h3
+          className="dashboardTitleItem"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "fr"
             ? "Stocks en rupture imminent"
             : "المخزون على وشك النفاد"}
@@ -36,7 +41,13 @@ export default function DashboardStocksAboutToFinish({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan text-center">
+              <span
+                className="thTableSpan text-center"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr"
                   ? "Aucun stock en rupture imminente disponible"
                   : "لا يوجد مخزون على وشك النفاد"}

@@ -226,11 +226,12 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي الخسائر" : "Total des pertes"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={
             Lossesstatistics?.count ? Lossesstatistics?.count : 0
           }
@@ -240,6 +241,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
           orderCardTitle={
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={`${formatNumber(
             Lossesstatistics?.total ? Lossesstatistics?.total : 0
           )} ${language === "ar" ? "دج" : "DA"}`}

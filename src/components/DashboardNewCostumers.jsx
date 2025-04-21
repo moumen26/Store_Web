@@ -10,7 +10,12 @@ export default function DashboardNewCostumers({
   return (
     <div className={`dashboardNewCostumers ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full flex items-center justify-between">
-        <h3 className="dashboardTitleItem">
+        <h3
+          className="dashboardTitleItem"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "fr" ? "Nouveaux clients" : "العملاء الجدد"}
         </h3>
       </div>
@@ -29,7 +34,13 @@ export default function DashboardNewCostumers({
             ))
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="thTableSpan text-center">
+              <span
+                className="thTableSpan text-center"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "fr"
                   ? "Aucun client disponible"
                   : "لا يوجد عملاء متاحون"}

@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/16/solid";
 import React from "react";
 
-export default function ButtonAdd({ buttonSpan, showIcon = true, onClick }) {
+export default function ButtonAdd({ buttonSpan, showIcon = true, onClick, language }) {
   const getButtonBgColor = () => {
     switch (buttonSpan) {
       case "Make it undeposit":
@@ -22,7 +22,14 @@ export default function ButtonAdd({ buttonSpan, showIcon = true, onClick }) {
   return (
     <button className={`buttonAdd ${getButtonBgColor()}`} onClick={onClick}>
       {showIcon && <PlusIcon className="iconAsideBar" />}
-      <span className="buttonTextLight">{buttonSpan}</span>
+      <span
+        className="buttonTextLight"
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
+      >
+        {buttonSpan}
+      </span>
     </button>
   );
 }

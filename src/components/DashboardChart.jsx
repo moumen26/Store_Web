@@ -144,15 +144,42 @@ export default function DashboardChart({ language }) {
   return (
     <div className={`dashboadChart ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full dashboadChartTop">
-        <h3 className="dashboardTitleItem w-fit">
-          {language === "fr" ? "Ventes au fil du temps" : "المبيعات على مر الزمن"}
+        <h3
+          className="dashboardTitleItem w-fit"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "fr"
+            ? "Ventes au fil du temps"
+            : "المبيعات على مر الزمن"}
         </h3>
-        <div className={`selectTime ${language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"}`}>
-          <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"}`}>
-            <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"}`}>
+        <div
+          className={`selectTime ${
+            language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"
+          }`}
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"
+            }`}
+          >
+            <div
+              className={`flex items-center ${
+                language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"
+              }`}
+            >
               <div className="cercleChartItemRevenue"></div>
-              <span className="spanChartItemRevenue">
-                {language === "fr" ? "Montant total (DA)" : "المبلغ الإجمالي (دج)"}
+              <span
+                className="spanChartItemRevenue"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "fr"
+                  ? "Montant total (DA)"
+                  : "المبلغ الإجمالي (دج)"}
               </span>
             </div>
           </div>
@@ -164,9 +191,33 @@ export default function DashboardChart({ language }) {
               value={selectedOption}
               onChange={handleChange}
             >
-              <option value="weekly">{language === "fr" ? "Semaine" : "أسبوع"}</option>
-              <option value="monthly">{language === "fr" ? "Mois" : "شهر"}</option>
-              <option value="yearly">{language === "fr" ? "Année" : "سنة"}</option>
+              <option
+                value="weekly"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "fr" ? "Semaine" : "أسبوع"}
+              </option>
+              <option
+                value="monthly"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "fr" ? "Mois" : "شهر"}
+              </option>
+              <option
+                value="yearly"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "fr" ? "Année" : "سنة"}
+              </option>
             </select>
           </div>
         </div>

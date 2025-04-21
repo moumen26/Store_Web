@@ -34,7 +34,12 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "أحدث الطلبات" : "Dernière commandes"}
           </h2>
           <DashboardCalendar
@@ -45,12 +50,14 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
           }
           orderCardDetails={latestOrderData.length}
+          className="flex-shrink-0 w-[280px] md:w-full"
+          language={language}
         />
         <OrderCard
           orderCardTitle={
@@ -64,6 +71,8 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
               )
             ) + (language === "fr" ? " DA" : " دج")
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
+          language={language}
         />
       </div>
       <div className="pageTable ordersTable">

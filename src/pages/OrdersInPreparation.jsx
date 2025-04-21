@@ -49,11 +49,12 @@ export default function OrdersInPreparation({
           />
         </div>
       </div>
-      <div className="cardMediaScreen gridCols">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-5 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des Commandes"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
@@ -62,11 +63,13 @@ export default function OrdersInPreparation({
               ? "الطلبات قيد التحضير"
               : "Commandes en préparation"
           }
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 1).length
           }
         />
         <OrderCard
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={
             language === "ar"
               ? "الطلبات الجاهزة وقيد التسليم"
@@ -77,6 +80,7 @@ export default function OrdersInPreparation({
           }
         />
         <OrderCard
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={
             language === "ar"
               ? "الطلبات المستلمة والمسلّمة"
@@ -87,6 +91,7 @@ export default function OrdersInPreparation({
           }
         />
         <OrderCard
+          className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant Total"}
           orderCardDetails={
             formatNumber(

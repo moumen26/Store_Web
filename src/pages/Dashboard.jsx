@@ -283,10 +283,22 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
       </div>
       <div className="w-full dashboardTop">
         <div className="flex-col space-y-[6px]">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {text[language].welcome} {user?.infos?.firstName}
           </h2>
-          <span className="pagesSousTitle">{text[language].overview}</span>
+          <span
+            className="pagesSousTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {text[language].overview}
+          </span>
         </div>
         <DashboardCalendar
           onDateChange={(start, end) =>
@@ -295,24 +307,27 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
           language={language}
         />
       </div>
-      <div className="cardMediaScreen">
+      <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <DashboardCard
           dashboardCardTitle={text[language].totalAmount}
           dashboardCardAmount={formatNumber(OrdersStats?.totalAmount)}
           OrdersStatsLoading={OrdersStatsLoading}
           language={language}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <DashboardCard
           dashboardCardTitle={text[language].totalOrders}
           dashboardCardAmount={OrdersStats?.totalReceipts}
           language={language}
           OrdersStatsLoading={OrdersStatsLoading}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
         <DashboardCard
           dashboardCardTitle={text[language].profit}
           dashboardCardAmount={formatNumber(OrdersStats?.totalProfit)}
           language={language}
           OrdersStatsLoading={OrdersStatsLoading}
+          className="flex-shrink-0 w-[280px] md:w-full"
         />
       </div>
       <div className="dashbordFlex">

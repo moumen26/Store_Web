@@ -27,7 +27,12 @@ export default function Authentication({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton h-[48px]">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar"
               ? "مصادقة المستخدمين"
               : "Authentification des utilisateurs"}

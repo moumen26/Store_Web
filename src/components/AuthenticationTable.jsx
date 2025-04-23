@@ -75,28 +75,70 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
-            <span className="mr-1 trTableSpan">{row.userFirstName}</span>
-            <span className="trTableSpan">{row.userLastName}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            <span
+              className="mr-1 trTableSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {row.userFirstName}
+            </span>
+            <span
+              className="trTableSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {row.userLastName}
+            </span>
           </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.userPhone}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.userPhone}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.userWilaya}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.userWilaya}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.userCommune}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.userCommune}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
@@ -110,6 +152,10 @@ function Row(props) {
           >
             <div className="cercleActive"></div>
             <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               className={`inactiveSpan trTableSpan ${
                 row.status === "pending" ? "text-yellow-600" : ""
               }`}
@@ -147,6 +193,7 @@ function Row(props) {
 
       <ConfirmDialog
         open={open}
+        language={language}
         onClose={handleClose}
         onConfirm={handleConfirm}
         dialogTitle={
@@ -295,7 +342,13 @@ export default function AuthenticationTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "الاسم الكامل" : "Nom complet"}
                 </span>
               </TableCell>
@@ -303,7 +356,13 @@ export default function AuthenticationTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
                 </span>
               </TableCell>
@@ -311,7 +370,13 @@ export default function AuthenticationTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "الولاية" : "Wilaya"}
                 </span>
               </TableCell>
@@ -319,7 +384,13 @@ export default function AuthenticationTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "البلدية" : "Commune"}
                 </span>
               </TableCell>
@@ -327,7 +398,13 @@ export default function AuthenticationTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "الحالة" : "Statut"}
                 </span>
               </TableCell>
@@ -335,7 +412,13 @@ export default function AuthenticationTable({
                 align={language === "ar" ? "right" : "right"}
                 className="tableCell"
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "الإجراء" : "Action"}
                 </span>
               </TableCell>
@@ -356,14 +439,24 @@ export default function AuthenticationTable({
             ) : notApprovedUsersLoading ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  {/* <span className="thTableSpan">loading...</span> */}
+                  {/* <span className="thTableSpan"
+                   style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+                  >loading...</span> */}
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  <span className="thTableSpan">
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "لم يتم العثور على مستخدمين"
                       : "Aucun utilisateur trouvé"}

@@ -25,34 +25,81 @@ function Row(props) {
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.customerId}</span>
-      </TableCell>
-      <TableCell
-        className="tableCell"
-        align={language === "ar" ? "right" : "left"}
-      >
-        <span className="trTableSpan">
-          <span className="mr-1 trTableSpan">{row.customerFirstName}</span>
-          <span className="trTableSpan">{row.customerLastName}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.customerId}
         </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.customerPhone}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          <span
+            className="mr-1 trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.customerFirstName}
+          </span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.customerLastName}
+          </span>
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.customerWilaya}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.customerPhone}
+        </span>
+      </TableCell>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.customerWilaya}
+        </span>
       </TableCell>
       <TableCell
         align={language === "ar" ? "right" : "left"}
         className="tableCell"
       >
-        <span className="trTableSpan">{row.customerCommune}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.customerCommune}
+        </span>
       </TableCell>
       <TableCell
         align={language === "ar" ? "right" : "right"}
@@ -136,7 +183,13 @@ export default function VendorsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "معرف العميل" : "ID du client"}
               </span>
             </TableCell>
@@ -144,7 +197,13 @@ export default function VendorsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الاسم" : "Nom"}
               </span>
             </TableCell>
@@ -152,7 +211,13 @@ export default function VendorsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
               </span>
             </TableCell>
@@ -160,7 +225,13 @@ export default function VendorsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الولاية" : "Wilaya"}
               </span>
             </TableCell>
@@ -168,7 +239,13 @@ export default function VendorsTable({
               align={language === "ar" ? "right" : "left"}
               className="tableCell"
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "البلدية" : "Commune"}
               </span>
             </TableCell>
@@ -176,7 +253,13 @@ export default function VendorsTable({
               align={language === "ar" ? "right" : "right"}
               className="tableCell"
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجراء" : "Action"}
               </span>
             </TableCell>
@@ -196,7 +279,13 @@ export default function VendorsTable({
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "لم يتم العثور على بائعين"
                     : "Aucun vendeur trouvé"}

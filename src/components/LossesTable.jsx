@@ -28,14 +28,44 @@ function Row(props) {
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.reason}</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.reason}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatNumber(row.price)} DA</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {formatNumber(row.price)} DA
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{formatDate(row.date)}</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {formatDate(row.date)}
+          </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
           <div className="flex justify-end pr-3">
@@ -55,6 +85,7 @@ export default function LossesTable({
   setFilteredData,
   data,
   loading,
+  language,
   refetchLossesData,
 }) {
   const { user } = useAuthContext();
@@ -129,17 +160,58 @@ export default function LossesTable({
         <Table aria-label="collapsible table" className="table">
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Cause</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "السبب" : "Cause"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Montant</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "المبلغ" : "Montant"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Date</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "التاريخ" : "Date"}
+                </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
-                <span className="thTableSpan">Action</span>
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "إجراء" : "Action"}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -163,7 +235,17 @@ export default function LossesTable({
             ) : (
               <TableRow>
                 <TableCell colSpan={4} align="center">
-                  <span className="thTableSpan">Aucune perte trouvée</span>
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar"
+                      ? "لم يتم العثور على خسائر"
+                      : "Aucune perte trouvée"}
+                  </span>
                 </TableCell>
               </TableRow>
             )}
@@ -177,6 +259,7 @@ export default function LossesTable({
         dialogTitle="Confirmer la suppression"
         dialogContentText={`Êtes-vous sûr de vouloir supprimer cette perte ?`}
         isloading={submitionLoading}
+        language={language}
       />
       {/* Snackbar */}
       <Snackbar

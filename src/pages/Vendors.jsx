@@ -271,7 +271,12 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "البائعون" : "Vendeurs"}
           </h2>
           <div className="buttonTop">
@@ -281,6 +286,7 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                   ? "إضافة بائع جديد"
                   : "Ajouter un nouveau vendeur"
               }
+              language={language}
               onClick={handleAddCustomerClick}
             />
           </div>
@@ -332,16 +338,33 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
             className="customerClass pb-0"
             style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
-            <h2 className="dialogTitle">
+            <h2
+              className="dialogTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar"
                 ? "إضافة بائع جديد"
                 : "Ajouter un nouveau vendeur"}
             </h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
               <div className="dialogAddCustomerItem">
-                <span>{language === "ar" ? "الاسم الأول" : "Prénom"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الاسم الأول" : "Prénom"}
+                </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="text"
                     name="customerFirstName"
                     value={FirstName}
@@ -350,9 +373,20 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>{language === "ar" ? "الاسم الأخير" : "Nom"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الاسم الأخير" : "Nom"}
+                </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="text"
                     name="customerLastName"
                     value={LastName}
@@ -361,9 +395,20 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>{language === "ar" ? "العنوان" : "Adresse"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "العنوان" : "Adresse"}
+                </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="text"
                     name="storeAddress"
                     value={Address}
@@ -372,11 +417,20 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
                 </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="phone"
                     name="customerPhone"
                     value={Phone}
@@ -385,9 +439,20 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>{language === "ar" ? "البريد الإلكتروني" : "Email"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "البريد الإلكتروني" : "Email"}
+                </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="email"
                     name="storeAddress"
                     value={Email}
@@ -396,13 +461,22 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "رقم السجل التجاري"
                     : "Numéro de registre de commerce"}
                 </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="text"
                     name="rc"
                     value={RC}
@@ -411,11 +485,20 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "كلمة المرور" : "Mot de passe"}
                 </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="password"
                     name="password"
                     value={Password}
@@ -424,13 +507,22 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
               <div className="dialogAddCustomerItem">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "تأكيد كلمة المرور"
                     : "Confirmer le mot de passe"}
                 </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="password"
                     name="ConfirmPassword"
                     value={ConfirmPassword}
@@ -440,12 +532,23 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
               </div>
               <div className="dialogAddCustomerItem wilayaCommune">
                 <div className="WilayaCommuneClass">
-                  <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "الولاية" : "Wilaya"}
+                  </span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurWilaya"
                       value={selectedWilaya}
                       onChange={handleWilayaChange}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                     >
                       <option value="">
                         {language === "ar"
@@ -461,12 +564,23 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                   </div>
                 </div>
                 <div className="WilayaCommuneClass">
-                  <span>{language === "ar" ? "البلدية" : "Commune"}</span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "البلدية" : "Commune"}
+                  </span>
                   <div className="selectStoreWilayaCommune">
                     <select
                       name="fournisseurCommune"
                       value={selectedCommune}
                       onChange={handleCommuneChange}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                     >
                       <option value="">
                         {language === "ar"
@@ -491,6 +605,10 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseDialog}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
                 {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
@@ -500,6 +618,10 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 }`}
                 onClick={handleSaveCustomer}
                 disabled={!isFormValid}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
                 {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>

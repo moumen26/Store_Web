@@ -215,7 +215,12 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "الخسائر" : "Pertes"}
           </h2>
           <DashboardCalendar
@@ -228,6 +233,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
       </div>
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي الخسائر" : "Total des pertes"
           }
@@ -238,6 +244,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
           loading={LossesstatisticsLoading}
         />
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }
@@ -274,6 +281,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
               buttonSpan={
                 language === "ar" ? "إضافة خسارة" : "Ajouter une perte"
               }
+              language={language}
               onClick={handleOpenModalAddLoss}
             />
             <Modal
@@ -296,16 +304,35 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                 className="customerClass pb-0"
                 style={{ direction: language === "ar" ? "rtl" : "ltr" }}
               >
-                <h2 className="customerClassTitle">
+                <h2
+                  className="customerClassTitle"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "إضافة خسارة جديدة"
                     : "Ajouter une nouvelle perte"}
                 </h2>
                 <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
                   <div className="dialogAddCustomerItem">
-                    <span>{language === "ar" ? "المبلغ :" : "Montant :"}</span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar" ? "المبلغ :" : "Montant :"}
+                    </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         min={0}
                         name="lossAmount"
@@ -314,9 +341,22 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem">
-                    <span>{language === "ar" ? "السبب :" : "Cause :"}</span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar" ? "السبب :" : "Cause :"}
+                    </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="text"
                         name="lossCause"
                         onChange={handleChangeReason}
@@ -333,12 +373,24 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                   {!submitionLoading ? (
                     <>
                       <button
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className="text-gray-500 cursor-pointer hover:text-gray-700"
                         onClick={handleCloseModalAddLoss}
                       >
                         {language === "ar" ? "إلغاء" : "Annuler"}
                       </button>
                       <button
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         onClick={handleSubmitCreateLoss}
                       >

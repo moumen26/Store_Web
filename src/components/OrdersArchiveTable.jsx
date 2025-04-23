@@ -453,7 +453,13 @@ export default function OrdersArchiveTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "العميل" : "Client"}
               </span>
             </TableCell>
@@ -461,7 +467,13 @@ export default function OrdersArchiveTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
               </span>
             </TableCell>
@@ -469,7 +481,13 @@ export default function OrdersArchiveTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "تاريخ الطلب" : "Date de Commande"}
               </span>
             </TableCell>
@@ -477,17 +495,35 @@ export default function OrdersArchiveTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "المبلغ" : "Montant"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الحالة" : "Statut"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجراء" : "Action"}
               </span>
             </TableCell>
@@ -509,7 +545,13 @@ export default function OrdersArchiveTable({
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "لم يتم العثور على طلبات"
                     : "Aucune commande trouvée"}

@@ -15,36 +15,72 @@ function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
         <TableBody>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "المجموع" : "Sous-total"}
               </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {subtotal} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "مبلغ التوصيل" : "Montant de livraison"}
               </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {deliveryAmount} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجمالي" : "Total"}
               </span>
             </TableCell>
             <TableCell align="right">
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {total} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>

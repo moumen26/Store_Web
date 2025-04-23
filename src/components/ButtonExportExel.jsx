@@ -61,7 +61,9 @@ export default function ButtonExportExcel({ data, filename, language }) {
     >
       <DocumentArrowDownIcon className="iconAsideBar" />
       <span
-        style={{ fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "" }}
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
         className="buttonTextDark"
       >
         {language === "ar" ? "تصدير" : "Exporter"}

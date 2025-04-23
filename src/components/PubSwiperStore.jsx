@@ -280,8 +280,8 @@ export default function PubSwiperStore({
             ))
         ) : !Array.isArray(data) || data.length === 0 ? (
           // Empty state
-          <div className="col-span-full flex flex-col items-center justify-center py-12">
-            <EmptyIcon className="w-16 h-16 text-gray-300 mb-4" />
+          <div className="col-span-full flex flex-col items-center justify-center">
+            {/* <EmptyIcon className="w-16 h-16 text-gray-300 mb-4" /> */}
             <p
               className="text-gray-500 text-center"
               style={{
@@ -293,18 +293,6 @@ export default function PubSwiperStore({
                 ? "لا توجد إعلانات متاحة"
                 : "Aucune publicité disponible"}
             </p>
-            <button
-              onClick={handleOpenModalAddPub}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-              style={{
-                fontFamily:
-                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
-            >
-              {language === "ar"
-                ? "إضافة إعلان جديد"
-                : "Ajouter une nouvelle publicité"}
-            </button>
           </div>
         ) : (
           // Publicity items

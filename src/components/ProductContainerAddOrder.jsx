@@ -15,7 +15,7 @@ import { CircularProgress } from "@mui/material";
 Modal.setAppElement("#root"); // or the ID of your root element
 
 
-export default function ProductsContainerAddOrder({ searchQuery, selectedCategory, onSelectProduct }) {
+export default function ProductsContainerAddOrder({ searchQuery, selectedCategory, onSelectProduct, language }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleSelectProduct = (product) => {
@@ -88,6 +88,7 @@ export default function ProductsContainerAddOrder({ searchQuery, selectedCategor
           filteredProducts.map((stock) => (
             <ProductCard
               key={stock._id}
+              language={language}
               productName={`${stock.product?.brand?.name} ${stock.product?.name} ${stock.product?.size}`}
               productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${stock.product?.image}`}
               onClick={() => handleSelectProduct(stock)}

@@ -56,7 +56,9 @@ export default function InputForm({
       >
         {labelForm}
       </span>
-      <div className="inputForm">
+      <div
+        className={`inputForm ${language === "ar" ? "gap-x-2" : ""}`}
+      >
         {iconComponent}
         <input
           type={inputType}

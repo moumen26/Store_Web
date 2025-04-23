@@ -79,7 +79,13 @@ export default function AddOrderProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "اسم العميل" : "Nom du client"}
               </span>
             </TableCell>
@@ -88,7 +94,13 @@ export default function AddOrderProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "نوع الطلب" : "Type de commande"}
               </span>
             </TableCell>
@@ -96,19 +108,37 @@ export default function AddOrderProfileDetails({
             {orderType === "delivery" && (
               <>
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar" ? "تاريخ التوصيل" : "Date de livraison"}
                   </span>
                 </TableCell>
 
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar" ? "العنوان" : "Adresse"}
                   </span>
                 </TableCell>
 
                 <TableCell align="right" className="tableCell">
-                  <span className="thTableSpan">
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "مبلغ التوصيل"
                       : "Montant de livraison"}
@@ -127,7 +157,13 @@ export default function AddOrderProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {CustomerData?.firstName} {CustomerData?.lastName}
               </span>
             </TableCell>
@@ -146,19 +182,43 @@ export default function AddOrderProfileDetails({
               align={language === "ar" ? "right" : "left"}
             >
               <select
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
                 value={orderType}
                 onChange={handleOrderTypeChange}
                 className="inputTable inputSelect w-[200px]"
               >
-                <option value="" disabled selected>
+                <option
+                  value=""
+                  disabled
+                  selected
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "اختر نوع الطلب"
                     : "Sélectionnez un type"}
                 </option>
-                <option value="pickup">
+                <option
+                  value="pickup"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "استلام من المتجر" : "Retrait"}
                 </option>
-                <option value="delivery">
+                <option
+                  value="delivery"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "توصيل" : "Livraison"}
                 </option>
               </select>
@@ -167,6 +227,10 @@ export default function AddOrderProfileDetails({
               <>
                 <TableCell align="right" className="tableCell">
                   <Calendar
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     value={deliveryDate}
                     onChange={handleDeliveryDateChange}
                     showTime
@@ -188,18 +252,39 @@ export default function AddOrderProfileDetails({
                 </TableCell> */}
                 <TableCell align="right" className="tableCell">
                   <select
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     value={deliveryAddress}
                     onChange={handleDeliveryAddressChange}
                     className="inputTable inputSelect w-[200px]"
                   >
-                    <option value={null} disabled selected>
+                    <option
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      value={null}
+                      disabled
+                      selected
+                    >
                       {language === "ar"
                         ? "اختر عنوانًا"
                         : "Sélectionnez une adresse"}
                     </option>
                     {CustomerData?.storeAddresses?.length > 0 &&
                       CustomerData.storeAddresses.map((address) => (
-                        <option key={address._id} value={address.address}>
+                        <option
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                          key={address._id}
+                          value={address.address}
+                        >
                           {address.address}
                         </option>
                       ))}
@@ -212,13 +297,23 @@ export default function AddOrderProfileDetails({
                     }`}
                   >
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="number"
                       value={deliveryAmount}
                       onChange={handleDeliveryAmountChange}
                       min="0"
                       className="inputTable"
                     />
-                    <span className="inputSpan">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      className="inputSpan"
+                    >
                       {language === "ar" ? "دج" : "DA"}
                     </span>
                   </div>

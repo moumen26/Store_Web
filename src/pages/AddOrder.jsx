@@ -130,7 +130,13 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
             <Header toggleLanguage={toggleLanguage} language={language} />
           </div>{" "}
           <div className="titlePageButton">
-            <h2 className="pagesTitle">
+            <h2
+              className="pagesTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar"
                 ? "إضافة طلب جديد"
                 : "Ajouter une nouvelle commande"}
@@ -148,7 +154,15 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
             </div>
           </div>
           <div className="customerClass paddingClass">
-            {language === "ar" ? "معلومات أساسية" : "Informations de base"}
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "معلومات أساسية" : "Informations de base"}
+            </h2>
             <AddOrderProfileDetails
               language={language}
               CustomerData={CustomerData}
@@ -161,7 +175,13 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
           </div>
           <div className="pageTable">
             <div className="flex items-center justify-between">
-              <h2 className="customerClassTitle">
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
               </h2>
               <ButtonAdd
@@ -169,6 +189,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
                   language === "ar" ? "إضافة عنصر" : "Ajouter un article"
                 }
                 onClick={handleOpenModal}
+                language={language}
               />
             </div>
             <div className="pageTableContainer">

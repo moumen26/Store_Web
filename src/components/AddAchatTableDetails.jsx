@@ -222,37 +222,79 @@ function AddAchatTableDetails({
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.product._id}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {row.product._id}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.product.name}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {row.product.name}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.product.brand.name}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {row.product.brand.name}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.quantity}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {row.quantity}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{formatNumber(row.buying)} DA</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {formatNumber(row.buying)} DA
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{formatNumber(productAmount)} DA</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="trTableSpan"
+          >
+            {formatNumber(productAmount)} DA
+          </span>
         </TableCell>
         <TableCell
           align={language === "ar" ? "right" : "right"}
@@ -393,7 +435,13 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "معرف المنتج" : "ID Produit"}
                 </span>
               </TableCell>
@@ -401,7 +449,13 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "المنتج" : "Produit"}
                 </span>
               </TableCell>
@@ -409,7 +463,13 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "الماركة" : "Marque"}
                 </span>
               </TableCell>
@@ -417,7 +477,13 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "الكمية" : "Quantité"}
                 </span>
               </TableCell>
@@ -425,7 +491,13 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "السعر" : "Prix"}
                 </span>
               </TableCell>
@@ -433,12 +505,24 @@ function AddAchatTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan"
+                >
                   {language === "ar" ? "المبلغ" : "Montant"}
                 </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
-                <span className="thTableSpan pr-1">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="thTableSpan pr-1"
+                >
                   {language === "ar" ? "إجراء" : "Action"}
                 </span>
               </TableCell>
@@ -459,7 +543,13 @@ function AddAchatTableDetails({
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {rows.length === 0 ? (
-                    <span className="thTableSpan">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      className="thTableSpan"
+                    >
                       {language === "ar"
                         ? "إضافة منتجات"
                         : "Ajouter des produits"}
@@ -498,7 +588,13 @@ function AddAchatTableDetails({
               className="customerClass addProductAchat"
               style={{ direction: language === "ar" ? "rtl" : "ltr" }}
             >
-              <h2 className="customerClassTitle">
+              <h2
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="customerClassTitle"
+              >
                 {language === "ar"
                   ? "إضافة منتج إلى الشراء"
                   : "Ajouter un produit à l'achat"}
@@ -518,23 +614,51 @@ function AddAchatTableDetails({
                         onChange={handleSearchChange}
                       />
                       <div className="flex items-center">
-                        <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                        <span
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                          className={`${language === "ar" ? "ml-5" : ""}`}
+                        >
                           {language === "ar" ? "الفئة :" : "Catégorie :"}
                         </span>
                         <div className="selectStoreWilayaCommune w-[300px]">
                           <select
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
                             name="productCategory"
                             onChange={handleSelectedCategoryChange}
                           >
                             {CategoryData ? (
                               <>
-                                <option value="">
+                                <option
+                                  style={{
+                                    fontFamily:
+                                      language === "ar"
+                                        ? "Cairo-Regular, sans-serif"
+                                        : "",
+                                  }}
+                                  value=""
+                                >
                                   {language === "ar"
                                     ? "-- اختر فئة المنتج --"
                                     : "-- Sélectionner une catégorie --"}
                                 </option>
                                 {CategoryData.map((category) => (
                                   <option
+                                    style={{
+                                      fontFamily:
+                                        language === "ar"
+                                          ? "Cairo-Regular, sans-serif"
+                                          : "",
+                                    }}
                                     key={category._id}
                                     value={category._id}
                                   >
@@ -543,7 +667,15 @@ function AddAchatTableDetails({
                                 ))}
                               </>
                             ) : (
-                              <option value="">
+                              <option
+                                style={{
+                                  fontFamily:
+                                    language === "ar"
+                                      ? "Cairo-Regular, sans-serif"
+                                      : "",
+                                }}
+                                value=""
+                              >
                                 {language === "ar"
                                   ? "لا توجد فئات متاحة"
                                   : "Aucune catégorie disponible"}
@@ -559,6 +691,7 @@ function AddAchatTableDetails({
                           ? "إضافة منتج جديد"
                           : "Ajouter un nouveau produit"
                       }
+                      language={language}
                       onClick={handleOpenAddProductModal}
                     />
                   </div>
@@ -567,6 +700,7 @@ function AddAchatTableDetails({
                     {filteredProducts?.length > 0 ? (
                       filteredProducts.map((product) => (
                         <ProductCard
+                          language={language}
                           key={product._id}
                           productName={`${product.brand?.name} ${product.name} ${product.size}`}
                           productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
@@ -603,19 +737,39 @@ function AddAchatTableDetails({
                           </span>
                           <div className="inputForm flex items-center">
                             <input
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
                               type="number"
                               name="buyingPrice"
                               value={buyingPrice}
                               min={0}
                               onChange={handleBuyingPriceChange}
                             />
-                            <span className="ml-2">
+                            <span
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
+                              className="ml-2"
+                            >
                               {language === "ar" ? "دج" : "DA"}
                             </span>
                           </div>
                         </div>
                         <div className="w-fit dialogAddCustomerItem items-center">
                           <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
                             className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                           >
                             {language === "ar"
@@ -624,13 +778,27 @@ function AddAchatTableDetails({
                           </span>
                           <div className="inputForm flex items-center">
                             <input
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
                               type="number"
                               name="sellingPrice"
                               value={sellingPrice}
                               min={0}
                               onChange={handleSellingPriceChange}
                             />
-                            <span className="ml-2">
+                            <span
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
+                              className="ml-2"
+                            >
                               {language === "ar" ? "دج" : "DA"}
                             </span>
                           </div>
@@ -640,6 +808,12 @@ function AddAchatTableDetails({
                       <div className="flex flex-col space-y-3 mb-4 w-[50%]">
                         <div className="w-fit dialogAddCustomerItem items-center">
                           <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
                             className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                           >
                             {language === "ar"
@@ -648,6 +822,12 @@ function AddAchatTableDetails({
                           </span>
                           <div className="inputForm">
                             <input
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
                               type="number"
                               name="stock"
                               value={QuantityPerBox}
@@ -658,6 +838,12 @@ function AddAchatTableDetails({
                         </div>
                         <div className="w-fit dialogAddCustomerItem items-center">
                           <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
                             className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                           >
                             {language === "ar"
@@ -666,6 +852,12 @@ function AddAchatTableDetails({
                           </span>
                           <div className="inputForm">
                             <input
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
                               type="number"
                               name="stock"
                               value={QuantityPerUnity}
@@ -678,6 +870,12 @@ function AddAchatTableDetails({
                     </div>
                     <div className="w-fit space-x-3 items-center">
                       <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                       >
                         {language === "ar"
@@ -685,6 +883,12 @@ function AddAchatTableDetails({
                           : "Quantité totale :"}
                       </span>
                       <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                       >
                         {ClientQuantity} {language === "ar" ? "وحدة" : "unité"}
@@ -697,12 +901,24 @@ function AddAchatTableDetails({
                     >
                       {" "}
                       <button
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className="text-gray-500 cursor-pointer hover:text-gray-700"
                         onClick={handleCloseModal}
                       >
                         {language === "ar" ? "إلغاء" : "Annuler"}
                       </button>
                       <button
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         onClick={handleAddItem}
                       >
@@ -733,7 +949,12 @@ function AddAchatTableDetails({
           className="customerClass pb-0"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <h2 className="dialogTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="dialogTitle"
+          >
             {language === "ar"
               ? "إضافة منتج جديد إلى المخزون"
               : "Ajouter un Nouveau Produit au Stock"}
@@ -742,46 +963,108 @@ function AddAchatTableDetails({
             <form>
               <div className="flex-col space-y-8">
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
                   </span>
                   <div className="inputForm">
-                    <input type="text" name="productName" />
+                    <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      type="text"
+                      name="productName"
+                    />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar" ? "حجم المنتج :" : "Taille du Produit :"}
                   </span>{" "}
                   <div className="inputForm">
-                    <input type="text" name="productName" />
+                    <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      type="text"
+                      name="productName"
+                    />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "العناصر لكل صندوق :"
                       : "Articles par Boîte :"}
                   </span>{" "}
                   <div className="inputForm">
-                    <input type="number" name="productName" />
+                    <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      type="number"
+                      name="productName"
+                    />
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "فئة المنتج :"
                       : "Catégorie de Produit :"}
                   </span>{" "}
                   <div className="selectStoreWilayaCommune w-[500px]">
-                    <select name="productCategory">
-                      <option value="" disabled selected>
+                    <select
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      name="productCategory"
+                    >
+                      <option
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        value=""
+                        disabled
+                        selected
+                      >
                         {language === "ar"
                           ? "-- اختر فئة المنتج --"
                           : "-- Sélectionnez la Catégorie de Produit --"}
                       </option>{" "}
                       {/* {CategoryData?.map((category) => (
-                        <option key={category._id} value={category._id}>
+                        <option 
+                         style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                        key={category._id} value={category._id}>
                           {category.name}
                         </option>
                       ))} */}
@@ -789,20 +1072,46 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "ماركة المنتج :"
                       : "Marque du Produit :"}
                   </span>{" "}
                   <div className="selectStoreWilayaCommune w-[500px]">
-                    <select name="productCategory">
-                      <option value="" disabled selected>
+                    <select
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      name="productCategory"
+                    >
+                      <option
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        value=""
+                        disabled
+                        selected
+                      >
                         {language === "ar"
                           ? "-- اختر ماركة المنتج --"
                           : "-- Sélectionnez la Marque du Produit --"}
                       </option>{" "}
                       {/* {BrandData?.map((category) => (
-                        <option key={category._id} value={category._id}>
+                        <option 
+                         style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                        key={category._id} value={category._id}>
                           {category.name}
                         </option>
                       ))} */}
@@ -810,7 +1119,12 @@ function AddAchatTableDetails({
                   </div>
                 </div>
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar" ? "صورة المنتج :" : "Image du Produit :"}
                   </span>{" "}
                   <div className="productPicture">
@@ -830,14 +1144,37 @@ function AddAchatTableDetails({
                     </div>
                     <div className="h-[80px] w-[404px] flex items-center justify-center uploadClass">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                          display: "none",
+                        }}
                         type="file"
                         accept="image/*"
                         ref={fileInputRef}
-                        style={{ display: "none" }}
                         onChange={handleImageChange}
                       />
-                      <p onClick={handleClick} className="uploadSpan">
-                        <span className="text-blue-600">
+                      <p
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        onClick={handleClick}
+                        className="uploadSpan"
+                      >
+                        <span
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                          className="text-blue-600"
+                        >
                           {language === "ar"
                             ? "انقر لتحميل"
                             : "Cliquez pour télécharger"}{" "}
@@ -857,12 +1194,20 @@ function AddAchatTableDetails({
               >
                 {" "}
                 <button
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseAddProductModal}
                 >
                   {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <input
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   type="button"
                   value={language === "ar" ? "حفظ" : "Enregistrer"}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
@@ -878,8 +1223,14 @@ function AddAchatTableDetails({
         open={isConfirmDialogOpen}
         onConfirm={handleConfirmDelete}
         onClose={handleCancelDelete}
-        dialogTitle="Confirm Delete"
-        dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد الحذف" : "Confirmer la suppression"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد حذف ${deletedProductName}؟`
+            : `Êtes-vous sûr de vouloir supprimer ${deletedProductName} ?`
+        }
       />
 
       <Snackbar

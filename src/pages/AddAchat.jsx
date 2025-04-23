@@ -149,7 +149,13 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
             <Header toggleLanguage={toggleLanguage} language={language} />
           </div>
           <div className="titlePageButton">
-            <h2 className="pagesTitle">
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="pagesTitle"
+            >
               {language === "ar"
                 ? "إضافة شراء جديد"
                 : "Ajouter un nouvel achat"}
@@ -167,7 +173,13 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
             </div>
           </div>
           <div className="customerClass paddingClass">
-            <h2 className="customerClassTitle">
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="customerClassTitle"
+            >
               {language === "ar" ? "معلومات أساسية" : "Informations de base"}
             </h2>
             <AddAchatProfileDetails
@@ -180,7 +192,13 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
           </div>
           <div className="pageTable">
             <div className="titlePageButton">
-              <h2 className="customerClassTitle">
+              <h2
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="customerClassTitle"
+              >
                 {language === "ar" ? "تفاصيل الشراء" : "Détails d'achat"}
               </h2>
               <div
@@ -189,12 +207,14 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
                 }`}
               >
                 <ButtonAdd
+                  language={language}
                   buttonSpan={
                     language === "ar" ? "إضافة تخفيض" : "Ajouter une remise"
                   }
                   onClick={handleRemiseOpenModal}
                 />
                 <ButtonAdd
+                  language={language}
                   buttonSpan={
                     language === "ar" ? "إضافة عنصر" : "Ajouter un élément"
                   }
@@ -243,23 +263,37 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
           className="customerClass pb-0"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <h2 className="customerClassTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="customerClassTitle"
+          >
             {language === "ar" ? "إضافة تخفيض" : "Ajouter une remise"}
           </h2>
           <div className="mt-[16px]">
             <form>
               <div className="flex-col space-y-8">
                 <div className="dialogAddCustomerItem items-center">
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "قيمة التخفيض :"
                       : "Valeur de la remise :"}
                   </span>
                   <div className="inputForm relative">
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="text"
                       name="remise"
-                      className="pr-10"
+                      className={`${language === "ar" ? "pl-10" : "pr-10"}`}
                       onChange={handleDiscountChange}
                       placeholder={
                         language === "ar"
@@ -267,8 +301,16 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
                           : "Saisissez la remise"
                       }
                     />
-                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                      DA
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      className={`absolute top-1/2 transform -translate-y-1/2 ${
+                        language === "ar" ? "left-3" : "right-3"
+                      }`}
+                    >
+                      {language === "ar" ? "دج" : "DA"}
                     </span>
                   </div>
                 </div>
@@ -281,12 +323,20 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
               >
                 {" "}
                 <button
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleRemiseCloseModal}
                 >
                   {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <input
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   type="button"
                   value={language === "ar" ? "حفظ" : "Enregistrer"}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
@@ -305,8 +355,14 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
         open={OpenConfirmationDialog}
         onConfirm={handleSubmitCreateAchat}
         onClose={handleCloseDialog}
-        dialogTitle="Confirm achat submition"
-        dialogContentText={`Are you sure you want to submit this achat?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد عملية الشراء" : "Confirmation d'achat"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد إرسال عملية الشراء هذه؟"
+            : "Êtes-vous sûr de vouloir soumettre cet achat ?"
+        }
       />
       {/* Snackbar */}
       <Snackbar

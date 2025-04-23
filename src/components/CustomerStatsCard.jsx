@@ -73,15 +73,22 @@ export default function CustomerStatsCard({
           <div className="flex justify-between items-center">
             <h3
               className="dashboardCardTitle flex items-center h-[50px]"
-              style={{ color: titleColor }}
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                color: titleColor,
+              }}
             >
               {customerStatsCardTitle}
             </h3>
             {iconComponent}
           </div>
           <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              color: amountColor,
+            }}
             className="dashboardCardAmount text-lg font-semibold"
-            style={{ color: amountColor }}
           >
             {displayDetails}
             {spanComponent}

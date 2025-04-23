@@ -50,8 +50,8 @@ export default function CustomerProfile({
 
   const handleButtonVendorClick = () => {
     if (
-      buttonVendorText === "Make Vendor" ||
-      buttonVendorText === "جعله بائعًا"
+      buttonVendorText === "Définir comme vendeur" ||
+      buttonVendorText === "تعيين كبائع"
     ) {
       setDialogOpenMakeVendor(true);
     } else {
@@ -358,9 +358,13 @@ export default function CustomerProfile({
   useEffect(() => {
     //set selling option
     if (CustomerData?.isSeller == true) {
-      setButtonVendorText("Is already Vendor");
+      setButtonVendorText(
+        language === "ar" ? "هو بالفعل بائع" : "Est déjà vendeur"
+      );
     } else if (CustomerData?.isSeller == false) {
-      setButtonVendorText("Make Vendor");
+      setButtonVendorText(
+        language === "ar" ? "تعيين كبائع" : "Définir comme vendeur"
+      );
     }
   }, [CustomerData, buttonVendorText]);
 
@@ -402,13 +406,23 @@ export default function CustomerProfile({
       </div>
       <div className="customerTop">
         <div className="flex items-center space-x-1">
-          <span>{language === "ar" ? "العملاء" : "Clients"}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "العملاء" : "Clients"}
+          </span>
           {language === "ar" ? (
             <ChevronLeftIcon className="iconAsideBar" />
           ) : (
             <ChevronRightIcon className="iconAsideBar" />
-          )}{" "}
-          <span>
+          )}
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {CustomerData
               ? `${CustomerData?.firstName} ${CustomerData?.lastName}`
               : ""}
@@ -419,7 +433,6 @@ export default function CustomerProfile({
             language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
           }`}
         >
-          {" "}
           {(CustomerData?.isSeller == true ||
             CustomerData?.isSeller == false) && (
             <ButtonLight
@@ -462,68 +475,142 @@ export default function CustomerProfile({
           <ButtonAdd
             buttonSpan={language === "ar" ? "إنشاء طلب" : "Créer une commande"}
             showIcon={false}
+            language={language}
             onClick={handleCreateOrder}
           />
         </div>
       </div>
       <div className="customerClass paddingClass">
-        <h2 className="customerClassTitle">
+        <h2
+          className="customerClassTitle"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "ar"
             ? "المعلومات الشخصية"
             : "Informations personnelles"}
         </h2>
         <div className="personalInformation">
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "الاسم" : "Prénom"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.firstName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "اللقب" : "Nom"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.lastName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.phoneNumber}
             </h3>
           </div>
-          {/* <div className="flex-col">
-            <span className="personalInformationSpan">Email Address</span>
-            <h3 className="personalInformationDetails">
-              {CustomerData?.email}
-            </h3>
-          </div> */}
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "الولاية" : "Wilaya"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.wilaya}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "البلدية" : "Commune"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.commune}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "المعرف" : "ID"}
             </span>
-            <h3 className="personalInformationDetails">{CustomerData?._id}</h3>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {CustomerData?._id}
+            </h3>
           </div>
         </div>
       </div>
@@ -531,7 +618,13 @@ export default function CustomerProfile({
       CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass paddingClass">
           <div className="flex justify-between items-center">
-            <h2 className="customerClassTitle">
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "عنوان التسليم" : "Adresse de livraison"}
             </h2>
             <ButtonAdd
@@ -557,15 +650,32 @@ export default function CustomerProfile({
               }}
             >
               <div className="customerClass pb-0">
-                <h2 className="customerClassTitle">
+                <h2
+                  className="customerClassTitle"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "إضافة عنوان جديد"
                     : "Ajouter une nouvelle adresse"}
                 </h2>
                 <div className="flex justify-end items-center space-x-4">
-                  <span>{language === "ar" ? "الاسم :" : "Nom :"}</span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "الاسم :" : "Nom :"}
+                  </span>
                   <div className="inputForm pl-0">
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="text"
                       name="newAddressNameCustomer"
                       value={newAddressNameCustomer}
@@ -574,9 +684,20 @@ export default function CustomerProfile({
                   </div>
                 </div>
                 <div className="flex justify-end items-center space-x-4">
-                  <span>{language === "ar" ? "العنوان :" : "Adresse :"}</span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "العنوان :" : "Adresse :"}
+                  </span>
                   <div className="inputForm pl-0">
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="text"
                       name="newAddressCustomer"
                       value={newAddressCustomer}
@@ -590,12 +711,20 @@ export default function CustomerProfile({
                   }`}
                 >
                   <button
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     className="text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={handleCloseModalAddAddress}
                   >
                     {language === "ar" ? "إلغاء" : "Annuler"}
                   </button>
                   <button
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     className="text-blue-500 cursor-pointer hover:text-blue-700"
                     onClick={handleOpenConfirmDialogAddingAddress}
                   >
@@ -605,7 +734,6 @@ export default function CustomerProfile({
               </div>
             </Modal>
 
-            {/* ConfirmDialog */}
             <ConfirmDialog
               open={confirmDialogOpenAddingAddress}
               onConfirm={handleConfirmAddingAddress}
@@ -634,7 +762,12 @@ export default function CustomerProfile({
         </div>
       ) : null}
       <div className="customerClass paddingClass Stats">
-        <h2 className="customerClassTitle">
+        <h2
+          className="customerClassTitle"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "ar" ? "الإحصائيات" : "Statistiques"}
         </h2>
         <div className="flexCard">
@@ -687,7 +820,12 @@ export default function CustomerProfile({
 
       <div className="customerClass justify-start paddingClass customerOrdersClass">
         <div className="flex justify-between items-center">
-          <h2 className="customerClassTitle">
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "الطلبات" : "Commandes"}
           </h2>
           <Search
@@ -719,7 +857,13 @@ export default function CustomerProfile({
           severity={alertType ? "error" : "success"}
           sx={{ width: "100%" }}
         >
-          {snackbarMessage}
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {snackbarMessage}
+          </span>
         </Alert>
       </Snackbar>
     </div>

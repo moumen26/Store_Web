@@ -10,7 +10,12 @@ export default function ButtonCancel({ language }) {
 
   return (
     <button className="buttonLight" onClick={handleCancel}>
-      <span className="buttonTextDark">
+      <span
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
+        className="buttonTextDark"
+      >
         {language === "ar" ? "إلغاء" : "Annuler"}
       </span>
     </button>

@@ -4,7 +4,12 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import JsBarcode from "jsbarcode";
 
-export default function ButtonExportPDF({ filename, customerName, orderId }) {
+export default function ButtonExportPDF({
+  filename,
+  customerName,
+  orderId,
+  language,
+}) {
   const handleExportPDF = () => {
     const input = document.getElementById("exportable-content");
     const button = document.getElementById("export-pdf-button");
@@ -73,9 +78,19 @@ export default function ButtonExportPDF({ filename, customerName, orderId }) {
       id="export-pdf-button"
       className="buttonExport"
       onClick={handleExportPDF}
+      style={{
+        fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+      }}
     >
       <DocumentArrowDownIcon className="iconAsideBar" />
-      <span className="buttonTextDark">Export PDF</span>
+      <span
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
+        className="buttonTextDark"
+      >
+        {language === "ar" ? "تصدير PDF" : "Exporter PDF"}
+      </span>
     </button>
   );
 }

@@ -26,7 +26,13 @@ export default function AddAchatProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "اسم المورد" : "Nom du fournisseur"}
               </span>
             </TableCell>
@@ -34,7 +40,13 @@ export default function AddAchatProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
               </span>
             </TableCell>
@@ -49,13 +61,29 @@ export default function AddAchatProfileDetails({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="trTableSpan">{fournisseurName}</span>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {fournisseurName}
+              </span>
             </TableCell>
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="trTableSpan">{PhoneNumber}</span>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {PhoneNumber}
+              </span>
             </TableCell>
           </TableRow>
         </TableBody>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import OrderProfileDetails from "../components/OrderProfileDetails";
 import { PhoneIcon } from "@heroicons/react/24/outline";
 import OrderProfileDevicesProductTable from "../components/OrderProfileDevicesProductTable";
@@ -536,7 +536,10 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
     );
   }
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
         <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
@@ -546,44 +549,93 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
       <div id="exportable-content" className="space-y-[32px]">
         <div className="titlePageButton">
           <div className="flex items-center space-x-1">
-            <span>Orders</span>
-            <ChevronRightIcon className="iconAsideBar" />
-            <span>#{OrderData?._id}</span>
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الطلبات" : "Commandes"}
+            </span>
+            {language === "ar" ? (
+              <ChevronLeftIcon className="iconAsideBar" />
+            ) : (
+              <ChevronRightIcon className="iconAsideBar" />
+            )}
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              #{OrderData?._id}
+            </span>
           </div>
           <div className="orderProfileButtons">
             {OrderData?.status == 0 && (
               <RetireButton
+                language={language}
                 showIcon={true}
-                buttonSpan="Retire Order"
+                buttonSpan={
+                  language === "ar" ? "إلغاء الطلب" : "Annuler la commande"
+                }
                 onClick={handleOpenRetireOrderModal}
               />
             )}
             {OrderData?.status >= 0 && (
               <ButtonModify
+                language={language}
                 showIcon={true}
-                buttonSpan="Modify Order"
+                buttonSpan={
+                  language === "ar" ? "تعديل الطلب" : "Modifier la commande"
+                }
                 onClick={handleOpenModifyOrderModal}
               />
             )}
             <ButtonExportPDF
-              filename="Order_Profile"
+              language={language}
+              filename={language === "ar" ? "ملف_الطلب" : "Commande"}
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
               orderId={OrderData?._id}
             />
             <ButtonAdd
+              language={language}
               showIcon={false}
-              buttonSpan="View Payment History"
+              buttonSpan={
+                language === "ar" ? "سجل الدفعات" : "Historique des paiements"
+              }
               onClick={handleOpenModal}
             />
           </div>
         </div>
         <div className="customerClass paddingClass">
-          <h2 className="customerClassTitle">Order Details</h2>
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
+          </h2>
           <OrderProfileDetails orderDetails={OrderData} />
         </div>
-        <div className="flex space-x-6 h-full">
+        <div
+          className={`flex h-full ${
+            language === "ar" ? "gap-x-6" : "space-x-6"
+          }`}
+        >
           <div className="customerClass paddingClass w-[65%]">
-            <h2 className="customerClassTitle">Devices in the Order</h2>
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar"
+                ? "الأجهزة في الطلب"
+                : "Appareils dans la commande"}
+            </h2>
             {OrderStatusData?.map((status) => (
               <OrderProfileDevicesProductTable
                 orderDetails={status?.products}
@@ -593,32 +645,82 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           </div>
           <div className="w-[35%] flex-col space-y-[32px]">
             <div className="customerClass paddingClass">
-              <h2 className="customerClassTitle">Customer</h2>
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "العميل" : "Client"}
+              </h2>
               <div className="flex-col space-y-1">
-                <span className="dashboardLatestOrdersDetails">
-                  Contact Information
+                <span
+                  className="dashboardLatestOrdersDetails"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "معلومات الاتصال" : "Coordonnées"}
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
-                  <p className="orderProfileSpan">
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {OrderData?.client.phoneNumber}
                   </p>
                 </div>
               </div>
               <div className="flex-col space-y-1">
-                <span className="dashboardLatestOrdersDetails">
-                  Default Address
+                <span
+                  className="dashboardLatestOrdersDetails"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar"
+                    ? "العنوان الافتراضي"
+                    : "Adresse par défaut"}
                 </span>
                 <div className="flex-col space-y-1">
-                  <p className="orderProfileSpan">
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {OrderData?.deliveredLocation
                       ? OrderData?.deliveredLocation?.address
-                      : "Pickup"}
+                      : language === "ar"
+                      ? "استلام"
+                      : "Retrait"}
                   </p>
-                  <p className="orderProfileSpan">
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {OrderData?.client.commune} {OrderData?.client.wilaya}
                   </p>
-                  <p className="orderProfileSpan">Algerie</p>
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "الجزائر" : "Algérie"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -632,10 +734,13 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         </div>
       </div>
 
+      {/* Payment History Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Payment History"
+        contentLabel={
+          language === "ar" ? "سجل الدفعات" : "Historique des paiements"
+        }
         className="addNewModal PaymentHistory"
         style={{
           overlay: {
@@ -646,7 +751,15 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
       >
         <div className="customerClass">
           <div className="flex flex-row justify-between items-center w-full">
-            <h2 className="customerClassTitle">Payment History</h2>
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "سجل الدفعات" : "Historique des paiements"}
+            </h2>
             {OrderData.status != 10 ? (
               <div className="flex space-x-4">
                 {OrderData.credit == true
@@ -655,14 +768,22 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Make it deposit"
+                        buttonSpan={
+                          language === "ar"
+                            ? "تعيين كعربون"
+                            : "Définir comme acompte"
+                        }
                         onClick={handleOpenDepositConfirmationDialog}
                       />
                     )
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Make it undeposit"
+                        buttonSpan={
+                          language === "ar"
+                            ? "إلغاء العربون"
+                            : "Annuler l'acompte"
+                        }
                         onClick={handleOpenUnDepositConfirmationDialog}
                       />
                     )}
@@ -672,14 +793,22 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Make it credited"
+                        buttonSpan={
+                          language === "ar"
+                            ? "تعيين كآجل"
+                            : "Définir comme crédit"
+                        }
                         onClick={handleOpenCreditedConfirmationDialog}
                       />
                     )
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Make it uncredited"
+                        buttonSpan={
+                          language === "ar"
+                            ? "إلغاء الآجل"
+                            : "Annuler le crédit"
+                        }
                         onClick={handleOpenUnCreditedConfirmationDialog}
                       />
                     )}
@@ -687,20 +816,34 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Add payment"
+                        buttonSpan={
+                          language === "ar"
+                            ? "إضافة دفعة"
+                            : "Ajouter un paiement"
+                        }
                         onClick={handleOpenAddPaymentDialog}
                       />
                     )
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
-                        buttonSpan="Full payment"
+                        buttonSpan={
+                          language === "ar" ? "دفع كامل" : "Paiement complet"
+                        }
                         onClick={handleOpenFullyPaidDialog}
                       />
                     )}
               </div>
             ) : (
-              <h2 className="customerClassTitle">{`Fully paid`}</h2>
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "مدفوع بالكامل" : "Payé en totalité"}
+              </h2>
             )}
           </div>
           <div className="scrollProductHistorique">
@@ -714,31 +857,48 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           <div className="flex flex-row justify-center items-center w-full">
             <h2
               className="customerClassTitle"
-              style={{ marginInlineEnd: "2%" }}
+              style={{
+                marginInlineEnd: "2%",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
             >
-              Total : {OrderData.total} DA
+              {language === "ar" ? "المجموع :" : "Total :"} {OrderData.total} DA
             </h2>
-            <h2 className="customerClassTitle">
-              Rest to pay :{" "}
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "المتبقي :" : "Reste à payer :"}
               {OrderData.total -
-                OrderData.payment.reduce((sum, pay) => sum + pay.amount, 0)}
+                OrderData.payment.reduce(
+                  (sum, pay) => sum + pay.amount,
+                  0
+                )}{" "}
               DA
             </h2>
           </div>
           <button
             onClick={handleCloseModal}
-            style={{ marginTop: "20px" }}
+            style={{
+              marginTop: "20px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
           >
-            Close
+            {language === "ar" ? "إغلاق" : "Fermer"}
           </button>
         </div>
       </Modal>
 
+      {/* Add Payment Modal */}
       <Modal
         isOpen={isAddPaymentDialogOpen}
         onRequestClose={handleCloseAddPaymentDialog}
-        contentLabel="Add payment"
+        contentLabel={language === "ar" ? "إضافة دفعة" : "Ajouter un paiement"}
         className="addNewModal"
         style={{
           overlay: {
@@ -748,15 +908,33 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         }}
       >
         <div className="customerClass p-0">
-          <h2 className="customerClassTitle">Add payment</h2>
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "إضافة دفعة" : "Ajouter un paiement"}
+          </h2>
           <div className="dialogAddCustomerItem items-center">
-            <span>Payment Amount :</span>
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "مبلغ الدفعة :" : "Montant du paiement :"}
+            </span>
             <div className="inputForm">
               <input
                 type="number"
                 name="amount"
                 min={0}
                 onChange={handleAmountChange}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               />
             </div>
           </div>
@@ -765,22 +943,31 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseAddPaymentDialog}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           >
-            Cancel
+            {language === "ar" ? "إلغاء" : "Annuler"}
           </button>
           <button
             className="text-blue-500 cursor-pointer hover:text-blue-700"
             onClick={handleOpenAddAmountConfirmationDialog}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           >
-            Save
+            {language === "ar" ? "حفظ" : "Enregistrer"}
           </button>
         </div>
       </Modal>
 
+      {/* Modify Order Modal */}
       <Modal
         isOpen={modifyOrderModal}
         onRequestClose={handleCloseModifyOrderModal}
-        contentLabel="Add Retuns"
+        contentLabel={
+          language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
+        }
         className="addNewModal addNewStockModal"
         style={{
           overlay: {
@@ -799,26 +986,43 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseModifyOrderModal}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
-                Cancel
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
               <input
                 type="button"
-                value={"Save"}
+                value={language === "ar" ? "حفظ" : "Enregistrer"}
                 className="text-blue-500 cursor-pointer hover:text-blue-700"
                 onClick={handleOpenUpdateReceiptstatusConfirmDialogOpen}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               />
             </div>
           </div>
         </div>
       </Modal>
 
+      {/* All Confirm Dialogs */}
       <ConfirmDialog
         open={isFullyPaidConfirmationOpen}
         onConfirm={handleOnConfirmFullyPaid}
         onClose={handleCloseFullyPaidConfirmationDialog}
-        dialogTitle="Confirm full payment"
-        dialogContentText={`Are you sure you want to confirm the full payment?`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد الدفع الكامل"
+            : "Confirmer le paiement complet"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تأكيد الدفع الكامل؟"
+            : "Êtes-vous sûr de vouloir confirmer le paiement complet ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -826,8 +1030,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={retireOrder}
         onConfirm={handleCancelOrder}
         onClose={handleCloseRetireOrderModal}
-        dialogTitle="Confirm Retire"
-        dialogContentText={`Are you sure you want to cancel this order?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد الإلغاء" : "Confirmer l'annulation"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟"
+            : "Êtes-vous sûr de vouloir annuler cette commande ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -835,8 +1045,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isAddAmountConfirmDialogOpen}
         onConfirm={handleOnConfirmAddPayment}
         onClose={handleCloseAddAmountConfirmationDialog}
-        dialogTitle="Confirm add payment"
-        dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد إضافة الدفعة"
+            : "Confirmer l'ajout du paiement"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
         isloading={submitionLoading}
       />
 
@@ -844,8 +1062,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isDepositConfirmDialogOpen}
         onConfirm={() => handleOnDepositConfirm(true)}
         onClose={handleCloseDepositConfirmationDialog}
-        dialogTitle="Confirm make it deposit sell"
-        dialogContentText={`Are you sure you want to confirm to make deposit sell`}
+        dialogTitle={
+          language === "ar" ? "تأكيد كعربون" : "Confirmer comme acompte"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تأكيد البيع كعربون؟"
+            : "Êtes-vous sûr de vouloir confirmer comme vente avec acompte ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -853,8 +1077,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isUnDepositConfirmDialogOpen}
         onConfirm={() => handleOnDepositConfirm(false)}
         onClose={handleCloseUnDepositConfirmationDialog}
-        dialogTitle="Confirm make it undeposit sell"
-        dialogContentText={`Are you sure you want to confirm to make undeposit sell`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد إلغاء العربون"
+            : "Confirmer l'annulation de l'acompte"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد إلغاء البيع كعربون؟"
+            : "Êtes-vous sûr de vouloir annuler la vente avec acompte ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -862,8 +1094,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isCreditedConfirmDialogOpen}
         onConfirm={() => handleOnConfirmCredited(true)}
         onClose={handleCloseCreditedConfirmationDialog}
-        dialogTitle="Confirm make it credited"
-        dialogContentText={`Are you sure you want to confirm to make it credited?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد كآجل" : "Confirmer comme crédit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تأكيد البيع كآجل؟"
+            : "Êtes-vous sûr de vouloir confirmer comme vente à crédit ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -871,8 +1109,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isUnCreditedConfirmDialogOpen}
         onConfirm={() => handleOnConfirmCredited(false)}
         onClose={handleCloseUnCreditedConfirmationDialog}
-        dialogTitle="Confirm make it uncredited"
-        dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد إلغاء الآجل"
+            : "Confirmer l'annulation du crédit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد إلغاء البيع كآجل؟"
+            : "Êtes-vous sûr de vouloir annuler la vente à crédit ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -880,8 +1126,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         open={isUpdateReceiptstatusConfirmDialogOpen}
         onConfirm={handleUpdateReceiptStatus}
         onClose={handleCloseUpdateReceiptstatusConfirmDialogOpen}
-        dialogTitle="Confirm the receipt modification"
-        dialogContentText={`Are you sure you want to modify this receipt?`}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد تعديل الفاتورة"
+            : "Confirmer la modification du reçu"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تعديل هذه الفاتورة؟"
+            : "Êtes-vous sûr de vouloir modifier ce reçu ?"
+        }
         isloading={submitionLoading}
       />
 
@@ -891,7 +1145,13 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         onClose={handleCloseSnackbar}
       >
         <Alert onClose={handleCloseSnackbar} severity={alertType}>
-          {alertMessage}
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {alertMessage}
+          </span>
         </Alert>
       </Snackbar>
     </div>

@@ -240,7 +240,13 @@ export default function FournisseurProfile({
       </div>{" "}
       <div className="customerTop">
         <div className="flex items-center space-x-1">
-          <span>{language === "ar" ? "الموردين" : "Fournisseurs"}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "الموردين" : "Fournisseurs"}
+          </span>
 
           {language === "ar" ? (
             <ChevronLeftIcon className="iconAsideBar" />
@@ -248,7 +254,13 @@ export default function FournisseurProfile({
             <ChevronRightIcon className="iconAsideBar" />
           )}
 
-          <span>#{OneFournisseurData?._id}</span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            #{OneFournisseurData?._id}
+          </span>
         </div>
         <div
           className={`flex items-center space-x-2 ${
@@ -257,12 +269,14 @@ export default function FournisseurProfile({
         >
           {" "}
           <ButtonLight
+            language={language}
             buttonSpan={language === "ar" ? "إضافة دفع" : "Add payment"}
             onClick={handleOpenAddPayementModal}
           />
           <ButtonAdd
             buttonSpan={language === "ar" ? "إنشاء عملية شراء" : "Create Achat"}
             showIcon={false}
+            language={language}
             onClick={handleCreateOrder}
           />
           <Modal
@@ -285,15 +299,32 @@ export default function FournisseurProfile({
               className="customerClass pb-0"
               style={{ direction: language === "ar" ? "rtl" : "ltr" }}
             >
-              <h2 className="customerClassTitle">
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar"
                   ? "إضافة دفعة جديدة"
                   : "Ajouter un nouveau paiement"}
               </h2>
               <div className="dialogAddCustomerItem">
-                <span>{language === "ar" ? "المبلغ :" : "Montant :"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "المبلغ :" : "Montant :"}
+                </span>
                 <div className="inputForm">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="number"
                     min={0}
                     name="addPayement"
@@ -311,12 +342,20 @@ export default function FournisseurProfile({
                 {!submitionLoading ? (
                   <>
                     <button
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       className="text-gray-500 cursor-pointer hover:text-gray-700"
                       onClick={handleCloseAddPaymentDialog}
                     >
                       {language === "ar" ? "إلغاء" : "Annuler"}
                     </button>
                     <button
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       className="text-blue-500 cursor-pointer hover:text-blue-700"
                       onClick={handleConfirmAddPayment}
                     >
@@ -334,58 +373,135 @@ export default function FournisseurProfile({
         </div>
       </div>
       <div className="customerClass paddingClass">
-        <h2 className="customerClassTitle">
+        <h2
+          className="customerClassTitle"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {language === "ar"
             ? "المعلومات الشخصية"
             : "Informations personnelles"}
         </h2>
         <div className="personalInformation">
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationSpan"
+            >
               {language === "ar" ? "الاسم" : "Prénom"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationDetails"
+            >
               {OneFournisseurData?.firstName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationSpan"
+            >
               {language === "ar" ? "اللقب" : "Nom"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationDetails"
+            >
               {OneFournisseurData?.lastName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationSpan"
+            >
               {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationDetails"
+            >
               {OneFournisseurData?.phoneNumber}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationSpan"
+            >
               {language === "ar" ? "الولاية" : "Wilaya"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationDetails"
+            >
               {OneFournisseurData?.wilaya}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationSpan"
+            >
               {language === "ar" ? "البلدية" : "Commune"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="personalInformationDetails"
+            >
               {OneFournisseurData?.commune}
             </h3>
           </div>
           {OneFournisseurData?.address && (
             <div className="flex-col">
-              <span className="personalInformationSpan">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="personalInformationSpan"
+              >
                 {language === "ar" ? "العنوان" : "Adresse"}
               </span>
-              <h3 className="personalInformationDetails">
+              <h3
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="personalInformationDetails"
+              >
                 {OneFournisseurData?.address}
               </h3>
             </div>
@@ -394,7 +510,12 @@ export default function FournisseurProfile({
       </div>
       <>
         <div className="customerClass paddingClass Stats">
-          <h2 className="customerClassTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="customerClassTitle"
+          >
             {language === "ar" ? "الإحصائيات" : "Statistiques"}
           </h2>
           <div className="flexCard fournisseurFlexCard">
@@ -441,7 +562,13 @@ export default function FournisseurProfile({
         </div>
         <div className="customerClass justify-start paddingClass customerOrdersClass">
           <div className="flex justify-between items-center">
-            <h2 className="customerClassTitle">
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="customerClassTitle"
+            >
               {language === "ar" ? "المشتريات" : "Achats"}
             </h2>
             <Search

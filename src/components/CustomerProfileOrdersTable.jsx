@@ -49,19 +49,38 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row._id}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row._id}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{formatDate(row.date, language)}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {formatDate(row.date, language)}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {formatNumber(row.total)} {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
@@ -88,7 +107,12 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {row.credit
               ? language === "ar"
                 ? "دَيْن"
@@ -103,7 +127,12 @@ function Row(props) {
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {orderStatusTextDisplayer(row.status, row.type, language)}
           </span>
         </TableCell>
@@ -132,7 +161,13 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} className="pt-2">
               <div className="w-[100%] flex">
-                <span className="dashboardLatestOrdersDetails">
+                <span
+                  className="dashboardLatestOrdersDetails"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "تفاصيل الطلب"
                     : "Détails de la Commande"}
@@ -145,7 +180,15 @@ function Row(props) {
                       className="tableCell"
                       align={language === "ar" ? "right" : "left"}
                     >
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "اسم المنتج" : "Nom du Produit"}
                       </span>
                     </TableCell>
@@ -153,17 +196,41 @@ function Row(props) {
                       className="tableCell"
                       align={language === "ar" ? "right" : "left"}
                     >
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "العلامة التجارية" : "Marque"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "الكمية" : "Quantité"}
                       </span>
                     </TableCell>
@@ -171,7 +238,15 @@ function Row(props) {
                       align={language === "ar" ? "left" : "right"}
                       className="tableCell"
                     >
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar"
                           ? "السعر الإجمالي (دج)"
                           : "Prix Total (DA)"}
@@ -188,7 +263,15 @@ function Row(props) {
                         align={language === "ar" ? "right" : "left"}
                         className="tableCell"
                       >
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {detailsRow.product.name} {detailsRow.product.size}
                         </span>
                       </TableCell>
@@ -196,17 +279,41 @@ function Row(props) {
                         align={language === "ar" ? "right" : "left"}
                         className="tableCell"
                       >
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {detailsRow.product.brand.name}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {formatNumber(detailsRow.price)}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {detailsRow.quantity}
                         </span>
                       </TableCell>
@@ -214,7 +321,15 @@ function Row(props) {
                         align={language === "ar" ? "left" : "right"}
                         className="tableCell"
                       >
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {formatNumber(
                             Number(detailsRow.price) *
                               Number(detailsRow.quantity)
@@ -278,7 +393,13 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "معرف العميل" : "ID du client"}
               </span>
             </TableCell>
@@ -286,7 +407,13 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "تاريخ الطلب" : "Date de commande"}
               </span>
             </TableCell>
@@ -294,7 +421,13 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "المبلغ" : "Montant"}
               </span>
             </TableCell>
@@ -302,7 +435,13 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الدفع" : "Paiement"}
               </span>
             </TableCell>
@@ -310,7 +449,13 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الربح" : "Profit"}
               </span>
             </TableCell>
@@ -318,17 +463,35 @@ export default function CustomerProfileOrdersTable({
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "النوع" : "Type"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الحالة" : "Statut"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableHeadCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجراء" : "Action"}
               </span>
             </TableCell>
@@ -344,7 +507,13 @@ export default function CustomerProfileOrdersTable({
           ) : !filteredRows || filteredRows.lenght <= 0 ? (
             <TableRow>
               <TableCell colSpan={9} align="center">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "لم يتم العثور على طلبات"
                     : "Aucune commande trouvée"}

@@ -7,7 +7,7 @@ export default function ButtonFacebok({ language }) {
   return (
     <button
       className={`buttonFacebook flex items-center ${
-        isArabic ? "flex-row-reverse bg-red-400" : ""
+        isArabic ? "flex-row-reverse" : ""
       }`}
       dir={isArabic ? "rtl" : "ltr"}
     >

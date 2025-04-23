@@ -16,36 +16,74 @@ function AddAchatSubTotal({ total, discount = 0, language }) {
         <TableBody>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "تخفيض" : "Remise"}
               </span>
             </TableCell>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="trTableSpan">{formatNumber(discount)} DA</span>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {formatNumber(discount)} DA
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar"
                   ? "الإجمالي بدون تخفيض"
                   : "Total sans remise"}
               </span>
             </TableCell>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {formatNumber(total)} {language === "ar" ? "دج " : " DA"}
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="dashboardLatestOrdersDetails">
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجمالي" : "Total"}
               </span>
             </TableCell>
             <TableCell align={language === "ar" ? "right" : "left"}>
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {discount > 0
                   ? formatNumber(Number(total) - Number(discount))
                   : formatNumber(Number(total))}{" "}

@@ -176,13 +176,25 @@ function AddOrderTableDetails({
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row._id}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row._id}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {row.product.name + " " + row.product.size}
           </span>
         </TableCell>
@@ -190,25 +202,53 @@ function AddOrderTableDetails({
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.product.brand?.name}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.product.brand?.name}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.ClientQuantity}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.ClientQuantity}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.selling} DA</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.selling} DA
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{productAmount} DA</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {productAmount} DA
+          </span>
         </TableCell>
         <TableCell
           align={language === "ar" ? "right" : "right"}
@@ -285,7 +325,13 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "معرف المنتج" : "ID Produit"}
                 </span>
               </TableCell>
@@ -293,7 +339,13 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "المنتج" : "Produit"}
                 </span>
               </TableCell>
@@ -301,7 +353,13 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "العلامة التجارية" : "Marque"}
                 </span>
               </TableCell>
@@ -309,7 +367,13 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "الكمية" : "Quantité"}
                 </span>
               </TableCell>
@@ -317,7 +381,13 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "السعر" : "Prix"}
                 </span>
               </TableCell>
@@ -325,12 +395,24 @@ function AddOrderTableDetails({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "المبلغ" : "Montant"}
                 </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
-                <span className="thTableSpan pr-1">
+                <span
+                  className="thTableSpan pr-1"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "إجراء" : "Action"}
                 </span>
               </TableCell>
@@ -350,7 +432,13 @@ function AddOrderTableDetails({
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {rows.length === 0 ? (
-                    <span className="thTableSpan">
+                    <span
+                      className="thTableSpan"
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "إضافة منتجات"
                         : "Ajouter des produits"}
@@ -385,7 +473,12 @@ function AddOrderTableDetails({
           className="customerClass addProductAchat"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <h2 className="dialogTitle">
+          <h2
+            className="dialogTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar"
               ? "إضافة منتج إلى الطلب"
               : "Ajouter un produit à la commande"}
@@ -403,21 +496,48 @@ function AddOrderTableDetails({
                 onChange={handleSearchChange}
               />
               <div className="flex items-center">
-                <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className={`${language === "ar" ? "ml-5" : ""}`}
+                >
                   {language === "ar" ? "الفئة :" : "Catégorie :"}
                 </span>
                 <div className="selectStoreWilayaCommune w-[300px]">
                   <select
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     name="productCategory"
                     onChange={handelCategoryChange}
                   >
-                    <option value="" disabled selected>
+                    <option
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      value=""
+                      disabled
+                      selected
+                    >
                       {language === "ar"
                         ? "-- اختر فئة المنتج --"
                         : "-- Sélectionner une catégorie --"}
                     </option>
                     {CategoryData?.map((category) => (
-                      <option key={category._id} value={category._id}>
+                      <option
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        key={category._id}
+                        value={category._id}
+                      >
                         {category.name}
                       </option>
                     ))}
@@ -427,6 +547,7 @@ function AddOrderTableDetails({
             </div>
             <div className="h-fit">
               <ProductsContainerAddOrder
+                language={language}
                 searchQuery={searchQuery}
                 selectedCategory={selectedCategory}
                 onSelectProduct={handleSelectProduct}
@@ -435,13 +556,23 @@ function AddOrderTableDetails({
             {newItem && (
               <div className="flexItemsCenterBetween">
                 <div className="w-fit dialogAddCustomerItem items-center">
-                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                    className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                  >
                     {language === "ar"
                       ? "الكمية لكل صندوق :"
                       : "Quantité par boîte :"}
                   </span>
                   <div className="inputForm">
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="number"
                       name="stock"
                       value={QuantityPerBox}
@@ -451,13 +582,23 @@ function AddOrderTableDetails({
                   </div>
                 </div>
                 <div className="w-fit dialogAddCustomerItem items-center">
-                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                    className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                  >
                     {language === "ar"
                       ? "الكمية لكل وحدة :"
                       : "Quantité par unité :"}
                   </span>
                   <div className="inputForm">
                     <input
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
                       type="number"
                       name="stock"
                       value={QuantityPerUnity}
@@ -467,12 +608,23 @@ function AddOrderTableDetails({
                   </div>
                 </div>
                 <div className="w-fit dialogAddCustomerItem items-center">
-                  <span className={`${language === "ar" ? "ml-5" : "mr-5"}`}>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                    className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                  >
                     {language === "ar"
                       ? "إجمالي الكمية :"
                       : "Quantité totale :"}
                   </span>
-                  <span>
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {ClientQuantity} {language === "ar" ? "وحدة" : "unité"}
                   </span>
                 </div>
@@ -486,6 +638,10 @@ function AddOrderTableDetails({
           >
             {" "}
             <button
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               onClick={handleCloseModal}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               aria-label={language === "ar" ? "إغلاق" : "Fermer"}
@@ -493,6 +649,10 @@ function AddOrderTableDetails({
               {language === "ar" ? "إغلاق" : "Fermer"}
             </button>
             <button
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               onClick={handleAddItem}
               className={`cursor-pointer ${
                 !newItem || ClientQuantity === 0

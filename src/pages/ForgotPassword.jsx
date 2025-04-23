@@ -255,7 +255,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
   };
 
   return (
-    <div className="forgotPassword">
+    <div className="forgotPassword w-full">
       <div
         className={`w-full h-[80px] flex justify-start items-center border-b-2 border-[#a] ${
           language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"

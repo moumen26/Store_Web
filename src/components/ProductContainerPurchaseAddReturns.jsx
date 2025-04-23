@@ -89,7 +89,15 @@ export default function ProductContainerPurchaseAddReturns({
           />
         ))
       ) : (
-        <p>No products available</p>
+        <p
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar"
+            ? "لا توجد منتجات متاحة"
+            : "Aucun produit disponible"}
+        </p>
       )}
     </div>
   );

@@ -19,6 +19,7 @@ function subtotal(items) {
 export default function PurchaseProfileDevicesProductTable({
   PurchaseData,
   discount,
+  language,
 }) {
   const rows = PurchaseData?.sousStocks?.map((item) => {
     let totalBoxes = item.quantity / item.sousStock.stock.product.boxItems;
@@ -41,15 +42,28 @@ export default function PurchaseProfileDevicesProductTable({
       qty: item.quantity,
       unit: item.price,
       price: priceRow(item.quantity, item.price),
-      box: `${
-        totalBoxes > 0
-          ? `${totalBoxes} ${totalBoxes === 1 ? "box" : "boxes"}`
-          : ""
-      }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
-        remainingItems > 0
-          ? ` ${remainingItems} ${remainingItems === 1 ? "item" : "items"}`
-          : ""
-      }`,
+      box:
+        language === "ar"
+          ? `${
+              totalBoxes > 0
+                ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
+                : ""
+            }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
+              remainingItems > 0
+                ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
+                : ""
+            }`
+          : `${
+              totalBoxes > 0
+                ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
+                : ""
+            }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
+              remainingItems > 0
+                ? ` ${remainingItems} ${
+                    remainingItems === 1 ? "pièce" : "pièces"
+                  }`
+                : ""
+            }`,
     };
   });
   const invoiceSubtotal = subtotal(rows);
@@ -63,82 +77,221 @@ export default function PurchaseProfileDevicesProductTable({
       <Table sx={{ minWidth: 700 }} aria-label="spanning table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell align="center" colSpan={4}>
-              <span className="thTableSpan">Details</span>
+            <TableCell align={language === "ar" ? "right" : "left"} colSpan={4}>
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "التفاصيل" : "Détails"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="thTableSpan">Price</span>
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "السعر" : "Prix"}
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>
-              <span className="dashboardLatestOrdersDetails">Products</span>
+            <TableCell align={language === "ar" ? "right" : "left"}>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المنتجات" : "Produits"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="dashboardLatestOrdersDetails">Qty.</span>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الكمية" : "Qté"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="dashboardLatestOrdersDetails">Boxe.</span>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "العلب" : "Boîtes"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="dashboardLatestOrdersDetails">Unit</span>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الوحدة" : "Unité"}
+              </span>
             </TableCell>
             <TableCell align="right">
-              <span className="dashboardLatestOrdersDetails">Sum</span>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المجموع" : "Total"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows?.map((row, index) => (
             <TableRow key={index}>
-              <TableCell>
-                <span className="trTableSpan">
+              <TableCell align={language === "ar" ? "right" : "left"}>
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {row.name} - {row.size}
                 </span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.qty}</span>
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {row.qty}
+                </span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{row.box}</span>
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {row.box}
+                </span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{formatNumber(row.unit)} DA</span>
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {formatNumber(row.unit)} {language === "ar" ? "دج" : "DA"}
+                </span>
               </TableCell>
               <TableCell align="right">
-                <span className="trTableSpan">{formatNumber(row.price)} DA</span>
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {formatNumber(row.price)} {language === "ar" ? "دج" : "DA"}
+                </span>
               </TableCell>
             </TableRow>
           ))}
 
           <TableRow>
-            <TableCell colSpan={4}>
-              <span className="dashboardLatestOrdersDetails">Remise</span>
+            <TableCell rowSpan={4} />
+            <TableCell colSpan={3} align={language === "ar" ? "right" : "left"}>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الخصم" : "Remise"}
+              </span>
             </TableCell>
-            <TableCell align="right">
-              <span className="trTableSpan">{formatNumber(discount)} DA</span>
+            <TableCell align={language === "ar" ? "right" : "right"}>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {formatNumber(discount)} {language === "ar" ? "دج" : "DA"}
+              </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={4}>
-              <span className="dashboardLatestOrdersDetails">
-                Total sans remise
+            <TableCell colSpan={2} align={language === "ar" ? "right" : "left"}>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المجموع قبل الخصم" : "Total sans remise"}
               </span>
             </TableCell>
-            <TableCell align="right">
-              <span className="trTableSpan">
-                {formatNumber(invoiceSubtotal)} DA
+            <TableCell align="right"></TableCell>
+            <TableCell align={language === "ar" ? "right" : "right"}>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {formatNumber(invoiceSubtotal)}{" "}
+                {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={4}>
-              <span className="dashboardLatestOrdersDetails">Total final</span>
+            <TableCell colSpan={3} align={language === "ar" ? "right" : "left"}>
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المجموع الكلي" : "Total final"}
+              </span>
             </TableCell>
-            <TableCell align="right">
-              <span className="trTableSpan">
+            <TableCell align={language === "ar" ? "right" : "right"}>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {formatNumber(Number(invoiceSubtotal) - Number(discount))}{" "}
-                DA
+                {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>

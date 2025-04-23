@@ -617,7 +617,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           >
             {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
           </h2>
-          <OrderProfileDetails orderDetails={OrderData} />
+          <OrderProfileDetails language={language} orderDetails={OrderData} />
         </div>
         <div
           className={`flex h-full ${
@@ -633,13 +633,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               }}
             >
               {language === "ar"
-                ? "الأجهزة في الطلب"
-                : "Appareils dans la commande"}
+                ? "المنتجات في الطلب"
+                : "Produits dans la commande"}
             </h2>
             {OrderStatusData?.map((status) => (
               <OrderProfileDevicesProductTable
                 orderDetails={status?.products}
                 orderDeliveryAmount={0}
+                language={language}
               />
             ))}
           </div>
@@ -662,7 +663,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar" ? "معلومات الاتصال" : "Coordonnées"}
+                  {language === "ar" ? "رقم الهاتف" : "Numéro du téléphone"}
                 </span>
                 <div className="flex items-center space-x-2">
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
@@ -749,7 +750,10 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           },
         }}
       >
-        <div className="customerClass">
+        <div
+          className="customerClass"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <div className="flex flex-row justify-between items-center w-full">
             <h2
               className="customerClassTitle"
@@ -761,7 +765,11 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               {language === "ar" ? "سجل الدفعات" : "Historique des paiements"}
             </h2>
             {OrderData.status != 10 ? (
-              <div className="flex space-x-4">
+              <div
+                className={`flex items-center space-x-3 ${
+                  language === "ar" ? "gap-x-3" : ""
+                }`}
+              >
                 {OrderData.credit == true
                   ? null
                   : OrderData.deposit == false
@@ -848,12 +856,17 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           </div>
           <div className="scrollProductHistorique">
             <PaymentHistorique
+              language={language}
               data={OrderData.payment}
               isClosed={OrderData.status == 10 ? false : true}
             />
           </div>
         </div>
-        <div className="flex justify-end">
+        <div
+          className={`flex mt-4 ${
+            language === "ar" ? "justify-start" : "justify-end"
+          }`}
+        >
           <div className="flex flex-row justify-center items-center w-full">
             <h2
               className="customerClassTitle"
@@ -863,7 +876,9 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {language === "ar" ? "المجموع :" : "Total :"} {OrderData.total} DA
+              {language === "ar" ? "المجموع :" : "Total :"} {OrderData.total}{" "}
+              {""}
+              {language === "ar" ? "دج " : " DA"}
             </h2>
             <h2
               className="customerClassTitle"
@@ -872,13 +887,13 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {language === "ar" ? "المتبقي :" : "Reste à payer :"}
+              {language === "ar" ? "المتبقي :" : "Reste à payer :"}{" "}
               {OrderData.total -
                 OrderData.payment.reduce(
                   (sum, pay) => sum + pay.amount,
                   0
                 )}{" "}
-              DA
+              {language === "ar" ? "دج " : " DA"}
             </h2>
           </div>
           <button
@@ -887,7 +902,9 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               marginTop: "20px",
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
-            className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
+            className={`text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 ${
+              language === "ar" ? "left-8" : "right-8"
+            }`}
           >
             {language === "ar" ? "إغلاق" : "Fermer"}
           </button>
@@ -907,7 +924,10 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           },
         }}
       >
-        <div className="customerClass p-0">
+        <div
+          className="customerClass p-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <h2
             className="customerClassTitle"
             style={{
@@ -939,7 +959,12 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             </div>
           </div>
         </div>
-        <div className="flex justify-end space-x-8 mt-[20px]">
+        <div
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          className={`flex justify-end mt-4 ${
+            language === "ar" ? "gap-x-8" : "space-x-8"
+          }`}
+        >
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseAddPaymentDialog}
@@ -976,13 +1001,22 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           },
         }}
       >
-        <div className="customerClass">
+        <div
+          className="customerClass"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
           <AddOrderRetunsTableDetails
+            language={language}
             productsListToUpdate={productsListToUpdate}
             setProductsListToUpdate={setProductsListToUpdate}
           />
           <div className="mt-[16px]">
-            <div className="flex justify-end space-x-8">
+            <div
+              className={`flex justify-end ${
+                language === "ar" ? "gap-x-8" : "space-x-8"
+              }`}
+            >
+              {" "}
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseModifyOrderModal}

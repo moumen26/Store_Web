@@ -12,18 +12,50 @@ import ConfirmDialog from "./ConfirmDialog";
 import { Alert, Snackbar } from "@mui/material";
 import { formatDate } from "../util/useFullFunctions";
 import axios from "axios";
-function ProductHistoriqueRow({ historique, onDeleteClick, isClosed = false }) {
+function ProductHistoriqueRow({
+  historique,
+  onDeleteClick,
+  isClosed = false,
+  language,
+}) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{formatDate(historique.date)}</span>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {formatDate(historique.date)}
+        </span>
       </TableCell>
-      <TableCell className="tableCell">
-        <span className="trTableSpan">{historique.amount} DA</span>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {historique.amount} DA
+        </span>
       </TableCell>
       {isClosed && (
-        <TableCell className="tableCell w-[100px]">
-          <div className="flex items-center justify-end space-x-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
             <TrashIcon
               className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
               onClick={onDeleteClick}
@@ -41,7 +73,15 @@ ProductHistoriqueRow.propTypes = {
 };
 
 // Main component
-export default function PaymentHistorique({ data, isClosed = false, id, user, decodedToken, refetchPurchaseData }) {
+export default function PaymentHistorique({
+  data,
+  isClosed = false,
+  id,
+  user,
+  language,
+  decodedToken,
+  refetchPurchaseData,
+}) {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deletedProductName, setDeletedProductName] = useState("");
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -74,7 +114,8 @@ export default function PaymentHistorique({ data, isClosed = false, id, user, de
     try {
       setSubmitionLoading(true);
       const response = await axios.delete(
-        import.meta.env.VITE_APP_URL_BASE + `/Purchase/payment/${decodedToken?.id}/${id}/${deleteItemId}`,
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Purchase/payment/${decodedToken?.id}/${id}/${deleteItemId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -117,15 +158,39 @@ export default function PaymentHistorique({ data, isClosed = false, id, user, de
         <Table aria-label="product historique">
           <TableHead>
             <TableRow>
-              <TableCell>
-                <span className="thTableSpan">Date</span>
+              <TableCell align={language === "ar" ? "right" : "left"}>
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "التاريخ" : "Date"}
+                </span>
               </TableCell>
-              <TableCell>
-                <span className="thTableSpan">Amount</span>
+              <TableCell align={language === "ar" ? "right" : "left"}>
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "المبلغ" : "Montant"}
+                </span>
               </TableCell>
               {isClosed && (
                 <TableCell align="right">
-                  <span className="thTableSpan">Action</span>
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "إجراء" : "Action"}
+                  </span>
                 </TableCell>
               )}
             </TableRow>
@@ -140,13 +205,24 @@ export default function PaymentHistorique({ data, isClosed = false, id, user, de
                     historique={historique}
                     onDeleteClick={() => handleDeleteClick(historique)}
                     isClosed={isClosed}
+                    language={language}
                   />
                 ))
             ) : (
               <TableRow>
                 <TableCell colSpan={7} align="center">
                   {data.length == 0 ? (
-                    <span>aucun paiement disponible</span>
+                    <span
+                      className="thTableSpan"
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "لا توجد مدفوعات متاحة"
+                        : "aucun paiement disponible"}
+                    </span>
                   ) : (
                     <CircularProgress color="inherit" size={4} />
                   )}

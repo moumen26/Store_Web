@@ -49,7 +49,7 @@ export default function ProductCard({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {productPrice} DA
+            {productPrice} {language === "ar" ? "دج " : " DA"}
           </span>
         )}
       </div>

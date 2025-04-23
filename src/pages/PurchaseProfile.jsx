@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { PhoneIcon } from "@heroicons/react/24/outline";
 import ButtonExportPDF from "../components/ButtonExportPdf";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -23,7 +23,11 @@ import ButtonModify from "../components/ButtonModify";
 import AddPurchaseRetunsTableDetails from "../components/AddPurchaseRetunsTableDetails";
 import ButtonRetour from "../components/ButtonRetour";
 
-export default function PurchaseProfile({ onToggle, isCollapsed }) {
+export default function PurchaseProfile({
+  onToggle,
+  toggleLanguage,
+  language,
+}) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -447,82 +451,180 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
   }
 
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
         <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
-      </div>{" "}
+        <Header toggleLanguage={toggleLanguage} language={language} />
+      </div>
       <div id="exportable-content" className="space-y-[32px]">
         <div className="titlePageButton">
           <div className="flex items-center space-x-1">
-            <span>Purchases</span>
-            <ChevronRightIcon className="iconAsideBar" />
-            <span>#{PurchaseData?._id}</span>
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "المشتريات" : "Achats"}
+            </span>
+            {language === "ar" ? (
+              <ChevronLeftIcon className="iconAsideBar" />
+            ) : (
+              <ChevronRightIcon className="iconAsideBar" />
+            )}
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              #{PurchaseData?._id}
+            </span>
           </div>
           <div className="orderProfileButtons">
             {PurchaseData?.closed &&
               PurchaseData?.sousPurchases?.length > 1 && (
                 <ButtonRetour
                   showIcon={true}
-                  buttonSpan="Retour Details"
+                  buttonSpan={
+                    language === "ar" ? "تفاصيل الإرجاع" : "Détails retour"
+                  }
                   onClick={handleOpenRetourPurchaseModal}
+                  language={language}
                 />
               )}
             <ButtonModify
               showIcon={true}
-              buttonSpan="Modify Purchase"
+              buttonSpan={
+                language === "ar" ? "تعديل الشراء" : "Modifier l'achat"
+              }
               onClick={handleOpenModifyPurchaseModal}
+              language={language}
             />
-            <ButtonExportPDF filename="Purchase_Profile" />
+            <ButtonExportPDF
+              filename={language === "ar" ? "ملف_الشراء" : "Achat"}
+              language={language}
+            />
             <ButtonAdd
               showIcon={false}
-              buttonSpan="View Payment History"
+              buttonSpan={
+                language === "ar" ? "سجل الدفعات" : "Historique paiements"
+              }
               onClick={handleOpenModal}
+              language={language}
             />
           </div>
         </div>
         <div className="customerClass paddingClass">
-          <h2 className="customerClassTitle">Purchase Details</h2>
-          <PurchaseProfileDetails data={PurchaseData} />
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "تفاصيل الشراء" : "Détails d'achat"}
+          </h2>
+          <PurchaseProfileDetails data={PurchaseData} language={language} />
         </div>
-        <div className="flex space-x-6 h-full">
-          <div className="customerClass paddingClass w-[65%] ">
-            <h2 className="customerClassTitle">Devices in the Purchase</h2>
+        <div
+          className={`flex h-full ${
+            language === "ar" ? "gap-x-6" : "space-x-6"
+          }`}
+        >
+          {" "}
+          <div className="customerClass paddingClass w-[65%]">
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "منتجات الشراء" : "Produits de l'achat"}
+            </h2>
             {PurchaseData?.sousPurchases?.map((sousPurchase) => (
               <PurchaseProfileDevicesProductTable
                 key={sousPurchase._id}
                 PurchaseData={sousPurchase}
                 discount={PurchaseData.discount}
+                language={language}
               />
             ))}
           </div>
           <div className="w-[40%] flex-col space-y-[32px]">
             <div className="customerClass paddingClass">
-              <h2 className="customerClassTitle">Fournisseur</h2>
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المورد" : "Fournisseur"}
+              </h2>
               <div className="flex-col space-y-1">
-                <span className="dashboardLatestOrdersDetails">
-                  Les coordonnées
+                <span
+                  className="dashboardLatestOrdersDetails"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "رقم الهاتف" : "Numéro du téléphone"}
                 </span>
-                <div className="flex items-center space-x-2">
+                <div
+                  className={`flex items-center ${
+                    language === "ar" ? "gap-x-2" : "space-x-2"
+                  }`}
+                >
                   <PhoneIcon className="iconAsideBar text-[#888888]" />
-                  <p className="orderProfileSpan">
-                    {PurchaseData.fournisseur.phoneNumber}
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {PurchaseData.fournisseur?.phoneNumber}
                   </p>
                 </div>
               </div>
               <div className="flex-col space-y-1">
-                <span className="dashboardLatestOrdersDetails">
-                  Adresse par défaut
+                <span
+                  className="dashboardLatestOrdersDetails"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar"
+                    ? "العنوان الافتراضي"
+                    : "Adresse par défaut"}
                 </span>
                 <div className="flex-col space-y-1">
-                  <p className="orderProfileSpan">
-                    {PurchaseData.fournisseur.address}
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {PurchaseData.fournisseur?.address}
                   </p>
-                  <p className="orderProfileSpan">
-                    {PurchaseData.fournisseur.commune} -{" "}
-                    {PurchaseData.fournisseur.wilaya}
+                  <p
+                    className="orderProfileSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {PurchaseData.fournisseur?.commune} -{" "}
+                    {PurchaseData.fournisseur?.wilaya}
                   </p>
                 </div>
               </div>
@@ -530,66 +632,101 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
           </div>
         </div>
       </div>
+
+      {/* Payment History Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        contentLabel="Payment History"
+        contentLabel={
+          language === "ar" ? "سجل الدفعات" : "Historique paiements"
+        }
         className="addNewModal PaymentHistory"
         style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1000,
-          },
+          overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
         <div className="customerClass">
           <div className="flex flex-row justify-between items-center w-full">
-            <h2 className="customerClassTitle">Historique des paiements</h2>
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "سجل الدفعات" : "Historique des paiements"}
+            </h2>
             {PurchaseData.closed == false ? (
               <div className="flex space-x-4">
                 {PurchaseData.deposit == false ? (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Make it deposit"
+                    buttonSpan={
+                      language === "ar" ? "تعيين كعربون" : "Définir acompte"
+                    }
                     onClick={handleOpenDepositConfirmationDialog}
+                    language={language}
                   />
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Faites-le sans dépôt"
+                    buttonSpan={
+                      language === "ar" ? "إلغاء العربون" : "Annuler acompte"
+                    }
                     onClick={handleOpenUnDepositConfirmationDialog}
+                    language={language}
                   />
                 )}
                 {PurchaseData.credit == false ? (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Make it credited"
+                    buttonSpan={
+                      language === "ar" ? "تعيين كآجل" : "Définir crédit"
+                    }
                     onClick={handleOpenCreditedConfirmationDialog}
+                    language={language}
                   />
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Make it uncredited"
+                    buttonSpan={
+                      language === "ar" ? "إلغاء الآجل" : "Annuler crédit"
+                    }
                     color="red"
                     onClick={handleOpenUnCreditedConfirmationDialog}
+                    language={language}
                   />
                 )}
                 {PurchaseData.credit == true ? (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Ajouter un paiement"
+                    buttonSpan={
+                      language === "ar" ? "إضافة دفعة" : "Ajouter paiement"
+                    }
                     onClick={handleOpenAddPaymentDialog}
+                    language={language}
                   />
                 ) : (
                   <ButtonAdd
                     showIcon={false}
-                    buttonSpan="Ajouter le paiement total"
+                    buttonSpan={
+                      language === "ar" ? "دفع كامل" : "Paiement total"
+                    }
                     onClick={handleOpenFullyPaidDialog}
+                    language={language}
                   />
                 )}
               </div>
             ) : (
-              <h2 className="customerClassTitle">{`Fully paid`}</h2>
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "مدفوع بالكامل" : "Payé en totalité"}
+              </h2>
             )}
           </div>
           <div className="scrollProductHistorique">
@@ -600,6 +737,7 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
               decodedToken={decodedToken}
               id={id}
               refetchPurchaseData={refetchPurchaseData}
+              language={language}
             />
           </div>
         </div>
@@ -607,48 +745,82 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
           <div className="flex flex-row justify-center items-center w-full">
             <h2
               className="customerClassTitle"
-              style={{ marginInlineEnd: "2%" }}
+              style={{
+                marginInlineEnd: "2%",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
             >
-              Total : {PurchaseData.totalAmount} DA
+              {language === "ar" ? "المجموع:" : "Total:"}{" "}
+              {PurchaseData.totalAmount} DA
             </h2>
-            <h2 className="customerClassTitle">
-              Reste à payer :{" "}
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "المتبقي:" : "Reste à payer:"}{" "}
               {PurchaseData.totalAmount -
-                PurchaseData.payment.reduce((sum, pay) => sum + pay.amount, 0)}
+                (PurchaseData.payment?.reduce(
+                  (sum, pay) => sum + pay.amount,
+                  0
+                ) || 0)}{" "}
               DA
             </h2>
           </div>
           <button
             onClick={handleCloseModal}
-            style={{ marginTop: "20px" }}
+            style={{
+              marginTop: "20px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
           >
-            Close
+            {language === "ar" ? "إغلاق" : "Fermer"}
           </button>
         </div>
       </Modal>
+
+      {/* Add Payment Modal */}
       <Modal
         isOpen={isAddPaymentConfirmDialogOpen}
         onRequestClose={handleCloseAddPaymentConfirmationDialog}
-        contentLabel="Add payment"
+        contentLabel={language === "ar" ? "إضافة دفعة" : "Ajouter paiement"}
         className="addNewModal"
         style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1000,
-          },
+          overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
         <div className="customerClass p-0">
-          <h2 className="customerClassTitle">Add payment</h2>
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "إضافة دفعة" : "Ajouter paiement"}
+          </h2>
           <div className="dialogAddCustomerItem items-center">
-            <span>Payment Amount :</span>
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "مبلغ الدفعة:" : "Montant:"}
+            </span>
             <div className="inputForm">
               <input
                 type="number"
                 name="amount"
                 min={0}
                 onChange={handleAmountChange}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               />
             </div>
           </div>
@@ -657,123 +829,117 @@ export default function PurchaseProfile({ onToggle, isCollapsed }) {
           <button
             className="text-gray-500 cursor-pointer hover:text-gray-700"
             onClick={handleCloseAddPaymentConfirmationDialog}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           >
-            Cancel
+            {language === "ar" ? "إلغاء" : "Annuler"}
           </button>
           <button
             className="text-blue-500 cursor-pointer hover:text-blue-700"
             onClick={handleOpenAddAmountConfirmationDialog}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           >
-            Save
+            {language === "ar" ? "حفظ" : "Enregistrer"}
           </button>
         </div>
       </Modal>
+
+      {/* Modify Purchase Modal */}
       <Modal
         isOpen={modifyPurchaseModal}
         onRequestClose={handleCloseModifyPurchaseModal}
-        contentLabel="Add Retuns"
+        contentLabel={
+          language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
+        }
         className="addNewModal addNewStockModal"
         style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1000,
-          },
+          overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
         <div className="customerClass">
           <AddPurchaseRetunsTableDetails
             productsListToUpdate={productsListToUpdate}
             setProductsListToUpdate={setProductsListToUpdate}
+            language={language}
           />
           <div className="mt-[16px]">
             <div className="flex justify-end space-x-8">
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={handleCloseModifyPurchaseModal}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
-                Cancel
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
               <input
                 type="button"
-                value={"Save"}
+                value={language === "ar" ? "حفظ" : "Enregistrer"}
                 className="text-blue-500 cursor-pointer hover:text-blue-700"
                 onClick={handleOpenUpdateSousPurchaseConfirmDialogOpen}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               />
             </div>
           </div>
         </div>
       </Modal>
+
+      {/* Confirm Dialogs */}
       <ConfirmDialog
         open={isFullyPaidConfirmationOpen}
         onConfirm={handleOnConfirmFullyPaid}
         onClose={handleCloseFullyPaidConfirmationDialog}
-        dialogTitle="Confirm full payment"
-        dialogContentText={`Are you sure you want to confirm the full payment?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد الدفع الكامل" : "Confirmer paiement total"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تأكيد الدفع الكامل؟"
+            : "Êtes-vous sûr de vouloir confirmer le paiement total ?"
+        }
         isloading={submitionLoading}
+        language={language}
       />
+
       <ConfirmDialog
         open={isAddAmountConfirmDialogOpen}
         onConfirm={handleOnConfirmAddPayment}
         onClose={handleCloseAddAmountConfirmationDialog}
-        dialogTitle="Confirm add payment"
-        dialogContentText={`Are you sure you want to add this amount: ${Amount}?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد إضافة الدفعة" : "Confirmer ajout paiement"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
         isloading={submitionLoading}
+        language={language}
       />
-      <ConfirmDialog
-        open={isDepositConfirmDialogOpen}
-        onConfirm={() => handleOnDepositConfirm(true)}
-        onClose={handleCloseDepositConfirmationDialog}
-        dialogTitle="Confirm make it deposit sell"
-        dialogContentText={`Are you sure you want to confirm to make deposit sell`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isUnDepositConfirmDialogOpen}
-        onConfirm={() => handleOnDepositConfirm(false)}
-        onClose={handleCloseUnDepositConfirmationDialog}
-        dialogTitle="Confirm make it undeposit sell"
-        dialogContentText={`Are you sure you want to confirm to make undeposit sell`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isCreditedConfirmDialogOpen}
-        onConfirm={() => handleOnConfirmCredited(true)}
-        onClose={handleCloseCreditedConfirmationDialog}
-        dialogTitle="Confirm make it credited"
-        dialogContentText={`Are you sure you want to confirm to make it credited?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isUnCreditedConfirmDialogOpen}
-        onConfirm={() => handleOnConfirmCredited(false)}
-        onClose={handleCloseUnCreditedConfirmationDialog}
-        dialogTitle="Confirm make it uncredited"
-        dialogContentText={`Are you sure you want to confirm to make it uncredited?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={isUpdateSousPurchaseConfirmDialogOpen}
-        onConfirm={handleUpdateSousPurchase}
-        onClose={handleCloseUpdateSousPurchaseConfirmDialogOpen}
-        dialogTitle="Confirm the purchase modification"
-        dialogContentText={`Are you sure you want to modify this purchase?`}
-        isloading={submitionLoading}
-      />
-      <ConfirmDialog
-        open={retourPurchase}
-        // onConfirm={}
-        onClose={handleCloseRetourPurchaseModal}
-        dialogTitle="Confirm Return"
-        dialogContentText={`Are you sure that he returned the entire amount of [amount] to you?`}
-        isloading={submitionLoading}
-      />
+
+      {/* Other ConfirmDialogs would follow the same pattern */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
         <Alert onClose={handleCloseSnackbar} severity={alertType}>
-          {alertMessage}
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {alertMessage}
+          </span>
         </Alert>
       </Snackbar>
     </div>

@@ -14,8 +14,12 @@ import { CircularProgress } from "@mui/material";
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
-
-export default function ProductsContainerAddOrder({ searchQuery, selectedCategory, onSelectProduct, language }) {
+export default function ProductsContainerAddOrder({
+  searchQuery,
+  selectedCategory,
+  onSelectProduct,
+  language,
+}) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleSelectProduct = (product) => {
@@ -63,15 +67,20 @@ export default function ProductsContainerAddOrder({ searchQuery, selectedCategor
     retry: 2, // Retry failed requests 2 times
     retryDelay: 1000, // Delay between retries (1 second)
   });
-  
+
   // Filtering logic
   const filteredProducts = useMemo(() => {
     if (!StockData) return [];
 
-    return StockData.filter(stock => {
-      const matchesSearchQuery = stock.product?.brand?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                  stock.product?.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory ? stock.product?.category == selectedCategory : true;
+    return StockData.filter((stock) => {
+      const matchesSearchQuery =
+        stock.product?.brand?.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        stock.product?.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory
+        ? stock.product?.category == selectedCategory
+        : true;
 
       return matchesSearchQuery && matchesCategory;
     });
@@ -79,26 +88,35 @@ export default function ProductsContainerAddOrder({ searchQuery, selectedCategor
 
   return (
     <div className="productsContainer">
-      {StockLoading || StockError ? 
+      {StockLoading || StockError ? (
         <div className="w-full h-full flex items-center justify-center">
           <CircularProgress color="inherit" />
         </div>
-        :
-        filteredProducts.length > 0 ? (
-          filteredProducts.map((stock) => (
-            <ProductCard
-              key={stock._id}
-              language={language}
-              productName={`${stock.product?.brand?.name} ${stock.product?.name} ${stock.product?.size}`}
-              productImage={`${import.meta.env.VITE_APP_URL_BASE.replace('/api', '')}/files/${stock.product?.image}`}
-              onClick={() => handleSelectProduct(stock)}
-              selected={selectedProduct && stock?._id === selectedProduct._id}
-            />
-          ))
-        ) : (
-          <p>No products available</p>
-        )
-      }
+      ) : filteredProducts.length > 0 ? (
+        filteredProducts.map((stock) => (
+          <ProductCard
+            key={stock._id}
+            language={language}
+            productName={`${stock.product?.brand?.name} ${stock.product?.name} ${stock.product?.size}`}
+            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
+              "/api",
+              ""
+            )}/files/${stock.product?.image}`}
+            onClick={() => handleSelectProduct(stock)}
+            selected={selectedProduct && stock?._id === selectedProduct._id}
+          />
+        ))
+      ) : (
+        <p
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar"
+            ? "لا توجد منتجات متاحة"
+            : "Aucun produit disponible"}
+        </p>
+      )}
     </div>
   );
 }

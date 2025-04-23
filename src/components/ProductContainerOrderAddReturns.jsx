@@ -15,7 +15,11 @@ import { useParams } from "react-router-dom";
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // or the ID of your root element
 
-export default function ProductContainerOrderAddReturns({ searchQuery, onSelectProduct }) {
+export default function ProductContainerOrderAddReturns({
+  searchQuery,
+  onSelectProduct,
+  language,
+}) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { id } = useParams();
 
@@ -72,6 +76,7 @@ export default function ProductContainerOrderAddReturns({ searchQuery, onSelectP
       ) : LastOrderStatusData?.products?.length > 0 ? (
         LastOrderStatusData?.products.map((order) => (
           <ProductCard
+            language={language}
             key={order._id}
             productName={
               order.product?.brand?.name +
@@ -91,7 +96,15 @@ export default function ProductContainerOrderAddReturns({ searchQuery, onSelectP
           />
         ))
       ) : (
-        <p>No products available</p>
+        <p
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar"
+            ? "لا توجد منتجات متاحة"
+            : "Aucun produit disponible"}
+        </p>
       )}
     </div>
   );

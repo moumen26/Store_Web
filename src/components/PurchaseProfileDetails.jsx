@@ -6,29 +6,67 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { formatDate } from "../util/useFullFunctions";
+import { formatDate, formatNumber } from "../util/useFullFunctions";
 
-export default function PurchaseProfileDetails({ data }) {
+export default function PurchaseProfileDetails({ data, language }) {
   return (
     <TableContainer
       component={Paper}
       style={{ boxShadow: "none" }}
       className="tablePages"
     >
-      <Table aria-label="order profile details">
+      <Table aria-label="purchase profile details">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Fournisseur Name</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "اسم المورد" : "Nom du fournisseur"}
+              </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="thTableSpan">Purchase Date</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "تاريخ الشراء" : "Date d'achat"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Status</span>
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الحالة" : "Statut"}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">Remaining Amount</span>
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "المبلغ المتبقي" : "Montant restant"}
+              </span>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -37,35 +75,99 @@ export default function PurchaseProfileDetails({ data }) {
             sx={{ "& > *": { borderBottom: "unset" } }}
             className="tableRow"
           >
-            <TableCell className="tableCell">
-              <span className="trTableSpan">
-                {data.fournisseur.firstName} {data.fournisseur.lastName}
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {data.fournisseur?.firstName} {data.fournisseur?.lastName}
               </span>
             </TableCell>
-            <TableCell className="tableCell">
-              <span className="trTableSpan">{formatDate(data.date)}</span>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {formatDate(data.date, language)}
+              </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {data.credit == true ? (
-                  <span className="trTableSpan">Credit</span>
+                  <span
+                    className="trTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "آجل" : "Crédit"}
+                  </span>
                 ) : data.deposit == true ? (
-                  <span className="trTableSpan">Deposit</span>
+                  <span
+                    className="trTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "عربون" : "Acompte"}
+                  </span>
                 ) : data.closed == true ? (
-                  <span className="trTableSpan">Closed</span>
+                  <span
+                    className="trTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "مغلق" : "Clôturé"}
+                  </span>
                 ) : (
-                  <span className="trTableSpan">Open</span>
+                  <span
+                    className="trTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "مفتوح" : "Ouvert"}
+                  </span>
                 )}
               </span>
             </TableCell>
-
             <TableCell align="right" className="tableCell">
-              <span className="trTableSpan">
-                {data.totalAmount.toFixed(2) -
-                  data.payment
-                    .reduce((sum, pay) => sum + pay.amount, 0)
-                    .toFixed(2)}{" "}
-                DA
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {formatNumber(
+                  data.totalAmount -
+                    (data.payment?.reduce((sum, pay) => sum + pay.amount, 0) ||
+                      0)
+                )}{" "}
+                {language === "ar" ? "دج " : " DA"}
               </span>
             </TableCell>
           </TableRow>

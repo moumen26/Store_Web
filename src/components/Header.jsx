@@ -178,7 +178,6 @@ export default function Header({ language, toggleLanguage }) {
             border: "1px solid #c9e4ee",
             borderRadius: "5px",
             outline: "none",
-
             cursor: "pointer",
           }}
         >

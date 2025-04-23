@@ -21,6 +21,7 @@ import { Alert, Snackbar } from "@mui/material";
 function AddOrderRetunsTableDetails({
   productsListToUpdate,
   setProductsListToUpdate,
+  language,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]); // Store selected products here
@@ -142,31 +143,122 @@ function AddOrderRetunsTableDetails({
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell className="tableCell">
-          <span className="trTableSpan">
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {row.product.name} {row.product.size}
           </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.product.brand.name}</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.product.brand.name}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{row.price} DA</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.price} 
+            {language === "ar" ? "دج " : " DA"}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">- {row.newQuantity} unity</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            - {row.newQuantity}{" "}
+            {language === "ar"
+              ? row.newQuantity === 1
+                ? "وحدة"
+                : "وحدات"
+              : row.newQuantity === 1
+              ? "unité"
+              : "unités"}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{newQuantity} unity</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {newQuantity}{" "}
+            {language === "ar"
+              ? newQuantity === 1
+                ? "قطعة"
+                : "قطع"
+              : newQuantity === 1
+              ? "unité"
+              : "unités"}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">- {productAmount} DA</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            - {productAmount} {language === "ar" ? "دج " : " DA"}
+          </span>
         </TableCell>
-        <TableCell className="tableCell">
-          <span className="trTableSpan">{totalAmount} DA</span>
+        <TableCell
+          className="tableCell"
+          align={language === "ar" ? "right" : "left"}
+        >
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {totalAmount} {language === "ar" ? "دج " : " DA"}
+          </span>
         </TableCell>
-        <TableCell align="right" className="tableCell">
-          <div className="flex items-center justify-end space-x-3">
+        <TableCell
+          align={language === "ar" ? "right" : "right"}
+          className="tableCell w-[100px]"
+        >
+          <div
+            className={`flex items-center ${
+              language === "ar" ? "justify-start" : "justify-end"
+            }`}
+          >
+            {" "}
             <TrashIcon
               className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
               onClick={() => handleOpenConfirmDialog(index)}
@@ -180,10 +272,18 @@ function AddOrderRetunsTableDetails({
   return (
     <div>
       <div className="flex justify-between items-center mb-[16px]">
-        <h2 className="customerClassTitle">Add Returns</h2>
+        <h2
+          className="customerClassTitle"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"}
+        </h2>
         <ButtonAdd
+          language={language}
           showIcon={true}
-          buttonSpan="Add Item"
+          buttonSpan={language === "ar" ? "إضافة عنصر" : "Ajouter un article"}
           onClick={() => setAddReturnsModal(true)}
         />
       </div>
@@ -195,41 +295,141 @@ function AddOrderRetunsTableDetails({
         <Table>
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Product</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "المنتج" : "Produit"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Brand</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "العلامة التجارية" : "Marque"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Price</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "السعر" : "Prix"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Refund quantity</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "كمية الاسترجاع" : "Quantité retournée"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">New quantity</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الكمية الجديدة" : "Nouvelle quantité"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">Refund amount</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "مبلغ الاسترجاع" : "Montant retourné"}
+                </span>
               </TableCell>
-              <TableCell className="tableCell">
-                <span className="thTableSpan">New amount</span>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "المبلغ الجديد" : "Nouveau montant"}
+                </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
-                <span className="thTableSpan">Action</span>
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "إجراء" : "Action"}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.length > 0 ? (
               products.map((row, index) => (
-                <OrderRow key={index} row={row} index={index} />
+                <OrderRow
+                  key={index}
+                  row={row}
+                  index={index}
+                  language={language}
+                />
               ))
             ) : (
               <TableRow>
                 <TableCell colSpan={8} align="center">
-                  <span>Add products</span>
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar"
+                      ? "إضافة منتجات"
+                      : "Ajouter des produits"}
+                  </span>
                 </TableCell>
               </TableRow>
             )}
@@ -240,25 +440,57 @@ function AddOrderRetunsTableDetails({
       <Modal
         isOpen={addReturnsModal}
         onRequestClose={handleCloseReturnsModal}
-        contentLabel="Add Returns"
+        contentLabel={
+          language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
+        }
         className="addNewModal addNewStockModal"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
-        <div className="customerClass space-y-0">
-          <h2 className="dialogTitle">Add Returns to the Order</h2>
+        <div
+          className="customerClass space-y-0"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <h2
+            className="dialogTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar"
+              ? "إضافة مرتجعات للطلب"
+              : "Ajouter des retours à la commande"}
+          </h2>
           <div className="space-y-[24px]">
             <div className="addProductModalHeader">
               <Search
-                placeholder="Search by Product..."
+                placeholder={
+                  language === "ar"
+                    ? "البحث عن المنتج..."
+                    : "Rechercher un produit..."
+                }
                 value={searchQuery}
                 onChange={handleSearchChange}
+                language={language}
               />
               <div className="flex space-x-5 items-center">
-                <span>Category :</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الفئة :" : "Catégorie :"}
+                </span>
                 <div className="selectStoreWilayaCommune w-[300px]">
-                  <select name="productCategory"></select>
+                  <select
+                    name="productCategory"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  ></select>
                 </div>
               </div>
             </div>
@@ -266,12 +498,20 @@ function AddOrderRetunsTableDetails({
               <ProductContainerOrderAddReturns
                 searchQuery={searchQuery}
                 onSelectProduct={handleSelectProduct}
+                language={language}
               />
             </div>
 
             <div className="flex flex-col space-y-2 mb-4">
               <div className="dialogAddCustomerItem items-center justify-end space-x-4">
-                <span>Unit Type :</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "نوع الوحدة :" : "Type d'unité :"}
+                </span>
                 <RadioGroup
                   aria-label="unit-type"
                   name="unit-type"
@@ -288,7 +528,18 @@ function AddOrderRetunsTableDetails({
                           }}
                         />
                       }
-                      label={<span>Per Unit</span>}
+                      label={
+                        <span
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
+                          {language === "ar" ? "لكل وحدة" : "Par unité"}
+                        </span>
+                      }
                     />
                     <FormControlLabel
                       value="perBox"
@@ -299,13 +550,31 @@ function AddOrderRetunsTableDetails({
                           }}
                         />
                       }
-                      label={<span>Per Box</span>}
+                      label={
+                        <span
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
+                          {language === "ar" ? "لكل علبة" : "Par boîte"}
+                        </span>
+                      }
                     />
                   </div>
                 </RadioGroup>
               </div>
               <div className="dialogAddCustomerItem items-center justify-end space-x-4">
-                <span>Quantity :</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الكمية :" : "Quantité :"}
+                </span>
                 <div className="inputForm">
                   <input
                     type="number"
@@ -313,22 +582,39 @@ function AddOrderRetunsTableDetails({
                     value={ClientQuantity}
                     min={0}
                     onChange={handleProductQuantityChange}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                   />
                 </div>
               </div>
             </div>
-            <div className="flex justify-end space-x-8 items-start mt-[20px]">
+            <div
+              className={`flex justify-end ${
+                language === "ar" ? "gap-x-8" : "space-x-8"
+              }`}
+            >
+              {" "}
               <button
                 onClick={handleCloseReturnsModal}
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
-                Close
+                {language === "ar" ? "إغلاق" : "Fermer"}
               </button>
               <button
                 onClick={handleAddItem}
                 className="text-blue-500 cursor-pointer hover:text-blue-700"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
-                Confirm
+                {language === "ar" ? "تأكيد" : "Confirmer"}
               </button>
             </div>
           </div>
@@ -338,7 +624,14 @@ function AddOrderRetunsTableDetails({
             onClose={() => setSnackbarOpen(false)}
           >
             <Alert onClose={() => setSnackbarOpen(false)} severity={alertType}>
-              {alertMessage}
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {alertMessage}
+              </span>
             </Alert>
           </Snackbar>
         </div>
@@ -348,8 +641,14 @@ function AddOrderRetunsTableDetails({
         open={confirmDialogOpen}
         onConfirm={handleConfirmDelete}
         onClose={handleCancelDelete}
-        dialogTitle="Confirm Deletion"
-        dialogContentText="Are you sure you want to delete this item?"
+        dialogTitle={
+          language === "ar" ? "تأكيد الحذف" : "Confirmer la suppression"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+            : "Êtes-vous sûr de vouloir supprimer cet article ?"
+        }
       />
     </div>
   );

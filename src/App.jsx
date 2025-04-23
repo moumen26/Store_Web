@@ -36,7 +36,7 @@ import Publicité from "./pages/Publicité";
 import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
-import { CircularProgress } from "@mui/material";
+import ForgotPassword from "./pages/ForgotPassword"
 import Logo from "../src/assets/Logo-error.png";
 
 function App() {
@@ -61,7 +61,6 @@ function App() {
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
-    console.log("isCollapsed:", isCollapsed);
   };
 
   const toggleLanguage = () => {
@@ -199,28 +198,16 @@ function App() {
             : "main-expanded"
         } ${language === "ar" ? "flex-ar" : ""}`}
       >
-        {user ? (
-          <Asidebar
-            language={language}
-            onToggle={handleToggle}
-            isCollapsed={isCollapsed}
-          />
-        ) : (
-          <SignIn
-            onToggle={handleToggle}
-            language={language}
-            toggleLanguage={toggleLanguage}
-          />
-        )}
-        {user ? (
-          <AsidebarScreenMedia />
-        ) : (
-          <SignIn
-            onToggle={handleToggle}
-            language={language}
-            toggleLanguage={toggleLanguage}
-          />
-        )}
+        {user && 
+          <>
+            <Asidebar
+              language={language}
+              onToggle={handleToggle}
+              isCollapsed={isCollapsed}
+            />
+            <AsidebarScreenMedia />
+          </>
+        }
         <Routes>
           {/* private routes */}
           <Route
@@ -811,6 +798,20 @@ function App() {
             element={
               !user ? (
                 <UpYourAccount
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/ForgotPassword"
+            element={
+              !user ? (
+                <ForgotPassword
                   onToggle={handleToggle}
                   language={language}
                   toggleLanguage={toggleLanguage}

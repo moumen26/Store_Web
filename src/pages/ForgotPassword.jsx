@@ -10,7 +10,14 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState("request"); // request, verify, reset
-  const [verificationCode, setVerificationCode] = useState("");
+  const [verificationCode, setVerificationCode] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]); // 6-digit code array
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -23,8 +30,25 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
   };
 
   // Handle verification code change
-  const handleVerificationCodeChange = (event) => {
-    setVerificationCode(event.target.value);
+  const handleCodeChange = (value, index) => {
+    if (value.match(/^[0-9]$/) || value === "") {
+      // Ensure only numeric values are allowed
+      const newCode = [...verificationCode];
+      newCode[index] = value;
+      setVerificationCode(newCode);
+
+      // Automatically focus the next input if the current one is filled
+      if (value !== "" && index < 5) {
+        document.getElementById(`verify-input-${index + 1}`).focus();
+      }
+    }
+  };
+
+  // Handle keydown for verification code inputs
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && verificationCode[index] === "" && index > 0) {
+      document.getElementById(`verify-input-${index - 1}`).focus();
+    }
   };
 
   // Handle new password change
@@ -94,11 +118,15 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
   // Handle verify code
   const handleVerifyCode = async (e) => {
     e.preventDefault();
-    if (!verificationCode) {
+
+    // Join the verification code array into a string
+    const codeString = verificationCode.join("");
+
+    if (codeString.length !== 6) {
       showSnackbar(
         language === "ar"
-          ? "يرجى إدخال رمز التحقق"
-          : "Veuillez entrer le code de vérification",
+          ? "يرجى إدخال رمز التحقق المكون من 6 أرقام"
+          : "Veuillez entrer le code de vérification à 6 chiffres",
         "error"
       );
       return;
@@ -116,7 +144,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
           },
           body: JSON.stringify({
             PhoneNumber: phoneNumber,
-            VerificationCode: verificationCode,
+            VerificationCode: codeString,
           }),
         }
       );
@@ -179,7 +207,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
           },
           body: JSON.stringify({
             PhoneNumber: phoneNumber,
-            VerificationCode: verificationCode,
+            VerificationCode: verificationCode.join(""),
             NewPassword: newPassword,
           }),
         }
@@ -320,7 +348,6 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 onSubmit={handleVerifyCode}
                 dir={language === "ar" ? "rtl" : "ltr"}
                 className="forgotPasswordForm"
-
               >
                 <p
                   className={`text-gray-600 ${
@@ -335,40 +362,109 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                     ? "أدخل رمز التحقق الذي تم إرساله إلى رقم هاتفك"
                     : "Entrez le code de vérification envoyé à votre numéro de téléphone"}
                 </p>
-                <InputForm
-                  labelForm={
-                    language === "ar" ? "رمز التحقق" : "Code de vérification"
-                  }
-                  inputType="text"
-                  inputPlaceholder="123456"
-                  inputName="verificationCode"
-                  setChangevalue={handleVerificationCodeChange}
-                  isRtl={language === "ar"}
-                  language={language}
-                />
+
+                {/* Verification code input section */}
+                <div
+                  className={`flex justify-center ${
+                    language === "ar" ? "flex-row-reverse" : ""
+                  } space-x-4 mt-6 `}
+                >
+                  {verificationCode.map((digit, index) => (
+                    <input
+                      key={index}
+                      id={`verify-input-${index}`}
+                      type="text"
+                      maxLength="1"
+                      value={digit}
+                      onChange={(e) => handleCodeChange(e.target.value, index)}
+                      onKeyDown={(e) => handleKeyDown(e, index)}
+                      className="w-12 h-12 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#26667E]"
+                    />
+                  ))}
+                </div>
+
+                {/* Resend code button with improved styling */}
+                <div
+                  className={`mb-6 flex ${
+                    language === "ar" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    className="text-blue-600 hover:text-blue-800 transition-colors duration-200 text-sm font-medium"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar"
+                      ? "إعادة إرسال الرمز؟"
+                      : "Renvoyer le code?"}
+                  </button>
+                </div>
+
+                {/* Verify button */}
                 <ButtonDark
                   buttonSpan={language === "ar" ? "تحقق" : "Vérifier"}
                   setOnClick={handleVerifyCode}
                   loading={loading}
                   language={language}
                 />
-                <div
-                  className={`mt-4 flex ${
+
+                {/* Return button with improved styling */}
+                {/* <div
+                  className={`mt-5 flex ${
                     language === "ar" ? "justify-end" : "justify-start"
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => setStep("request")}
-                    className="text-blue-600 hover:underline"
+                    className="flex items-center text-gray-600 hover:text-gray-800 transition-colors duration-200"
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
-                    {language === "ar" ? "العودة" : "Retour"}
+                    {language === "ar" ? (
+                      <>
+                        {language === "ar" ? "العودة" : "Retour"}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                        {language === "ar" ? "العودة" : "Retour"}
+                      </>
+                    )}
                   </button>
-                </div>
+                </div> */}
               </form>
             )}
 

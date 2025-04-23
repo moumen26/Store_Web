@@ -23,6 +23,10 @@
   src: url(./assets/fonts/Cairo-Regular.ttf);
 }
 
+.arabicText {
+  font-family: "Cairo-Regular", sans-serif;
+}
+
 :root {
   --greyDarkColor: #888888;
   --mainColor: #3e9cb9;
@@ -62,7 +66,7 @@
   /* font-family: Montserrat-Bold; */
 }
 
-.logoTextAside{
+.logoTextAside {
   font-weight: 900;
   font-size: 24px;
   color: var(--mainColor);
@@ -76,18 +80,21 @@
 }
 
 .signUpContainer,
-.signInContainer {
+.signInContainer,
+.forgotPasswordContainer {
   height: calc(100vh - 82px);
   /* height: fit-content; */
 }
 
 .signUpContainerRight,
-.signInContainer {
+.signInContainer,
+.forgotPasswordContainerRightContainer {
   padding: 3% 5%;
 }
 
 .signUpContainerRightContainer,
-.signInContainerRightContainer {
+.signInContainerRightContainer,
+.forgotPasswordContainerRightContainer {
   height: auto;
   display: flex;
   flex-direction: column;
@@ -249,12 +256,17 @@
   color: var(--whiteColor);
 }
 
-.logInForm {
+.logInForm,
+.forgotPasswordForm {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
   margin-top: 32px;
+}
+
+.forgotPasswordForm {
+  margin-top: 0px;
 }
 
 .logInForm form {

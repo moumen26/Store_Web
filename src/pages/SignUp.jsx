@@ -90,13 +90,26 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
         </div>
 
         <div className="flex items-center space-x-5">
-          <span href="/" className="headerText alreadyText">
+          <span
+            href="/"
+            className="headerText alreadyText"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar"
               ? "لديك حساب بالفعل؟"
               : "Vous avez déjà un compte ?"}
           </span>
           <div className="flex items-center w-fit">
-            <a href="/SignIn" className="headerText signInText">
+            <a
+              href="/SignIn"
+              className="headerText signInText"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "تسجيل الدخول" : "Se connecter"}
             </a>
             <ChevronRightIcon color="#26667E" className="iconAsideBar" />
@@ -106,12 +119,24 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
       <div className="signUpContainer w-full flex items-center justify-center">
         <div className="signUpContainerRight border-r-2 border-[#C9E4EE]">
           <div className="signUpContainerRightContainer">
-            <h2 className="titleText">
+            <h2
+              className="titleText"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar"
                 ? "قم بتوسيع متجرك إلى MOSAGRO"
                 : "Développez votre magasin avec MOSAGRO"}
             </h2>
-            <span className="spanText">
+            <span
+              className="spanText"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar"
                 ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع MOSAGRO كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
                 : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOSAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
@@ -120,7 +145,15 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             <ButtonFacebok language={language} />
             <div className="orClass">
               <div className="lineOr"></div>
-              <span className="orText">{language === "ar" ? "أو" : "ou"}</span>
+              <span
+                className="orText"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "أو" : "ou"}
+              </span>
               <div className="lineOr"></div>
             </div>
             <InputForm
@@ -131,6 +164,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
               inputPlaceholder="+213"
               inputName="phoneNumber"
               value={Phone}
+              language={language}
               setChangevalue={handlePhoneChange}
             />
             <ButtonDark
@@ -139,6 +173,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                   ? "ابدأ الآن - مجانًا"
                   : "Commencer - Gratuitement"
               }
+              language={language}
               setOnClick={handleClickOpenConfirmationDialog}
             />
           </div>
@@ -156,6 +191,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             ? "تأكيد إنشاء الحساب"
             : "Confirmer la création du compte"
         }
+        language={language}
         dialogContentText={
           language === "ar"
             ? `هل أنت متأكد أنك تريد إنشاء حساب متجر جديد بهذا الرقم: ${Phone}؟`

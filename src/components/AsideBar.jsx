@@ -175,7 +175,11 @@ export default function Asidebar({ language }) {
               <div
                 className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
                   location.pathname.includes("/Products") ? activeItemClass : ""
-                } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                } ${
+                  language === "ar"
+                    ? "flex-row-reverse border-r-4 pr-3"
+                    : "border-l-4"
+                }`}
                 onClick={handleProductsClick}
               >
                 <div
@@ -274,7 +278,11 @@ export default function Asidebar({ language }) {
                   location.pathname.includes("OrdersArchive")
                     ? activeItemClass
                     : ""
-                } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                } ${
+                  language === "ar"
+                    ? "flex-row-reverse border-r-4 pr-3"
+                    : "border-l-4"
+                }`}
                 onClick={handleOrdersClick}
               >
                 <div
@@ -457,7 +465,11 @@ export default function Asidebar({ language }) {
                   location.pathname.includes("PuchasesArchive")
                     ? activeItemClass
                     : ""
-                } ${language === "ar" ? "flex-row-reverse" : ""}`}
+                } ${
+                  language === "ar"
+                    ? "flex-row-reverse border-r-4 pr-3"
+                    : "border-l-4"
+                }`}
                 onClick={handleAchatsClick}
               >
                 <div

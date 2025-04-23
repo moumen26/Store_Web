@@ -36,13 +36,21 @@ function ProductProfileRow({
       >
         {isEditing ? (
           <input
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             type="text"
             value={selling}
             onChange={(e) => setSelling(e.target.value)}
             className="editable-input"
           />
         ) : (
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {data?.selling} {language === "ar" ? "دج" : "DA"}
           </span>
         )}
@@ -56,6 +64,9 @@ function ProductProfileRow({
             value={buyingMathode}
             onChange={(e) => setBuyingMathode(e.target.value)}
             className="editable-input"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           >
             <option value="">
               {language === "ar" ? "اختر طريقة" : "Select a method"}
@@ -69,7 +80,14 @@ function ProductProfileRow({
             <option value="box">{language === "ar" ? "الصندوق" : "Box"}</option>
           </select>
         ) : (
-          <span className="trTableSpan">{data?.buyingMathode}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {data?.buyingMathode}
+          </span>
         )}
       </TableCell>
       <TableCell
@@ -78,13 +96,23 @@ function ProductProfileRow({
       >
         {isEditing ? (
           <input
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             type="text"
             value={quantityLimit}
             onChange={(e) => setQuantityLimit(e.target.value)}
             className="editable-input"
           />
         ) : (
-          <span className="trTableSpan">{data?.quantityLimit}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {data?.quantityLimit}
+          </span>
         )}
       </TableCell>
       <TableCell
@@ -93,13 +121,23 @@ function ProductProfileRow({
       >
         {isEditing ? (
           <input
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             type="text"
             value={destocking}
             onChange={(e) => setDestocking(e.target.value)}
             className="editable-input"
           />
         ) : (
-          <span className="trTableSpan">{data?.destocking}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {data?.destocking}
+          </span>
         )}
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
@@ -114,12 +152,20 @@ function ProductProfileRow({
               }`}
             >
               <button
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
                 className="text-green-500 cursor-pointer hover:text-green-700"
                 onClick={handleOpenDialog}
               >
                 {language === "ar" ? "حفظ" : "Save"}
               </button>
               <button
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={onCancelClick}
               >
@@ -244,7 +290,13 @@ export default function ProductProfileDetailsV2({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "سعر البيع" : "Prix de vente"}
               </span>
             </TableCell>
@@ -252,7 +304,13 @@ export default function ProductProfileDetailsV2({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "طريقة الشراء" : "Méthode d'achat"}
               </span>
             </TableCell>
@@ -260,7 +318,13 @@ export default function ProductProfileDetailsV2({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الكمية المحدودة" : "Quantité limite"}
               </span>
             </TableCell>
@@ -268,12 +332,24 @@ export default function ProductProfileDetailsV2({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "التخفيض" : "Déstockage"}
               </span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "إجراء" : "Action"}
               </span>
             </TableCell>

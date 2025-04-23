@@ -36,13 +36,25 @@ function ProductHistoriqueRow({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{formatDate(historique.date)}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {formatDate(historique.date)}
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {historique.buying} {language === "ar" ? "دج" : "DA"}
         </span>
       </TableCell>
@@ -50,7 +62,12 @@ function ProductHistoriqueRow({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {historique.selling} {language === "ar" ? "دج" : "DA"}
         </span>
       </TableCell>
@@ -58,13 +75,25 @@ function ProductHistoriqueRow({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{historique.quantity}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {historique.quantity}
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {historique.exparationDate ? historique.exparationDate : "/"}
         </span>
       </TableCell>
@@ -144,7 +173,13 @@ export default function ProductHistorique({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "التاريخ" : "Date"}
               </span>
             </TableCell>
@@ -152,7 +187,13 @@ export default function ProductHistorique({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
               </span>
             </TableCell>
@@ -160,7 +201,13 @@ export default function ProductHistorique({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "سعر البيع" : "Prix de vente"}
               </span>
             </TableCell>
@@ -168,7 +215,13 @@ export default function ProductHistorique({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الكمية" : "Quantité"}
               </span>
             </TableCell>
@@ -176,14 +229,26 @@ export default function ProductHistorique({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar"
                   ? "تاريخ انتهاء الصلاحية"
                   : "Date d'expiration"}
               </span>
             </TableCell>
             <TableCell>
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "إجراء" : "Action"}
               </span>
             </TableCell>
@@ -199,9 +264,17 @@ export default function ProductHistorique({
           ) : !StockStatusData || StockStatusData.length <= 0 ? (
             <TableRow>
               <TableCell className="thTableSpan" colSpan={6} align="center">
-                {language === "ar"
-                  ? "لا توجد بيانات متاحة"
-                  : "Aucune donnée disponible"}
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar"
+                    ? "لا توجد بيانات متاحة"
+                    : "Aucune donnée disponible"}
+                </span>
               </TableCell>
             </TableRow>
           ) : (

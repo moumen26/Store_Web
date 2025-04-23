@@ -280,7 +280,12 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "العملاء" : "Clients"}
           </h2>
           <div className="buttonTop">
@@ -291,6 +296,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   : "Ajouter un nouveau client"
               }
               onClick={handleAddCustomerClick}
+              language={language}
             />
           </div>
         </div>

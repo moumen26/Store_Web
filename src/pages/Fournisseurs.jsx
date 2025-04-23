@@ -15,6 +15,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { lang } from "moment-timezone";
 
 export default function Fournisseurs({ onToggle, toggleLanguage, language }) {
   const { user } = useAuthContext();
@@ -244,7 +245,12 @@ export default function Fournisseurs({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>{" "}
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "الموردين" : "Fournisseurs"}
           </h2>
           <div className="buttonTop">
@@ -255,6 +261,7 @@ export default function Fournisseurs({ onToggle, toggleLanguage, language }) {
                   : "Ajouter un nouveau fournisseur"
               }
               onClick={handleAddFournisseurClick}
+              language={language}
             />
           </div>
         </div>

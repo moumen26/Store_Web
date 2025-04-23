@@ -35,7 +35,12 @@ export default function Purchases({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? " أحدث المشتريات" : "Derniers achats"}
           </h2>
 
@@ -51,6 +56,7 @@ export default function Purchases({ onToggle, toggleLanguage, language }) {
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         {" "}
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي المشتريات" : "Total des achats"
           }
@@ -58,6 +64,7 @@ export default function Purchases({ onToggle, toggleLanguage, language }) {
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }

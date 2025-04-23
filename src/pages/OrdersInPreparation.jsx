@@ -38,7 +38,12 @@ export default function OrdersInPreparation({
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "الطلبات قيد التحضير" : "Commandes en cours"}
           </h2>
           <DashboardCalendar
@@ -51,6 +56,7 @@ export default function OrdersInPreparation({
       </div>
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-5 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des Commandes"
           }
@@ -58,6 +64,7 @@ export default function OrdersInPreparation({
           orderCardDetails={latestOrderData.length}
         />
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar"
               ? "الطلبات قيد التحضير"
@@ -69,6 +76,7 @@ export default function OrdersInPreparation({
           }
         />
         <OrderCard
+          language={language}
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={
             language === "ar"
@@ -80,6 +88,7 @@ export default function OrdersInPreparation({
           }
         />
         <OrderCard
+          language={language}
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={
             language === "ar"
@@ -91,6 +100,7 @@ export default function OrdersInPreparation({
           }
         />
         <OrderCard
+          language={language}
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant Total"}
           orderCardDetails={

@@ -454,6 +454,12 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
                         name="productCategory"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         onChange={handleProductCategoryChange}
                       >
                         <option value="" disabled selected>
@@ -482,6 +488,12 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                     </span>
                     <div className="selectStoreWilayaCommune w-[500px]">
                       <select
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         name="productCategory"
                         onChange={handleProductBrandChange}
                       >

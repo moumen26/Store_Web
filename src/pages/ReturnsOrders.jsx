@@ -32,7 +32,11 @@ export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2 
+           style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+          className="pagesTitle">
             {language === "ar" ? "طلبات الإرجاع" : "Commandes de retour"}
           </h2>
           <DashboardCalendar

@@ -32,7 +32,12 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "أرشيف الطلبات" : "Archive des commandes"}
           </h2>
           <DashboardCalendar

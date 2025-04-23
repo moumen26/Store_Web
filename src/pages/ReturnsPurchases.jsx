@@ -36,7 +36,12 @@ export default function ReturnsPurchases({
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "المشتريات إرجاع  " : "Achats de retour"}
           </h2>
           <DashboardCalendar

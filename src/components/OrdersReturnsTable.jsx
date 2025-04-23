@@ -55,7 +55,12 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
@@ -63,13 +68,25 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">{row.orderId}</span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.orderId}
+          </span>
         </TableCell>
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {formatDate(row.orderDate, language)}
           </span>
         </TableCell>
@@ -77,13 +94,23 @@ function Row(props) {
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {formatNumber(Number(row.orderAmount))}{" "}
             {language === "ar" ? "دج" : "DA"}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {orderStatusTextDisplayer(row.orderStatus, row.orderType, language)}
           </span>
         </TableCell>
@@ -112,7 +139,13 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} className="pt-2">
               <div className="w-[100%] flex">
-                <span className="dashboardLatestOrdersDetails">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="dashboardLatestOrdersDetails"
+                >
                   {language === "ar"
                     ? "تفاصيل الطلب"
                     : "Détails de la Commande"}
@@ -125,17 +158,41 @@ function Row(props) {
                       className="tableCell"
                       align={language === "ar" ? "right" : "left"}
                     >
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "اسم المنتج" : "Nom du Produit"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "الكمية" : "Quantité"}
                       </span>
                     </TableCell>
@@ -143,7 +200,15 @@ function Row(props) {
                       align={language === "ar" ? "left" : "right"}
                       className="tableCell"
                     >
-                      <span className="thTableSpan thDetails">
+                      <span
+                        className="thTableSpan thDetails"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar"
                           ? "السعر الإجمالي (دج)"
                           : "Prix Total (DA)"}
@@ -163,18 +228,42 @@ function Row(props) {
                         className="tableCell"
                         align={language === "ar" ? "right" : "left"}
                       >
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {orderDetailsRow.productName}{" "}
                           {orderDetailsRow.productSize}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {formatNumber(Number(orderDetailsRow.productPrice))}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {orderDetailsRow.productQuantity}
                         </span>
                       </TableCell>
@@ -182,7 +271,15 @@ function Row(props) {
                         align={language === "ar" ? "left" : "right"}
                         className="tableCell"
                       >
-                        <span className="trTableSpan trDetails">
+                        <span
+                          className="trTableSpan trDetails"
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
+                        >
                           {formatNumber(
                             Number(orderDetailsRow.productPrice) *
                               Number(orderDetailsRow.productQuantity)
@@ -355,7 +452,13 @@ export default function OrdersReturnsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "العميل" : "Client"}
               </span>
             </TableCell>
@@ -363,7 +466,13 @@ export default function OrdersReturnsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
               </span>
             </TableCell>
@@ -371,7 +480,13 @@ export default function OrdersReturnsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "تاريخ الطلب" : "Date de Commande"}
               </span>
             </TableCell>
@@ -379,17 +494,35 @@ export default function OrdersReturnsTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "المبلغ" : "Montant"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الحالة" : "Statut"}
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجراء" : "Action"}
               </span>
             </TableCell>
@@ -411,7 +544,13 @@ export default function OrdersReturnsTable({
           ) : (
             <TableRow>
               <TableCell colSpan={7} align="center">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "لم يتم العثور على طلبات"
                     : "Aucune commande trouvée"}

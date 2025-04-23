@@ -147,7 +147,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 }`}
               >
                 <a
-                  href=""
+                  href="/ForgotPassword"
                   className="forgotPasswordText"
                   style={{
                     fontFamily:

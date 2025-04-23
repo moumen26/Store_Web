@@ -7,6 +7,7 @@ import OrderCard from "../components/OrderCard";
 import CreditOrdersTable from "../components/CreditOrderSTable";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
+import { lang } from "moment-timezone";
 
 export default function CreditOrders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +35,12 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "الطلبات على الحساب" : "Commandes à crédit"}
           </h2>
           <DashboardCalendar
@@ -47,6 +53,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
       </div>
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
           }
@@ -54,6 +61,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
+          language={language}
           orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant total"}
           orderCardDetails={
             formatNumber(
@@ -66,6 +74,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي المدفوعات" : "Total des paiements"
           }

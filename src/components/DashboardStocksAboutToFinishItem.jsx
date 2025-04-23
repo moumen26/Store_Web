@@ -26,8 +26,22 @@ export default function DashboardStocksAboutToFinishItem({
           />
         </div>
         <div className="flex-col space-y-1">
-          <h3 className="dashboardText">{ProductName}</h3>
-          <p className="dashboardSpan">{ProductBrand}</p>
+          <h3
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="dashboardText"
+          >
+            {ProductName}
+          </h3>
+          <p
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="dashboardSpan"
+          >
+            {ProductBrand}
+          </p>
         </div>
       </div>
       <div className="flex-col space-y-1 w-[50%] justifyEnd">
@@ -44,6 +58,9 @@ export default function DashboardStocksAboutToFinishItem({
             }
           ></div>
           <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             className={
               ProductStocks > 0
                 ? "spanAvailable spanAvailableGreen"
@@ -59,12 +76,22 @@ export default function DashboardStocksAboutToFinishItem({
               : "غير متاح"}
           </span>
         </div>
-        <span className="dashboardSpan">
+        <span
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+          className="dashboardSpan"
+        >
           {ProductStocks}{" "}
           {language === "fr" ? "stock restant" : "المخزون المتبقي"}
         </span>
         {ProductDestocking > 0 && (
-          <p className="dashboardSpan">
+          <p
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="dashboardSpan"
+          >
             {ProductDestocking} {language === "fr" ? "déstockage" : "تصفية"}
           </p>
         )}

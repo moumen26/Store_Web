@@ -38,7 +38,12 @@ export default function CreditPurchases({
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            className="pagesTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "المشتريات بالائتمان " : "Achats à crédit"}
           </h2>
           <DashboardCalendar
@@ -52,6 +57,7 @@ export default function CreditPurchases({
 
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "إجمالي المشتريات" : "Total des achats"
           }
@@ -59,6 +65,7 @@ export default function CreditPurchases({
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <OrderCard
+          language={language}
           orderCardTitle={
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }

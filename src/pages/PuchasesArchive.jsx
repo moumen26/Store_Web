@@ -36,7 +36,12 @@ export default function PuchasesArchive({
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "أرشيف المشتريات" : "Archive des achats"}
           </h2>
           <DashboardCalendar

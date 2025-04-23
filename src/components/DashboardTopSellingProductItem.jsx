@@ -9,7 +9,11 @@ export default function DashboardTopSellingProductItem({
   language,
 }) {
   return (
-    <div className={`dashboardTopSellingProductItem ${language === "ar" ? "rtl" : ""}`}>
+    <div
+      className={`dashboardTopSellingProductItem ${
+        language === "ar" ? "rtl" : ""
+      }`}
+    >
       <div className="flex items-center w-[50%]">
         <div className="productImgClass">
           <img
@@ -22,12 +26,30 @@ export default function DashboardTopSellingProductItem({
           />
         </div>
         <div className="flex-col space-y-1">
-          <h3 className="dashboardText">{ProductName}</h3>
-          <p className="dashboardSpan">{ProductBrand}</p>
+          <h3
+            className="dashboardText"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {ProductName}
+          </h3>
+          <p
+            className="dashboardSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {ProductBrand}
+          </p>
         </div>
       </div>
       <div className="flex-col space-y-1 w-[50%] justifyEnd">
-        <div className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"}`}>
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"
+          }`}
+        >
           <div
             className={
               ProductStocks > 0
@@ -36,6 +58,9 @@ export default function DashboardTopSellingProductItem({
             }
           ></div>
           <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
             className={
               ProductStocks > 0
                 ? "spanAvailable spanAvailableGreen"
@@ -51,10 +76,21 @@ export default function DashboardTopSellingProductItem({
               : "غير متاح"}{" "}
           </span>
         </div>
-        <span className="dashboardSpan">
-          {ProductStocks} {language === "fr" ? "stock restant" : "المخزون المتبقي"}
+        <span
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+          className="dashboardSpan"
+        >
+          {ProductStocks}{" "}
+          {language === "fr" ? "stock restant" : "المخزون المتبقي"}
         </span>
-        <p className="dashboardSpan">
+        <p
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+          className="dashboardSpan"
+        >
           {ProductSales} {language === "fr" ? "ventes" : "مبيعات"}
         </p>
       </div>

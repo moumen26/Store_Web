@@ -44,13 +44,25 @@ function Row({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.stockId}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.stockId}
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {row.productBrand} {row.productName} {row.productSize}
         </span>
       </TableCell>
@@ -58,7 +70,12 @@ function Row({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
           {formatNumber(row.productBuyingPrice)}{" "}
           {language === "ar" ? "دج" : "DA"}
         </span>
@@ -77,7 +94,12 @@ function Row({
             className="editable-input"
           />
         ) : (
-          <span className="trTableSpan">
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {formatNumber(row.productSellPrice)}{" "}
             {language === "ar" ? "دج" : "DA"}
           </span>
@@ -87,7 +109,14 @@ function Row({
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.productStock}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.productStock}
+        </span>
       </TableCell>
       <TableCell align="right" className="tableCell w-[100px]">
         <div
@@ -111,12 +140,20 @@ function Row({
               <button
                 className="text-green-500 cursor-pointer hover:text-green-700"
                 onClick={() => onSaveClick(row.stockId)}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
                 {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>
               <button
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={() => onCancelClick()}
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
               >
                 {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
@@ -526,7 +563,13 @@ export default function ProductTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "رمز المخزون" : "Code Stock"}
                 </span>
               </TableCell>
@@ -534,7 +577,13 @@ export default function ProductTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "اسم" : "Nom"}
                 </span>
               </TableCell>
@@ -542,7 +591,13 @@ export default function ProductTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
                 </span>
               </TableCell>
@@ -550,7 +605,13 @@ export default function ProductTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "سعر البيع" : "Prix de vente"}
                 </span>
               </TableCell>
@@ -558,12 +619,24 @@ export default function ProductTable({
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "وحدة المخزون" : "Unité de stock"}
                 </span>
               </TableCell>
               <TableCell className="tableCell" align="right">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar" ? "إجراءات" : "Actions"}
                 </span>
               </TableCell>
@@ -597,7 +670,13 @@ export default function ProductTable({
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
-                  <span className="thTableSpan">
+                  <span
+                    className="thTableSpan"
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
                     {language === "ar"
                       ? "لا توجد بيانات متاحة"
                       : "Aucune donnée disponible"}
@@ -628,7 +707,13 @@ export default function ProductTable({
         ) : StockData ? (
           <div style={{ direction: language === "ar" ? "rtl" : "ltr" }}>
             <div className="customerClass">
-              <h2 className="customerClassTitle">
+              <h2
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="customerClassTitle"
+              >
                 {language === "ar" ? "تفاصيل المنتج" : "Détails du produit"}
               </h2>
               <ProductProfileDetails
@@ -649,7 +734,13 @@ export default function ProductTable({
                     handleRefetchDataChange={StockRefetch}
                   />
                   <div className="flex items-center justify-between mt-[24px]">
-                    <h2 className="customerClassTitle">
+                    <h2
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                      className="customerClassTitle"
+                    >
                       {language === "ar"
                         ? "تاريخ المخزون"
                         : "Historique du stock"}
@@ -660,6 +751,7 @@ export default function ProductTable({
                           ? "إضافة مخزون جديد"
                           : "Ajouter un nouveau stock"
                       }
+                      language={language}
                       onClick={handleOpenModalAddNewStockProduct}
                     />
                   </div>
@@ -679,7 +771,13 @@ export default function ProductTable({
                 style={{ direction: language === "ar" ? "rtl" : "ltr" }}
                 className="w-[30%] h-fit flex-col space-y-5 mt-[16px]"
               >
-                <h2 className="customerClassTitle">
+                <h2
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="customerClassTitle"
+                >
                   {language === "ar" ? "صورة المنتج" : "Image du Produit"}
                 </h2>
                 <div className="w-full flex justify-center h-[300px]">
@@ -701,8 +799,12 @@ export default function ProductTable({
             </div>
             <div className="flex justify-end px-[25px]">
               <button
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  marginTop: "20px",
+                }}
                 onClick={handleCloseModal}
-                style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700 pr-3"
               >
                 {language === "ar" ? "إغلاق" : "Fermer"}
@@ -712,7 +814,13 @@ export default function ProductTable({
         ) : (
           <>
             <div className="h-[93%] w-full flex items-center justify-center">
-              <span className="thTableSpan">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="thTableSpan"
+              >
                 {language === "ar"
                   ? "لا توجد منتجات متاحة"
                   : "Aucun produit disponible"}
@@ -720,8 +828,12 @@ export default function ProductTable({
             </div>
             <div className="flex justify-end">
               <button
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  marginTop: "20px",
+                }}
                 onClick={handleCloseModal}
-                style={{ marginTop: "20px" }}
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
               >
                 {language === "ar" ? "إغلاق" : "Fermer"}
@@ -747,14 +859,24 @@ export default function ProductTable({
           className="customerClass p-0"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <h2 className="customerClassTitle">
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar"
               ? "إضافة مخزون جديد"
               : "Ajouter un Nouveau Stock"}
           </h2>
           <div className="productDetailsStockProduct">
             <div className="dialogAddCustomerItem items-center">
-              <span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "سعر الشراء :" : "Prix d'achat :"}
               </span>
               <div className="inputForm flex items-center">
@@ -765,11 +887,24 @@ export default function ProductTable({
                   min={0}
                   onChange={handleBuyingPriceChange}
                 />
-                <span className="ml-2">{language === "ar" ? "دج" : "DA"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="ml-2"
+                >
+                  {language === "ar" ? "دج" : "DA"}
+                </span>
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
               </span>
               <div className="inputForm flex items-center">
@@ -780,17 +915,34 @@ export default function ProductTable({
                   min={0}
                   onChange={handleSellingPriceChange}
                 />
-                <span className="ml-2">{language === "ar" ? "دج" : "DA"}</span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  className="ml-2"
+                >
+                  {language === "ar" ? "دج" : "DA"}
+                </span>
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">
-              <span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar"
                   ? "تاريخ انتهاء الصلاحية :"
                   : "Date d'expiration :"}
               </span>
               <div className="inputForm">
                 <input
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   type="date"
                   name="ExparationDate"
                   value={ExparationDate}
@@ -804,13 +956,22 @@ export default function ProductTable({
               }`}
             >
               <div className="w-[50%] flex items-center">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "الكمية بالصندوق :"
                     : "Quantity per box :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="number"
                     name="stock"
                     value={QuantityPerBox}
@@ -820,13 +981,22 @@ export default function ProductTable({
                 </div>
               </div>
               <div className="w-[50%] flex items-center">
-                <span>
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "الكمية بالوحدة :"
                     : "Quantity per unity :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                     type="number"
                     name="stock"
                     value={QuantityPerUnity}
@@ -841,10 +1011,20 @@ export default function ProductTable({
                 language === "ar" ? "" : ""
               }`}
             >
-              <span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "إجمالي الكمية :" : "Total quantité :"}
               </span>
-              <span>
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {Quantity} {language === "ar" ? "وحدة" : "unity"}
               </span>
             </div>
@@ -857,12 +1037,20 @@ export default function ProductTable({
             <button
               className="text-gray-500 cursor-pointer hover:text-gray-700"
               onClick={handleCloseModalAddNewStockProduct}
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
             >
               {language === "ar" ? "إلغاء" : "Annuler"}
             </button>
             <button
               className="text-blue-500 cursor-pointer hover:text-blue-700"
               onClick={handleAddNewStockStatus}
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
             >
               {language === "ar" ? "حفظ" : "Enregistrer"}
             </button>

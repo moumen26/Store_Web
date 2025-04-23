@@ -27,34 +27,81 @@ function Row(props) {
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.fournisseurId}</span>
-      </TableCell>
-      <TableCell
-        className="tableCell"
-        align={language === "ar" ? "right" : "left"}
-      >
-        <span className="trTableSpan">
-          <span className="mr-1 trTableSpan">{row.fournisseurFirstName}</span>
-          <span className="trTableSpan">{row.fournisseurLastName}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.fournisseurId}
         </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.fournisseurPhone}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          <span
+            className="mr-1 trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.fournisseurFirstName}
+          </span>
+          <span
+            className="trTableSpan"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {row.fournisseurLastName}
+          </span>
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.fournisseurWilaya}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.fournisseurPhone}
+        </span>
       </TableCell>
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
-        <span className="trTableSpan">{row.fournisseurCommune}</span>
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.fournisseurWilaya}
+        </span>
+      </TableCell>
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {row.fournisseurCommune}
+        </span>
       </TableCell>
       <TableCell
         align={language === "ar" ? "right" : "right"}
@@ -138,7 +185,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "معرف المورد" : "ID du fournisseur"}
               </span>
             </TableCell>
@@ -146,7 +199,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الاسم" : "Nom"}
               </span>
             </TableCell>
@@ -154,7 +213,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
               </span>
             </TableCell>
@@ -162,7 +227,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الولاية" : "Wilaya"}
               </span>
             </TableCell>
@@ -170,7 +241,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "البلدية" : "Commune"}
               </span>
             </TableCell>
@@ -178,7 +255,13 @@ export default function FournisseurTable({
               className="tableCell"
               align={language === "ar" ? "right" : "right"}
             >
-              <span className="thTableSpan">
+              <span
+                className="thTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "الإجراء" : "Action"}
               </span>
             </TableCell>
@@ -200,7 +283,13 @@ export default function FournisseurTable({
           ) : (
             <TableRow>
               <TableCell colSpan={6} align="center">
-                <span className="thTableSpan">
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
                   {language === "ar"
                     ? "لم يتم العثور على موردين"
                     : "Aucun fournisseur trouvé"}

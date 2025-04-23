@@ -273,7 +273,12 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
           <Header toggleLanguage={toggleLanguage} language={language} />
         </div>
         <div className="titlePageButton">
-          <h2 className="pagesTitle">
+          <h2
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+            className="pagesTitle"
+          >
             {language === "ar" ? "مخزون المنتجات" : "Stock des produits"}
           </h2>
           <div className="buttonTop">
@@ -284,6 +289,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   : "Ajouter un nouveau stock"
               }
               onClick={handleOpenModal}
+              language={language}
             />
           </div>
         </div>
@@ -341,7 +347,13 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
               className="customerClass"
               style={{ direction: language === "ar" ? "rtl" : "ltr" }}
             >
-              <h2 className="customerClassTitle">
+              <h2
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                className="customerClassTitle"
+              >
                 {language === "ar"
                   ? "إضافة مخزون جديد"
                   : "Ajouter un nouveau stock"}
@@ -360,11 +372,25 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       language={language}
                     />
                     <div className="flex space-x-5 items-center">
-                      <span className={`${language === "ar" ? "ml-5" : ""}`}>
+                      <span
+                        className={`${language === "ar" ? "ml-5" : ""}`}
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar" ? "الفئة :" : "Categorie :"}
                       </span>
                       <div className="selectStoreWilayaCommune w-[300px]">
                         <select
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
                           name="productCategory"
                           onChange={handleSelectedCategoryChange}
                         >
@@ -419,10 +445,19 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                             selectedProduct &&
                             product._id === selectedProduct._id
                           }
+                          language={language}
                         />
                       ))
                     ) : (
-                      <span className="thTableSpan">
+                      <span
+                        className="thTableSpan"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar"
                           ? "لا توجد منتجات متاحة"
                           : "Aucun produit disponible"}
@@ -438,33 +473,73 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   }`}
                 >
                   <div className="dialogAddCustomerItem items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar" ? "سعر الشراء :" : "Prix d'achat :"}
                     </span>
                     <div className="inputForm flex items-center">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         name="buyingPrice"
                         value={BuyingPrice}
                         min={0}
                         onChange={handleBuyingPriceChange}
                       />
-                      {language === "ar" ? "دج" : "DA"}
+                      <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
+                        {language === "ar" ? "دج" : "DA"}
+                      </span>
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
                     </span>
                     <div className="inputForm flex items-center">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         name="sellingPrice"
                         value={SellingPrice}
                         min={0}
                         onChange={handleSellingPriceChange}
                       />
-                      {language === "ar" ? "دج" : "DA"}
+                      <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
+                        {language === "ar" ? "دج" : "DA"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -473,13 +548,26 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     }`}
                   >
                     <div className="w-[50%] flex items-center">
-                      <span>
+                      <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar"
                           ? "صندوق المخزون :"
                           : "Boîte de stock :"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
                           type="number"
                           name="stock"
                           value={Quantity}
@@ -489,13 +577,26 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       </div>
                     </div>
                     <div className="w-[50%] flex items-center">
-                      <span>
+                      <span
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
                         {language === "ar"
                           ? "وحدة المخزون :"
                           : "Unité de stock :"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
+                          style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
+                          }}
                           type="number"
                           name="unity"
                           value={QuantityUnity}
@@ -506,13 +607,24 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "القيمة المحدودة :"
                         : "Valeur limitée :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         name="stock"
                         value={LimitedQuantity}
@@ -522,13 +634,24 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "قيمة التخفيض :"
                         : "Valeur de déstockage :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="number"
                         name="stock"
                         value={Destocking}
@@ -538,13 +661,24 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="dialogAddCustomerItem items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "تاريخ انتهاء الصلاحية :"
                         : "Date d'expiration :"}
                     </span>
                     <div className="inputForm">
                       <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
                         type="date"
                         name="ExparationDate"
                         value={ExparationDate}
@@ -553,7 +687,12 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div className="items-center">
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "طريقة الشراء :"
                         : "Méthode d'achat :"}
@@ -573,7 +712,14 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                           />
                         }
                         label={
-                          <span>
+                          <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
                             {language === "ar"
                               ? "شراء بالوحدة"
                               : "Achat par unité"}
@@ -589,7 +735,14 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                           />
                         }
                         label={
-                          <span>
+                          <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
                             {language === "ar"
                               ? "شراء بالكرتون"
                               : "Achat par carton"}
@@ -612,7 +765,12 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                         />
                       }
                     />
-                    <span>
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
                       {language === "ar"
                         ? "إضافة إلى القائمة المقترحة"
                         : "Ajouter à la liste proposée"}

@@ -28,11 +28,27 @@ function ConfirmDialog({
       {!isloading ? (
         <div className="pb-2">
           <DialogTitle id="alert-dialog-title">
-            <h2 className="customerClassTitle">{dialogTitle}</h2>
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {dialogTitle}
+            </h2>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <span className="trTableSpan">{dialogContentText}</span>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {dialogContentText}
+              </span>
             </DialogContentText>
           </DialogContent>
           <div
@@ -42,12 +58,20 @@ function ConfirmDialog({
           >
             <button
               onClick={onClose}
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               className="text-gray-500 cursor-pointer hover:text-gray-700"
             >
               {language === "ar" ? "إلغاء" : "Annuler"}
             </button>
             <button
               onClick={onConfirm}
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               className="text-blue-500 cursor-pointer hover:text-blue-700"
             >
               {language === "ar" ? "تأكيد" : "Confirmer"}
@@ -57,11 +81,27 @@ function ConfirmDialog({
       ) : (
         <>
           <DialogTitle id="alert-dialog-title">
-            <h2 className="customerClassTitle">{dialogTitle}</h2>
+            <h2
+              className="customerClassTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {dialogTitle}
+            </h2>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <span className="trTableSpan">{dialogContentText}</span>
+              <span
+                className="trTableSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {dialogContentText}
+              </span>
             </DialogContentText>
           </DialogContent>
           <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">

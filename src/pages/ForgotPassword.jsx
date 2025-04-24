@@ -7,7 +7,7 @@ import Alert from "@mui/material/Alert";
 import Logo from "../assets/Logo-mosagro.png";
 
 export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("+213");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState("request"); // request, verify, reset
   const [verificationCode, setVerificationCode] = useState([
@@ -73,12 +73,24 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
       );
       return;
     }
+    //check if phone number length is 10
+    if (phoneNumber.length !== 10) {
+      showSnackbar(
+        language === "ar"
+          ? "رقم الهاتف يجب أن يكون 9 أرقام"
+          : "Le numéro de téléphone doit comporter 9 chiffres apres +213 par exemple +213798xxxxxx",
+        "error"
+      );
+      return;
+    }
 
     setLoading(true);
     try {
-      // Replace with your actual API endpoint
+      // Use the correct API endpoint based on account type
+      const endpoint = `/Auth/forgetPassword/store`;
+      
       const response = await fetch(
-        import.meta.env.VITE_APP_URL_BASE + "/auth/forgot-password",
+        import.meta.env.VITE_APP_URL_BASE + endpoint,
         {
           method: "POST",
           headers: {
@@ -97,19 +109,12 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
       } else {
         setStep("verify");
         showSnackbar(
-          language === "ar"
-            ? "تم إرسال رمز التحقق"
-            : "Code de vérification envoyé",
+          json.message,
           "success"
         );
       }
     } catch (error) {
-      showSnackbar(
-        language === "ar"
-          ? "حدث خطأ. يرجى المحاولة مرة أخرى لاحقًا"
-          : "Une erreur s'est produite. Veuillez réessayer plus tard.",
-        "error"
-      );
+      showSnackbar(json.message);
     } finally {
       setLoading(false);
     }
@@ -134,11 +139,11 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
     setLoading(true);
     try {
-      // Replace with your actual API endpoint
+      // Update the endpoint to match the backend route
       const response = await fetch(
-        import.meta.env.VITE_APP_URL_BASE + "/auth/verify-code",
+        import.meta.env.VITE_APP_URL_BASE + "/Auth/verifyResetOTP",
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "content-type": "application/json",
           },
@@ -156,7 +161,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
       } else {
         setStep("reset");
         showSnackbar(
-          language === "ar" ? "تم التحقق بنجاح" : "Vérification réussie",
+          json.message,
           "success"
         );
       }
@@ -197,11 +202,11 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
     setLoading(true);
     try {
-      // Replace with your actual API endpoint
+      // Update the endpoint to match the backend route
       const response = await fetch(
-        import.meta.env.VITE_APP_URL_BASE + "/auth/reset-password",
+        import.meta.env.VITE_APP_URL_BASE + "/Auth/resetPassword",
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "content-type": "application/json",
           },
@@ -219,9 +224,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
         showSnackbar(json.message, "error");
       } else {
         showSnackbar(
-          language === "ar"
-            ? "تم إعادة تعيين كلمة المرور بنجاح"
-            : "Mot de passe réinitialisé avec succès",
+          json.message,
           "success"
         );
 
@@ -321,6 +324,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                     ? "أدخل رقم هاتفك وسنرسل إليك رمز التحقق"
                     : "Entrez votre numéro de téléphone et nous vous enverrons un code de vérification"}
                 </p>
+                
                 <InputForm
                   labelForm={
                     language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"
@@ -331,6 +335,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                   setChangevalue={handlePhoneNumberChange}
                   isRtl={language === "ar"}
                   language={language}
+                  value={phoneNumber}
                 />
                 <ButtonDark
                   buttonSpan={
@@ -367,7 +372,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 <div
                   className={`flex justify-center ${
                     language === "ar" ? "flex-row-reverse" : ""
-                  } space-x-4 mt-6 `}
+                  } space-x-4 mt-6 mb-6`}
                 >
                   {verificationCode.map((digit, index) => (
                     <input
@@ -391,6 +396,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 >
                   <button
                     type="button"
+                    onClick={handleRequestReset}
                     className="text-blue-600 hover:text-blue-800 transition-colors duration-200 text-sm font-medium"
                     style={{
                       fontFamily:
@@ -412,7 +418,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 />
 
                 {/* Return button with improved styling */}
-                {/* <div
+                <div
                   className={`mt-5 flex ${
                     language === "ar" ? "justify-end" : "justify-start"
                   }`}
@@ -464,7 +470,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                       </>
                     )}
                   </button>
-                </div> */}
+                </div>
               </form>
             )}
 

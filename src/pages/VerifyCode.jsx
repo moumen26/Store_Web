@@ -107,7 +107,7 @@ export default function VerifyCode() {
                 value={digit}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-16 h-16 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#26667E]"
+                className="w-16 h-16 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#0d3a71]"
               />
             ))}
           </div>

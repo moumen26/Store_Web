@@ -315,8 +315,7 @@ export default function Header({ language, toggleLanguage }) {
           } transition-transform duration-200 ease-out`}
         >
           {/* User Info */}
-          <div className="p-4 border-b border-gray-200"
-          >
+          <div className="p-4 border-b border-gray-200">
             <p className="text-gray-800 font-semibold">
               {user?.infos?.firstName} {user?.infos?.lastName}
             </p>

@@ -87,8 +87,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
             language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
           }`}
         >
-          <img src={Logo} alt="Store Logo" className="h-8" />
-          <h2
+          <img src={Logo} alt="Store Logo" className="h-6" />
+          {/* <h2
             className={`logoText ${
               language === "ar" ? "font-cairo-Regular" : ""
             }`}
@@ -97,7 +97,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
             }}
           >
             {language === "ar" ? "موساجرو" : "MOSAGRO"}
-          </h2>
+          </h2> */}
         </div>
       </div>
       <div className="signInContainer w-full flex items-center justify-center">
@@ -187,12 +187,26 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                   : "space-x-2"
               }`}
             >
-              <span href="/" className="headerText alreadyText">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                href="/"
+                className="headerText alreadyText"
+              >
                 {language === "ar"
                   ? "جديد في موساجرو؟"
                   : "Nouveau sur MOSAGRO ?"}
               </span>
-              <a href="/SignUp" className="headerText signInText">
+              <a
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                href="/SignUp"
+                className="headerText signInText"
+              >
                 {language === "ar" ? "إنشاء حساب" : "S'inscrire"}
               </a>
             </div>

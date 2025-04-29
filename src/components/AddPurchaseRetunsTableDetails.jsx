@@ -538,7 +538,7 @@ function AddPurchaseRetunsTableDetails({
                       control={
                         <Radio
                           sx={{
-                            "&.Mui-checked": { color: "#26667e" },
+                            "&.Mui-checked": { color: "#0d3a71" },
                           }}
                         />
                       }
@@ -560,7 +560,7 @@ function AddPurchaseRetunsTableDetails({
                       control={
                         <Radio
                           sx={{
-                            "&.Mui-checked": { color: "#26667e" },
+                            "&.Mui-checked": { color: "#0d3a71" },
                           }}
                         />
                       }

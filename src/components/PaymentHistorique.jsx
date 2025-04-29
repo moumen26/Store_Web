@@ -221,7 +221,7 @@ export default function PaymentHistorique({
                     >
                       {language === "ar"
                         ? "لا توجد مدفوعات متاحة"
-                        : "aucun paiement disponible"}
+                        : "Aucun paiement disponible"}
                     </span>
                   ) : (
                     <CircularProgress color="inherit" size={4} />

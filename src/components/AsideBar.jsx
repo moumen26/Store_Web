@@ -20,11 +20,11 @@ import Logo from "../assets/Logo-mosagro.png";
 // Custom Tailwind color scheme matching your CSS variables
 const tailwindColors = {
   greyDark: "#888888",
-  main: "#3e9cb9",
+  main: "#0d3a71",
   neutral: "#c9e4ee",
-  dark: "#26667e",
-  text: "#62b5ce",
-  light: "#e7f2f7",
+  dark: "#0d3a71",
+  text: "#0d3a71",
+  light: "#9cd1f5",
   black: "#000",
   white: "#fff",
   grey: "#ededed",
@@ -102,21 +102,21 @@ export default function Asidebar({ language }) {
   };
 
   // Custom classes based on your color scheme
-  const activeItemClass = "bg-[#e7f2f7] text-[#3e9cb9] border-[#3e9cb9]";
-  const hoverItemClass = "hover:bg-[#e7f2f7] hover:text-[#3e9cb9]";
-  const normalItemClass = "text-[#26667e]";
+  const activeItemClass = "bg-[#9cd1f5] text-[#0d3a71] border-[#0d3a71]";
+  const hoverItemClass = "hover:bg-[#9cd1f5] hover:text-[#0d3a71]";
+  const normalItemClass = "text-[#0d3a71]";
   const iconClass = "text-current";
   const chevronClass = "text-[#888888]";
 
   // Style for active submenu items
-  const activeSubmenuClass = "bg-[#e7f2f7] text-[#3e9cb9] font-medium";
-  const normalSubmenuClass = "text-[#62b5ce] font-normal";
+  const activeSubmenuClass = "bg-[#9cd1f5] text-[#0d3a71] font-medium";
+  const normalSubmenuClass = "text-[#0d3a71] font-normal";
 
   return (
     <aside
       className={`w-[17%] h-screen fixed top-0 ${
         language === "ar" ? "right-0 border-l" : "left-0 border-r"
-      } bg-white border-[#ededed] shadow-sm overflow-y-auto p-6 pt-10 transition-all duration-300`}
+      } border-[#ededed] shadow-sm overflow-y-auto p-6 pt-10 transition-all duration-300`}
     >
       {/* Logo */}
       <div className="flex justify-center mb-10">
@@ -125,8 +125,8 @@ export default function Asidebar({ language }) {
             language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
           }`}
         >
-          <img src={Logo} alt="Store Logo" className="h-10" />
-          <h2
+          <img src={Logo} alt="Store Logo" className="h-7" />
+          {/* <h2
             className={`logoTextAside ${
               language === "ar" ? "font-cairo-Regular" : ""
             }`}
@@ -135,7 +135,7 @@ export default function Asidebar({ language }) {
             }}
           >
             {language === "ar" ? "موزاجرو" : "MOSAGRO"}
-          </h2>
+          </h2> */}
         </div>
       </div>
 

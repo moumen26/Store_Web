@@ -628,6 +628,7 @@ export default function CustomerProfile({
               {language === "ar" ? "عنوان التسليم" : "Adresse de livraison"}
             </h2>
             <ButtonAdd
+              language={language}
               buttonSpan={
                 language === "ar"
                   ? "إضافة عنوان جديد"
@@ -649,7 +650,10 @@ export default function CustomerProfile({
                 },
               }}
             >
-              <div className="customerClass pb-0">
+              <div
+                className="customerClass p-0"
+                style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+              >
                 <h2
                   className="customerClassTitle"
                   style={{
@@ -661,7 +665,11 @@ export default function CustomerProfile({
                     ? "إضافة عنوان جديد"
                     : "Ajouter une nouvelle adresse"}
                 </h2>
-                <div className="flex justify-end items-center space-x-4">
+                <div
+                  className={`flex justify-end items-center space-x-4 ${
+                    language === "ar" ? "gap-x-4" : "space-x-4"
+                  }`}
+                >
                   <span
                     style={{
                       fontFamily:
@@ -683,7 +691,12 @@ export default function CustomerProfile({
                     />
                   </div>
                 </div>
-                <div className="flex justify-end items-center space-x-4">
+                <div
+                  className={`flex justify-end items-center space-x-4 ${
+                    language === "ar" ? "gap-x-4" : "space-x-4"
+                  }`}
+                >
+                  {" "}
                   <span
                     style={{
                       fontFamily:

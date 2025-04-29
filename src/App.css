@@ -31,7 +31,7 @@
   --greyDarkColor: #888888;
   --mainColor: #3e9cb9;
   --neutralColor: #c9e4ee;
-  --darkColor: #26667e;
+  --darkColor: #0d3a71;
   --textColor: #62b5ce;
   --lightColor: #e7f2f7;
   --blackColor: #000;
@@ -205,7 +205,7 @@
 
 .inputIcon {
   width: 24px;
-  color: #26667e;
+  color: #0d3a71;
 }
 
 .inputItem {
@@ -291,6 +291,10 @@
   border-right: 1px solid var(--neutralColor);
   padding: 8% 1% 1% 1%;
   transition: transform 0.5s ease;
+}
+
+aside ul::-webkit-scrollbar {
+  width: 0;
 }
 
 .aside.collapsed {
@@ -521,10 +525,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid #ededed;
 }
 
 .customerClass {
   padding-bottom: 10px;
+  border: 0;
   padding-top: 10px;
 }
 
@@ -585,10 +591,6 @@
   background-color: var(--redColor);
 }
 
-.cercleChartItemRevenue {
-  background-color: var(--mainColor);
-}
-
 .spanChartItemOrder,
 .spanChartItemRevenue {
   font-size: 14px;
@@ -597,7 +599,7 @@
 }
 
 .spanChartItemRevenue {
-  color: var(--mainColor);
+  color: var(--darkColor);
 }
 
 .selectOptionChart,
@@ -679,7 +681,7 @@
 
 :root {
   --sb-track-color: #c9e4ee;
-  --sb-thumb-color: #26667e;
+  --sb-thumb-color: #0d3a71;
   --sb-size: 6px;
   --sb-border-radius: 4px;
 }
@@ -770,6 +772,7 @@
   padding-right: 0;
   outline: none;
   cursor: pointer;
+  border: 1px solid #ededed;
 }
 
 .rtl .calendar {
@@ -865,6 +868,10 @@
   column-gap: 10px;
   overflow: auto;
   justify-items: center;
+}
+
+.addNewStockClass .productsContainer {
+  height: 90%;
 }
 
 .equalsIcon {
@@ -1268,11 +1275,31 @@
 
 .addNewStockClass {
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
+.addNewStockClass .productsContainer {
+  height: fit-content;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+.addNewStockClass .productDetailsStock {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  margin-top: 32px;
+  padding: 0;
+  gap: 0;
+  row-gap: 32px;
+  column-gap: 32px;
+  width: 100%;
+}
+
+.addNewStockClass .productDetailsStock .dialogAddCustomerItem {
+  width: calc(100% - 64px);
+}
+
 .productDetailsStock {
-  border-left: 1px solid var(--neutralColor);
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -1846,6 +1873,92 @@
   .settingPersonalInformation .inputItem {
     width: 100%;
   }
+
+  .addNewStockModal {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .addNewStockModal .addNewStockClass {
+    flex-direction: column;
+  }
+
+  .addNewStockModal .addNewStockClass {
+    padding: 0;
+  }
+
+  .addNewStockModal .addProductModalHeader .flex:nth-child(2) {
+    /* width: 100%; */
+    gap: 0;
+  }
+
+  .addNewStockModal .productsContainer {
+    height: 800px;
+    overflow-y: scroll;
+  }
+
+  .addNewStockModal .productDetailsStock {
+    width: 100%;
+    padding: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px;
+    grid-template-columns: repeat(1, 100%);
+  }
+
+  .addNewStockModal .productDetailsStock .dialogAddCustomerItem {
+    width: 100%;
+    margin-top: 16px;
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .addNewStockModal .productDetailsStock .dialogAddCustomerItem .inputForm {
+    width: 100%;
+  }
+
+  .addNewStockModal .productDetailsStock .dialogAddCustomerItemBoth {
+    gap: 32px;
+    flex-direction: column;
+  }
+  .addNewStockModal .productDetailsStock .dialogAddCustomerItemBoth > div {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .addNewStockModal
+    .productDetailsStock
+    .dialogAddCustomerItemBoth
+    > div
+    .inputForm {
+    width: 100%;
+  }
+
+  .detailsProductMedia {
+    flex-direction: column;
+  }
+
+  .detailsProductMedia div:first-child {
+    width: 100%;
+  }
+
+  .detailsProductMedia div:last-child {
+    width: 100%;
+  }
+
+  .addNewStockModal{
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    overflow-x: hidden;
+    justify-content: center;
+  }
+
+  ::-webkit-scrollbar{
+    width: 0;
+  }
 }
 
 /*Tablet */
@@ -1940,6 +2053,11 @@
     .logInForm
     > .flex:nth-child(4) {
     width: 100%;
+  }
+
+  .addNewStockModal {
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 
@@ -2258,7 +2376,9 @@ main {
   overflow: hidden;
   width: calc(100% - 17%);
   min-height: 100vh;
-  background-color: var(--lightColor);
+  /* background-color: var(--lightColor); */
+  /* background-color: #f5f7fb; */
+  background-color: #f5f7fb;
   height: fit-content;
   padding: 24px;
   display: flex;

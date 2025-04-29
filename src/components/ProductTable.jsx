@@ -722,7 +722,7 @@ export default function ProductTable({
                 isLoading={StockLoading}
               />
             </div>
-            <div className="flex space-x-4 justify-between">
+            <div className="detailsProductMedia flex space-x-4 justify-between">
               <div className="w-[70%]">
                 <div className="customerClass pt-0">
                   <ProductProfileDetailsV2

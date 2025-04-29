@@ -15,7 +15,7 @@ export default function ButtonAdd({ buttonSpan, showIcon = true, onClick, langua
       case "Full payment":
         return "bg-gray-500 hover:bg-gray-600";
       default:
-        return "bg-[#26667e] hover:bg-[#1f556b]";
+        return "bg-[#0d3a71] hover:bg-[#639ff5]";
     }
   };
 

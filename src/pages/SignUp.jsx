@@ -85,8 +85,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
     <div className="signUp">
       <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
         <div className="flex items-center space-x-2">
-          <img src={Logo} alt="Store Logo" className="h-8" />
-          <h2 className="headerText logoText">MOSAGRO</h2>
+          <img src={Logo} alt="Store Logo" className="h-6" />
+          {/* <h2 className="headerText logoText">MOSAGRO</h2> */}
         </div>
 
         <div className="flex items-center space-x-5">
@@ -112,7 +112,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             >
               {language === "ar" ? "تسجيل الدخول" : "Se connecter"}
             </a>
-            <ChevronRightIcon color="#26667E" className="iconAsideBar" />
+            <ChevronRightIcon color="#0d3a71" className="iconAsideBar" />
           </div>
         </div>
       </div>

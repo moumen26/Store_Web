@@ -1591,10 +1591,13 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
         }}
       >
         {!CategoryDataLoading ? (
-          <div className="customerClass pb-0">
+          <div
+            className="customerClass pb-0"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+          >
             <div className="flex items-center space-x-3 mb-4">
               <h2
-                className="dialogTitle text-xl font-bold"
+                className="dialogTitle"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",

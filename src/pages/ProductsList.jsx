@@ -359,7 +359,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                   : "Ajouter un nouveau stock"}
               </h2>
               <div className="addNewStockClass">
-                <div className="w-full h-fit w-[65%] pr-2">
+                <div className="w-full h-fit w-[65%] pr-2 addNewStockClass">
                   <div className="addProductModalHeader">
                     <Search
                       placeholder={
@@ -371,7 +371,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       onChange={handleSearchChange}
                       language={language}
                     />
-                    <div className="flex space-x-5 items-center">
+                    <div className="flex gap-5 items-center">
                       <span
                         className={`${language === "ar" ? "ml-5" : ""}`}
                         style={{
@@ -408,7 +408,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       </div>
                     </div>
                   </div>
-                  <div className="productsContainer p-0 mt-6 h-[90%]">
+                  <div className="productsContainer p-0 mt-6">
                     {ProductData?.length > 0 ? (
                       ProductData?.filter(
                         (product) =>
@@ -465,13 +465,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     )}
                   </div>
                 </div>
-                <div
-                  className={`h-fit w-[35%] productDetailsStock ${
-                    language === "ar"
-                      ? "border-l-0 border-r-[1px] pr-[32px] pl-0"
-                      : ""
-                  }`}
-                >
+                <div className={`h-fit productDetailsStock`}>
                   <div className="dialogAddCustomerItem items-center">
                     <span
                       style={{
@@ -543,7 +537,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                     </div>
                   </div>
                   <div
-                    className={`flex gap-x-4 items-center justify-between${
+                    className={`flex dialogAddCustomerItemBoth gap-x-4 items-center justify-between${
                       language === "ar" ? "justify-between" : ""
                     }`}
                   >
@@ -751,31 +745,31 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div
-                    className={`flex items-center space-x-0 ${
-                      language === "ar" ? "gap-x-4" : ""
-                    }`}
+                </div>
+                <div
+                  className={`flex items-center space-x-0 ${
+                    language === "ar" ? "gap-x-4" : ""
+                  }`}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={productState.addToProposedList}
+                        onChange={handleCheckboxChange}
+                        name="addToProposedList"
+                      />
+                    }
+                  />
+                  <span
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
                   >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={productState.addToProposedList}
-                          onChange={handleCheckboxChange}
-                          name="addToProposedList"
-                        />
-                      }
-                    />
-                    <span
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                    >
-                      {language === "ar"
-                        ? "إضافة إلى القائمة المقترحة"
-                        : "Ajouter à la liste proposée"}
-                    </span>
-                  </div>
+                    {language === "ar"
+                      ? "إضافة إلى القائمة المقترحة"
+                      : "Ajouter à la liste proposée"}
+                  </span>
                 </div>
               </div>
               <div
@@ -784,12 +778,20 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                 }`}
               >
                 <button
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseModal}
                 >
                   {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <button
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={handleSaveStock}
                 >

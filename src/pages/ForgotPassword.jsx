@@ -273,8 +273,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
             language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
           }`}
         >
-          <img src={Logo} alt="Store Logo" className="h-8" />
-          <h2
+          <img src={Logo} alt="Store Logo" className="h-6" />
+          {/* <h2
             className={`logoText ${
               language === "ar" ? "font-cairo-Regular" : ""
             }`}
@@ -283,7 +283,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
             }}
           >
             {language === "ar" ? "موساجرو" : "MOSAGRO"}
-          </h2>
+          </h2> */}
         </div>
       </div>
       <div className="forgotPasswordContainer w-full h-full flex items-center justify-center">
@@ -383,7 +383,7 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                       value={digit}
                       onChange={(e) => handleCodeChange(e.target.value, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
-                      className="w-12 h-12 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#26667E]"
+                      className="w-12 h-12 text-center text-xl border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#0d3a71]"
                     />
                   ))}
                 </div>

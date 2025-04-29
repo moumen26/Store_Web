@@ -925,6 +925,72 @@ export default function PurchaseProfile({
         language={language}
       />
 
+      <ConfirmDialog
+        open={isCreditedConfirmDialogOpen}
+        onConfirm={() => handleOnConfirmCredited(true)}
+        onClose={handleCloseCreditedConfirmationDialog}
+        dialogTitle={
+          language === "ar" ? "تأكيد إضافة الدفعة" : "Confirmer credit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
+        isloading={submitionLoading}
+        language={language}
+      />
+
+
+      <ConfirmDialog
+        open={isUnCreditedConfirmDialogOpen}
+        onConfirm={() => handleOnConfirmCredited(false)}
+        onClose={handleCloseUnCreditedConfirmationDialog}
+        dialogTitle={
+          language === "ar" ? "تأكيد إضافة الدفعة" : "Confirmer uncredit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
+        isloading={submitionLoading}
+        language={language}
+      />
+
+      <ConfirmDialog
+        open={isDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(true)}
+        onClose={handleCloseDepositConfirmationDialog}
+        dialogTitle={
+          language === "ar" ? "تأكيد إضافة الدفعة" : "Confirmer deposit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
+        isloading={submitionLoading}
+        language={language}
+      />
+
+
+      <ConfirmDialog
+        open={isUnDepositConfirmDialogOpen}
+        onConfirm={() => handleOnDepositConfirm(false)}
+        onClose={handleCloseUnDepositConfirmationDialog}
+        dialogTitle={
+          language === "ar" ? "تأكيد إضافة الدفعة" : "Confirmer undeposit"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد إضافة هذا المبلغ: ${Amount}؟`
+            : `Êtes-vous sûr de vouloir ajouter ce montant : ${Amount} ?`
+        }
+        isloading={submitionLoading}
+        language={language}
+      />
+
       {/* Other ConfirmDialogs would follow the same pattern */}
 
       <Snackbar

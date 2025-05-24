@@ -7,6 +7,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Logo from "../assets/Logo-mosagro.png";
 
 import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn({ onToggle, language, toggleLanguage }) {
   const [username, setUsername] = useState("");
@@ -16,6 +17,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
   const [error, setError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const navigate = useNavigate();
 
   // Handle username text change
   const handleUsernameChange = (event) => {
@@ -70,6 +72,10 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
+
+  const navigateTo = (val) => {
+    navigate(val);
+  }
 
   return (
     <div className="signIn">
@@ -146,18 +152,19 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                   language === "ar" ? "justify-start" : "justify-end"
                 }`}
               >
-                <a
-                  href="/ForgotPassword"
+                <span
                   className="forgotPasswordText"
+                  onClick={() => navigateTo("/ForgotPassword")}
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      cursor: "pointer",
                   }}
                 >
                   {language === "ar"
                     ? "نسيت كلمة المرور؟"
                     : "Mot de passe oublié ?"}
-                </a>
+                </span>
               </div>
               <ButtonDark
                 buttonSpan={language === "ar" ? "تسجيل الدخول" : "Se connecter"}
@@ -199,16 +206,17 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                   ? "جديد في موساجرو؟"
                   : "Nouveau sur MOSAGRO ?"}
               </span>
-              <a
+              <span
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  cursor: "pointer",
                 }}
-                href="/SignUp"
+                onClick={() => navigateTo("/SignUp")}
                 className="headerText signInText"
               >
                 {language === "ar" ? "إنشاء حساب" : "S'inscrire"}
-              </a>
+              </span>
             </div>
           </div>
         </div>

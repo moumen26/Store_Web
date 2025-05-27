@@ -244,95 +244,97 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   {row.sousPurchases?.map((detailsRow) => (
-                    <TableRow key={detailsRow._id} className="tableRow">
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        className="tableCell"
-                        align={language === "ar" ? "right" : "left"}
-                      >
-                        <span
-                          className="trTableSpan trDetails"
-                          style={{
-                            fontFamily:
-                              language === "ar"
-                                ? "Cairo-Regular, sans-serif"
-                                : "",
-                          }}
+                    !detailsRow.sousStock ? null : (
+                      <TableRow key={detailsRow._id} className="tableRow">
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          className="tableCell"
+                          align={language === "ar" ? "right" : "left"}
                         >
-                          {detailsRow.sousStock.stock.product.name +
-                            " " +
-                            detailsRow.sousStock.stock.product.size}
-                        </span>
-                      </TableCell>
-                      <TableCell
-                        className="tableCell"
-                        align={language === "ar" ? "right" : "left"}
-                      >
-                        <span
-                          className="trTableSpan trDetails"
-                          style={{
-                            fontFamily:
-                              language === "ar"
-                                ? "Cairo-Regular, sans-serif"
-                                : "",
-                          }}
+                          <span
+                            className="trTableSpan trDetails"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {detailsRow.sousStock.stock.product.name +
+                              " " +
+                              detailsRow.sousStock.stock.product.size}
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          className="tableCell"
+                          align={language === "ar" ? "right" : "left"}
                         >
-                          {detailsRow.sousStock.stock.product.brand.name}
-                        </span>
-                      </TableCell>
-                      <TableCell
-                        align={language === "ar" ? "right" : "right"}
-                        className="tableCell"
-                      >
-                        <span
-                          className="trTableSpan trDetails"
-                          style={{
-                            fontFamily:
-                              language === "ar"
-                                ? "Cairo-Regular, sans-serif"
-                                : "",
-                          }}
+                          <span
+                            className="trTableSpan trDetails"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {detailsRow.sousStock.stock.product.brand.name}
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          align={language === "ar" ? "right" : "right"}
+                          className="tableCell"
                         >
-                          {formatNumber(detailsRow.price)}
-                        </span>
-                      </TableCell>
-                      <TableCell
-                        align={language === "ar" ? "right" : "right"}
-                        className="tableCell"
-                      >
-                        <span
-                          className="trTableSpan trDetails"
-                          style={{
-                            fontFamily:
-                              language === "ar"
-                                ? "Cairo-Regular, sans-serif"
-                                : "",
-                          }}
+                          <span
+                            className="trTableSpan trDetails"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {formatNumber(detailsRow.price)}
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          align={language === "ar" ? "right" : "right"}
+                          className="tableCell"
                         >
-                          {detailsRow.quantity}
-                        </span>
-                      </TableCell>
-                      <TableCell
-                        align={language === "ar" ? "left" : "right"}
-                        className="tableCell"
-                      >
-                        <span
-                          className="trTableSpan trDetails"
-                          style={{
-                            fontFamily:
-                              language === "ar"
-                                ? "Cairo-Regular, sans-serif"
-                                : "",
-                          }}
+                          <span
+                            className="trTableSpan trDetails"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {detailsRow.quantity}
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          align={language === "ar" ? "left" : "right"}
+                          className="tableCell"
                         >
-                          {formatNumber(
-                            Number(detailsRow.price) *
-                              Number(detailsRow.quantity)
-                          )}{" "}
-                        </span>
-                      </TableCell>
-                    </TableRow>
+                          <span
+                            className="trTableSpan trDetails"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {formatNumber(
+                              Number(detailsRow.price) *
+                                Number(detailsRow.quantity)
+                            )}{" "}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    )
                   ))}
                 </TableBody>
               </Table>

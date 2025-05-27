@@ -378,8 +378,46 @@ export default function PurchaseProfile({
     }
   };
 
+  //fetch data
+  const fetchSousPurchaseData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_APP_URL_BASE}/SousPurchase/all/${id}/${
+        decodedToken.id
+      }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode === 404) {
+        return []; // Return an empty array if no data is found
+      } else {
+        throw new Error("Error receiving sous purchase data");
+      }
+    }
+
+    return await response.json(); // Return the data if the response is successful
+  };
+  // useQuery hook to fetch data
+  const {
+    data: SousPurchaseData,
+    error: SousPurchaseDataError,
+    isLoading: SousPurchaseDataLoading,
+    refetch: refetchSousPurchaseData,
+  } = useQuery({
+    queryKey: ["SousPurchaseData", user?.token, location.key, id],
+    queryFn: fetchSousPurchaseData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: refetch on window focus
+  });
   //update receipt status API
-  const handleUpdateSousPurchase = async (val) => {
+  const handleUpdateSousPurchase = async () => {
     try {
       setSubmitionLoading(true);
       const response = await axios.post(
@@ -397,6 +435,7 @@ export default function PurchaseProfile({
         }
       );
       if (response.status === 200) {
+        refetchSousPurchaseData();
         refetchPurchaseData();
         setAlertType("success");
         setAlertMessage(response.data.message);
@@ -427,7 +466,7 @@ export default function PurchaseProfile({
     }
   };
 
-  if (PurchaseDataLoading) {
+  if (PurchaseDataLoading || SousPurchaseDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
         <Header />
@@ -439,7 +478,7 @@ export default function PurchaseProfile({
     );
   }
 
-  if (PurchaseDataError) {
+  if (PurchaseDataError || SousPurchaseDataError) {
     return (
       <div className="pagesContainer">
         <Header />
@@ -547,7 +586,7 @@ export default function PurchaseProfile({
             >
               {language === "ar" ? "منتجات الشراء" : "Produits de l'achat"}
             </h2>
-            {PurchaseData?.sousPurchases?.map((sousPurchase) => (
+            {SousPurchaseData?.map((sousPurchase) => (
               <PurchaseProfileDevicesProductTable
                 key={sousPurchase._id}
                 PurchaseData={sousPurchase}
@@ -989,6 +1028,23 @@ export default function PurchaseProfile({
         }
         isloading={submitionLoading}
         language={language}
+      />
+
+      <ConfirmDialog
+        open={isUpdateSousPurchaseConfirmDialogOpen}
+        onConfirm={handleUpdateSousPurchase}
+        onClose={handleCloseUpdateSousPurchaseConfirmDialogOpen}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد تعديل الفاتورة"
+            : "Confirmer la modification du achat"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد تعديل هذه الفاتورة؟"
+            : "Êtes-vous sûr de vouloir modifier cette achat ?"
+        }
+        isloading={submitionLoading}
       />
 
       {/* Other ConfirmDialogs would follow the same pattern */}

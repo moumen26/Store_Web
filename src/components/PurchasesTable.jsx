@@ -207,7 +207,7 @@ function Row(props) {
                                 : "",
                           }}
                         >
-                          {`${purchaseDetailsRow.sousStock.stock.product.name} ${purchaseDetailsRow.sousStock.stock.product.size}`}
+                          {`${purchaseDetailsRow?.sousStock?.stock.product.name} ${purchaseDetailsRow?.sousStock?.stock.product.size}`}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">

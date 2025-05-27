@@ -22,7 +22,7 @@ export default function PurchaseProfileDevicesProductTable({
   language,
 }) {
   const rows = PurchaseData?.sousStocks?.map((item) => {
-    let totalBoxes = item.quantity / item.sousStock.stock.product.boxItems;
+    let totalBoxes = item.quantity / item?.sousStock?.stock.product.boxItems;
     const decimalPart = totalBoxes % 1;
     let remainingItems = 0;
 
@@ -30,15 +30,15 @@ export default function PurchaseProfileDevicesProductTable({
       totalBoxes = Math.floor(totalBoxes) + 0.5;
     } else {
       totalBoxes = Math.floor(totalBoxes);
-      remainingItems = item.quantity % item.sousStock.stock.product.boxItems;
+      remainingItems = item.quantity % item?.sousStock?.stock.product.boxItems;
     }
 
     if (totalBoxes < 1) {
       totalBoxes = 0;
     }
     return {
-      name: item.sousStock.stock.product.name,
-      size: item.sousStock.stock.product.size,
+      name: item?.sousStock?.stock.product.name,
+      size: item?.sousStock?.stock.product.size,
       qty: item.quantity,
       unit: item.price,
       price: priceRow(item.quantity, item.price),

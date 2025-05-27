@@ -72,18 +72,18 @@ export default function ProductContainerPurchaseAddReturns({
           <ProductCard
             key={stock._id}
             productName={
-              stock.sousStock.stock.product?.brand?.name +
+              stock?.sousStock?.stock.product?.brand?.name +
               " " +
-              stock.sousStock.stock.product?.name +
+              stock?.sousStock?.stock.product?.name +
               " " +
-              stock.sousStock.stock.product?.size
+              stock?.sousStock?.stock.product?.size
             }
             productQuantity={stock.quantity}
             productPrice={stock.price}
             productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
               "/api",
               ""
-            )}/files/${stock.sousStock.stock.product?.image}`}
+            )}/files/${stock?.sousStock?.stock.product?.image}`}
             onClick={() => handleSelectProduct(stock)}
             selected={selectedProduct && stock?._id === selectedProduct._id}
           />

@@ -283,7 +283,7 @@ export default function AddOrderProfileDetails({
                                 : "",
                           }}
                           key={address._id}
-                          value={address.address}
+                          value={JSON.stringify(address)}
                         >
                           {address.address}
                         </option>

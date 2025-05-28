@@ -31,7 +31,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
   const [DeliveredLocation, setDeliveredLocation] = useState(null);
   const [Products, setProducts] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-
+  
   const handleNavigateClick = (path) => {
     navigate(path);
   };
@@ -90,13 +90,14 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
         setAlertType(false);
         setSnackbarMessage(response.data.message);
         setSnackbarOpen(true);
-        setSubmitionLoading(false);
         handleCloseDialog();
+        setSubmitionLoading(false);
         handleNavigateClick(`/OrderProfile/${response.data.id}`);
       } else {
         setAlertType(true);
         setSnackbarMessage(response.data.message);
         setSnackbarOpen(true);
+        handleCloseDialog();
         setSubmitionLoading(false);
       }
     } catch (error) {
@@ -104,6 +105,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
         setAlertType(true);
         setSnackbarMessage(error.response.data.message);
         setSnackbarOpen(true);
+        handleCloseDialog();
         setSubmitionLoading(false);
       } else if (error.request) {
         // Request was made but no response was received
@@ -223,6 +225,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
         onClose={handleCloseDialog}
         dialogTitle="Confirm order submition"
         dialogContentText={`Are you sure you want to submit this order?`}
+        isloading={submitionLoading} 
       />
       {/* Snackbar */}
       <Snackbar

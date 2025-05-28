@@ -28,7 +28,7 @@ export default function AddOrderProfileDetails({
   };
 
   const [orderType, setOrderType] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState(getCurrentAlgeriaTime());
+  const [deliveryDate, setDeliveryDate] = useState(null);
   const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const handleOrderTypeChange = (e) => {
@@ -231,6 +231,7 @@ export default function AddOrderProfileDetails({
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
+                    placeholder={"Sélectionnez une date"}
                     value={deliveryDate}
                     onChange={handleDeliveryDateChange}
                     showTime
@@ -266,7 +267,6 @@ export default function AddOrderProfileDetails({
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                       value={null}
-                      disabled
                       selected
                     >
                       {language === "ar"

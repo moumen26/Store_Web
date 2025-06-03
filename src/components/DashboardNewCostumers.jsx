@@ -16,7 +16,7 @@ export default function DashboardNewCostumers({
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
-          {language === "fr" ? "Nouveaux clients" : "العملاء الجدد"}
+          {language === "fr" ? "Nouveaux clients" : "الزبائن الجدد"}
         </h3>
       </div>
       <div className="flex-col h-[410px] space-y-6">

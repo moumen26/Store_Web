@@ -620,8 +620,8 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           <OrderProfileDetails language={language} orderDetails={OrderData} />
         </div>
         <div
-          className={`flex h-full ${
-            language === "ar" ? "gap-x-6" : "space-x-6"
+          className={`flex h-full orderProfileMedia ${
+            language === "ar" ? "gap-x-0 sm:gap-x-6" : "gap-x-0 sm:space-x-6"
           }`}
         >
           <div className="customerClass paddingClass w-[65%]">
@@ -754,7 +754,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           className="customerClass"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-row justify-between items-center w-full customerButtons">
             <h2
               className="customerClassTitle"
               style={{
@@ -766,7 +766,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             </h2>
             {OrderData.status != 10 ? (
               <div
-                className={`flex items-center space-x-3 ${
+                className={`flex items-center space-x-3 buttonsMedia ${
                   language === "ar" ? "gap-x-3" : ""
                 }`}
               >
@@ -867,7 +867,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             language === "ar" ? "justify-start" : "justify-end"
           }`}
         >
-          <div className="flex flex-row justify-center items-center w-full">
+          <div className="flex flex-col sm:flex-row justify-center items-start sm:items-center w-full">
             <h2
               className="customerClassTitle"
               style={{
@@ -877,7 +877,6 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               }}
             >
               {language === "ar" ? "المجموع :" : "Total :"} {OrderData.total}{" "}
-              {""}
               {language === "ar" ? "دج " : " DA"}
             </h2>
             <h2
@@ -896,6 +895,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               {language === "ar" ? "دج " : " DA"}
             </h2>
           </div>
+
           <button
             onClick={handleCloseModal}
             style={{

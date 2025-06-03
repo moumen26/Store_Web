@@ -102,14 +102,14 @@ export default function Asidebar({ language }) {
   };
 
   // Custom classes based on your color scheme
-  const activeItemClass = "bg-[#9cd1f5] text-[#0d3a71] border-[#0d3a71]";
-  const hoverItemClass = "hover:bg-[#9cd1f5] hover:text-[#0d3a71]";
+  const activeItemClass = "bg-[#fff] text-black border-[#0d3a71]";
+  const hoverItemClass = "hover:bg-[#fff] hover:text-[#000]";
   const normalItemClass = "text-[#0d3a71]";
   const iconClass = "text-current";
   const chevronClass = "text-[#888888]";
 
   // Style for active submenu items
-  const activeSubmenuClass = "bg-[#9cd1f5] text-[#0d3a71] font-medium";
+  const activeSubmenuClass = "bg-[#fff] text-black font-medium";
   const normalSubmenuClass = "text-[#0d3a71] font-normal";
 
   return (
@@ -156,7 +156,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <Squares2X2Icon className={`w-5 h-5 ${iconClass}`} />
+              <Squares2X2Icon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -187,7 +187,7 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  <ArchiveBoxIcon className={`w-5 h-5 ${iconClass}`} />
+                  <ArchiveBoxIcon className={`w-5 h-5 text-white ${iconClass}`} />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                     style={{
@@ -230,7 +230,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Stock de produits"
+                        ? "Stocks des produits"
                         : "مخزون المنتجات"}
                     </span>
                   </div>
@@ -258,8 +258,8 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Grille des produits"
-                        : "شبكة المنتجات"}
+                        ? "Liste des produits"
+                        : "قائمة المنتجات"}
                     </span>
                   </div>
                 </NavLink>
@@ -290,7 +290,7 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  <ShoppingBagIcon className={`w-5 h-5 ${iconClass}`} />
+                  <ShoppingBagIcon className={`w-5 h-5 text-white ${iconClass}`} />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                     style={{
@@ -478,7 +478,7 @@ export default function Asidebar({ language }) {
                   }`}
                 >
                   <ClipboardDocumentCheckIcon
-                    className={`w-5 h-5 ${iconClass}`}
+                    className={`w-5 h-5 text-white ${iconClass}`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -627,7 +627,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserGroupIcon className={`w-5 h-5 ${iconClass}`} />
+              <UserGroupIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -654,7 +654,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UsersIcon className={`w-5 h-5 ${iconClass}`} />
+              <UsersIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -681,7 +681,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserIcon className={`w-5 h-5 ${iconClass}`} />
+              <UserIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -708,7 +708,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserPlusIcon className={`w-5 h-5 ${iconClass}`} />
+              <UserPlusIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -717,8 +717,8 @@ export default function Asidebar({ language }) {
                 }}
               >
                 {language === "fr"
-                  ? "Authentification utilisateur"
-                  : "مصادقة المستخدم"}
+                  ? "Autorisation clients"
+                  : "مصادقة الزبائن"}
               </span>
             </div>
           </NavLink>
@@ -737,7 +737,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <ArrowTrendingDownIcon className={`w-5 h-5 ${iconClass}`} />
+              <ArrowTrendingDownIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -764,7 +764,7 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <DevicePhoneMobileIcon className={`w-5 h-5 ${iconClass}`} />
+              <DevicePhoneMobileIcon className={`w-5 h-5 text-white ${iconClass}`} />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{

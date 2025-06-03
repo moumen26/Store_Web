@@ -20,7 +20,7 @@ export default function DashboardStocksAboutToFinish({
         >
           {language === "fr"
             ? "Stocks en rupture imminent"
-            : "المخزون على وشك النفاد"}
+            : "المنتج على وشك النفاد"}
         </h3>
       </div>
       <div className="dashboardProductClass">

@@ -58,7 +58,7 @@ export default function OrdersInPreparation({
         <OrderCard
           language={language}
           orderCardTitle={
-            language === "ar" ? "إجمالي الطلبات" : "Total des Commandes"
+            language === "ar" ? "عدد الطلبيات" : "Nombre total des Commandes"
           }
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={latestOrderData.length}
@@ -68,7 +68,7 @@ export default function OrdersInPreparation({
           orderCardTitle={
             language === "ar"
               ? "الطلبات قيد التحضير"
-              : "Commandes en préparation"
+              : "Nombre commandes en préparation"
           }
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={
@@ -81,7 +81,7 @@ export default function OrdersInPreparation({
           orderCardTitle={
             language === "ar"
               ? "الطلبات الجاهزة وقيد التسليم"
-              : "Commandes prêtes et en cours de livraison"
+              : "Nombre commandes prêtes et en cours de livraison"
           }
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 2).length
@@ -93,7 +93,7 @@ export default function OrdersInPreparation({
           orderCardTitle={
             language === "ar"
               ? "الطلبات المستلمة والمسلّمة"
-              : "Commandes récupérées et livrées"
+              : "Nombre commandes récupérées et livrées"
           }
           orderCardDetails={
             latestOrderData.filter((order) => order?.orderStatus == 3).length

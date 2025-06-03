@@ -160,7 +160,7 @@ export default function ProductsContainer({
                   }}
                   className="thTableSpan"
                 >
-                  {language === "ar" ? "اسم" : "Nom"}
+                  {language === "ar" ? "اسم" : "Designation"}
                 </span>
                 <span
                   style={{

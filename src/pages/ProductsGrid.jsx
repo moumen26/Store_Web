@@ -267,8 +267,8 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
               language={language}
               buttonSpan={
                 language === "ar"
-                  ? "إضافة منتج جديد"
-                  : "Ajouter un Nouveau Produit"
+                  ? "إضافة منتج جديد للقائمة"
+                  : "Ajouter un Nouveau Produit a la Liste"
               }
               onClick={handleOpenAddProductModal}
             />
@@ -362,7 +362,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
             >
               {language === "ar"
                 ? "إضافة منتج جديد إلى المخزون"
-                : "Ajouter un Nouveau Produit au Stock"}
+                : "Ajouter un Nouveau Produit a la Liste"}
             </h2>
             <div className="mt-[16px]">
               <form>
@@ -423,7 +423,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       }}
                     >
                       {language === "ar"
-                        ? "العناصر لكل صندوق :"
+                        ? "لكل صندوق :"
                         : "Articles par Boîte :"}
                     </span>
                     <div className="inputForm">

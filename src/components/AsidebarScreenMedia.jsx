@@ -12,58 +12,66 @@ import {
   UserPlusIcon,
   UsersIcon,
   DevicePhoneMobileIcon,
-  Bars3Icon, // Menu icon
-  XMarkIcon, // Close icon
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/16/solid";
+import Logo from "../assets/Logo-mosagro.png";
 
-export default function AsidebarScreenMedia() {
+export default function AsidebarScreenMedia({ language = "fr" }) {
   const location = useLocation();
   const { logout } = useLogout();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Keep the sidebar open by default
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isAchatsOpen, setIsAchatsOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   const handleClickOutside = (event) => {
-    if (!event.target.closest(".Sidebar")) {
+    if (
+      !event.target.closest(".Sidebar") &&
+      !event.target.closest(".toggleIcon")
+    ) {
       setIsSidebarOpen(false);
     }
   };
 
-  const handleProductsClick = () => {
-    setIsProductsOpen((prevState) => !prevState);
-  };
-
-  const handleOrdersClick = () => {
-    setIsOrdersOpen((prevState) => !prevState);
-  };
-
-  const handleAchatsClick = () => {
-    setIsAchatsOpen((prevState) => !prevState);
-  };
+  const handleProductsClick = () => setIsProductsOpen((prev) => !prev);
+  const handleOrdersClick = () => setIsOrdersOpen((prev) => !prev);
+  const handleAchatsClick = () => setIsAchatsOpen((prev) => !prev);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [location.pathname]);
+
   const submitLogout = () => {
     logout();
   };
 
   return (
-    <div className={`asideMedia ${isSidebarOpen ? "asidemediaActive" : ""}`}
+    <div
+      className={`asideMedia fixed z-50 md:hidden ${
+        isSidebarOpen ? "asidemediaActive" : ""
+      }`}
     >
       {/* Toggle Icon for Sidebar */}
-      <div className="toggleIcon cursor-pointer" onClick={toggleSidebar}>
+      <div
+        className="toggleIcon cursor-pointer fixed top-4 left-4 z-50 bg-white rounded-full shadow-md p-2"
+        style={{
+          [language === "ar" ? "right" : "left"]: "1rem",
+          [language === "ar" ? "left" : "right"]: "auto",
+        }}
+        onClick={toggleSidebar}
+      >
         {isSidebarOpen ? (
           <XMarkIcon className="h-6 w-6 text-gray-600" />
         ) : (
@@ -71,9 +79,33 @@ export default function AsidebarScreenMedia() {
         )}
       </div>
 
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        />
+      )}
+
       {/* Sidebar */}
       {isSidebarOpen && (
-        <aside className="asidebarMedia">
+        <aside
+          className={`asidebarMedia fixed top-0 bottom-0 bg-white w-[80vw] max-w-xs shadow-lg transition-transform duration-300
+            ${language === "ar" ? "right-0" : "left-0"}
+            ${
+              isSidebarOpen
+                ? "translate-x-0"
+                : language === "ar"
+                ? "translate-x-full"
+                : "-translate-x-full"
+            }
+          `}
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          {/* Logo */}
+          <div className="flex justify-center items-center h-[10%] p-10">
+            <img src={Logo} alt="Store Logo" />
+          </div>
           <ul className="topAsideBar flex-col space-y-[8px]">
             <li className="Sidebar">
               <NavLink to="/Dashboard" className="flex items-center">
@@ -83,7 +115,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <Squares2X2Icon className="iconAsideBar" />
-                  <span className="ml-3">Dashboard</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "الرئيسية" : "Dashboard"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -96,7 +130,9 @@ export default function AsidebarScreenMedia() {
                   >
                     <div className="flex">
                       <ArchiveBoxIcon className="iconAsideBar" />
-                      <span className="ml-3">Products</span>
+                      <span className="ml-3">
+                        {language === "ar" ? "المنتجات" : "Produits"}
+                      </span>
                     </div>
                     <ChevronDownIcon
                       className={`iconPages ${
@@ -116,7 +152,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Products Stock</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "مخزون المنتجات"
+                            : "Stocks des produits"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink to="/ProductsGrid" className="flex items-center">
@@ -128,7 +168,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Products Grid</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "قائمة المنتجات"
+                            : "Liste des produits"}
+                        </span>
                       </div>
                     </NavLink>
                   </div>
@@ -144,7 +188,9 @@ export default function AsidebarScreenMedia() {
                   >
                     <div className="flex">
                       <ShoppingBagIcon className="iconAsideBar" />
-                      <span className="ml-3">Orders</span>
+                      <span className="ml-3">
+                        {language === "ar" ? "الطلبات" : "Commandes"}
+                      </span>
                     </div>
                     <ChevronDownIcon
                       className={`iconPages ${
@@ -164,7 +210,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Latest Orders</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "أحدث الطلبات"
+                            : "Dernières commandes"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink to="/CreditOrders" className="flex items-center">
@@ -176,7 +226,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Credit Orders</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "الطلبات بالائتمان"
+                            : "Commandes à crédit"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink to="/ReturnsOrders" className="flex items-center">
@@ -188,7 +242,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Returns Orders</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "طلبات الإرجاع"
+                            : "Commandes de retour"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink to="/OrdersArchive" className="flex items-center">
@@ -200,7 +258,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Orders Archive</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "أرشيف الطلبات"
+                            : "Archive des commandes"}
+                        </span>
                       </div>
                     </NavLink>
                   </div>
@@ -216,7 +278,9 @@ export default function AsidebarScreenMedia() {
                   >
                     <div className="flex">
                       <ClipboardDocumentCheckIcon className="iconAsideBar" />
-                      <span className="ml-3">Purchases</span>
+                      <span className="ml-3">
+                        {language === "ar" ? "المشتريات" : "Achats"}
+                      </span>
                     </div>
                     <ChevronDownIcon
                       className={`iconPages ${
@@ -236,7 +300,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Latest Purchases</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "أحدث المشتريات"
+                            : "Derniers achats"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink
@@ -251,7 +319,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Credit Purchases</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "المشتريات بالائتمان"
+                            : "Achats à crédit"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink
@@ -266,7 +338,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Returns Purchases</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "إرجاع المشتريات"
+                            : "Retours d'achats"}
+                        </span>
                       </div>
                     </NavLink>
                     <NavLink
@@ -281,7 +357,11 @@ export default function AsidebarScreenMedia() {
                         }`}
                       >
                         <Square2StackIcon className="iconAsideBar opacity-0" />
-                        <span className="ml-3">Purchases Archive</span>
+                        <span className="ml-3">
+                          {language === "ar"
+                            ? "أرشيف المشتريات"
+                            : "Archive des achats"}
+                        </span>
                       </div>
                     </NavLink>
                   </div>
@@ -296,7 +376,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <UserGroupIcon className="iconAsideBar" />
-                  <span className="ml-3">Customers</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "العملاء" : "Clients"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -308,7 +390,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <UsersIcon className="iconAsideBar" />
-                  <span className="ml-3">Vendors</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "البائعين" : "Vendeurs"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -322,7 +406,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <UserIcon className="iconAsideBar" />
-                  <span className="ml-3">Fournisseurs</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "الموردين" : "Fournisseurs"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -336,7 +422,11 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <UserPlusIcon className="iconAsideBar" />
-                  <span className="ml-3">User Authentication</span>
+                  <span className="ml-3">
+                    {language === "ar"
+                      ? "مصادقة الزبائن"
+                      : "Autorisation clients"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -348,7 +438,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <ArrowTrendingDownIcon className="iconAsideBar" />
-                  <span className="ml-3">Losses</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "الخسائر" : "Pertes"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -360,7 +452,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <DevicePhoneMobileIcon className="iconAsideBar" />
-                  <span className="ml-3">Publicité</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "الإعلانات" : "Publicité"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -372,7 +466,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <Cog6ToothIcon className="iconAsideBar" />
-                  <span className="ml-3">Settings</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "الإعدادات" : "Settings"}
+                  </span>
                 </div>
               </NavLink>
             </li>
@@ -388,7 +484,9 @@ export default function AsidebarScreenMedia() {
                   }`}
                 >
                   <ArrowLeftStartOnRectangleIcon className="iconAsideBar" />
-                  <span className="ml-3">Log out</span>
+                  <span className="ml-3">
+                    {language === "ar" ? "تسجيل الخروج" : "Log out"}
+                  </span>
                 </div>
               </NavLink>
             </li>

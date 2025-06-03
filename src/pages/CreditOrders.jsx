@@ -55,7 +55,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
         <OrderCard
           language={language}
           orderCardTitle={
-            language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
+            language === "ar" ? "عدد الطلبات" : "Nombre total des commandes"
           }
           orderCardDetails={latestOrderData.length}
           className="flex-shrink-0 w-[280px] md:w-full"

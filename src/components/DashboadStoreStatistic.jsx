@@ -12,6 +12,7 @@ export default function DashboadStoreStatistic({
   StatsDataLoading,
   language,
 }) {
+  
   return (
     <div className={`dashboadStoreStatistic ${language === "ar" ? "rtl" : ""}`}>
       <div className="w-full flex items-center justify-between">
@@ -36,7 +37,7 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des commandes" : "إجمالي الطلبات"}
+                  {language === "fr" ? "Nombre Total des commandes" : "عدد الطلبيات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalReceipts}</p>
               </div>
@@ -53,7 +54,7 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des produits" : "إجمالي المنتجات"}
+                  {language === "fr" ? "Nombre Total des produits" : "عدد المنتجات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalStocks}</p>
               </div>
@@ -70,7 +71,7 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des clients" : "إجمالي العملاء"}
+                  {language === "fr" ? "Nombre Total des clients" : "عدد العملاء"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalCustomers}</p>
               </div>
@@ -87,7 +88,7 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des vendeurs" : "إجمالي البائعين"}
+                  {language === "fr" ? "Nombre Total des vendeurs" : "عدد البائعين"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalSellers}</p>
               </div>

@@ -281,17 +281,17 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
           >
             {language === "ar" ? "مخزون المنتجات" : "Stock des produits"}
           </h2>
-          <div className="buttonTop">
+          {/* <div className="buttonTop">
             <ButtonAdd
               buttonSpan={
                 language === "ar"
-                  ? "إضافة مخزون جديد"
-                  : "Ajouter un nouveau stock"
+                  ? "الشراء بدون مورد"
+                  : "Achat sans fournisseur"
               }
               onClick={handleOpenModal}
               language={language}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -355,8 +355,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                 className="customerClassTitle"
               >
                 {language === "ar"
-                  ? "إضافة مخزون جديد"
-                  : "Ajouter un nouveau stock"}
+                  ? "إضافة شراء جديد بدون مورد"
+                  : "Ajouter une achat sans Fournisseur"}
               </h2>
               <div className="addNewStockClass">
                 <div className="w-full h-fit w-[65%] pr-2 addNewStockClass">
@@ -551,8 +551,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                         }}
                       >
                         {language === "ar"
-                          ? "صندوق المخزون :"
-                          : "Boîte de stock :"}
+                          ? "كمية بالعلبة :"
+                          : "Qtt  / Box:"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
@@ -580,8 +580,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                         }}
                       >
                         {language === "ar"
-                          ? "وحدة المخزون :"
-                          : "Unité de stock :"}
+                          ? "كمية بالوحدة :"
+                          : "Qtt / Unité :"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
@@ -608,8 +608,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       }}
                     >
                       {language === "ar"
-                        ? "القيمة المحدودة :"
-                        : "Valeur limitée :"}
+                        ? "إنذار المخزون :"
+                        : "Alerte Stock :"}
                     </span>
                     <div className="inputForm">
                       <input
@@ -635,8 +635,8 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       }}
                     >
                       {language === "ar"
-                        ? "قيمة التخفيض :"
-                        : "Valeur de déstockage :"}
+                        ? "تحديد كمية البيع للزبون :"
+                        : "Limite quantité vendue pour client :"}
                     </span>
                     <div className="inputForm">
                       <input

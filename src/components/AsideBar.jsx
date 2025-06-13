@@ -125,7 +125,7 @@ export default function Asidebar({ language }) {
       {/* Logo */}
       <div className="flex justify-center mb-10">
         <div className={`flex items-center justify-center`}>
-          <img src={Logo} alt="Store Logo" className="w-[90%]" />
+          <img src={Logo} alt="Store Logo" className="w-[85%]" />
         </div>
       </div>
 

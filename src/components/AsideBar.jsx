@@ -15,20 +15,22 @@ import {
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
-import Logo from "../assets/Logo-mosagro.png";
+import Logo from "../assets/Dark.png";
 
-// Custom Tailwind color scheme matching your CSS variables
+// Updated color scheme matching your #19213D palette
 const tailwindColors = {
-  greyDark: "#888888",
-  main: "#0d3a71",
-  neutral: "#c9e4ee",
-  dark: "#0d3a71",
-  text: "#0d3a71",
-  light: "#9cd1f5",
-  black: "#000",
+  // Primary colors from your palette
+  primary: "#19213D", // Neutral 800 - Main color
+  primaryLight: "#353E5C", // Neutral 700 - Lighter shade
+  secondary: "#2388FF", // Primary Blue - Accent color
+  secondaryLight: "#C3DDFF", // Secondary Blue 200
+  background: "#E3EFFF", // Secondary Blue 100 - Light background
+
+  // Additional colors
   white: "#fff",
+  black: "#000",
   grey: "#ededed",
-  color: "#f7f7f7",
+  greyDark: "#888888",
   red: "#ff0000",
   green: "#298f00",
 };
@@ -101,41 +103,29 @@ export default function Asidebar({ language }) {
     logout();
   };
 
-  // Custom classes based on your color scheme
-  const activeItemClass = "bg-[#fff] text-black border-[#0d3a71]";
-  const hoverItemClass = "hover:bg-[#fff] hover:text-[#000]";
-  const normalItemClass = "text-[#0d3a71]";
-  const iconClass = "text-current";
-  const chevronClass = "text-[#888888]";
+  // Updated classes with dark sidebar background
+  const activeItemClass = "bg-[#2388FF] text-white border-[#2388FF] shadow-sm";
+  const hoverItemClass = "hover:bg-[#353E5C] hover:text-white";
+  const normalItemClass = "text-[#C3DDFF]";
+  const iconClass = "text-[#E3EFFF]";
+  const chevronClass = "text-[#C3DDFF]";
 
   // Style for active submenu items
-  const activeSubmenuClass = "bg-[#fff] text-black font-medium";
-  const normalSubmenuClass = "text-[#0d3a71] font-normal";
+  const activeSubmenuClass =
+    "bg-[#2388FF] text-white font-medium border-l-2 border-[#2388FF]";
+  const normalSubmenuClass =
+    "text-[#E3EFFF] font-normal hover:bg-[#353E5C] hover:text-white";
 
   return (
     <aside
       className={`w-[17%] h-screen fixed top-0 ${
         language === "ar" ? "right-0 border-l" : "left-0 border-r"
-      } border-[#ededed] shadow-sm overflow-y-auto p-6 pt-10 transition-all duration-300`}
+      } border-[#353E5C] bg-[#19213D] shadow-lg overflow-y-auto p-6 pt-10 transition-all duration-300`}
     >
       {/* Logo */}
       <div className="flex justify-center mb-10">
-        <div
-          className={`flex items-center ${
-            language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
-          }`}
-        >
-          <img src={Logo} alt="Store Logo" className="h-7" />
-          {/* <h2
-            className={`logoTextAside ${
-              language === "ar" ? "font-cairo-Regular" : ""
-            }`}
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar" ? "موزاجرو" : "MOSAGRO"}
-          </h2> */}
+        <div className={`flex items-center justify-center`}>
+          <img src={Logo} alt="Store Logo" className="w-[90%]" />
         </div>
       </div>
 
@@ -156,7 +146,14 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <Squares2X2Icon className={`w-5 h-5 text-white ${iconClass}`} />
+              <Squares2X2Icon
+                className={`w-5 h-5 ${
+                  location.pathname === "/" ||
+                  location.pathname === "/Dashboard"
+                    ? "text-white"
+                    : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -169,6 +166,7 @@ export default function Asidebar({ language }) {
             </div>
           </NavLink>
         </li>
+
         <div className="flex flex-col space-y-2 sidebar">
           <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer w-full">
@@ -187,7 +185,13 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  <ArchiveBoxIcon className={`w-5 h-5 text-white ${iconClass}`} />
+                  <ArchiveBoxIcon
+                    className={`w-5 h-5 ${
+                      location.pathname.includes("/Products")
+                        ? "text-white"
+                        : iconClass
+                    }`}
+                  />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                     style={{
@@ -206,7 +210,7 @@ export default function Asidebar({ language }) {
               </div>
             </div>
             {isProductsOpen && (
-              <div className="flex flex-col space-y-2 pl-4">
+              <div className="flex flex-col space-y-1 pl-4">
                 <NavLink
                   to="/ProductsList"
                   className={({ isActive }) => `flex items-center`}
@@ -216,7 +220,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/ProductsList"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -244,7 +248,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/ProductsGrid"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -267,6 +271,7 @@ export default function Asidebar({ language }) {
             )}
           </li>
         </div>
+
         <div className="flex flex-col space-y-2 sidebar">
           <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer">
@@ -290,7 +295,16 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "flex-row-reverse" : ""
                   }`}
                 >
-                  <ShoppingBagIcon className={`w-5 h-5 text-white ${iconClass}`} />
+                  <ShoppingBagIcon
+                    className={`w-5 h-5 ${
+                      location.pathname.includes("/Orders") ||
+                      location.pathname.includes("CreditOrders") ||
+                      location.pathname.includes("ReturnsOrders") ||
+                      location.pathname.includes("OrdersArchive")
+                        ? "text-white"
+                        : iconClass
+                    }`}
+                  />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                     style={{
@@ -309,7 +323,7 @@ export default function Asidebar({ language }) {
               </div>
             </div>
             {isOrdersOpen && (
-              <div className="flex flex-col space-y-2 pl-4">
+              <div className="flex flex-col space-y-1 pl-4">
                 <NavLink
                   to="/Orders"
                   className={({ isActive }) => `flex items-center`}
@@ -319,7 +333,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/Orders"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -347,7 +361,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/Orders/InPreparation"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -375,7 +389,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/CreditOrders"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -403,7 +417,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/ReturnsOrders"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -431,7 +445,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/OrdersArchive"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -454,6 +468,7 @@ export default function Asidebar({ language }) {
             )}
           </li>
         </div>
+
         <div className="flex flex-col space-y-2 sidebar">
           <li className="flex flex-col space-y-2">
             <div className="flex items-center cursor-pointer">
@@ -478,7 +493,14 @@ export default function Asidebar({ language }) {
                   }`}
                 >
                   <ClipboardDocumentCheckIcon
-                    className={`w-5 h-5 text-white ${iconClass}`}
+                    className={`w-5 h-5 ${
+                      location.pathname.includes("/Purchases") ||
+                      location.pathname.includes("CreditPurchases") ||
+                      location.pathname.includes("ReturnsPurchases") ||
+                      location.pathname.includes("PuchasesArchive")
+                        ? "text-white"
+                        : iconClass
+                    }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -498,7 +520,7 @@ export default function Asidebar({ language }) {
               </div>
             </div>
             {isAchatsOpen && (
-              <div className="flex flex-col space-y-2 pl-4">
+              <div className="flex flex-col space-y-1 pl-4">
                 <NavLink
                   to="/Purchases"
                   className={({ isActive }) => `flex items-center`}
@@ -508,7 +530,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/Purchases"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -534,7 +556,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/CreditPurchases"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -562,7 +584,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/ReturnsPurchases"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -590,7 +612,7 @@ export default function Asidebar({ language }) {
                       location.pathname === "/PuchasesArchive"
                         ? activeSubmenuClass
                         : normalSubmenuClass
-                    } text-xs ${hoverItemClass} transition-all duration-200 ${
+                    } text-xs transition-all duration-200 ${
                       language === "ar" ? "flex-row-reverse" : ""
                     }`}
                   >
@@ -613,6 +635,7 @@ export default function Asidebar({ language }) {
             )}
           </li>
         </div>
+
         <li>
           <NavLink
             to="/Customers"
@@ -627,7 +650,11 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserGroupIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <UserGroupIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Customers" ? "text-white" : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -640,6 +667,7 @@ export default function Asidebar({ language }) {
             </div>
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/Vendors"
@@ -654,7 +682,11 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UsersIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <UsersIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Vendors" ? "text-white" : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -667,6 +699,7 @@ export default function Asidebar({ language }) {
             </div>
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/Fournisseurs"
@@ -681,7 +714,13 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <UserIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Fournisseurs"
+                    ? "text-white"
+                    : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -694,6 +733,7 @@ export default function Asidebar({ language }) {
             </div>
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/Authentication"
@@ -708,7 +748,13 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <UserPlusIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <UserPlusIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Authentication"
+                    ? "text-white"
+                    : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -716,13 +762,12 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "fr"
-                  ? "Autorisation clients"
-                  : "مصادقة الزبائن"}
+                {language === "fr" ? "Autorisation clients" : "مصادقة الزبائن"}
               </span>
             </div>
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/Losses"
@@ -737,7 +782,11 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <ArrowTrendingDownIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <ArrowTrendingDownIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Losses" ? "text-white" : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{
@@ -750,6 +799,7 @@ export default function Asidebar({ language }) {
             </div>
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/Publicite"
@@ -764,7 +814,11 @@ export default function Asidebar({ language }) {
                   : "border-l-4"
               }`}
             >
-              <DevicePhoneMobileIcon className={`w-5 h-5 text-white ${iconClass}`} />
+              <DevicePhoneMobileIcon
+                className={`w-5 h-5 ${
+                  location.pathname === "/Publicite" ? "text-white" : iconClass
+                }`}
+              />
               <span
                 className={`${language === "ar" ? "mr-3" : "ml-3"}`}
                 style={{

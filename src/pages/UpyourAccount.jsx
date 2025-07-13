@@ -14,6 +14,8 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Modal from "react-modal";
 
+import Logo from "../assets/Logo-mosagro.png";
+
 export default function UpYourAccount(language, onToggle, toggleLanguage) {
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -309,31 +311,32 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
 
   return (
     <div className="signUp">
-      <div className="w-full h-[80px] flex justify-between items-center pl-10 pr-10 border-b-2 border-[#C9E4EE]">
-        <h2 className="headerText logoText">MOSAGRO</h2>
-        <div className="flex h-8 items-center justify-center">
-          <select
-            className="bg-gray-100"
-            value={language}
-            onChange={(e) => toggleLanguage(e.target.value)}
-            style={{
-              padding: "7px 14px",
-              color: "#000",
-              border: "1px solid #c9e4ee",
-              borderRadius: "5px",
-              outline: "none",
-
-              cursor: "pointer",
-            }}
-          >
-            <option className="cursor-pointer" value="fr">
-              <p className="text-gray-800 font-medium text-[14px]">FR</p>
-            </option>
-            <option className="cursor-pointer" value="ar">
-              <p className="text-gray-800 font-medium text-[14px]">AR</p>
-            </option>
-          </select>
-        </div>{" "}
+      <div
+        className={`w-full h-[80px] flex justify-start items-center border-b-2 border-[#a] ${
+          language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
+        }`}
+        style={{
+          paddingLeft: language === "ar" ? "0" : "2.5rem",
+          paddingRight: language === "ar" ? "2.5rem" : "0",
+        }}
+      >
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
+          }`}
+        >
+          <img src={Logo} alt="Store Logo" className="h-6" />
+          {/* <h2
+               className={`logoText ${
+                 language === "ar" ? "font-cairo-Regular" : ""
+               }`}
+               style={{
+                 fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+               }}
+             >
+               {language === "ar" ? "موساجرو" : "MOSAGRO"}
+             </h2> */}
+        </div>
       </div>
       <div className="signUpContainer upYourAccount w-full flex items-center justify-center">
         <div className="signUpContainerRight w-[65%] h-full border-r-2 border-[#C9E4EE]">

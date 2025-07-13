@@ -763,12 +763,14 @@ export default function CustomerProfile({
               }
             />
           </div>
-          <div className="customerPrimaryAddress">
+          <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
             {CustomerData?.storeAddresses.map((item, index) => (
               <CustomerPrimaryDelivery
                 key={index}
                 name={item.name}
                 primaryDeliveryAddress={item.address}
+                language={language}
+                className="flex-shrink-0 w-[280px] md:w-full"
               />
             ))}
           </div>
@@ -783,7 +785,7 @@ export default function CustomerProfile({
         >
           {language === "ar" ? "الإحصائيات" : "Statistiques"}
         </h2>
-        <div className="flexCard">
+        <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
           <CustomerStatsCard
             customerStatsCardTitle={
               language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
@@ -791,6 +793,7 @@ export default function CustomerProfile({
             customerStatsCardDetails={OrderStatisticsData?.count}
             loading={OrderStatisticsDataLoading}
             language={language}
+            className="flex-shrink-0 w-[280px] md:w-full"
           />
           <CustomerStatsCard
             customerStatsCardTitle={
@@ -799,6 +802,7 @@ export default function CustomerProfile({
             customerStatsCardDetails={formatNumber(OrderStatisticsData?.total)}
             loading={OrderStatisticsDataLoading}
             language={language}
+            className="flex-shrink-0 w-[280px] md:w-full"
           />
           <CustomerStatsCard
             customerStatsCardTitle={
@@ -809,6 +813,7 @@ export default function CustomerProfile({
             )}
             language={language}
             loading={OrderStatisticsDataLoading}
+            className="flex-shrink-0 w-[280px] md:w-full"
           />
           <CustomerStatsCard
             customerStatsCardTitle={
@@ -819,6 +824,7 @@ export default function CustomerProfile({
             )}`}
             language={language}
             loading={OrderStatisticsDataLoading}
+            className="flex-shrink-0 w-[280px] md:w-full"
           />
           <CustomerStatsCard
             customerStatsCardTitle={
@@ -827,6 +833,7 @@ export default function CustomerProfile({
             language={language}
             customerStatsCardDetails={formatNumber(OrderStatisticsData?.profit)}
             loading={OrderStatisticsDataLoading}
+            className="flex-shrink-0 w-[280px] md:w-full"
           />
         </div>
       </div>

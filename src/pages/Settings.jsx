@@ -652,16 +652,16 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
             <div
               className={`flex items-center p-3 gap-x-2 rounded-md transition-all duration-200 ${
                 activeTab === "PersoInf"
-                  ? "bg-[#e7f2f7] text-[#3e9cb9]"
-                  : "text-gray-700 hover:bg-[#e7f2f7] hover:text-[#3e9cb9]"
+                  ? "bg-[#2388FF] text-white border-[#2388FF] shadow-sm"
+                  : "text-[#000] hover:bg-[#353E5C] hover:text-white"
               } cursor-pointer group`}
               onClick={() => handleTabClick("PersoInf")}
             >
               <UserIcon
                 className={`w-5 h-5 transition-all duration-200 ${
                   activeTab === "PersoInf"
-                    ? "text-[#3e9cb9]"
-                    : "text-gray-500 group-hover:text-[#3e9cb9]"
+                    ? "text-white"
+                    : "text-[#000] group-hover:text-white"
                 }`}
               />
               <span
@@ -682,16 +682,16 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
             <div
               className={`flex items-center p-3 gap-x-2 rounded-md transition-all duration-200 ${
                 activeTab === "EmailPass"
-                  ? "bg-[#e7f2f7] text-[#3e9cb9]"
-                  : "text-gray-700 hover:bg-[#e7f2f7] hover:text-[#3e9cb9]"
+                  ? "bg-[#2388FF] text-white border-[#2388FF] shadow-sm"
+                  : "text-[#000] hover:bg-[#353E5C] hover:text-white"
               } cursor-pointer group`}
               onClick={() => handleTabClick("EmailPass")}
             >
               <ShieldCheckIcon
                 className={`w-5 h-5 ${
                   activeTab === "EmailPass"
-                    ? "text-[#3e9cb9]"
-                    : "text-gray-500 group-hover:text-[#3e9cb9]"
+                    ? "text-white"
+                    : "text-[black] group-hover:text-white"
                 }`}
               />
               <span
@@ -709,7 +709,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
               </span>
             </div>
 
-            <div
+            {/* <div
               className={`flex items-center p-3 gap-x-2 rounded-md transition-all duration-200 ${
                 activeTab === "Subscription"
                   ? "bg-[#e7f2f7] text-[#3e9cb9]"
@@ -735,7 +735,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
               >
                 {language === "ar" ? "الاشتراك" : "Abonnement"}
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -791,7 +791,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
               {!CustomerDataLoading ? (
                 <div className="flex-col settingsRightScroll">
                   <div className="bg-white rounded-lg">
-                    <div className="settingPersonalInformation grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="settingPersonalInformation grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <InputForm
                         labelForm={
                           language === "ar" ? "البريد الإلكتروني" : "E-mail"
@@ -899,7 +899,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                             >
                               {language === "ar" ? "الولاية" : "Wilaya"}
                             </span>
-                            <div className="selectStoreWilayaCommune w-[400px]">
+                            <div className="selectStoreWilayaCommune w-full max-w-[400px]">
                               <select
                                 name="wilaya"
                                 value={editableData.wilaya}
@@ -931,7 +931,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                             >
                               {language === "ar" ? "البلدية" : "Commune"}
                             </span>
-                            <div className="selectStoreWilayaCommune w-[400px]">
+                            <div className="selectStoreWilayaCommune w-full max-w-[400px]">
                               <select
                                 name="commune"
                                 value={editableData.commune}
@@ -979,7 +979,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                       )}
 
                       {!CategoryDataByStoreLoading ? (
-                        <div className="flex-col space-y-[12px] col-span-2">
+                        <div className="flex-col space-y-[12px] col-span-1 lg:col-span-2">
                           <span
                             style={{
                               fontFamily:
@@ -1019,7 +1019,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                           </div>
                         </div>
                       ) : (
-                        <div className="flex justify-center items-center col-span-2">
+                        <div className="flex justify-center items-center col-span-1 lg:col-span-2">
                           <CircularProgress color="inherit" />
                         </div>
                       )}
@@ -1192,7 +1192,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
 
               <div className="flex-col settingsRightScroll bg-white rounded-lg">
                 <div>
-                  <div className="settingPersonalInformation grid grid-cols-1 gap-6">
+                  <div className="settingPersonalInformation grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {isEditingPassword === false && (
                       <>
                         <InputForm
@@ -1307,7 +1307,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
           )}
 
           {/* Subscription Tab */}
-          {activeTab === "Subscription" && (
+          {/* {activeTab === "Subscription" && (
             <div className="flex-col space-y-7">
               <div className="flex items-center justify-between settingsRightHeader mb-5 border-b pb-4">
                 <h2
@@ -1403,7 +1403,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
 

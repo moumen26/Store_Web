@@ -1,17 +1,58 @@
 import React from "react";
+import { Card } from "antd";
+import { CircularProgress } from "@mui/material";
 
-export default function CustomerPrimaryDelivery({ 
+export default function CustomerPrimaryDelivery({
   primaryDeliveryAddress,
   name,
+  loading = false,
+  language,
+  className = "",
 }) {
   return (
-    <div className="customerPrimaryDelivery">
-      <h3 className="dashboardCardTitle flex items-center h-[50px]">
-        {name}
-      </h3>
-      <span className="primaryDeliveryAddressSpan">
-        {primaryDeliveryAddress}
-      </span>
-    </div>
+    <>
+      {!loading ? (
+        <Card
+          style={{
+            height: "180px",
+            borderRadius: 20,
+          }}
+          className={`responsive-card ${className}`}
+        >
+          <div className="w-full h-[140px] flex flex-col justify-between">
+            <h3
+              className="dashboardCardTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {name}
+            </h3>
+            <span
+              className="primaryDeliveryAddressSpan dashboardCardAmount"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {primaryDeliveryAddress}
+            </span>
+          </div>
+        </Card>
+      ) : (
+        <Card
+          style={{
+            height: "180px",
+            borderRadius: 20,
+          }}
+          className={className}
+        >
+          <div className="w-full h-[140px] flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        </Card>
+      )}
+    </>
   );
 }

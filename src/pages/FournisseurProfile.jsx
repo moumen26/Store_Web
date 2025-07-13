@@ -518,8 +518,7 @@ export default function FournisseurProfile({
           >
             {language === "ar" ? "الإحصائيات" : "Statistiques"}
           </h2>
-          <div className="flexCard fournisseurFlexCard">
-            {" "}
+          <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
             <CustomerStatsCard
               language={language}
               loading={AchatStatisticsDataLoading}
@@ -527,6 +526,7 @@ export default function FournisseurProfile({
                 language === "ar" ? "إجمالي المشتريات" : "Total des achats"
               }
               customerStatsCardDetails={AchatStatisticsData?.count}
+              className="flex-shrink-0 w-[280px] md:w-full"
             />
             <CustomerStatsCard
               language={language}
@@ -537,6 +537,7 @@ export default function FournisseurProfile({
               customerStatsCardDetails={formatNumber(
                 AchatStatisticsData?.totalAmount
               )}
+              className="flex-shrink-0 w-[280px] md:w-full"
             />
             <CustomerStatsCard
               language={language}
@@ -547,6 +548,7 @@ export default function FournisseurProfile({
               customerStatsCardDetails={formatNumber(
                 AchatStatisticsData?.totalPayment
               )}
+              className="flex-shrink-0 w-[280px] md:w-full"
             />
             <CustomerStatsCard
               language={language}
@@ -557,6 +559,7 @@ export default function FournisseurProfile({
               customerStatsCardDetails={`- ${formatNumber(
                 AchatStatisticsData?.totalCreditUnpaid
               )}`}
+              className="flex-shrink-0 w-[280px] md:w-full"
             />
           </div>
         </div>

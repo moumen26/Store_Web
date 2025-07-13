@@ -943,8 +943,7 @@ aside ul::-webkit-scrollbar {
 }
 
 .personalInformation,
-.customerPrimaryAddress,
-.settingPersonalInformation {
+.customerPrimaryAddress {
   width: 100%;
   height: fit-content;
   display: grid;

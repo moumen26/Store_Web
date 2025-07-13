@@ -1,18 +1,22 @@
 import { BanknotesIcon, DocumentChartBarIcon } from "@heroicons/react/16/solid";
 import { CircularProgress } from "@mui/material";
 import React from "react";
+import { Card } from "antd";
 
 export default function CustomerStatsCard({
   customerStatsCardTitle,
   customerStatsCardDetails,
-  loading,
-  language, // New prop to determine language
+  loading = false,
+  language,
+  className = "",
 }) {
   let iconComponent, titleColor, amountColor;
 
   // Dynamically set the colors based on customerStatsCardTitle
   switch (customerStatsCardTitle) {
-    case language === "ar" ? "عدد إجمالي الطلبات" : "Nombre Total des commandes":
+    case language === "ar"
+      ? "عدد إجمالي الطلبات"
+      : "Nombre Total des commandes":
       iconComponent = <DocumentChartBarIcon className="iconPages" />;
       titleColor = "#007bff"; // Blue for orders
       amountColor = "#007bff"; // Blue for amount
@@ -37,6 +41,11 @@ export default function CustomerStatsCard({
       titleColor = "#008080"; // Teal for profit
       amountColor = "#008080"; // Teal for amount
       break;
+    case language === "ar" ? "إجمالي المبلغ" : "Montant total":
+      iconComponent = <BanknotesIcon className="iconPages" />;
+      titleColor = "#6c757d"; // Gray for total amount
+      amountColor = "#6c757d"; // Gray for amount
+      break;
     default:
       iconComponent = <BanknotesIcon className="iconPages" />;
       titleColor = "#000"; // Gray for default
@@ -47,7 +56,9 @@ export default function CustomerStatsCard({
   // Handle span component for currency
   let spanComponent =
     customerStatsCardTitle ===
-      (language === "ar" ? "عدد إجمالي الطلبات" : "Nombre Total des commandes") ||
+      (language === "ar"
+        ? "عدد إجمالي الطلبات"
+        : "Nombre Total des commandes") ||
     customerStatsCardTitle ===
       (language === "ar" ? "إجمالي المشتريات" : "Total des achats")
       ? ""
@@ -64,41 +75,55 @@ export default function CustomerStatsCard({
       : customerStatsCardDetails;
 
   return (
-    <div
-      className={`customerStatsCard ${language === "ar" ? "rtl" : "ltr"}`}
-      dir={language === "ar" ? "rtl" : "ltr"}
-    >
+    <>
       {!loading ? (
-        <>
-          <div className="flex justify-between items-center">
-            <h3
-              className="dashboardCardTitle flex items-center h-[50px]"
+        <Card
+          style={{
+            height: "180px",
+            borderRadius: 20,
+          }}
+          className={`responsive-card ${className}`}
+        >
+          <div className="w-full h-[140px] flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <h3
+                className="dashboardCardTitle flex items-center"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  color: titleColor,
+                }}
+              >
+                {customerStatsCardTitle}
+              </h3>
+              {iconComponent}
+            </div>
+            <h2
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                color: titleColor,
+                color: amountColor,
               }}
+              className="dashboardCardAmount"
             >
-              {customerStatsCardTitle}
-            </h3>
-            {iconComponent}
+              {displayDetails}
+              {spanComponent}
+            </h2>
           </div>
-          <span
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              color: amountColor,
-            }}
-            className="dashboardCardAmount text-lg font-semibold"
-          >
-            {displayDetails}
-            {spanComponent}
-          </span>
-        </>
+        </Card>
       ) : (
-        <div className="w-full h-full flex items-center justify-center">
-          <CircularProgress color="inherit" />
-        </div>
+        <Card
+          style={{
+            height: "180px",
+            borderRadius: 20,
+          }}
+          className={className}
+        >
+          <div className="w-full h-[140px] flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        </Card>
       )}
-    </div>
+    </>
   );
 }

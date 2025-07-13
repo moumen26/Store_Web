@@ -13,7 +13,14 @@ export default function DashboadStoreStatistic({
   language,
 }) {
   return (
-    <div className={`dashboadStoreStatistic ${language === "ar" ? "rtl" : ""}`}>
+    <div
+      style={{
+        border: "1px solid #E5E7EB",
+        boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+        background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+      }}
+      className={`dashboadStoreStatistic ${language === "ar" ? "rtl" : ""}`}
+    >
       <div className="w-full flex items-center justify-between">
         <h3
           className="dashboardTitleItem"
@@ -36,7 +43,9 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des commandes" : "إجمالي الطلبات"}
+                  {language === "fr"
+                    ? "Nombre Total des commandes"
+                    : "عدد الطلبيات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalReceipts}</p>
               </div>
@@ -53,7 +62,9 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des produits" : "إجمالي المنتجات"}
+                  {language === "fr"
+                    ? "Nombre Total des produits"
+                    : "عدد المنتجات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalStocks}</p>
               </div>
@@ -70,7 +81,9 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des clients" : "إجمالي العملاء"}
+                  {language === "fr"
+                    ? "Nombre Total des clients"
+                    : "عدد العملاء"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalCustomers}</p>
               </div>
@@ -87,7 +100,9 @@ export default function DashboadStoreStatistic({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "fr" ? "Total des vendeurs" : "إجمالي البائعين"}
+                  {language === "fr"
+                    ? "Nombre Total des vendeurs"
+                    : "عدد البائعين"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalSellers}</p>
               </div>

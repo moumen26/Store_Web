@@ -40,7 +40,7 @@ function Row({
 }) {
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell
+      {/* <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
@@ -51,6 +51,39 @@ function Row({
           }}
         >
           {row.stockId}
+        </span>
+      </TableCell> */}
+      <TableCell
+        className="tableCell"
+        align={language === "ar" ? "right" : "left"}
+      >
+        <span
+          className="trTableSpan"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          <img
+            src={
+              row.image
+                ? `${import.meta.env.VITE_APP_URL_BASE.replace(
+                    "/api",
+                    ""
+                  )}/files/${row.image}`
+                : "/no-image.png"
+            }
+            alt={row.productName}
+            style={{
+              width: "50px",
+              height: "50px",
+              objectFit: "contain",
+              borderRadius: "4px",
+              border: "1px solid #eee",
+              background: "#fff",
+              display: "inline-block",
+              verticalAlign: "middle",
+            }}
+          />
         </span>
       </TableCell>
       <TableCell
@@ -325,6 +358,8 @@ export default function ProductTable({
     row.productName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // console.log("filteredRows", filteredRows);
+
   //---------------------------------API calls---------------------------------\\
 
   // fetching specific Stock data
@@ -559,7 +594,7 @@ export default function ProductTable({
         <Table aria-label="collapsible table">
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell
+              {/* <TableCell
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
@@ -571,6 +606,20 @@ export default function ProductTable({
                   }}
                 >
                   {language === "ar" ? "رمز المخزون" : "Code Stock"}
+                </span>
+              </TableCell> */}
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="thTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "صورة" : "Image"}
                 </span>
               </TableCell>
               <TableCell
@@ -584,7 +633,7 @@ export default function ProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar" ? "اسم" : "Nom"}
+                  {language === "ar" ? "التعيين" : "Designation"}
                 </span>
               </TableCell>
               <TableCell
@@ -723,7 +772,7 @@ export default function ProductTable({
               />
             </div>
             <div className="detailsProductMedia flex space-x-4 justify-between">
-              <div className="w-[70%]">
+              <div className="w-[70%] detailsProductMedia">
                 <div className="customerClass pt-0">
                   <ProductProfileDetailsV2
                     language={language}
@@ -742,18 +791,18 @@ export default function ProductTable({
                       className="customerClassTitle"
                     >
                       {language === "ar"
-                        ? "تاريخ المخزون"
-                        : "Historique du stock"}
+                        ? "تواريخ المنتج"
+                        : "Historique des achats de produit"}
                     </h2>
-                    <ButtonAdd
+                    {/* <ButtonAdd
                       buttonSpan={
                         language === "ar"
                           ? "إضافة مخزون جديد"
-                          : "Ajouter un nouveau stock"
+                          : "Ajouter un nouveau Produit sans Fournisseur"
                       }
                       language={language}
                       onClick={handleOpenModalAddNewStockProduct}
-                    />
+                    /> */}
                   </div>
                   <div className="scrollProductHistorique mt-[8px]">
                     <ProductHistorique
@@ -861,7 +910,7 @@ export default function ProductTable({
           >
             {language === "ar"
               ? "إضافة مخزون جديد"
-              : "Ajouter un Nouveau Stock"}
+              : "Ajouter un nouveau Produit sans Fournisseur"}
           </h2>
           <div className="productDetailsStockProduct">
             <div className="dialogAddCustomerItem items-center">
@@ -957,8 +1006,8 @@ export default function ProductTable({
                   }}
                 >
                   {language === "ar"
-                    ? "الكمية بالصندوق :"
-                    : "Quantity per box :"}
+                    ? "الكمية بالعلبة :"
+                    : "Qtt / Box :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
@@ -982,8 +1031,8 @@ export default function ProductTable({
                   }}
                 >
                   {language === "ar"
-                    ? "الكمية بالوحدة :"
-                    : "Quantity per unity :"}
+                    ? "الكمية بالعلبة :"
+                    : "Qtt / Unité :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
@@ -1019,7 +1068,7 @@ export default function ProductTable({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {Quantity} {language === "ar" ? "وحدة" : "unity"}
+                {Quantity} {language === "ar" ? "علبة" : "unité"}
               </span>
             </div>
           </div>

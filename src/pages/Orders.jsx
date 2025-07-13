@@ -53,7 +53,7 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
-            language === "ar" ? "إجمالي الطلبات" : "Total des commandes"
+            language === "ar" ? "عدد الطلبات" : "Nombre total des commandes"
           }
           orderCardDetails={latestOrderData.length}
           className="flex-shrink-0 w-[280px] md:w-full"

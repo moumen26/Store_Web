@@ -33,10 +33,11 @@ function ProductProfileRow({ data, language }) {
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
-          {data?.product?.name}
+          {data?.product?.name} {" "}
+          {data?.product?.brand.name}
         </span>
       </TableCell>
-      <TableCell
+      {/* <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
@@ -48,7 +49,7 @@ function ProductProfileRow({ data, language }) {
         >
           {data?.product?.brand.name}
         </span>
-      </TableCell>
+      </TableCell> */}
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
@@ -129,10 +130,10 @@ export default function ProductProfileDetails({ data, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "اسم" : "Nom"}
+                {language === "ar" ? " التعيين" : "Designation"}
               </span>
             </TableCell>
-            <TableCell
+            {/* <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
@@ -145,7 +146,7 @@ export default function ProductProfileDetails({ data, language }) {
               >
                 {language === "ar" ? "ماركة" : "Marque"}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
@@ -157,7 +158,7 @@ export default function ProductProfileDetails({ data, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "عناصر لكل صندوق" : "Articles par boîte"}
+                {language === "ar" ? "الوحدة في العلبة" : "Unité par box"}
               </span>
             </TableCell>
             <TableCell
@@ -171,7 +172,7 @@ export default function ProductProfileDetails({ data, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "وحدة المخزون" : "Unité de stock"}
+                {language === "ar" ? "كمية المخزون" : "Quantité de stock"}
               </span>
             </TableCell>
             <TableCell
@@ -185,7 +186,7 @@ export default function ProductProfileDetails({ data, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "صندوق المخزون" : "Boîte de stock"}
+                {language === "ar" ? "كمية المنتج بالوحدة والعلبة" : "Quantité box et unité"}
               </span>
             </TableCell>
           </TableRow>

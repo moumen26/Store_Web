@@ -289,6 +289,7 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--neutralColor);
+
   padding: 8% 1% 1% 1%;
   transition: transform 0.5s ease;
 }
@@ -1475,7 +1476,6 @@ aside ul::-webkit-scrollbar {
 
 .asidebarMedia {
   top: 0;
-  padding-top: 5rem;
   left: 0;
   z-index: 99999;
   width: 100%;
@@ -1594,6 +1594,7 @@ aside ul::-webkit-scrollbar {
   max-height: 90%;
   overflow-y: scroll;
   height: fit-content;
+  /* background-color: red; */
 }
 
 .PaymentHistory {
@@ -1948,7 +1949,7 @@ aside ul::-webkit-scrollbar {
     width: 100%;
   }
 
-  .addNewStockModal{
+  .addNewStockModal {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
@@ -1956,8 +1957,12 @@ aside ul::-webkit-scrollbar {
     justify-content: center;
   }
 
-  ::-webkit-scrollbar{
+  ::-webkit-scrollbar {
     width: 0;
+  }
+
+  .addNewModal {
+    height: fit-content;
   }
 }
 
@@ -2341,6 +2346,51 @@ aside ul::-webkit-scrollbar {
   .productDetailsStockAdd .dialogAddCustomerItem .inputForm input {
     width: 100%;
   }
+
+  .titlePageButton > .flex {
+    width: 100%;
+  }
+
+  .pagesContainer .orderProfileButtons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .orderProfileMedia {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .PaymentHistory .customerClass .customerButtons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .PaymentHistory .customerClass .customerButtons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .buttonsMedia {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .orderProfileMedia div {
+    width: 100%;
+    gap: 16px;
+  }
+
+  .displayAmount {
+    background-color: red;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
 }
 
 main {
@@ -2378,7 +2428,7 @@ main {
   min-height: 100vh;
   /* background-color: var(--lightColor); */
   /* background-color: #f5f7fb; */
-  background-color: #f5f7fb;
+  background-color: #e7f2f7;
   height: fit-content;
   padding: 24px;
   display: flex;

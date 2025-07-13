@@ -34,8 +34,8 @@ export default function Authentication({ onToggle, toggleLanguage, language }) {
             }}
           >
             {language === "ar"
-              ? "مصادقة المستخدمين"
-              : "Authentification des utilisateurs"}
+              ? "مصادقة الزبائن"
+              : "Autorisation clients"}
           </h2>
           {/* <ButtonAdd buttonSpan="New Customer" /> */}
         </div>
@@ -46,8 +46,8 @@ export default function Authentication({ onToggle, toggleLanguage, language }) {
           <Search
             placeholder={
               language === "ar"
-                ? "البحث عن طريق المستخدم..."
-                : "Rechercher par utilisateur..."
+                ? "البحث عن طريق الزبون..."
+                : "Rechercher par client..."
             }
             onChange={handleSearchChange}
             language={language}

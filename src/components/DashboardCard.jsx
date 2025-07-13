@@ -22,11 +22,11 @@ export default function DashboardCard({
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     case "Total des commandes":
-    case "إجمالي الطلبات":
+    case "عدد الطلبيات":
       iconComponent = <CircleStackIcon className="iconPages" />;
       break;
-    case "Montant total":
-    case "المبلغ الإجمالي":
+    case "Montant total des commandes":
+    case " المبلغ الإجمالي للطلبيات":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     default:
@@ -39,8 +39,11 @@ export default function DashboardCard({
       {!OrdersStatsLoading ? (
         <Card
           style={{
-            height: "180px",
             borderRadius: 20,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
           }}
           className={`responsive-card ${className}`}
         >
@@ -81,8 +84,12 @@ export default function DashboardCard({
           style={{
             height: "200px",
             borderRadius: 20,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
           }}
-          className={className}
+          className={`${className}`}
         >
           <div className="w-full h-[160px] flex items-center justify-center">
             <CircularProgress color="inherit" />

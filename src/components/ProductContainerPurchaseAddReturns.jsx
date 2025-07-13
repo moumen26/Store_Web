@@ -80,10 +80,7 @@ export default function ProductContainerPurchaseAddReturns({
             }
             productQuantity={stock.quantity}
             productPrice={stock.price}
-            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-              "/api",
-              ""
-            )}/files/${stock?.sousStock?.stock.product?.image}`}
+            productImage={`${import.meta.env.VITE_APP_FILES_URL}/${stock?.sousStock?.stock.product?.image}`}
             onClick={() => handleSelectProduct(stock)}
             selected={selectedProduct && stock?._id === selectedProduct._id}
           />

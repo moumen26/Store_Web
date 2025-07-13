@@ -436,10 +436,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                             " " +
                             product.size
                           }
-                          productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                            "/api",
-                            ""
-                          )}/files/${product.image}`}
+                          productImage={`${import.meta.env.VITE_APP_FILES_URL}/${product.image}`}
                           onClick={() => handleSelectProduct(product)}
                           selected={
                             selectedProduct &&

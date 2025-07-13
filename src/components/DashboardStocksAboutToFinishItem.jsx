@@ -18,10 +18,7 @@ export default function DashboardStocksAboutToFinishItem({
         <div className="productImgClass">
           <img
             className="productImg"
-            src={`${import.meta.env.VITE_APP_URL_BASE.replace(
-              "/api",
-              ""
-            )}/files/${ProductImage}`}
+            src={`${import.meta.env.VITE_APP_FILES_URL}/${ProductImage}`}
             alt={ProductImage}
           />
         </div>

@@ -49,16 +49,13 @@ export default function ProductsContainer({
                 (selectedCategory === "" ||
                   product.category?._id === selectedCategory)
             )
-            .map((product) => (
+            .map((product) => (              
               <ProductCard
                 key={product._id}
                 productName={
                   product.brand?.name + " " + product.name + " " + product.size
                 }
-                productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                  "/api",
-                  ""
-                )}/files/${product.image}`}
+                productImage={`${import.meta.env.VITE_APP_FILES_URL}/${product.image}`}
                 onClick={() => handleSelectProduct(product)}
                 selected={
                   selectedProduct && product._id === selectedProduct._id
@@ -110,14 +107,8 @@ export default function ProductsContainer({
             <div className="w-full flex justify-center h-[300px]">
               <img
                 className="text-center"
-                srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                  "/api",
-                  ""
-                )}/files/${selectedProduct.image}`}
-                src={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                  "/api",
-                  ""
-                )}/files/${selectedProduct.image}`}
+                srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${selectedProduct.image}`}
+                src={`${import.meta.env.VITE_APP_FILES_URL}/${selectedProduct.image}`}
                 alt={selectedProduct.name}
                 style={{ width: "auto", height: "100%" }}
               />

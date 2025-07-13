@@ -166,7 +166,7 @@ export default function PubSwiperStore({
 
   const handleImageClick = (pub) => {
     setSelectedImage(
-      `${import.meta.env.VITE_APP_URL_BASE.replace("/api", "")}/files/${
+      `${import.meta.env.VITE_APP_FILES_URL}/${
         pub.image
       }`
     );
@@ -309,10 +309,7 @@ export default function PubSwiperStore({
               onClick={() => handleImageClick(pub)}
             >
               <img
-                src={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                  "/api",
-                  ""
-                )}/files/${pub.image}`}
+                src={`${import.meta.env.VITE_APP_FILES_URL}/${pub.image}`}
                 alt={pub.image}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />

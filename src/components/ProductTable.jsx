@@ -783,14 +783,8 @@ export default function ProductTable({
                 <div className="w-full flex justify-center h-[300px]">
                   <img
                     className="text-center"
-                    srcSet={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                      "/api",
-                      ""
-                    )}/files/${StockData?.product?.image}`}
-                    src={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                      "/api",
-                      ""
-                    )}/files/${StockData?.product?.image}`}
+                    srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${StockData?.product?.image}`}
+                    src={`${import.meta.env.VITE_APP_FILES_URL}/${StockData?.product?.image}`}
                     alt={StockData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />

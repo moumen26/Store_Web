@@ -87,10 +87,7 @@ export default function ProductContainerOrderAddReturns({
             }
             productQuantity={order.quantity}
             productPrice={order.price}
-            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-              "/api",
-              ""
-            )}/files/${order.product?.image}`}
+            productImage={`${import.meta.env.VITE_APP_FILES_URL}/${order.product?.image}`}
             onClick={() => handleSelectProduct(order)}
             selected={selectedProduct && order?._id === selectedProduct._id}
           />

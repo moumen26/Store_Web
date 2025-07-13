@@ -703,10 +703,7 @@ function AddAchatTableDetails({
                           language={language}
                           key={product._id}
                           productName={`${product.brand?.name} ${product.name} ${product.size}`}
-                          productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-                            "/api",
-                            ""
-                          )}/files/${product.image}`}
+                          productImage={`${import.meta.env.VITE_APP_FILES_URL}/${product.image}`}
                           onClick={() => handleSelectProduct(product)}
                           selected={
                             selectedProduct &&

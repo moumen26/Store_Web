@@ -98,10 +98,7 @@ export default function ProductsContainerAddOrder({
             key={stock._id}
             language={language}
             productName={`${stock.product?.brand?.name} ${stock.product?.name} ${stock.product?.size}`}
-            productImage={`${import.meta.env.VITE_APP_URL_BASE.replace(
-              "/api",
-              ""
-            )}/files/${stock.product?.image}`}
+            productImage={`${import.meta.env.VITE_APP_FILES_URL}/${stock.product?.image}`}
             onClick={() => handleSelectProduct(stock)}
             selected={selectedProduct && stock?._id === selectedProduct._id}
           />

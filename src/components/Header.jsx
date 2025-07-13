@@ -26,6 +26,7 @@ export default function Header({ language, toggleLanguage }) {
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const { logout } = useLogout();
 
@@ -165,33 +166,108 @@ export default function Header({ language, toggleLanguage }) {
     return acc;
   }, {});
 
+  // Language options with flags
+  const languageOptions = [
+    {
+      code: "fr",
+      name: "Français",
+      flag: franceIcon,
+      shortName: "FR",
+    },
+    {
+      code: "ar",
+      name: "العربية",
+      flag: arabicIcon,
+      shortName: "AR",
+    },
+  ];
+
+  const currentLanguage = languageOptions.find(
+    (lang) => lang.code === language
+  );
+
   return (
     <div className="Header">
-      <div className="flex h-8 items-center justify-center">
-        <select
-          className="bg-gray-100"
-          value={language}
-          onChange={(e) => toggleLanguage(e.target.value)}
-          style={{
-            padding: "7px 14px",
-            color: "#000",
-            border: "1px solid #c9e4ee",
-            borderRadius: "5px",
-            outline: "none",
-            cursor: "pointer",
-          }}
+      {/* Modern Language Selector */}
+      <div className="relative">
+        <div
+          className="flex h-8 items-center justify-center cursor-pointer bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 px-3 py-2"
+          onClick={() => setShowLanguageMenu(!showLanguageMenu)}
         >
-          <option className="cursor-pointer" value="fr">
-            <p className="text-gray-800 font-medium text-[14px]">FR</p>
-          </option>
-          <option className="cursor-pointer" value="ar">
-            <p className="text-gray-800 font-medium text-[14px]">AR</p>
-          </option>
-        </select>
+          <div className="flex items-center space-x-2">
+            <img
+              src={currentLanguage?.flag}
+              alt={currentLanguage?.name}
+              className="w-5 h-5 rounded-sm object-cover"
+            />
+            <span className="text-gray-700 font-medium text-sm">
+              {currentLanguage?.shortName}
+            </span>
+            <ChevronDownIcon
+              className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
+                showLanguageMenu ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+        </div>
+
+        {/* Language Dropdown */}
+        <div
+          className={`absolute top-10 ${
+            language === "ar" ? "right-0" : "left-0"
+          } w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${
+            showLanguageMenu
+              ? "scale-100 opacity-100"
+              : "scale-95 opacity-0 pointer-events-none"
+          } transition-transform duration-200 ease-out`}
+        >
+          <div className="py-2">
+            {languageOptions.map((lang) => (
+              <div
+                key={lang.code}
+                className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
+                  language === lang.code
+                    ? "bg-blue-50 border-r-2 border-blue-500"
+                    : ""
+                } ${language === "ar" ? "gap-x-3" : "space-x-3"}`}
+                onClick={() => {
+                  toggleLanguage(lang.code);
+                  setShowLanguageMenu(false);
+                }}
+              >
+                <img
+                  src={lang.flag}
+                  alt={lang.name}
+                  className="w-5 h-5 rounded-sm object-cover"
+                />
+                <div className="flex flex-col">
+                  <span
+                    className={`text-sm font-medium ${
+                      language === lang.code ? "text-blue-700" : "text-gray-700"
+                    }`}
+                    style={{
+                      fontFamily:
+                        lang.code === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {lang.name}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {lang.shortName}
+                  </span>
+                </div>
+                {language === lang.code && (
+                  <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
       {/* Notification Icon */}
       <div
-        className="relative cursor-pointer p-2 bg-gray-100 rounded-full"
+        className="relative cursor-pointer p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors duration-200"
         onClick={() => setShowNotifications(!showNotifications)}
       >
         <BellAlertIcon className="w-6 h-6 text-gray-600" />
@@ -213,7 +289,12 @@ export default function Header({ language, toggleLanguage }) {
         } transition-transform duration-200 ease-out`}
       >
         <div className="flex justify-between items-center p-4">
-          <h3 className="text-lg font-semibold text-gray-700">
+          <h3
+            className="text-lg font-semibold text-gray-700"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "الإشعارات" : "Notifications"}
           </h3>
           <XMarkIcon
@@ -295,10 +376,22 @@ export default function Header({ language, toggleLanguage }) {
           >
             <div className="w-[48px] h-[48px] rounded-full bg-slate-500"></div>
             <div className="flex flex-col">
-              <p className="text-gray-800 font-medium text-[14px]">
+              <p
+                className="text-gray-800 font-medium text-[14px]"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {user?.infos?.storeName}
               </p>
-              <span className="text-gray-500 text-sm">
+              <span
+                className="text-gray-500 text-sm"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {user?.infos?.phoneNumber}
               </span>
             </div>
@@ -316,7 +409,13 @@ export default function Header({ language, toggleLanguage }) {
         >
           {/* User Info */}
           <div className="p-4 border-b border-gray-200">
-            <p className="text-gray-800 font-semibold">
+            <p
+              className="text-gray-800 font-semibold"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {user?.infos?.firstName} {user?.infos?.lastName}
             </p>
           </div>
@@ -330,8 +429,14 @@ export default function Header({ language, toggleLanguage }) {
               }`}
             >
               <Cog6ToothIcon className="w-5 h-5 text-gray-600" />
-              <p className="text-gray-700 text-sm">
-                {language === "ar" ? "الإعدادات" : "Settings"}
+              <p
+                className="text-gray-700 text-sm"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الإعدادات" : "Paramètres"}
               </p>
             </NavLink>
             <NavLink
@@ -342,8 +447,14 @@ export default function Header({ language, toggleLanguage }) {
               }`}
             >
               <ArrowLeftStartOnRectangleIcon className="w-5 h-5 text-red-600" />
-              <p className="text-red-600 text-sm">
-                {language === "ar" ? "تسجيل الخروج" : "Logout"}
+              <p
+                className="text-red-600 text-sm"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "تسجيل الخروج" : "Déconnexion"}
               </p>
             </NavLink>
           </div>
@@ -364,6 +475,18 @@ export default function Header({ language, toggleLanguage }) {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
+      {/* Click outside handler to close dropdowns */}
+      {(showLanguageMenu || showNotifications || showUserMenu) && (
+        <div
+          className="fixed inset-0 z-10"
+          onClick={() => {
+            setShowLanguageMenu(false);
+            setShowNotifications(false);
+            setShowUserMenu(false);
+          }}
+        />
+      )}
     </div>
   );
 }

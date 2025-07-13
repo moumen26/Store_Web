@@ -48,7 +48,15 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      <div className="pageTable">
+      <div
+        className="pageTable"
+        style={{
+          borderRadius: 10,
+          border: "1px solid #E5E7EB",
+          boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+          background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+        }}
+      >
         <div className="addProductModalHeader">
           <Search
             placeholder={

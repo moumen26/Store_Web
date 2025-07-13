@@ -372,7 +372,15 @@ export default function FournisseurProfile({
           </Modal>
         </div>
       </div>
-      <div className="customerClass paddingClass">
+      <div
+        className="customerClass paddingClass"
+        style={{
+          borderRadius: 10,
+          border: "1px solid #E5E7EB",
+          boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+          background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+        }}
+      >
         <h2
           className="customerClassTitle"
           style={{
@@ -509,7 +517,16 @@ export default function FournisseurProfile({
         </div>
       </div>
       <>
-        <div className="customerClass paddingClass Stats">
+        <div
+          className="customerClass paddingClass Stats"
+          style={{
+            borderRadius: 10,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+          }}
+        >
           <h2
             style={{
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -563,7 +580,16 @@ export default function FournisseurProfile({
             />
           </div>
         </div>
-        <div className="customerClass justify-start paddingClass customerOrdersClass">
+        <div
+          className="customerClass justify-start paddingClass customerOrdersClass"
+          style={{
+            borderRadius: 10,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+          }}
+        >
           <div className="flex justify-between items-center">
             <h2
               style={{

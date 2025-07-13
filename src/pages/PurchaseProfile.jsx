@@ -559,7 +559,16 @@ export default function PurchaseProfile({
             />
           </div>
         </div>
-        <div className="customerClass paddingClass">
+        <div
+          className="customerClass paddingClass"
+          style={{
+            borderRadius: 10,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+          }}
+        >
           <h2
             className="customerClassTitle"
             style={{
@@ -571,12 +580,23 @@ export default function PurchaseProfile({
           <PurchaseProfileDetails data={PurchaseData} language={language} />
         </div>
         <div
-          className={`flex h-full ${
-            language === "ar" ? "gap-x-6" : "space-x-6"
+          className={`flex h-full flex-col md:flex-row ${
+            language === "ar"
+              ? "md:gap-x-6 gap-y-6"
+              : "md:space-x-6 space-y-6 md:space-y-0"
           }`}
         >
-          {" "}
-          <div className="customerClass paddingClass w-[65%]">
+          {/* Products Section - Full width on mobile, 65% on desktop */}
+          <div
+            className="customerClass paddingClass w-full md:w-[65%]"
+            style={{
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              boxShadow:
+                "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+              background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+            }}
+          >
             <h2
               className="customerClassTitle"
               style={{
@@ -595,7 +615,18 @@ export default function PurchaseProfile({
               />
             ))}
           </div>
-          <div className="w-[40%] flex-col space-y-[32px]">
+
+          {/* Supplier Section - Full width on mobile, 40% on desktop */}
+          <div
+            className="w-full h-fit md:w-[40%] flex flex-col space-y-[32px]"
+            style={{
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              boxShadow:
+                "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+              background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+            }}
+          >
             <div className="customerClass paddingClass">
               <h2
                 className="customerClassTitle"
@@ -606,7 +637,9 @@ export default function PurchaseProfile({
               >
                 {language === "ar" ? "المورد" : "Fournisseur"}
               </h2>
-              <div className="flex-col space-y-1">
+
+              {/* Phone Number */}
+              <div className="flex flex-col space-y-1">
                 <span
                   className="dashboardLatestOrdersDetails"
                   style={{
@@ -633,7 +666,9 @@ export default function PurchaseProfile({
                   </p>
                 </div>
               </div>
-              <div className="flex-col space-y-1">
+
+              {/* Address */}
+              <div className="flex flex-col space-y-1">
                 <span
                   className="dashboardLatestOrdersDetails"
                   style={{
@@ -645,7 +680,7 @@ export default function PurchaseProfile({
                     ? "العنوان الافتراضي"
                     : "Adresse par défaut"}
                 </span>
-                <div className="flex-col space-y-1">
+                <div className="flex flex-col space-y-1">
                   <p
                     className="orderProfileSpan"
                     style={{
@@ -685,9 +720,11 @@ export default function PurchaseProfile({
         }}
       >
         <div className="customerClass">
-          <div className="flex flex-row justify-between items-center w-full">
+          {/* Header Section - Responsive */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full space-y-4 md:space-y-0">
+            {/* Title */}
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center md:text-left"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -695,8 +732,11 @@ export default function PurchaseProfile({
             >
               {language === "ar" ? "سجل الدفعات" : "Historique des paiements"}
             </h2>
+
+            {/* Action Buttons or Status */}
             {PurchaseData.closed == false ? (
-              <div className="flex space-x-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full md:w-auto">
+                {/* Deposit Button */}
                 {PurchaseData.deposit == false ? (
                   <ButtonAdd
                     showIcon={false}
@@ -716,6 +756,8 @@ export default function PurchaseProfile({
                     language={language}
                   />
                 )}
+
+                {/* Credit Button */}
                 {PurchaseData.credit == false ? (
                   <ButtonAdd
                     showIcon={false}
@@ -736,6 +778,8 @@ export default function PurchaseProfile({
                     language={language}
                   />
                 )}
+
+                {/* Payment Button */}
                 {PurchaseData.credit == true ? (
                   <ButtonAdd
                     showIcon={false}
@@ -758,7 +802,7 @@ export default function PurchaseProfile({
               </div>
             ) : (
               <h2
-                className="customerClassTitle"
+                className="customerClassTitle text-center md:text-right text-green-600"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -768,7 +812,9 @@ export default function PurchaseProfile({
               </h2>
             )}
           </div>
-          <div className="scrollProductHistorique">
+
+          {/* Payment History Section */}
+          <div className="scrollProductHistorique mt-4">
             <PaymentHistorique
               data={PurchaseData.payment}
               isClosed={!PurchaseData.closed}
@@ -780,42 +826,49 @@ export default function PurchaseProfile({
             />
           </div>
         </div>
-        <div className="flex justify-end mt-4">
-          <div className="flex flex-row justify-center items-center w-full">
+
+        {/* Footer Section - Responsive */}
+        <div className="flex flex-col items-center mt-4 space-y-4 relative">
+          {/* Totals - Stack on mobile, inline on desktop - Always centered */}
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full gap-2 sm:gap-4">
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center"
               style={{
-                marginInlineEnd: "2%",
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
               {language === "ar" ? "المجموع:" : "Total:"}{" "}
-              {PurchaseData.totalAmount} DA
+              <span className="font-bold">{PurchaseData.totalAmount} DA</span>
             </h2>
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
               {language === "ar" ? "المتبقي:" : "Reste à payer:"}{" "}
-              {PurchaseData.totalAmount -
-                (PurchaseData.payment?.reduce(
-                  (sum, pay) => sum + pay.amount,
-                  0
-                ) || 0)}{" "}
-              DA
+              <span className="font-bold text-red-600">
+                {PurchaseData.totalAmount -
+                  (PurchaseData.payment?.reduce(
+                    (sum, pay) => sum + pay.amount,
+                    0
+                  ) || 0)}{" "}
+                DA
+              </span>
             </h2>
           </div>
+
+          {/* Close Button - Centered on mobile, positioned on desktop */}
           <button
             onClick={handleCloseModal}
             style={{
-              marginTop: "20px",
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
-            className="text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 right-8"
+            className="text-gray-500 cursor-pointer hover:text-gray-700 md:absolute md:bottom-0 md:right-0 
+                 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors duration-200
+                 w-full sm:w-auto md:w-auto md:bg-transparent md:hover:bg-transparent md:px-0 md:py-0 md:rounded-none"
           >
             {language === "ar" ? "إغلاق" : "Fermer"}
           </button>
@@ -980,7 +1033,6 @@ export default function PurchaseProfile({
         language={language}
       />
 
-
       <ConfirmDialog
         open={isUnCreditedConfirmDialogOpen}
         onConfirm={() => handleOnConfirmCredited(false)}
@@ -1012,7 +1064,6 @@ export default function PurchaseProfile({
         isloading={submitionLoading}
         language={language}
       />
-
 
       <ConfirmDialog
         open={isUnDepositConfirmDialogOpen}

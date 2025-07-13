@@ -608,7 +608,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             />
           </div>
         </div>
-        <div className="customerClass paddingClass">
+        <div
+          className="customerClass paddingClass"
+          style={{
+            borderRadius: 10,
+            border: "1px solid #E5E7EB",
+            boxShadow:
+              "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+            background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+          }}
+        >
           <h2
             className="customerClassTitle"
             style={{
@@ -624,7 +633,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             language === "ar" ? "gap-x-0 sm:gap-x-6" : "gap-x-0 sm:space-x-6"
           }`}
         >
-          <div className="customerClass paddingClass w-[65%]">
+          <div
+            className="customerClass paddingClass w-[65%]"
+            style={{
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              boxShadow:
+                "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+              background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+            }}
+          >
             <h2
               className="customerClassTitle"
               style={{
@@ -645,7 +663,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             ))}
           </div>
           <div className="w-[35%] flex-col space-y-[32px]">
-            <div className="customerClass paddingClass">
+            <div
+              className="customerClass paddingClass"
+              style={{
+                borderRadius: 10,
+                border: "1px solid #E5E7EB",
+                boxShadow:
+                  "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+                background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+              }}
+            >
               <h2
                 className="customerClassTitle"
                 style={{
@@ -754,9 +781,11 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           className="customerClass"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
-          <div className="flex flex-row justify-between items-center w-full customerButtons">
+          {/* Header Section - Responsive */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full customerButtons space-y-4 md:space-y-0">
+            {/* Title */}
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center md:text-left"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -764,12 +793,15 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             >
               {language === "ar" ? "سجل الدفعات" : "Historique des paiements"}
             </h2>
+
+            {/* Action Buttons or Status */}
             {OrderData.status != 10 ? (
               <div
-                className={`flex items-center space-x-3 buttonsMedia ${
-                  language === "ar" ? "gap-x-3" : ""
+                className={`flex flex-col sm:flex-row items-center gap-2 sm:gap-3 buttonsMedia w-full md:w-auto ${
+                  language === "ar" ? "" : ""
                 }`}
               >
+                {/* Deposit Button Logic */}
                 {OrderData.credit == true
                   ? null
                   : OrderData.deposit == false
@@ -795,6 +827,8 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                         onClick={handleOpenUnDepositConfirmationDialog}
                       />
                     )}
+
+                {/* Credit Button Logic */}
                 {OrderData.deposit == true
                   ? null
                   : OrderData.credit == false
@@ -820,6 +854,8 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                         onClick={handleOpenUnCreditedConfirmationDialog}
                       />
                     )}
+
+                {/* Payment Button Logic */}
                 {OrderData.credit == true
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
@@ -844,7 +880,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               </div>
             ) : (
               <h2
-                className="customerClassTitle"
+                className="customerClassTitle text-center md:text-right text-green-600"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -854,7 +890,9 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               </h2>
             )}
           </div>
-          <div className="scrollProductHistorique">
+
+          {/* Payment History Section */}
+          <div className="scrollProductHistorique mt-4">
             <PaymentHistorique
               language={language}
               data={OrderData.payment}
@@ -862,49 +900,52 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             />
           </div>
         </div>
-        <div
-          className={`flex mt-4 ${
-            language === "ar" ? "justify-start" : "justify-end"
-          }`}
-        >
-          <div className="flex flex-col sm:flex-row justify-center items-start sm:items-center w-full">
+
+        {/* Footer Section - Responsive */}
+        <div className="flex flex-col items-center mt-4 space-y-4 relative">
+          {/* Totals - Stack on mobile, inline on desktop - Always centered */}
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full gap-2 sm:gap-4">
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center"
               style={{
-                marginInlineEnd: "2%",
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {language === "ar" ? "المجموع :" : "Total :"} {OrderData.total}{" "}
-              {language === "ar" ? "دج " : " DA"}
+              {language === "ar" ? "المجموع :" : "Total :"}{" "}
+              <span className="font-bold">
+                {OrderData.total} {language === "ar" ? "دج" : "DA"}
+              </span>
             </h2>
             <h2
-              className="customerClassTitle"
+              className="customerClassTitle text-center"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
               {language === "ar" ? "المتبقي :" : "Reste à payer :"}{" "}
-              {OrderData.total -
-                OrderData.payment.reduce(
-                  (sum, pay) => sum + pay.amount,
-                  0
-                )}{" "}
-              {language === "ar" ? "دج " : " DA"}
+              <span className="font-bold text-red-600">
+                {OrderData.total -
+                  OrderData.payment.reduce(
+                    (sum, pay) => sum + pay.amount,
+                    0
+                  )}{" "}
+                {language === "ar" ? "دج" : "DA"}
+              </span>
             </h2>
           </div>
 
+          {/* Close Button - Centered on mobile, positioned on desktop */}
           <button
             onClick={handleCloseModal}
             style={{
-              marginTop: "20px",
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
-            className={`text-gray-500 cursor-pointer hover:text-gray-700 absolute bottom-5 ${
-              language === "ar" ? "left-8" : "right-8"
-            }`}
+            className={`text-gray-500 cursor-pointer hover:text-gray-700 md:absolute md:bottom-0 ${
+              language === "ar" ? "md:left-0" : "md:right-0"
+            } bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors duration-200
+                 w-full sm:w-auto md:w-auto md:bg-transparent md:hover:bg-transparent md:px-0 md:py-0 md:rounded-none`}
           >
             {language === "ar" ? "إغلاق" : "Fermer"}
           </button>

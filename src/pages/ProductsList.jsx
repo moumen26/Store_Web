@@ -295,7 +295,15 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
         </div>
       </div>
 
-      <div className="pageTable">
+      <div
+        className="pageTable"
+        style={{
+          borderRadius: 10,
+          border: "1px solid #E5E7EB",
+          boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+          background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+        }}
+      >
         <div className="addProductModalHeader">
           <Search
             placeholder={
@@ -436,7 +444,9 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                             " " +
                             product.size
                           }
-                          productImage={`${import.meta.env.VITE_APP_FILES_URL}/${product.image}`}
+                          productImage={`${
+                            import.meta.env.VITE_APP_FILES_URL
+                          }/${product.image}`}
                           onClick={() => handleSelectProduct(product)}
                           selected={
                             selectedProduct &&
@@ -547,9 +557,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "كمية بالعلبة :"
-                          : "Qtt  / Box:"}
+                        {language === "ar" ? "كمية بالعلبة :" : "Qtt  / Box:"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
@@ -576,9 +584,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "كمية بالوحدة :"
-                          : "Qtt / Unité :"}
+                        {language === "ar" ? "كمية بالوحدة :" : "Qtt / Unité :"}
                       </span>
                       <div className="inputForm w-[80%]">
                         <input
@@ -604,9 +610,7 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                     >
-                      {language === "ar"
-                        ? "إنذار المخزون :"
-                        : "Alerte Stock :"}
+                      {language === "ar" ? "إنذار المخزون :" : "Alerte Stock :"}
                     </span>
                     <div className="inputForm">
                       <input

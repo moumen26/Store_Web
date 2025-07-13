@@ -36,7 +36,7 @@ import Publicité from "./pages/Publicité";
 import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
-import ForgotPassword from "./pages/ForgotPassword"
+import ForgotPassword from "./pages/ForgotPassword";
 import Logo from "../src/assets/Logo-error.png";
 
 function App() {
@@ -198,16 +198,20 @@ function App() {
             : "main-expanded"
         } ${language === "ar" ? "flex-ar" : ""}`}
       >
-        {user && 
+        {user && (
           <>
             <Asidebar
               language={language}
               onToggle={handleToggle}
               isCollapsed={isCollapsed}
             />
-            <AsidebarScreenMedia />
+            <AsidebarScreenMedia
+              language={language}
+              onToggle={handleToggle}
+              isCollapsed={isCollapsed}
+            />
           </>
-        }
+        )}
         <Routes>
           {/* private routes */}
           <Route

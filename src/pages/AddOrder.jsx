@@ -31,7 +31,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
   const [DeliveredLocation, setDeliveredLocation] = useState(null);
   const [Products, setProducts] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  
+
   const handleNavigateClick = (path) => {
     navigate(path);
   };
@@ -175,7 +175,16 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
               setAPIDeliveryAddress={setDeliveredLocation}
             />
           </div>
-          <div className="pageTable">
+          <div
+            className="pageTable"
+            style={{
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              boxShadow:
+                "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+              background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+            }}
+          >
             <div className="flex items-center justify-between">
               <h2
                 className="customerClassTitle"
@@ -225,7 +234,7 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
         onClose={handleCloseDialog}
         dialogTitle="Confirm order submition"
         dialogContentText={`Are you sure you want to submit this order?`}
-        isloading={submitionLoading} 
+        isloading={submitionLoading}
       />
       {/* Snackbar */}
       <Snackbar

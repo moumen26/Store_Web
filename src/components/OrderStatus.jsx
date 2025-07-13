@@ -29,12 +29,13 @@ export default function OrderStatus({
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
+
   const statusSteps = [
     {
       title: language === "ar" ? "تم الطلب" : "Commande passée",
       icon: !submitionLoading ? (
         <ClipboardDocumentCheckIcon
-          className="iconAsideBar"
+          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(0)}
         />
       ) : null,
@@ -44,7 +45,7 @@ export default function OrderStatus({
         language === "ar" ? "تحضير الطلب" : "Préparation de votre commande",
       icon: !submitionLoading ? (
         <ArchiveBoxArrowDownIcon
-          className="iconAsideBar"
+          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(1)}
         />
       ) : null,
@@ -53,7 +54,7 @@ export default function OrderStatus({
       title: language === "ar" ? "الطلب في الطريق" : "Commande en route",
       icon: !submitionLoading ? (
         <TruckIcon
-          className="iconAsideBar"
+          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(2)}
         />
       ) : null,
@@ -62,7 +63,7 @@ export default function OrderStatus({
       title: language === "ar" ? "جاهز للاستلام" : "Prêt à être récupéré",
       icon: !submitionLoading ? (
         <TruckIcon
-          className="iconAsideBar"
+          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(2)}
         />
       ) : null,
@@ -76,15 +77,15 @@ export default function OrderStatus({
           : language === "ar"
           ? "تم التوصيل"
           : "Livré",
-      icon: <CheckCircleIcon className="iconAsideBar" />,
+      icon: <CheckCircleIcon className="iconAsideBar text-green-600" />,
     },
     {
       title: language === "ar" ? "تم الإرجاع" : "Retourné",
-      icon: <ArrowUturnLeftIcon className="iconAsideBar" />,
+      icon: <ArrowUturnLeftIcon className="iconAsideBar text-red-600" />,
     },
     {
       title: language === "ar" ? "تم الدفع بالكامل" : "Entièrement payé",
-      icon: <CheckBadgeIcon className="iconAsideBar" />,
+      icon: <CheckBadgeIcon className="iconAsideBar text-green-600" />,
     },
   ];
 
@@ -156,32 +157,133 @@ export default function OrderStatus({
   return (
     <div
       className={`customerClass paddingClass pb-0 ${orderDetails.type}`}
-      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+      style={{
+        direction: language === "ar" ? "rtl" : "ltr",
+        borderRadius: 10,
+        border: "1px solid #E5E7EB",
+        boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
+        background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+      }}
     >
-      <h2 className="customerClassTitle">
+      <h2
+        className="customerClassTitle"
+        style={{
+          fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+        }}
+      >
         {language === "ar" ? "حالة الطلب" : "Statut de la commande"}
       </h2>
-      <Steps
-        direction="vertical"
-        size="small"
-        current={orderDetails.status}
-        className="w-[100%] pl-6 custom-steps"
-        items={stepsToShow.map((step) => ({
-          title: (
-            <div className="flex w-[290px] justify-between items-center">
-              <span>{step.title}</span>
-              {step.icon}
-            </div>
-          ),
-        }))}
-      />
+
+      {/* Simple Steps Layout */}
+      <div className="w-full space-y-3">
+        {stepsToShow.map((step, index) => (
+          <div
+            key={index}
+            className={`flex items-center w-full py-2 ${
+              language === "ar" ? "" : ""
+            }`}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? (
+              // Arabic layout: Number → Title → Icon
+              <>
+                {/* Number */}
+                <div
+                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 ${
+                    index === orderDetails.status
+                      ? "bg-blue-500 text-white"
+                      : index < orderDetails.status
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-400 text-white"
+                  }`}
+                >
+                  {index + 1}
+                </div>
+
+                {/* Title */}
+                <span
+                  className={`flex-1 text-sm md:text-base ${
+                    index === orderDetails.status
+                      ? "text-blue-600 font-medium"
+                      : index < orderDetails.status
+                      ? "text-green-600 font-medium"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {step.title}
+                </span>
+
+                {/* Icon */}
+                {step.icon && (
+                  <div className="flex-shrink-0 ml-3">{step.icon}</div>
+                )}
+              </>
+            ) : (
+              // French layout: Number → Title → Icon
+              <>
+                {/* Number */}
+                <div
+                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                    language === "ar" ? "ml-3" : "mr-3"
+                  } ${
+                    index === orderDetails.status
+                      ? "bg-blue-500 text-white"
+                      : index < orderDetails.status
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-400 text-white"
+                  }`}
+                >
+                  {index + 1}
+                </div>
+
+                {/* Title */}
+                <span
+                  className={`flex-1 text-sm md:text-base ${
+                    index === orderDetails.status
+                      ? "text-blue-600 font-medium"
+                      : index < orderDetails.status
+                      ? "text-green-600 font-medium"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {step.title}
+                </span>
+
+                {/* Icon */}
+                {step.icon && (
+                  <div className="flex-shrink-0 ml-3">{step.icon}</div>
+                )}
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Custom Mobile Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .iconAsideBar {
+            width: 18px !important;
+            height: 18px !important;
+          }
+        }
+      `}</style>
 
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity={alertType}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={alertType}
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            direction: language === "ar" ? "rtl" : "ltr",
+          }}
+        >
           {alertMessage}
         </Alert>
       </Snackbar>

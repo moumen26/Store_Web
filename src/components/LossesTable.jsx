@@ -222,7 +222,7 @@ export default function LossesTable({
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
-            ) : data.length > 0 ? (
+            ) : data?.length > 0 ? (
               [...data]
                 .reverse()
                 .map((row) => (

@@ -196,37 +196,6 @@ export default function Publicité({ onToggle, toggleLanguage, language }) {
     }
   };
 
-  if (StorePublicityLoading) {
-    return (
-      <div className="pagesContainer h-[100vh]">
-        <Header toggleLanguage={toggleLanguage} language={language} />
-        <div className="w-full h-full flex items-center justify-center">
-          <CircularProgress color="inherit" />
-        </div>
-      </div>
-    );
-  }
-
-  if (StorePublicityError) {
-    return (
-      <div className="pagesContainer">
-        <Header toggleLanguage={toggleLanguage} language={language} />
-        <div className="customerClass">
-          <h2
-            className="customerClassTitle"
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar"
-              ? "لا توجد بيانات متاحة"
-              : "Aucune donnée disponible"}
-          </h2>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
       className="pagesContainer pageContainerCards"

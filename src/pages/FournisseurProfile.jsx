@@ -267,14 +267,15 @@ export default function FournisseurProfile({
             language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
           }`}
         >
-          {" "}
           <ButtonLight
             language={language}
-            buttonSpan={language === "ar" ? "إضافة دفع" : "Add payment"}
+            buttonSpan={language === "ar" ? "إضافة دفع" : "Ajouter un paiement"}
             onClick={handleOpenAddPayementModal}
           />
           <ButtonAdd
-            buttonSpan={language === "ar" ? "إنشاء عملية شراء" : "Create Achat"}
+            buttonSpan={
+              language === "ar" ? "إنشاء عملية شراء" : "Créer un achat"
+            }
             showIcon={false}
             language={language}
             onClick={handleCreateOrder}

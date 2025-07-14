@@ -593,10 +593,13 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               />
             )}
             <ButtonExportPDF
-              language={language}
               filename={language === "ar" ? "ملف_الطلب" : "Commande"}
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
               orderId={OrderData?._id}
+              language={language}
+              orderData={OrderData}
+              orderStatusData={OrderStatusData}
+              type="order"
             />
             <ButtonAdd
               language={language}

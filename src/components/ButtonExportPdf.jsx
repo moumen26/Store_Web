@@ -3,74 +3,163 @@ import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import JsBarcode from "jsbarcode";
+import ReactDOM from "react-dom/client";
+import PurchasePDFTemplate from "../pages/PurchasePDFTemplate";
+import OrderPDFTemplate from "../pages/OrderPDFTemplate"; // Add this import
 
 export default function ButtonExportPDF({
   filename,
   customerName,
   orderId,
   language,
+  // Purchase props
+  purchaseData,
+  sousPurchaseData,
+  // Order props
+  orderData,
+  orderStatusData,
+  // Type indicator
+  type = "purchase", // "purchase" or "order"
 }) {
-  const handleExportPDF = () => {
-    const input = document.getElementById("exportable-content");
-    const button = document.getElementById("export-pdf-button");
+  const handleExportPDF = async () => {
+    console.log("Export type:", type); // Debug log
+    console.log("Order data:", orderData); // Debug log
+    console.log("Purchase data:", purchaseData); // Debug log
 
-    // Temporarily hide the button
-    button.classList.add("hidden");
+    try {
+      // Create a temporary container for the PDF template
+      const tempContainer = document.createElement("div");
+      tempContainer.style.position = "fixed";
+      tempContainer.style.top = "-9999px";
+      tempContainer.style.left = "-9999px";
+      tempContainer.style.width = "210mm"; // A4 width
+      tempContainer.style.minHeight = "297mm"; // A4 height
+      tempContainer.style.backgroundColor = "white";
+      tempContainer.style.padding = "0";
+      tempContainer.style.margin = "0";
 
-    html2canvas(input).then((canvas) => {
+      document.body.appendChild(tempContainer);
+
+      // Create a React root and render the PDF template
+      const root = ReactDOM.createRoot(tempContainer);
+
+      // Render the appropriate PDF template based on type
+      await new Promise((resolve) => {
+        if (type === "order") {
+          root.render(
+            <OrderPDFTemplate
+              orderData={orderData}
+              orderStatusData={orderStatusData}
+              language={language}
+            />
+          );
+        } else {
+          root.render(
+            <PurchasePDFTemplate
+              purchaseData={purchaseData}
+              sousPurchaseData={sousPurchaseData}
+              language={language}
+            />
+          );
+        }
+
+        // Wait for rendering to complete
+        setTimeout(resolve, 100);
+      });
+
+      // Capture the rendered template
+      const canvas = await html2canvas(tempContainer, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "white",
+        width: tempContainer.scrollWidth,
+        height: tempContainer.scrollHeight,
+      });
+
+      // Create PDF
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      const imgProps = pdf.getImageProperties(imgData);
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      // Calculate dimensions
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      const padding = 5; // Set your desired padding here
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
 
-      // Create a canvas for the barcode
-      const barcodeCanvas = document.createElement("canvas");
-      JsBarcode(barcodeCanvas, orderId, { format: "CODE128" });
-
-      // Convert the barcode canvas to an image
-      const barcodeData = barcodeCanvas.toDataURL("image/png");
-
-      // Calculate the position for the barcode to be at the top right
-      const barcodeWidth = 50;
-      const barcodeHeight = 20;
-      const barcodeX = pdfWidth - barcodeWidth - padding;
-      const barcodeY = padding;
-
-      // Add the barcode to the PDF
-      pdf.addImage(
-        barcodeData,
-        "PNG",
-        barcodeX,
-        barcodeY,
-        barcodeWidth,
-        barcodeHeight
+      // Calculate the ratio to fit the image in the PDF
+      const ratio = Math.min(
+        pdfWidth / (imgWidth * 0.264583),
+        pdfHeight / (imgHeight * 0.264583)
       );
+      const scaledWidth = imgWidth * 0.264583 * ratio;
+      const scaledHeight = imgHeight * 0.264583 * ratio;
 
-      // Adjust content positioning
-      const adjustedContentHeight = pdfHeight - barcodeHeight - 2 * padding;
-      const adjustedContentY = barcodeHeight + 2 * padding;
+      // Center the image
+      const x = (pdfWidth - scaledWidth) / 2;
+      const y = 10; // Small margin from top
 
-      // Add the main content to the PDF
-      pdf.addImage(
-        imgData,
-        "PNG",
-        padding,
-        adjustedContentY,
-        pdfWidth - 2 * padding,
-        adjustedContentHeight
+      // Add barcode if orderId is provided
+      if (orderId) {
+        try {
+          const barcodeCanvas = document.createElement("canvas");
+          JsBarcode(barcodeCanvas, orderId, {
+            format: "CODE128",
+            width: 2,
+            height: 50,
+            displayValue: true,
+            fontSize: 12,
+          });
+
+          const barcodeData = barcodeCanvas.toDataURL("image/png");
+          const barcodeWidth = 40;
+          const barcodeHeight = 15;
+          const barcodeX = pdfWidth - barcodeWidth - 10;
+          const barcodeY = 5;
+
+          pdf.addImage(
+            barcodeData,
+            "PNG",
+            barcodeX,
+            barcodeY,
+            barcodeWidth,
+            barcodeHeight
+          );
+        } catch (barcodeError) {
+          console.warn("Could not generate barcode:", barcodeError);
+        }
+      }
+
+      // Add the main content
+      pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
+
+      // Generate filename based on type
+      let pdfFilename = filename || (type === "order" ? "order" : "purchase");
+      if (customerName) {
+        const sanitizedCustomerName = customerName
+          .replace(/[^a-z0-9]/gi, "_")
+          .toLowerCase();
+        pdfFilename += `_${sanitizedCustomerName}`;
+      }
+      if (orderId) {
+        pdfFilename += `_${orderId}`;
+      }
+      pdfFilename += ".pdf";
+
+      // Save the PDF
+      pdf.save(pdfFilename);
+
+      // Cleanup
+      root.unmount();
+      document.body.removeChild(tempContainer);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert(
+        language === "ar"
+          ? "حدث خطأ أثناء إنشاء ملف PDF"
+          : "Une erreur s'est produite lors de la génération du PDF"
       );
-
-      // Sanitize customerName to be filesystem-safe
-      const sanitizedCustomerName = customerName
-        .replace(/[^a-z0-9]/gi, "_")
-        .toLowerCase();
-      pdf.save(`${filename}_${sanitizedCustomerName}_${orderId}.pdf`);
-
-      // Show the button again
-      button.classList.remove("hidden");
-    });
+    }
   };
 
   return (

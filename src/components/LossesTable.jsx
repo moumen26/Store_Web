@@ -20,7 +20,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 Modal.setAppElement("#root");
 
 function Row(props) {
-  const { row } = props;
+  const { row, language } = props;
+
+  
 
   return (
     <React.Fragment>

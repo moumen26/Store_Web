@@ -547,7 +547,11 @@ export default function PurchaseProfile({
             />
             <ButtonExportPDF
               filename={language === "ar" ? "ملف_الشراء" : "Achat"}
+              customerName={PurchaseData?.fournisseur?.name}
+              orderId={PurchaseData?._id}
               language={language}
+              purchaseData={PurchaseData}
+              sousPurchaseData={SousPurchaseData}
             />
             <ButtonAdd
               showIcon={false}

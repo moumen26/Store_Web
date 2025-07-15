@@ -286,6 +286,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 setChangevalue={handlePasswordChange}
                 language={language}
               />
+              
 
               <div
                 className={`w-full flex ${
@@ -293,7 +294,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 }`}
               >
                 <span
-                  className="forgotPasswordText"
+                  className=" text-right"
                   onClick={() => navigateTo("/ForgotPassword")}
                   style={{
                     fontFamily:
@@ -313,7 +314,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 language={language}
               />
             </form>
-            <div className="orClass">
+            {/* <div className="orClass">
               <div className="lineOr"></div>
               <span
                 style={{
@@ -325,9 +326,9 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 {language === "ar" ? "أو" : "or"}
               </span>
               <div className="lineOr"></div>
-            </div>
-            <ButtonFacebok language={language} />
-            <div
+            </div> */}
+            {/* <ButtonFacebok language={language} /> */}
+            {/* <div
               className={`flex w-full justify-center items-center ${
                 language === "ar"
                   ? "flex-row-reverse space-x-reverse"
@@ -357,7 +358,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
               >
                 {language === "ar" ? "إنشاء حساب" : "S'inscrire"}
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

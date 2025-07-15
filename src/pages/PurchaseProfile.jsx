@@ -950,21 +950,31 @@ export default function PurchaseProfile({
         contentLabel={
           language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
         }
-        className="addNewModal addNewStockModal"
+        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
-        <div className="customerClass">
-          <AddPurchaseRetunsTableDetails
-            productsListToUpdate={productsListToUpdate}
-            setProductsListToUpdate={setProductsListToUpdate}
-            language={language}
-          />
-          <div className="mt-[16px]">
-            <div className="flex justify-end space-x-8">
+        <div
+          className="customerClass px-4 md:px-6 py-4 md:py-6 flex flex-col"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          <div className="flex-1">
+            <AddPurchaseRetunsTableDetails
+              productsListToUpdate={productsListToUpdate}
+              setProductsListToUpdate={setProductsListToUpdate}
+              language={language}
+            />
+          </div>
+
+          <div className="mt-4 md:mt-6">
+            <div
+              className={`flex flex-col sm:flex-row ${
+                language === "ar" ? "sm:gap-x-8" : "sm:space-x-8"
+              } gap-y-4 sm:gap-y-0 justify-end`}
+            >
               <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
                 onClick={handleCloseModifyPurchaseModal}
                 style={{
                   fontFamily:
@@ -976,7 +986,7 @@ export default function PurchaseProfile({
               <input
                 type="button"
                 value={language === "ar" ? "حفظ" : "Enregistrer"}
-                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                className="text-white bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-sm md:text-base rounded-lg sm:text-blue-500 sm:bg-transparent sm:hover:bg-transparent sm:hover:text-blue-700 sm:px-0 sm:py-0 sm:rounded-none order-1 sm:order-2"
                 onClick={handleOpenUpdateSousPurchaseConfirmDialogOpen}
                 style={{
                   fontFamily:

@@ -13,6 +13,7 @@ Modal.setAppElement("#root"); // or the ID of your root element
 export default function ProductContainerPurchaseAddReturns({
   searchQuery,
   onSelectProduct,
+  language
 }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { id } = useParams();

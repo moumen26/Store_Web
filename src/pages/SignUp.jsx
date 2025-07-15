@@ -286,13 +286,13 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                 : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOSAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
             </span>
 
-            {/* <div
+            <div
               className={
                 language === "ar" ? "flex justify-end" : "flex justify-start"
               }
             >
-              <ButtonFacebok language={language} />
-            </div> */}
+              {/* <ButtonFacebok language={language} /> */}
+            </div>
 
             {/* <div
               className={`flex items-center gap-x-2 ${
@@ -332,6 +332,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
             <div
               className={
+                
                 language === "ar" ? "flex justify-end" : "flex justify-start"
               }
             >

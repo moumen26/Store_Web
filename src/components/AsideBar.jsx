@@ -127,7 +127,7 @@ export default function Asidebar({ language }) {
         <img
           src={Logo}
           alt="Store Logo"
-          className="w-[70%] sm:w-[75%] md:w-[80%] lg:w-[85%] xl:w-[88%] 2xl:w-[90%] max-w-full h-auto"
+          className="w-[70%] max-w-full h-auto"
         />
       </div>
 

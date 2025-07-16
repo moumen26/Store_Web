@@ -13,7 +13,6 @@ import Authentication from "./pages/Authentication";
 import Settings from "./pages/Settings";
 import Asidebar from "./components/AsideBar";
 import CustomerProfile from "./pages/CustomerProfile";
-import LetsUpYourAccount from "./pages/LetsUpYourAccount";
 import OrderProfile from "./pages/OrderProfile";
 import ProductDetails from "./pages/ProductDetails";
 import NonApprovedCustomer from "./pages/NonApprovedCustomer";
@@ -24,7 +23,7 @@ import OrdersArchive from "./pages/OrdersArchive";
 import Fournisseurs from "./pages/Fournisseurs";
 import CreditOrders from "./pages/CreditOrders";
 import VerifyCode from "./pages/VerifyCode";
-import UpYourAccount from "./pages/UpyourAccount";
+import UpYourAccount from "./pages/UpYourAccount";
 import Purchases from "./pages/Purchases";
 import CreditPurchases from "./pages/CreditPurchases";
 import FournisseurProfile from "./pages/FournisseurProfile";
@@ -736,24 +735,7 @@ function App() {
               )
             }
           />
-          <Route
-            path="/LetsUpYourAccount"
-            element={
-              user ? (
-                <LetsUpYourAccount
-                  onToggle={handleToggle}
-                  language={language}
-                  toggleLanguage={toggleLanguage}
-                />
-              ) : (
-                <SignIn
-                  onToggle={handleToggle}
-                  language={language}
-                  toggleLanguage={toggleLanguage}
-                />
-              )
-            }
-          />
+          
           {/* public routes */}
           <Route
             path="/SignUp"

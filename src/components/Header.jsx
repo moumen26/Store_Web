@@ -187,7 +187,7 @@ export default function Header({ language, toggleLanguage }) {
   );
 
   return (
-    <div className="Header flex items-center justify-between px-4 py-2 md:px-6 md:py-3 w-full">
+    <div className="Header w-fit flex items-center justify-between px-4 mb-2 md:px-6">
       <div className="flex items-center space-x-3 md:space-x-6">
         {/* Modern Language Selector */}
         <div className="relative">
@@ -288,7 +288,7 @@ export default function Header({ language, toggleLanguage }) {
           language === "ar"
             ? "right-4 md:right-[375px]"
             : "left-4 md:left-[375px]"
-        } top-12 md:top-16 w-[calc(100vw-32px)] sm:w-[400px] md:w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
+        } top-16 md:top-24 w-[calc(100vw-32px)] sm:w-[400px] md:w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
           showNotifications
             ? "scale-100 opacity-100"
             : "scale-95 opacity-0 pointer-events-none"

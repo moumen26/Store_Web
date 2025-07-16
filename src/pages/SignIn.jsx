@@ -286,7 +286,6 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 setChangevalue={handlePasswordChange}
                 language={language}
               />
-              
 
               <div
                 className={`w-full flex ${

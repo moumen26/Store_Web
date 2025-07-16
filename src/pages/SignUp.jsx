@@ -253,11 +253,11 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
       {/* Main Content */}
       <div
-        className="signUpContainer w-full flex items-center justify-center overflow-hidden"
+        className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden"
         style={{ maxWidth: "100vw" }}
       >
         {/* Left Side - Form */}
-        <div className="signUpContainerRight w-full lg:w-1/2 lg:border-r-2 border-[#C9E4EE]">
+        <div className="signUpContainerRight w-full h-full lg:w-2/3 lg:border-r-2 border-[#C9E4EE]">
           <div
             className={`signUpContainerRightContainer ${
               language === "ar" ? "text-right" : "text-left"
@@ -332,7 +332,6 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
             <div
               className={
-                
                 language === "ar" ? "flex justify-end" : "flex justify-start"
               }
             >
@@ -350,7 +349,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
         </div>
 
         {/* Right Side - Image (Hidden on mobile, visible on large screens) */}
-        <div className="lg:flex lg:w-1/2 justify-end items-center">
+        <div className="mobile-hidden">
           <img className="w-[75%] max-w-full" src={SignUpImage} alt="Sign Up" />
         </div>
       </div>

@@ -311,218 +311,191 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
 
   return (
     <div className="signUp">
-      <div
-        className={`w-full h-[80px] flex justify-start items-center border-b-2 border-[#a] ${
-          language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
-        }`}
-        style={{
-          paddingLeft: language === "ar" ? "0" : "2.5rem",
-          paddingRight: language === "ar" ? "2.5rem" : "0",
-        }}
-      >
+      <div className="w-full min-h-[80px] sm:h-[80px] flex justify-between items-center px-4 md:pl-10 md:pr-10 py-4 sm:py-0 border-b-2 border-[#C9E4EE] relative">
         <div
           className={`flex items-center ${
             language === "ar" ? "flex-row-reverse gap-x-2" : "space-x-2"
           }`}
         >
           <img src={Logo} alt="Store Logo" className="h-6" />
-          {/* <h2
-               className={`logoText ${
-                 language === "ar" ? "font-cairo-Regular" : ""
-               }`}
-               style={{
-                 fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-               }}
-             >
-               {language === "ar" ? "موساجرو" : "MOSAGRO"}
-             </h2> */}
         </div>
       </div>
-      <div className="signUpContainer upYourAccount w-full flex items-center justify-center">
-        <div className="signUpContainerRight w-[65%] h-full border-r-2 border-[#C9E4EE]">
-          <div className="signUpContainerRightContainer">
-            <h2 className="titleText">
-              {language === "ar" ? (
-                <>لنقم بإعداد حسابك.</>
-              ) : (
-                <>Configurons votre compte.</>
-              )}
-            </h2>
+      <div className="w-full flex justify-center">
+        <div className="w-full lg:w-[65%] lg:border-r-2 border-[#C9E4EE] paddingUpYourAccount">
+          <h2 className="titleText">
+            {language === "ar" ? (
+              <>لنقم بإعداد حسابك.</>
+            ) : (
+              <>Configurons votre compte.</>
+            )}
+          </h2>
 
-            <div className="logInForm mt-0">
-              <div className="flex">
-                <InputForm
-                  labelForm={language === "ar" ? "الاسم" : "Prénom"}
-                  inputType="text"
-                  inputPlaceholder={language === "ar" ? "اسمك" : "Votre prénom"}
-                  inputName="firstName"
-                  setChangevalue={handleFirstNameChange}
-                  value={FirstName}
-                />
-                <InputForm
-                  labelForm={language === "ar" ? "الاسم العائلي" : "Nom"}
-                  inputType="text"
-                  inputPlaceholder={
-                    language === "ar" ? "اسمك العائلي" : "Votre nom"
-                  }
-                  inputName="lastName"
-                  setChangevalue={handleLastNameChange}
-                  value={LastName}
-                />
-              </div>
-              <div className="flex">
-                <InputForm
-                  labelForm={language === "ar" ? "كلمة المرور" : "Mot de passe"}
-                  inputType="password"
-                  inputPlaceholder={
-                    language === "ar"
-                      ? "كلمة المرور الخاصة بك"
-                      : "Votre mot de passe"
-                  }
-                  inputName="Password"
-                  setChangevalue={handlePasswordChange}
-                  value={Password}
-                />
-                <InputForm
-                  labelForm={
-                    language === "ar"
-                      ? "تأكيد كلمة المرور"
-                      : "Confirmer le mot de passe"
-                  }
-                  inputType="password"
-                  inputPlaceholder={
-                    language === "ar"
-                      ? "أكد كلمة المرور الخاصة بك"
-                      : "Confirmez votre mot de passe"
-                  }
-                  inputName="ConfirmPassword"
-                  setChangevalue={handleConfirmPasswordChange}
-                  value={ConfirmPassword}
-                />
-              </div>
-              <div className="flex">
-                <InputForm
-                  labelForm={
-                    language === "ar" ? "اسم المتجر" : "Nom du magasin"
-                  }
-                  inputType="text"
-                  inputPlaceholder={
-                    language === "ar" ? "اسم متجرك" : "Nom de votre magasin"
-                  }
-                  inputName="storeName"
-                  setChangevalue={handleStoreNameChange}
-                  value={StoreName}
-                />
-                <InputForm
-                  labelForm={language === "ar" ? "العنوان" : "Adresse"}
-                  inputType="text"
-                  inputPlaceholder={
-                    language === "ar" ? "عنوانك" : "Votre adresse"
-                  }
-                  inputName="storeAddress"
-                  setChangevalue={handleAddressChange}
-                  value={Address}
-                />
-              </div>
-              <div className="flex">
-                <InputForm
-                  labelForm={
-                    language === "ar"
-                      ? "رقم السجل التجاري"
-                      : "Numéro de registre du commerce"
-                  }
-                  inputType="number"
-                  inputPlaceholder={
-                    language === "ar"
-                      ? "رقم السجل التجاري الخاص بك"
-                      : "Votre numéro de registre du commerce"
-                  }
-                  inputName="RC"
-                  setChangevalue={handleR_CommerceChange}
-                  value={R_Commerce}
-                />
-              </div>
-              <div className="flex">
-                <div className="flex-col space-y-[12px] items-center">
-                  <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
-                  <div className="selectStoreWilayaCommune w-[400px]">
-                    <select
-                      name="storeWilaya"
-                      value={selectedWilaya}
-                      onChange={handleWilayaChange}
-                    >
-                      <option value="" disabled selected>
-                        {language === "ar"
-                          ? "اختر الولاية"
-                          : "Sélectionnez une wilaya"}
-                      </option>
-                      {wilayas.map((wilaya) => (
-                        <option key={wilaya.value} value={wilaya.value}>
-                          {wilaya.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="flex-col space-y-[12px] items-center">
-                  <span>{language === "ar" ? "البلدية" : "Commune"}</span>
-                  <div className="selectStoreWilayaCommune w-[400px]">
-                    <select
-                      name="storeCommune"
-                      value={selectedCommune}
-                      onChange={handleCommuneChange}
-                    >
-                      <option value="" disabled selected>
-                        {language === "ar"
-                          ? "اختر البلدية"
-                          : "Sélectionnez une commune"}
-                      </option>
-                      {communes.map((commune) => (
-                        <option key={commune.value} value={commune.value}>
-                          {commune.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-col storeCategory space-y-[12px]">
-                <span>
-                  {language === "ar" ? "فئة المتجر" : "Catégorie du magasin"}
-                </span>
-                <div className="selectedCategories">
-                  {selectedCategories.map((category, index) => (
-                    <div key={index} className="categoryChip">
-                      <span>{category.name}</span>
-                      <XMarkIcon
-                        className="deleteIcon"
-                        onClick={() => handleDeleteCategory(category)}
-                      />
-                    </div>
+          <div className="paddingUpYourAccountSpecail mt-[32px] grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
+            <InputForm
+              labelForm={language === "ar" ? "الاسم" : "Prénom"}
+              inputType="text"
+              inputPlaceholder={language === "ar" ? "اسمك" : "Votre prénom"}
+              inputName="firstName"
+              setChangevalue={handleFirstNameChange}
+              value={FirstName}
+            />
+            <InputForm
+              labelForm={language === "ar" ? "الاسم العائلي" : "Nom"}
+              inputType="text"
+              inputPlaceholder={
+                language === "ar" ? "اسمك العائلي" : "Votre nom"
+              }
+              inputName="lastName"
+              setChangevalue={handleLastNameChange}
+              value={LastName}
+            />
+            <InputForm
+              labelForm={language === "ar" ? "كلمة المرور" : "Mot de passe"}
+              inputType="password"
+              inputPlaceholder={
+                language === "ar"
+                  ? "كلمة المرور الخاصة بك"
+                  : "Votre mot de passe"
+              }
+              inputName="Password"
+              setChangevalue={handlePasswordChange}
+              value={Password}
+            />
+            <InputForm
+              labelForm={
+                language === "ar"
+                  ? "تأكيد كلمة المرور"
+                  : "Confirmer le mot de passe"
+              }
+              inputType="password"
+              inputPlaceholder={
+                language === "ar"
+                  ? "أكد كلمة المرور الخاصة بك"
+                  : "Confirmez votre mot de passe"
+              }
+              inputName="ConfirmPassword"
+              setChangevalue={handleConfirmPasswordChange}
+              value={ConfirmPassword}
+            />
+            <InputForm
+              labelForm={language === "ar" ? "اسم المتجر" : "Nom du magasin"}
+              inputType="text"
+              inputPlaceholder={
+                language === "ar" ? "اسم متجرك" : "Nom de votre magasin"
+              }
+              inputName="storeName"
+              setChangevalue={handleStoreNameChange}
+              value={StoreName}
+            />
+            <InputForm
+              labelForm={language === "ar" ? "العنوان" : "Adresse"}
+              inputType="text"
+              inputPlaceholder={language === "ar" ? "عنوانك" : "Votre adresse"}
+              inputName="storeAddress"
+              setChangevalue={handleAddressChange}
+              value={Address}
+            />
+            <InputForm
+              labelForm={
+                language === "ar"
+                  ? "رقم السجل التجاري"
+                  : "Numéro de registre du commerce"
+              }
+              inputType="number"
+              inputPlaceholder={
+                language === "ar"
+                  ? "رقم السجل التجاري الخاص بك"
+                  : "Votre numéro de registre du commerce"
+              }
+              inputName="RC"
+              setChangevalue={handleR_CommerceChange}
+              value={R_Commerce}
+            />
+          </div>
+
+          <div className="paddingUpYourAccountSpecail mt-4 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
+            <div className="upyouraccountselect flex-col space-y-[12px] items-center">
+              <span>{language === "ar" ? "الولاية" : "Wilaya"}</span>
+              <div className="selectStoreWilayaCommune">
+                <select
+                  name="storeWilaya"
+                  value={selectedWilaya}
+                  onChange={handleWilayaChange}
+                >
+                  <option value="" disabled selected>
+                    {language === "ar"
+                      ? "اختر الولاية"
+                      : "Sélectionnez une wilaya"}
+                  </option>
+                  {wilayas.map((wilaya) => (
+                    <option key={wilaya.value} value={wilaya.value}>
+                      {wilaya.label}
+                    </option>
                   ))}
-                </div>
+                </select>
               </div>
-              <button
-                className="buttonAdd buttonBorder"
-                onClick={handleAddCategoryClick}
-                type="button"
-              >
-                <PlusIcon className="iconAsideBar" />
-                <span className="buttonTextLight">
-                  {language === "ar"
-                    ? "إضافة فئة المتجر"
-                    : "Ajouter une catégorie"}
-                </span>
-              </button>
-              <ButtonDark
-                buttonSpan={language === "ar" ? "متابعة" : "Continuer"}
-                setOnClick={handleUpdateStore}
-              />
+            </div>
+            <div className="upyouraccountselect flex-col space-y-[12px] items-center">
+              <span>{language === "ar" ? "البلدية" : "Commune"}</span>
+              <div className="selectStoreWilayaCommune">
+                <select
+                  name="storeCommune"
+                  value={selectedCommune}
+                  onChange={handleCommuneChange}
+                >
+                  <option value="" disabled selected>
+                    {language === "ar"
+                      ? "اختر البلدية"
+                      : "Sélectionnez une commune"}
+                  </option>
+                  {communes.map((commune) => (
+                    <option key={commune.value} value={commune.value}>
+                      {commune.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
+
+          <div className="flex-col storeCategory space-y-[12px] mt-4 md:mt-6">
+            <span>
+              {language === "ar" ? "فئة المتجر" : "Catégorie du magasin"}
+            </span>
+            <div className="selectedCategories">
+              {selectedCategories.map((category, index) => (
+                <div key={index} className="categoryChip">
+                  <span>{category.name}</span>
+                  <XMarkIcon
+                    className="deleteIcon"
+                    onClick={() => handleDeleteCategory(category)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            className="buttonAdd buttonBorder mt-6"
+            onClick={handleAddCategoryClick}
+            type="button"
+          >
+            <PlusIcon className="iconAsideBar" />
+            <span className="buttonTextLight">
+              {language === "ar" ? "إضافة فئة المتجر" : "Ajouter une catégorie"}
+            </span>
+          </button>
+
+          <div className="mt-4 md:mt-6">
+            <ButtonDark
+              buttonSpan={language === "ar" ? "متابعة" : "Continuer"}
+              setOnClick={handleUpdateStore}
+            />
+          </div>
         </div>
-        <div className="w-[35%] signUpContainerLeft h-full flex justify-center items-center imageBorder">
-          <img className="h-[90%]" src={UpAccountImage} alt="Up Account" />
+
+        <div className="mobile-hidden">
+          <img className="h-[80%]" src={UpAccountImage} alt="Up Account" />
         </div>
       </div>
       <Modal
@@ -538,15 +511,21 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
         }}
       >
         {!CategoryLoading ? (
-          <div className="customerClass">
+          <div className="customerClass p-0">
             {errorInDialog && (
               <Alert severity="error" onClose={() => setErrorInDialog(false)}>
-                Please select at least one category.
+                {language === "ar"
+                  ? "يرجى اختيار فئة واحدة على الأقل."
+                  : "Veuillez sélectionner au moins une catégorie."}{" "}
               </Alert>
             )}
-            <h2 className="customerClassTitle">Select your Store Category</h2>
+            <h2 className="customerClassTitle">
+              {language === "ar"
+                ? "اختر فئة متجرك"
+                : "Sélectionnez la catégorie de votre magasin"}
+            </h2>
 
-            <div className="storyCategoryClass">
+            <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 w-full overflow-y-auto">
               {CategoryData?.length > 0 ? (
                 CategoryData?.map((category, index) => (
                   <div
@@ -562,9 +541,11 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
                   </div>
                 ))
               ) : (
-                <div>
-                  <h1>no data is availble</h1>
-                </div>
+                <h1>
+                  {language === "ar"
+                    ? "لا توجد بيانات متاحة"
+                    : "Aucune donnée disponible"}
+                </h1>
               )}
             </div>
             {
@@ -573,13 +554,13 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseDialog}
                 >
-                  Cancel
+                  {language === "ar" ? "إلغاء" : "Annuler"}
                 </button>
                 <button
                   className="text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={handleSaveCategories}
                 >
-                  Save
+                  {language === "ar" ? "حفظ" : "Enregistrer"}
                 </button>
               </div>
             }
@@ -594,8 +575,14 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
         open={openConfirmDialog}
         onClose={handleCloseConfirmDialog}
         onConfirm={handleConfirmDelete}
-        dialogTitle="Confirm Deletion"
-        dialogContentText={`Are you sure you want to delete the category "${categoryToDelete?.name}"?`}
+        dialogTitle={
+          language === "ar" ? "تأكيد الحذف" : "Confirmation de la suppression"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد حذف الفئة "${categoryToDelete?.name}"؟`
+            : `Êtes-vous sûr de vouloir supprimer la catégorie "${categoryToDelete?.name}" ?`
+        }
       />
       <Snackbar
         open={snackbarOpen}

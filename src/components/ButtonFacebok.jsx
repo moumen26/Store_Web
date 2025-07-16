@@ -6,15 +6,14 @@ export default function ButtonFacebok({ language }) {
 
   return (
     <button
-      className={`buttonFacebook flex items-center ${
+      className={`buttonFacebook flex items-center justify-center ${
         isArabic ? "flex-row-reverse" : ""
       }`}
-      dir={isArabic ? "rtl" : "ltr"}
     >
       <img
         src={FacebokIcon}
         alt="Facebook"
-        className={isArabic ? "ml-2" : "mr-2"}
+        className={`w-5 h-5 ${isArabic ? "ml-2" : "mr-2"}`}
       />
       <span
         style={{

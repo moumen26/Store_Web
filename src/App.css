@@ -134,7 +134,6 @@
 }
 
 .orClass {
-  width: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1499,7 +1498,13 @@ aside ul::-webkit-scrollbar {
   justify-content: flex-end;
   align-items: center;
   width: 40%;
+  position: relative;
 }
+/* 
+.signUpContainerLeft img {
+  position: absolute;
+  right: -50px;
+} */
 
 .signUpContainerRight {
   width: 60%;
@@ -2426,8 +2431,8 @@ main {
   width: calc(100% - 17%);
   min-height: 100vh;
   /* background-color: var(--lightColor); */
-  /* background-color: #f5f7fb; */
-  background-color: #e7f2f7;
+  /* background-color: #e7f2f7; */
+  background-color: #f5f7fb;
   height: fit-content;
   padding: 24px;
   display: flex;
@@ -2475,3 +2480,167 @@ main.main-collapsed .pagesContainer {
   background-color: #c9e4ee !important;
   border-color: #c9e4ee !important;
 } */
+
+.pdf-template {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.pdf-template.arabic {
+  font-family: "Cairo", Arial, sans-serif;
+  direction: rtl;
+}
+
+.pdf-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 15px;
+}
+
+.pdf-title {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pdf-subtitle {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdf-section {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  margin-bottom: 20px;
+}
+
+.pdf-section-title {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+.pdf-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.pdf-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.pdf-table td.text-left {
+  text-align: left;
+}
+
+.pdf-table td.text-right {
+  text-align: right;
+}
+
+.pdf-total-row {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.pdf-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+  font-size: 10px;
+}
+
+.status-paid {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.status-unpaid {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.status-yes {
+  color: #22c55e;
+}
+
+.status-no {
+  color: #ef4444;
+}
+
+.amount-highlight {
+  font-weight: bold;
+  color: #333;
+}
+
+.amount-danger {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.text-muted {
+  color: #666;
+  font-size: 10px;
+}
+
+/* Print-specific styles */
+@media print {
+  .pdf-template {
+    margin: 0;
+    padding: 15px;
+    font-size: 11px;
+  }
+
+  .pdf-title {
+    font-size: 20px;
+  }
+
+  .pdf-section-title {
+    font-size: 14px;
+  }
+}
+
+/* Responsive adjustments for different PDF sizes */
+@media (max-width: 210mm) {
+  .pdf-subtitle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .pdf-table {
+    font-size: 10px;
+  }
+
+  .pdf-table th,
+  .pdf-table td {
+    padding: 6px;
+  }
+}

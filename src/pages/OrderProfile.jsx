@@ -593,10 +593,13 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               />
             )}
             <ButtonExportPDF
-              language={language}
               filename={language === "ar" ? "ملف_الطلب" : "Commande"}
               customerName={`${OrderData?.client.firstName}_${OrderData?.client.lastName}`}
               orderId={OrderData?._id}
+              language={language}
+              orderData={OrderData}
+              orderStatusData={OrderStatusData}
+              type="order"
             />
             <ButtonAdd
               language={language}
@@ -1034,7 +1037,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         contentLabel={
           language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
         }
-        className="addNewModal addNewStockModal"
+        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto p-0 w-[90%]"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -1043,7 +1046,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         }}
       >
         <div
-          className="customerClass"
+          className="customerClass px-4 md:px-6 py-4 md:py-6"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           <AddOrderRetunsTableDetails
@@ -1051,15 +1054,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             productsListToUpdate={productsListToUpdate}
             setProductsListToUpdate={setProductsListToUpdate}
           />
-          <div className="mt-[16px]">
+          <div className="mt-4 md:mt-6">
             <div
-              className={`flex justify-end ${
-                language === "ar" ? "gap-x-8" : "space-x-8"
-              }`}
+              className={`flex flex-col sm:flex-row ${
+                language === "ar" ? "sm:gap-x-8" : "sm:space-x-8"
+              } gap-y-4 sm:gap-y-0 justify-end`}
             >
-              {" "}
               <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
                 onClick={handleCloseModifyOrderModal}
                 style={{
                   fontFamily:
@@ -1071,7 +1073,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               <input
                 type="button"
                 value={language === "ar" ? "حفظ" : "Enregistrer"}
-                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                className="text-white bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-sm md:text-base rounded-lg sm:text-blue-500 sm:bg-transparent sm:hover:bg-transparent sm:hover:text-blue-700 sm:px-0 sm:py-0 sm:rounded-none order-1 sm:order-2"
                 onClick={handleOpenUpdateReceiptstatusConfirmDialogOpen}
                 style={{
                   fontFamily:

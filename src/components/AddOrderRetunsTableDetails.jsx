@@ -179,7 +179,7 @@ function AddOrderRetunsTableDetails({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {row.price} 
+            {row.price}
             {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
@@ -271,9 +271,9 @@ function AddOrderRetunsTableDetails({
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-[16px]">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-4 sm:gap-y-0 mb-4 sm:mb-6">
         <h2
-          className="customerClassTitle"
+          className="customerClassTitle text-lg md:text-xl"
           style={{
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
@@ -443,17 +443,18 @@ function AddOrderRetunsTableDetails({
         contentLabel={
           language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
         }
-        className="addNewModal addNewStockModal"
+        // className="addNewModal addNewStockModal "
+        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
         <div
-          className="customerClass space-y-0"
+          className="customerClass space-y-0 px-4 md:px-6 py-4 md:py-6"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           <h2
-            className="dialogTitle"
+            className="dialogTitle text-lg md:text-xl mb-4 md:mb-6"
             style={{
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
@@ -462,20 +463,23 @@ function AddOrderRetunsTableDetails({
               ? "إضافة مرتجعات للطلب"
               : "Ajouter des retours à la commande"}
           </h2>
-          <div className="space-y-[24px]">
-            <div className="addProductModalHeader">
-              <Search
-                placeholder={
-                  language === "ar"
-                    ? "البحث عن المنتج..."
-                    : "Rechercher un produit..."
-                }
-                value={searchQuery}
-                onChange={handleSearchChange}
-                language={language}
-              />
-              <div className="flex space-x-5 items-center">
+          <div className="space-y-4 md:space-y-6">
+            <div className="addProductModalHeader flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-5 items-stretch md:items-center">
+              <div className="w-full md:flex-1">
+                <Search
+                  placeholder={
+                    language === "ar"
+                      ? "البحث عن المنتج..."
+                      : "Rechercher un produit..."
+                  }
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  language={language}
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row sm:space-x-5 sm:items-center space-y-2 sm:space-y-0">
                 <span
+                  className="text-sm md:text-base"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -483,9 +487,10 @@ function AddOrderRetunsTableDetails({
                 >
                   {language === "ar" ? "الفئة :" : "Catégorie :"}
                 </span>
-                <div className="selectStoreWilayaCommune w-[300px]">
+                <div className="selectStoreWilayaCommune w-full sm:w-[200px] md:w-[300px]">
                   <select
                     name="productCategory"
+                    className="w-full"
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -494,6 +499,7 @@ function AddOrderRetunsTableDetails({
                 </div>
               </div>
             </div>
+
             <div className="h-fit">
               <ProductContainerOrderAddReturns
                 searchQuery={searchQuery}
@@ -502,9 +508,10 @@ function AddOrderRetunsTableDetails({
               />
             </div>
 
-            <div className="flex flex-col space-y-2 mb-4">
-              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+            <div className="flex flex-col space-y-4 mb-4">
+              <div className="dialogAddCustomerItem flex flex-col md:flex-row md:items-center md:justify-end space-y-2 md:space-y-0 md:space-x-4">
                 <span
+                  className="text-sm md:text-base"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -518,7 +525,7 @@ function AddOrderRetunsTableDetails({
                   value={unitType}
                   onChange={(e) => setUnitType(e.target.value)}
                 >
-                  <div className="w-[500px]">
+                  <div className="w-full md:w-[500px] flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                     <FormControlLabel
                       value="perUnit"
                       control={
@@ -530,6 +537,7 @@ function AddOrderRetunsTableDetails({
                       }
                       label={
                         <span
+                          className="text-sm md:text-base"
                           style={{
                             fontFamily:
                               language === "ar"
@@ -552,6 +560,7 @@ function AddOrderRetunsTableDetails({
                       }
                       label={
                         <span
+                          className="text-sm md:text-base"
                           style={{
                             fontFamily:
                               language === "ar"
@@ -566,8 +575,10 @@ function AddOrderRetunsTableDetails({
                   </div>
                 </RadioGroup>
               </div>
-              <div className="dialogAddCustomerItem items-center justify-end space-x-4">
+
+              <div className="dialogAddCustomerItem flex flex-col md:flex-row md:items-center md:justify-end space-y-2 md:space-y-0 md:space-x-4">
                 <span
+                  className="text-sm md:text-base"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -575,13 +586,14 @@ function AddOrderRetunsTableDetails({
                 >
                   {language === "ar" ? "الكمية :" : "Quantité :"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm w-full md:w-auto">
                   <input
                     type="number"
                     name="productQuantity"
                     value={ClientQuantity}
                     min={0}
                     onChange={handleProductQuantityChange}
+                    className="w-full md:w-auto px-3 py-2 text-sm md:text-base"
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -590,15 +602,15 @@ function AddOrderRetunsTableDetails({
                 </div>
               </div>
             </div>
-            <div
-              className={`flex justify-end ${
-                language === "ar" ? "gap-x-8" : "space-x-8"
-              }`}
+
+             <div
+              className={`flex flex-col sm:flex-row ${
+                language === "ar" ? "sm:gap-x-8" : "sm:space-x-8"
+              } gap-y-4 sm:gap-y-0 justify-end`}
             >
-              {" "}
               <button
                 onClick={handleCloseReturnsModal}
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -608,7 +620,7 @@ function AddOrderRetunsTableDetails({
               </button>
               <button
                 onClick={handleAddItem}
-                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                className="text-white bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-sm md:text-base rounded-lg sm:text-blue-500 sm:bg-transparent sm:hover:bg-transparent sm:hover:text-blue-700 sm:px-0 sm:py-0 sm:rounded-none order-1 sm:order-2"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -618,6 +630,7 @@ function AddOrderRetunsTableDetails({
               </button>
             </div>
           </div>
+
           <Snackbar
             open={snackbarOpen}
             autoHideDuration={6000}

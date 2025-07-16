@@ -66,10 +66,7 @@ function Row({
           <img
             src={
               row.image
-                ? `${import.meta.env.VITE_APP_URL_BASE.replace(
-                    "/api",
-                    ""
-                  )}/files/${row.image}`
+                ? `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
                 : "/no-image.png"
             }
             alt={row.productName}

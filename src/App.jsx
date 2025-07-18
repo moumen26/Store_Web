@@ -23,7 +23,7 @@ import OrdersArchive from "./pages/OrdersArchive";
 import Fournisseurs from "./pages/Fournisseurs";
 import CreditOrders from "./pages/CreditOrders";
 import VerifyCode from "./pages/VerifyCode";
-import UpYourAccount from "./pages/UpYourAccount";
+import UpYourAccount from "./pages/UpyourAccount";
 import Purchases from "./pages/Purchases";
 import CreditPurchases from "./pages/CreditPurchases";
 import FournisseurProfile from "./pages/FournisseurProfile";

@@ -2,8 +2,10 @@ import {
   EnvelopeIcon,
   LockClosedIcon,
   PhoneIcon,
+  EyeIcon,
+  EyeSlashIcon,
 } from "@heroicons/react/16/solid";
-import React from "react";
+import React, { useState } from "react";
 
 export default function InputForm({
   inputType,
@@ -15,6 +17,12 @@ export default function InputForm({
   readOnly,
   language,
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Check if this is a password field
+  const isPasswordField =
+    labelForm === "كلمة المرور" || labelForm === "Mot de passe";
+
   let iconComponent;
 
   switch (inputType) {
@@ -47,6 +55,13 @@ export default function InputForm({
       break;
   }
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // Determine the actual input type to use
+  const actualInputType = isPasswordField && showPassword ? "text" : inputType;
+
   return (
     <div className="inputItem">
       <span
@@ -57,9 +72,11 @@ export default function InputForm({
         {labelForm}
       </span>
       <div className={`inputForm ${language === "ar" ? "gap-x-2" : ""}`}>
+        {/* Main icon (phone, lock, envelope) */}
         {iconComponent}
+
         <input
-          type={inputType}
+          type={actualInputType}
           placeholder={inputPlaceholder}
           name={inputName}
           onChange={setChangevalue}
@@ -67,6 +84,32 @@ export default function InputForm({
           readOnly={readOnly}
           min={0}
         />
+
+        {/* Eye icon for password fields */}
+        {isPasswordField && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className={`eye-toggle ${
+              language === "ar" ? "eye-toggle-ar" : "eye-toggle-en"
+            }`}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "4px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {showPassword ? (
+              <EyeSlashIcon className="inputIcon" />
+            ) : (
+              <EyeIcon className="inputIcon" />
+            )}
+          </button>
+        )}
       </div>
     </div>
   );

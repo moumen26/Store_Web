@@ -49,13 +49,15 @@ export default function ProductsContainer({
                 (selectedCategory === "" ||
                   product.category?._id === selectedCategory)
             )
-            .map((product) => (              
+            .map((product) => (
               <ProductCard
                 key={product._id}
                 productName={
                   product.brand?.name + " " + product.name + " " + product.size
                 }
-                productImage={`${import.meta.env.VITE_APP_FILES_URL}/${product.image}`}
+                productImage={`${import.meta.env.VITE_APP_FILES_URL}/${
+                  product.image
+                }`}
                 onClick={() => handleSelectProduct(product)}
                 selected={
                   selectedProduct && product._id === selectedProduct._id
@@ -92,7 +94,7 @@ export default function ProductsContainer({
           }}
         >
           <div
-            className="customerClass paddingClass"
+            className="customerClass paddingClass px-4 sm:px-6 lg:px-8"
             style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
             <h2
@@ -100,31 +102,36 @@ export default function ProductsContainer({
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
-              className="customerClassTitle"
+              className="customerClassTitle text-lg sm:text-xl lg:text-2xl"
             >
               {language === "ar" ? "تفاصيل المنتج" : "Détails du Produit"}
             </h2>
-            <div className="w-full flex justify-center h-[300px]">
+
+            {/* Image Container - Responsive height */}
+            <div className="w-full flex justify-center h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] mt-4">
               <img
-                className="text-center"
-                srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${selectedProduct.image}`}
-                src={`${import.meta.env.VITE_APP_FILES_URL}/${selectedProduct.image}`}
+                className="text-center object-contain"
+                srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${
+                  selectedProduct.image
+                }`}
+                src={`${import.meta.env.VITE_APP_FILES_URL}/${
+                  selectedProduct.image
+                }`}
                 alt={selectedProduct.name}
                 style={{ width: "auto", height: "100%" }}
               />
             </div>
+
+            {/* Product Details Grid - Responsive */}
             <div className="flex-col space-y-3 mt-4">
-              <div
-                className={`flex space-x-3 ${
-                  language === "ar" ? "gap-x-3" : ""
-                }`}
-              >
+              {/* Product Code */}
+              <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] md:grid-cols-[150px_1fr] lg:grid-cols-[180px_1fr] gap-2 sm:gap-3">
                 <span
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="thTableSpan"
+                  className="thTableSpan text-sm sm:text-base font-semibold sm:font-normal"
                 >
                   {language === "ar" ? "رمز المنتج" : "Code du Produit"}
                 </span>
@@ -133,23 +140,20 @@ export default function ProductsContainer({
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="trTableSpan"
+                  className="trTableSpan text-sm sm:text-base break-all sm:break-normal"
                 >
                   {selectedProduct._id}
                 </span>
               </div>
-              <div
-                className={`flex space-x-3 ${
-                  language === "ar" ? "gap-x-3" : ""
-                }`}
-              >
-                {" "}
+
+              {/* Designation */}
+              <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] md:grid-cols-[150px_1fr] lg:grid-cols-[180px_1fr] gap-2 sm:gap-3">
                 <span
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="thTableSpan"
+                  className="thTableSpan text-sm sm:text-base font-semibold sm:font-normal"
                 >
                   {language === "ar" ? "اسم" : "Designation"}
                 </span>
@@ -158,23 +162,20 @@ export default function ProductsContainer({
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="trTableSpan"
+                  className="trTableSpan text-sm sm:text-base break-words"
                 >
                   {selectedProduct.name} {selectedProduct.size}
                 </span>
               </div>
-              <div
-                className={`flex space-x-3 ${
-                  language === "ar" ? "gap-x-3" : ""
-                }`}
-              >
-                {" "}
+
+              {/* Brand */}
+              <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] md:grid-cols-[150px_1fr] lg:grid-cols-[180px_1fr] gap-2 sm:gap-3">
                 <span
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="thTableSpan"
+                  className="thTableSpan text-sm sm:text-base font-semibold sm:font-normal"
                 >
                   {language === "ar" ? "ماركة" : "Marque"}
                 </span>
@@ -183,23 +184,20 @@ export default function ProductsContainer({
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="trTableSpan"
+                  className="trTableSpan text-sm sm:text-base break-words"
                 >
                   {selectedProduct.brand.name}
                 </span>
               </div>
-              <div
-                className={`flex space-x-3 ${
-                  language === "ar" ? "gap-x-3" : ""
-                }`}
-              >
-                {" "}
+
+              {/* Box Items */}
+              <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] md:grid-cols-[150px_1fr] lg:grid-cols-[180px_1fr] gap-2 sm:gap-3">
                 <span
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="thTableSpan"
+                  className="thTableSpan text-sm sm:text-base font-semibold sm:font-normal"
                 >
                   {language === "ar" ? "عناصر لكل صندوق" : "Articles par Boîte"}
                 </span>
@@ -208,20 +206,22 @@ export default function ProductsContainer({
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                  className="trTableSpan"
+                  className="trTableSpan text-sm sm:text-base"
                 >
                   {selectedProduct.boxItems}
                 </span>
               </div>
             </div>
-            <div className="flex justify-end">
+
+            {/* Close Button */}
+            <div className="flex justify-end mt-6">
               <button
                 onClick={handleCloseModal}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
-                className="text-gray-500 cursor-pointer hover:text-gray-700 mt-[20px]"
+                className="text-gray-500 cursor-pointer hover:text-gray-700 text-sm sm:text-base px-4 py-2 rounded hover:bg-gray-100 transition-colors"
               >
                 {language === "ar" ? "إغلاق" : "Fermer"}
               </button>

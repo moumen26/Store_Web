@@ -64,7 +64,7 @@ function Row(props) {
             {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
-        <TableCell
+        {/* <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
@@ -76,7 +76,7 @@ function Row(props) {
           >
             {row.orderId}
           </span>
-        </TableCell>
+        </TableCell> */}
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
@@ -489,7 +489,7 @@ export default function CreditOrdersTable({
                 {language === "ar" ? "العميل" : "Client"}
               </span>
             </TableCell>
-            <TableCell
+            {/* <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
@@ -502,7 +502,7 @@ export default function CreditOrdersTable({
               >
                 {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}

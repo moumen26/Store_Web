@@ -8,8 +8,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
 import { TokenDecoder } from "../util/DecodeToken";
 import { EqualsIcon } from "@heroicons/react/16/solid";
+import { ChevronLeftIcon } from "lucide-react";
 
-export default function NonApprovedCustomer({ onToggle, isCollapsed }) {
+export default function NonApprovedCustomer({
+  onToggle,
+  language,
+  toggleLanguage,
+}) {
   const { id } = useParams();
   const { user } = useAuthContext();
   const location = useLocation();
@@ -52,102 +57,272 @@ export default function NonApprovedCustomer({ onToggle, isCollapsed }) {
 
   if (CustomerDataLoading) {
     return (
-      <div className="pagesContainer">
-        <Header />
-        <div>
+      <div
+        className="pagesContainer"
+        style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+      >
+        <div className="flexHeader">
+          <div onClick={onToggle} className="equalsIcon">
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
+        <div className="flex items-center justify-center h-64">
           <CircularProgress color="inherit" />
-
-          {/* <h1>Loading...</h1> */}
         </div>
       </div>
     );
   }
+
   if (CustomerDataError) {
     return (
-      <div className="pagesContainer">
-        <Header />
+      <div
+        className="pagesContainer"
+        style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+      >
+        <div className="flexHeader">
+          <div onClick={onToggle} className="equalsIcon">
+            <EqualsIcon className="iconAsideBarClose" />
+          </div>
+          <Header toggleLanguage={toggleLanguage} language={language} />
+        </div>
         <div className="customerClass">
-          <h2 className="customerClassTitle">no data is available</h2>
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar"
+              ? "لا توجد بيانات متاحة"
+              : "Aucune donnée disponible"}
+          </h2>
         </div>
       </div>
     );
   }
+
   return (
-    <div className="pagesContainer">
+    <div
+      className="pagesContainer"
+      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+    >
       <div className="flexHeader">
         <div onClick={onToggle} className="equalsIcon">
           <EqualsIcon className="iconAsideBarClose" />
         </div>
-        <Header />
-      </div>{" "}
+        <Header toggleLanguage={toggleLanguage} language={language} />
+      </div>
+
       <div className="w-full flex items-center justify-between">
-        <div className="flex items-center space-x-1">
-          <span>Customers</span>
-          <ChevronRightIcon className="iconAsideBar" />
-          <span>#{CustomerData?._id}</span>
+        <div
+          className={`flex items-center ${
+            language === "ar" ? "space-x-reverse space-x-1" : "space-x-1"
+          }`}
+        >
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar" ? "العملاء" : "Clients"}
+          </span>
+          {language === "ar" ? (
+            <ChevronLeftIcon className="iconAsideBar" />
+          ) : (
+            <ChevronRightIcon className="iconAsideBar" />
+          )}{" "}
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            #{CustomerData?._id}
+          </span>
         </div>
       </div>
+
       <div className="customerClass">
-        <h2 className="customerClassTitle">Personal Information</h2>
+        <h2
+          className="customerClassTitle"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar"
+            ? "المعلومات الشخصية"
+            : "Informations personnelles"}
+        </h2>
         <div className="personalInformation">
           <div className="flex-col">
-            <span className="personalInformationSpan">First Name</span>
-            <h3 className="personalInformationDetails">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الاسم" : "Prénom"}
+            </span>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.firstName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Last Name</span>
-            <h3 className="personalInformationDetails">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "اللقب" : "Nom"}
+            </span>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.lastName}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Number Phone</span>
-            <h3 className="personalInformationDetails">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+            </span>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.phoneNumber}
             </h3>
           </div>
           {CustomerData?.email && (
             <div className="flex-col">
-              <span className="personalInformationSpan">Email Address</span>
-              <h3 className="personalInformationDetails">
+              <span
+                className="personalInformationSpan"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar"
+                  ? "عنوان البريد الإلكتروني"
+                  : "Adresse email"}
+              </span>
+              <h3
+                className="personalInformationDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {CustomerData?.email}
               </h3>
             </div>
           )}
           <div className="flex-col">
-            <span className="personalInformationSpan">Wilaya</span>
-            <h3 className="personalInformationDetails">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الولاية" : "Wilaya"}
+            </span>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.wilaya}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">Commune</span>
-            <h3 className="personalInformationDetails">
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "البلدية" : "Commune"}
+            </span>
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.commune}
             </h3>
           </div>
           <div className="flex-col">
-            <span className="personalInformationSpan">
-              Numero de register commerce
+            <span
+              className="personalInformationSpan"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar"
+                ? "رقم السجل التجاري"
+                : "Numéro de registre de commerce"}
             </span>
-            <h3 className="personalInformationDetails">
+            <h3
+              className="personalInformationDetails"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {CustomerData?.r_commerce}
             </h3>
           </div>
         </div>
       </div>
+
       {CustomerData?.storeAddresses &&
       CustomerData?.storeAddresses.length > 0 ? (
         <div className="customerClass">
-          <h2 className="customerClassTitle">Primary Delivery Address</h2>
+          <h2
+            className="customerClassTitle"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar"
+              ? "عنوان التسليم الأساسي"
+              : "Adresse de livraison principale"}
+          </h2>
           <div className="customerPrimaryAddress">
             {CustomerData?.storeAddresses.map((address, index) => (
               <CustomerPrimaryDelivery
                 key={index}
                 name={address.name}
                 primaryDeliveryAddress={address.address}
+                language={language}
               />
             ))}
           </div>

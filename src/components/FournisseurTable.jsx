@@ -23,7 +23,7 @@ function Row(props) {
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell
+      {/* <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
@@ -35,7 +35,7 @@ function Row(props) {
         >
           {row.fournisseurId}
         </span>
-      </TableCell>
+      </TableCell> */}
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
@@ -181,7 +181,7 @@ export default function FournisseurTable({
       <Table aria-label="collapsible table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell
+            {/* <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
@@ -194,7 +194,7 @@ export default function FournisseurTable({
               >
                 {language === "ar" ? "معرف المورد" : "ID du fournisseur"}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}

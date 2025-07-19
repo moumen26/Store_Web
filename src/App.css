@@ -1620,7 +1620,7 @@ aside ul::-webkit-scrollbar {
   border: none;
   border-radius: 8px;
   /* padding: 20px; */
-  width: 30%;
+  width: fit-content;
   margin: auto;
   z-index: 1001;
   background-color: var(--whiteColor);
@@ -1629,6 +1629,8 @@ aside ul::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, -50%);
   height: fit-content;
+  overflow-y: auto;
+  max-height: 90%;
 }
 
 .justifyEnd {

@@ -232,10 +232,20 @@ export default function AddOrder({ onToggle, toggleLanguage, language }) {
         open={openConfirmationDialog}
         onConfirm={handleSubmitCreateOrder}
         onClose={handleCloseDialog}
-        dialogTitle="Confirm order submition"
-        dialogContentText={`Are you sure you want to submit this order?`}
         isloading={submitionLoading}
+        language={language}
+        dialogTitle={
+          language === "ar"
+            ? "تأكيد إرسال الطلب"
+            : "Confirmation de la soumission de la commande"
+        }
+        dialogContentText={
+          language === "ar"
+            ? "هل أنت متأكد أنك تريد إرسال هذا الطلب؟"
+            : "Êtes-vous sûr de vouloir soumettre cette commande ?"
+        }
       />
+
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}

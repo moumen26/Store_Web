@@ -197,12 +197,14 @@ function Row(props) {
         onClose={handleClose}
         onConfirm={handleConfirm}
         dialogTitle={
-          language === "ar" ? "تأكيد تفعيل المستخدم" : "Confirm User Activation"
+          language === "ar"
+            ? "تأكيد تفعيل المستخدم"
+            : "Confirmation de l’activation de l’utilisateur"
         }
         dialogContentText={
           language === "ar"
             ? "هل أنت متأكد أنك تريد تفعيل هذا المستخدم؟"
-            : "Are you sure you want to activate this user?"
+            : "Êtes-vous sûr de vouloir activer cet utilisateur ?"
         }
       />
     </Fragment>

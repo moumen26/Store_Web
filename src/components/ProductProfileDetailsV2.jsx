@@ -378,18 +378,18 @@ export default function ProductProfileDetailsV2({
         open={openUpdateStockConfirmationDialog}
         onConfirm={handleUpdateStock}
         onClose={handleCloseDialog}
+        isloading={submitionLoading}
+        language={language}
         dialogTitle={
           language === "ar"
             ? "تأكيد تحديث تفاصيل المخزون"
-            : "Confirm update stock details"
+            : "Confirmation de la mise à jour du stock"
         }
         dialogContentText={
           language === "ar"
             ? "هل أنت متأكد أنك تريد تحديث تفاصيل المخزون؟"
-            : "Are you sure you want to update your stock details?"
+            : "Êtes-vous sûr de vouloir mettre à jour les détails du stock ?"
         }
-        isloading={submitionLoading}
-        language={language}
       />
     </TableContainer>
   );

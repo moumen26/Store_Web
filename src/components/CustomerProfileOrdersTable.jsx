@@ -43,7 +43,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell
+        {/* <TableCell
           component="th"
           scope="row"
           className="tableCell"
@@ -57,7 +57,7 @@ function Row(props) {
           >
             {row._id}
           </span>
-        </TableCell>
+        </TableCell> */}
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
@@ -81,7 +81,7 @@ function Row(props) {
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {formatNumber(row.total)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.total)}
           </span>
         </TableCell>
         <TableCell
@@ -92,7 +92,6 @@ function Row(props) {
             {formatNumber(
               Number(row.payment.reduce((sum, pay) => sum + pay.amount, 0))
             )}{" "}
-            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
         <TableCell
@@ -100,7 +99,7 @@ function Row(props) {
           align={language === "ar" ? "right" : "left"}
         >
           <span className="trTableSpan text-[#008080]">
-            {formatNumber(row.profit)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.profit)}
           </span>
         </TableCell>
         <TableCell
@@ -218,7 +217,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
+                        {language === "ar" ? "المبلغ" : "Montant"}{" "}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -247,9 +249,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "السعر الإجمالي (دج)"
-                          : "Prix Total (DA)"}
+                        {language === "ar" ? "السعر الإجمالي" : "Prix Total"}{" "}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                   </TableRow>
@@ -389,7 +392,7 @@ export default function CustomerProfileOrdersTable({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell
+            {/* <TableCell
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
             >
@@ -402,7 +405,7 @@ export default function CustomerProfileOrdersTable({
               >
                 {language === "ar" ? "معرف العميل" : "ID du client"}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell
               className="tableHeadCell"
               align={language === "ar" ? "right" : "left"}
@@ -429,6 +432,9 @@ export default function CustomerProfileOrdersTable({
                 }}
               >
                 {language === "ar" ? "المبلغ" : "Montant"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell
@@ -443,6 +449,9 @@ export default function CustomerProfileOrdersTable({
                 }}
               >
                 {language === "ar" ? "الدفع" : "Paiement"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>{" "}
               </span>
             </TableCell>
             <TableCell
@@ -457,6 +466,9 @@ export default function CustomerProfileOrdersTable({
                 }}
               >
                 {language === "ar" ? "الربح" : "Profit"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>{" "}
               </span>
             </TableCell>
             <TableCell

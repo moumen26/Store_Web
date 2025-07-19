@@ -21,7 +21,7 @@ function Row(props) {
 
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }} className="tableRow">
-      <TableCell
+      {/* <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
       >
@@ -33,7 +33,7 @@ function Row(props) {
         >
           {row.customerId}
         </span>
-      </TableCell>
+      </TableCell> */}
       <TableCell
         className="tableCell"
         align={language === "ar" ? "right" : "left"}
@@ -179,7 +179,7 @@ export default function CustomerTable({
       <Table aria-label="collapsible table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell
+            {/* <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
             >
@@ -192,7 +192,7 @@ export default function CustomerTable({
               >
                 {language === "ar" ? "معرف العميل" : "ID du client"}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}

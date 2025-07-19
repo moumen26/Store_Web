@@ -2,11 +2,17 @@ import {
   ArchiveBoxIcon,
   ArrowLeftStartOnRectangleIcon,
   ChevronDownIcon,
+  CheckIcon,
+  ClockIcon,
 } from "@heroicons/react/16/solid";
 import {
   BellAlertIcon,
   XMarkIcon,
   Cog6ToothIcon,
+  UserCircleIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -156,6 +162,39 @@ export default function Header({ language, toggleLanguage }) {
     return new Date(date).toLocaleTimeString("fr-FR", options);
   };
 
+  // Get notification icon and colors based on type
+  const getNotificationTypeConfig = (type) => {
+    switch (type) {
+      case "subscription_expiry":
+        return {
+          icon: ExclamationTriangleIcon,
+          bgColor: "bg-gradient-to-br from-red-50 to-red-100",
+          iconColor: "text-red-600",
+          iconBg: "bg-red-100",
+          borderColor: "border-red-200",
+          dotColor: "bg-red-500",
+        };
+      case "store_access_request":
+        return {
+          icon: ShieldCheckIcon,
+          bgColor: "bg-gradient-to-br from-blue-50 to-blue-100",
+          iconColor: "text-blue-600",
+          iconBg: "bg-blue-100",
+          borderColor: "border-blue-200",
+          dotColor: "bg-blue-500",
+        };
+      default:
+        return {
+          icon: InformationCircleIcon,
+          bgColor: "bg-gradient-to-br from-yellow-50 to-yellow-100",
+          iconColor: "text-yellow-600",
+          iconBg: "bg-yellow-100",
+          borderColor: "border-yellow-200",
+          dotColor: "bg-yellow-500",
+        };
+    }
+  };
+
   // Group notifications by formatted date
   const groupedNotifications = NotificationsByStore?.reduce((acc, notif) => {
     const formattedDate = formatDate(notif.createdAt, language);
@@ -186,16 +225,54 @@ export default function Header({ language, toggleLanguage }) {
     (lang) => lang.code === language
   );
 
+  // Generate initials for avatar
+  const getInitials = (firstName, lastName) => {
+    if (!firstName && !lastName) return "U";
+    const first = firstName ? firstName.charAt(0).toUpperCase() : "";
+    const last = lastName ? lastName.charAt(0).toUpperCase() : "";
+    return first + last || "U";
+  };
+
+  // Generate a consistent color based on user's name
+  const getAvatarColor = (name) => {
+    if (!name) return "bg-gray-500";
+    const colors = [
+      "bg-blue-500",
+      "bg-green-500",
+      "bg-purple-500",
+      "bg-pink-500",
+      "bg-indigo-500",
+      "bg-yellow-500",
+      "bg-red-500",
+      "bg-teal-500",
+    ];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   return (
     <div className="Header w-fit flex items-center justify-between px-4 mb-2 md:px-6">
-      <div className="flex items-center space-x-3 md:space-x-6">
+      <div
+        className={`flex items-center ${
+          language === "ar" ? "gap-x-3 md:gap-x-6" : "space-x-3 md:space-x-6"
+        }`}
+      >
         {/* Modern Language Selector */}
         <div className="relative">
           <div
             className="flex h-8 md:h-10 items-center justify-center cursor-pointer bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 px-2 md:px-3 py-2"
             onClick={() => setShowLanguageMenu(!showLanguageMenu)}
           >
-            <div className="flex items-center space-x-1 md:space-x-2">
+            <div
+              className={`flex items-center ${
+                language === "ar"
+                  ? "gap-x-1 md:gap-x-2"
+                  : "space-x-1 md:space-x-2"
+              }`}
+            >
               <img
                 src={currentLanguage?.flag}
                 alt={currentLanguage?.name}
@@ -268,122 +345,256 @@ export default function Header({ language, toggleLanguage }) {
           </div>
         </div>
 
-        {/* Notification Icon */}
+        {/* Enhanced Notification Icon */}
         <div
-          className="relative cursor-pointer p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors duration-200"
+          className="relative cursor-pointer group"
           onClick={() => setShowNotifications(!showNotifications)}
         >
-          <BellAlertIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
+          <div className="p-2 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200 group-hover:bg-blue-50">
+            <BellAlertIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
+          </div>
           {NotificationsByStore?.length > 0 && (
-            <span className="absolute top-[-2px] right-[-2px] md:top-[-4px] md:right-[-3px] bg-red-500 text-white text-[9px] md:text-[10px] w-3 h-3 md:w-4 md:h-4 flex items-center justify-center rounded-full">
-              {NotificationsByStore.length}
-            </span>
+            <>
+              {/* Notification badge */}
+              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-[9px] md:text-[10px] w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-full font-bold shadow-lg animate-pulse">
+                {NotificationsByStore.length > 9
+                  ? "9+"
+                  : NotificationsByStore.length}
+              </span>
+              {/* Pulsing ring animation */}
+              <div className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-500 animate-ping opacity-20"></div>
+            </>
           )}
         </div>
       </div>
 
-      {/* Notifications Dropdown */}
+      {/* Enhanced Notifications Dropdown */}
       <div
         className={`absolute NotificationsDropDown ${
           language === "ar"
-            ? "right-4 md:right-[375px]"
-            : "left-4 md:left-[375px]"
-        } top-16 md:top-24 w-[calc(100vw-32px)] sm:w-[400px] md:w-[450px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform ${
+            ? "right-4 md:right-[320px]"
+            : "left-4 md:left-[320px]"
+        } top-20 md:top-20 w-[calc(100vw-32px)] sm:w-[420px] md:w-[480px] bg-white shadow-2xl rounded-2xl border border-gray-200 z-20 transform backdrop-blur-sm ${
           showNotifications
             ? "scale-100 opacity-100"
             : "scale-95 opacity-0 pointer-events-none"
-        } transition-transform duration-200 ease-out`}
+        } transition-all duration-300 ease-out`}
       >
-        <div className="flex justify-between items-center p-3 md:p-4">
-          <h3
-            className="text-base md:text-lg font-semibold text-gray-700"
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar" ? "الإشعارات" : "Notifications"}
-          </h3>
-          <XMarkIcon
-            className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer"
-            onClick={() => setShowNotifications(false)}
-          />
+        {/* Header with gradient background */}
+        <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-t-2xl p-4 border-b border-gray-100">
+          <div className="flex justify-between items-center">
+            <div
+              className={`flex items-center ${
+                language === "ar" ? "gap-x-3" : "space-x-3"
+              }`}
+            >
+              <div className="p-2 bg-blue-100 rounded-xl">
+                <BellAlertIcon className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <h3
+                  className="text-lg font-bold text-gray-800"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الإشعارات" : "Notifications"}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {NotificationsByStore?.length || 0}{" "}
+                  {language === "ar" ? "إشعار جديد" : "nouvelles notifications"}
+                </p>
+              </div>
+            </div>
+            <button
+              className="p-2 hover:bg-white hover:bg-opacity-70 rounded-lg transition-colors duration-200"
+              onClick={() => setShowNotifications(false)}
+            >
+              <XMarkIcon className="w-5 h-5 text-gray-500 hover:text-gray-700" />
+            </button>
+          </div>
         </div>
 
-        <div className="max-h-[300px] md:max-h-[400px] overflow-y-auto space-y-2 p-3 md:p-4 pt-0">
+        {/* Notifications Content */}
+        <div className="max-h-[300px] md:max-h-[400px] overflow-y-auto">
           {!NotificationsByStoreLoading ? (
-            Object.entries(groupedNotifications || {}).map(
-              ([dateLabel, notifications]) => (
-                <div key={dateLabel}>
-                  <h4 className="text-gray-700 font-semibold text-xs md:text-sm mb-2">
-                    {dateLabel}
-                  </h4>
-                  {notifications.map((notif) => (
-                    <div
-                      key={notif._id}
-                      className="p-2 md:p-3 flex items-center space-x-2 md:space-x-4 rounded-lg hover:bg-gray-100 transition"
-                    >
-                      <div className="flex space-x-2 md:space-x-3 w-[90%] md:w-[95%] items-center">
+            NotificationsByStore?.length > 0 ? (
+              <div className="p-2">
+                {Object.entries(groupedNotifications || {}).map(
+                  ([dateLabel, notifications]) => (
+                    <div key={dateLabel} className="mb-4">
+                      {/* Date Header */}
+                      <div className="flex items-center mb-3 px-2">
                         <div
-                          className={`notifTypeIcon w-1 h-10 md:h-14 rounded-full flex items-center justify-center
-                    ${
-                      notif.type === "subscription_expiry"
-                        ? "bg-red-200"
-                        : notif.type === "store_access_request"
-                        ? "bg-blue-200"
-                        : "bg-yellow-200"
-                    }
-                  `}
-                        ></div>
-
-                        <div className="flex flex-col w-[90%] md:w-[95%]">
-                          <p className="text-gray-800 text-xs md:text-sm font-medium">
-                            {notif.message}
-                          </p>
-                          <span className="text-gray-500 text-xs">
-                            {formatTime(notif.createdAt)}
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <ArchiveBoxIcon
-                          className={`w-4 h-4 md:w-5 md:h-5 cursor-pointer transition-colors duration-200 ${
-                            !submitionLoading
-                              ? "text-gray-300 hover:text-red-500"
-                              : "text-red-300"
+                          className={`flex items-center ${
+                            language === "ar" ? "gap-x-2" : "space-x-2"
                           }`}
-                          onClick={() =>
-                            handleSubmitMarkNotificationAsRead(notif._id)
-                          }
-                        />
+                        >
+                          <ClockIcon className="w-4 h-4 text-gray-400" />
+                          <h4
+                            className="text-gray-600 font-semibold text-sm"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {dateLabel}
+                          </h4>
+                        </div>
+                        <div className="flex-1 h-px bg-gray-200 ml-3"></div>
+                      </div>
+
+                      {/* Notifications List */}
+                      <div className="space-y-2">
+                        {notifications.map((notif) => {
+                          const config = getNotificationTypeConfig(notif.type);
+                          const IconComponent = config.icon;
+
+                          return (
+                            <div
+                              key={notif._id}
+                              className={`${config.bgColor} ${config.borderColor} border rounded-xl p-4 hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 group relative overflow-hidden`}
+                            >
+                              {/* Background pattern */}
+                              <div className="absolute inset-0 opacity-5">
+                                <div className="absolute -right-6 -top-6 w-20 h-20 rounded-full bg-white"></div>
+                                <div className="absolute -left-4 -bottom-4 w-16 h-16 rounded-full bg-white"></div>
+                              </div>
+
+                              <div
+                                className={`flex items-start ${
+                                  language === "ar" ? "gap-x-3" : "space-x-3"
+                                } relative z-10`}
+                              >
+                                {/* Enhanced Icon */}
+                                <div
+                                  className={`${config.iconBg} p-3 rounded-xl shadow-sm flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}
+                                >
+                                  <IconComponent
+                                    className={`w-5 h-5 ${config.iconColor}`}
+                                  />
+                                </div>
+
+                                {/* Notification Content */}
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <p className="text-gray-800 text-sm font-medium leading-relaxed mb-2">
+                                        {notif.message}
+                                      </p>
+                                      <div
+                                        className={`flex items-center text-xs text-gray-500 ${
+                                          language === "ar"
+                                            ? "gap-x-2"
+                                            : "space-x-2"
+                                        }`}
+                                      >
+                                        <span>
+                                          {formatTime(notif.createdAt)}
+                                        </span>
+                                        <div
+                                          className={`w-1 h-1 rounded-full ${config.dotColor}`}
+                                        ></div>
+                                        <span className="capitalize">
+                                          {notif.type.replace("_", " ")}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    {/* Action Button */}
+                                    <button
+                                      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                                        !submitionLoading
+                                          ? "text-gray-400 hover:text-red-500 hover:bg-red-50"
+                                          : "text-red-300 cursor-not-allowed"
+                                      }`}
+                                      onClick={() =>
+                                        handleSubmitMarkNotificationAsRead(
+                                          notif._id
+                                        )
+                                      }
+                                      disabled={submitionLoading}
+                                    >
+                                      {submitionLoading ? (
+                                        <div className="w-4 h-4 border-2 border-red-300 border-t-red-500 rounded-full animate-spin"></div>
+                                      ) : (
+                                        <CheckIcon className="w-4 h-4" />
+                                      )}
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                  ))}
+                  )
+                )}
+              </div>
+            ) : (
+              // Empty state
+              <div className="p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                  <BellAlertIcon className="w-8 h-8 text-gray-400" />
                 </div>
-              )
+                <h4 className="text-gray-600 font-medium mb-2">
+                  {language === "ar"
+                    ? "لا توجد إشعارات"
+                    : "Aucune notification"}
+                </h4>
+                <p className="text-sm text-gray-500">
+                  {language === "ar"
+                    ? "سنخبرك عندما يحدث شيء جديد"
+                    : "Nous vous informerons quand quelque chose se passe"}
+                </p>
+              </div>
             )
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <CircularProgress color="inherit" size={20} />
+            // Loading state
+            <div className="p-8 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 bg-blue-100 rounded-full">
+                <CircularProgress size={24} className="text-blue-600" />
+              </div>
+              <p className="text-gray-600 font-medium">
+                {language === "ar" ? "جاري التحميل..." : "Chargement..."}
+              </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* User Info */}
+      {/* Enhanced User Info Section */}
       <div className="headerCompte flex items-center relative">
         <div
-          className="flex items-center cursor-pointer justify-between w-full sm:w-[250px] md:w-[300px]"
+          className="flex items-center cursor-pointer bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 px-2 md:px-3 py-1.5 md:py-2 group"
           onClick={() => setShowUserMenu(!showUserMenu)}
         >
           <div
-            className={`flex items-center space-x-2 md:space-x-3 ${
-              language === "ar" ? "gap-x-2 md:gap-x-3" : ""
+            className={`flex items-center ${
+              language === "ar" ? "gap-x-2" : "space-x-2"
             }`}
           >
-            <div className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-slate-500"></div>
-            <div className="flex flex-col">
+            {/* Enhanced Avatar */}
+            <div className="relative">
+              <div
+                className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-white font-semibold text-xs md:text-sm ${getAvatarColor(
+                  user?.infos?.firstName + user?.infos?.lastName
+                )} ring-1 ring-white shadow-sm`}
+              >
+                {getInitials(user?.infos?.firstName, user?.infos?.lastName)}
+              </div>
+              {/* Online status indicator */}
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white"></div>
+            </div>
+
+            {/* User Details */}
+            <div className="flex flex-col min-w-0">
               <p
-                className="text-gray-800 font-medium text-xs md:text-sm truncate max-w-[120px] md:max-w-[180px]"
+                className="text-gray-900 font-semibold text-xs md:text-sm truncate max-w-[100px] md:max-w-[120px] leading-tight"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -391,77 +602,139 @@ export default function Header({ language, toggleLanguage }) {
               >
                 {user?.infos?.storeName}
               </p>
-              <span
-                className="text-gray-500 text-xs md:text-sm"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
+              <div
+                className={`flex items-center ${
+                  language === "ar" ? "gap-x-1" : "space-x-1"
+                }`}
               >
-                {user?.infos?.phoneNumber}
-              </span>
+                <span
+                  className="text-gray-500 text-xs truncate max-w-[80px] md:max-w-[100px]"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {user?.infos?.phoneNumber}
+                </span>
+                {/* Status badge */}
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  {language === "ar" ? "نشط" : "Actif"}
+                </span>
+              </div>
             </div>
           </div>
-          <ChevronDownIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
+
+          {/* Chevron with enhanced animation */}
+          <ChevronDownIcon
+            className={`w-3 h-3 md:w-4 md:h-4 text-gray-400 transition-all duration-200 group-hover:text-gray-600 ${
+              language === "ar" ? "mr-1.5 md:mr-2" : "ml-1.5 md:ml-2"
+            } ${showUserMenu ? "rotate-180 text-blue-600" : ""}`}
+          />
         </div>
 
+        {/* Enhanced User Dropdown Menu */}
         <div
-          className={`absolute right-0 top-12 md:top-16 w-[200px] md:w-[250px] bg-white shadow-lg rounded-xl border border-gray-200 z-20 transform
+          className={`absolute ${
+            language === "ar" ? "left-0" : "right-0"
+          } top-12 md:top-14 w-[240px] md:w-[280px] bg-white shadow-xl rounded-xl border border-gray-200 z-20 transform overflow-hidden
           ${
             showUserMenu
               ? "scale-100 opacity-100"
               : "scale-95 opacity-0 pointer-events-none"
-          } transition-transform duration-200 ease-out`}
+          } transition-all duration-200 ease-out`}
         >
-          {/* User Info */}
-          <div className="p-3 md:p-4 border-b border-gray-200">
-            <p
-              className="text-gray-800 font-semibold text-sm md:text-base"
-              style={{
-                fontFamily:
-                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
+          {/* User Profile Header */}
+          <div className="p-3 md:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+            <div
+              className={`flex items-center ${
+                language === "ar" ? "gap-x-3" : "space-x-3"
+              }`}
             >
-              {user?.infos?.firstName} {user?.infos?.lastName}
-            </p>
+              <div
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-base ${getAvatarColor(
+                  user?.infos?.firstName + user?.infos?.lastName
+                )} ring-2 ring-white shadow-md`}
+              >
+                {getInitials(user?.infos?.firstName, user?.infos?.lastName)}
+              </div>
+              <div className="flex flex-col min-w-0">
+                <p
+                  className="text-gray-900 font-bold text-sm md:text-base leading-tight"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {user?.infos?.firstName} {user?.infos?.lastName}
+                </p>
+                <p
+                  className="text-gray-500 text-xs"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {user?.infos?.phoneNumber}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Menu Items */}
-          <div className="p-2">
+          <div className="p-1.5">
             <NavLink
               to="/Settings"
-              className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 hover:bg-gray-100 rounded-lg cursor-pointer ${
-                language === "ar" ? "gap-x-2 md:gap-x-3" : ""
-              }`}
+              className={`flex items-center ${
+                language === "ar" ? "gap-x-3" : "space-x-3"
+              } p-2.5 md:p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 group`}
+              onClick={() => setShowUserMenu(false)}
             >
-              <Cog6ToothIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
-              <p
-                className="text-gray-700 text-xs md:text-sm"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar" ? "الإعدادات" : "Paramètres"}
-              </p>
+              <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors duration-200">
+                <Cog6ToothIcon className="w-4 h-4 text-blue-600" />
+              </div>
+              <div className="flex flex-col">
+                <p
+                  className="text-gray-800 font-medium text-sm"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الإعدادات" : "Paramètres"}
+                </p>
+                <p
+                  className="text-gray-500 text-xs"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "إدارة حسابك" : "Gérer votre compte"}
+                </p>
+              </div>
             </NavLink>
+
             <NavLink
               to="/"
               onClick={submitLogout}
-              className={`flex items-center space-x-2 md:space-x-3 p-2 md:p-3 hover:bg-gray-100 rounded-lg cursor-pointer ${
-                language === "ar" ? "gap-x-2 md:gap-x-3" : ""
-              }`}
+              className={`flex items-center ${
+                language === "ar" ? "gap-x-3" : "space-x-3"
+              } p-2.5 md:p-3 hover:bg-red-50 rounded-lg cursor-pointer transition-all duration-200 group`}
             >
-              <ArrowLeftStartOnRectangleIcon className="w-4 h-4 md:w-5 md:h-5 text-red-600" />
-              <p
-                className="text-red-600 text-xs md:text-sm"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar" ? "تسجيل الخروج" : "Déconnexion"}
-              </p>
+              <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors duration-200">
+                <ArrowLeftStartOnRectangleIcon className="w-4 h-4 text-red-600" />
+              </div>
+              <div className="flex flex-col">
+                <p
+                  className="text-red-600 font-medium text-sm"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "تسجيل الخروج" : "Déconnexion"}
+                </p>
+              </div>
             </NavLink>
           </div>
         </div>

@@ -236,9 +236,16 @@ export default function PaymentHistorique({
         open={isConfirmDialogOpen}
         onConfirm={handleOnConfirmDeletePayment}
         onClose={handleCancelDelete}
-        dialogTitle="Confirm Delete"
-        dialogContentText={`Are you sure you want to delete ${deletedProductName}?`}
+        language={language}
         isloading={submitionLoading}
+        dialogTitle={
+          language === "ar" ? "تأكيد الحذف" : "Confirmation de la suppression"
+        }
+        dialogContentText={
+          language === "ar"
+            ? `هل أنت متأكد أنك تريد حذف ${deletedProductName}؟`
+            : `Êtes-vous sûr de vouloir supprimer ${deletedProductName} ?`
+        }
       />
 
       <Snackbar

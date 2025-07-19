@@ -35,7 +35,7 @@ export default function OrderStatus({
       title: language === "ar" ? "تم الطلب" : "Commande passée",
       icon: !submitionLoading ? (
         <ClipboardDocumentCheckIcon
-          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
+          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(0)}
         />
       ) : null,
@@ -45,7 +45,7 @@ export default function OrderStatus({
         language === "ar" ? "تحضير الطلب" : "Préparation de votre commande",
       icon: !submitionLoading ? (
         <ArchiveBoxArrowDownIcon
-          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
+          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(1)}
         />
       ) : null,
@@ -54,7 +54,7 @@ export default function OrderStatus({
       title: language === "ar" ? "الطلب في الطريق" : "Commande en route",
       icon: !submitionLoading ? (
         <TruckIcon
-          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
+          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(2)}
         />
       ) : null,
@@ -63,7 +63,7 @@ export default function OrderStatus({
       title: language === "ar" ? "جاهز للاستلام" : "Prêt à être récupéré",
       icon: !submitionLoading ? (
         <TruckIcon
-          className="iconAsideBar cursor-pointer hover:text-blue-600 transition-colors"
+          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
           onClick={() => handleSubmitStatusProgress(2)}
         />
       ) : null,
@@ -77,15 +77,19 @@ export default function OrderStatus({
           : language === "ar"
           ? "تم التوصيل"
           : "Livré",
-      icon: <CheckCircleIcon className="iconAsideBar text-green-600" />,
+      icon: (
+        <CheckCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+      ),
     },
     {
       title: language === "ar" ? "تم الإرجاع" : "Retourné",
-      icon: <ArrowUturnLeftIcon className="iconAsideBar text-red-600" />,
+      icon: (
+        <ArrowUturnLeftIcon className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
+      ),
     },
     {
       title: language === "ar" ? "تم الدفع بالكامل" : "Entièrement payé",
-      icon: <CheckBadgeIcon className="iconAsideBar text-green-600" />,
+      icon: <CheckBadgeIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />,
     },
   ];
 
@@ -179,97 +183,95 @@ export default function OrderStatus({
         {stepsToShow.map((step, index) => (
           <div
             key={index}
-            className={`flex items-center w-full py-2 ${
-              language === "ar" ? "" : ""
-            }`}
+            className={`flex items-center justify-between w-full py-2 `}
             style={{
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             {language === "ar" ? (
               // Arabic layout: Number → Title → Icon
-              <>
-                {/* Number */}
-                <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 ${
-                    index === orderDetails.status
-                      ? "bg-blue-500 text-white"
-                      : index < orderDetails.status
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-400 text-white"
-                  }`}
-                >
-                  {index + 1}
-                </div>
+              <div className="w-full flex items-center justify-between">
+                <>
+                  {/* Number */}
+                  <div
+                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
+                      index === orderDetails.status
+                        ? "bg-blue-500 text-white"
+                        : index < orderDetails.status
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-400 text-white"
+                    }`}
+                    style={{
+                      minWidth: "32px",
+                      maxWidth: "32px",
+                      minHeight: "32px",
+                      maxHeight: "32px",
+                    }}
+                  >
+                    {index + 1}
+                  </div>
 
-                {/* Title */}
-                <span
-                  className={`flex-1 text-sm md:text-base ${
-                    index === orderDetails.status
-                      ? "text-blue-600 font-medium"
-                      : index < orderDetails.status
-                      ? "text-green-600 font-medium"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {step.title}
-                </span>
+                  {/* Title */}
+                  <span
+                    className={`flex-1 text-sm ${
+                      index === orderDetails.status
+                        ? "text-blue-600 font-medium"
+                        : index < orderDetails.status
+                        ? "text-green-600 font-medium"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {step.title}
+                  </span>
+                </>
 
                 {/* Icon */}
-                {step.icon && (
-                  <div className="flex-shrink-0 ml-3">{step.icon}</div>
-                )}
-              </>
+                {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
+              </div>
             ) : (
               // French layout: Number → Title → Icon
-              <>
-                {/* Number */}
-                <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                    language === "ar" ? "ml-3" : "mr-3"
-                  } ${
-                    index === orderDetails.status
-                      ? "bg-blue-500 text-white"
-                      : index < orderDetails.status
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-400 text-white"
-                  }`}
-                >
-                  {index + 1}
-                </div>
+              <div className="w-full flex items-center justify-between">
+                <>
+                  {/* Number */}
+                  <div
+                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
+                      index === orderDetails.status
+                        ? "bg-blue-500 text-white"
+                        : index < orderDetails.status
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-400 text-white"
+                    }`}
+                    style={{
+                      minWidth: "32px",
+                      maxWidth: "32px",
+                      minHeight: "32px",
+                      maxHeight: "32px",
+                    }}
+                  >
+                    {index + 1}
+                  </div>
 
-                {/* Title */}
-                <span
-                  className={`flex-1 text-sm md:text-base ${
-                    index === orderDetails.status
-                      ? "text-blue-600 font-medium"
-                      : index < orderDetails.status
-                      ? "text-green-600 font-medium"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {step.title}
-                </span>
+                  {/* Title */}
+                  <span
+                    className={`flex-1 text-sm ${
+                      index === orderDetails.status
+                        ? "text-blue-600 font-medium"
+                        : index < orderDetails.status
+                        ? "text-green-600 font-medium"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {step.title}
+                  </span>
+                </>
 
                 {/* Icon */}
-                {step.icon && (
-                  <div className="flex-shrink-0 ml-3">{step.icon}</div>
-                )}
-              </>
+                {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
+              </div>
             )}
           </div>
         ))}
       </div>
-
-      {/* Custom Mobile Responsive Styles */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .iconAsideBar {
-            width: 18px !important;
-            height: 18px !important;
-          }
-        }
-      `}</style>
 
       <Snackbar
         open={snackbarOpen}

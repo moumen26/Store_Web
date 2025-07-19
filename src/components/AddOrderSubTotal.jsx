@@ -4,6 +4,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatNumber } from "../util/useFullFunctions";
 
 function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
   return (
@@ -33,7 +34,7 @@ function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {subtotal} {language === "ar" ? "دج" : "DA"}
+                {formatNumber(subtotal)} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>
@@ -57,7 +58,7 @@ function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {deliveryAmount} {language === "ar" ? "دج" : "DA"}
+                {formatNumber(deliveryAmount)} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>
@@ -81,7 +82,7 @@ function AddOrderSubTotal({ subtotal, deliveryAmount, total, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {total} {language === "ar" ? "دج" : "DA"}
+                {formatNumber(total)} {language === "ar" ? "دج" : "DA"}
               </span>
             </TableCell>
           </TableRow>

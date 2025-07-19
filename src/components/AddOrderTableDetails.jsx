@@ -20,6 +20,7 @@ import ProductsContainerAddOrder from "./ProductContainerAddOrder";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";
+import { formatNumber } from "../util/useFullFunctions";
 
 function AddOrderTableDetails({
   openModal,
@@ -172,7 +173,7 @@ function AddOrderTableDetails({
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell
+        {/* <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
@@ -184,7 +185,7 @@ function AddOrderTableDetails({
           >
             {row._id}
           </span>
-        </TableCell>
+        </TableCell> */}
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
@@ -234,7 +235,7 @@ function AddOrderTableDetails({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {row.selling} DA
+            {formatNumber(row.selling)}
           </span>
         </TableCell>
         <TableCell
@@ -247,7 +248,7 @@ function AddOrderTableDetails({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {productAmount} DA
+            {formatNumber(productAmount)}
           </span>
         </TableCell>
         <TableCell
@@ -321,7 +322,7 @@ function AddOrderTableDetails({
         <Table>
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell
+              {/* <TableCell
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
@@ -334,7 +335,7 @@ function AddOrderTableDetails({
                 >
                   {language === "ar" ? "معرف المنتج" : "ID Produit"}
                 </span>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
@@ -389,6 +390,9 @@ function AddOrderTableDetails({
                   }}
                 >
                   {language === "ar" ? "السعر" : "Prix"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell
@@ -403,6 +407,9 @@ function AddOrderTableDetails({
                   }}
                 >
                   {language === "ar" ? "المبلغ" : "Montant"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell align="right" className="tableCell">

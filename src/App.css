@@ -169,6 +169,24 @@
     height: 45px;
     padding: 0 14px;
   }
+
+  .buttonAdd,
+  .buttonExport {
+    padding: 10px 16px;
+    font-size: 14px;
+    height: 45px;
+  }
+
+  .buttonAdd .iconAsideBar,
+  .buttonExport .iconAsideBar {
+    width: 18px;
+    height: 18px;
+  }
+
+  .buttonAdd .buttonTextLight,
+  .buttonExport .buttonTextDark {
+    font-size: 14px;
+  }
 }
 
 /* Small laptop screens (768px to 1024px) */
@@ -178,6 +196,24 @@
     width: 320px;
     height: 45px;
     padding: 0 12px;
+  }
+
+  .buttonAdd,
+  .buttonExport {
+    padding: 8px 14px;
+    font-size: 13px;
+    height: 42px;
+  }
+
+  .buttonAdd .iconAsideBar,
+  .buttonExport .iconAsideBar {
+    width: 16px;
+    height: 16px;
+  }
+
+  .buttonAdd .buttonTextLight,
+  .buttonExport .buttonTextDark {
+    font-size: 13px;
   }
 }
 
@@ -189,6 +225,24 @@
     height: 42px;
     padding: 0 10px;
   }
+
+  .buttonAdd,
+  .buttonExport {
+    padding: 6px 12px;
+    font-size: 12px;
+    height: 40px;
+  }
+
+  .buttonAdd .iconAsideBar,
+  .buttonExport .iconAsideBar {
+    width: 14px;
+    height: 14px;
+  }
+
+  .buttonAdd .buttonTextLight,
+  .buttonExport .buttonTextDark {
+    font-size: 12px;
+  }
 }
 
 /* Mobile screens (up to 480px) */
@@ -198,6 +252,25 @@
     width: 250px;
     height: 40px;
     padding: 0 8px;
+  }
+
+  .buttonAdd,
+  .buttonExport {
+    padding: 5px 10px;
+    font-size: 11px;
+    height: 38px;
+    min-width: 120px; /* Ensure buttons don't get too small */
+  }
+
+  .buttonAdd .iconAsideBar,
+  .buttonExport .iconAsideBar {
+    width: 12px;
+    height: 12px;
+  }
+
+  .buttonAdd .buttonTextLight,
+  .buttonExport .buttonTextDark {
+    font-size: 11px;
   }
 }
 
@@ -736,7 +809,7 @@ aside ul::-webkit-scrollbar {
 :root {
   --sb-track-color: #c9e4ee;
   --sb-thumb-color: #0d3a71;
-  --sb-size: 6px;
+  --sb-size: 3px;
   --sb-border-radius: 4px;
 }
 

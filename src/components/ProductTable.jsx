@@ -107,7 +107,6 @@ function Row({
           }}
         >
           {formatNumber(row.productBuyingPrice)}{" "}
-          {language === "ar" ? "دج" : "DA"}
         </span>
       </TableCell>
       <TableCell
@@ -131,7 +130,6 @@ function Row({
             }}
           >
             {formatNumber(row.productSellPrice)}{" "}
-            {language === "ar" ? "دج" : "DA"}
           </span>
         )}
       </TableCell>
@@ -645,6 +643,9 @@ export default function ProductTable({
                   }}
                 >
                   {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell
@@ -659,6 +660,9 @@ export default function ProductTable({
                   }}
                 >
                   {language === "ar" ? "سعر البيع" : "Prix de vente"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell
@@ -829,8 +833,12 @@ export default function ProductTable({
                 <div className="w-full flex justify-center h-[300px]">
                   <img
                     className="text-center"
-                    srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${StockData?.product?.image}`}
-                    src={`${import.meta.env.VITE_APP_FILES_URL}/${StockData?.product?.image}`}
+                    srcSet={`${import.meta.env.VITE_APP_FILES_URL}/${
+                      StockData?.product?.image
+                    }`}
+                    src={`${import.meta.env.VITE_APP_FILES_URL}/${
+                      StockData?.product?.image
+                    }`}
                     alt={StockData?.product?.name}
                     style={{ width: "auto", height: "100%" }}
                   />
@@ -1002,9 +1010,7 @@ export default function ProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar"
-                    ? "الكمية بالعلبة :"
-                    : "Qtt / Box :"}
+                  {language === "ar" ? "الكمية بالعلبة :" : "Qtt / Box :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input
@@ -1027,9 +1033,7 @@ export default function ProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar"
-                    ? "الكمية بالعلبة :"
-                    : "Qtt / Unité :"}
+                  {language === "ar" ? "الكمية بالعلبة :" : "Qtt / Unité :"}
                 </span>
                 <div className="inputForm w-[100%]">
                   <input

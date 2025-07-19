@@ -90,7 +90,7 @@ function Row(props) {
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {formatNumber(row.totalAmount)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.totalAmount)}
           </span>
         </TableCell>
         <TableCell
@@ -157,7 +157,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
+                        {language === "ar" ? "المبلغ" : "Montant"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -186,9 +189,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "السعر الإجمالي (دج)"
-                          : "Prix total (DA)"}
+                        {language === "ar" ? "السعر الإجمالي" : "Prix total"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                   </TableRow>
@@ -225,7 +229,6 @@ function Row(props) {
                           }}
                         >
                           {formatNumber(purchaseDetailsRow.price)}{" "}
-                          {language === "ar" ? "دج " : " DA"}
                         </span>
                       </TableCell>
                       <TableCell align="right" className="tableCell">
@@ -260,7 +263,6 @@ function Row(props) {
                                 purchaseDetailsRow.quantity.toString()
                             )
                           )}{" "}
-                          {language === "ar" ? "دج " : " DA"}
                         </span>
                       </TableCell>
                     </TableRow>
@@ -432,6 +434,9 @@ export default function PurchasesReturnsTable({
                 }}
               >
                 {language === "ar" ? "المبلغ" : "Montant"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">

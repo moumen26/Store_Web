@@ -121,6 +121,10 @@ export default function Asidebar({ language }) {
       className={`w-[17%] h-screen fixed top-0 ${
         language === "ar" ? "right-0 border-l" : "left-0 border-r"
       } border-[#353E5C] bg-[#19213D] shadow-lg overflow-y-auto p-6 pt-10 transition-all duration-300`}
+      style={{
+        scrollbarWidth: "thin",
+        scrollbarColor: "#353E5C #19213D",
+      }}
     >
       {/* Logo */}
       <div className="flex justify-center items-center mb-6 sm:mb-8 md:mb-9 lg:mb-10">
@@ -261,14 +265,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -301,14 +297,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -413,14 +401,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -453,14 +433,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -493,14 +465,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -533,14 +497,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -573,14 +529,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -685,14 +633,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -723,14 +663,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -763,14 +695,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -803,14 +727,6 @@ export default function Asidebar({ language }) {
                     }`}
                   >
                     <span
-                      className={`
-                        /* Responsive submenu margin */
-                        ${
-                          language === "ar"
-                            ? "mr-4 sm:mr-6 md:mr-7"
-                            : "ml-4 sm:ml-6 md:ml-7"
-                        }
-                      `}
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",

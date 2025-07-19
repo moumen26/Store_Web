@@ -86,7 +86,7 @@ function Row(props) {
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {formatNumber(row.totalAmount)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.totalAmount)}
           </span>
         </TableCell>
         <TableCell
@@ -102,7 +102,6 @@ function Row(props) {
             {formatNumber(
               row.payment.reduce((sum, pay) => sum + pay.amount, 0)
             )}{" "}
-            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
         <TableCell
@@ -169,7 +168,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
+                        {language === "ar" ? "المبلغ" : "Montant"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -198,9 +200,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "السعر الإجمالي (دج)"
-                          : "Prix total (DA)"}
+                        {language === "ar" ? "السعر الإجمالي)" : "Prix total"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                   </TableRow>
@@ -449,6 +452,9 @@ export default function CreditPurchasesTable({
                 }}
               >
                 {language === "ar" ? "المبلغ" : "Montant"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell
@@ -463,6 +469,9 @@ export default function CreditPurchasesTable({
                 }}
               >
                 {language === "ar" ? "الدفع" : "Paiement"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">

@@ -218,7 +218,7 @@ function AddAchatTableDetails({
         sx={{ "& > *": { borderBottom: "unset" } }}
         className="tableRow"
       >
-        <TableCell
+        {/* <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
         >
@@ -230,7 +230,7 @@ function AddAchatTableDetails({
           >
             {row.product._id}
           </span>
-        </TableCell>
+        </TableCell> */}
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
@@ -280,7 +280,7 @@ function AddAchatTableDetails({
             }}
             className="trTableSpan"
           >
-            {formatNumber(row.buying)} DA
+            {formatNumber(row.buying)}
           </span>
         </TableCell>
         <TableCell
@@ -293,7 +293,7 @@ function AddAchatTableDetails({
             }}
             className="trTableSpan"
           >
-            {formatNumber(productAmount)} DA
+            {formatNumber(productAmount)}
           </span>
         </TableCell>
         <TableCell
@@ -431,7 +431,7 @@ function AddAchatTableDetails({
         <Table>
           <TableHead className="tableHead">
             <TableRow>
-              <TableCell
+              {/* <TableCell
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
               >
@@ -444,7 +444,7 @@ function AddAchatTableDetails({
                 >
                   {language === "ar" ? "معرف المنتج" : "ID Produit"}
                 </span>
-              </TableCell>
+              </TableCell> */}
               <TableCell
                 className="tableCell"
                 align={language === "ar" ? "right" : "left"}
@@ -499,6 +499,9 @@ function AddAchatTableDetails({
                   className="thTableSpan"
                 >
                   {language === "ar" ? "السعر" : "Prix"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell
@@ -513,6 +516,9 @@ function AddAchatTableDetails({
                   className="thTableSpan"
                 >
                   {language === "ar" ? "المبلغ" : "Montant"}
+                  <span className="text-[10px] align-baseline">
+                    {language === "ar" ? "(دج)" : "(DA)"}
+                  </span>
                 </span>
               </TableCell>
               <TableCell align="right" className="tableCell">
@@ -541,7 +547,7 @@ function AddAchatTableDetails({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={6} align="center">
                   {rows.length === 0 ? (
                     <span
                       style={{

@@ -101,7 +101,6 @@ function Row(props) {
             }}
           >
             {formatNumber(Number(row.orderAmount))} {""}
-            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
         <TableCell align="right" className="tableCell">
@@ -180,7 +179,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar" ? "المبلغ (دج)" : "Montant (DA)"}
+                        {language === "ar" ? "المبلغ" : "Montant"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                     <TableCell align="right" className="tableCell">
@@ -209,9 +211,10 @@ function Row(props) {
                               : "",
                         }}
                       >
-                        {language === "ar"
-                          ? "السعر الإجمالي (دج)"
-                          : "Prix Total (DA)"}
+                        {language === "ar" ? "السعر الإجمالي" : "Prix Total"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                   </TableRow>
@@ -505,6 +508,9 @@ export default function OrdersTable({
                 }}
               >
                 {language === "ar" ? "المبلغ" : "Montant"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell align="right" className="tableCell">

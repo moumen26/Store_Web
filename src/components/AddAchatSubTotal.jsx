@@ -34,7 +34,7 @@ function AddAchatSubTotal({ total, discount = 0, language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {formatNumber(discount)} DA
+                {formatNumber(discount)} {language === "ar" ? "دج " : " DA"}
               </span>
             </TableCell>
           </TableRow>

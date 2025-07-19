@@ -4,7 +4,8 @@ import Logo from "../assets/Logo-mosagro.png";
 import franceIcon from "../assets/icons/france-icon.png";
 import arabicIcon from "../assets/icons/arab-icon.png";
 
-import SignUpImage from "../assets/images/SignUpImage.png";
+import SignUpImageFrench from "../assets/images/SignUpImage.png";
+import SignUpImageArabic from "../assets/images/SignUpImage.png";
 import ButtonFacebok from "../components/ButtonFacebok";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
@@ -253,11 +254,17 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
       {/* Main Content */}
       <div
-        className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden"
+        className={`w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden ${
+          language === "ar" ? "flex-row-reverse" : "flex-row"
+        }`}
         style={{ maxWidth: "100vw" }}
       >
-        {/* Left Side - Form */}
-        <div className="signUpContainerRight w-full h-full lg:w-2/3 lg:border-r-2 border-[#C9E4EE]">
+        {/* Form Container */}
+        <div
+          className={`signUpContainerRight w-full h-full lg:w-2/3 ${
+            language === "ar" ? "lg:border-l-2" : "lg:border-r-2"
+          } border-[#C9E4EE]`}
+        >
           <div
             className={`signUpContainerRightContainer ${
               language === "ar" ? "text-right" : "text-left"
@@ -348,9 +355,18 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
           </div>
         </div>
 
-        {/* Right Side - Image (Hidden on mobile, visible on large screens) */}
-        <div className="mobile-hidden">
-          <img className="w-[75%] max-w-full" src={SignUpImage} alt="Sign Up" />
+        {/* Image Container */}
+        <div
+          className="mobile-hidden flex justify-center items-center"
+          style={{
+            transform: `translateX(${language === "ar" ? "-80px" : "80px"})`,
+          }}
+        >
+          <img
+            className="max-w-full"
+            src={language === "ar" ? SignUpImageArabic : SignUpImageFrench}
+            alt="Sign Up"
+          />
         </div>
       </div>
 

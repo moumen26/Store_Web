@@ -29,7 +29,8 @@ export default function DashboardStocksAboutToFinishItem({
             }}
             className="dashboardText"
           >
-            {ProductName}
+            {ProductName?.split(" ").slice(0, 2).join(" ") +
+              (ProductName?.split(" ").length > 2 ? "..." : "")}
           </h3>
           <p
             style={{

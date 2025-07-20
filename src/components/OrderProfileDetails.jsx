@@ -223,7 +223,9 @@ export default function OrderProfileDetails({ orderDetails, language }) {
                       0
                     )
                 )}{" "}
-                {language === "ar" ? "دج " : " DA"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>{" "}
               </span>
             </TableCell>
           </TableRow>

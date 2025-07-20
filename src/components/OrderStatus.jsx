@@ -194,7 +194,9 @@ export default function OrderStatus({
                 <>
                   {/* Number */}
                   <div
-                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
+                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                      language === "ar" ? "ml-3" : "mr-3"
+                    } ${
                       index === orderDetails.status
                         ? "bg-blue-500 text-white"
                         : index < orderDetails.status

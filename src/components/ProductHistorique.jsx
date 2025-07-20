@@ -55,7 +55,7 @@ function ProductHistoriqueRow({
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
-          {historique.buying} {language === "ar" ? "دج" : "DA"}
+          {historique.buying}
         </span>
       </TableCell>
       <TableCell
@@ -68,7 +68,7 @@ function ProductHistoriqueRow({
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
-          {historique.selling} {language === "ar" ? "دج" : "DA"}
+          {historique.selling}
         </span>
       </TableCell>
       <TableCell
@@ -194,7 +194,10 @@ export default function ProductHistorique({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "سعر الشراء" : "Prix d'achat"}
+                {language === "ar" ? "سعر الشراء" : "Prix d'achat"}{" "}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell
@@ -208,7 +211,10 @@ export default function ProductHistorique({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "ar" ? "سعر البيع" : "Prix de vente"}
+                {language === "ar" ? "سعر البيع" : "Prix de vente"}{" "}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell

@@ -77,7 +77,7 @@ export default function PurchaseProfileDevicesProductTable({
       <Table sx={{ minWidth: 700 }} aria-label="spanning table">
         <TableHead className="tableHead">
           <TableRow>
-            <TableCell align={language === "ar" ? "right" : "left"} colSpan={4}>
+            <TableCell align={language === "ar" ? "right" : "left"} colSpan={5}>
               <span
                 className="thTableSpan"
                 style={{
@@ -101,6 +101,20 @@ export default function PurchaseProfileDevicesProductTable({
             </TableCell>
           </TableRow>
           <TableRow>
+            <TableCell
+              className="tableCell"
+              align={language === "ar" ? "right" : "left"}
+            >
+              <span
+                className="dashboardLatestOrdersDetails"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "صورة المنتج" : "Image du produit"}
+              </span>
+            </TableCell>
             <TableCell align={language === "ar" ? "right" : "left"}>
               <span
                 className="dashboardLatestOrdersDetails"
@@ -143,6 +157,9 @@ export default function PurchaseProfileDevicesProductTable({
                 }}
               >
                 {language === "ar" ? "الوحدة" : "Unité"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell align="right">
@@ -154,6 +171,9 @@ export default function PurchaseProfileDevicesProductTable({
                 }}
               >
                 {language === "ar" ? "المجموع" : "Total"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
           </TableRow>
@@ -161,6 +181,37 @@ export default function PurchaseProfileDevicesProductTable({
         <TableBody>
           {rows?.map((row, index) => (
             <TableRow key={index}>
+              <TableCell
+                className="tableCell"
+                align={language === "ar" ? "right" : "left"}
+              >
+                <span
+                  className="trTableSpan"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  <img
+                    src={
+                      row.image
+                        ? `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
+                        : "/no-image.png"
+                    }
+                    alt={row.productName}
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "contain",
+                      borderRadius: "4px",
+                      border: "1px solid #eee",
+                      background: "#fff",
+                      display: "inline-block",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                </span>
+              </TableCell>
               <TableCell align={language === "ar" ? "right" : "left"}>
                 <span
                   className="trTableSpan"
@@ -202,7 +253,7 @@ export default function PurchaseProfileDevicesProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {formatNumber(row.unit)} {language === "ar" ? "دج" : "DA"}
+                  {formatNumber(row.unit)}
                 </span>
               </TableCell>
               <TableCell align="right">
@@ -213,15 +264,15 @@ export default function PurchaseProfileDevicesProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {formatNumber(row.price)} {language === "ar" ? "دج" : "DA"}
+                  {formatNumber(row.price)}
                 </span>
               </TableCell>
             </TableRow>
           ))}
 
           <TableRow>
-            <TableCell rowSpan={4} />
-            <TableCell colSpan={3} align={language === "ar" ? "right" : "left"}>
+            <TableCell rowSpan={5} />
+            <TableCell colSpan={4} align={language === "ar" ? "right" : "left"}>
               <span
                 className="dashboardLatestOrdersDetails"
                 style={{
@@ -240,12 +291,15 @@ export default function PurchaseProfileDevicesProductTable({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {formatNumber(discount)} {language === "ar" ? "دج" : "DA"}
+                {formatNumber(discount)}&nbsp;
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2} align={language === "ar" ? "right" : "left"}>
+            <TableCell colSpan={3} align={language === "ar" ? "right" : "left"}>
               <span
                 className="dashboardLatestOrdersDetails"
                 style={{
@@ -265,13 +319,15 @@ export default function PurchaseProfileDevicesProductTable({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {formatNumber(invoiceSubtotal)}{" "}
-                {language === "ar" ? "دج" : "DA"}
+                {formatNumber(invoiceSubtotal)}&nbsp;
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>{" "}
               </span>
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={3} align={language === "ar" ? "right" : "left"}>
+            <TableCell colSpan={4} align={language === "ar" ? "right" : "left"}>
               <span
                 className="dashboardLatestOrdersDetails"
                 style={{
@@ -290,8 +346,10 @@ export default function PurchaseProfileDevicesProductTable({
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {formatNumber(Number(invoiceSubtotal) - Number(discount))}{" "}
-                {language === "ar" ? "دج" : "DA"}
+                {formatNumber(Number(invoiceSubtotal) - Number(discount))}&nbsp;
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>{" "}
               </span>
             </TableCell>
           </TableRow>

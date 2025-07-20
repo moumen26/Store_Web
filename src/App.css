@@ -883,6 +883,7 @@ aside ul::-webkit-scrollbar {
   font-size: 14px;
   color: var(--blackColor);
   font-family: Montserrat-Medium;
+  whitespace: "nowrap";
 }
 
 .thDetails,
@@ -948,6 +949,15 @@ aside ul::-webkit-scrollbar {
 .productSpan {
   font-size: 14px;
   color: var(--blackColor);
+}
+
+.productNameTruncate {
+  display: inline-block;
+  max-width: 160px; /* Or whatever fits your card */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr; /* You can dynamically change this in React */
 }
 
 .orderProfileSpan {

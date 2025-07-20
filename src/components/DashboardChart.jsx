@@ -194,6 +194,10 @@ export default function DashboardChart({ language }) {
           <div className="selectOptionChartClass">
             <select
               className="selectOptionChart"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
               name="selectOptionChart"
               id="selectOptionChart"
               value={selectedOption}

@@ -363,6 +363,7 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
       <ConfirmDialog
         open={OpenConfirmationDialog}
         onConfirm={handleSubmitCreateAchat}
+        language={language}
         onClose={handleCloseDialog}
         dialogTitle={
           language === "ar" ? "تأكيد عملية الشراء" : "Confirmation d'achat"

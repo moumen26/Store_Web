@@ -811,6 +811,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
+                        language={language}
                         buttonSpan={
                           language === "ar"
                             ? "تعيين كعربون"
@@ -822,6 +823,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
+                        language={language}
                         buttonSpan={
                           language === "ar"
                             ? "إلغاء العربون"
@@ -838,6 +840,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
+                        language={language}
                         buttonSpan={
                           language === "ar"
                             ? "تعيين كآجل"
@@ -849,6 +852,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
+                        language={language}
                         buttonSpan={
                           language === "ar"
                             ? "إلغاء الآجل"
@@ -863,6 +867,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   ? OrderData?.status >= 0 && (
                       <ButtonAdd
                         showIcon={false}
+                        language={language}
                         buttonSpan={
                           language === "ar"
                             ? "إضافة دفعة"
@@ -873,6 +878,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                     )
                   : OrderData?.status >= 0 && (
                       <ButtonAdd
+                        language={language}
                         showIcon={false}
                         buttonSpan={
                           language === "ar" ? "دفع كامل" : "Paiement complet"

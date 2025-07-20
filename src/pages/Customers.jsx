@@ -6,7 +6,11 @@ import CustomerTable from "../components/CustomerTable";
 import ButtonExportExel from "../components/ButtonExportExel";
 import Dialog from "@mui/material/Dialog";
 import Alert from "@mui/material/Alert";
-import { UserPlusIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -53,6 +57,10 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertType, setAlertType] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   //handle change functions
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -510,19 +518,30 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "كلمة المرور" : "Mot de passe"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm relative">
                   <input
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={Password}
                     onChange={handlePasswordChange}
                   />
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                  </div>
                 </div>
               </div>
+
               <div className="dialogAddCustomerItem">
                 <span
                   style={{
@@ -534,19 +553,30 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                     ? "تأكيد كلمة المرور"
                     : "Confirmer le mot de passe"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm relative">
                   <input
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     name="ConfirmPassword"
                     value={ConfirmPassword}
                     onChange={handleConfirmPasswordChange}
                   />
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                  </div>
                 </div>
               </div>
+
               <div className="dialogAddCustomerItem wilayaCommune">
                 <div className="WilayaCommuneClass">
                   <span

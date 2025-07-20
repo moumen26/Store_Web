@@ -24,10 +24,11 @@ export default function ProductCard({
       </div>
       <div className="productName flex-col items-center space-y-1">
         <span
+          title={productName}
           style={{
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
-          className="productSpan text-center"
+          className="productSpan productNameTruncate text-center"
         >
           {productName}
         </span>

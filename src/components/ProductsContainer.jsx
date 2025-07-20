@@ -52,6 +52,7 @@ export default function ProductsContainer({
             .map((product) => (
               <ProductCard
                 key={product._id}
+                language={language}
                 productName={
                   product.brand?.name + " " + product.name + " " + product.size
                 }

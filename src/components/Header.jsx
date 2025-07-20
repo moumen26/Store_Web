@@ -254,7 +254,7 @@ export default function Header({ language, toggleLanguage }) {
   };
 
   return (
-    <div className="Header w-fit flex items-center justify-between px-4 mb-2 md:px-6">
+    <div className="Header w-full sm:w-fit flex items-center justify-between mb-2">
       <div
         className={`flex items-center ${
           language === "ar" ? "gap-x-3 md:gap-x-6" : "space-x-3 md:space-x-6"

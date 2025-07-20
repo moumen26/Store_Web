@@ -735,6 +735,12 @@ function AddAchatTableDetails({
                         <div className="w-fit dialogAddCustomerItem items-center">
                           <span
                             className={`${language === "ar" ? "ml-5" : "mr-5"}`}
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
                           >
                             {language === "ar"
                               ? "سعر الشراء :"

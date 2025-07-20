@@ -6,7 +6,11 @@ import VendorsTable from "../components/VendorsTable";
 import ButtonExportExel from "../components/ButtonExportExel";
 import Dialog from "@mui/material/Dialog";
 import Alert from "@mui/material/Alert";
-import { UserPlusIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
@@ -25,6 +29,9 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   //form
   const [FirstName, setFirstName] = useState("");
@@ -492,6 +499,7 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
+              {/* Password Field */}
               <div className="dialogAddCustomerItem">
                 <span
                   style={{
@@ -501,19 +509,31 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "كلمة المرور" : "Mot de passe"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm relative">
                   <input
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={Password}
                     onChange={handlePasswordChange}
                   />
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {/* Confirm Password Field */}
               <div className="dialogAddCustomerItem">
                 <span
                   style={{
@@ -525,19 +545,30 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                     ? "تأكيد كلمة المرور"
                     : "Confirmer le mot de passe"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm relative">
                   <input
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     name="ConfirmPassword"
                     value={ConfirmPassword}
                     onChange={handleConfirmPasswordChange}
                   />
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                  </div>
                 </div>
               </div>
+
               <div className="dialogAddCustomerItem wilayaCommune">
                 <div className="WilayaCommuneClass">
                   <span

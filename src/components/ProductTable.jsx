@@ -614,7 +614,7 @@ export default function ProductTable({
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar" ? "صورة" : "Image"}
+                  {language === "ar" ? "صورة المنتج" : "Image du produit"}
                 </span>
               </TableCell>
               <TableCell
@@ -742,7 +742,7 @@ export default function ProductTable({
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
         contentLabel={language === "ar" ? "تفاصيل المنتج" : "Product Details"}
-        className="addNewModal addNewStockModal"
+        className="addNewModal addNewCustomerModal w-[90%]"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",

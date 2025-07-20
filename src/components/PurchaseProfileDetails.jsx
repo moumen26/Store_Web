@@ -167,7 +167,9 @@ export default function PurchaseProfileDetails({ data, language }) {
                     (data.payment?.reduce((sum, pay) => sum + pay.amount, 0) ||
                       0)
                 )}{" "}
-                {language === "ar" ? "دج " : " DA"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
           </TableRow>

@@ -29,7 +29,8 @@ export default function DashboardTopSellingProductItem({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {ProductName}
+            {ProductName?.split(" ").slice(0, 2).join(" ") +
+              (ProductName?.split(" ").length > 2 ? "..." : "")}
           </h3>
           <p
             className="dashboardSpan"

@@ -16,16 +16,18 @@ export default function OrderPDFTemplate({
     );
   };
 
-  const getStatusText = (status) => {
+  const getStatusText = (status, language = "fr") => {
     const statusMap = {
-      0: language === "ar" ? "في الانتظار" : "En attente",
-      1: language === "ar" ? "قيد التحضير" : "En préparation",
-      2: language === "ar" ? "جاهز للتسليم" : "Prêt pour livraison",
-      3: language === "ar" ? "تم التسليم" : "Livré",
-      10: language === "ar" ? "مكتمل" : "Terminé",
-      "-1": language === "ar" ? "ملغى" : "Annulé",
+      "-2": language === "ar" ? "تم إلغاء الطلب من قبل المتجر" : "Annulé par le magasin",
+      "-1": language === "ar" ? "تم إلغاء الطلب من قبل العميل" : "Annulé par le client",
+      "0": language === "ar" ? "في الانتظار" : "En attente",
+      "1": language === "ar" ? "قيد التحضير" : "En préparation", 
+      "2": language === "ar" ? "جاهز للتسليم" : "Prêt pour livraison",
+      "3": language === "ar" ? "تم التسليم" : "Livré",
+      "4": language === "ar" ? "تم الإرجاع" : "Retourné",
+      "10": language === "ar" ? "مكتمل" : "Terminé",
     };
-    return statusMap[status.toString()] || status;
+    return statusMap[status?.toString()] || statusMap["0"];
   };
 
   const calculateBoxDisplay = (item, language) => {

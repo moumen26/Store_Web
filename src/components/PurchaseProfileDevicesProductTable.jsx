@@ -35,12 +35,13 @@ export default function PurchaseProfileDevicesProductTable({
 
     if (totalBoxes < 1) {
       totalBoxes = 0;
-    }
+    }    
     return {
       name: item?.sousStock?.stock.product.name,
       size: item?.sousStock?.stock.product.size,
       qty: item.quantity,
       unit: item.price,
+      image: item?.sousStock?.stock.product.image,
       price: priceRow(item.quantity, item.price),
       box:
         language === "ar"
@@ -194,9 +195,7 @@ export default function PurchaseProfileDevicesProductTable({
                 >
                   <img
                     src={
-                      row.image
-                        ? `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
-                        : "/no-image.png"
+                      `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
                     }
                     alt={row.productName}
                     style={{

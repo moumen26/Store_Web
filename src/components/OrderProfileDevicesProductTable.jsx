@@ -70,6 +70,7 @@ export default function OrderProfileDevicesProductTable({
       size: item.product.size,
       qty: item.quantity,
       unit: item.price,
+      image: item.product.image,
       price: priceRow(item.quantity, item.price),
       box: `${boxText}${
         totalBoxes > 0 && remainingItems > 0 ? "+" : ""
@@ -206,9 +207,7 @@ export default function OrderProfileDevicesProductTable({
                 >
                   <img
                     src={
-                      row.image
-                        ? `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
-                        : "/no-image.png"
+                      `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
                     }
                     alt={row.productName}
                     style={{

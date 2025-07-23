@@ -65,9 +65,7 @@ function Row({
         >
           <img
             src={
-              row.image
-                ? `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
-                : "/no-image.png"
+              `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
             }
             alt={row.productName}
             style={{
@@ -578,7 +576,7 @@ export default function ProductTable({
       }
     }
   };
-
+  
   return (
     <>
       <TableContainer

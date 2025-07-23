@@ -22,9 +22,9 @@ export default function ButtonExportPDF({
   type = "purchase", // "purchase" or "order"
 }) {
   const handleExportPDF = async () => {
-    console.log("Export type:", type); // Debug log
-    console.log("Order data:", orderData); // Debug log
-    console.log("Purchase data:", purchaseData); // Debug log
+    // console.log("Export type:", type); // Debug log
+    // console.log("Order data:", orderData); // Debug log
+    // console.log("Purchase data:", purchaseData); // Debug log
 
     try {
       // Create a temporary container for the PDF template

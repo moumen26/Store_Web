@@ -23,6 +23,7 @@ import { PhotoIcon } from "@heroicons/react/16/solid";
 import ButtonAdd from "./ButtonAdd";
 import { Radio, RadioGroup } from "@mui/material";
 import { formatNumber } from "../util/useFullFunctions";
+import axios from "axios";
 
 function AddAchatTableDetails({
   isModalOpen,
@@ -42,6 +43,7 @@ function AddAchatTableDetails({
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [submitionLoading, setSubmitionLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -49,6 +51,39 @@ function AddAchatTableDetails({
   const [ClientQuantity, setClientQuantity] = useState(0);
   const [QuantityPerBox, setQuantityPerBox] = useState(0);
   const [QuantityPerUnity, setQuantityPerUnity] = useState(0);
+
+  //product form
+  const [productName, setProductName] = useState("");
+  const handleProductNameChange = (e) => {
+    setProductName(e.target.value);
+  };
+  const [productSize, setProductSize] = useState("");
+  const handleProductSizeChange = (e) => {
+    setProductSize(e.target.value);
+  };
+  const [productBoxItems, setProductBoxItems] = useState("");
+  const handleProductBoxItemsChange = (e) => {
+    setProductBoxItems(e.target.value);
+  };
+  const [productBrand, setProductBrand] = useState("");
+  const handleProductBrandChange = (e) => {
+    setProductBrand(e.target.value);
+  };
+  const [productCategory, setProductCategory] = useState("");
+  const handleProductCategoryChange = (e) => {
+    setProductCategory(e.target.value);
+  };
+
+  const clearProductFormFields = () => {
+    setProductName("");
+    setProductSize("");
+    setProductBoxItems("");
+    setProductBrand("");
+    setProductCategory("");
+    setImage(null);
+    fileInputRef.current.value = null;
+  };
+
   const handleQuantityPerBoxChange = (e) => {
     setQuantityPerBox(e.target.value);
 
@@ -91,14 +126,15 @@ function AddAchatTableDetails({
     setSellingPrice(e.target.value);
   };
 
-  const [isAddProdutModalOpen, setIsAddProdutModalOpen] = useState(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
   const handleOpenAddProductModal = () => {
-    setIsAddProdutModalOpen(true);
+    setIsAddProductModalOpen(true);
   };
 
   const handleCloseAddProductModal = () => {
-    setIsAddProdutModalOpen(false);
+    setIsAddProductModalOpen(false);
+    clearProductFormFields();
   };
 
   useEffect(() => {
@@ -389,6 +425,101 @@ function AddAchatTableDetails({
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
   });
+
+  // fetching Brand data
+  const fetchBrandData = async () => {
+    const response = await fetch(import.meta.env.VITE_APP_URL_BASE + `/Brand`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Brand data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: BrandData,
+    error: BrandError,
+    isLoading: BrandLoading,
+    refetch: BrandRefetch,
+  } = useQuery({
+    queryKey: ["BrandData", user?.token, location.key],
+    queryFn: fetchBrandData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+
+  // Refetch data when user changes
+  const handleRefetchDataChange = () => {
+    ProductRefetch();
+    CategoryRefetch();
+    BrandRefetch();
+  };
+
+  //save product API
+  const handleSavePRODUCT = async () => {
+    try {
+      setSubmitionLoading(true);
+      // Create a new FormData instance
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("Name", productName);
+      formData.append("Category", productCategory);
+      formData.append("Size", productSize);
+      formData.append("Brand", productBrand);
+      formData.append("BoxItems", productBoxItems);
+
+      const response = await axios.post(
+        import.meta.env.VITE_APP_URL_BASE + `/Product/create`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        handleRefetchDataChange();
+        clearProductFormFields();
+        setSubmitionLoading(false);
+        handleCloseAddProductModal();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error creating product: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error creating product");
+      }
+    } finally{
+      setSubmitionLoading(false);
+    }
+  };
+
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -944,8 +1075,9 @@ function AddAchatTableDetails({
         )}
       </Modal>
 
+      {/* New Modal for Adding Product */}
       <Modal
-        isOpen={isAddProdutModalOpen}
+        isOpen={isAddProductModalOpen}
         onRequestClose={handleCloseAddProductModal}
         contentLabel={language === "ar" ? "إضافة منتج جديد" : "Add New Product"}
         className="addNewModal"
@@ -956,278 +1088,269 @@ function AddAchatTableDetails({
           },
         }}
       >
-        <div
-          className="customerClass pb-0"
-          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
-        >
-          <h2
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-            className="dialogTitle"
+        {!submitionLoading || BrandLoading || CategoryLoading ? (
+          <div
+            className="customerClass pb-0"
+            style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
-            {language === "ar"
-              ? "إضافة منتج جديد إلى المخزون"
-              : "Ajouter un Nouveau Produit au Stock"}
-          </h2>
-          <div className="mt-[16px]">
-            <form>
-              <div className="flex-col space-y-8">
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
-                  </span>
-                  <div className="inputForm">
-                    <input
+            <h2
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+              className="dialogTitle"
+            >
+              {language === "ar"
+                ? "إضافة منتج جديد إلى المخزون"
+                : "Ajouter un Nouveau Produit a la Liste"}
+            </h2>
+            <div className="mt-[16px]">
+              <form>
+                <div className="flex-col space-y-8 mb-5">
+                  <div className="dialogAddCustomerItem">
+                    <span
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
-                      type="text"
-                      name="productName"
-                    />
-                  </div>
-                </div>
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar" ? "حجم المنتج :" : "Taille du Produit :"}
-                  </span>{" "}
-                  <div className="inputForm">
-                    <input
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      type="text"
-                      name="productName"
-                    />
-                  </div>
-                </div>
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar"
-                      ? "العناصر لكل صندوق :"
-                      : "Articles par Boîte :"}
-                  </span>{" "}
-                  <div className="inputForm">
-                    <input
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      type="number"
-                      name="productName"
-                    />
-                  </div>
-                </div>
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar"
-                      ? "فئة المنتج :"
-                      : "Catégorie de Produit :"}
-                  </span>{" "}
-                  <div className="selectStoreWilayaCommune w-[500px]">
-                    <select
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      name="productCategory"
                     >
-                      <option
-                        style={{
-                          fontFamily:
-                            language === "ar"
-                              ? "Cairo-Regular, sans-serif"
-                              : "",
-                        }}
-                        value=""
-                        disabled
-                        selected
-                      >
-                        {language === "ar"
-                          ? "-- اختر فئة المنتج --"
-                          : "-- Sélectionnez la Catégorie de Produit --"}
-                      </option>{" "}
-                      {/* {CategoryData?.map((category) => (
-                        <option 
-                         style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-                        key={category._id} value={category._id}>
-                          {category.name}
-                        </option>
-                      ))} */}
-                    </select>
-                  </div>
-                </div>
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar"
-                      ? "ماركة المنتج :"
-                      : "Marque du Produit :"}
-                  </span>{" "}
-                  <div className="selectStoreWilayaCommune w-[500px]">
-                    <select
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      name="productCategory"
-                    >
-                      <option
-                        style={{
-                          fontFamily:
-                            language === "ar"
-                              ? "Cairo-Regular, sans-serif"
-                              : "",
-                        }}
-                        value=""
-                        disabled
-                        selected
-                      >
-                        {language === "ar"
-                          ? "-- اختر ماركة المنتج --"
-                          : "-- Sélectionnez la Marque du Produit --"}
-                      </option>{" "}
-                      {/* {BrandData?.map((category) => (
-                        <option 
-                         style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-                        key={category._id} value={category._id}>
-                          {category.name}
-                        </option>
-                      ))} */}
-                    </select>
-                  </div>
-                </div>
-                <div className="dialogAddCustomerItem items-center">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar" ? "صورة المنتج :" : "Image du Produit :"}
-                  </span>{" "}
-                  <div className="productPicture">
-                    <div
-                      className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
-                      onClick={handleClick}
-                    >
-                      {image ? (
-                        <img
-                          src={image}
-                          alt="Preview"
-                          className="w-full h-full object-cover rounded-full"
-                        />
-                      ) : (
-                        <PhotoIcon className="w-6 h-6 text-slate-400" />
-                      )}
-                    </div>
-                    <div className="h-[80px] w-[404px] flex items-center justify-center uploadClass">
+                      {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
+                    </span>
+                    <div className="inputForm">
                       <input
                         style={{
                           fontFamily:
                             language === "ar"
                               ? "Cairo-Regular, sans-serif"
                               : "",
-                          display: "none",
                         }}
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        onChange={handleImageChange}
+                        type="text"
+                        name="productName"
+                        value={productName}
+                        onChange={handleProductNameChange}
                       />
-                      <p
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "حجم المنتج :"
+                        : "Taille du Produit :"}
+                    </span>
+                    <div className="inputForm">
+                      <input
                         style={{
                           fontFamily:
                             language === "ar"
                               ? "Cairo-Regular, sans-serif"
                               : "",
                         }}
-                        onClick={handleClick}
-                        className="uploadSpan"
+                        type="text"
+                        name="productSize"
+                        value={productSize}
+                        onChange={handleProductSizeChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "لكل صندوق :"
+                        : "Articles par Boîte :"}
+                    </span>
+                    <div className="inputForm">
+                      <input
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        type="number"
+                        name="productBoxItems"
+                        value={productBoxItems}
+                        onChange={handleProductBoxItemsChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "فئة المنتج :"
+                        : "Catégorie de Produit :"}
+                    </span>
+                    <div className="selectStoreWilayaCommune w-[500px]">
+                      <select
+                        name="productCategory"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        value={productCategory}
+                        onChange={handleProductCategoryChange}
                       >
-                        <span
+                        <option value="" disabled selected>
+                          {language === "ar"
+                            ? "-- اختر فئة المنتج --"
+                            : "-- Sélectionnez la Catégorie de Produit --"}
+                        </option>
+                        {CategoryData?.map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "ماركة المنتج :"
+                        : "Marque du Produit :"}
+                    </span>
+                    <div className="selectStoreWilayaCommune w-[500px]">
+                      <select
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                        name="productBrand"
+                        value={productBrand}
+                        onChange={handleProductBrandChange}
+                      >
+                        <option value="" disabled selected>
+                          {language === "ar"
+                            ? "-- اختر ماركة المنتج --"
+                            : "-- Sélectionnez la Marque du Produit --"}
+                        </option>
+                        {BrandData?.map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="dialogAddCustomerItem">
+                    <span
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "صورة المنتج :"
+                        : "Image du Produit :"}
+                    </span>
+                    <div className="productPicture">
+                      <div
+                        className="w-[80px] h-[80px] bg-slate-200 rounded-full cursor-pointer flex items-center justify-center relative overflow-hidden"
+                        onClick={handleClick}
+                      >
+                        {image ? (
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt="Preview"
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        ) : (
+                          <PhotoIcon className="w-6 h-6 text-slate-400" />
+                        )}
+                      </div>
+                      <div className="uploadClass">
+                        <input
                           style={{
                             fontFamily:
                               language === "ar"
                                 ? "Cairo-Regular, sans-serif"
                                 : "",
+                            display: "none",
                           }}
-                          className="text-blue-600"
-                        >
+                          type="file"
+                          accept="image/*"
+                          ref={fileInputRef}
+                          onChange={handleImageChange}
+                        />
+                        <p onClick={handleClick} className="uploadSpan">
+                          <span
+                            className="text-blue-600"
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {language === "ar"
+                              ? "انقر لتحميل"
+                              : "Cliquez pour télécharger"}{" "}
+                          </span>
                           {language === "ar"
-                            ? "انقر لتحميل"
-                            : "Cliquez pour télécharger"}{" "}
-                        </span>
-                        {language === "ar"
-                          ? "أو اسحب وأفلت ملف SVG أو PNG أو JPG"
-                          : "ou glissez-déposez un fichier SVG, PNG, JPG"}
-                      </p>
+                            ? "أو اسحب وأفلت ملف SVG أو PNG أو JPG"
+                            : "ou glissez-déposez un fichier SVG, PNG, JPG"}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className={`flex justify-end space-x-8 mt-4 ${
-                  language === "ar" ? "space-x-reverse" : ""
-                }`}
-              >
-                {" "}
-                <button
-                  style={{
-                    fontFamily:
-                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                  }}
-                  className="text-gray-500 cursor-pointer hover:text-gray-700"
-                  onClick={handleCloseAddProductModal}
+                <div
+                  className={`flex justify-end space-x-8 ${
+                    language === "ar" ? "space-x-reverse" : ""
+                  }`}
                 >
-                  {language === "ar" ? "إلغاء" : "Annuler"}
-                </button>
-                <input
-                  style={{
-                    fontFamily:
-                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                  }}
-                  type="button"
-                  value={language === "ar" ? "حفظ" : "Enregistrer"}
-                  className="text-blue-500 cursor-pointer hover:text-blue-700"
-                  // onClick={handleSavePRODUCT}
-                />
-              </div>
-            </form>
+                  <button
+                    className="text-gray-500 cursor-pointer hover:text-gray-700"
+                    onClick={handleCloseAddProductModal}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "إلغاء" : "Annuler"}
+                  </button>
+                  <input
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                    type="button"
+                    value={language === "ar" ? "حفظ" : "Enregistrer"}
+                    className="text-blue-500 cursor-pointer hover:text-blue-700"
+                    onClick={handleSavePRODUCT}
+                  />
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       </Modal>
 
       <ConfirmDialog

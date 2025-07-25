@@ -58,8 +58,6 @@ export default function AddAchat({ onToggle, toggleLanguage, language }) {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setQuantityPerBox(0);
-    setQuantityPerUnity(0);
   };
 
   const handleRemiseOpenModal = () => {

@@ -220,9 +220,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((orderDetailsRow) => (
+                  {row.orderDetails.map((orderDetailsRow, index) => (
                     <TableRow
-                      key={orderDetailsRow.productName}
+                      key={`${orderDetailsRow.productName}-${index}`}
                       className="tableRow"
                     >
                       <TableCell
@@ -325,19 +325,45 @@ Row.propTypes = {
 export default function OrdersArchiveTable({
   searchQuery,
   setFilteredData,
+  setLatestOrderData,
   dateRange,
   language,
+  currentPage,
+  onPaginationChange,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
 
+  // Build query parameters for server-side filtering
+  const buildQueryParams = () => {
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: "15",
+    });
+
+    if (searchQuery && searchQuery.trim() !== "") {
+      params.append("search", searchQuery.trim());
+    }
+
+    if (dateRange.startDate) {
+      params.append("startDate", dateRange.startDate);
+    }
+
+    if (dateRange.endDate) {
+      params.append("endDate", dateRange.endDate);
+    }
+
+    return params.toString();
+  };
+
   //fetch data
   const DelivredfetchOrderData = async () => {
+    const queryParams = buildQueryParams();
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Receipt/delivred/all/${
         decodedToken.id
-      }`,
+      }?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -350,7 +376,22 @@ export default function OrdersArchiveTable({
     if (!response.ok) {
       const errorData = await response.json();
       if (errorData.error.statusCode === 404) {
-        return []; // Return an empty array if no data is found
+        return {
+          data: [],
+          pagination: {
+            total_pages: 0,
+            total_items: 0,
+            current_page: 1,
+            items_per_page: 15,
+            has_next_page: false,
+            has_prev_page: false,
+          },
+          filters: {
+            search: searchQuery || "",
+            startDate: dateRange.startDate || "",
+            endDate: dateRange.endDate || "",
+          },
+        }; // Return an empty array if no data is found
       } else {
         throw new Error("Error receiving order data");
       }
@@ -360,30 +401,38 @@ export default function OrdersArchiveTable({
   };
   // useQuery hook to fetch data
   const {
-    data: DelivredOrderData,
+    data: OrderResponse,
     error: DelivredOrderDataError,
     isLoading: DelivredOrderDataLoading,
     refetch: DelivredrefetchOrderData,
   } = useQuery({
-    queryKey: ["DelivredOrderData", user?.token, location.key],
+    queryKey: [
+      "DelivredOrderData",
+      user?.token,
+      currentPage,
+      searchQuery,
+      dateRange.startDate,
+      dateRange.endDate,
+      location.key
+    ],
     queryFn: DelivredfetchOrderData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
     refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
-    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    staleTime: 1000 * 60 * 2, // Data is fresh for 2 minutes
     retry: 2, // Retry failed requests 2 times
     retryDelay: 1000, // Delay between retries (1 second)
+    keepPreviousData: true, // Keep previous data while loading new data
   });
 
   const [rows, setRows] = useState([]);
-  const [filteredRows, setFilteredRows] = useState([]);
-
+  // Transform OrderResponse data into rows when it changes
   useEffect(() => {
-    if (DelivredOrderData?.length > 0) {
-      const rowsData = DelivredOrderData.map((order) => ({
+    if (OrderResponse?.data?.length > 0) {
+      const rowsData = OrderResponse.data.map((order) => ({
         orderId: order._id,
         customerFirstName: order.client.firstName,
         customerLastName: order.client.lastName,
-        orderDate: order.date,
+        orderDate: order.createdAt || order.date, // Use createdAt for date filtering
         orderAmount: order.total.toString(),
         orderStatus: order.status.toString(),
         orderType: order.type.toString(),
@@ -394,53 +443,32 @@ export default function OrdersArchiveTable({
           productQuantity: item.quantity.toString(),
         })),
       }));
+
       setRows(rowsData);
-      setFilteredRows(rowsData);
+      setLatestOrderData(rowsData); // Set latest order data for summary calculations
+      setFilteredData(rowsData); // All data is already filtered on server-side
+
+      // Pass pagination info to parent
+      if (onPaginationChange) {
+        onPaginationChange(OrderResponse.pagination);
+      }
     } else {
       setRows([]);
+      setFilteredData([]);
+      setLatestOrderData([]); // Reset latest order data if no orders found
+
+      if (onPaginationChange) {
+        onPaginationChange({
+          total_pages: 0,
+          total_items: 0,
+          current_page: 1,
+          items_per_page: 10,
+          has_next_page: false,
+          has_prev_page: false,
+        });
+      }
     }
-  }, [DelivredOrderData]);
-
-  // Memoized filtered rows based on searchQuery
-  const filteredResults = useMemo(() => {
-    // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
-      return rows;
-
-    return rows.filter((row) => {
-      // Check if the row matches the search query
-      const matchesSearchQuery =
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-      // Check if the row's order date falls within the specified date range
-      const orderDate = new Date(row.orderDate);
-      const startDate = new Date(dateRange.startDate);
-      const endDate = new Date(dateRange.endDate);
-
-      const isWithinDateRange =
-        (!dateRange.startDate || orderDate >= startDate) &&
-        (!dateRange.endDate || orderDate <= endDate);
-
-      // Return true if both conditions are met
-      return matchesSearchQuery && isWithinDateRange;
-    });
-  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
-
-  // Update filteredRows and filteredData when filteredResults change
-  useEffect(() => {
-    setFilteredRows(filteredResults);
-    setFilteredData(filteredResults);
-  }, [filteredResults, setFilteredData]);
+  }, [OrderResponse, setLatestOrderData, setFilteredData, onPaginationChange]);
 
   return (
     <TableContainer
@@ -466,20 +494,6 @@ export default function OrdersArchiveTable({
                 {language === "ar" ? "العميل" : "Client"}
               </span>
             </TableCell>
-            {/* <TableCell
-              className="tableCell"
-              align={language === "ar" ? "right" : "left"}
-            >
-              <span
-                className="thTableSpan"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
-              </span>
-            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
@@ -536,8 +550,8 @@ export default function OrdersArchiveTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.length > 0 ? (
-            [...filteredRows]
+          {rows.length > 0 ? (
+            [...rows]
               .reverse()
               .map((row) => (
                 <Row key={row.orderId} row={row} language={language} />

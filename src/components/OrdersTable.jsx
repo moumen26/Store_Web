@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -64,19 +64,6 @@ function Row(props) {
             {row.customerFirstName} {row.customerLastName}
           </span>
         </TableCell>
-        {/* <TableCell
-          className="tableCell"
-          align={language === "ar" ? "right" : "left"}
-        >
-          <span
-            className="trTableSpan"
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {row.orderId}
-          </span>
-        </TableCell> */}
         <TableCell
           className="tableCell"
           align={language === "ar" ? "right" : "left"}
@@ -220,9 +207,9 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderDetails.map((orderDetailsRow) => (
+                  {row.orderDetails.map((orderDetailsRow, index) => (
                     <TableRow
-                      key={orderDetailsRow.productName}
+                      key={`${orderDetailsRow.productName}-${index}`}
                       className="tableRow"
                     >
                       <TableCell
@@ -328,17 +315,42 @@ export default function OrdersTable({
   setLatestOrderData,
   dateRange,
   language,
+  currentPage,
+  onPaginationChange,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
 
-  //fetch data
+  // Build query parameters for server-side filtering
+  const buildQueryParams = () => {
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: "15",
+    });
+
+    if (searchQuery && searchQuery.trim() !== "") {
+      params.append("search", searchQuery.trim());
+    }
+
+    if (dateRange.startDate) {
+      params.append("startDate", dateRange.startDate);
+    }
+
+    if (dateRange.endDate) {
+      params.append("endDate", dateRange.endDate);
+    }
+
+    return params.toString();
+  };
+
+  // Fetch data with server-side pagination and filtering
   const LatestfetchOrderData = async () => {
+    const queryParams = buildQueryParams();
     const response = await fetch(
       `${import.meta.env.VITE_APP_URL_BASE}/Receipt/latest/all/${
         decodedToken.id
-      }`,
+      }?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -351,40 +363,65 @@ export default function OrdersTable({
     if (!response.ok) {
       const errorData = await response.json();
       if (errorData.error.statusCode === 404) {
-        return []; // Return an empty array if no data is found
+        return {
+          data: [],
+          pagination: {
+            total_pages: 0,
+            total_items: 0,
+            current_page: 1,
+            items_per_page: 15,
+            has_next_page: false,
+            has_prev_page: false,
+          },
+          filters: {
+            search: searchQuery || "",
+            startDate: dateRange.startDate || "",
+            endDate: dateRange.endDate || "",
+          },
+        };
       } else {
         throw new Error("Error receiving order data");
       }
     }
 
-    return await response.json(); // Return the data if the response is successful
+    return await response.json();
   };
+
   // useQuery hook to fetch data
   const {
-    data: LatestOrderData,
+    data: OrderResponse,
     error: LatestOrderDataError,
     isLoading: LatestOrderDataLoading,
     refetch: LatestrefetchOrderData,
   } = useQuery({
-    queryKey: ["LatestOrderData", user?.token],
+    queryKey: [
+      "LatestOrderData",
+      user?.token,
+      currentPage,
+      searchQuery,
+      dateRange.startDate,
+      dateRange.endDate,
+      location.key
+    ],
     queryFn: LatestfetchOrderData,
-    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
-    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
-    retry: 2, // Retry failed requests 2 times
-    retryDelay: 1000, // Delay between retries (1 second)
+    enabled: !!user?.token,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    retry: 2,
+    retryDelay: 1000,
+    keepPreviousData: true, // Keep previous data while loading new data
   });
-  const [rows, setRows] = useState([]);
-  const [filteredRows, setFilteredRows] = useState([]);
 
-  // Transform LatestOrderData into rows when it changes
+  const [rows, setRows] = useState([]);
+
+  // Transform OrderResponse data into rows when it changes
   useEffect(() => {
-    if (LatestOrderData?.length > 0) {
-      const rowsData = LatestOrderData.map((order) => ({
+    if (OrderResponse?.data?.length > 0) {
+      const rowsData = OrderResponse.data.map((order) => ({
         orderId: order._id,
         customerFirstName: order.client.firstName,
         customerLastName: order.client.lastName,
-        orderDate: order.date,
+        orderDate: order.createdAt || order.date, // Use createdAt for date filtering
         orderAmount: order.total.toString(),
         orderStatus: order.status.toString(),
         orderType: order.type.toString(),
@@ -395,55 +432,33 @@ export default function OrdersTable({
           productQuantity: item.quantity.toString(),
         })),
       }));
+
       setRows(rowsData);
-      setFilteredRows(rowsData); // Initialize filteredRows with rowsData
-      setLatestOrderData(rowsData); // Update LatestOrderData state
+      setLatestOrderData(rowsData);
+      setFilteredData(rowsData); // All data is already filtered on server-side
+
+      // Pass pagination info to parent
+      if (onPaginationChange) {
+        onPaginationChange(OrderResponse.pagination);
+      }
     } else {
       setRows([]);
+      setLatestOrderData([]);
+      setFilteredData([]);
+
+      if (onPaginationChange) {
+        onPaginationChange({
+          total_pages: 0,
+          total_items: 0,
+          current_page: 1,
+          items_per_page: 10,
+          has_next_page: false,
+          has_prev_page: false,
+        });
+      }
     }
-  }, [LatestOrderData]);
+  }, [OrderResponse, setLatestOrderData, setFilteredData, onPaginationChange]);
 
-  // Memoized filtered rows based on searchQuery
-  const filteredResults = useMemo(() => {
-    // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
-      return rows;
-
-    return rows.filter((row) => {
-      // Check if the row matches the search query
-      const matchesSearchQuery =
-        row.customerLastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.customerFirstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderAmount.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.orderDetails.some((detail) =>
-          detail.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-      // Check if the row's order date falls within the specified date range
-      const orderDate = new Date(row.orderDate);
-      const startDate = new Date(dateRange.startDate);
-      const endDate = new Date(dateRange.endDate);
-
-      const isWithinDateRange =
-        (!dateRange.startDate || orderDate >= startDate) &&
-        (!dateRange.endDate || orderDate <= endDate);
-
-      // Return true if both conditions are met
-      return matchesSearchQuery && isWithinDateRange;
-    });
-  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
-
-  // Update filteredRows and filteredData when filteredResults change
-  useEffect(() => {
-    setFilteredRows(filteredResults);
-    setFilteredData(filteredResults);
-    setLatestOrderData(filteredResults);
-  }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -468,20 +483,6 @@ export default function OrdersTable({
                 {language === "ar" ? "العميل" : "Client"}
               </span>
             </TableCell>
-            {/* <TableCell
-              className="tableCell"
-              align={language === "ar" ? "right" : "left"}
-            >
-              <span
-                className="thTableSpan"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar" ? "معرف الطلب" : "ID de la Commande"}
-              </span>
-            </TableCell> */}
             <TableCell
               className="tableCell"
               align={language === "ar" ? "right" : "left"}
@@ -538,8 +539,8 @@ export default function OrdersTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.length > 0 ? (
-            [...filteredRows]
+          {rows.length > 0 ? (
+            [...rows]
               .reverse()
               .map((row) => (
                 <Row key={row.orderId} row={row} language={language} />

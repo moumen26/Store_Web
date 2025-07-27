@@ -2783,3 +2783,158 @@ main.main-collapsed .pagesContainer {
     padding: 6px;
   }
 }
+
+/* Simple Pagination Styles */
+.simple-pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #E5E7EB;
+  background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+  border-radius: 0 0 10px 10px;
+  gap: 16px;
+}
+
+.pagination-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #E5E7EB;
+  background: white;
+  color: #374151;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-nav-btn:hover:not(:disabled) {
+  background: #3B82F6;
+  border-color: #3B82F6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.pagination-nav-btn:active:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.pagination-nav-btn:disabled {
+  background: #F9FAFB;
+  color: #D1D5DB;
+  cursor: not-allowed;
+  border-color: #F3F4F6;
+  box-shadow: none;
+}
+
+.pagination-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.page-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.page-number {
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.page-separator {
+  font-size: 16px;
+  opacity: 0.8;
+  margin: 0 4px;
+}
+
+.total-pages {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .simple-pagination-container {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .pagination-nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .pagination-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .page-display {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 90px;
+  }
+  
+  .page-number {
+    font-size: 16px;
+  }
+  
+  .page-separator,
+  .total-pages {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .simple-pagination-container {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .pagination-nav-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .pagination-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .page-display {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 80px;
+  }
+  
+  .page-number {
+    font-size: 15px;
+  }
+  
+  .page-separator,
+  .total-pages {
+    font-size: 13px;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] .simple-pagination-container {
+  direction: rtl;
+}

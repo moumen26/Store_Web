@@ -1,22 +1,73 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import { EqualsIcon } from "@heroicons/react/16/solid";
-
 import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersArchiveTable from "../components/OrdersArchiveTable";
 import DashboardCalendar from "../components/DashboardCalendar";
+import ModernPagination from "../components/ModernPagination";
 
 export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [latestOrderData, setLatestOrderData] = useState([]);
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
   });
 
+  // Server-side pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [paginationInfo, setPaginationInfo] = useState({
+    current_page: 1,
+    total_pages: 0,
+    total_items: 0,
+    items_per_page: 15,
+    has_next_page: false,
+    has_prev_page: false,
+  });
+
+  // Debounced search state
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Reset to page 1 when search or date filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchQuery, dateRange.startDate, dateRange.endDate]);
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleDateChange = (start, end) => {
+    setDateRange({ startDate: start, endDate: end });
+  };
+
+  // Handle pagination info from OrdersTable
+  const handlePaginationChange = useCallback((paginationData) => {
+    setPaginationInfo(paginationData);
+    setTotalPages(paginationData.total_pages || 0);
+    setTotalItems(paginationData.total_items || 0);
+  }, []);
+
+  // Calculate summary data for cards
+  const summaryData = {
+    totalOrders: totalItems, // Use server-side total
   };
 
   return (
@@ -41,9 +92,7 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
             {language === "ar" ? "أرشيف الطلبات" : "Archive des commandes"}
           </h2>
           <DashboardCalendar
-            onDateChange={(start, end) =>
-              setDateRange({ startDate: start, endDate: end })
-            }
+            onDateChange={handleDateChange}
             language={language}
           />
         </div>
@@ -77,12 +126,68 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
         </div>
         <div className="pageTableContainer">
           <OrdersArchiveTable
-            searchQuery={searchQuery}
+            searchQuery={debouncedSearchQuery}
             setFilteredData={setFilteredData}
+            setLatestOrderData={setLatestOrderData}
             dateRange={dateRange}
             language={language}
+            currentPage={currentPage}
+            onPaginationChange={handlePaginationChange}
           />
         </div>
+        {/* Modern Pagination - only show if there are multiple pages */}
+        {totalPages > 1 && (
+          <ModernPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            language={language}
+          />
+        )}
+
+        {/* Pagination Info */}
+        {totalItems > 0 && (
+          <div className="pagination-info" style={{ 
+            padding: "12px 20px", 
+            fontSize: "14px", 
+            color: "#6B7280",
+            textAlign: language === "ar" ? "right" : "left",
+            borderTop: "1px solid #E5E7EB"
+          }}>
+            {language === "ar" 
+              ? `إظهار ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} من أصل ${totalItems} طلب`
+              : `Affichage de ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} sur ${totalItems} commandes`
+            }
+          </div>
+        )}
+
+        {/* Active Filters Display */}
+        {(debouncedSearchQuery || dateRange.startDate || dateRange.endDate) && (
+          <div className="active-filters" style={{
+            padding: "8px 20px",
+            backgroundColor: "#F3F4F6",
+            borderTop: "1px solid #E5E7EB",
+            fontSize: "12px",
+            color: "#6B7280"
+          }}>
+            <span style={{ fontWeight: "500" }}>
+              {language === "ar" ? "المرشحات النشطة:" : "Filtres actifs:"}
+            </span>
+            {debouncedSearchQuery && (
+              <span style={{ marginLeft: "8px", marginRight: "8px" }}>
+                {language === "ar" ? `البحث: "${debouncedSearchQuery}"` : `Recherche: "${debouncedSearchQuery}"`}
+              </span>
+            )}
+            {dateRange.startDate && dateRange.endDate && (
+              <span style={{ marginLeft: "8px", marginRight: "8px" }}>
+                {language === "ar" 
+                  ? `التاريخ: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
+                  : `Date: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
+                }
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

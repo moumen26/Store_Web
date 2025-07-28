@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -26,6 +26,7 @@ export default function FournisseurProfile({
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [submitionLoading, setSubmitionLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -37,13 +38,73 @@ export default function FournisseurProfile({
   };
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [FilteredPurchaseResponse, setFilteredPurchaseResponse] = useState([]);
+
+  // Server-side pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [paginationInfo, setPaginationInfo] = useState({
+    current_page: 1,
+    total_pages: 0,
+    total_items: 0,
+    items_per_page: 15,
+    has_next_page: false,
+    has_prev_page: false,
+  });
+
+  // Debounced search state
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Reset to page 1 when search or date filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchQuery]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const navigate = useNavigate();
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle pagination info from OrdersTable
+  const handlePaginationChange = useCallback((paginationData) => {
+    setPaginationInfo(paginationData);
+    setTotalPages(paginationData.total_pages || 0);
+    setTotalItems(paginationData.total_items || 0);
+    setTotalPrice(paginationData.total_price || 0);
+  }, []);
+
+  // Calculate summary data for cards
+  const summaryData = {
+    totalOrders: totalItems, // Use server-side total
+    totalAmount: totalPrice, // This shows amount for current page only
+  };
+  // Build query parameters for server-side filtering
+  const buildQueryParams = () => {
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: "15",
+    });
+
+    if (searchQuery && searchQuery.trim() !== "") {
+      params.append("search", searchQuery.trim());
+    }
+
+    return params.toString();
+  };
 
   const [addPayementModal, setAddPayementModal] = useState(false);
 
@@ -89,14 +150,19 @@ export default function FournisseurProfile({
     queryKey: ["OneFournisseurData", user?.token, location.key],
     queryFn: fetchOneFournisseurData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    retry: 2,
+    retryDelay: 1000,
+    keepPreviousData: true, // Keep previous data while loading new data
   });
 
   // fetching Achat Data By Fournisseur data
   const fetchAchatDataByFournisseur = async () => {
+    const queryParams = buildQueryParams();
     const response = await fetch(
       import.meta.env.VITE_APP_URL_BASE +
-        `/Purchase/all/${decodedToken.id}/${id}`,
+        `/Purchase/all/${decodedToken.id}/${id}?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -109,24 +175,72 @@ export default function FournisseurProfile({
     // Handle the error state
     if (!response.ok) {
       const errorData = await response.json();
-      if (errorData.error.statusCode == 404) return [];
-      else throw new Error("Error receiving achat by fournisseur data");
+      if (errorData.error.statusCode == 404) {
+        return {
+          data: [],
+          pagination: {
+            total_pages: 0,
+            total_items: 0,
+            current_page: 1,
+            items_per_page: 15,
+            has_next_page: false,
+            has_prev_page: false,
+          },
+          filters: {
+            search: searchQuery || "",
+          },
+        };
+      } else throw new Error("Error receiving achat by fournisseur data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
   const {
-    data: AchatDataByFournisseur,
+    data: PurchaseResponse,
     error: AchatDataByFournisseurError,
     isLoading: AchatDataByFournisseurLoading,
     refetch: AchatDataByFournisseurRefetch,
   } = useQuery({
-    queryKey: ["AchatDataByFournisseur", user?.token, location.key],
+    queryKey: [
+      "AchatDataByFournisseur",
+      user?.token,
+      currentPage,
+      searchQuery,
+      location.key
+    ],
     queryFn: fetchAchatDataByFournisseur,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    retry: 2,
+    retryDelay: 1000,
+    keepPreviousData: true, // Keep previous data while loading new data
   });
+  // Transform PurchasesResponse into rows when it changes
+  useEffect(() => {
+    if (PurchaseResponse?.data?.length > 0) {
+      setFilteredPurchaseResponse(PurchaseResponse.data); // Update PurchasesData state
+
+      // Pass pagination info to parent
+      if (handlePaginationChange) {
+        handlePaginationChange(PurchaseResponse.pagination);
+      }
+    } else {
+      setFilteredPurchaseResponse([]); // Reset PurchasesData if no data is returned
+      // Pass empty pagination info to parent
+      if (handlePaginationChange) {
+        handlePaginationChange({
+          total_pages: 0,
+          total_items: 0,
+          current_page: 1,
+          items_per_page: 10,
+          has_next_page: false,
+          has_prev_page: false,
+        });
+      }
+    }
+  }, [PurchaseResponse, setFilteredPurchaseResponse, handlePaginationChange]);
 
   // fetching statistics data
   const fetchAchatStatisticsData = async () => {
@@ -161,7 +275,11 @@ export default function FournisseurProfile({
     queryKey: ["AchatStatisticsData", user?.token, location.key],
     queryFn: fetchAchatStatisticsData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    retry: 2,
+    retryDelay: 1000,
+    keepPreviousData: true, // Keep previous data while loading new data
   });
 
   const handleConfirmAddPayment = async () => {
@@ -613,11 +731,54 @@ export default function FournisseurProfile({
           </div>
           <FournisseurProfileAchatsTable
             language={language}
-            searchQuery={searchQuery}
-            setFilteredData={setFilteredData}
-            data={AchatDataByFournisseur}
+            data={FilteredPurchaseResponse}
             loading={AchatDataByFournisseurLoading}
           />
+          {/* Modern Pagination - only show if there are multiple pages */}
+          {totalPages > 1 && (
+            <ModernPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              language={language}
+            />
+          )}
+
+          {/* Pagination Info */}
+          {totalItems > 0 && (
+            <div className="pagination-info" style={{ 
+              padding: "12px 20px", 
+              fontSize: "14px", 
+              color: "#6B7280",
+              textAlign: language === "ar" ? "right" : "left",
+              borderTop: "1px solid #E5E7EB"
+            }}>
+              {language === "ar" 
+                ? `إظهار ${Math.min(paginationInfo.items_per_page, FilteredPurchaseResponse.length)} من أصل ${totalItems} طلب`
+                : `Affichage de ${Math.min(paginationInfo.items_per_page, FilteredPurchaseResponse.length)} sur ${totalItems} commandes`
+              }
+            </div>
+          )}
+
+          {/* Active Filters Display */}
+          {(debouncedSearchQuery) && (
+            <div className="active-filters" style={{
+              padding: "8px 20px",
+              backgroundColor: "#F3F4F6",
+              borderTop: "1px solid #E5E7EB",
+              fontSize: "12px",
+              color: "#6B7280"
+            }}>
+              <span style={{ fontWeight: "500" }}>
+                {language === "ar" ? "المرشحات النشطة:" : "Filtres actifs:"}
+              </span>
+              {debouncedSearchQuery && (
+                <span style={{ marginLeft: "8px", marginRight: "8px" }}>
+                  {language === "ar" ? `البحث: "${debouncedSearchQuery}"` : `Recherche: "${debouncedSearchQuery}"`}
+                </span>
+              )}
+            </div>
+          )}
           {/* Snackbar */}
           <Snackbar
             open={snackbarOpen}

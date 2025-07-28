@@ -194,7 +194,7 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.sousPurchases?.map((purchaseDetailsRow) => (
+                  {row.sousPurchases?.map((purchaseDetailsRow, index) => (
                     <TableRow key={purchaseDetailsRow._id} className="tableRow">
                       <TableCell
                         component="th"
@@ -279,15 +279,41 @@ export default function PurchasesTable({
   setPurchasesData,
   dateRange,
   language,
+  currentPage,
+  onPaginationChange,
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const location = useLocation();
+
+  // Build query parameters for server-side filtering
+  const buildQueryParams = () => {
+    const params = new URLSearchParams({
+      page: currentPage.toString(),
+      limit: "15",
+    });
+
+    if (searchQuery && searchQuery.trim() !== "") {
+      params.append("search", searchQuery.trim());
+    }
+
+    if (dateRange.startDate) {
+      params.append("startDate", dateRange.startDate);
+    }
+
+    if (dateRange.endDate) {
+      params.append("endDate", dateRange.endDate);
+    }
+
+    return params.toString();
+  };
+
   // fetching Purchases data
   const fetchPurchasesData = async () => {
+    const queryParams = buildQueryParams();
     const response = await fetch(
       import.meta.env.VITE_APP_URL_BASE +
-        `/Purchase/all/new/${decodedToken.id}`,
+        `/Purchase/all/new/${decodedToken.id}?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -300,88 +326,82 @@ export default function PurchasesTable({
     // Handle the error state
     if (!response.ok) {
       const errorData = await response.json();
-      if (errorData.error.statusCode == 404) return [];
-      else throw new Error("Error receiving Purchases data");
+      if (errorData.error.statusCode == 404) {
+        return {
+          data: [],
+          pagination: {
+            total_pages: 0,
+            total_items: 0,
+            current_page: 1,
+            items_per_page: 15,
+            has_next_page: false,
+            has_prev_page: false,
+          },
+          filters: {
+            search: searchQuery || "",
+            startDate: dateRange.startDate || "",
+            endDate: dateRange.endDate || "",
+          },
+        };
+      } else throw new Error("Error receiving Purchases data");
     }
     // Return the data
     return await response.json();
   };
   // useQuery hook to fetch data
   const {
-    data: PurchasesData,
+    data: PurchasesResponse,
     error: PurchasesError,
     isLoading: PurchasesLoading,
     refetch: PurchasesRefetch,
   } = useQuery({
-    queryKey: ["PurchasesData", user?.token, location.key],
+    queryKey: [
+      "PurchasesData",
+      user?.token,
+      currentPage,
+      searchQuery,
+      dateRange.startDate,
+      dateRange.endDate,
+      location.key
+    ],
     queryFn: fetchPurchasesData,
     enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
-    refetchOnWindowFocus: true, // Disable refetch on window focus (optional)
-    staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+    refetchOnWindowFocus: false, // refetch on window focus (optional)
+    staleTime: 1000 * 60 * 2, // Data is fresh for 2 minutes
     retry: 2, // Retry failed requests 2 times
     retryDelay: 1000, // Delay between retries (1 second)
+    keepPreviousData: true, // Keep previous data while loading new data
   });
 
   const [rows, setRows] = useState([]);
-  const [filteredRows, setFilteredRows] = useState([]);
 
-  // Transform PurchasesData into rows when it changes
+  // Transform PurchasesResponse into rows when it changes
   useEffect(() => {
-    if (PurchasesData?.length > 0) {
-      setRows(PurchasesData);
-      setFilteredRows(PurchasesData); // Initialize filteredRows with PurchasesData
-      setPurchasesData(PurchasesData); // Update PurchasesData state
+    if (PurchasesResponse?.data?.length > 0) {
+      setRows(PurchasesResponse.data);
+      setPurchasesData(PurchasesResponse.data); // Update PurchasesData state
+
+      // Pass pagination info to parent
+      if (onPaginationChange) {
+        onPaginationChange(PurchasesResponse.pagination);
+      }
     } else {
       setRows([]);
+      setPurchasesData([]); // Reset PurchasesData if no data is returned
+      // Pass empty pagination info to parent
+      if (onPaginationChange) {
+        onPaginationChange({
+          total_pages: 0,
+          total_items: 0,
+          current_page: 1,
+          items_per_page: 10,
+          has_next_page: false,
+          has_prev_page: false,
+        });
+      }
     }
-  }, [PurchasesData]);
+  }, [PurchasesResponse, setPurchasesData, onPaginationChange]);
 
-  // Memoized filtered rows based on searchQuery
-  const filteredResults = useMemo(() => {
-    // If there's no search query and no date range, return all rows
-    if (!searchQuery && (!dateRange.startDate || !dateRange.endDate))
-      return rows;
-
-    return rows.filter((row) => {
-      // Check if the row matches the search query
-      const matchesSearchQuery =
-        row._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.firstName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.fournisseur.lastName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.totalAmount
-          .toString()
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        row.sousPurchases.some((detail) =>
-          detail.sousStock.stock.product.name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        );
-
-      // Check if the row's order date falls within the specified date range
-      const orderDate = new Date(row.orderDate);
-      const startDate = new Date(dateRange.startDate);
-      const endDate = new Date(dateRange.endDate);
-
-      const isWithinDateRange =
-        (!dateRange.startDate || orderDate >= startDate) &&
-        (!dateRange.endDate || orderDate <= endDate);
-
-      // Return true if both conditions are met
-      return matchesSearchQuery && isWithinDateRange;
-    });
-  }, [rows, searchQuery, dateRange.startDate, dateRange.endDate]);
-
-  // Update filteredRows and filteredData when filteredResults change
-  useEffect(() => {
-    setFilteredRows(filteredResults);
-    setFilteredData(filteredResults);
-    setPurchasesData(filteredResults);
-  }, [filteredResults, setFilteredData]);
   return (
     <TableContainer
       className="tablePages"
@@ -462,8 +482,8 @@ export default function PurchasesTable({
                 <CircularProgress color="inherit" />
               </TableCell>
             </TableRow>
-          ) : filteredRows.length > 0 ? (
-            [...filteredRows]
+          ) : rows.length > 0 ? (
+            [...rows]
               .reverse()
               .map((row) => <Row key={row._id} row={row} language={language} />)
           ) : (

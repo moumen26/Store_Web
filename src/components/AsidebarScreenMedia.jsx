@@ -22,7 +22,6 @@ import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/16/solid";
 // import Logo from "../assets/Logo-mosagro.png";
 import Logo from "../assets/Dark.png";
 
-
 export default function AsidebarScreenMedia({ language = "fr" }) {
   const location = useLocation();
   const { logout } = useLogout();
@@ -106,15 +105,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
     >
       {/* Toggle Button */}
       <div
-        className={`toggle-button cursor-pointer fixed top-4 z-50 bg-white rounded-full shadow-lg p-3 ${
+        className={`toggle-button cursor-pointer fixed top-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-2 ${
           language === "ar" ? "right-4" : "left-4"
         }`}
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? (
-          <XMarkIcon className="h-6 w-6 text-gray-600" />
+          <XMarkIcon className="h-5 w-5 text-gray-700" />
         ) : (
-          <Bars3Icon className="h-6 w-6 text-gray-600" />
+          <Bars3Icon className="h-5 w-5 text-gray-700" />
         )}
       </div>
 

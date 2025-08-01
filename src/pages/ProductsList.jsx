@@ -516,6 +516,9 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                       }}
                     >
                       {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
+                      <span className="text-[10px] align-baseline">
+                        {language === "ar" ? "(دج)" : "(DA)"}
+                      </span>
                     </span>
                     <div className="inputForm flex items-center">
                       <input
@@ -531,16 +534,6 @@ export default function ProductsList({ onToggle, toggleLanguage, language }) {
                         min={0}
                         onChange={handleSellingPriceChange}
                       />
-                      <span
-                        style={{
-                          fontFamily:
-                            language === "ar"
-                              ? "Cairo-Regular, sans-serif"
-                              : "",
-                        }}
-                      >
-                        {language === "ar" ? "دج" : "DA"}
-                      </span>
                     </div>
                   </div>
                   <div

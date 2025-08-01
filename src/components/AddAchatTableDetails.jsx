@@ -917,6 +917,9 @@ function AddAchatTableDetails({
                             {language === "ar"
                               ? "سعر البيع :"
                               : "Prix de vente :"}
+                               <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                           </span>
                           <div className="inputForm flex items-center">
                             <input
@@ -932,7 +935,7 @@ function AddAchatTableDetails({
                               min={0}
                               onChange={handleSellingPriceChange}
                             />
-                            <span
+                            {/* <span
                               style={{
                                 fontFamily:
                                   language === "ar"
@@ -942,7 +945,7 @@ function AddAchatTableDetails({
                               className="ml-2"
                             >
                               {language === "ar" ? "دج" : "DA"}
-                            </span>
+                            </span> */}
                           </div>
                         </div>
                       </div>

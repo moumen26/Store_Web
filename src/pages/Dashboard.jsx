@@ -13,7 +13,13 @@ import { useQuery } from "@tanstack/react-query";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
 
-export default function Dashboard({ onToggle, language, toggleLanguage }) {
+export default function Dashboard({
+  onToggle,
+  onToggleMobileSidebar,
+  isMobileSidebarOpen,
+  language,
+  toggleLanguage,
+}) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
   const [dateRange, setDateRange] = useState({
@@ -21,10 +27,27 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
     endDate: null,
   });
 
+  // Function to get time-based greeting
+  const getTimeBasedGreeting = (language) => {
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour >= 5 && hour < 12) {
+      // Morning: 5:00 - 11:59
+      return language === "ar" ? "صباح الخير" : "Bonjour";
+    } else if (hour >= 12 && hour < 18) {
+      // Afternoon: 12:00 - 17:59
+      return language === "ar" ? "مساء الخير" : "Bon après-midi";
+    } else {
+      // Evening/Night: 18:00 - 4:59
+      return language === "ar" ? "مساء الخير" : "Bonsoir";
+    }
+  };
+
   const text = {
     fr: {
       title: "Tableau de bord",
-      welcome: "Bienvenue, ",
+      welcome: getTimeBasedGreeting(language),
       overview: "Voici un aperçu de vos ventes actuelles",
       totalAmount: "Montant total des commandes",
       totalOrders: "Total des commandes",
@@ -32,7 +55,7 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
     },
     ar: {
       title: "لوحة القيادة",
-      welcome: "مرحبًا, ",
+      welcome: getTimeBasedGreeting(language),
       overview: "إليك نظرة عامة على مبيعاتك الحالية",
       totalAmount: "المبلغ الإجمالي للطلبيات",
       totalOrders: "عدد الطلببات",
@@ -289,7 +312,7 @@ export default function Dashboard({ onToggle, language, toggleLanguage }) {
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {text[language].welcome} {user?.infos?.firstName}
+            {text[language].welcome}, {user?.infos?.firstName}
           </h2>
           <span
             className="pagesSousTitle"

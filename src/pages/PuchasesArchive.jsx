@@ -7,6 +7,7 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import DashboardCalendar from "../components/DashboardCalendar";
 import PurchaseArchiveTable from "../components/PurchasesArchiveTable";
 import ModernPagination from "../components/ModernPagination";
+import PageSizeSelect from "../components/PageSizeSelect";
 
 export default function PuchasesArchive({
   onToggle,
@@ -71,7 +72,7 @@ export default function PuchasesArchive({
     setTotalItems(paginationData.total_items || 0);
     setTotalPrice(paginationData.total_price || 0);
   }, []);
-  
+
   return (
     <div
       className="pagesContainer"
@@ -118,13 +119,21 @@ export default function PuchasesArchive({
             onChange={handleSearchChange}
             language={language}
           />
-          <ButtonExportExel
-            data={filteredData}
-            filename={
-              language === "ar" ? "أرشيف المشتريات" : "Archive des achats"
-            }
-            language={language}
-          />
+          <div className="flex">
+            <PageSizeSelect
+              pageSize={25}
+              // onPageSizeChange={setPageSize}
+              language={language}
+              options={[10, 25, 50, 100]}
+            />
+            <ButtonExportExel
+              data={filteredData}
+              filename={
+                language === "ar" ? "أرشيف المشتريات" : "Archive des achats"
+              }
+              language={language}
+            />
+          </div>
         </div>
         <div className="pageTableContainer">
           <PurchaseArchiveTable
@@ -149,43 +158,64 @@ export default function PuchasesArchive({
 
         {/* Pagination Info */}
         {totalItems > 0 && (
-          <div className="pagination-info" style={{ 
-            padding: "12px 20px", 
-            fontSize: "14px", 
-            color: "#6B7280",
-            textAlign: language === "ar" ? "right" : "left",
-            borderTop: "1px solid #E5E7EB"
-          }}>
-            {language === "ar" 
-              ? `إظهار ${Math.min(paginationInfo.items_per_page, PurchasesData.length)} من أصل ${totalItems} طلب`
-              : `Affichage de ${Math.min(paginationInfo.items_per_page, PurchasesData.length)} sur ${totalItems} commandes`
-            }
+          <div
+            className="pagination-info"
+            style={{
+              padding: "12px 20px",
+              fontSize: "14px",
+              color: "#6B7280",
+              textAlign: language === "ar" ? "right" : "left",
+              borderTop: "1px solid #E5E7EB",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar"
+              ? `إظهار ${Math.min(
+                  paginationInfo.items_per_page,
+                  PurchasesData.length
+                )} من أصل ${totalItems} طلب`
+              : `Affichage de ${Math.min(
+                  paginationInfo.items_per_page,
+                  PurchasesData.length
+                )} sur ${totalItems} commandes`}
           </div>
         )}
 
         {/* Active Filters Display */}
         {(debouncedSearchQuery || dateRange.startDate || dateRange.endDate) && (
-          <div className="active-filters" style={{
-            padding: "8px 20px",
-            backgroundColor: "#F3F4F6",
-            borderTop: "1px solid #E5E7EB",
-            fontSize: "12px",
-            color: "#6B7280"
-          }}>
+          <div
+            className="active-filters"
+            style={{
+              padding: "8px 20px",
+              backgroundColor: "#F3F4F6",
+              borderTop: "1px solid #E5E7EB",
+              fontSize: "12px",
+              color: "#6B7280",
+            }}
+          >
             <span style={{ fontWeight: "500" }}>
               {language === "ar" ? "المرشحات النشطة:" : "Filtres actifs:"}
             </span>
             {debouncedSearchQuery && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" ? `البحث: "${debouncedSearchQuery}"` : `Recherche: "${debouncedSearchQuery}"`}
+                {language === "ar"
+                  ? `البحث: "${debouncedSearchQuery}"`
+                  : `Recherche: "${debouncedSearchQuery}"`}
               </span>
             )}
             {dateRange.startDate && dateRange.endDate && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" 
-                  ? `التاريخ: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                  : `Date: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                }
+                {language === "ar"
+                  ? `التاريخ: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`
+                  : `Date: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`}
               </span>
             )}
           </div>

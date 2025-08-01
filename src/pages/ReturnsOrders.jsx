@@ -6,6 +6,7 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersReturnsTable from "../components/OrdersReturnsTable";
 import DashboardCalendar from "../components/DashboardCalendar";
 import ModernPagination from "../components/ModernPagination";
+import PageSizeSelect from "../components/PageSizeSelect";
 
 export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,12 +65,11 @@ export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
     setTotalPages(paginationData.total_pages || 0);
     setTotalItems(paginationData.total_items || 0);
   }, []);
-  
+
   // Calculate summary data for cards
   const summaryData = {
     totalOrders: totalItems, // Use server-side total
   };
-  
 
   return (
     <div
@@ -118,13 +118,21 @@ export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
             onChange={handleSearchChange}
             language={language}
           />
-          <ButtonExportExel
-            data={filteredData}
-            filename={
-              language === "ar" ? "طلبات الإرجاع" : "Commandes de Retour"
-            }
-            language={language}
-          />
+          <div className="flex">
+            <PageSizeSelect
+              pageSize={25}
+              // onPageSizeChange={setPageSize}
+              language={language}
+              options={[10, 25, 50, 100]}
+            />
+            <ButtonExportExel
+              data={filteredData}
+              filename={
+                language === "ar" ? "طلبات الإرجاع" : "Commandes de Retour"
+              }
+              language={language}
+            />
+          </div>
         </div>
         <div className="pageTableContainer">
           <OrdersReturnsTable
@@ -150,43 +158,64 @@ export default function ReturnsOrders({ onToggle, toggleLanguage, language }) {
 
         {/* Pagination Info */}
         {totalItems > 0 && (
-          <div className="pagination-info" style={{ 
-            padding: "12px 20px", 
-            fontSize: "14px", 
-            color: "#6B7280",
-            textAlign: language === "ar" ? "right" : "left",
-            borderTop: "1px solid #E5E7EB"
-          }}>
-            {language === "ar" 
-              ? `إظهار ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} من أصل ${totalItems} طلب`
-              : `Affichage de ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} sur ${totalItems} commandes`
-            }
+          <div
+            className="pagination-info"
+            style={{
+              padding: "12px 20px",
+              fontSize: "14px",
+              color: "#6B7280",
+              textAlign: language === "ar" ? "right" : "left",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              borderTop: "1px solid #E5E7EB",
+            }}
+          >
+            {language === "ar"
+              ? `إظهار ${Math.min(
+                  paginationInfo.items_per_page,
+                  latestOrderData.length
+                )} من أصل ${totalItems} طلب`
+              : `Affichage de ${Math.min(
+                  paginationInfo.items_per_page,
+                  latestOrderData.length
+                )} sur ${totalItems} commandes`}
           </div>
         )}
 
         {/* Active Filters Display */}
         {(debouncedSearchQuery || dateRange.startDate || dateRange.endDate) && (
-          <div className="active-filters" style={{
-            padding: "8px 20px",
-            backgroundColor: "#F3F4F6",
-            borderTop: "1px solid #E5E7EB",
-            fontSize: "12px",
-            color: "#6B7280"
-          }}>
+          <div
+            className="active-filters"
+            style={{
+              padding: "8px 20px",
+              backgroundColor: "#F3F4F6",
+              borderTop: "1px solid #E5E7EB",
+              fontSize: "12px",
+              color: "#6B7280",
+            }}
+          >
             <span style={{ fontWeight: "500" }}>
               {language === "ar" ? "المرشحات النشطة:" : "Filtres actifs:"}
             </span>
             {debouncedSearchQuery && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" ? `البحث: "${debouncedSearchQuery}"` : `Recherche: "${debouncedSearchQuery}"`}
+                {language === "ar"
+                  ? `البحث: "${debouncedSearchQuery}"`
+                  : `Recherche: "${debouncedSearchQuery}"`}
               </span>
             )}
             {dateRange.startDate && dateRange.endDate && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" 
-                  ? `التاريخ: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                  : `Date: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                }
+                {language === "ar"
+                  ? `التاريخ: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`
+                  : `Date: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`}
               </span>
             )}
           </div>

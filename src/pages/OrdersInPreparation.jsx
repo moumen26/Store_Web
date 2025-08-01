@@ -8,6 +8,7 @@ import OrderCard from "../components/OrderCard";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import { formatNumber } from "../util/useFullFunctions";
 import ModernPagination from "../components/ModernPagination";
+import PageSizeSelect from "../components/PageSizeSelect";
 
 export default function OrdersInPreparation({
   onToggle,
@@ -142,7 +143,7 @@ export default function OrdersInPreparation({
               ? "الطلبات الجاهزة وقيد التسليم"
               : "Nombre commandes prêtes et en cours de livraison"
           }
-          orderCardDetails= {summaryData.totalCountStatus2}
+          orderCardDetails={summaryData.totalCountStatus2}
         />
         <OrderCard
           language={language}
@@ -152,14 +153,15 @@ export default function OrdersInPreparation({
               ? "الطلبات المستلمة والمسلّمة"
               : "Nombre commandes récupérées et livrées"
           }
-          orderCardDetails= {summaryData.totalCountStatus3}
+          orderCardDetails={summaryData.totalCountStatus3}
         />
         <OrderCard
           language={language}
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardTitle={language === "ar" ? "إجمالي المبلغ" : "Montant Total"}
-          orderCardDetails= {
-            formatNumber(summaryData.totalAmount) + (language === "fr" ? " DA" : " دج")
+          orderCardDetails={
+            formatNumber(summaryData.totalAmount) +
+            (language === "fr" ? " DA" : " دج")
           }
         />
       </div>
@@ -183,13 +185,21 @@ export default function OrdersInPreparation({
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel
-            language={language}
-            data={filteredData}
-            filename={
-              language === "ar" ? "الطلبات قيد التحضير" : "Commandes en cours"
-            }
-          />
+          <div className="flex">
+            <PageSizeSelect
+              pageSize={25}
+              // onPageSizeChange={setPageSize}
+              language={language}
+              options={[10, 25, 50, 100]}
+            />
+            <ButtonExportExel
+              data={filteredData}
+              filename={
+                language === "ar" ? "الطلبات قيد التحضير" : "Commandes en cours"
+              }
+              language={language}
+            />
+          </div>
         </div>
         <div className="pageTableContainer">
           <OrdersInPreparationTable
@@ -222,6 +232,7 @@ export default function OrdersInPreparation({
               color: "#6B7280",
               textAlign: language === "ar" ? "right" : "left",
               borderTop: "1px solid #E5E7EB",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             {language === "ar"

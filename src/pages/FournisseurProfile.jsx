@@ -751,7 +751,9 @@ export default function FournisseurProfile({
               fontSize: "14px", 
               color: "#6B7280",
               textAlign: language === "ar" ? "right" : "left",
-              borderTop: "1px solid #E5E7EB"
+              borderTop: "1px solid #E5E7EB",
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+
             }}>
               {language === "ar" 
                 ? `إظهار ${Math.min(paginationInfo.items_per_page, FilteredPurchaseResponse.length)} من أصل ${totalItems} طلب`

@@ -276,10 +276,12 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
             language={language}
           />
           <div
-            className={`flex items-center space-x-2 ${
-              language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"
+            className={`flex items-center ${
+              language === "ar"
+                ? "md:space-x-reverse md:space-x-2"
+                : "md:space-x-2"
             }`}
-          >
+          >s
             <ButtonExportExel
               data={filteredData}
               filename={language === "ar" ? "الخسائر" : "Pertes"}

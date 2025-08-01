@@ -8,6 +8,7 @@ import OrderCard from "../components/OrderCard";
 import { formatNumber } from "../util/useFullFunctions";
 import { EqualsIcon } from "@heroicons/react/16/solid";
 import ModernPagination from "../components/ModernPagination";
+import PageSizeSelect from "../components/PageSizeSelect";
 
 export default function Orders({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,7 +103,7 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
           />
         </div>
       </div>
-      
+
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <OrderCard
           orderCardTitle={
@@ -117,13 +118,14 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
             language === "ar" ? "المبلغ الإجمالي" : "Montant total"
           }
           orderCardDetails={
-            formatNumber(summaryData.totalAmount) + (language === "fr" ? " DA" : " دج")
+            formatNumber(summaryData.totalAmount) +
+            (language === "fr" ? " DA" : " دج")
           }
           className="flex-shrink-0 w-[280px] md:w-full"
           language={language}
         />
       </div>
-      
+
       <div
         className="pageTable ordersTable"
         style={{
@@ -144,13 +146,22 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
             language={language}
             onChange={handleSearchChange}
           />
-          <ButtonExportExel
-            data={filteredData}
-            language={language}
-            filename={language === "ar" ? "الطلبات" : "Commandes"}
-          />
+
+          <div className="flex">
+            <PageSizeSelect
+              pageSize={25}
+              // onPageSizeChange={setPageSize}
+              language={language}
+              options={[10, 25, 50, 100]}
+            />
+            <ButtonExportExel
+              data={filteredData}
+              filename={language === "ar" ? "الطلبات" : "Commandes"}
+              language={language}
+            />
+          </div>
         </div>
-        
+
         <div className="pageTableContainer">
           <OrdersTable
             language={language}
@@ -175,43 +186,64 @@ export default function Orders({ onToggle, toggleLanguage, language }) {
 
         {/* Pagination Info */}
         {totalItems > 0 && (
-          <div className="pagination-info" style={{ 
-            padding: "12px 20px", 
-            fontSize: "14px", 
-            color: "#6B7280",
-            textAlign: language === "ar" ? "right" : "left",
-            borderTop: "1px solid #E5E7EB"
-          }}>
-            {language === "ar" 
-              ? `إظهار ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} من أصل ${totalItems} طلب`
-              : `Affichage de ${Math.min(paginationInfo.items_per_page, latestOrderData.length)} sur ${totalItems} commandes`
-            }
+          <div
+            className="pagination-info"
+            style={{
+              padding: "12px 20px",
+              fontSize: "14px",
+              color: "#6B7280",
+              textAlign: language === "ar" ? "right" : "left",
+              borderTop: "1px solid #E5E7EB",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            {language === "ar"
+              ? `إظهار ${Math.min(
+                  paginationInfo.items_per_page,
+                  latestOrderData.length
+                )} من أصل ${totalItems} طلب`
+              : `Affichage de ${Math.min(
+                  paginationInfo.items_per_page,
+                  latestOrderData.length
+                )} sur ${totalItems} commandes`}
           </div>
         )}
 
         {/* Active Filters Display */}
         {(debouncedSearchQuery || dateRange.startDate || dateRange.endDate) && (
-          <div className="active-filters" style={{
-            padding: "8px 20px",
-            backgroundColor: "#F3F4F6",
-            borderTop: "1px solid #E5E7EB",
-            fontSize: "12px",
-            color: "#6B7280"
-          }}>
+          <div
+            className="active-filters"
+            style={{
+              padding: "8px 20px",
+              backgroundColor: "#F3F4F6",
+              borderTop: "1px solid #E5E7EB",
+              fontSize: "12px",
+              color: "#6B7280",
+            }}
+          >
             <span style={{ fontWeight: "500" }}>
               {language === "ar" ? "المرشحات النشطة:" : "Filtres actifs:"}
             </span>
             {debouncedSearchQuery && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" ? `البحث: "${debouncedSearchQuery}"` : `Recherche: "${debouncedSearchQuery}"`}
+                {language === "ar"
+                  ? `البحث: "${debouncedSearchQuery}"`
+                  : `Recherche: "${debouncedSearchQuery}"`}
               </span>
             )}
             {dateRange.startDate && dateRange.endDate && (
               <span style={{ marginLeft: "8px", marginRight: "8px" }}>
-                {language === "ar" 
-                  ? `التاريخ: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                  : `Date: ${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`
-                }
+                {language === "ar"
+                  ? `التاريخ: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`
+                  : `Date: ${new Date(
+                      dateRange.startDate
+                    ).toLocaleDateString()} - ${new Date(
+                      dateRange.endDate
+                    ).toLocaleDateString()}`}
               </span>
             )}
           </div>

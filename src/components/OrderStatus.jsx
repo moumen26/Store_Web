@@ -313,7 +313,7 @@ export default function OrderStatus({
                           {language === "ar" ? "سبب الإرجاع:" : "Raison du retour:"}
                         </h4>
                         <p className="text-sm text-red-700 leading-relaxed break-words">
-                          kajshd dakjshd sakjhd dsakjhd askjdhas ksjahd asjkhdasm kajshda akjshda kjasd jkahsbd kjahsd jkahd kjahbsd kjahsd jkahsd kjhbasd
+                          {orderDetails.returnedRaison}
                         </p>
                       </div>
                     </div>

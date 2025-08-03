@@ -467,7 +467,7 @@ function AddOrderTableDetails({
             ? "إضافة منتج إلى الطلب"
             : "Ajouter un produit à la commande"
         }
-        className="addNewModal addNewStockModal"
+        className="addNewModal addNewCustomerModal w-[90%]"
         ariaHideApp={false}
         style={{
           overlay: {

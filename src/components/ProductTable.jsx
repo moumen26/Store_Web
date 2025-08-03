@@ -64,9 +64,7 @@ function Row({
           }}
         >
           <img
-            src={
-              `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
-            }
+            src={`${import.meta.env.VITE_APP_FILES_URL}/${row.image}`}
             alt={row.productName}
             style={{
               width: "50px",
@@ -576,7 +574,7 @@ export default function ProductTable({
       }
     }
   };
-  
+
   return (
     <>
       <TableContainer
@@ -952,6 +950,9 @@ export default function ProductTable({
                 }}
               >
                 {language === "ar" ? "سعر البيع :" : "Prix de vente :"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
               <div className="inputForm flex items-center">
                 <input
@@ -961,15 +962,6 @@ export default function ProductTable({
                   min={0}
                   onChange={handleSellingPriceChange}
                 />
-                <span
-                  style={{
-                    fontFamily:
-                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                  }}
-                  className="ml-2"
-                >
-                  {language === "ar" ? "دج" : "DA"}
-                </span>
               </div>
             </div>
             <div className="dialogAddCustomerItem items-center">

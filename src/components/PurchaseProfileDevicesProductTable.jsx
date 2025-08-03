@@ -35,7 +35,7 @@ export default function PurchaseProfileDevicesProductTable({
 
     if (totalBoxes < 1) {
       totalBoxes = 0;
-    }    
+    }
     return {
       name: item?.sousStock?.stock.product.name,
       size: item?.sousStock?.stock.product.size,
@@ -194,9 +194,7 @@ export default function PurchaseProfileDevicesProductTable({
                   }}
                 >
                   <img
-                    src={
-                      `${import.meta.env.VITE_APP_FILES_URL}/${row.image}`
-                    }
+                    src={`${import.meta.env.VITE_APP_FILES_URL}/${row.image}`}
                     alt={row.productName}
                     style={{
                       width: "50px",

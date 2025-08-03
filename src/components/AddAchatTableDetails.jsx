@@ -515,7 +515,7 @@ function AddAchatTableDetails({
         // Something happened in setting up the request that triggered an Error
         console.error("Error creating product");
       }
-    } finally{
+    } finally {
       setSubmitionLoading(false);
     }
   };
@@ -707,7 +707,7 @@ function AddAchatTableDetails({
         contentLabel={
           language === "ar" ? "إضافة مخزون جديد" : "Ajouter un nouveau stock"
         }
-        className="addNewModal addNewStockModal"
+        className="addNewModal addNewCustomerModal w-[90%]"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -760,7 +760,7 @@ function AddAchatTableDetails({
                           }}
                           className={`${language === "ar" ? "ml-5" : ""}`}
                         >
-                          {language === "ar" ? "الفئة :" : "Catégorie :"}
+                          {language === "ar" ? "الفئة :" : "Catégorie:"}
                         </span>
                         <div className="selectStoreWilayaCommune w-[300px]">
                           <select
@@ -863,7 +863,7 @@ function AddAchatTableDetails({
                   <>
                     <div className="mt-8 w-[100%] productDetailsStockAdd">
                       <div className="flex flex-col space-y-3 mb-4 w-[50%]">
-                        <div className="w-fit dialogAddCustomerItem items-center">
+                        <div className="w-fit dialogAddCustomerItem items-start">
                           <span
                             className={`${language === "ar" ? "ml-5" : "mr-5"}`}
                             style={{
@@ -904,7 +904,7 @@ function AddAchatTableDetails({
                             </span>
                           </div>
                         </div>
-                        <div className="w-fit dialogAddCustomerItem items-center">
+                        <div className="w-fit dialogAddCustomerItem items-start">
                           <span
                             style={{
                               fontFamily:
@@ -917,6 +917,9 @@ function AddAchatTableDetails({
                             {language === "ar"
                               ? "سعر البيع :"
                               : "Prix de vente :"}
+                               <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                           </span>
                           <div className="inputForm flex items-center">
                             <input
@@ -932,7 +935,7 @@ function AddAchatTableDetails({
                               min={0}
                               onChange={handleSellingPriceChange}
                             />
-                            <span
+                            {/* <span
                               style={{
                                 fontFamily:
                                   language === "ar"
@@ -942,13 +945,13 @@ function AddAchatTableDetails({
                               className="ml-2"
                             >
                               {language === "ar" ? "دج" : "DA"}
-                            </span>
+                            </span> */}
                           </div>
                         </div>
                       </div>
 
                       <div className="flex flex-col space-y-3 mb-4 w-[50%]">
-                        <div className="w-fit dialogAddCustomerItem items-center">
+                        <div className="w-fit dialogAddCustomerItem items-start">
                           <span
                             style={{
                               fontFamily:
@@ -978,7 +981,7 @@ function AddAchatTableDetails({
                             />
                           </div>
                         </div>
-                        <div className="w-fit dialogAddCustomerItem items-center">
+                        <div className="w-fit dialogAddCustomerItem items-start">
                           <span
                             style={{
                               fontFamily:

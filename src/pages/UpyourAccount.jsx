@@ -530,7 +530,7 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
                 CategoryData?.map((category, index) => (
                   <div
                     key={index}
-                    className={`storyCategoryItem ${
+                    className={`storyCategoryItem items-center ${
                       dialogSelectedCategories.includes(category)
                         ? "selected"
                         : ""

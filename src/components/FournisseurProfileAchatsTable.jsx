@@ -63,7 +63,7 @@ function Row(props) {
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {formatNumber(row.totalAmount)} {language === "ar" ? "دج " : " DA"}
+            {formatNumber(row.totalAmount)}
           </span>
         </TableCell>
         <TableCell
@@ -79,7 +79,6 @@ function Row(props) {
             {formatNumber(
               row.payment.reduce((sum, pay) => sum + pay.amount, 0)
             )}{" "}
-            {language === "ar" ? "دج " : " DA"}
           </span>
         </TableCell>
         <TableCell
@@ -93,12 +92,20 @@ function Row(props) {
             }}
           >
             {row.credit && row.deposit
-              ? "both"
+              ? language === "ar"
+                ? "كلاهما"
+                : "Les deux"
               : row.credit
-              ? "Credit"
+              ? language === "ar"
+                ? "ائتمان"
+                : "Crédit"
               : row.deposit
-              ? "Deposit"
-              : "Cash"}
+              ? language === "ar"
+                ? "وديعة"
+                : "Dépôt"
+              : language === "ar"
+              ? "نقد"
+              : "Espèces"}
           </span>
         </TableCell>
         <TableCell
@@ -203,7 +210,10 @@ function Row(props) {
                         }}
                         className="thTableSpan thDetails"
                       >
-                        {language === "ar" ? "السعر (دج)" : "Prix (DA)"}
+                        {language === "ar" ? "السعر" : "Prix"}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>{" "}
                     </TableCell>
                     <TableCell
@@ -235,15 +245,16 @@ function Row(props) {
                         }}
                         className="thTableSpan thDetails"
                       >
-                        {language === "ar"
-                          ? "السعر الإجمالي (دج)"
-                          : "Prix total (DA)"}{" "}
+                        {language === "ar" ? "السعر الإجمالي" : "Prix total"}{" "}
+                        <span className="text-[10px] align-baseline">
+                          {language === "ar" ? "(دج)" : "(DA)"}
+                        </span>
                       </span>
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.sousPurchases?.map((detailsRow) => (
+                  {row.sousPurchases?.map((detailsRow) =>
                     !detailsRow.sousStock ? null : (
                       <TableRow key={detailsRow._id} className="tableRow">
                         <TableCell
@@ -335,7 +346,7 @@ function Row(props) {
                         </TableCell>
                       </TableRow>
                     )
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </Box>
@@ -392,6 +403,9 @@ export default function FournisseurProfileAchatsTable({
                 }}
               >
                 {language === "ar" ? "إجمالي المبلغ" : "Montant total"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell
@@ -406,6 +420,9 @@ export default function FournisseurProfileAchatsTable({
                 }}
               >
                 {language === "ar" ? "الدفع" : "Paiement"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell

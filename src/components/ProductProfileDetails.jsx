@@ -33,8 +33,8 @@ function ProductProfileRow({ data, language }) {
             fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
           }}
         >
-          {data?.product?.name} {" "}
-          {data?.product?.brand.name}
+          {data?.product?.brand.name}{" "}
+          {data?.product?.name} 
         </span>
       </TableCell>
       {/* <TableCell

@@ -19,6 +19,8 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-charts": "^7.11.0",
     "@mui/x-date-pickers": "^7.12.0",
+    "@react-spring/web": "^10.0.1",
+    "@remotion/cli": "4.0.327",
     "@tanstack/react-query": "^5.52.1",
     "antd": "^5.24.4",
     "axios": "^1.7.5",
@@ -42,6 +44,7 @@
     "react-router-dom": "^6.25.1",
     "react-virtuoso": "^4.7.13",
     "recharts": "^2.12.7",
+    "remotion": "4.0.327",
     "styled-components": "^6.1.12",
     "swiper": "^11.1.14",
     "xlsx": "^0.18.5"

@@ -51,7 +51,7 @@ function ProductProfileRow({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {data?.selling} {language === "ar" ? "دج" : "DA"}
+            {data?.selling}
           </span>
         )}
       </TableCell>
@@ -69,15 +69,17 @@ function ProductProfileRow({
             }}
           >
             <option value="">
-              {language === "ar" ? "اختر طريقة" : "Select a method"}
+              {language === "ar" ? "اختر الطريقة" : "Sélectionnez une méthode"}
             </option>
             <option value="both">
-              {language === "ar" ? "كلاهما" : "Both"}
+              {language === "ar" ? "كلاهما" : "Les deux"}
             </option>
             <option value="unity">
-              {language === "ar" ? "الوحدة" : "Unity"}
+              {language === "ar" ? "الوحدة" : "Unité"}
             </option>
-            <option value="box">{language === "ar" ? "الصندوق" : "Box"}</option>
+            <option value="box">
+              {language === "ar" ? "الصندوق" : "Carton"}
+            </option>
           </select>
         ) : (
           <span
@@ -159,7 +161,7 @@ function ProductProfileRow({
                 className="text-green-500 cursor-pointer hover:text-green-700"
                 onClick={handleOpenDialog}
               >
-                {language === "ar" ? "حفظ" : "Save"}
+                {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>
               <button
                 style={{
@@ -169,7 +171,7 @@ function ProductProfileRow({
                 className="text-gray-500 cursor-pointer hover:text-gray-700"
                 onClick={onCancelClick}
               >
-                {language === "ar" ? "إلغاء" : "Cancel"}
+                {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
             </div>
           ) : (
@@ -298,6 +300,9 @@ export default function ProductProfileDetailsV2({
                 }}
               >
                 {language === "ar" ? "سعر البيع" : "Prix de vente"}
+                <span className="text-[10px] align-baseline">
+                  {language === "ar" ? "(دج)" : "(DA)"}
+                </span>
               </span>
             </TableCell>
             <TableCell

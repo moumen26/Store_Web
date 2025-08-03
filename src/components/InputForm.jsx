@@ -21,7 +21,9 @@ export default function InputForm({
 
   // Check if this is a password field
   const isPasswordField =
-    labelForm === "كلمة المرور" || labelForm === "Mot de passe";
+    labelForm === "كلمة المرور" ||
+    labelForm === "Mot de passe" ||
+    inputType === "password";
 
   let iconComponent;
 

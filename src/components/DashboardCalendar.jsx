@@ -111,9 +111,9 @@ export default function DashboardCalendar({ onDateChange, language }) {
 
   const handleStartDateChange = (e) => {
     const date = e.value;
-    console.log('Start date selected:', date); // Debug log
+    console.log("Start date selected:", date); // Debug log
     setStartDate(date);
-    
+
     // Reset end date if it's before the new start date
     if (endDate && date && date > endDate) {
       setEndDate(null);
@@ -125,13 +125,13 @@ export default function DashboardCalendar({ onDateChange, language }) {
 
   const handleEndDateChange = (e) => {
     const date = e.value;
-    console.log('End date selected:', date); // Debug log
+    console.log("End date selected:", date); // Debug log
     setEndDate(date);
     onDateChange(startDate, date);
   };
 
   const handleClear = () => {
-    console.log('Clearing dates'); // Debug log
+    console.log("Clearing dates"); // Debug log
     setStartDate(null);
     setEndDate(null);
     onDateChange(null, null);
@@ -158,12 +158,17 @@ export default function DashboardCalendar({ onDateChange, language }) {
             dateFormat="dd-mm-yy"
             className="calendar"
             maxDate={today}
-            placeholder={language === "fr" ? "Sélectionner date" : "اختر التاريخ"}
+            placeholder={
+              language === "fr" ? "Sélectionner date" : "اختر التاريخ"
+            }
             readOnlyInput={false}
             showOnFocus={true}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           />
         </div>
-        
+
         <div className="flex items-center space-x-4 dateRangeSelectorContainer">
           <label
             htmlFor="endDate"
@@ -184,12 +189,17 @@ export default function DashboardCalendar({ onDateChange, language }) {
             disabled={!startDate}
             minDate={startDate}
             maxDate={today}
-            placeholder={language === "fr" ? "Sélectionner date" : "اختر التاريخ"}
+            placeholder={
+              language === "fr" ? "Sélectionner date" : "اختر التاريخ"
+            }
             readOnlyInput={false}
             showOnFocus={true}
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
           />
         </div>
-        
+
         <button
           className="relative text-gray-700 font-semibold transition-all duration-300 
              after:content-[''] after:absolute after:left-0 after:bottom-[10px] after:w-0 after:h-[1px] after:bg-gray-700 after:transition-all after:duration-300 

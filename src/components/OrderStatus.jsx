@@ -7,6 +7,7 @@ import {
   CheckCircleIcon,
   ClipboardDocumentCheckIcon,
   TruckIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
@@ -158,6 +159,17 @@ export default function OrderStatus({
     }
   };
 
+  // Function to check if return step is active and has reason
+  const isReturnStepActive = () => {
+    const returnStepIndex = orderDetails.type === "pickup" ? 4 : 4; // Index of return step in stepsToShow
+    return orderDetails.status === returnStepIndex && orderDetails.returnedRaison;
+  };
+
+  const getReturnStepIndex = () => {
+    const returnStepIndex = orderDetails.type === "pickup" ? 4 : 4; // Index of return step in stepsToShow
+    return returnStepIndex;
+  };
+
   return (
     <div
       className={`customerClass paddingClass pb-0 ${orderDetails.type}`}
@@ -181,94 +193,132 @@ export default function OrderStatus({
       {/* Simple Steps Layout */}
       <div className="w-full space-y-3">
         {stepsToShow.map((step, index) => (
-          <div
-            key={index}
-            className={`flex items-center justify-between w-full py-2 `}
-            style={{
-              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar" ? (
-              // Arabic layout: Number → Title → Icon
-              <div className="w-full flex items-center justify-between">
-                <>
-                  {/* Number */}
-                  <div
-                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      language === "ar" ? "ml-3" : "mr-3"
-                    } ${
-                      index === orderDetails.status
-                        ? "bg-blue-500 text-white"
-                        : index < orderDetails.status
-                        ? "bg-green-500 text-white"
-                        : "bg-gray-400 text-white"
-                    }`}
+          <div key={index}>
+            <div
+              className={`flex items-center justify-between w-full py-2 `}
+              style={{
+                fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? (
+                // Arabic layout: Number → Title → Icon
+                <div className="w-full flex items-center justify-between">
+                  <>
+                    {/* Number */}
+                    <div
+                      className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                        language === "ar" ? "ml-3" : "mr-3"
+                      } ${
+                        index === orderDetails.status
+                          ? "bg-blue-500 text-white"
+                          : index < orderDetails.status
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-400 text-white"
+                      }`}
+                      style={{
+                        minWidth: "32px",
+                        maxWidth: "32px",
+                        minHeight: "32px",
+                        maxHeight: "32px",
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+
+                    {/* Title */}
+                    <span
+                      className={`flex-1 text-sm ${
+                        index === orderDetails.status
+                          ? "text-blue-600 font-medium"
+                          : index < orderDetails.status
+                          ? "text-green-600 font-medium"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {step.title}
+                    </span>
+                  </>
+
+                  {/* Icon */}
+                  {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
+                </div>
+              ) : (
+                // French layout: Number → Title → Icon
+                <div className="w-full flex items-center justify-between">
+                  <>
+                    {/* Number */}
+                    <div
+                      className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
+                        index === orderDetails.status
+                          ? "bg-blue-500 text-white"
+                          : index < orderDetails.status
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-400 text-white"
+                      }`}
+                      style={{
+                        minWidth: "32px",
+                        maxWidth: "32px",
+                        minHeight: "32px",
+                        maxHeight: "32px",
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+
+                    {/* Title */}
+                    <span
+                      className={`flex-1 text-sm ${
+                        index === orderDetails.status
+                          ? "text-blue-600 font-medium"
+                          : index < orderDetails.status
+                          ? "text-green-600 font-medium"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {step.title}
+                    </span>
+                  </>
+
+                  {/* Icon */}
+                  {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
+                </div>
+              )}
+            </div>
+
+            {/* Return Reason Display - Show only below the return step when it's active */}
+            {index === getReturnStepIndex() && 
+             orderDetails.status === getReturnStepIndex() && 
+             orderDetails.returnedRaison && orderDetails.returnedRaison != "" &&(
+              <div
+                className={`mt-3 mb-2 ${language === "ar" ? "mr-11" : "ml-11"}`}
+                style={{
+                  fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                <div className="relative">
+                  {/* Return reason card */}
+                  <div 
+                    className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-lg p-4 shadow-sm"
                     style={{
-                      minWidth: "32px",
-                      maxWidth: "32px",
-                      minHeight: "32px",
-                      maxHeight: "32px",
+                      backdropFilter: "blur(10px)",
+                      background: "linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%)",
                     }}
                   >
-                    {index + 1}
+                    <div className="flex items-start space-x-3">
+                      <div className="flex-shrink-0">
+                        <ExclamationTriangleIcon className="w-5 h-5 text-red-500 mt-0.5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-semibold text-red-800 mb-1">
+                          {language === "ar" ? "سبب الإرجاع:" : "Raison du retour:"}
+                        </h4>
+                        <p className="text-sm text-red-700 leading-relaxed break-words">
+                          kajshd dakjshd sakjhd dsakjhd askjdhas ksjahd asjkhdasm kajshda akjshda kjasd jkahsbd kjahsd jkahd kjahbsd kjahsd jkahsd kjhbasd
+                        </p>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Title */}
-                  <span
-                    className={`flex-1 text-sm ${
-                      index === orderDetails.status
-                        ? "text-blue-600 font-medium"
-                        : index < orderDetails.status
-                        ? "text-green-600 font-medium"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {step.title}
-                  </span>
-                </>
-
-                {/* Icon */}
-                {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
-              </div>
-            ) : (
-              // French layout: Number → Title → Icon
-              <div className="w-full flex items-center justify-between">
-                <>
-                  {/* Number */}
-                  <div
-                    className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
-                      index === orderDetails.status
-                        ? "bg-blue-500 text-white"
-                        : index < orderDetails.status
-                        ? "bg-green-500 text-white"
-                        : "bg-gray-400 text-white"
-                    }`}
-                    style={{
-                      minWidth: "32px",
-                      maxWidth: "32px",
-                      minHeight: "32px",
-                      maxHeight: "32px",
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-
-                  {/* Title */}
-                  <span
-                    className={`flex-1 text-sm ${
-                      index === orderDetails.status
-                        ? "text-blue-600 font-medium"
-                        : index < orderDetails.status
-                        ? "text-green-600 font-medium"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {step.title}
-                  </span>
-                </>
-
-                {/* Icon */}
-                {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
+                </div>
               </div>
             )}
           </div>

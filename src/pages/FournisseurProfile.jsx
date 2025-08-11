@@ -49,7 +49,7 @@ export default function FournisseurProfile({
     current_page: 1,
     total_pages: 0,
     total_items: 0,
-    items_per_page: 15,
+    items_per_page: 10,
     has_next_page: false,
     has_prev_page: false,
   });
@@ -182,7 +182,7 @@ export default function FournisseurProfile({
             total_pages: 0,
             total_items: 0,
             current_page: 1,
-            items_per_page: 15,
+            items_per_page: 10,
             has_next_page: false,
             has_prev_page: false,
           },

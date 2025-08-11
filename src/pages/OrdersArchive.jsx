@@ -6,6 +6,7 @@ import ButtonExportExel from "../components/ButtonExportExel";
 import OrdersArchiveTable from "../components/OrdersArchiveTable";
 import DashboardCalendar from "../components/DashboardCalendar";
 import ModernPagination from "../components/ModernPagination";
+import PageSizeSelect from "../components/PageSizeSelect";
 
 export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,7 +25,7 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
     current_page: 1,
     total_pages: 0,
     total_items: 0,
-    items_per_page: 15,
+    items_per_page: 10,
     has_next_page: false,
     has_prev_page: false,
   });
@@ -116,13 +117,26 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
             onChange={handleSearchChange}
             language={language}
           />
-          <ButtonExportExel
-            data={filteredData}
-            filename={
-              language === "ar" ? "أرشيف الطلبات" : "Archive des Commandes"
-            }
-            language={language}
-          />
+          <div className="flex">
+            <PageSizeSelect
+              pageSize={paginationInfo.items_per_page}
+              onPageSizeChange={(newPageSize) => {
+                setPaginationInfo(prev => ({
+                  ...prev,
+                  items_per_page: newPageSize,
+                  current_page: 1
+                }));
+                setCurrentPage(1); 
+              }}
+              language={language}
+              options={[10, 25, 50, 100]}
+            />
+            <ButtonExportExel
+              data={filteredData}
+              filename={language === "ar" ? "الطلبات" : "Commandes"}
+              language={language}
+            />
+          </div>
         </div>
         <div className="pageTableContainer">
           <OrdersArchiveTable
@@ -133,6 +147,7 @@ export default function OrdersArchive({ onToggle, toggleLanguage, language }) {
             language={language}
             currentPage={currentPage}
             onPaginationChange={handlePaginationChange}
+            paginationInfo={paginationInfo}
           />
         </div>
         {/* Modern Pagination - only show if there are multiple pages */}

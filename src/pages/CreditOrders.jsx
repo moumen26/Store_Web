@@ -30,7 +30,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
     current_page: 1,
     total_pages: 0,
     total_items: 0,
-    items_per_page: 15,
+    items_per_page: 10,
     has_next_page: false,
     has_prev_page: false,
   });
@@ -160,8 +160,15 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
 
           <div className="flex">
             <PageSizeSelect
-              pageSize={25}
-              // onPageSizeChange={setPageSize}
+              pageSize={paginationInfo.items_per_page}
+              onPageSizeChange={(newPageSize) => {
+                setPaginationInfo(prev => ({
+                  ...prev,
+                  items_per_page: newPageSize,
+                  current_page: 1
+                }));
+                setCurrentPage(1); 
+              }}
               language={language}
               options={[10, 25, 50, 100]}
             />
@@ -183,6 +190,7 @@ export default function CreditOrders({ onToggle, toggleLanguage, language }) {
             language={language}
             currentPage={currentPage}
             onPaginationChange={handlePaginationChange}
+            paginationInfo={paginationInfo}
           />
         </div>
 

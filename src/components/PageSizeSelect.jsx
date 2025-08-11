@@ -30,6 +30,12 @@ export default function PageSizeSelect({
 
   const handleOptionSelect = (option) => {
     onPageSizeChange(option);
+    console.log(
+      `Page size changed to: ${option}`
+    );
+    console.log(
+      `Selected page size: ${pageSize}`
+    );    
     setShowDropdown(false);
   };
 
@@ -90,7 +96,7 @@ export default function PageSizeSelect({
               <div
                 key={option}
                 className={`flex items-center justify-between px-3 md:px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
-                  pageSize === option
+                  pageSize == option
                     ? "bg-blue-50 border-r-2 border-blue-500"
                     : ""
                 }`}
@@ -98,7 +104,7 @@ export default function PageSizeSelect({
               >
                 <span
                   className={`md:text-sm text-xs font-medium ${
-                    pageSize === option ? "text-blue-700" : "text-gray-700"
+                    pageSize == option ? "text-blue-700" : "text-gray-700"
                   }`}
                   style={{
                     fontFamily:
@@ -107,7 +113,7 @@ export default function PageSizeSelect({
                 >
                   {`${option} ${elementText}`}
                 </span>
-                {pageSize === option && (
+                {pageSize == option && (
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 )}
               </div>

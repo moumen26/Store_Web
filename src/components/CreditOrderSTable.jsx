@@ -351,6 +351,7 @@ export default function CreditOrdersTable({
   language,
   currentPage,
   onPaginationChange,
+  paginationInfo
 }) {
   const { user } = useAuthContext();
   const decodedToken = TokenDecoder();
@@ -360,7 +361,7 @@ export default function CreditOrdersTable({
   const buildQueryParams = () => {
     const params = new URLSearchParams({
       page: currentPage.toString(),
-      limit: '15'
+      limit: paginationInfo.items_per_page.toString()
     });
 
     if (searchQuery && searchQuery.trim() !== '') {
@@ -403,7 +404,7 @@ export default function CreditOrdersTable({
             total_pages: 0, 
             total_items: 0,
             current_page: 1,
-            items_per_page: 15,
+            items_per_page: paginationInfo.items_per_page || 10,
             has_next_page: false,
             has_prev_page: false
           },
@@ -434,6 +435,7 @@ export default function CreditOrdersTable({
       searchQuery, 
       dateRange.startDate, 
       dateRange.endDate,
+      paginationInfo.items_per_page,
       location.key
     ],
     queryFn: fetchCreditedOrdersData,
@@ -484,13 +486,13 @@ export default function CreditOrdersTable({
             total_pages: 0, 
             total_items: 0,
             current_page: 1,
-            items_per_page: 10,
+            items_per_page: paginationInfo.items_per_page,
             has_next_page: false,
             has_prev_page: false
           });
         }
       }
-    }, [OrderResponse, setCreditedOrderData, setFilteredData, onPaginationChange]);
+    }, [OrderResponse, setCreditedOrderData, setFilteredData, onPaginationChange, paginationInfo.items_per_page]);
 
   return (
     <TableContainer

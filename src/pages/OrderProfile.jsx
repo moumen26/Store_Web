@@ -14,7 +14,7 @@ import ButtonAdd from "../components/ButtonAdd";
 import Modal from "react-modal";
 import PaymentHistorique from "../components/PaymentHistorique";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import ButtonModify from "../components/ButtonModify";
 import { TokenDecoder } from "../util/DecodeToken";
@@ -27,6 +27,19 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
   const { user } = useAuthContext();
   const location = useLocation();
   const decodedToken = TokenDecoder();
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [deliveryAmount, setDeliveryAmount] = useState("");
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+    setDeliveryAmount("");
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setDeliveryAmount("");
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -513,6 +526,60 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
       }
     }
   };
+
+  // Add Delivery Price
+  const AddDelivryPrice = async () => {
+    if (!deliveryAmount || isNaN(deliveryAmount) || Number(deliveryAmount) < 0) {
+      setAlertType("error")
+      setAlertMessage(language === "ar" ? "يرجى إدخال مبلغ صالح أكبر من 0" : "Veuillez saisir un montant valide supérieur à 0");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    try {
+      setSubmitionLoading(true);
+      const response = await axios.patch(
+        import.meta.env.VITE_APP_URL_BASE +
+          `/Receipt/updateExpectedDeliveryCost/${id}/${decodedToken?.id}`,
+        {
+          deliveredAmount: Number(deliveryAmount)
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        refetchOrderData();
+        setAlertType("success");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+        handleClosePopup();
+      } else {
+        setAlertType("error");
+        setAlertMessage(response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlertType("error");
+        setAlertMessage(error.response.data.message);
+        setSnackbarOpen(true);
+        setSubmitionLoading(false);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Error updating receipt: No response received");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error updating receipt");
+      }
+    }
+  };
+
   if (OrderDataLoading || OrderStatusDataLoading) {
     return (
       <div className="pagesContainer h-[100vh]">
@@ -629,7 +696,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           >
             {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
           </h2>
-          <OrderProfileDetails language={language} orderDetails={OrderData} />
+          <OrderProfileDetails language={language} orderDetails={OrderData} handleOpenPopup={handleOpenPopup} />
         </div>
         <div
           className={`flex h-full orderProfileMedia ${
@@ -660,7 +727,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             {OrderStatusData?.map((status) => (
               <OrderProfileDevicesProductTable
                 orderDetails={status?.products}
-                orderDeliveryAmount={0}
+                orderDeliveryAmount={OrderData?.deliveryCost}
                 language={language}
               />
             ))}
@@ -1089,6 +1156,103 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
             </div>
           </div>
         </div>
+      </Modal>
+
+      {/* Payment History Modal */}
+      <Modal
+        isOpen={isPopupOpen}
+        onRequestClose={handleClosePopup}
+        contentLabel={
+          language === "ar" ? "إضافة مبلغ التوصيل" : "Ajouter le montant de livraison"
+        }
+        className="addNewModal PaymentHistory"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1000,
+          },
+        }}
+      >
+        <div
+          className="customerClass"
+          style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+        >
+          {/* Header Section - Responsive */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full customerButtons space-y-4 md:space-y-0">
+            {/* Title */}
+            <h2
+              className="customerClassTitle text-center md:text-left"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "إضافة مبلغ التوصيل" : "Ajouter le montant de livraison"}
+            </h2>
+            <TextField
+              fullWidth
+              type="number"
+              value={deliveryAmount}
+              onChange={(e) => setDeliveryAmount(e.target.value)}
+              placeholder={language === "ar" ? "أدخل المبلغ" : "Entrez le montant"}
+              InputProps={{
+                sx: {
+                  borderRadius: '12px',
+                  backgroundColor: '#f8fafc',
+                  fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "inherit",
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#e2e8f0',
+                    borderWidth: '2px',
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#667eea',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#667eea',
+                  },
+                },
+              }}
+              sx={{ mb: 3 }}
+            />
+          </div>
+          <div className="mt-4 md:mt-6">
+            <div
+              className={`flex flex-col sm:flex-row ${
+                language === "ar" ? "sm:gap-x-8" : "sm:space-x-8"
+              } gap-y-4 sm:gap-y-0 justify-end`}
+            >
+              {!submitionLoading ?
+                <>
+                  <button
+                    className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
+                    onClick={handleClosePopup}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  >
+                    {language === "ar" ? "إلغاء" : "Annuler"}
+                  </button>
+                  <input
+                    type="button"
+                    value={language === "ar" ? "حفظ" : "Enregistrer"}
+                    className="text-white bg-blue-500 hover:bg-blue-700 cursor-pointer px-4 py-2 text-sm md:text-base rounded-lg sm:text-blue-500 sm:bg-transparent sm:hover:bg-transparent sm:hover:text-blue-700 sm:px-0 sm:py-0 sm:rounded-none order-1 sm:order-2"
+                    onClick={AddDelivryPrice}
+                    style={{
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    }}
+                  />
+                </>
+                :
+                <div className="flex justify-center">
+                  <CircularProgress />
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
       </Modal>
 
       {/* All Confirm Dialogs */}

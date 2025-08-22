@@ -4,8 +4,8 @@ import Logo from "../assets/Logo-mosagro.png";
 import franceIcon from "../assets/icons/france-icon.png";
 import arabicIcon from "../assets/icons/arab-icon.png";
 
-import SignUpImageFrench from "../assets/images/SignUpImage.png";
-import SignUpImageArabic from "../assets/images/SignUpImage.png";
+import SignUpImageFrench from "../assets/images/Dash-fr.png";
+import SignUpImageArabic from "../assets/images/Dash-ar.png";
 import ButtonFacebok from "../components/ButtonFacebok";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
@@ -359,11 +359,11 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
         <div
           className="mobile-hidden flex justify-center items-center"
           style={{
-            transform: `translateX(${language === "ar" ? "-80px" : "80px"})`,
+            transform: `translateX(${language === "ar" ? "-240px" : "240px"})`,
           }}
         >
           <img
-            className="max-w-full"
+            className="max-w-[180%] h-[120%] object-cover"
             src={language === "ar" ? SignUpImageArabic : SignUpImageFrench}
             alt="Sign Up"
           />

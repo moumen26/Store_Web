@@ -13,7 +13,11 @@ import {
 } from "../util/useFullFunctions";
 import { Button } from "@mui/material";
 
-export default function OrderProfileDetails({ orderDetails, language, handleOpenPopup }) {
+export default function OrderProfileDetails({
+  orderDetails,
+  language,
+  handleOpenPopup,
+}) {
   return (
     <TableContainer
       component={Paper}
@@ -97,10 +101,14 @@ export default function OrderProfileDetails({ orderDetails, language, handleOpen
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
-                    {language === "ar" ? "عنوان التوصيل" : "Adresse de livraison"}
+                    {language === "ar"
+                      ? "عنوان التوصيل"
+                      : "Adresse de livraison"}
                   </span>
                 </TableCell>
-                {(orderDetails?.status == 0 || orderDetails?.status == 1 || orderDetails?.status == 2) && (
+                {(orderDetails?.status == 0 ||
+                  orderDetails?.status == 1 ||
+                  orderDetails?.status == 2) && (
                   <TableCell align="right" className="tableCell">
                     <span
                       className="thTableSpan"
@@ -224,34 +232,29 @@ export default function OrderProfileDetails({ orderDetails, language, handleOpen
                     {orderDetails?.deliveredLocation?.address}
                   </span>
                 </TableCell>
-                {(orderDetails?.status == 0 || orderDetails?.status == 1 || orderDetails?.status == 2) && (
+                {(orderDetails?.status == 0 ||
+                  orderDetails?.status == 1 ||
+                  orderDetails?.status == 2) && (
                   <TableCell align="right" className="tableCell">
-                    <Button
-                      variant="contained"
+                    <button
                       onClick={handleOpenPopup}
-                      sx={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        borderRadius: '12px',
-                        textTransform: 'none',
-                        fontWeight: 400,
-                        px: 1,
-                        py: 1,
-                        fontSize: '11px',
-                        fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "inherit",
-                        boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)',
-                          boxShadow: '0 6px 20px rgba(102, 126, 234, 0.6)',
-                          transform: 'translateY(-2px)',
-                        },
-                        '&:active': {
-                          transform: 'translateY(0)',
-                        }
+                      className={`
+    bg-blue-50 border border-blue-200 rounded-md
+    md:px-3 md:py-2 px-2 py-1.5
+    md:text-sm text-xs text-blue-700 font-medium
+    hover:bg-blue-100 hover:border-blue-300 
+    transition-all duration-200
+    whitespace-nowrap
+  `}
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                     >
-                      {language === "ar" ? "مبلغ التوصيل" : "Montant de la livraison"}
-                    </Button>
+                      {language === "ar"
+                        ? "مبلغ التوصيل"
+                        : "Montant de la livraison"}
+                    </button>
                   </TableCell>
                 )}
               </>
@@ -270,7 +273,7 @@ export default function OrderProfileDetails({ orderDetails, language, handleOpen
                       (sum, pay) => sum + pay.amount,
                       0
                     )
-                )}{" "}
+                )}
                 <span className="text-[10px] align-baseline">
                   {language === "ar" ? "(دج)" : "(DA)"}
                 </span>{" "}

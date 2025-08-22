@@ -2,10 +2,9 @@ import React from "react";
 import { DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import JsBarcode from "jsbarcode";
 import ReactDOM from "react-dom/client";
 import PurchasePDFTemplate from "../pages/PurchasePDFTemplate";
-import OrderPDFTemplate from "../pages/OrderPDFTemplate"; // Add this import
+import OrderPDFTemplate from "../pages/OrderPDFTemplate";
 
 export default function ButtonExportPDF({
   filename,
@@ -22,10 +21,6 @@ export default function ButtonExportPDF({
   type = "purchase", // "purchase" or "order"
 }) {
   const handleExportPDF = async () => {
-    // console.log("Export type:", type); // Debug log
-    // console.log("Order data:", orderData); // Debug log
-    // console.log("Purchase data:", purchaseData); // Debug log
-
     try {
       // Create a temporary container for the PDF template
       const tempContainer = document.createElement("div");
@@ -63,8 +58,8 @@ export default function ButtonExportPDF({
           );
         }
 
-        // Wait for rendering to complete
-        setTimeout(resolve, 100);
+        // Wait for rendering to complete (increased timeout for barcode generation)
+        setTimeout(resolve, 500);
       });
 
       // Capture the rendered template
@@ -99,38 +94,7 @@ export default function ButtonExportPDF({
       const x = (pdfWidth - scaledWidth) / 2;
       const y = 10; // Small margin from top
 
-      // Add barcode if orderId is provided
-      if (orderId) {
-        try {
-          const barcodeCanvas = document.createElement("canvas");
-          JsBarcode(barcodeCanvas, orderId, {
-            format: "CODE128",
-            width: 2,
-            height: 50,
-            displayValue: true,
-            fontSize: 12,
-          });
-
-          const barcodeData = barcodeCanvas.toDataURL("image/png");
-          const barcodeWidth = 40;
-          const barcodeHeight = 15;
-          const barcodeX = pdfWidth - barcodeWidth - 10;
-          const barcodeY = 5;
-
-          pdf.addImage(
-            barcodeData,
-            "PNG",
-            barcodeX,
-            barcodeY,
-            barcodeWidth,
-            barcodeHeight
-          );
-        } catch (barcodeError) {
-          console.warn("Could not generate barcode:", barcodeError);
-        }
-      }
-
-      // Add the main content
+      // Add the main content (barcode is now included in the template)
       pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
 
       // Generate filename based on type

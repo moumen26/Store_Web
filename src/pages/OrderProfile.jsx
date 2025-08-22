@@ -529,9 +529,17 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
 
   // Add Delivery Price
   const AddDelivryPrice = async () => {
-    if (!deliveryAmount || isNaN(deliveryAmount) || Number(deliveryAmount) < 0) {
-      setAlertType("error")
-      setAlertMessage(language === "ar" ? "يرجى إدخال مبلغ صالح أكبر من 0" : "Veuillez saisir un montant valide supérieur à 0");
+    if (
+      !deliveryAmount ||
+      isNaN(deliveryAmount) ||
+      Number(deliveryAmount) < 0
+    ) {
+      setAlertType("error");
+      setAlertMessage(
+        language === "ar"
+          ? "يرجى إدخال مبلغ صالح أكبر من 0"
+          : "Veuillez saisir un montant valide supérieur à 0"
+      );
       setSnackbarOpen(true);
       return;
     }
@@ -542,7 +550,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         import.meta.env.VITE_APP_URL_BASE +
           `/Receipt/updateExpectedDeliveryCost/${id}/${decodedToken?.id}`,
         {
-          deliveredAmount: Number(deliveryAmount)
+          deliveredAmount: Number(deliveryAmount),
         },
         {
           headers: {
@@ -696,7 +704,11 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           >
             {language === "ar" ? "تفاصيل الطلب" : "Détails de la commande"}
           </h2>
-          <OrderProfileDetails language={language} orderDetails={OrderData} handleOpenPopup={handleOpenPopup} />
+          <OrderProfileDetails
+            language={language}
+            orderDetails={OrderData}
+            handleOpenPopup={handleOpenPopup}
+          />
         </div>
         <div
           className={`flex h-full orderProfileMedia ${
@@ -1053,7 +1065,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
           >
             {language === "ar" ? "إضافة دفعة" : "Ajouter un paiement"}
           </h2>
-          <div className="dialogAddCustomerItem items-center">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center justify-between">
             <span
               style={{
                 fontFamily:
@@ -1163,9 +1175,11 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         isOpen={isPopupOpen}
         onRequestClose={handleClosePopup}
         contentLabel={
-          language === "ar" ? "إضافة مبلغ التوصيل" : "Ajouter le montant de livraison"
+          language === "ar"
+            ? "إضافة مبلغ التوصيل"
+            : "Ajouter le montant de livraison"
         }
-        className="addNewModal PaymentHistory"
+        className="addNewModal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -1187,41 +1201,32 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {language === "ar" ? "إضافة مبلغ التوصيل" : "Ajouter le montant de livraison"}
+              {language === "ar"
+                ? "إضافة مبلغ التوصيل"
+                : "Ajouter le montant de livraison"}
             </h2>
-            <TextField
-              fullWidth
-              type="number"
-              value={deliveryAmount}
-              onChange={(e) => setDeliveryAmount(e.target.value)}
-              placeholder={language === "ar" ? "أدخل المبلغ" : "Entrez le montant"}
-              InputProps={{
-                sx: {
-                  borderRadius: '12px',
-                  backgroundColor: '#f8fafc',
-                  fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "inherit",
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#e2e8f0',
-                    borderWidth: '2px',
-                  },
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#667eea',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#667eea',
-                  },
-                },
-              }}
-              sx={{ mb: 3 }}
-            />
+            <div className="inputForm">
+              <input
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+                placeholder={
+                  language === "ar" ? "أدخل المبلغ" : "Entrez le montant"
+                }
+                type="number"
+                value={deliveryAmount}
+                onChange={(e) => setDeliveryAmount(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="mt-4 md:mt-6">
+          <div>
             <div
               className={`flex flex-col sm:flex-row ${
                 language === "ar" ? "sm:gap-x-8" : "sm:space-x-8"
               } gap-y-4 sm:gap-y-0 justify-end`}
             >
-              {!submitionLoading ?
+              {!submitionLoading ? (
                 <>
                   <button
                     className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
@@ -1244,15 +1249,14 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
                     }}
                   />
                 </>
-                :
+              ) : (
                 <div className="flex justify-center">
                   <CircularProgress />
                 </div>
-              }
+              )}
             </div>
           </div>
         </div>
-
       </Modal>
 
       {/* All Confirm Dialogs */}

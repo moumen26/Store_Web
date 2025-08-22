@@ -205,7 +205,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {language === "ar" ? "جديد في موساجرو؟" : "Nouveau sur MOSAGRO ?"}
+              {language === "ar" ? "جديد في موزاجرو؟" : "Nouveau sur MOSAGRO ?"}
             </span>
             <div
               className={`flex items-center w-fit ${
@@ -343,7 +343,7 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                 className="headerText alreadyText"
               >
                 {language === "ar"
-                  ? "جديد في موساجرو؟"
+                  ? "جديد في موزاجرو؟"
                   : "Nouveau sur MOSAGRO ?"}
               </span>
               <span

@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import JsBarcode from "jsbarcode";
+
+import Logo from "../assets/Logo-mosagro.png"; // Adjust the path as necessary
 
 export default function OrderPDFTemplate({
   orderData,
   orderStatusData,
   language,
 }) {
+  const barcodeRef = useRef(null);
+
+  // Generate barcode when component mounts
+  useEffect(() => {
+    if (barcodeRef.current && orderData?._id) {
+      try {
+        JsBarcode(barcodeRef.current, orderData._id, {
+          format: "CODE128",
+          width: 3,
+          height: 80,
+          displayValue: true,
+          fontSize: 14,
+          margin: 5,
+        });
+      } catch (error) {
+        console.warn("Could not generate barcode:", error);
+      }
+    }
+  }, [orderData?._id]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(language === "ar" ? "ar-DZ" : "fr-FR");
@@ -18,14 +41,20 @@ export default function OrderPDFTemplate({
 
   const getStatusText = (status, language = "fr") => {
     const statusMap = {
-      "-2": language === "ar" ? "تم إلغاء الطلب من قبل المتجر" : "Annulé par le magasin",
-      "-1": language === "ar" ? "تم إلغاء الطلب من قبل العميل" : "Annulé par le client",
-      "0": language === "ar" ? "في الانتظار" : "En attente",
-      "1": language === "ar" ? "قيد التحضير" : "En préparation", 
-      "2": language === "ar" ? "جاهز للتسليم" : "Prêt pour livraison",
-      "3": language === "ar" ? "تم التسليم" : "Livré",
-      "4": language === "ar" ? "تم الإرجاع" : "Retourné",
-      "10": language === "ar" ? "مكتمل" : "Terminé",
+      "-2":
+        language === "ar"
+          ? "تم إلغاء الطلب من قبل المتجر"
+          : "Annulé par le magasin",
+      "-1":
+        language === "ar"
+          ? "تم إلغاء الطلب من قبل العميل"
+          : "Annulé par le client",
+      0: language === "ar" ? "في الانتظار" : "En attente",
+      1: language === "ar" ? "قيد التحضير" : "En préparation",
+      2: language === "ar" ? "جاهز للتسليم" : "Prêt pour livraison",
+      3: language === "ar" ? "تم التسليم" : "Livré",
+      4: language === "ar" ? "تم الإرجاع" : "Retourné",
+      10: language === "ar" ? "مكتمل" : "Terminé",
     };
     return statusMap[status?.toString()] || statusMap["0"];
   };
@@ -86,34 +115,109 @@ export default function OrderPDFTemplate({
       id="pdf-template"
       style={{
         fontFamily:
-          language === "ar" ? "Cairo, Arial, sans-serif" : "Arial, sans-serif",
+          language === "ar" ? "Cairo-Regular, sans-serif" : "Arial, sans-serif",
         direction: language === "ar" ? "rtl" : "ltr",
-        padding: "20px",
+        padding: "10px 30px",
         backgroundColor: "white",
         color: "black",
-        fontSize: "12px",
+        fontSize: "11px",
         lineHeight: "1.4",
+        maxWidth: "800px",
+        margin: "0 auto",
       }}
     >
-      {/* Header */}
+      {/* Header with Logo and Barcode */}
       <div
         style={{
-          textAlign: "center",
           marginBottom: "30px",
-          borderBottom: "2px solid #333",
-          paddingBottom: "15px",
         }}
       >
-        <h1
+        {/* Logo and Barcode row */}
+        <div
           style={{
-            margin: "0 0 10px 0",
-            fontSize: "24px",
-            fontWeight: "bold",
-            color: "#333",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          {language === "ar" ? "فاتورة طلب" : "Facture de Commande"}
-        </h1>
+          {/* Logo on the left */}
+          <div
+            style={{
+              flex: "0 0 auto",
+            }}
+          >
+            <img
+              src={Logo}
+              alt="Company Logo"
+              style={{
+                maxHeight: "80px",
+                maxWidth: "200px",
+                height: "auto",
+                width: "auto",
+              }}
+            />
+          </div>
+
+          {/* Barcode on the right */}
+          <div
+            style={{
+              flex: "0 0 auto",
+            }}
+          >
+            {orderData?._id && (
+              <canvas
+                ref={barcodeRef}
+                style={{
+                  maxWidth: "250px",
+                  minHeight: "50px",
+                  height: "auto",
+                }}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Title row */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          {/* Title */}
+          <div
+            style={{
+              flex: 1,
+              textAlign: "center",
+              paddingTop: "10px",
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 15px 0",
+                fontSize: "24px",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                fontWeight: "bold",
+                color: "#0d3a71",
+              }}
+            >
+              {language === "ar" ? "فاتورة طلب" : "Bon de Commande"}
+            </h1>
+            <div
+              style={{
+                width: "100px",
+                height: "3px",
+                backgroundColor: "#0d3a71",
+                margin: "10px auto",
+                borderRadius: "2px",
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Order Number and Date */}
         <div
           style={{
             fontSize: "14px",
@@ -123,11 +227,19 @@ export default function OrderPDFTemplate({
             alignItems: "center",
           }}
         >
-          <span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "رقم الطلب:" : "N° Commande:"} #
             {orderData?._id}
           </span>
-          <span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "التاريخ:" : "Date:"}{" "}
             {formatDate(orderData?.createdAt)}
           </span>
@@ -139,175 +251,102 @@ export default function OrderPDFTemplate({
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "30px",
+          gap: "40px",
           marginBottom: "30px",
         }}
       >
         {/* Order Details */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "15px",
-            borderRadius: "5px",
-            backgroundColor: "#fafafa",
-          }}
-        >
-          <h3
+        <div>
+          <div
             style={{
-              margin: "0 0 15px 0",
-              fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
+              marginBottom: "3px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {language === "ar" ? "تفاصيل الطلب" : "Détails de la Commande"}
-          </h3>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>
+            {language === "ar" ? "تفاصيل الطلب" : "DÉTAILS DE LA COMMANDE"}
+          </div>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "المجموع الكلي:" : "Montant Total:"}
-            </strong>
-            <span style={{ float: language === "ar" ? "left" : "right" }}>
-              {formatNumber(orderData?.total)} {language === "ar" ? "دج" : "DA"}
-            </span>
+            </strong>{" "}
+            {formatNumber(orderData?.total)} {language === "ar" ? "دج" : "DA"}
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "حالة الطلب:" : "Statut:"}</strong>
-            <span
+          <div>
+            <strong
               style={{
-                float: language === "ar" ? "left" : "right",
-                color:
-                  orderData?.status === 10
-                    ? "#22c55e"
-                    : orderData?.status === -1
-                    ? "#ef4444"
-                    : "#f59e0b",
-                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
-              {getStatusText(orderData?.status)}
-            </span>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "عربون:" : "Acompte:"}</strong>
-            <span
-              style={{
-                float: language === "ar" ? "left" : "right",
-                color: orderData?.deposit ? "#22c55e" : "#ef4444",
-              }}
-            >
-              {orderData?.deposit
-                ? language === "ar"
-                  ? "نعم"
-                  : "Oui"
-                : language === "ar"
-                ? "لا"
-                : "Non"}
-            </span>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "آجل:" : "Crédit:"}</strong>
-            <span
-              style={{
-                float: language === "ar" ? "left" : "right",
-                color: orderData?.credit ? "#22c55e" : "#ef4444",
-              }}
-            >
-              {orderData?.credit
-                ? language === "ar"
-                  ? "نعم"
-                  : "Oui"
-                : language === "ar"
-                ? "لا"
-                : "Non"}
-            </span>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>
               {language === "ar" ? "نوع التسليم:" : "Type de livraison:"}
-            </strong>
-            <span style={{ float: language === "ar" ? "left" : "right" }}>
-              {orderData?.deliveredLocation
-                ? language === "ar"
-                  ? "توصيل"
-                  : "Livraison"
-                : language === "ar"
-                ? "استلام"
-                : "Retrait"}
-            </span>
+            </strong>{" "}
+            {orderData?.deliveredLocation
+              ? language === "ar"
+                ? "توصيل"
+                : "Livraison"
+              : language === "ar"
+              ? "استلام"
+              : "Retrait"}
           </div>
         </div>
 
         {/* Client Details */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "15px",
-            borderRadius: "5px",
-            backgroundColor: "#fafafa",
-          }}
-        >
-          <h3
+        <div style={{ textAlign: language === "ar" ? "left" : "right" }}>
+          <div
             style={{
-              margin: "0 0 15px 0",
-              fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
+              marginBottom: "3px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {language === "ar" ? "العميل" : "Client"}
-          </h3>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الاسم:" : "Nom:"}</strong>
-            <div>
-              {orderData?.client?.firstName} {orderData?.client?.lastName}
-            </div>
+            {language === "ar" ? "معلومات العميل" : "INFORMATIONS CLIENT"}
+          </div>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الاسم:" : "Nom:"}
+            </strong>{" "}
+            {orderData?.client?.firstName} {orderData?.client?.lastName}
+          </div>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الهاتف:" : "Téléphone:"}
+            </strong>{" "}
+            {orderData?.client?.phoneNumber || "N/A"}
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الهاتف:" : "Téléphone:"}</strong>
-            <div>{orderData?.client?.phoneNumber || "N/A"}</div>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "العنوان:" : "Adresse:"}</strong>
-            <div>
-              {orderData?.deliveredLocation?.address ||
-                (language === "ar" ? "استلام من المتجر" : "Retrait en magasin")}
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الولاية:" : "Wilaya:"}</strong>
-            <div>
-              {orderData?.client?.commune} - {orderData?.client?.wilaya}
-            </div>
+          <div style={{ fontSize: "10px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "العنوان:" : "Adresse:"}
+            </strong>{" "}
+            {orderData?.client?.commune} - {orderData?.client?.wilaya}
           </div>
         </div>
       </div>
 
       {/* Products Table */}
       <div style={{ marginBottom: "30px" }}>
-        <h3
-          style={{
-            margin: "0 0 15px 0",
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#333",
-          }}
-        >
-          {language === "ar" ? "المنتجات" : "Produits"}
-        </h3>
-
         {orderStatusData?.map((statusData, index) => {
           const products = statusData?.products || [];
           const subtotal = products.reduce(
@@ -322,6 +361,9 @@ export default function OrderPDFTemplate({
                   style={{
                     margin: "0 0 10px 0",
                     fontSize: "14px",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+
                     color: "#666",
                   }}
                 >
@@ -339,53 +381,66 @@ export default function OrderPDFTemplate({
                 }}
               >
                 <thead>
-                  <tr style={{ backgroundColor: "#f8f9fa" }}>
+                  <tr>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
+                        fontSize: "11px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        border: "1px solid #0d3a71",
+                        width: "60px",
+                      }}
+                    >
+                      {language === "ar" ? "الكمية" : "Quantité"}
+                    </th>
+                    <th
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
+                        padding: "8px",
+                        fontSize: "11px",
+                        fontWeight: "bold",
                         textAlign: language === "ar" ? "right" : "left",
-                        fontWeight: "bold",
+                        border: "1px solid #0d3a71",
                       }}
                     >
-                      {language === "ar" ? "المنتجات" : "Produits"}
+                      {language === "ar" ? "الوصف" : "Description"}
                     </th>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
-                        textAlign: "center",
+                        fontSize: "11px",
                         fontWeight: "bold",
+                        textAlign: "center",
+                        border: "1px solid #0d3a71",
+                        width: "100px",
                       }}
                     >
-                      {language === "ar" ? "الكمية" : "Qté"}
+                      {language === "ar" ? "سعر الوحدة" : "Prix unitaire"}
                     </th>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
-                        textAlign: "center",
+                        fontSize: "11px",
                         fontWeight: "bold",
-                      }}
-                    >
-                      {language === "ar" ? "العلب" : "Boîtes"}
-                    </th>
-                    <th
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
                         textAlign: "center",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {language === "ar" ? "الوحدة" : "Unité"}
-                    </th>
-                    <th
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
-                        textAlign: "center",
-                        fontWeight: "bold",
+                        border: "1px solid #0d3a71",
+                        width: "140px",
                       }}
                     >
                       {language === "ar" ? "المجموع" : "Total"}
@@ -397,39 +452,62 @@ export default function OrderPDFTemplate({
                     <tr key={itemIndex}>
                       <td
                         style={{
-                          border: "1px solid #ddd",
-                          padding: "8px",
-                          textAlign: language === "ar" ? "right" : "left",
-                        }}
-                      >
-                        {item?.product?.name || "N/A"}
-                        {item?.product?.size && (
-                          <span> - {item.product.size}</span>
-                        )}
-                      </td>
-                      <td
-                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
+                          fontSize: "10px",
                         }}
                       >
                         {item.quantity}
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
-                          textAlign: "center",
+                          textAlign: language === "ar" ? "right" : "left",
+                          fontSize: "10px",
                         }}
                       >
-                        {calculateBoxDisplay(item, language)}
+                        <div
+                          style={{ fontWeight: "bold", marginBottom: "2px" }}
+                        >
+                          {item?.product?.name || "N/A"}
+                        </div>
+                        {item?.product?.size && (
+                          <div style={{ fontSize: "9px", color: "#666" }}>
+                            {item.product.size}
+                          </div>
+                        )}
+                        {calculateBoxDisplay(item, language) && (
+                          <div
+                            style={{
+                              fontSize: "9px",
+                              color: "#666",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            ({calculateBoxDisplay(item, language)})
+                          </div>
+                        )}
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
+                          fontSize: "10px",
                         }}
                       >
                         {formatNumber(item.price)}{" "}
@@ -437,10 +515,15 @@ export default function OrderPDFTemplate({
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
                           fontWeight: "bold",
+                          fontSize: "10px",
                         }}
                       >
                         {formatNumber(item.quantity * item.price)}{" "}
@@ -449,21 +532,63 @@ export default function OrderPDFTemplate({
                     </tr>
                   ))}
 
+                  {/* Add empty rows to fill space */}
+                  {Array.from(
+                    { length: Math.max(0, 6 - products.length) },
+                    (_, index) => (
+                      <tr key={`empty-${index}`}>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                      </tr>
+                    )
+                  )}
+
                   {/* Subtotal Row */}
                   <tr>
                     <td
-                      colSpan="4"
+                      colSpan="3"
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
                         padding: "8px",
                         textAlign: language === "ar" ? "right" : "left",
                         fontWeight: "bold",
+                        backgroundColor: "#f8f9fa",
                       }}
                     >
-                      {language === "ar" ? "المجموع الفرعي" : "Sous-total"}
+                      {language === "ar" ? "المجموع الفرعي:" : "SOUS-TOTAL"}
                     </td>
                     <td
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
                         padding: "8px",
                         textAlign: "center",
@@ -479,20 +604,29 @@ export default function OrderPDFTemplate({
                     orderData?.deliveryAmount > 0 && (
                       <tr>
                         <td
-                          colSpan="4"
+                          colSpan="3"
                           style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
                             border: "1px solid #ddd",
                             padding: "8px",
                             textAlign: language === "ar" ? "right" : "left",
                             fontWeight: "bold",
+                            backgroundColor: "#f8f9fa",
                           }}
                         >
                           {language === "ar"
-                            ? "مبلغ التوصيل"
-                            : "Frais de livraison"}
+                            ? "مبلغ التوصيل:"
+                            : "FRAIS DE LIVRAISON"}
                         </td>
                         <td
                           style={{
+                            fontFamily:
+                              language === "ar"
+                                ? "Cairo-Regular, sans-serif"
+                                : "",
                             border: "1px solid #ddd",
                             padding: "8px",
                             textAlign: "center",
@@ -506,26 +640,34 @@ export default function OrderPDFTemplate({
                     )}
 
                   {/* Final Total Row */}
-                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                  <tr>
                     <td
-                      colSpan="4"
+                      colSpan="3"
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
-                        padding: "8px",
+                        padding: "12px 8px",
                         textAlign: language === "ar" ? "right" : "left",
                         fontWeight: "bold",
-                        fontSize: "14px",
+                        fontSize: "12px",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                       }}
                     >
-                      {language === "ar" ? "المجموع الكلي" : "Total général"}
+                      {language === "ar" ? "المجموع الكلي:" : "TOTAL TTC"}
                     </td>
                     <td
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
-                        padding: "8px",
+                        padding: "12px 8px",
                         textAlign: "center",
                         fontWeight: "bold",
                         fontSize: "14px",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                       }}
                     >
                       {formatNumber(
@@ -549,7 +691,8 @@ export default function OrderPDFTemplate({
               margin: "0 0 15px 0",
               fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
+              color: "#0d3a71",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             {language === "ar" ? "سجل الدفعات" : "Historique des Paiements"}
@@ -563,23 +706,31 @@ export default function OrderPDFTemplate({
             }}
           >
             <thead>
-              <tr style={{ backgroundColor: "#f8f9fa" }}>
+              <tr>
                 <th
                   style={{
-                    border: "1px solid #ddd",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    backgroundColor: "#0d3a71",
+                    color: "white",
                     padding: "8px",
                     textAlign: "center",
                     fontWeight: "bold",
+                    border: "1px solid #0d3a71",
                   }}
                 >
                   {language === "ar" ? "التاريخ" : "Date"}
                 </th>
                 <th
                   style={{
-                    border: "1px solid #ddd",
+                    backgroundColor: "#0d3a71",
+                    color: "white",
                     padding: "8px",
                     textAlign: "center",
                     fontWeight: "bold",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    border: "1px solid #0d3a71",
                   }}
                 >
                   {language === "ar" ? "المبلغ" : "Montant"}
@@ -594,6 +745,8 @@ export default function OrderPDFTemplate({
                       border: "1px solid #ddd",
                       padding: "8px",
                       textAlign: "center",
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
                     {formatDate(payment.date)}
@@ -603,6 +756,8 @@ export default function OrderPDFTemplate({
                       border: "1px solid #ddd",
                       padding: "8px",
                       textAlign: "center",
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       fontWeight: "bold",
                     }}
                   >
@@ -619,10 +774,16 @@ export default function OrderPDFTemplate({
               textAlign: language === "ar" ? "left" : "right",
               marginTop: "10px",
               fontSize: "14px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             <div style={{ marginBottom: "5px" }}>
-              <strong>
+              <strong
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "إجمالي المدفوع:" : "Total Payé:"}{" "}
                 {formatNumber(
                   orderData.payment.reduce((sum, pay) => sum + pay.amount, 0)
@@ -630,7 +791,14 @@ export default function OrderPDFTemplate({
                 {language === "ar" ? "دج" : "DA"}
               </strong>
             </div>
-            <div style={{ color: "#ef4444", fontWeight: "bold" }}>
+            <div
+              style={{
+                color: "#ef4444",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "المتبقي:" : "Reste à payer:"}{" "}
               {formatNumber(
                 orderData.total -
@@ -645,18 +813,75 @@ export default function OrderPDFTemplate({
       {/* Footer */}
       <div
         style={{
-          marginTop: "40px",
-          paddingTop: "20px",
-          borderTop: "1px solid #ddd",
+          borderTop: "3px solid #0d3a71",
+          paddingTop: "10px",
+          marginTop: "10px",
+          backgroundColor: "#f8f9fa",
+          padding: "20px",
           textAlign: "center",
-          color: "#666",
-          fontSize: "10px",
+          position: "absolute",
+          bottom: "20px",
+          left: "0",
+          width: "100%",
         }}
       >
-        <div>
-          {language === "ar"
-            ? `تم إنشاء هذه الفاتورة في ${formatDate(new Date())}`
-            : `Facture générée le ${formatDate(new Date())}`}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "15px",
+          }}
+        >
+          <div
+            style={{ flex: 1, textAlign: language === "ar" ? "right" : "left" }}
+          >
+            <div
+              style={{
+                fontSize: "10px",
+                color: "#666",
+                fontStyle: "italic",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar"
+                ? `تاريخ الطباعة: ${new Date().toLocaleDateString("ar-DZ")}`
+                : `Date d'impression: ${new Date().toLocaleDateString(
+                    "fr-FR"
+                  )}`}
+            </div>
+          </div>
+
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                color: "#0d3a71",
+              }}
+            >
+              {language === "ar" ? "شكراً لثقتكم" : "Merci de votre confiance"}
+            </div>
+          </div>
+
+          <div
+            style={{ flex: 1, textAlign: language === "ar" ? "left" : "right" }}
+          >
+            <div
+              style={{
+                fontSize: "10px",
+                color: "#0d3a71",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "موزاجرو" : "MOSAGRO"}
+            </div>
+          </div>
         </div>
       </div>
     </div>

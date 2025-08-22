@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import JsBarcode from "jsbarcode";
+
+import Logo from "../assets/Logo-mosagro.png"; // Adjust the path as necessary
 
 export default function PurchasePDFTemplate({
   purchaseData,
   sousPurchaseData,
   language,
 }) {
+  const barcodeRef = useRef(null);
+
+  // Generate barcode when component mounts
+  useEffect(() => {
+    if (barcodeRef.current && purchaseData?._id) {
+      try {
+        JsBarcode(barcodeRef.current, purchaseData._id, {
+          format: "CODE128",
+          width: 3,
+          height: 80,
+          displayValue: true,
+          fontSize: 14,
+          margin: 5,
+        });
+      } catch (error) {
+        console.warn("Could not generate barcode:", error);
+      }
+    }
+  }, [purchaseData?._id]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(language === "ar" ? "ar-DZ" : "fr-FR");
@@ -41,27 +64,37 @@ export default function PurchasePDFTemplate({
       totalBoxes = 0;
     }
 
-    if (language === "ar") {
-      return `${
-        totalBoxes > 0
-          ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
-          : ""
-      }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
-        remainingItems > 0
-          ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
-          : ""
-      }`;
-    } else {
-      return `${
-        totalBoxes > 0
-          ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
-          : ""
-      }${totalBoxes > 0 && remainingItems > 0 ? "+" : ""}${
-        remainingItems > 0
-          ? ` ${remainingItems} ${remainingItems === 1 ? "pièce" : "pièces"}`
-          : ""
-      }`;
-    }
+    const boxText =
+      language === "ar"
+        ? `${
+            totalBoxes > 0
+              ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
+              : ""
+          }`
+        : `${
+            totalBoxes > 0
+              ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
+              : ""
+          }`;
+
+    const itemsText =
+      language === "ar"
+        ? `${
+            remainingItems > 0
+              ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
+              : ""
+          }`
+        : `${
+            remainingItems > 0
+              ? ` ${remainingItems} ${
+                  remainingItems === 1 ? "pièce" : "pièces"
+                }`
+              : ""
+          }`;
+
+    return `${boxText}${
+      totalBoxes > 0 && remainingItems > 0 ? "+" : ""
+    }${itemsText}`;
   };
 
   return (
@@ -69,34 +102,109 @@ export default function PurchasePDFTemplate({
       id="pdf-template"
       style={{
         fontFamily:
-          language === "ar" ? "Cairo, Arial, sans-serif" : "Arial, sans-serif",
+          language === "ar" ? "Cairo-Regular, sans-serif" : "Arial, sans-serif",
         direction: language === "ar" ? "rtl" : "ltr",
-        padding: "20px",
+        padding: "10px 30px",
         backgroundColor: "white",
         color: "black",
-        fontSize: "12px",
+        fontSize: "11px",
         lineHeight: "1.4",
+        maxWidth: "800px",
+        margin: "0 auto",
       }}
     >
-      {/* Header */}
+      {/* Header with Logo and Barcode */}
       <div
         style={{
-          textAlign: "center",
           marginBottom: "30px",
-          borderBottom: "2px solid #333",
-          paddingBottom: "15px",
         }}
       >
-        <h1
+        {/* Logo and Barcode row */}
+        <div
           style={{
-            margin: "0 0 10px 0",
-            fontSize: "24px",
-            fontWeight: "bold",
-            color: "#333",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          {language === "ar" ? "فاتورة شراء" : "Facture d'Achat"}
-        </h1>
+          {/* Logo on the left */}
+          <div
+            style={{
+              flex: "0 0 auto",
+            }}
+          >
+            <img
+              src={Logo}
+              alt="Company Logo"
+              style={{
+                maxHeight: "80px",
+                maxWidth: "200px",
+                height: "auto",
+                width: "auto",
+              }}
+            />
+          </div>
+
+          {/* Barcode on the right */}
+          {/* <div
+            style={{
+              flex: "0 0 auto",
+            }}
+          >
+            {purchaseData?._id && (
+              <canvas
+                ref={barcodeRef}
+                style={{
+                  maxWidth: "250px",
+                  minHeight: "50px",
+                  height: "auto",
+                }}
+              />
+            )}
+          </div> */}
+        </div>
+
+        {/* Title row */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          {/* Title */}
+          <div
+            style={{
+              flex: 1,
+              textAlign: "center",
+              paddingTop: "10px",
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 15px 0",
+                fontSize: "24px",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                fontWeight: "bold",
+                color: "#0d3a71",
+              }}
+            >
+              {language === "ar" ? "فاتورة شراء" : "Bon d'Achat"}
+            </h1>
+            <div
+              style={{
+                width: "100px",
+                height: "3px",
+                backgroundColor: "#0d3a71",
+                margin: "10px auto",
+                borderRadius: "2px",
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Purchase Number and Date */}
         <div
           style={{
             fontSize: "14px",
@@ -106,11 +214,19 @@ export default function PurchasePDFTemplate({
             alignItems: "center",
           }}
         >
-          <span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "رقم الفاتورة:" : "N° Facture:"} #
             {purchaseData?._id}
           </span>
-          <span>
+          <span
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
             {language === "ar" ? "التاريخ:" : "Date:"}{" "}
             {formatDate(purchaseData?.createdAt)}
           </span>
@@ -122,56 +238,80 @@ export default function PurchasePDFTemplate({
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "30px",
+          gap: "40px",
           marginBottom: "30px",
         }}
       >
         {/* Purchase Details */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "15px",
-            borderRadius: "5px",
-            backgroundColor: "#fafafa",
-          }}
-        >
-          <h3
+        <div>
+          <div
             style={{
-              margin: "0 0 15px 0",
-              fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
+              marginBottom: "3px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {language === "ar" ? "تفاصيل الشراء" : "Détails d'Achat"}
-          </h3>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>
+            {language === "ar" ? "تفاصيل الشراء" : "DÉTAILS D'ACHAT"}
+          </div>
+          <div
+            style={{
+              marginBottom: "2px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+            }}
+          >
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "المجموع الكلي:" : "Montant Total:"}
-            </strong>
-            <span style={{ float: language === "ar" ? "left" : "right" }}>
+            </strong>{" "}
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {formatNumber(purchaseData?.totalAmount)}{" "}
               {language === "ar" ? "دج" : "DA"}
             </span>
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الخصم:" : "Remise:"}</strong>
-            <span style={{ float: language === "ar" ? "left" : "right" }}>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الخصم:" : "Remise:"}
+            </strong>{" "}
+            <span
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {purchaseData?.discount || 0}%
             </span>
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الحالة:" : "Statut:"}</strong>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الحالة:" : "Statut:"}
+            </strong>{" "}
             <span
               style={{
-                float: language === "ar" ? "left" : "right",
                 color: purchaseData?.closed ? "#22c55e" : "#ef4444",
                 fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
               {purchaseData?.closed
@@ -184,103 +324,88 @@ export default function PurchasePDFTemplate({
             </span>
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "عربون:" : "Acompte:"}</strong>
+          <div style={{ fontSize: "10px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "نوع الدفع:" : "Type de paiement:"}
+            </strong>{" "}
             <span
               style={{
-                float: language === "ar" ? "left" : "right",
-                color: purchaseData?.deposit ? "#22c55e" : "#ef4444",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
               }}
             >
               {purchaseData?.deposit
                 ? language === "ar"
-                  ? "نعم"
-                  : "Oui"
-                : language === "ar"
-                ? "لا"
-                : "Non"}
-            </span>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "آجل:" : "Crédit:"}</strong>
-            <span
-              style={{
-                float: language === "ar" ? "left" : "right",
-                color: purchaseData?.credit ? "#22c55e" : "#ef4444",
-              }}
-            >
-              {purchaseData?.credit
+                  ? "عربون"
+                  : "Acompte"
+                : purchaseData?.credit
                 ? language === "ar"
-                  ? "نعم"
-                  : "Oui"
+                  ? "آجل"
+                  : "Crédit"
                 : language === "ar"
-                ? "لا"
-                : "Non"}
+                ? "نقدي"
+                : "Comptant"}
             </span>
           </div>
         </div>
 
         {/* Supplier Details */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "15px",
-            borderRadius: "5px",
-            backgroundColor: "#fafafa",
-          }}
-        >
-          <h3
+        <div style={{ textAlign: language === "ar" ? "left" : "right" }}>
+          <div
             style={{
-              margin: "0 0 15px 0",
-              fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
+              marginBottom: "3px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {language === "ar" ? "المورد" : "Fournisseur"}
-          </h3>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الاسم:" : "Nom:"}</strong>
-            <div>{purchaseData?.fournisseur?.name || "N/A"}</div>
+            {language === "ar" ? "معلومات المورد" : "INFORMATIONS FOURNISSEUR"}
+          </div>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الاسم:" : "Nom:"}
+            </strong>{" "}
+            {purchaseData?.fournisseur?.firstName}{" "}
+            {purchaseData?.fournisseur?.lastName}
+          </div>
+          <div style={{ marginBottom: "2px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "الهاتف:" : "Téléphone:"}
+            </strong>{" "}
+            {purchaseData?.fournisseur?.phoneNumber || "N/A"}
           </div>
 
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الهاتف:" : "Téléphone:"}</strong>
-            <div>{purchaseData?.fournisseur?.phoneNumber || "N/A"}</div>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "العنوان:" : "Adresse:"}</strong>
-            <div>{purchaseData?.fournisseur?.address || "N/A"}</div>
-          </div>
-
-          <div style={{ marginBottom: "8px" }}>
-            <strong>{language === "ar" ? "الولاية:" : "Wilaya:"}</strong>
-            <div>
-              {purchaseData?.fournisseur?.commune} -{" "}
-              {purchaseData?.fournisseur?.wilaya}
-            </div>
+          <div style={{ fontSize: "10px" }}>
+            <strong
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "العنوان:" : "Adresse:"}
+            </strong>{" "}
+            {purchaseData?.fournisseur?.commune} -{" "}
+            {purchaseData?.fournisseur?.wilaya}
           </div>
         </div>
       </div>
 
       {/* Products Table */}
       <div style={{ marginBottom: "30px" }}>
-        <h3
-          style={{
-            margin: "0 0 15px 0",
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#333",
-          }}
-        >
-          {language === "ar" ? "المنتجات" : "Produits"}
-        </h3>
-
         {sousPurchaseData?.map((sousPurchase, index) => {
           const products = sousPurchase?.sousStocks || [];
           const subtotal = products.reduce(
@@ -295,6 +420,8 @@ export default function PurchasePDFTemplate({
                   style={{
                     margin: "0 0 10px 0",
                     fontSize: "14px",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     color: "#666",
                   }}
                 >
@@ -312,53 +439,66 @@ export default function PurchasePDFTemplate({
                 }}
               >
                 <thead>
-                  <tr style={{ backgroundColor: "#f8f9fa" }}>
+                  <tr>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
+                        fontSize: "11px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        border: "1px solid #0d3a71",
+                        width: "60px",
+                      }}
+                    >
+                      {language === "ar" ? "الكمية" : "Quantité"}
+                    </th>
+                    <th
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
+                        padding: "8px",
+                        fontSize: "11px",
+                        fontWeight: "bold",
                         textAlign: language === "ar" ? "right" : "left",
-                        fontWeight: "bold",
+                        border: "1px solid #0d3a71",
                       }}
                     >
-                      {language === "ar" ? "المنتجات" : "Produits"}
+                      {language === "ar" ? "الوصف" : "Description"}
                     </th>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
-                        textAlign: "center",
+                        fontSize: "11px",
                         fontWeight: "bold",
+                        textAlign: "center",
+                        border: "1px solid #0d3a71",
+                        width: "100px",
                       }}
                     >
-                      {language === "ar" ? "الكمية" : "Qté"}
+                      {language === "ar" ? "سعر الوحدة" : "Prix unitaire"}
                     </th>
                     <th
                       style={{
-                        border: "1px solid #ddd",
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                         padding: "8px",
-                        textAlign: "center",
+                        fontSize: "11px",
                         fontWeight: "bold",
-                      }}
-                    >
-                      {language === "ar" ? "العلب" : "Boîtes"}
-                    </th>
-                    <th
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
                         textAlign: "center",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {language === "ar" ? "الوحدة" : "Unité"}
-                    </th>
-                    <th
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
-                        textAlign: "center",
-                        fontWeight: "bold",
+                        border: "1px solid #0d3a71",
+                        width: "140px",
                       }}
                     >
                       {language === "ar" ? "المجموع" : "Total"}
@@ -370,39 +510,62 @@ export default function PurchasePDFTemplate({
                     <tr key={itemIndex}>
                       <td
                         style={{
-                          border: "1px solid #ddd",
-                          padding: "8px",
-                          textAlign: language === "ar" ? "right" : "left",
-                        }}
-                      >
-                        {item?.sousStock?.stock?.product?.name || "N/A"}
-                        {item?.sousStock?.stock?.product?.size && (
-                          <span> - {item.sousStock.stock.product.size}</span>
-                        )}
-                      </td>
-                      <td
-                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
+                          fontSize: "10px",
                         }}
                       >
                         {item.quantity}
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
-                          textAlign: "center",
+                          textAlign: language === "ar" ? "right" : "left",
+                          fontSize: "10px",
                         }}
                       >
-                        {calculateBoxDisplay(item, language)}
+                        <div
+                          style={{ fontWeight: "bold", marginBottom: "2px" }}
+                        >
+                          {item?.sousStock?.stock?.product?.name || "N/A"}
+                        </div>
+                        {item?.sousStock?.stock?.product?.size && (
+                          <div style={{ fontSize: "9px", color: "#666" }}>
+                            {item.sousStock.stock.product.size}
+                          </div>
+                        )}
+                        {calculateBoxDisplay(item, language) && (
+                          <div
+                            style={{
+                              fontSize: "9px",
+                              color: "#666",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            ({calculateBoxDisplay(item, language)})
+                          </div>
+                        )}
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
+                          fontSize: "10px",
                         }}
                       >
                         {formatNumber(item.price)}{" "}
@@ -410,10 +573,15 @@ export default function PurchasePDFTemplate({
                       </td>
                       <td
                         style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
                           border: "1px solid #ddd",
                           padding: "8px",
                           textAlign: "center",
                           fontWeight: "bold",
+                          fontSize: "10px",
                         }}
                       >
                         {formatNumber(item.quantity * item.price)}{" "}
@@ -422,49 +590,63 @@ export default function PurchasePDFTemplate({
                     </tr>
                   ))}
 
-                  {/* Discount Row */}
-                  <tr>
-                    <td
-                      colSpan="4"
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
-                        textAlign: language === "ar" ? "right" : "left",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {language === "ar" ? "الخصم" : "Remise"}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid #ddd",
-                        padding: "8px",
-                        textAlign: "center",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {formatNumber(purchaseData?.discount || 0)}{" "}
-                      {language === "ar" ? "دج" : "DA"}
-                    </td>
-                  </tr>
+                  {/* Add empty rows to fill space */}
+                  {Array.from(
+                    { length: Math.max(0, 6 - products.length) },
+                    (_, index) => (
+                      <tr key={`empty-${index}`}>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                        <td
+                          style={{
+                            padding: "12px",
+                            border: "1px solid #ddd",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        ></td>
+                      </tr>
+                    )
+                  )}
 
                   {/* Subtotal Row */}
                   <tr>
                     <td
-                      colSpan="4"
+                      colSpan="3"
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
                         padding: "8px",
                         textAlign: language === "ar" ? "right" : "left",
                         fontWeight: "bold",
+                        backgroundColor: "#f8f9fa",
                       }}
                     >
-                      {language === "ar"
-                        ? "المجموع قبل الخصم"
-                        : "Total sans remise"}
+                      {language === "ar" ? "المجموع الفرعي:" : "SOUS-TOTAL"}
                     </td>
                     <td
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
                         padding: "8px",
                         textAlign: "center",
@@ -475,27 +657,73 @@ export default function PurchasePDFTemplate({
                     </td>
                   </tr>
 
+                  {/* Discount Row (if applicable) */}
+                  {purchaseData?.discount > 0 && (
+                    <tr>
+                      <td
+                        colSpan="3"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                          border: "1px solid #ddd",
+                          padding: "8px",
+                          textAlign: language === "ar" ? "right" : "left",
+                          fontWeight: "bold",
+                          backgroundColor: "#f8f9fa",
+                        }}
+                      >
+                        {language === "ar" ? "الخصم:" : "REMISE"}
+                      </td>
+                      <td
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                          border: "1px solid #ddd",
+                          padding: "8px",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          color: "#ef4444",
+                        }}
+                      >
+                        -{formatNumber(purchaseData.discount)}{" "}
+                        {language === "ar" ? "دج" : "DA"}
+                      </td>
+                    </tr>
+                  )}
+
                   {/* Final Total Row */}
-                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                  <tr>
                     <td
-                      colSpan="4"
+                      colSpan="3"
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
-                        padding: "8px",
+                        padding: "12px 8px",
                         textAlign: language === "ar" ? "right" : "left",
                         fontWeight: "bold",
-                        fontSize: "14px",
+                        fontSize: "12px",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                       }}
                     >
-                      {language === "ar" ? "المجموع الكلي" : "Total final"}
+                      {language === "ar" ? "المجموع الكلي:" : "TOTAL TTC"}
                     </td>
                     <td
                       style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
                         border: "1px solid #ddd",
-                        padding: "8px",
+                        padding: "12px 8px",
                         textAlign: "center",
                         fontWeight: "bold",
                         fontSize: "14px",
+                        backgroundColor: "#0d3a71",
+                        color: "white",
                       }}
                     >
                       {formatNumber(subtotal - (purchaseData?.discount || 0))}{" "}
@@ -517,7 +745,8 @@ export default function PurchasePDFTemplate({
               margin: "0 0 15px 0",
               fontSize: "16px",
               fontWeight: "bold",
-              color: "#333",
+              color: "#0d3a71",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             {language === "ar" ? "سجل الدفعات" : "Historique des Paiements"}
@@ -531,23 +760,31 @@ export default function PurchasePDFTemplate({
             }}
           >
             <thead>
-              <tr style={{ backgroundColor: "#f8f9fa" }}>
+              <tr>
                 <th
                   style={{
-                    border: "1px solid #ddd",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    backgroundColor: "#0d3a71",
+                    color: "white",
                     padding: "8px",
                     textAlign: "center",
                     fontWeight: "bold",
+                    border: "1px solid #0d3a71",
                   }}
                 >
                   {language === "ar" ? "التاريخ" : "Date"}
                 </th>
                 <th
                   style={{
-                    border: "1px solid #ddd",
+                    backgroundColor: "#0d3a71",
+                    color: "white",
                     padding: "8px",
                     textAlign: "center",
                     fontWeight: "bold",
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                    border: "1px solid #0d3a71",
                   }}
                 >
                   {language === "ar" ? "المبلغ" : "Montant"}
@@ -562,6 +799,8 @@ export default function PurchasePDFTemplate({
                       border: "1px solid #ddd",
                       padding: "8px",
                       textAlign: "center",
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
                     {formatDate(payment.date)}
@@ -571,6 +810,8 @@ export default function PurchasePDFTemplate({
                       border: "1px solid #ddd",
                       padding: "8px",
                       textAlign: "center",
+                      fontFamily:
+                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       fontWeight: "bold",
                     }}
                   >
@@ -587,10 +828,16 @@ export default function PurchasePDFTemplate({
               textAlign: language === "ar" ? "left" : "right",
               marginTop: "10px",
               fontSize: "14px",
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
             <div style={{ marginBottom: "5px" }}>
-              <strong>
+              <strong
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
                 {language === "ar" ? "إجمالي المدفوع:" : "Total Payé:"}{" "}
                 {formatNumber(
                   purchaseData.payment.reduce((sum, pay) => sum + pay.amount, 0)
@@ -598,7 +845,14 @@ export default function PurchasePDFTemplate({
                 {language === "ar" ? "دج" : "DA"}
               </strong>
             </div>
-            <div style={{ color: "#ef4444", fontWeight: "bold" }}>
+            <div
+              style={{
+                color: "#ef4444",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
               {language === "ar" ? "المتبقي:" : "Reste à payer:"}{" "}
               {formatNumber(
                 purchaseData.totalAmount -
@@ -613,18 +867,75 @@ export default function PurchasePDFTemplate({
       {/* Footer */}
       <div
         style={{
-          marginTop: "40px",
-          paddingTop: "20px",
-          borderTop: "1px solid #ddd",
+          borderTop: "3px solid #0d3a71",
+          paddingTop: "10px",
+          marginTop: "10px",
+          backgroundColor: "#f8f9fa",
+          padding: "20px",
           textAlign: "center",
-          color: "#666",
-          fontSize: "10px",
+          position: "absolute",
+          bottom: "20px",
+          left: "0",
+          width: "100%",
         }}
       >
-        <div>
-          {language === "ar"
-            ? `تم إنشاء هذه الفاتورة في ${formatDate(new Date())}`
-            : `Facture générée le ${formatDate(new Date())}`}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "15px",
+          }}
+        >
+          <div
+            style={{ flex: 1, textAlign: language === "ar" ? "right" : "left" }}
+          >
+            <div
+              style={{
+                fontSize: "10px",
+                color: "#666",
+                fontStyle: "italic",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar"
+                ? `تاريخ الطباعة: ${new Date().toLocaleDateString("ar-DZ")}`
+                : `Date d'impression: ${new Date().toLocaleDateString(
+                    "fr-FR"
+                  )}`}
+            </div>
+          </div>
+
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                color: "#0d3a71",
+              }}
+            >
+              {language === "ar" ? "شكراً لثقتكم" : "Merci de votre confiance"}
+            </div>
+          </div>
+
+          <div
+            style={{ flex: 1, textAlign: language === "ar" ? "left" : "right" }}
+          >
+            <div
+              style={{
+                fontSize: "10px",
+                color: "#0d3a71",
+                fontWeight: "bold",
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar" ? "موزاجرو" : "MOSAGRO"}
+            </div>
+          </div>
         </div>
       </div>
     </div>

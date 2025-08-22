@@ -1,19 +1,17 @@
 import React, { useState } from "react";
+import { Steps } from "antd";
 import {
+  ClipboardDocumentCheckIcon,
   ArchiveBoxArrowDownIcon,
-  ArchiveBoxIcon,
+  TruckIcon,
+  CheckCircleIcon,
   ArrowUturnLeftIcon,
   CheckBadgeIcon,
-  CheckCircleIcon,
-  ClipboardDocumentCheckIcon,
-  TruckIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { Alert, Snackbar } from "@mui/material";
 import { TokenDecoder } from "../util/DecodeToken";
-import { Steps } from "antd";
-import "antd/dist/reset.css";
 
 export default function OrderStatus({
   orderDetails,
@@ -22,10 +20,11 @@ export default function OrderStatus({
   language,
 }) {
   const decodedToken = TokenDecoder();
+  const [submitionLoading, setSubmitionLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
-  const [submitionLoading, setSubmitionLoading] = useState(false);
+  const isRTL = language === "ar";
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
@@ -34,40 +33,22 @@ export default function OrderStatus({
   const statusSteps = [
     {
       title: language === "ar" ? "تم الطلب" : "Commande passée",
-      icon: !submitionLoading ? (
-        <ClipboardDocumentCheckIcon
-          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
-          onClick={() => handleSubmitStatusProgress(0)}
-        />
-      ) : null,
+      icon: <ClipboardDocumentCheckIcon className="w-5 h-5" />,
+    },
+    {
+      title: language === "ar" ? "تحضير الطلب" : "Préparation",
+      icon: <ArchiveBoxArrowDownIcon className="w-5 h-5" />,
     },
     {
       title:
-        language === "ar" ? "تحضير الطلب" : "Préparation de votre commande",
-      icon: !submitionLoading ? (
-        <ArchiveBoxArrowDownIcon
-          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
-          onClick={() => handleSubmitStatusProgress(1)}
-        />
-      ) : null,
-    },
-    {
-      title: language === "ar" ? "الطلب في الطريق" : "Commande en route",
-      icon: !submitionLoading ? (
-        <TruckIcon
-          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
-          onClick={() => handleSubmitStatusProgress(2)}
-        />
-      ) : null,
-    },
-    {
-      title: language === "ar" ? "جاهز للاستلام" : "Prêt à être récupéré",
-      icon: !submitionLoading ? (
-        <TruckIcon
-          className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-600 transition-colors"
-          onClick={() => handleSubmitStatusProgress(2)}
-        />
-      ) : null,
+        orderDetails.type === "pickup"
+          ? language === "ar"
+            ? "جاهز للاستلام"
+            : "Prêt à récupérer"
+          : language === "ar"
+          ? "الطلب في الطريق"
+          : "En route",
+      icon: <TruckIcon className="w-5 h-5" />,
     },
     {
       title:
@@ -78,43 +59,20 @@ export default function OrderStatus({
           : language === "ar"
           ? "تم التوصيل"
           : "Livré",
-      icon: (
-        <CheckCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-      ),
+      icon: <CheckCircleIcon className="w-5 h-5" />,
     },
     {
       title: language === "ar" ? "تم الإرجاع" : "Retourné",
-      icon: (
-        <ArrowUturnLeftIcon className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
-      ),
+      icon: <ArrowUturnLeftIcon className="w-5 h-5" />,
+      status: "error",
     },
     {
       title: language === "ar" ? "تم الدفع بالكامل" : "Entièrement payé",
-      icon: <CheckBadgeIcon className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />,
+      icon: <CheckBadgeIcon className="w-5 h-5" />,
     },
   ];
 
-  const stepsToShow =
-    orderDetails.type === "pickup"
-      ? [
-          statusSteps[0],
-          statusSteps[1],
-          statusSteps[3],
-          statusSteps[4],
-          statusSteps[5],
-          statusSteps[6],
-        ]
-      : [
-          statusSteps[0],
-          statusSteps[1],
-          statusSteps[2],
-          statusSteps[4],
-          statusSteps[5],
-          statusSteps[6],
-        ];
-
-  //----------------------APIs----------------------
-  const handleSubmitStatusProgress = async (val) => {
+  const handleSubmitStatusProgress = async (current) => {
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(
@@ -123,7 +81,7 @@ export default function OrderStatus({
         }`,
         {
           id: orderDetails._id,
-          status: val,
+          status: current,
         },
         {
           headers: {
@@ -132,17 +90,16 @@ export default function OrderStatus({
           },
         }
       );
+
       if (response.status === 200) {
         refetchOrderData();
         setAlertType("success");
         setAlertMessage(response.data.message);
         setSnackbarOpen(true);
-        setSubmitionLoading(false);
       } else {
         setAlertType("error");
         setAlertMessage(response.data.message);
         setSnackbarOpen(true);
-        setSubmitionLoading(false);
       }
     } catch (error) {
       if (error.response) {
@@ -159,172 +116,68 @@ export default function OrderStatus({
     }
   };
 
-  // Function to check if return step is active and has reason
-  const isReturnStepActive = () => {
-    const returnStepIndex = orderDetails.type === "pickup" ? 4 : 4; // Index of return step in stepsToShow
-    return orderDetails.status === returnStepIndex && orderDetails.returnedRaison;
-  };
-
-  const getReturnStepIndex = () => {
-    const returnStepIndex = orderDetails.type === "pickup" ? 4 : 4; // Index of return step in stepsToShow
-    return returnStepIndex;
-  };
-
   return (
     <div
-      className={`customerClass paddingClass pb-0 ${orderDetails.type}`}
-      style={{
-        direction: language === "ar" ? "rtl" : "ltr",
-        borderRadius: 10,
-        border: "1px solid #E5E7EB",
-        boxShadow: "0 0 4px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.03)",
-        background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
-      }}
+      className="bg-white border border-gray-200 rounded-lg p-4 md:p-6"
+      style={{ direction: isRTL ? "rtl" : "ltr" }}
     >
-      <h2
-        className="customerClassTitle"
+      {/* Header */}
+      <div className="mb-6">
+        <h2
+          className="text-lg md:text-xl font-semibold text-gray-900"
+          style={{
+            fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+          }}
+        >
+          {language === "ar" ? "حالة الطلب" : "Statut de la commande"}
+        </h2>
+      </div>
+
+      {/* Steps Component */}
+      <Steps
+        current={orderDetails.status}
+        direction="vertical"
+        size="small"
+        className={`custom-steps ${isRTL ? "rtl-steps" : "ltr-steps"}`}
         style={{
           fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
         }}
-      >
-        {language === "ar" ? "حالة الطلب" : "Statut de la commande"}
-      </h2>
-
-      {/* Simple Steps Layout */}
-      <div className="w-full space-y-3">
-        {stepsToShow.map((step, index) => (
-          <div key={index}>
-            <div
-              className={`flex items-center justify-between w-full py-2 `}
-              style={{
-                fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
-            >
-              {language === "ar" ? (
-                // Arabic layout: Number → Title → Icon
-                <div className="w-full flex items-center justify-between">
-                  <>
-                    {/* Number */}
-                    <div
-                      className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                        language === "ar" ? "ml-3" : "mr-3"
-                      } ${
-                        index === orderDetails.status
-                          ? "bg-blue-500 text-white"
-                          : index < orderDetails.status
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-400 text-white"
-                      }`}
-                      style={{
-                        minWidth: "32px",
-                        maxWidth: "32px",
-                        minHeight: "32px",
-                        maxHeight: "32px",
-                      }}
-                    >
-                      {index + 1}
-                    </div>
-
-                    {/* Title */}
-                    <span
-                      className={`flex-1 text-sm ${
-                        index === orderDetails.status
-                          ? "text-blue-600 font-medium"
-                          : index < orderDetails.status
-                          ? "text-green-600 font-medium"
-                          : "text-gray-500"
-                      }`}
-                    >
-                      {step.title}
-                    </span>
-                  </>
-
-                  {/* Icon */}
-                  {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
-                </div>
-              ) : (
-                // French layout: Number → Title → Icon
-                <div className="w-full flex items-center justify-between">
-                  <>
-                    {/* Number */}
-                    <div
-                      className={`flex-none w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
-                        index === orderDetails.status
-                          ? "bg-blue-500 text-white"
-                          : index < orderDetails.status
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-400 text-white"
-                      }`}
-                      style={{
-                        minWidth: "32px",
-                        maxWidth: "32px",
-                        minHeight: "32px",
-                        maxHeight: "32px",
-                      }}
-                    >
-                      {index + 1}
-                    </div>
-
-                    {/* Title */}
-                    <span
-                      className={`flex-1 text-sm ${
-                        index === orderDetails.status
-                          ? "text-blue-600 font-medium"
-                          : index < orderDetails.status
-                          ? "text-green-600 font-medium"
-                          : "text-gray-500"
-                      }`}
-                    >
-                      {step.title}
-                    </span>
-                  </>
-
-                  {/* Icon */}
-                  {step.icon && <div className="flex-none ml-3">{step.icon}</div>}
-                </div>
-              )}
-            </div>
-
-            {/* Return Reason Display - Show only below the return step when it's active */}
-            {index === getReturnStepIndex() && 
-             orderDetails.status === getReturnStepIndex() && 
-             orderDetails.returnedRaison && orderDetails.returnedRaison != "" &&(
-              <div
-                className={`mt-3 mb-2 ${language === "ar" ? "mr-11" : "ml-11"}`}
-                style={{
-                  fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                <div className="relative">
-                  {/* Return reason card */}
-                  <div 
-                    className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-lg p-4 shadow-sm"
-                    style={{
-                      backdropFilter: "blur(10px)",
-                      background: "linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%)",
-                    }}
-                  >
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0">
-                        <ExclamationTriangleIcon className="w-5 h-5 text-red-500 mt-0.5" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-semibold text-red-800 mb-1">
-                          {language === "ar" ? "سبب الإرجاع:" : "Raison du retour:"}
-                        </h4>
-                        <p className="text-sm text-red-700 leading-relaxed break-words">
-                          {orderDetails.returnedRaison}
-                        </p>
-                      </div>
-                    </div>
+        items={statusSteps.map((step, index) => ({
+          title: step.title,
+          icon: step.icon,
+          status:
+            index === 4 && orderDetails.status === 4
+              ? "error"
+              : index < orderDetails.status
+              ? "finish"
+              : index === orderDetails.status
+              ? "process"
+              : "wait",
+          description:
+            index === 4 &&
+            orderDetails.status === 4 &&
+            orderDetails.returnedRaison ? (
+              <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <div className="flex items-start gap-2">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-medium text-red-800 mb-1">
+                      {language === "ar" ? "سبب الإرجاع:" : "Raison du retour:"}
+                    </p>
+                    <p className="text-xs text-red-700">
+                      {orderDetails.returnedRaison}
+                    </p>
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+            ) : null,
+        }))}
+        onChange={(current) =>
+          !submitionLoading && handleSubmitStatusProgress(current)
+        }
+      />
 
+      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -341,6 +194,102 @@ export default function OrderStatus({
           {alertMessage}
         </Alert>
       </Snackbar>
+
+      {/* Global CSS Styles */}
+      <style jsx global>{`
+        /* Base step styling */
+        .custom-steps .ant-steps-item-title {
+          font-family: ${language === "ar"
+            ? "Cairo-Regular, sans-serif"
+            : "inherit"} !important;
+        }
+
+        .custom-steps .ant-steps-item-description {
+          font-family: ${language === "ar"
+            ? "Cairo-Regular, sans-serif"
+            : "inherit"} !important;
+        }
+
+        .custom-steps .ant-steps-item-icon {
+          border-color: #d1d5db;
+        }
+
+        .custom-steps .ant-steps-item-finish .ant-steps-item-icon {
+          background-color: #10b981;
+          border-color: #10b981;
+        }
+
+        .custom-steps .ant-steps-item-process .ant-steps-item-icon {
+          background-color: #3b82f6;
+          border-color: #3b82f6;
+        }
+
+        .custom-steps .ant-steps-item-error .ant-steps-item-icon {
+          background-color: #ef4444;
+          border-color: #ef4444;
+        }
+
+        /* General step item adjustments for all screen sizes */
+        .custom-steps .ant-steps-item {
+          padding-bottom: 16px !important;
+        }
+
+        .custom-steps .ant-steps-item-container {
+          display: flex !important;
+          align-items: flex-start !important;
+        }
+
+        .custom-steps .ant-steps-item-content {
+          display: flex !important;
+          align-items: center !important;
+          min-height: 32px !important;
+          padding-top: 0 !important;
+          margin-top: 0 !important;
+        }
+
+        .custom-steps .ant-steps-item-title {
+          margin-bottom: 0 !important;
+          padding-bottom: 0 !important;
+          line-height: 1.5 !important;
+        }
+
+        /* RTL (Arabic) layout - Icon right, title left - ALL SCREEN SIZES */
+        .rtl-steps .ant-steps-item-content {
+          flex-direction: row-reverse !important;
+          justify-content: flex-end !important;
+          margin-left: 0 !important;
+        }
+
+        .rtl-steps .ant-steps-item-title {
+          text-align: right !important;
+          margin-right: 0 !important;
+          order: 1 !important;
+        }
+
+        /* LTR (French/English) layout - Icon left, title right - ALL SCREEN SIZES */
+        .ltr-steps .ant-steps-item-content {
+          flex-direction: row !important;
+          justify-content: flex-start !important;
+          margin-left: 12px !important;
+          margin-right: 0 !important;
+        }
+
+        .ltr-steps .ant-steps-item-title {
+          text-align: left !important;
+          margin-left: 12px !important;
+          margin-right: 0 !important;
+          order: 2 !important;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+          .custom-steps .ant-steps-item-title {
+            white-space: nowrap !important;
+          }
+          
+          
+        }
+      `}</style>
     </div>
   );
 }

@@ -41,12 +41,12 @@ export default function OrderProfileDevicesProductTable({
       language === "ar"
         ? `${
             totalBoxes > 0
-              ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
+              ? `${totalBoxes} ${totalBoxes === 1 ? "" : ""}`
               : ""
           }`
         : `${
             totalBoxes > 0
-              ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
+              ? `${totalBoxes} ${totalBoxes === 1 ? "" : ""}`
               : ""
           }`;
 
@@ -54,13 +54,13 @@ export default function OrderProfileDevicesProductTable({
       language === "ar"
         ? `${
             remainingItems > 0
-              ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
+              ? ` ${remainingItems} ${remainingItems === 1 ? "" : ""}`
               : ""
           }`
         : `${
             remainingItems > 0
               ? ` ${remainingItems} ${
-                  remainingItems === 1 ? "pièce" : "pièces"
+                  remainingItems === 1 ? "" : ""
                 }`
               : ""
           }`;

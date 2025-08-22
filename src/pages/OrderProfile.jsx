@@ -54,6 +54,16 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
     setAmount(e.target.value);
   };
 
+  const [isOrderHistoryModalOpen, setIsOrderHistoryModalOpen] = useState(false);
+
+  const handleOpenOrderHistoryModal = () => {
+    setIsOrderHistoryModalOpen(true);
+  };
+
+  const handleCloseOrderHistoryModal = () => {
+    setIsOrderHistoryModalOpen(false);
+  };
+
   const [isAddAmountConfirmDialogOpen, setIsAddAmountConfirmDialogOpen] =
     useState(false);
   const handleOpenAddAmountConfirmationDialog = () => {
@@ -725,25 +735,244 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
               background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
             }}
           >
-            <h2
-              className="customerClassTitle"
-              style={{
-                fontFamily:
-                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
-            >
-              {language === "ar"
-                ? "المنتجات في الطلب"
-                : "Produits dans la commande"}
-            </h2>
-            {OrderStatusData?.map((status) => (
+            {/* Header with title and history button */}
+            <div className="flex justify-between items-center mb-4">
+              <h2
+                className="customerClassTitle"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar"
+                  ? "المنتجات في الطلب"
+                  : "Produits dans la commande"}
+              </h2>
+
+              {/* Show history button only if there are multiple order statuses */}
+              {OrderStatusData && OrderStatusData.length > 1 && (
+                <ButtonAdd
+                  language={language}
+                  showIcon={false}
+                  buttonSpan={
+                    language === "ar"
+                      ? "سجل التطورات"
+                      : "Historique de progression"
+                  }
+                  onClick={handleOpenOrderHistoryModal}
+                />
+              )}
+            </div>
+
+            {/* Display only the latest order status (last table) */}
+            {OrderStatusData && OrderStatusData.length > 0 && (
               <OrderProfileDevicesProductTable
-                orderDetails={status?.products}
+                orderDetails={
+                  OrderStatusData[OrderStatusData.length - 1]?.products
+                }
                 orderDeliveryAmount={OrderData?.deliveryCost}
                 language={language}
               />
-            ))}
+            )}
           </div>
+          {/* Order History Modal */}
+          <Modal
+            isOpen={isOrderHistoryModalOpen}
+            onRequestClose={handleCloseOrderHistoryModal}
+            contentLabel={
+              language === "ar" ? "سجل التطورات" : "Historique de progression"
+            }
+            className="addNewModal OrderHistoryModal max-h-[90vh] overflow-y-auto p-0 w-[90%]"
+            style={{
+              overlay: {
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 1000,
+              },
+            }}
+          >
+            <div
+              className="customerClass px-2 sm:px-4 md:px-6 py-4 md:py-6"
+              style={{ direction: language === "ar" ? "rtl" : "ltr" }}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <h2
+                  className="customerClassTitle text-sm sm:text-base md:text-lg"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar"
+                    ? "سجل تطور الطلب"
+                    : "Historique de progression de la commande"}
+                </h2>
+              </div>
+
+              {/* Progress Timeline */}
+              <div className="space-y-4 sm:space-y-6 md:space-y-8">
+                {OrderStatusData &&
+                  OrderStatusData.map((status, index) => (
+                    <div key={index} className="relative">
+                      {/* Timeline connector - not for the last item */}
+                      {index < OrderStatusData.length - 1 && (
+                        <div
+                          className={`absolute ${
+                            language === "ar"
+                              ? "right-3 sm:right-4"
+                              : "left-3 sm:left-4"
+                          } top-12 sm:top-16 w-0.5 h-full bg-gradient-to-b from-blue-400 to-gray-300 z-10`}
+                        ></div>
+                      )}
+
+                      <div
+                        className={`flex items-start ${
+                          language === "ar"
+                            ? "gap-x-2 sm:gap-x-4"
+                            : "space-x-2 sm:space-x-4"
+                        }`}
+                      >
+                        {/* Timeline dot */}
+                        <div
+                          className={`flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center z-20 ${
+                            index === 0
+                              ? "bg-green-500 text-white" // Original order
+                              : index === OrderStatusData.length - 1
+                              ? "bg-blue-500 text-white" // Current state
+                              : "bg-yellow-500 text-white" // Modifications
+                          }`}
+                        >
+                          <span className="text-xs sm:text-sm font-bold">
+                            {index + 1}
+                          </span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 border border-gray-200 rounded-lg p-2 sm:p-4 bg-white shadow-sm">
+                          {/* Status header */}
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 sm:mb-4 gap-2">
+                            <div>
+                              <h3
+                                className={`text-base sm:text-lg font-semibold ${
+                                  index === 0
+                                    ? "text-green-600"
+                                    : index === OrderStatusData.length - 1
+                                    ? "text-blue-600"
+                                    : "text-yellow-600"
+                                }`}
+                                style={{
+                                  fontFamily:
+                                    language === "ar"
+                                      ? "Cairo-Regular, sans-serif"
+                                      : "",
+                                }}
+                              >
+                                {index === 0
+                                  ? language === "ar"
+                                    ? "الطلب الأصلي"
+                                    : "Commande originale"
+                                  : index === OrderStatusData.length - 1
+                                  ? language === "ar"
+                                    ? "الحالة الحالية"
+                                    : "État actuel"
+                                  : language === "ar"
+                                  ? `التعديل ${index}`
+                                  : `Modification ${index}`}
+                              </h3>
+                              <p className="text-xs sm:text-sm text-gray-500">
+                                {status.createdAt &&
+                                  new Date(status.createdAt).toLocaleDateString(
+                                    language === "ar" ? "ar-DZ" : "fr-FR",
+                                    {
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    }
+                                  )}
+                              </p>
+                            </div>
+
+                            {/* Status badge */}
+                            <span
+                              className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium self-start sm:self-auto ${
+                                index === 0
+                                  ? "bg-green-100 text-green-800"
+                                  : index === OrderStatusData.length - 1
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-yellow-100 text-yellow-800"
+                              }`}
+                            >
+                              {index === 0
+                                ? language === "ar"
+                                  ? "أصلي"
+                                  : "Original"
+                                : index === OrderStatusData.length - 1
+                                ? language === "ar"
+                                  ? "حالي"
+                                  : "Actuel"
+                                : language === "ar"
+                                ? "معدل"
+                                : "Modifié"}
+                            </span>
+                          </div>
+
+                          {/* Order table with horizontal scroll on mobile */}
+                          <div className="overflow-x-auto">
+                            <div className="min-w-[600px] sm:min-w-full">
+                              <OrderProfileDevicesProductTable
+                                orderDetails={status?.products}
+                                orderDeliveryAmount={OrderData?.deliveryCost}
+                                language={language}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {/* Summary */}
+              <div
+                className="pagination-info"
+                style={{
+                  padding: "8px 12px",
+                  fontSize: "12px",
+                  color: "#6B7280",
+                  textAlign: language === "ar" ? "right" : "left",
+                  borderTop: "1px solid #E5E7EB",
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  marginTop: "16px",
+                }}
+              >
+                {language === "ar"
+                  ? `إظهار ${OrderStatusData?.length || 0} من أصل ${
+                      OrderStatusData?.length || 0
+                    } ${OrderStatusData?.length === 1 ? "حالة" : "حالات"}`
+                  : `Affichage de ${OrderStatusData?.length || 0} sur ${
+                      OrderStatusData?.length || 0
+                    } ${OrderStatusData?.length === 1 ? "état" : "états"}`}
+              </div>
+
+              {/* Footer */}
+              <div className="flex justify-end mt-4 sm:mt-6">
+                <button
+                  onClick={handleCloseOrderHistoryModal}
+                  className="text-gray-500 cursor-pointer hover:text-gray-700 px-4 py-2 text-sm md:text-base border rounded-lg sm:border-none sm:rounded-none sm:px-0 sm:py-0 order-2 sm:order-1"
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "إغلاق" : "Fermer"}
+                </button>
+              </div>
+            </div>
+          </Modal>
+
           <div className="w-[35%] flex-col space-y-[32px]">
             <div
               className="customerClass paddingClass"

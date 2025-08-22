@@ -281,7 +281,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                 ? "md:space-x-reverse md:space-x-2"
                 : "md:space-x-2"
             }`}
-          >s
+          >
             <ButtonExportExel
               data={filteredData}
               filename={language === "ar" ? "الخسائر" : "Pertes"}
@@ -302,7 +302,7 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                   ? "إضافة خسارة جديدة"
                   : "Ajouter une nouvelle perte"
               }
-              className="addNewModal"
+              className="addNewModal px-0"
               style={{
                 overlay: {
                   backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -325,8 +325,9 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                     ? "إضافة خسارة جديدة"
                     : "Ajouter une nouvelle perte"}
                 </h2>
-                <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
-                  <div className="dialogAddCustomerItem">
+                <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0 mb-8">
+                  <div className="dialogAddCustomerItem flex flex-row md:flex-row flex-col">
+                    {" "}
                     <span
                       style={{
                         fontFamily:
@@ -350,7 +351,8 @@ export default function Losses({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="dialogAddCustomerItem flex flex-row md:flex-row flex-col">
+                    {" "}
                     <span
                       style={{
                         fontFamily:

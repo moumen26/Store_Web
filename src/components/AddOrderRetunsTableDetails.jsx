@@ -444,7 +444,7 @@ function AddOrderRetunsTableDetails({
           language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
         }
         // className="addNewModal addNewStockModal "
-        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto"
+        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto w-[90%]"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}

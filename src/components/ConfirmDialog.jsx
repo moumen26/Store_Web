@@ -1,10 +1,5 @@
 import * as React from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@mui/material";
 
@@ -19,41 +14,63 @@ function ConfirmDialog({
 }) {
   return (
     <Dialog
-      style={{ direction: language === "ar" ? "rtl" : "ltr" }}
       open={open}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      PaperProps={{
+        style: {
+          borderRadius: 12,
+          padding: 0,
+          minWidth: "320px",
+          maxWidth: "500px",
+          direction: language === "ar" ? "rtl" : "ltr",
+          boxShadow:
+            "0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05)",
+        },
+      }}
     >
-      {!isloading ? (
-        <div className="pb-2">
-          <DialogTitle id="alert-dialog-title">
-            <h2
-              className="customerClassTitle"
-              style={{
-                fontFamily:
-                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
-            >
-              {dialogTitle}
-            </h2>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <span
-                className="trTableSpan"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {dialogContentText}
-              </span>
-            </DialogContentText>
-          </DialogContent>
+      <div
+        className="customerClass"
+        style={{
+          padding: "24px",
+          background: "linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)",
+          borderRadius: 8,
+        }}
+      >
+        {/* Header */}
+        <div>
+          <h2
+            className="customerClassTitle text-lg font-semibold"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              marginBottom: "8px",
+              color: "#1F2937",
+            }}
+          >
+            {dialogTitle}
+          </h2>
+        </div>
+
+        {/* Content */}
+        <div className="mb-2">
+          <p
+            className="text-gray-600 leading-relaxed"
+            style={{
+              fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              fontSize: "14px",
+              lineHeight: "1.5",
+            }}
+          >
+            {dialogContentText}
+          </p>
+        </div>
+
+        {/* Actions */}
+        {!isloading ? (
           <div
-            className={`flex justify-end space-x-4 ${
-              language === "ar" ? "gap-x-4" : "px-4"
+            className={`flex justify-end ${
+              language === "ar" ? "gap-x-4" : "space-x-4"
             }`}
           >
             <button
@@ -77,38 +94,25 @@ function ConfirmDialog({
               {language === "ar" ? "تأكيد" : "Confirmer"}
             </button>
           </div>
-        </div>
-      ) : (
-        <>
-          <DialogTitle id="alert-dialog-title">
-            <h2
-              className="customerClassTitle"
-              style={{
-                fontFamily:
-                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
-              }}
-            >
-              {dialogTitle}
-            </h2>
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+        ) : (
+          <div className="flex justify-center items-center py-4">
+            <div className="flex items-center gap-3">
+              <CircularProgress size={20} style={{ color: "#6B7280" }} />
               <span
-                className="trTableSpan"
+                className="text-gray-600 text-sm"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {dialogContentText}
+                {language === "ar"
+                  ? "جاري المعالجة..."
+                  : "Traitement en cours..."}
               </span>
-            </DialogContentText>
-          </DialogContent>
-          <div className="flex justify-end space-x-8 pr-8 items-start h-[60px] mt-2">
-            <CircularProgress color="inherit" />
+            </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </Dialog>
   );
 }
@@ -117,6 +121,10 @@ ConfirmDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  dialogTitle: PropTypes.string.isRequired,
+  dialogContentText: PropTypes.string.isRequired,
+  language: PropTypes.string,
+  isloading: PropTypes.bool,
 };
 
 export default ConfirmDialog;

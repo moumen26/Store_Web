@@ -464,7 +464,7 @@ function AddPurchaseRetunsTableDetails({
         }}
       >
         <div
-          className="customerClass space-y-0 px-4 md:px-6 py-4 md:py-6"
+          className="customerClass space-y-0 px-0"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           <h2

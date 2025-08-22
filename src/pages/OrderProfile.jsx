@@ -1089,7 +1089,7 @@ export default function OrderProfile({ onToggle, language, toggleLanguage }) {
         }}
       >
         <div
-          className="customerClass"
+          className="customerClass px-0"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           {/* Header Section - Responsive */}

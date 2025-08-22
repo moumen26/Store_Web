@@ -718,12 +718,12 @@ export default function PurchaseProfile({
         contentLabel={
           language === "ar" ? "سجل الدفعات" : "Historique paiements"
         }
-        className="addNewModal PaymentHistory"
+        className="addNewModal PaymentHistory w-[90%]"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
-        <div className="customerClass">
+        <div className="customerClass px-0">
           {/* Header Section - Responsive */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full space-y-4 md:space-y-0">
             {/* Title */}
@@ -950,13 +950,13 @@ export default function PurchaseProfile({
         contentLabel={
           language === "ar" ? "إضافة مرتجعات" : "Ajouter des retours"
         }
-        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto"
+        className="addNewModal addNewCustomerModal max-h-[90vh] overflow-y-auto w-[90%]"
         style={{
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
         }}
       >
         <div
-          className="customerClass px-4 md:px-6 py-4 md:py-6 flex flex-col"
+          className="customerClass px-0 flex flex-col"
           style={{ direction: language === "ar" ? "rtl" : "ltr" }}
         >
           <div className="flex-1">

@@ -59,7 +59,7 @@ export default function DashboardNewCostumerItem({
           </p>
         </div>
       </div>
-      <EllipsisVerticalIcon className="iconAsideBar" />
+      {/* <EllipsisVerticalIcon className="iconAsideBar" /> */}
     </div>
   );
 }

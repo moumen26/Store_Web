@@ -356,6 +356,56 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
     refetchOnWindowFocus: true, // Optional: refetch on window focus
   });
 
+  // fetching Cities data
+  const fetchCitiesData = async () => {
+    const response = await fetch(
+      import.meta.env.VITE_APP_URL_BASE + `/Cities/fr`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+
+    // Handle the error state
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.error.statusCode == 404) return [];
+      else throw new Error("Error receiving Cities data");
+    }
+    // Return the data
+    return await response.json();
+  };
+  // useQuery hook to fetch data
+  const {
+    data: CitiesData,
+    error: CitiesError,
+    isLoading: CitiesLoading,
+    refetch: CitiesRefetch,
+  } = useQuery({
+    queryKey: ["CitiesData", user?.token, location.key],
+    queryFn: fetchCitiesData,
+    enabled: !!user?.token, // Ensure the query runs only if the user is authenticated
+    refetchOnWindowFocus: true, // Optional: prevent refetching on window focus
+  });
+  // Filter wilayas
+  const wilayas =
+    CitiesData?.length > 0
+      ? CitiesData.filter((city) => city.codeC == `${city.codeW}001`).map(
+          (city) => ({ value: city.codeW, label: city.wilaya })
+        )
+      : [];
+
+  // Filter communes
+  const communes =
+    editableData.wilaya && CitiesData?.length > 0
+      ? CitiesData.filter((city) => city.codeW == editableData.wilaya)
+          .filter((city) => city.codeC !== `${city.codeW}001`)
+          .map((city) => ({ value: city.codeC, label: city.baladiya }))
+      : [];
+
   useEffect(() => {
     if (CustomerData) {
       setEditableData({
@@ -927,6 +977,11 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                           ? "اختر الولاية"
                           : "Sélectionner Wilaya"}
                       </option>
+                      {wilayas.map((wilaya) => (
+                        <option key={wilaya.value} value={wilaya.value}>
+                          {wilaya.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -959,6 +1014,11 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                           ? "اختر البلدية"
                           : "Sélectionner Commune"}
                       </option>
+                      {communes.map((commune) => (
+                        <option key={commune.value} value={commune.value}>
+                          {commune.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

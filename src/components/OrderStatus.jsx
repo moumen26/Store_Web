@@ -73,6 +73,16 @@ export default function OrderStatus({
   ];
 
   const handleSubmitStatusProgress = async (current) => {
+    if (current == 3 || current == 4) {
+      setAlertType("error");
+      setAlertMessage("Cette action n'est pas autorisée pour vous. cette action est réservée pour votre client.");
+      setSnackbarOpen(true);
+      return;
+    }
+    if (current == 5) {
+      return;
+    }
+
     try {
       setSubmitionLoading(true);
       const response = await axios.patch(

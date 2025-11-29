@@ -2591,7 +2591,7 @@ main {
   /* position: fixed; */
   position: absolute;
   overflow: hidden;
-  width: calc(100% - 17%);
+  width: calc(100% - 20%);
   min-height: 100vh;
   /* background-color: var(--lightColor); */
   /* background-color: #e7f2f7; */

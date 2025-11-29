@@ -44,25 +44,6 @@ export default function Dashboard({
     }
   };
 
-  const text = {
-    fr: {
-      title: "Tableau de bord",
-      welcome: getTimeBasedGreeting(language),
-      overview: "Voici un aperçu de vos ventes actuelles",
-      totalAmount: "Montant total des commandes",
-      totalOrders: "Total des commandes",
-      profit: "Profit",
-    },
-    ar: {
-      title: "لوحة القيادة",
-      welcome: getTimeBasedGreeting(language),
-      overview: "إليك نظرة عامة على مبيعاتك الحالية",
-      totalAmount: "المبلغ الإجمالي للطلبيات",
-      totalOrders: "عدد الطلببات",
-      profit: "الربح",
-    },
-  };
-
   //---------------------------------API calls---------------------------------\\
 
   //fetch data
@@ -312,7 +293,7 @@ export default function Dashboard({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {text[language].welcome}, {user?.infos?.firstName}
+            {getTimeBasedGreeting(language)}, {user?.infos?.firstName}
           </h2>
           <span
             className="pagesSousTitle"
@@ -320,7 +301,9 @@ export default function Dashboard({
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
           >
-            {text[language].overview}
+            {language === "ar"
+              ? "إليك نظرة عامة على مبيعاتك الحالية"
+              : "Voici un aperçu de vos ventes actuelles"}
           </span>
         </div>
         <DashboardCalendar
@@ -332,21 +315,28 @@ export default function Dashboard({
       </div>
       <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-4 md:overflow-x-visible hide-scrollbar">
         <DashboardCard
-          dashboardCardTitle={text[language].totalAmount}
+          dashboardCardTitle={
+            language === "ar"
+              ? "المبلغ الإجمالي "
+              : "Montant total des commandes"
+          }
           dashboardCardAmount={formatNumber(OrdersStats?.totalAmount)}
           OrdersStatsLoading={OrdersStatsLoading}
           language={language}
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <DashboardCard
-          dashboardCardTitle={text[language].totalOrders}
+          dashboardCardTitle={
+            language === "ar" ? "عدد الطلبات" : "Nombre de commandes"
+          }
           dashboardCardAmount={OrdersStats?.totalReceipts}
           language={language}
           OrdersStatsLoading={OrdersStatsLoading}
+          showCurrency={false}
           className="flex-shrink-0 w-[280px] md:w-full"
         />
         <DashboardCard
-          dashboardCardTitle={text[language].profit}
+          dashboardCardTitle={language === "ar" ? "الربح" : "Profit"}
           dashboardCardAmount={formatNumber(OrdersStats?.totalProfit)}
           language={language}
           OrdersStatsLoading={OrdersStatsLoading}

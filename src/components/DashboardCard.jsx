@@ -22,11 +22,11 @@ export default function DashboardCard({
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     case "Total des commandes":
-    case "عدد الطلبيات":
+    case "عدد الطلبات":
       iconComponent = <CircleStackIcon className="iconPages" />;
       break;
     case "Montant total des commandes":
-    case " المبلغ الإجمالي للطلبيات":
+    case " المبلغ الإجمالي ":
       iconComponent = <BanknotesIcon className="iconPages" />;
       break;
     default:
@@ -69,8 +69,8 @@ export default function DashboardCard({
                 }}
               >
                 {dashboardCardAmount}
-                {dashboardCardTitle !== "Total des commandes" &&
-                dashboardCardTitle !== "إجمالي الطلبات"
+                {dashboardCardTitle !== "Nombre de commandes" &&
+                dashboardCardTitle !== "عدد الطلبات"
                   ? language === "fr"
                     ? "DA"
                     : " دج"

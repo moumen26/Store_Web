@@ -1,11 +1,18 @@
+import React, { useState, useEffect } from "react";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
-import React, { useState } from "react";
+import { CheckCircle2 } from "lucide-react"; // Added for the phone badge
+import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"; // Added for animation
+
+// Assets
 import Logo from "../assets/Logo-mosagro.png";
 import franceIcon from "../assets/icons/france-icon.png";
 import arabicIcon from "../assets/icons/arab-icon.png";
 
-import SignUpImageFrench from "../assets/images/Dash-fr.png";
-import SignUpImageArabic from "../assets/images/Dash-ar.png";
+// Images for the Mockup
+import macFrImg from "../assets/images/Dash-fr.png";
+import macArImg from "../assets/images/Dash-ar.png";
+import phoneImg from "../assets/images/phone.png";
+
 import ButtonFacebok from "../components/ButtonFacebok";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
@@ -20,7 +27,25 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
   const [Phone, setPhone] = useState("");
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
-  // Language options with flags
+  // --- Parallax Logic (From Landing Page) ---
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springConfig = { damping: 25, stiffness: 150 };
+  const xSpring = useSpring(mouseX, springConfig);
+  const ySpring = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      mouseX.set((clientX / innerWidth - 0.5) * 20);
+      mouseY.set((clientY / innerHeight - 0.5) * 20);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // Language options
   const languageOptions = [
     {
       code: "fr",
@@ -39,6 +64,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
   const currentLanguage = languageOptions.find(
     (lang) => lang.code === language
   );
+  const isRTL = language === "ar";
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -60,6 +86,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
   const handleViewClick = (id) => {
     navigate(`/UpYourAccount/${id}`);
   };
+
   //send otp API
   const handleSendOTP = async () => {
     try {
@@ -96,10 +123,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
         setSnackbarOpen(true);
         setSubmitionLoading(false);
       } else if (error.request) {
-        // Request was made but no response was received
         console.error("Error sending otp: No response received");
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Error sending otp");
       }
     }
@@ -109,12 +134,11 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
     <div className="signUp" style={{ overflowX: "hidden", maxWidth: "100vw" }}>
       {/* Header */}
       <div
-        className="w-full min-h-[80px] sm:h-[80px] flex justify-between items-center px-4 md:pl-10 md:pr-10 py-4 sm:py-0 border-b-2 border-[#C9E4EE] relative"
+        className="w-full min-h-[80px] sm:h-[80px] flex justify-between items-center px-4 md:pl-10 md:pr-10 py-4 sm:py-0 border-b-2 border-[#C9E4EE] relative bg-white z-50"
         style={{ maxWidth: "100vw" }}
       >
         <div className="flex items-center space-x-2">
           <img src={Logo} alt="Store Logo" className="h-5 md:h-6" />
-          {/* <h2 className="headerText logoText">MOSAGRO</h2> */}
         </div>
 
         <div className="flex items-center gap-6">
@@ -263,7 +287,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
         <div
           className={`signUpContainerRight w-full h-full lg:w-2/3 ${
             language === "ar" ? "lg:border-l-2" : "lg:border-r-2"
-          } border-[#C9E4EE]`}
+          } border-[#C9E4EE] bg-white`}
         >
           <div
             className={`signUpContainerRightContainer ${
@@ -292,32 +316,6 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                 ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع موزاغرو كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
                 : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOSAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
             </span>
-
-            <div
-              className={
-                language === "ar" ? "flex justify-end" : "flex justify-start"
-              }
-            >
-              {/* <ButtonFacebok language={language} /> */}
-            </div>
-
-            {/* <div
-              className={`flex items-center gap-x-2 ${
-                language === "ar" ? "flex justify-end" : "flex justify-start"
-              }`}
-            >
-              <div className="lineOr"></div>
-              <span
-                className="orText"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar" ? "أو" : "ou"}
-              </span>
-              <div className="lineOr"></div>
-            </div> */}
 
             <div
               className={
@@ -355,18 +353,26 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
           </div>
         </div>
 
-        {/* Image Container */}
-        <div
-          className="mobile-hidden flex justify-center items-center"
-          style={{
-            transform: `translateX(${language === "ar" ? "-240px" : "240px"})`,
-          }}
-        >
-          <img
-            className="max-w-[180%] h-[120%] object-cover"
-            src={language === "ar" ? SignUpImageArabic : SignUpImageFrench}
-            alt="Sign Up"
-          />
+        {/* --- NEW IMAGE/MOCKUP SECTION (Replaced the old Image) --- */}
+        <div className="mobile-hidden w-full lg:w-1/2 h-full relative flex items-center justify-center overflow-hidden">
+          {/* Mockup Container */}
+          <div className="relative z-10 w-full max-w-[600px] h-[400px] flex items-center justify-center px-8">
+            {/* Platform (MacBook) - Back */}
+            <motion.div
+              style={{ x: xSpring, y: ySpring }}
+              className={`absolute ${isRTL ? '-left-20' : '-right-20'} z-10 w-[95%] transform perspective-1000`}
+            >
+              <div className="bg-[#C9E4EE] rounded-lg p-[1px] shadow-sm border border-[#C9E4EE]">
+                <div className="relative aspect-[16/10] bg-[#C9E4EE] rounded-lg overflow-hidden border-b border-[#C9E4EE]">
+                  <img
+                    src={language === "fr" ? macFrImg : macArImg}
+                    alt="Dashboard"
+                    className="w-full h-full object-fill object-top"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 

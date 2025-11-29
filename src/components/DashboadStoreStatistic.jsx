@@ -45,7 +45,7 @@ export default function DashboadStoreStatistic({
                 >
                   {language === "fr"
                     ? "Nombre Total des commandes"
-                    : "عدد الطلبيات"}
+                    : "عدد الطلبات"}
                 </h3>
                 <p className="dashboardSpan">{StatsData?.totalReceipts}</p>
               </div>

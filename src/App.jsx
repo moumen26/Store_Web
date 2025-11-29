@@ -37,6 +37,7 @@ import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
 import ForgotPassword from "./pages/ForgotPassword";
 import Logo from "../src/assets/Logo-error.png";
+import Landing from "./pages/Landing";
 
 function App() {
   const { user } = useAuthContext();
@@ -68,39 +69,39 @@ function App() {
 
   const text = {
     fr: {
-      noInternet: "Pas de connexion Internet ...",
+      noInternet: "Connexion Internet indisponible",
       tryAgainLater: "Veuillez vérifier votre connexion et réessayer",
-      dashboard: "Tableau de bord",
+      dashboard: "Tableau de Bord",
       customers: "Clients",
       purchases: "Achats",
-      returnsOrders: "Retours de commandes",
-      returnsPurchases: "Retours d'achats",
-      publicity: "Publicité",
-      creditPurchases: "Achats à crédit",
-      losses: "Pertes",
+      returnsOrders: "Retours Clients",
+      returnsPurchases: "Retours Fournisseurs",
+      publicity: "Marketing & Publicité",
+      creditPurchases: "Achats à Crédit",
+      losses: "Pertes & Casse",
       suppliers: "Fournisseurs",
       vendors: "Vendeurs",
-      addOrder: "Ajouter une commande",
-      addPurchase: "Ajouter un achat",
-      productsList: "Liste des produits",
-      purchasesArchive: "Archive des achats",
-      productsGrid: "Grille des produits",
-      purchaseProfile: "Profil d'achat",
-      productDetails: "Détails du produit",
+      addOrder: "Nouvelle Commande",
+      addPurchase: "Nouvel Achat",
+      productsList: "Liste des Produits",
+      purchasesArchive: "Archives des Achats",
+      productsGrid: "Catalogue Produits",
+      purchaseProfile: "Détails de l'Achat",
+      productDetails: "Fiche Produit",
       orders: "Commandes",
-      ordersInPreparation: "Commandes en préparation",
-      ordersArchive: "Archive des commandes",
-      creditOrders: "Commandes à crédit",
+      ordersInPreparation: "Commandes en Préparation",
+      ordersArchive: "Archives des Commandes",
+      creditOrders: "Commandes à Crédit",
       settings: "Paramètres",
       authentication: "Authentification",
-      clientProfile: "Profil du client",
-      nonApprovedClientProfile: "Profil du client non approuvé",
-      orderProfile: "Profil de la commande",
-      letsUpYourAccount: "Améliorons votre compte",
-      signUp: "S'inscrire",
-      verifyCode: "Vérifier le code",
-      signIn: "Se connecter",
-      upYourAccount: "Améliorer votre compte",
+      clientProfile: "Fiche Client",
+      nonApprovedClientProfile: "Client Non Approuvé",
+      orderProfile: "Détails de la Commande",
+      letsUpYourAccount: "Mise à Niveau du Compte",
+      signUp: "Créer un Compte",
+      verifyCode: "Vérification du Code",
+      signIn: "Connexion",
+      upYourAccount: "Mettre à Niveau",
     },
     ar: {
       noInternet: "لا يوجد اتصال بالإنترنت...",
@@ -223,7 +224,7 @@ function App() {
                   toggleLanguage={toggleLanguage}
                 />
               ) : (
-                <SignIn
+                <Landing
                   onToggle={handleToggle}
                   language={language}
                   toggleLanguage={toggleLanguage}
@@ -735,7 +736,7 @@ function App() {
               )
             }
           />
-          
+
           {/* public routes */}
           <Route
             path="/SignUp"
@@ -798,6 +799,20 @@ function App() {
             element={
               !user ? (
                 <ForgotPassword
+                  onToggle={handleToggle}
+                  language={language}
+                  toggleLanguage={toggleLanguage}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Landing"
+            element={
+              !user ? (
+                <Landing
                   onToggle={handleToggle}
                   language={language}
                   toggleLanguage={toggleLanguage}

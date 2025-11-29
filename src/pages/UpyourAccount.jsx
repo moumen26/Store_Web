@@ -1,5 +1,5 @@
-  import React, { useState, useEffect } from "react";
-import UpAccountImage from "../assets/images/UpAccount.png";
+import React, { useState, useEffect } from "react";
+import UpAccountImage from "../assets/images/phone2.png";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -283,7 +283,7 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
         handleRefetchDataChange();
         setSubmitionLoading(false);
         setTimeout(() => {
-          handleRedirect("/");
+          handleRedirect("/SignIn");
         }, 1500);
       } else {
         setAlertType(true);
@@ -495,7 +495,11 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
         </div>
 
         <div className="mobile-hidden">
-          <img className="h-[80%]" src={UpAccountImage} alt="Up Account" />
+          <img
+            className="h-[80%] border-2 border-[#C9E4EE] rounded-3xl"
+            src={UpAccountImage}
+            alt="Up Account"
+          />
         </div>
       </div>
       <Modal
@@ -525,7 +529,7 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
                 : "Sélectionnez la catégorie de votre magasin"}
             </h2>
 
-            <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 w-full overflow-y-auto">
+            <div className="flex flex-wrap gap-4 w-full overflow-y-auto">
               {CategoryData?.length > 0 ? (
                 CategoryData?.map((category, index) => (
                   <div
@@ -537,7 +541,9 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
                     }`}
                     onClick={() => handleCategorySelect(category)}
                   >
-                    <span>{category.name}</span>
+                    <span>
+                      {category.name.charAt(0).toUpperCase() + category.name.slice(1).toLowerCase()}
+                    </span>
                   </div>
                 ))
               ) : (
@@ -549,7 +555,7 @@ export default function UpYourAccount(language, onToggle, toggleLanguage) {
               )}
             </div>
             {
-              <div className="flex justify-end space-x-8 pr-8 items-start h-[40px] mt-2">
+              <div className="flex justify-end space-x-8 items-start mt-2">
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
                   onClick={handleCloseDialog}

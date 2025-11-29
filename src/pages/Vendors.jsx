@@ -364,276 +364,277 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
                 ? "إضافة بائع جديد"
                 : "Ajouter un nouveau vendeur"}
             </h2>
-            <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
-              <div className="dialogAddCustomerItem">
-                <span
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الاسم الأول" : "Prénom"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar" ? "الاسم الأول" : "Prénom"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="text"
-                    name="customerFirstName"
-                    value={FirstName}
-                    onChange={handleFirstNameChange}
-                  />
-                </div>
+                  type="text"
+                  name="customerFirstName"
+                  value={FirstName}
+                  onChange={handleFirstNameChange}
+                />
               </div>
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الاسم الأخير" : "Nom"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar" ? "الاسم الأخير" : "Nom"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="text"
-                    name="customerLastName"
-                    value={LastName}
-                    onChange={handleLastNameChange}
-                  />
-                </div>
+                  type="text"
+                  name="customerLastName"
+                  value={LastName}
+                  onChange={handleLastNameChange}
+                />
               </div>
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "العنوان" : "Adresse"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar" ? "العنوان" : "Adresse"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="text"
-                    name="storeAddress"
-                    value={Address}
-                    onChange={handleAddressChange}
-                  />
-                </div>
+                  type="text"
+                  name="storeAddress"
+                  value={Address}
+                  onChange={handleAddressChange}
+                />
               </div>
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="phone"
-                    name="customerPhone"
-                    value={Phone}
-                    onChange={handlePhoneChange}
-                  />
-                </div>
+                  type="phone"
+                  name="customerPhone"
+                  value={Phone}
+                  onChange={handlePhoneChange}
+                />
               </div>
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "البريد الإلكتروني" : "Email"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar" ? "البريد الإلكتروني" : "Email"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="email"
-                    name="storeAddress"
-                    value={Email}
-                    onChange={handleEmailChange}
-                  />
-                </div>
+                  type="email"
+                  name="storeAddress"
+                  value={Email}
+                  onChange={handleEmailChange}
+                />
               </div>
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar"
+                  ? "رقم السجل التجاري"
+                  : "Numéro de registre de commerce"}
+              </span>
+              <div className="inputForm md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
-                >
-                  {language === "ar"
-                    ? "رقم السجل التجاري"
-                    : "Numéro de registre de commerce"}
-                </span>
-                <div className="inputForm">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type="text"
-                    name="rc"
-                    value={RC}
-                    onChange={handleRCChange}
-                  />
-                </div>
+                  type="text"
+                  name="rc"
+                  value={RC}
+                  onChange={handleRCChange}
+                />
               </div>
-              {/* Password Field */}
-              <div className="dialogAddCustomerItem">
-                <span
+            </div>
+            {/* Password Field */}
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "كلمة المرور" : "Mot de passe"}
+              </span>
+              <div className="inputForm relative md:w-96">
+                <input
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={Password}
+                  onChange={handlePasswordChange}
+                />
+                <div
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  {language === "ar" ? "كلمة المرور" : "Mot de passe"}
-                </span>
-                <div className="inputForm relative">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={Password}
-                    onChange={handlePasswordChange}
-                  />
-                  <div
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5 text-gray-500" />
-                    )}
-                  </div>
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5 text-gray-500" />
+                  )}
                 </div>
               </div>
+            </div>
 
-              {/* Confirm Password Field */}
-              <div className="dialogAddCustomerItem">
-                <span
+            {/* Confirm Password Field */}
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                className="md:w-48"
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar"
+                  ? "تأكيد كلمة المرور"
+                  : "Confirmer le mot de passe"}
+              </span>
+              <div className="inputForm relative md:w-96">
+                <input
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="ConfirmPassword"
+                  value={ConfirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                />
+                <div
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? (
+                    <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5 text-gray-500" />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "الولاية" : "Wilaya"}
+              </span>
+              <div className="selectStoreWilayaCommune w-full md:w-96">
+                <select
+                  name="fournisseurWilaya"
+                  value={selectedWilaya}
+                  onChange={handleWilayaChange}
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
-                  {language === "ar"
-                    ? "تأكيد كلمة المرور"
-                    : "Confirmer le mot de passe"}
-                </span>
-                <div className="inputForm relative">
-                  <input
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                    type={showConfirmPassword ? "text" : "password"}
-                    name="ConfirmPassword"
-                    value={ConfirmPassword}
-                    onChange={handleConfirmPasswordChange}
-                  />
-                  <div
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5 text-gray-500" />
-                    )}
-                  </div>
-                </div>
+                  <option value="" disabled selected>
+                    {language === "ar" ? "اختر الولاية" : "Sélectionner Wilaya"}
+                  </option>
+                  {wilayas.map((wilaya) => (
+                    <option key={wilaya.value} value={wilaya.value}>
+                      {wilaya.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-
-              <div className="dialogAddCustomerItem wilayaCommune">
-                <div className="WilayaCommuneClass">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar" ? "الولاية" : "Wilaya"}
-                  </span>
-                  <div className="selectStoreWilayaCommune">
-                    <select
-                      name="fournisseurWilaya"
-                      value={selectedWilaya}
-                      onChange={handleWilayaChange}
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                    >
-                      <option value="">
-                        {language === "ar"
-                          ? "اختر الولاية"
-                          : "Sélectionner Wilaya"}
-                      </option>
-                      {wilayas.map((wilaya) => (
-                        <option key={wilaya.value} value={wilaya.value}>
-                          {wilaya.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="WilayaCommuneClass">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                    }}
-                  >
-                    {language === "ar" ? "البلدية" : "Commune"}
-                  </span>
-                  <div className="selectStoreWilayaCommune">
-                    <select
-                      name="fournisseurCommune"
-                      value={selectedCommune}
-                      onChange={handleCommuneChange}
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                    >
-                      <option value="">
-                        {language === "ar"
-                          ? "اختر البلدية"
-                          : "Sélectionner Commune"}
-                      </option>
-                      {communes.map((commune) => (
-                        <option key={commune.value} value={commune.value}>
-                          {commune.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+              <span
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
+              >
+                {language === "ar" ? "البلدية" : "Commune"}
+              </span>
+              <div className="selectStoreWilayaCommune w-full md:w-96">
+                <select
+                  name="fournisseurCommune"
+                  value={selectedCommune}
+                  onChange={handleCommuneChange}
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  <option value="" disabled selected>
+                    {language === "ar"
+                      ? "اختر البلدية"
+                      : "Sélectionner Commune"}
+                  </option>
+                  {communes.map((commune) => (
+                    <option key={commune.value} value={commune.value}>
+                      {commune.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div
@@ -642,25 +643,25 @@ export default function Vendors({ onToggle, toggleLanguage, language }) {
               }`}
             >
               <button
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                onClick={handleCloseDialog}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
+                className="text-gray-500 cursor-pointer hover:text-gray-700"
+                onClick={handleCloseDialog}
               >
                 {language === "ar" ? "إلغاء" : "Annuler"}
               </button>
               <button
+                style={{
+                  fontFamily:
+                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                }}
                 className={`text-blue-500 cursor-pointer hover:text-blue-700 ${
                   !isFormValid ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={handleSaveCustomer}
                 disabled={!isFormValid}
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
               >
                 {language === "ar" ? "حفظ" : "Enregistrer"}
               </button>

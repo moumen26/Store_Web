@@ -621,6 +621,8 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
         setSnackbarMessage(response.data.message);
         setSnackbarOpen(true);
         setSubmitionLoading(false);
+        setIsEditingEmail(false);
+        setIsEditingPassword(false);
         handleCloseDialog();
         setUpdatedEmail("");
         setUpdatedConfirmEmail("");
@@ -792,287 +794,125 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
         {/* Right Content Area */}
         <div className="settingsRight bg-white rounded-lg shadow-sm overflow-hidden">
           {/* Personal Information Tab */}
-         {activeTab === "PersoInf" && (
-  <div className="flex-col settingsRightContainer">
-    <div className="flex md:items-center items-start md:justify-between justify-start md:flex-row flex-col border-b pb-4 md:space-y-0 space-y-4">
-      <h2
-        className="md:text-xl text-lg font-bold text-gray-800"
-        style={{
-          fontFamily:
-            language === "ar" ? "Cairo-Regular, sans-serif" : "",
-        }}
-      >
-        {language === "ar"
-          ? "المعلومات الشخصية"
-          : "Informations personnelles"}
-      </h2>
-      <div
-        className={`flex md:space-x-4 space-x-2 ${
-          language === "ar" ? "md:gap-x-4 gap-x-2" : ""
-        }`}
-      >
-        {isEditing ? (
-          <div
-            className={`flex md:space-x-4 space-x-2 ${
-              language === "ar" ? "md:gap-x-4 gap-x-2" : ""
-            }`}
-          >
-            <ButtonModify
-              buttonSpan={language === "ar" ? "إلغاء" : "Annuler"}
-              showIcon={false}
-              onClick={handleClickCancel}
-              language={language}
-            />
-            <ButtonSave
-              setOnClick={handleOpenUpdateConfirmationDialog}
-              language={language}
-            />
-          </div>
-        ) : (
-          <ButtonModify
-            buttonSpan={language === "ar" ? "تعديل" : "Modifier"}
-            onClick={handleClickModify}
-            language={language}
-          />
-        )}
-      </div>
-    </div>
-
-    {!CustomerDataLoading ? (
-      <div className="flex-col settingsRightScroll">
-        <div className="bg-white rounded-lg">
-          <div className="settingPersonalInformation grid grid-cols-1 lg:grid-cols-2 md:gap-6 gap-4 p-4 md:p-0">
-            <div className="col-span-1">
-              <InputForm
-                labelForm={
-                  language === "ar" ? "البريد الإلكتروني" : "E-mail"
-                }
-                inputType="email"
-                inputName="email"
-                value={editableData.email}
-                readOnly={true}
-                language={language}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputForm
-                labelForm={
-                  language === "ar"
-                    ? "رقم الهاتف"
-                    : "Numéro de téléphone"
-                }
-                inputType="phone"
-                inputName="phone"
-                value={editableData.phoneNumber}
-                inputPlaceholder={
-                  language === "ar" ? "غير متوفر" : "Non disponible"
-                }
-                readOnly={true}
-                language={language}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputForm
-                labelForm={
-                  language === "ar" ? "اسم المتجر" : "Nom du magasin"
-                }
-                inputType="text"
-                inputName="storeName"
-                value={editableData.storeName}
-                setChangevalue={handleInputChange}
-                readOnly={!isEditing}
-                language={language}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputForm
-                labelForm={language === "ar" ? "الاسم الأول" : "Prénom"}
-                inputType="text"
-                inputName="firstName"
-                value={editableData.firstName}
-                setChangevalue={handleInputChange}
-                readOnly={!isEditing}
-                language={language}
-              />
-            </div>
-            <div className="col-span-1">
-              <InputForm
-                labelForm={
-                  language === "ar" ? "اسم العائلة" : "Nom de famille"
-                }
-                inputType="text"
-                inputName="lastName"
-                value={editableData.lastName}
-                setChangevalue={handleInputChange}
-                readOnly={!isEditing}
-                language={language}
-              />
-            </div>
-            <div className="inputItem col-span-1">
-              <span
-                style={{
-                  fontFamily:
-                    language === "ar"
-                      ? "Cairo-Regular, sans-serif"
-                      : "",
-                }}
-              >
-                {language === "ar" ? "العنوان" : "Adresse"}
-              </span>
-              <div
-                className={`inputForm relative ${
-                  language === "ar" ? "inputFormReverse " : ""
-                }`}
-              >
-                <input
-                  type="text"
-                  name="storeAddress"
-                  value={editableData.storeAddress}
-                  onChange={handleInputChange}
-                  readOnly={!isEditing}
+          {activeTab === "PersoInf" && (
+            <div className="flex-col settingsRightContainer">
+              <div className="flex md:items-center items-start md:justify-between justify-start md:flex-row flex-col border-b pb-4 md:space-y-0 space-y-4">
+                <h2
+                  className="md:text-xl text-lg font-bold text-gray-800"
                   style={{
                     fontFamily:
-                      language === "ar"
-                        ? "Cairo-Regular, sans-serif"
-                        : "",
-                  }}
-                />
-                <MapIcon
-                  onClick={() =>
-                    TakeMeToGoogleMaps(editableData.storeAddress)
-                  }
-                  className="w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700"
-                />
-              </div>
-            </div>
-
-            {isEditing ? (
-              <>
-                <div className="flex-col space-y-[12px] items-center col-span-1">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar"
-                          ? "Cairo-Regular, sans-serif"
-                          : "",
-                    }}
-                  >
-                    {language === "ar" ? "الولاية" : "Wilaya"}
-                  </span>
-                  <div className="selectStoreWilayaCommune w-full max-w-[400px]">
-                    <select
-                      name="wilaya"
-                      value={editableData.wilaya}
-                      onChange={handleInputChange}
-                      disabled={!isEditing}
-                      style={{
-                        fontFamily:
-                          language === "ar"
-                            ? "Cairo-Regular, sans-serif"
-                            : "",
-                      }}
-                    >
-                      <option value="">
-                        {language === "ar"
-                          ? "اختر الولاية"
-                          : "Sélectionner Wilaya"}
-                      </option>
-                      {wilayas.map((wilaya) => (
-                        <option key={wilaya.value} value={wilaya.value}>
-                          {wilaya.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="flex-col space-y-[12px] items-center col-span-1">
-                  <span
-                    style={{
-                      fontFamily:
-                        language === "ar"
-                          ? "Cairo-Regular, sans-serif"
-                          : "",
-                    }}
-                  >
-                    {language === "ar" ? "البلدية" : "Commune"}
-                  </span>
-                  <div className="selectStoreWilayaCommune w-full max-w-[400px]">
-                    <select
-                      name="commune"
-                      value={editableData.commune}
-                      onChange={handleInputChange}
-                      disabled={!isEditing}
-                      style={{
-                        fontFamily:
-                          language === "ar"
-                            ? "Cairo-Regular, sans-serif"
-                            : "",
-                      }}
-                    >
-                      <option value="">
-                        {language === "ar"
-                          ? "اختر البلدية"
-                          : "Sélectionner Commune"}
-                      </option>
-                      {communes.map((commune) => (
-                        <option key={commune.value} value={commune.value}>
-                          {commune.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="col-span-1">
-                  <InputForm
-                    labelForm={language === "ar" ? "الولاية" : "Wilaya"}
-                    inputType="text"
-                    inputName="wilaya"
-                    value={editableData.wilaya}
-                    setChangevalue={handleInputChange}
-                    readOnly={!isEditing}
-                    language={language}
-                  />
-                </div>
-                <div className="col-span-1">
-                  <InputForm
-                    labelForm={
-                      language === "ar" ? "البلدية" : "Commune"
-                    }
-                    inputType="text"
-                    inputName="commune"
-                    value={editableData.commune}
-                    setChangevalue={handleInputChange}
-                    readOnly={!isEditing}
-                    language={language}
-                  />
-                </div>
-              </>
-            )}
-
-            {!CategoryDataByStoreLoading ? (
-              <div className="flex-col space-y-[12px] col-span-1 lg:col-span-2">
-                <span
-                  style={{
-                    fontFamily:
-                      language === "ar"
-                        ? "Cairo-Regular, sans-serif"
-                        : "",
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
                   }}
                 >
                   {language === "ar"
-                    ? "فئة المتجر"
-                    : "Catégorie du magasin"}
-                </span>
-                <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-3 items-start md:items-center">
-                  <div className="selectedCategories flex flex-wrap gap-2 w-full">
-                    {CategoryDataByStore?.map((category, index) => (
-                      <div
-                        key={index}
-                        className="categoryChip bg-blue-50 text-blue-700 py-1 px-3 rounded-full text-sm break-all"
-                      >
+                    ? "المعلومات الشخصية"
+                    : "Informations personnelles"}
+                </h2>
+                <div
+                  className={`flex md:space-x-4 space-x-2 ${
+                    language === "ar" ? "md:gap-x-4 gap-x-2" : ""
+                  }`}
+                >
+                  {isEditing ? (
+                    <div
+                      className={`flex md:space-x-4 space-x-2 ${
+                        language === "ar" ? "md:gap-x-4 gap-x-2" : ""
+                      }`}
+                    >
+                      <ButtonModify
+                        buttonSpan={language === "ar" ? "إلغاء" : "Annuler"}
+                        showIcon={false}
+                        onClick={handleClickCancel}
+                        language={language}
+                      />
+                      <ButtonSave
+                        setOnClick={handleOpenUpdateConfirmationDialog}
+                        language={language}
+                      />
+                    </div>
+                  ) : (
+                    <ButtonModify
+                      buttonSpan={language === "ar" ? "تعديل" : "Modifier"}
+                      onClick={handleClickModify}
+                      language={language}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {!CustomerDataLoading ? (
+                <div className="flex-col settingsRightScroll">
+                  <div className="bg-white rounded-lg">
+                    <div className="settingPersonalInformation grid grid-cols-1 lg:grid-cols-2 md:gap-6 gap-4 p-4 md:p-0">
+                      <div className="col-span-1">
+                        <InputForm
+                          labelForm={
+                            language === "ar" ? "البريد الإلكتروني" : "E-mail"
+                          }
+                          inputType="email"
+                          inputName="email"
+                          value={editableData.email}
+                          readOnly={true}
+                          language={language}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <InputForm
+                          labelForm={
+                            language === "ar"
+                              ? "رقم الهاتف"
+                              : "Numéro de téléphone"
+                          }
+                          inputType="phone"
+                          inputName="phone"
+                          value={editableData.phoneNumber}
+                          inputPlaceholder={
+                            language === "ar" ? "غير متوفر" : "Non disponible"
+                          }
+                          readOnly={true}
+                          language={language}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <InputForm
+                          labelForm={
+                            language === "ar" ? "اسم المتجر" : "Nom du magasin"
+                          }
+                          inputType="text"
+                          inputName="storeName"
+                          value={editableData.storeName}
+                          setChangevalue={handleInputChange}
+                          readOnly={!isEditing}
+                          language={language}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <InputForm
+                          labelForm={
+                            language === "ar" ? "الاسم الأول" : "Prénom"
+                          }
+                          inputType="text"
+                          inputName="firstName"
+                          value={editableData.firstName}
+                          setChangevalue={handleInputChange}
+                          readOnly={!isEditing}
+                          language={language}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <InputForm
+                          labelForm={
+                            language === "ar" ? "اسم العائلة" : "Nom de famille"
+                          }
+                          inputType="text"
+                          inputName="lastName"
+                          value={editableData.lastName}
+                          setChangevalue={handleInputChange}
+                          readOnly={!isEditing}
+                          language={language}
+                        />
+                      </div>
+                      <div className="inputItem col-span-1">
                         <span
                           style={{
                             fontFamily:
@@ -1081,109 +921,281 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                                 : "",
                           }}
                         >
-                          {category.name}
+                          {language === "ar" ? "العنوان" : "Adresse"}
                         </span>
+                        <div
+                          className={`inputForm relative ${
+                            language === "ar" ? "inputFormReverse " : ""
+                          }`}
+                        >
+                          <input
+                            type="text"
+                            name="storeAddress"
+                            value={editableData.storeAddress}
+                            onChange={handleInputChange}
+                            readOnly={!isEditing}
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          />
+                          <MapIcon
+                            onClick={() =>
+                              TakeMeToGoogleMaps(editableData.storeAddress)
+                            }
+                            className="w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700"
+                          />
+                        </div>
                       </div>
-                    ))}
+
+                      {isEditing ? (
+                        <>
+                          <div className="flex-col space-y-[12px] items-center col-span-1">
+                            <span
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
+                            >
+                              {language === "ar" ? "الولاية" : "Wilaya"}
+                            </span>
+                            <div className="selectStoreWilayaCommune w-full max-w-[400px]">
+                              <select
+                                name="wilaya"
+                                value={editableData.wilaya}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                                style={{
+                                  fontFamily:
+                                    language === "ar"
+                                      ? "Cairo-Regular, sans-serif"
+                                      : "",
+                                }}
+                              >
+                                <option value="">
+                                  {language === "ar"
+                                    ? "اختر الولاية"
+                                    : "Sélectionner Wilaya"}
+                                </option>
+                                {wilayas.map((wilaya) => (
+                                  <option
+                                    key={wilaya.value}
+                                    value={wilaya.value}
+                                  >
+                                    {wilaya.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                          <div className="flex-col space-y-[12px] items-center col-span-1">
+                            <span
+                              style={{
+                                fontFamily:
+                                  language === "ar"
+                                    ? "Cairo-Regular, sans-serif"
+                                    : "",
+                              }}
+                            >
+                              {language === "ar" ? "البلدية" : "Commune"}
+                            </span>
+                            <div className="selectStoreWilayaCommune w-full max-w-[400px]">
+                              <select
+                                name="commune"
+                                value={editableData.commune}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                                style={{
+                                  fontFamily:
+                                    language === "ar"
+                                      ? "Cairo-Regular, sans-serif"
+                                      : "",
+                                }}
+                              >
+                                <option value="">
+                                  {language === "ar"
+                                    ? "اختر البلدية"
+                                    : "Sélectionner Commune"}
+                                </option>
+                                {communes.map((commune) => (
+                                  <option
+                                    key={commune.value}
+                                    value={commune.value}
+                                  >
+                                    {commune.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="col-span-1">
+                            <InputForm
+                              labelForm={
+                                language === "ar" ? "الولاية" : "Wilaya"
+                              }
+                              inputType="text"
+                              inputName="wilaya"
+                              value={editableData.wilaya}
+                              setChangevalue={handleInputChange}
+                              readOnly={!isEditing}
+                              language={language}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <InputForm
+                              labelForm={
+                                language === "ar" ? "البلدية" : "Commune"
+                              }
+                              inputType="text"
+                              inputName="commune"
+                              value={editableData.commune}
+                              setChangevalue={handleInputChange}
+                              readOnly={!isEditing}
+                              language={language}
+                            />
+                          </div>
+                        </>
+                      )}
+
+                      {!CategoryDataByStoreLoading ? (
+                        <div className="flex-col space-y-[12px] col-span-1 lg:col-span-2">
+                          <span
+                            style={{
+                              fontFamily:
+                                language === "ar"
+                                  ? "Cairo-Regular, sans-serif"
+                                  : "",
+                            }}
+                          >
+                            {language === "ar"
+                              ? "فئة المتجر"
+                              : "Catégorie du magasin"}
+                          </span>
+                          <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-3 items-start md:items-center">
+                            <div className="selectedCategories flex flex-wrap gap-2 w-full">
+                              {CategoryDataByStore?.map((category, index) => (
+                                <div
+                                  key={index}
+                                  className="categoryChip bg-blue-50 text-blue-700 py-1 px-3 rounded-full text-sm break-all"
+                                >
+                                  <span
+                                    style={{
+                                      fontFamily:
+                                        language === "ar"
+                                          ? "Cairo-Regular, sans-serif"
+                                          : "",
+                                    }}
+                                  >
+                                    {category.name}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                            <PlusCircleIcon
+                              className="h-6 w-6 text-blue-600 cursor-pointer hover:text-blue-800 flex-shrink-0 md:mt-0 mt-2"
+                              onClick={handleOpenAddCategoryModal}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex justify-center items-center col-span-1 lg:col-span-2">
+                          <CircularProgress color="inherit" />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <PlusCircleIcon
-                    className="h-6 w-6 text-blue-600 cursor-pointer hover:text-blue-800 flex-shrink-0 md:mt-0 mt-2"
-                    onClick={handleOpenAddCategoryModal}
-                  />
+
+                  <div className="deleteContainer flex-col space-y-4 mt-5 bg-gray-50 md:p-6 p-4 rounded-lg border border-gray-200">
+                    <span
+                      className="md:text-lg text-base font-semibold text-red-600"
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar" ? "حذف الحساب" : "Supprimer le compte"}
+                    </span>
+
+                    <div className="bg-white w-full md:p-4 p-3 rounded-lg border border-gray-100 shadow-sm flex md:space-x-3 space-x-2">
+                      <ShieldExclamationIcon className="md:w-6 md:h-6 w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                      <p
+                        className="md:text-sm text-xs text-gray-600"
+                        style={{
+                          fontFamily:
+                            language === "ar"
+                              ? "Cairo-Regular, sans-serif"
+                              : "",
+                        }}
+                      >
+                        {language === "ar"
+                          ? 'بعد طلب الحذف، سيكون لديك مدة "6 أشهر" للاحتفاظ بهذا الحساب.'
+                          : 'Après avoir fait une demande de suppression, vous aurez "6 mois" pour maintenir ce compte.'}
+                      </p>
+                    </div>
+
+                    <p
+                      className="md:text-sm text-xs text-gray-500"
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "عند حذف حسابك، ستفقد جميع البيانات المرتبطة به بشكل نهائي. لا يمكن التراجع عن هذا الإجراء."
+                        : "Lorsque vous supprimez votre compte, vous perdrez définitivement toutes les données associées. Cette action ne peut pas être annulée."}
+                    </p>
+
+                    <p
+                      className="md:text-sm text-xs font-medium text-gray-700"
+                      style={{
+                        fontFamily:
+                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                      }}
+                    >
+                      {language === "ar"
+                        ? "لا يمكن التراجع عن هذا الإجراء."
+                        : "Cette action est irréversible."}
+                    </p>
+
+                    <div className="md:w-auto w-full">
+                      <ButtonDelete
+                        setOnClick={handleOpenConfirmationDialog}
+                        language={language}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center col-span-1 lg:col-span-2">
-                <CircularProgress color="inherit" />
-              </div>
-            )}
-          </div>
-        </div>
+              ) : (
+                <div className="flex justify-center items-center h-full">
+                  <CircularProgress color="inherit" />
+                </div>
+              )}
 
-        <div className="deleteContainer flex-col space-y-4 mt-5 bg-gray-50 md:p-6 p-4 rounded-lg border border-gray-200">
-          <span
-            className="md:text-lg text-base font-semibold text-red-600"
-            style={{
-              fontFamily:
-                language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar" ? "حذف الحساب" : "Supprimer le compte"}
-          </span>
-
-          <div className="bg-white w-full md:p-4 p-3 rounded-lg border border-gray-100 shadow-sm flex md:space-x-3 space-x-2">
-            <ShieldExclamationIcon className="md:w-6 md:h-6 w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
-            <p
-              className="md:text-sm text-xs text-gray-600"
-              style={{
-                fontFamily:
+              <ConfirmDialog
+                open={openConfirmationDialog}
+                onClose={handleCloseDialog}
+                onConfirm={handleConfirmDeleteAccount}
+                dialogTitle={
                   language === "ar"
-                    ? "Cairo-Regular, sans-serif"
-                    : "",
-              }}
-            >
-              {language === "ar"
-                ? 'بعد طلب الحذف، سيكون لديك مدة "6 أشهر" للاحتفاظ بهذا الحساب.'
-                : 'Après avoir fait une demande de suppression, vous aurez "6 mois" pour maintenir ce compte.'}
-            </p>
-          </div>
-
-          <p
-            className="md:text-sm text-xs text-gray-500"
-            style={{
-              fontFamily:
-                language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar"
-              ? "عند حذف حسابك، ستفقد جميع البيانات المرتبطة به بشكل نهائي. لا يمكن التراجع عن هذا الإجراء."
-              : "Lorsque vous supprimez votre compte, vous perdrez définitivement toutes les données associées. Cette action ne peut pas être annulée."}
-          </p>
-
-          <p
-            className="md:text-sm text-xs font-medium text-gray-700"
-            style={{
-              fontFamily:
-                language === "ar" ? "Cairo-Regular, sans-serif" : "",
-            }}
-          >
-            {language === "ar"
-              ? "لا يمكن التراجع عن هذا الإجراء."
-              : "Cette action est irréversible."}
-          </p>
-
-          <div className="md:w-auto w-full">
-            <ButtonDelete
-              setOnClick={handleOpenConfirmationDialog}
-              language={language}
-            />
-          </div>
-        </div>
-      </div>
-    ) : (
-      <div className="flex justify-center items-center h-full">
-        <CircularProgress color="inherit" />
-      </div>
-    )}
-
-    <ConfirmDialog
-      open={openConfirmationDialog}
-      onClose={handleCloseDialog}
-      onConfirm={handleConfirmDeleteAccount}
-      dialogTitle={
-        language === "ar"
-          ? "تأكيد حذف حسابك"
-          : "Confirmer la suppression de votre compte"
-      }
-      dialogContentText={
-        language === "ar"
-          ? "هل أنت متأكد أنك تريد حذف حسابك؟"
-          : "Êtes-vous sûr de vouloir supprimer votre compte ?"
-      }
-      language={language}
-    />
-  </div>
-)}
+                    ? "تأكيد حذف حسابك"
+                    : "Confirmer la suppression de votre compte"
+                }
+                dialogContentText={
+                  language === "ar"
+                    ? "هل أنت متأكد أنك تريد حذف حسابك؟"
+                    : "Êtes-vous sûr de vouloir supprimer votre compte ?"
+                }
+                language={language}
+              />
+            </div>
+          )}
 
           {/* Email & Password Tab */}
           {activeTab === "EmailPass" && (
@@ -1671,22 +1683,21 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
             className="customerClass pb-0"
             style={{ direction: language === "ar" ? "rtl" : "ltr" }}
           >
-            <div className="flex items-center space-x-3 mb-4">
-              <h2
-                className="dialogTitle"
-                style={{
-                  fontFamily:
-                    language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                }}
-              >
-                {language === "ar"
-                  ? "اختر فئة متجرك"
-                  : "Sélectionnez la catégorie de votre magasin"}
-              </h2>
-            </div>
-            {CategoryData.length > 0 ? (
-              <div className="dialogAddCustomerItem items-center mb-6">
+            <h2
+              className="dialogTitle"
+              style={{
+                fontFamily:
+                  language === "ar" ? "Cairo-Regular, sans-serif" : "",
+              }}
+            >
+              {language === "ar"
+                ? "اختر فئة متجرك"
+                : "Sélectionnez la catégorie de votre magasin"}
+            </h2>
+            <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -1696,7 +1707,7 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                     ? "فئة المنتج :"
                     : "Catégorie de produit :"}
                 </span>
-                <div className="selectStoreWilayaCommune w-[500px]">
+                <div className="selectStoreWilayaCommune w-full md:w-96">
                   <select
                     name="productCategory"
                     onChange={handleProductCategoryChange}
@@ -1727,25 +1738,12 @@ export default function Settings({ onToggle, toggleLanguage, language }) {
                   </select>
                 </div>
               </div>
-            ) : (
-              <div className="flex justify-center items-center p-4 text-gray-500">
-                <h1
-                  style={{
-                    fontFamily:
-                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                  }}
-                >
-                  {language === "ar"
-                    ? "لا توجد بيانات متاحة"
-                    : "Aucune donnée disponible"}
-                </h1>
-              </div>
-            )}
+            </div>
             {!submitionLoading ? (
               <div
                 className={`flex justify-end ${
-                  language === "ar" ? "space-x-reverse" : ""
-                } space-x-8 items-start mt-[20px]`}
+                  language === "ar" ? "gap-x-8" : "space-x-8"
+                }`}
               >
                 <button
                   className="text-gray-500 cursor-pointer hover:text-gray-700"

@@ -87,7 +87,9 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
         setLoading(false);
       }
     } catch (error) {
-      setSnackbarMessage("An error occurred. Please try again later.");
+      setSnackbarMessage(
+        "Une erreur s'est produite. Veuillez réessayer plus tard."
+      );
       setSnackbarOpen(true);
       setLoading(false);
     }

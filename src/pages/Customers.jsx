@@ -375,8 +375,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 : "Ajouter un nouveau client"}
             </h2>
             <div className="flex-col items-center w-full space-y-8 mt-[16px] p-0">
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -384,7 +385,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "الاسم الأول" : "Prénom"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -397,8 +398,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -406,7 +408,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "الاسم الأخير" : "Nom"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -419,8 +421,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -428,7 +431,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "العنوان" : "Adresse"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -441,8 +444,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -450,7 +454,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "رقم الهاتف" : "Numéro de téléphone"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -463,8 +467,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -472,7 +477,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "البريد الإلكتروني" : "Email"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -485,8 +490,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -496,7 +502,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                     ? "رقم السجل التجاري"
                     : "Numéro de registre de commerce"}
                 </span>
-                <div className="inputForm">
+                <div className="inputForm md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -509,8 +515,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                   />
                 </div>
               </div>
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -518,7 +525,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 >
                   {language === "ar" ? "كلمة المرور" : "Mot de passe"}
                 </span>
-                <div className="inputForm relative">
+                <div className="inputForm relative md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -542,8 +549,9 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
 
-              <div className="dialogAddCustomerItem">
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                 <span
+                  className="md:w-48"
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -553,7 +561,7 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                     ? "تأكيد كلمة المرور"
                     : "Confirmer le mot de passe"}
                 </span>
-                <div className="inputForm relative">
+                <div className="inputForm relative md:w-96">
                   <input
                     style={{
                       fontFamily:
@@ -577,70 +585,68 @@ export default function Customers({ onToggle, toggleLanguage, language }) {
                 </div>
               </div>
 
-              <div className="dialogAddCustomerItem wilayaCommune">
-                <div className="WilayaCommuneClass">
-                  <span
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "الولاية" : "Wilaya"}
+                </span>
+                <div className="selectStoreWilayaCommune w-full md:w-96">
+                  <select
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
+                    name="fournisseurWilaya"
+                    value={selectedWilaya}
+                    onChange={handleWilayaChange}
                   >
-                    {language === "ar" ? "الولاية" : "Wilaya"}
-                  </span>
-                  <div className="selectStoreWilayaCommune">
-                    <select
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      name="fournisseurWilaya"
-                      value={selectedWilaya}
-                      onChange={handleWilayaChange}
-                    >
-                      <option value="" disabled selected>
-                        {language === "ar"
-                          ? "اختر الولاية"
-                          : "Sélectionner Wilaya"}
+                    <option value="" disabled selected>
+                      {language === "ar"
+                        ? "اختر الولاية"
+                        : "Sélectionner Wilaya"}
+                    </option>
+                    {wilayas.map((wilaya) => (
+                      <option key={wilaya.value} value={wilaya.value}>
+                        {wilaya.label}
                       </option>
-                      {wilayas.map((wilaya) => (
-                        <option key={wilaya.value} value={wilaya.value}>
-                          {wilaya.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    ))}
+                  </select>
                 </div>
-                <div className="WilayaCommuneClass">
-                  <span
+              </div>
+              <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+                <span
+                  style={{
+                    fontFamily:
+                      language === "ar" ? "Cairo-Regular, sans-serif" : "",
+                  }}
+                >
+                  {language === "ar" ? "البلدية" : "Commune"}
+                </span>
+                <div className="selectStoreWilayaCommune w-full md:w-96">
+                  <select
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
+                    name="fournisseurCommune"
+                    value={selectedCommune}
+                    onChange={handleCommuneChange}
                   >
-                    {language === "ar" ? "البلدية" : "Commune"}
-                  </span>
-                  <div className="selectStoreWilayaCommune">
-                    <select
-                      style={{
-                        fontFamily:
-                          language === "ar" ? "Cairo-Regular, sans-serif" : "",
-                      }}
-                      name="fournisseurCommune"
-                      value={selectedCommune}
-                      onChange={handleCommuneChange}
-                    >
-                      <option value="" disabled selected>
-                        {language === "ar"
-                          ? "اختر البلدية"
-                          : "Sélectionner Commune"}
+                    <option value="" disabled selected>
+                      {language === "ar"
+                        ? "اختر البلدية"
+                        : "Sélectionner Commune"}
+                    </option>
+                    {communes.map((commune) => (
+                      <option key={commune.value} value={commune.value}>
+                        {commune.label}
                       </option>
-                      {communes.map((commune) => (
-                        <option key={commune.value} value={commune.value}>
-                          {commune.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>

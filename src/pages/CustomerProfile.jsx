@@ -366,7 +366,7 @@ export default function CustomerProfile({
         language === "ar" ? "تعيين كبائع" : "Définir comme vendeur"
       );
     }
-  }, [CustomerData, buttonVendorText]);
+  }, [CustomerData, language]);
 
   if (CustomerDataLoading) {
     return (

@@ -176,7 +176,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
-                    {language === "fr" ? "Dashboard" : "الرئيسية"}
+                    {language === "fr" ? "Tableau de Bord" : "الرئيسية"}
                   </span>
                 </div>
               </NavLink>
@@ -250,7 +250,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Stocks des produits"
+                          ? "Liste des Produits"
                           : "مخزون المنتجات"}
                       </span>
                     </div>
@@ -277,7 +277,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Liste des produits"
+                          ? "Catalogue Produits"
                           : "قائمة المنتجات"}
                       </span>
                     </div>
@@ -360,7 +360,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Dernières commandes"
+                          ? "Commandes Récentes"
                           : "أحدث الطلبات"}
                       </span>
                     </div>
@@ -390,7 +390,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Commandes en cours"
+                          ? "Commandes en Préparation"
                           : "الطلبات قيد التحضير"}
                       </span>
                     </div>
@@ -417,7 +417,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Commandes à crédit"
+                          ? "Commandes à Crédit"
                           : "الطلبات بالائتمان"}
                       </span>
                     </div>
@@ -444,7 +444,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Commandes de retour"
+                          ? "Retours Clients"
                           : "طلبات الإرجاع"}
                       </span>
                     </div>
@@ -471,7 +471,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Archive des commandes"
+                          ? "Archives des Commandes"
                           : "أرشيف الطلبات"}
                       </span>
                     </div>
@@ -554,7 +554,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Derniers achats"
+                          ? "Achats Récents"
                           : "أحدث المشتريات"}
                       </span>
                     </div>
@@ -581,7 +581,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Achats à crédit"
+                          ? "Achats à Crédit"
                           : "المشتريات بالائتمان"}
                       </span>
                     </div>
@@ -608,7 +608,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Retours d'achats"
+                          ? "Retours Fournisseurs"
                           : "إرجاع المشتريات"}
                       </span>
                     </div>
@@ -635,7 +635,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         }}
                       >
                         {language === "fr"
-                          ? "Archive des achats"
+                          ? "Archives des Achats"
                           : "أرشيف المشتريات"}
                       </span>
                     </div>
@@ -766,7 +766,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                     }}
                   >
                     {language === "fr"
-                      ? "Autorisation clients"
+                      ? "Authentification Clients"
                       : "مصادقة الزبائن"}
                   </span>
                 </div>
@@ -796,7 +796,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
-                    {language === "fr" ? "Pertes" : "الخسائر"}
+                    {language === "fr" ? "Pertes & Casse" : "الخسائر"}
                   </span>
                 </div>
               </NavLink>
@@ -827,7 +827,7 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
                     }}
                   >
-                    {language === "fr" ? "Publicité" : "الإعلانات"}
+                    {language === "fr" ? "Marketing & Publicité" : "الإعلانات"}
                   </span>
                 </div>
               </NavLink>

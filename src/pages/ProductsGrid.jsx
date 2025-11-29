@@ -375,16 +375,16 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
             <div className="mt-[16px]">
               <form>
                 <div className="flex-col space-y-8 mb-5">
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                     >
-                      {language === "ar" ? "اسم المنتج :" : "Nom du Produit :"}
+                      {language === "ar" ? "اسم المنتج :" : "Nom du Produit:"}
                     </span>
-                    <div className="inputForm">
+                    <div className="inputForm md:w-96">
                       <input
                         style={{
                           fontFamily:
@@ -398,7 +398,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:
@@ -409,7 +409,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                         ? "حجم المنتج :"
                         : "Taille du Produit :"}
                     </span>
-                    <div className="inputForm">
+                    <div className="inputForm md:w-96">
                       <input
                         style={{
                           fontFamily:
@@ -423,7 +423,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:
@@ -434,7 +434,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                         ? "لكل صندوق :"
                         : "Articles par Boîte :"}
                     </span>
-                    <div className="inputForm">
+                    <div className="inputForm md:w-96">
                       <input
                         style={{
                           fontFamily:
@@ -448,7 +448,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       />
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:
@@ -459,7 +459,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                         ? "فئة المنتج :"
                         : "Catégorie de Produit :"}
                     </span>
-                    <div className="selectStoreWilayaCommune w-[500px]">
+                    <div className="selectStoreWilayaCommune w-full md:w-96">
                       <select
                         name="productCategory"
                         style={{
@@ -483,7 +483,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       </select>
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:
@@ -494,7 +494,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                         ? "ماركة المنتج :"
                         : "Marque du Produit :"}
                     </span>
-                    <div className="selectStoreWilayaCommune w-[500px]">
+                    <div className="selectStoreWilayaCommune w-full md:w-96">
                       <select
                         style={{
                           fontFamily:
@@ -518,7 +518,7 @@ export default function ProductsGrid({ onToggle, toggleLanguage, language }) {
                       </select>
                     </div>
                   </div>
-                  <div className="dialogAddCustomerItem">
+                  <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
                     <span
                       style={{
                         fontFamily:

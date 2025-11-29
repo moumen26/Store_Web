@@ -112,22 +112,36 @@ export default function Asidebar({ language }) {
 
   // Style for active submenu items
   const activeSubmenuClass =
-    "bg-[#2388FF] text-white font-medium border-l-2 border-[#2388FF]";
+    "bg-[#2388FF] text-white font-medium  border-[#2388FF]";
   const normalSubmenuClass =
     "text-[#E3EFFF] font-normal hover:bg-[#353E5C] hover:text-white";
 
   return (
     <aside
-      className={`w-[17%] h-screen fixed top-0 ${
-        language === "ar" ? "right-0 border-l" : "left-0 border-r"
-      } border-[#353E5C] bg-[#19213D] shadow-lg overflow-y-auto p-6 pt-10 transition-all duration-300`}
-      style={{
-        scrollbarWidth: "thin",
-        scrollbarColor: "#353E5C #19213D",
-      }}
+      className={`w-[20%] h-screen fixed top-0 flex flex-col ${
+        language === "ar" ? "right-0" : "left-0"
+      } border-[#353E5C] bg-[#19213D] shadow-lg p-6 pt-10 transition-all duration-300`}
     >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          .custom-scrollbar {
+            scrollbar-width: none;
+          }
+          .custom-scrollbar:hover {
+            scrollbar-width: thin;
+          }
+          .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+          .custom-scrollbar:hover::-webkit-scrollbar {
+            display: block;
+          }
+        `,
+        }}
+      />
       {/* Logo */}
-      <div className="flex justify-center items-center mb-6 sm:mb-8 md:mb-9 lg:mb-10">
+      <div className="flex justify-center items-center mb-4 md:mb-6">
         <img
           src={Logo}
           alt="Store Logo"
@@ -135,7 +149,12 @@ export default function Asidebar({ language }) {
         />
       </div>
 
-      <ul className="flex flex-col space-y-1 sm:space-y-1.5 md:space-y-2 list-none p-0 m-0">
+      <ul
+        className="flex w-full overflow-y-auto flex-1 flex-col space-y-1 sm:space-y-1.5 md:space-y-2 list-none p-0 m-0 custom-scrollbar"
+        style={{
+          scrollbarColor: "#353E5C #19213D",
+        }}
+      >
         <li>
           <NavLink
             to="/Dashboard"
@@ -153,11 +172,7 @@ export default function Asidebar({ language }) {
                 location.pathname === "/" || location.pathname === "/Dashboard"
                   ? activeItemClass
                   : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <Squares2X2Icon
                 className={`
@@ -179,7 +194,7 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "fr" ? "Dashboard" : "الرئيسية"}
+                {language === "fr" ? "Tableau de Bord" : "الرئيسية"}
               </span>
             </div>
           </NavLink>
@@ -198,11 +213,7 @@ export default function Asidebar({ language }) {
                   text-xs sm:text-sm md:text-sm lg:text-sm 
                   ${hoverItemClass} transition-all duration-200 ${
                   location.pathname.includes("/Products") ? activeItemClass : ""
-                } ${
-                  language === "ar"
-                    ? "flex-row-reverse border-r-4 pr-3"
-                    : "border-l-4"
-                }`}
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleProductsClick}
               >
                 <div
@@ -271,7 +282,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Stocks des produits"
+                        ? "Liste des Produits"
                         : "مخزون المنتجات"}
                     </span>
                   </div>
@@ -303,7 +314,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Liste des produits"
+                        ? "Catalogue Produits"
                         : "قائمة المنتجات"}
                     </span>
                   </div>
@@ -331,11 +342,7 @@ export default function Asidebar({ language }) {
                   location.pathname.includes("OrdersArchive")
                     ? activeItemClass
                     : ""
-                } ${
-                  language === "ar"
-                    ? "flex-row-reverse border-r-4 pr-3"
-                    : "border-l-4"
-                }`}
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleOrdersClick}
               >
                 <div
@@ -407,7 +414,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Dernières commandes"
+                        ? "Commandes Récentes"
                         : "أحدث الطلبات"}
                     </span>
                   </div>
@@ -439,7 +446,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Commandes en cours"
+                        ? "Commandes en Préparation"
                         : "الطلبات قيد التحضير"}
                     </span>
                   </div>
@@ -471,7 +478,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Commandes à crédit"
+                        ? "Commandes à Crédit"
                         : "الطلبات بالائتمان"}
                     </span>
                   </div>
@@ -502,9 +509,7 @@ export default function Asidebar({ language }) {
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                     >
-                      {language === "fr"
-                        ? "Commandes de retour"
-                        : "طلبات الإرجاع"}
+                      {language === "fr" ? "Retours Clients" : "طلبات الإرجاع"}
                     </span>
                   </div>
                 </NavLink>
@@ -535,7 +540,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Archive des commandes"
+                        ? "Archives des Commandes"
                         : "أرشيف الطلبات"}
                     </span>
                   </div>
@@ -563,11 +568,7 @@ export default function Asidebar({ language }) {
                   location.pathname.includes("PuchasesArchive")
                     ? activeItemClass
                     : ""
-                } ${
-                  language === "ar"
-                    ? "flex-row-reverse border-r-4 pr-3"
-                    : "border-l-4"
-                }`}
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleAchatsClick}
               >
                 <div
@@ -638,7 +639,7 @@ export default function Asidebar({ language }) {
                           language === "ar" ? "Cairo-Regular, sans-serif" : "",
                       }}
                     >
-                      {language === "fr" ? "Derniers achats" : "أحدث المشتريات"}
+                      {language === "fr" ? "Achats Récents" : "أحدث المشتريات"}
                     </span>
                   </div>
                 </NavLink>
@@ -669,7 +670,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Achats à crédit"
+                        ? "Achats à Crédit"
                         : "المشتريات بالائتمان"}
                     </span>
                   </div>
@@ -701,7 +702,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Retours d'achats"
+                        ? "Retours Fournisseurs"
                         : "إرجاع المشتريات"}
                     </span>
                   </div>
@@ -733,7 +734,7 @@ export default function Asidebar({ language }) {
                       }}
                     >
                       {language === "fr"
-                        ? "Archive des achats"
+                        ? "Archives des Achats"
                         : "أرشيف المشتريات"}
                     </span>
                   </div>
@@ -758,11 +759,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Customers" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserGroupIcon
                 className={`
@@ -804,11 +801,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Vendors" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UsersIcon
                 className={`
@@ -848,11 +841,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Fournisseurs" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserIcon
                 className={`
@@ -894,11 +883,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Authentication" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserPlusIcon
                 className={`
@@ -919,7 +904,9 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "fr" ? "Autorisation clients" : "مصادقة الزبائن"}
+                {language === "fr"
+                  ? "Authentification Clients"
+                  : "مصادقة الزبائن"}
               </span>
             </div>
           </NavLink>
@@ -940,11 +927,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Losses" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <ArrowTrendingDownIcon
                 className={`
@@ -963,7 +946,7 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "fr" ? "Pertes" : "الخسائر"}
+                {language === "fr" ? "Pertes & Casse" : "الخسائر"}
               </span>
             </div>
           </NavLink>
@@ -984,11 +967,7 @@ export default function Asidebar({ language }) {
                 text-xs sm:text-sm md:text-sm lg:text-sm 
                 ${hoverItemClass} transition-all duration-200 ${
                 location.pathname === "/Publicite" ? activeItemClass : ""
-              } ${
-                language === "ar"
-                  ? "flex-row-reverse border-r-4 pr-3"
-                  : "border-l-4"
-              }`}
+              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <DevicePhoneMobileIcon
                 className={`
@@ -1009,7 +988,7 @@ export default function Asidebar({ language }) {
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
                 }}
               >
-                {language === "fr" ? "Publicité" : "الإعلانات"}
+                {language === "fr" ? "Marketing & Publicité" : "الإعلانات"}
               </span>
             </div>
           </NavLink>

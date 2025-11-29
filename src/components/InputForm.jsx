@@ -2,9 +2,8 @@ import {
   EnvelopeIcon,
   LockClosedIcon,
   PhoneIcon,
-  EyeIcon,
-  EyeSlashIcon,
 } from "@heroicons/react/16/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 
 export default function InputForm({
@@ -67,13 +66,18 @@ export default function InputForm({
   return (
     <div className="inputItem">
       <span
+        className="text-sm md:text-base"
         style={{
           fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
         }}
       >
         {labelForm}
       </span>
-      <div className={`inputForm ${language === "ar" ? "gap-x-2" : ""}`}>
+      <div
+        className={`inputForm flex flex-col sm:flex-row ${
+          language === "ar" ? "gap-x-2" : ""
+        }`}
+      >
         {/* Main icon (phone, lock, envelope) */}
         {iconComponent}
 
@@ -85,6 +89,7 @@ export default function InputForm({
           value={value}
           readOnly={readOnly}
           min={0}
+          className="w-full text-sm md:text-base px-2 py-1 md:px-3 md:py-2"
         />
 
         {/* Eye icon for password fields */}
@@ -106,9 +111,9 @@ export default function InputForm({
             }}
           >
             {showPassword ? (
-              <EyeSlashIcon className="inputIcon" />
+              <EyeSlashIcon className="w-4 h-4 md:w-5 md:h-5 text-[#0d3a71]" />
             ) : (
-              <EyeIcon className="inputIcon" />
+              <EyeIcon className="w-4 h-4 md:w-5 md:h-5 text-[#0d3a71]" />
             )}
           </button>
         )}

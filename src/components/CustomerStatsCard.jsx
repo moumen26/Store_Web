@@ -14,9 +14,7 @@ export default function CustomerStatsCard({
 
   // Dynamically set the colors based on customerStatsCardTitle
   switch (customerStatsCardTitle) {
-    case language === "ar"
-      ? "عدد إجمالي الطلبات"
-      : "Nombre Total des commandes":
+    case language === "ar" ? "إجمالي الطلبات" : "Total des commandes":
       iconComponent = <DocumentChartBarIcon className="iconPages" />;
       titleColor = "#007bff"; // Blue for orders
       amountColor = "#007bff"; // Blue for amount
@@ -56,9 +54,7 @@ export default function CustomerStatsCard({
   // Handle span component for currency
   let spanComponent =
     customerStatsCardTitle ===
-      (language === "ar"
-        ? "عدد إجمالي الطلبات"
-        : "Nombre Total des commandes") ||
+      (language === "ar" ? "إجمالي الطلبات" : "Total des commandes") ||
     customerStatsCardTitle ===
       (language === "ar" ? "إجمالي المشتريات" : "Total des achats")
       ? ""

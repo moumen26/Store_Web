@@ -148,7 +148,7 @@ export default function DashboardCalendar({ onDateChange, language }) {
             }}
             className={language === "ar" ? "ml-4" : ""}
           >
-            {language === "fr" ? "Début :" : "تاريخ البدء : "}
+            {language === "fr" ? "Début:" : "تاريخ البدء: "}
           </label>
           <Calendar
             id="startDate"
@@ -177,7 +177,7 @@ export default function DashboardCalendar({ onDateChange, language }) {
             }}
             className={language === "ar" ? "ml-4" : ""}
           >
-            {language === "fr" ? "Fin :" : " تاريخ الانتهاء :"}
+            {language === "fr" ? "Fin:" : " تاريخ الانتهاء:"}
           </label>
           <Calendar
             id="endDate"

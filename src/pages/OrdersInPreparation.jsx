@@ -120,7 +120,7 @@ export default function OrdersInPreparation({
         <OrderCard
           language={language}
           orderCardTitle={
-            language === "ar" ? "عدد الطلبيات" : "Nombre total des Commandes"
+            language === "ar" ? "عدد الطلبات" : "Nombre total des Commandes"
           }
           className="flex-shrink-0 w-[280px] md:w-full"
           orderCardDetails={summaryData.totalOrders}
@@ -189,12 +189,12 @@ export default function OrdersInPreparation({
             <PageSizeSelect
               pageSize={paginationInfo.items_per_page}
               onPageSizeChange={(newPageSize) => {
-                setPaginationInfo(prev => ({
+                setPaginationInfo((prev) => ({
                   ...prev,
                   items_per_page: newPageSize,
-                  current_page: 1
+                  current_page: 1,
                 }));
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
               language={language}
               options={[10, 25, 50, 100]}

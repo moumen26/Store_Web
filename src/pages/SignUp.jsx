@@ -131,12 +131,9 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
   };
 
   return (
-    <div className="signUp" style={{ overflowX: "hidden", maxWidth: "100vw" }}>
+    <div className="w-full fixed top-0 left-0 z-[99] bg-white overflow-x-hidden max-w-full">
       {/* Header */}
-      <div
-        className="w-full min-h-[80px] sm:h-[80px] flex justify-between items-center px-4 md:pl-10 md:pr-10 py-4 sm:py-0 border-b-2 border-[#C9E4EE] relative bg-white z-50"
-        style={{ maxWidth: "100vw" }}
-      >
+      <div className="w-full min-h-[80px] sm:h-[80px] flex justify-between items-center px-4 md:pl-10 md:pr-10 py-4 sm:py-0 border-b-2 border-[#C9E4EE] relative bg-white z-50 max-w-full">
         <div className="flex items-center space-x-2">
           <img src={Logo} alt="Store Logo" className="h-5 md:h-6" />
         </div>
@@ -232,7 +229,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             }`}
           >
             <span
-              className="headerText alreadyText text-xs sm:text-sm md:text-base"
+              className="text-[#888888] text-xs sm:text-sm md:text-base"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -249,7 +246,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             >
               <a
                 href="/SignIn"
-                className="headerText signInText text-xs sm:text-sm md:text-base"
+                className="text-black font-bold w-fit text-xs sm:text-sm md:text-base"
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -259,7 +256,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
               </a>
               <ChevronRightIcon
                 color="#0d3a71"
-                className={`iconAsideBar w-4 h-4 md:w-5 md:h-5 ${
+                className={`w-4 h-4 md:w-5 md:h-5 ${
                   language === "ar" ? "mr-1" : "ml-1"
                 }`}
               />
@@ -278,24 +275,23 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
       {/* Main Content */}
       <div
-        className={`w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden ${
+        className={`w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden max-w-full ${
           language === "ar" ? "flex-row-reverse" : "flex-row"
         }`}
-        style={{ maxWidth: "100vw" }}
       >
         {/* Form Container */}
         <div
-          className={`signUpContainerRight w-full h-full lg:w-2/3 ${
+          className={`w-full h-full lg:w-1/2 px-[5%] py-[10%] md:py-[3%] ${
             language === "ar" ? "lg:border-l-2" : "lg:border-r-2"
           } border-[#C9E4EE] bg-white`}
         >
           <div
-            className={`signUpContainerRightContainer ${
+            className={`h-auto flex flex-col gap-6 relative ${
               language === "ar" ? "text-right" : "text-left"
             }`}
           >
             <h2
-              className="titleText"
+              className="text-4xl md:text-[2.5rem] font-bold leading-snug"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -306,7 +302,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                 : "Développez votre magasin avec MOSAGRO"}
             </h2>
             <span
-              className="spanText"
+              className="text-xs text-[#888888]"
               style={{
                 fontFamily:
                   language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -353,14 +349,16 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
           </div>
         </div>
 
-        {/* --- NEW IMAGE/MOCKUP SECTION (Replaced the old Image) --- */}
-        <div className="mobile-hidden w-full lg:w-1/2 h-full relative flex items-center justify-center overflow-hidden">
+        {/* --- IMAGE/MOCKUP SECTION --- */}
+        <div className="hidden lg:!flex lg:w-1/2 h-full relative items-center justify-center overflow-hidden">
           {/* Mockup Container */}
           <div className="relative z-10 w-full max-w-[600px] h-[400px] flex items-center justify-center px-8">
             {/* Platform (MacBook) - Back */}
             <motion.div
               style={{ x: xSpring, y: ySpring }}
-              className={`absolute ${isRTL ? '-left-20' : '-right-20'} z-10 w-[95%] transform perspective-1000`}
+              className={`absolute ${
+                isRTL ? "-left-20" : "-right-20"
+              } z-10 w-[95%] transform perspective-1000`}
             >
               <div className="bg-[#C9E4EE] rounded-lg p-[1px] shadow-sm border border-[#C9E4EE]">
                 <div className="relative aspect-[16/10] bg-[#C9E4EE] rounded-lg overflow-hidden border-b border-[#C9E4EE]">

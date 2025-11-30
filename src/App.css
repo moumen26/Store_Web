@@ -1668,7 +1668,7 @@ aside ul::-webkit-scrollbar {
 } */
 
 .signUpContainerRight {
-  width: 60%;
+  /* width: 60%; - Removed to allow Tailwind classes to control width */
   /* height: calc(100vh - 80px); */
 }
 
@@ -2333,7 +2333,7 @@ aside ul::-webkit-scrollbar {
   }
 
   .signUpContainerRight {
-    width: 100%;
+    /* width: 100%; - Controlled by Tailwind */
     border: 0;
     padding-top: 3rem;
   }

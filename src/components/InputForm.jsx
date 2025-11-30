@@ -73,11 +73,7 @@ export default function InputForm({
       >
         {labelForm}
       </span>
-      <div
-        className={`inputForm flex flex-col sm:flex-row ${
-          language === "ar" ? "gap-x-2" : ""
-        }`}
-      >
+      <div className={`inputForm ${language === "ar" ? "gap-x-2" : ""}`}>
         {/* Main icon (phone, lock, envelope) */}
         {iconComponent}
 

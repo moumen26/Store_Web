@@ -9,6 +9,7 @@ import macFrImg from "../assets/images/Dash-fr.png";
 import macArImg from "../assets/images/Dash-ar.png";
 import phoneImg from "../assets/images/phone.png";
 import tapeImg from "../assets/landing.png";
+import apkFile from "../assets/mosagro.apk";
 
 // --- 2. UI COMPONENTS ---
 
@@ -34,6 +35,16 @@ const GlassButton = ({ children, primary, className, ...props }) => (
 export default function Landing() {
   const [lang, setLang] = useState("fr");
   const navigate = useNavigate();
+
+  // --- Download APK Handler ---
+  const handleDownloadAPK = () => {
+    const link = document.createElement("a");
+    link.href = apkFile;
+    link.download = "mosagro.apk";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // --- Parallax Logic ---
   const mouseX = useMotionValue(0);
@@ -87,7 +98,7 @@ export default function Landing() {
 
   return (
     <div
-      className="relative w-full h-screen bg-[#0F1528] text-white overflow-hidden selection:bg-[#4FABF3] selection:text-white"
+      className="relative w-full min-h-screen bg-[#0F1528] text-white md:overflow-hidden overflow-auto selection:bg-[#4FABF3] selection:text-white"
       // --- EXACT STRUCTURE AS DASHBOARD ---
       style={{
         direction: lang === "ar" ? "rtl" : "ltr",
@@ -110,7 +121,7 @@ export default function Landing() {
       <div
         className={`absolute -top-24 p-0 ${isRTL ? "-left-10" : "-right-10"} ${
           isRTL ? "rotate-[0deg]" : "rotate-[30deg]"
-        } w-[50%] z-0 opacity-90 pointer-events-none select-none`}
+        } w-[50%] lg:w-[50%] md:w-[40%] sm:w-[30%] z-0 opacity-90 pointer-events-none select-none hidden lg:block`}
       >
         <img
           src={tapeImg}
@@ -152,7 +163,7 @@ export default function Landing() {
       </nav>
 
       {/* --- MAIN HERO CONTENT (100vh Centered) --- */}
-      <main className="relative z-10 w-full h-full flex flex-col justify-center pt-12">
+      <main className="relative z-10 w-full h-full flex flex-col justify-center pt-24 md:pt-12">
         <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-12 lg:px-12 gap-6 lg:gap-8 items-center">
           {/* LEFT: Text Content */}
           <motion.div
@@ -217,6 +228,7 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <GlassButton
                 primary
+                onClick={handleDownloadAPK}
                 className="w-full sm:w-auto justify-center !py-2.5 !px-5"
               >
                 <Smartphone size={18} />
@@ -232,7 +244,7 @@ export default function Landing() {
                 </span>
               </GlassButton>
               <GlassButton
-                onClick={() => navigate('/SignIn')}
+                onClick={() => navigate("/SignIn")}
                 className="w-full sm:w-auto justify-center !py-2.5 !px-5"
               >
                 <Layers size={18} />

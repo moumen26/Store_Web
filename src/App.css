@@ -907,7 +907,7 @@ aside ul::-webkit-scrollbar {
   font-size: 14px;
   color: var(--blackColor);
   font-family: Montserrat-Medium;
-  whitespace: "nowrap";
+  white-space: nowrap;
 }
 
 .thDetails,

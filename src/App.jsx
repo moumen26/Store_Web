@@ -36,7 +36,7 @@ import ReturnsPurchases from "./pages/ReturnsPurchases";
 import ReturnsOrders from "./pages/ReturnsOrders";
 import AsidebarScreenMedia from "./components/AsidebarScreenMedia";
 import ForgotPassword from "./pages/ForgotPassword";
-import Logo from "../src/assets/Logo-error.png";
+import Logo from "/Logo-error.png";
 import Landing from "./pages/Landing";
 
 function App() {

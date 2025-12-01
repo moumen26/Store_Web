@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
-import ElioImage from "../assets/images/Elio.png";
-import PrilImage from "../assets/images/Pril.png";
 import Modal from "react-modal";
-import ProductProfileDetails from "./ProductProfileDetails";
-import ProductHistorique from "./ProductHistorique";
-import ButtonAdd from "./ButtonAdd";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { TokenDecoder } from "../util/DecodeToken";
 import { useQuery } from "@tanstack/react-query";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UpAccountImage from "../assets/images/phone2.png";
+import UpAccountImage from "/images/phone2.png";
 import InputForm from "../components/InputForm";
 import ButtonDark from "../components/ButtonDark";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -14,7 +14,7 @@ import { TokenDecoder } from "../util/DecodeToken";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Modal from "react-modal";
 
-import Logo from "../assets/Logo-mosagro.png";
+import Logo from "/Logo-mosagro.png";
 
 export default function UpYourAccount(language, onToggle, toggleLanguage) {
   const { user } = useAuthContext();

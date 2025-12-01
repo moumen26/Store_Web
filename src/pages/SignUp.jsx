@@ -4,14 +4,14 @@ import { CheckCircle2 } from "lucide-react"; // Added for the phone badge
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"; // Added for animation
 
 // Assets
-import Logo from "../assets/Logo-mosagro.png";
-import franceIcon from "../assets/icons/france-icon.png";
-import arabicIcon from "../assets/icons/arab-icon.png";
+import Logo from "/Logo-mosagro.png";
+import franceIcon from "/icons/france-icon.png";
+import arabicIcon from "/icons/arab-icon.png";
 
 // Images for the Mockup
-import macFrImg from "../assets/images/Dash-fr.png";
-import macArImg from "../assets/images/Dash-ar.png";
-import phoneImg from "../assets/images/phone.png";
+import macFrImg from "/images/Dash-fr.png";
+import macArImg from "/images/Dash-ar.png";
+import phoneImg from "/images/phone.png";
 
 import ButtonFacebok from "../components/ButtonFacebok";
 import InputForm from "../components/InputForm";
@@ -155,20 +155,18 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                   {currentLanguage?.shortName}
                 </span>
                 <ChevronRightIcon
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
-                    showLanguageMenu ? "rotate-90" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showLanguageMenu ? "rotate-90" : ""
+                    }`}
                 />
               </div>
             </div>
 
             {/* Language Dropdown Menu */}
             <div
-              className={`absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${
-                showLanguageMenu
-                  ? "scale-100 opacity-100"
-                  : "scale-95 opacity-0 pointer-events-none"
-              } transition-transform duration-200 ease-out overflow-hidden`}
+              className={`absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${showLanguageMenu
+                ? "scale-100 opacity-100"
+                : "scale-95 opacity-0 pointer-events-none"
+                } transition-transform duration-200 ease-out overflow-hidden`}
               style={{
                 maxWidth: "calc(100vw - 2rem)",
                 right: language === "ar" ? "0" : "0",
@@ -178,11 +176,10 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                 {languageOptions.map((lang) => (
                   <div
                     key={lang.code}
-                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
-                      language === lang.code
-                        ? "bg-blue-50 border-r-2 border-blue-500"
-                        : ""
-                    } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
+                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${language === lang.code
+                      ? "bg-blue-50 border-r-2 border-blue-500"
+                      : ""
+                      } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
                     onClick={() => {
                       toggleLanguage(lang.code);
                       setShowLanguageMenu(false);
@@ -195,11 +192,10 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                     />
                     <div className="flex flex-col">
                       <span
-                        className={`text-sm font-medium ${
-                          language === lang.code
-                            ? "text-blue-700"
-                            : "text-gray-700"
-                        }`}
+                        className={`text-sm font-medium ${language === lang.code
+                          ? "text-blue-700"
+                          : "text-gray-700"
+                          }`}
                         style={{
                           fontFamily:
                             lang.code === "ar"
@@ -224,9 +220,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
           {/* Sign In Section */}
           <div
-            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${
-              language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
-            }`}
+            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
+              }`}
           >
             <span
               className="text-[#888888] text-xs sm:text-sm md:text-base"
@@ -240,9 +235,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
                 : "Vous avez déjà un compte ?"}
             </span>
             <div
-              className={`flex items-center w-fit ${
-                language === "ar" ? "flex-row-reverse" : ""
-              }`}
+              className={`flex items-center w-fit ${language === "ar" ? "flex-row-reverse" : ""
+                }`}
             >
               <a
                 href="/SignIn"
@@ -256,9 +250,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
               </a>
               <ChevronRightIcon
                 color="#0d3a71"
-                className={`w-4 h-4 md:w-5 md:h-5 ${
-                  language === "ar" ? "mr-1" : "ml-1"
-                }`}
+                className={`w-4 h-4 md:w-5 md:h-5 ${language === "ar" ? "mr-1" : "ml-1"
+                  }`}
               />
             </div>
           </div>
@@ -275,20 +268,17 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
 
       {/* Main Content */}
       <div
-        className={`w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden max-w-full ${
-          language === "ar" ? "flex-row-reverse" : "flex-row"
-        }`}
+        className={`w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden max-w-full ${language === "ar" ? "flex-row-reverse" : "flex-row"
+          }`}
       >
         {/* Form Container */}
         <div
-          className={`w-full h-full lg:w-1/2 px-[5%] py-[10%] md:py-[3%] ${
-            language === "ar" ? "lg:border-l-2" : "lg:border-r-2"
-          } border-[#C9E4EE] bg-white`}
+          className={`w-full h-full lg:w-1/2 px-[5%] py-[10%] md:py-[3%] ${language === "ar" ? "lg:border-l-2" : "lg:border-r-2"
+            } border-[#C9E4EE] bg-white`}
         >
           <div
-            className={`h-auto flex flex-col gap-6 relative ${
-              language === "ar" ? "text-right" : "text-left"
-            }`}
+            className={`h-auto flex flex-col gap-6 relative ${language === "ar" ? "text-right" : "text-left"
+              }`}
           >
             <h2
               className="text-4xl md:text-[2.5rem] font-bold leading-snug"
@@ -298,7 +288,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
               }}
             >
               {language === "ar"
-                ? "قم بتوسيع متجرك مع موزاغرو"
+                ? "قم بتوسيع متجرك مع موزاجرو"
                 : "Développez votre magasin avec MOSAGRO"}
             </h2>
             <span
@@ -309,7 +299,7 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
               }}
             >
               {language === "ar"
-                ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع موزاغرو كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
+                ? "من إدارة المخزون إلى تتبع الطلبات والتواصل المباشر مع عملائك، يجمع موزاجرو كل عملياتك التجارية في مكان واحد. وفر الوقت، خفض التكاليف، وحسّن إنتاجيتك."
                 : "De la gestion des stocks au suivi des commandes et au contact direct avec vos clients, MOSAGRO centralise toutes vos opérations commerciales en un seul endroit. Gagnez du temps, réduisez vos coûts et améliorez votre productivité."}
             </span>
 
@@ -356,9 +346,8 @@ export default function SignUp({ onToggle, language, toggleLanguage }) {
             {/* Platform (MacBook) - Back */}
             <motion.div
               style={{ x: xSpring, y: ySpring }}
-              className={`absolute ${
-                isRTL ? "-left-20" : "-right-20"
-              } z-10 w-[95%] transform perspective-1000`}
+              className={`absolute ${isRTL ? "-left-20" : "-right-20"
+                } z-10 w-[95%] transform perspective-1000`}
             >
               <div className="bg-[#C9E4EE] rounded-lg p-[1px] shadow-sm border border-[#C9E4EE]">
                 <div className="relative aspect-[16/10] bg-[#C9E4EE] rounded-lg overflow-hidden border-b border-[#C9E4EE]">

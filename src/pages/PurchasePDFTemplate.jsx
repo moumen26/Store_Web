@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import JsBarcode from "jsbarcode";
 
-import Logo from "../assets/Logo-mosagro.png"; // Adjust the path as necessary
+import Logo from "/Logo-mosagro.png"; // Adjust the path as necessary
 
 export default function PurchasePDFTemplate({
   purchaseData,
@@ -66,35 +66,29 @@ export default function PurchasePDFTemplate({
 
     const boxText =
       language === "ar"
-        ? `${
-            totalBoxes > 0
-              ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
-              : ""
-          }`
-        : `${
-            totalBoxes > 0
-              ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
-              : ""
-          }`;
+        ? `${totalBoxes > 0
+          ? `${totalBoxes} ${totalBoxes === 1 ? "علبة" : "علب"}`
+          : ""
+        }`
+        : `${totalBoxes > 0
+          ? `${totalBoxes} ${totalBoxes === 1 ? "boîte" : "boîtes"}`
+          : ""
+        }`;
 
     const itemsText =
       language === "ar"
-        ? `${
-            remainingItems > 0
-              ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
-              : ""
+        ? `${remainingItems > 0
+          ? ` ${remainingItems} ${remainingItems === 1 ? "قطعة" : "قطع"}`
+          : ""
+        }`
+        : `${remainingItems > 0
+          ? ` ${remainingItems} ${remainingItems === 1 ? "pièce" : "pièces"
           }`
-        : `${
-            remainingItems > 0
-              ? ` ${remainingItems} ${
-                  remainingItems === 1 ? "pièce" : "pièces"
-                }`
-              : ""
-          }`;
+          : ""
+        }`;
 
-    return `${boxText}${
-      totalBoxes > 0 && remainingItems > 0 ? "+" : ""
-    }${itemsText}`;
+    return `${boxText}${totalBoxes > 0 && remainingItems > 0 ? "+" : ""
+      }${itemsText}`;
   };
 
   return (
@@ -319,8 +313,8 @@ export default function PurchasePDFTemplate({
                   ? "مدفوع"
                   : "Payé"
                 : language === "ar"
-                ? "غير مدفوع"
-                : "Non payé"}
+                  ? "غير مدفوع"
+                  : "Non payé"}
             </span>
           </div>
 
@@ -344,12 +338,12 @@ export default function PurchasePDFTemplate({
                   ? "عربون"
                   : "Acompte"
                 : purchaseData?.credit
-                ? language === "ar"
-                  ? "آجل"
-                  : "Crédit"
-                : language === "ar"
-                ? "نقدي"
-                : "Comptant"}
+                  ? language === "ar"
+                    ? "آجل"
+                    : "Crédit"
+                  : language === "ar"
+                    ? "نقدي"
+                    : "Comptant"}
             </span>
           </div>
         </div>
@@ -856,7 +850,7 @@ export default function PurchasePDFTemplate({
               {language === "ar" ? "المتبقي:" : "Reste à payer:"}{" "}
               {formatNumber(
                 purchaseData.totalAmount -
-                  purchaseData.payment.reduce((sum, pay) => sum + pay.amount, 0)
+                purchaseData.payment.reduce((sum, pay) => sum + pay.amount, 0)
               )}{" "}
               {language === "ar" ? "دج" : "DA"}
             </div>
@@ -902,8 +896,8 @@ export default function PurchasePDFTemplate({
               {language === "ar"
                 ? `تاريخ الطباعة: ${new Date().toLocaleDateString("ar-DZ")}`
                 : `Date d'impression: ${new Date().toLocaleDateString(
-                    "fr-FR"
-                  )}`}
+                  "fr-FR"
+                )}`}
             </div>
           </div>
 

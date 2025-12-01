@@ -1,5 +1,5 @@
 import React from "react";
-import FacebokIcon from "../assets/icons/FacebookLight.png";
+import FacebokIcon from "/icons/FacebookLight.png";
 
 export default function ButtonFacebok({ language }) {
   const isArabic = language === "ar";

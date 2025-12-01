@@ -5,9 +5,9 @@ import ButtonDark from "../components/ButtonDark";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import Logo from "../assets/Logo-mosagro.png";
-import franceIcon from "../assets/icons/france-icon.png";
-import arabicIcon from "../assets/icons/arab-icon.png";
+import Logo from "/Logo-mosagro.png";
+import franceIcon from "/icons/france-icon.png";
+import arabicIcon from "/icons/arab-icon.png";
 
 export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
   const [phoneNumber, setPhoneNumber] = useState("+213");
@@ -304,20 +304,18 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                   {currentLanguage?.shortName}
                 </span>
                 <ChevronRightIcon
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
-                    showLanguageMenu ? "rotate-90" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showLanguageMenu ? "rotate-90" : ""
+                    }`}
                 />
               </div>
             </div>
 
             {/* Language Dropdown Menu */}
             <div
-              className={`absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${
-                showLanguageMenu
+              className={`absolute top-10 right-0 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${showLanguageMenu
                   ? "scale-100 opacity-100"
                   : "scale-95 opacity-0 pointer-events-none"
-              } transition-transform duration-200 ease-out overflow-hidden`}
+                } transition-transform duration-200 ease-out overflow-hidden`}
               style={{
                 maxWidth: "calc(100vw - 2rem)",
                 right: language === "ar" ? "0" : "0",
@@ -327,11 +325,10 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 {languageOptions.map((lang) => (
                   <div
                     key={lang.code}
-                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
-                      language === lang.code
+                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${language === lang.code
                         ? "bg-blue-50 border-r-2 border-blue-500"
                         : ""
-                    } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
+                      } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
                     onClick={() => {
                       toggleLanguage(lang.code);
                       setShowLanguageMenu(false);
@@ -344,11 +341,10 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                     />
                     <div className="flex flex-col">
                       <span
-                        className={`text-sm font-medium ${
-                          language === lang.code
+                        className={`text-sm font-medium ${language === lang.code
                             ? "text-blue-700"
                             : "text-gray-700"
-                        }`}
+                          }`}
                         style={{
                           fontFamily:
                             lang.code === "ar"
@@ -373,9 +369,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
           {/* Back to Sign In Section */}
           <div
-            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${
-              language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
-            }`}
+            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
+              }`}
           >
             <span
               className="headerText alreadyText text-xs sm:text-sm md:text-base"
@@ -389,9 +384,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 : "Vous vous souvenez de votre mot de passe ?"}
             </span>
             <div
-              className={`flex items-center w-fit ${
-                language === "ar" ? "flex-row-reverse" : ""
-              }`}
+              className={`flex items-center w-fit ${language === "ar" ? "flex-row-reverse" : ""
+                }`}
             >
               <a
                 href="/SignIn"
@@ -405,9 +399,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
               </a>
               <ChevronRightIcon
                 color="#0d3a71"
-                className={`iconAsideBar w-4 h-4 md:w-5 md:h-5 ${
-                  language === "ar" ? "mr-1" : "ml-1"
-                }`}
+                className={`iconAsideBar w-4 h-4 md:w-5 md:h-5 ${language === "ar" ? "mr-1" : "ml-1"
+                  }`}
               />
             </div>
           </div>
@@ -429,9 +422,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
       >
         <div className="forgotPasswordContainerRightContainer">
           <h2
-            className={`titleText text-center ${
-              language === "ar" ? "font-cairo-Regular" : ""
-            }`}
+            className={`titleText text-center ${language === "ar" ? "font-cairo-Regular" : ""
+              }`}
             style={{
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
@@ -441,9 +433,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
               : "Récupération du mot de passe"}
           </h2>
           <div
-            className={`logInForm ${
-              language === "ar" ? "text-right" : "text-left"
-            }`}
+            className={`logInForm ${language === "ar" ? "text-right" : "text-left"
+              }`}
           >
             {step === "request" && (
               <form
@@ -452,9 +443,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 className="forgotPasswordForm"
               >
                 <p
-                  className={`text-gray-600 ${
-                    language === "ar" ? "font-cairo-Regular" : ""
-                  }`}
+                  className={`text-gray-600 ${language === "ar" ? "font-cairo-Regular" : ""
+                    }`}
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -495,9 +485,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 className="forgotPasswordForm"
               >
                 <p
-                  className={`text-gray-600 ${
-                    language === "ar" ? "font-cairo-Regular" : ""
-                  }`}
+                  className={`text-gray-600 ${language === "ar" ? "font-cairo-Regular" : ""
+                    }`}
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -510,9 +499,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
                 {/* Verification code input section */}
                 <div
-                  className={`flex justify-center ${
-                    language === "ar" ? "flex-row-reverse" : ""
-                  } space-x-4 mt-6 mb-6`}
+                  className={`flex justify-center ${language === "ar" ? "flex-row-reverse" : ""
+                    } space-x-4 mt-6 mb-6`}
                 >
                   {verificationCode.map((digit, index) => (
                     <input
@@ -530,9 +518,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
                 {/* Resend code button with improved styling */}
                 <div
-                  className={`mb-6 flex ${
-                    language === "ar" ? "justify-end" : "justify-start"
-                  }`}
+                  className={`mb-6 flex ${language === "ar" ? "justify-end" : "justify-start"
+                    }`}
                 >
                   <button
                     type="button"
@@ -559,9 +546,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
 
                 {/* Return button with improved styling */}
                 <div
-                  className={`mt-5 flex ${
-                    language === "ar" ? "justify-end" : "justify-start"
-                  }`}
+                  className={`mt-5 flex ${language === "ar" ? "justify-end" : "justify-start"
+                    }`}
                 >
                   <button
                     type="button"
@@ -620,9 +606,8 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
                 dir={language === "ar" ? "rtl" : "ltr"}
               >
                 <p
-                  className={`text-gray-600 ${
-                    language === "ar" ? "font-cairo-Regular" : ""
-                  }`}
+                  className={`text-gray-600 ${language === "ar" ? "font-cairo-Regular" : ""
+                    }`}
                   style={{
                     fontFamily:
                       language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -680,11 +665,10 @@ export default function ForgotPassword({ onToggle, language, toggleLanguage }) {
             )}
 
             <div
-              className={`flex w-full justify-center items-center mt-6 ${
-                language === "ar"
+              className={`flex w-full justify-center items-center mt-6 ${language === "ar"
                   ? "flex-row-reverse space-x-reverse"
                   : "space-x-2"
-              }`}
+                }`}
             >
               <span
                 className="headerText alreadyText"

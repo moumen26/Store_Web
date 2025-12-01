@@ -1,26 +1,26 @@
 @font-face {
   font-family: Montserrat;
-  src: url(./assets/fonts/Montserrat-Regular.ttf);
+  src: url(/fonts/Montserrat-Regular.ttf);
 }
 
 @font-face {
   font-family: Montserrat-Medium;
-  src: url(./assets/fonts/Montserrat-Medium.ttf);
+  src: url(/fonts/Montserrat-Medium.ttf);
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url(./assets/fonts/Montserrat-Bold.ttf);
+  src: url(/fonts/Montserrat-Bold.ttf);
 }
 
 @font-face {
   font-family: Cairo;
-  src: url(./assets/fonts/Cairo-Light.ttf);
+  src: url(/fonts/Cairo-Light.ttf);
 }
 
 @font-face {
   font-family: Cairo-Regular;
-  src: url(./assets/fonts/Cairo-Regular.ttf);
+  src: url(/fonts/Cairo-Regular.ttf);
 }
 
 .arabicText {

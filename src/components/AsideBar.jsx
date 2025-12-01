@@ -15,7 +15,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
-import Logo from "../assets/Dark.png";
+import Logo from "/Dark.png";
 
 // Updated color scheme matching your #19213D palette
 const tailwindColors = {
@@ -118,9 +118,8 @@ export default function Asidebar({ language }) {
 
   return (
     <aside
-      className={`w-[20%] h-screen fixed top-0 flex flex-col ${
-        language === "ar" ? "right-0" : "left-0"
-      } border-[#353E5C] bg-[#19213D] shadow-lg p-6 pt-10 transition-all duration-300`}
+      className={`w-[20%] h-screen fixed top-0 flex flex-col ${language === "ar" ? "right-0" : "left-0"
+        } border-[#353E5C] bg-[#19213D] shadow-lg p-6 pt-10 transition-all duration-300`}
     >
       <style
         dangerouslySetInnerHTML={{
@@ -168,27 +167,24 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/" || location.pathname === "/Dashboard"
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/" || location.pathname === "/Dashboard"
                   ? activeItemClass
                   : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <Squares2X2Icon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/" ||
+                  ${location.pathname === "/" ||
                     location.pathname === "/Dashboard"
-                      ? "text-white"
-                      : iconClass
+                    ? "text-white"
+                    : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -211,30 +207,26 @@ export default function Asidebar({ language }) {
                   rounded-lg ${normalItemClass} font-medium 
                   /* Responsive text size */
                   text-xs sm:text-sm md:text-sm lg:text-sm 
-                  ${hoverItemClass} transition-all duration-200 ${
-                  location.pathname.includes("/Products") ? activeItemClass : ""
-                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                  ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Products") ? activeItemClass : ""
+                  } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleProductsClick}
               >
                 <div
-                  className={`flex items-center ${
-                    language === "ar" ? "flex-row-reverse" : ""
-                  }`}
+                  className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                 >
                   <ArchiveBoxIcon
                     className={`
                       /* Responsive icon size */
                       w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                      ${
-                        location.pathname.includes("/Products")
-                          ? "text-white"
-                          : iconClass
+                      ${location.pathname.includes("/Products")
+                        ? "text-white"
+                        : iconClass
                       }`}
                   />
                   <span
-                    className={`${
-                      language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                    }`}
+                    className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                      }`}
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -247,9 +239,8 @@ export default function Asidebar({ language }) {
                   className={`
                     /* Responsive chevron size */
                     w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 
-                    ${chevronClass} transition-transform duration-200 ${
-                    isProductsOpen ? "rotate-180" : ""
-                  }`}
+                    ${chevronClass} transition-transform duration-200 ${isProductsOpen ? "rotate-180" : ""
+                    }`}
                 />
               </div>
             </div>
@@ -264,16 +255,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/ProductsList"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/ProductsList"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -296,16 +285,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/ProductsGrid"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/ProductsGrid"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -335,38 +322,34 @@ export default function Asidebar({ language }) {
                   rounded-lg ${normalItemClass} font-medium 
                   /* Responsive text size */
                   text-xs sm:text-sm md:text-sm lg:text-sm 
-                  ${hoverItemClass} transition-all duration-200 ${
-                  location.pathname.includes("/Orders") ||
-                  location.pathname.includes("CreditOrders") ||
-                  location.pathname.includes("ReturnsOrders") ||
-                  location.pathname.includes("OrdersArchive")
+                  ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Orders") ||
+                    location.pathname.includes("CreditOrders") ||
+                    location.pathname.includes("ReturnsOrders") ||
+                    location.pathname.includes("OrdersArchive")
                     ? activeItemClass
                     : ""
-                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                  } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleOrdersClick}
               >
                 <div
-                  className={`flex items-center ${
-                    language === "ar" ? "flex-row-reverse" : ""
-                  }`}
+                  className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                 >
                   <ShoppingBagIcon
                     className={`
                       /* Responsive icon size */
                       w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                      ${
-                        location.pathname.includes("/Orders") ||
+                      ${location.pathname.includes("/Orders") ||
                         location.pathname.includes("CreditOrders") ||
                         location.pathname.includes("ReturnsOrders") ||
                         location.pathname.includes("OrdersArchive")
-                          ? "text-white"
-                          : iconClass
+                        ? "text-white"
+                        : iconClass
                       }`}
                   />
                   <span
-                    className={`${
-                      language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                    }`}
+                    className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                      }`}
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -379,9 +362,8 @@ export default function Asidebar({ language }) {
                   className={`
                     /* Responsive chevron size */
                     w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 
-                    ${chevronClass} transition-transform duration-200 ${
-                    isOrdersOpen ? "rotate-180" : ""
-                  }`}
+                    ${chevronClass} transition-transform duration-200 ${isOrdersOpen ? "rotate-180" : ""
+                    }`}
                 />
               </div>
             </div>
@@ -396,16 +378,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/Orders"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/Orders"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -428,16 +408,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/Orders/InPreparation"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/Orders/InPreparation"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -460,16 +438,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/CreditOrders"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/CreditOrders"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -492,16 +468,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/ReturnsOrders"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/ReturnsOrders"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -522,16 +496,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/OrdersArchive"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/OrdersArchive"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -561,38 +533,34 @@ export default function Asidebar({ language }) {
                   rounded-lg ${normalItemClass} font-medium 
                   /* Responsive text size */
                   text-xs sm:text-sm md:text-sm lg:text-sm 
-                  ${hoverItemClass} transition-all duration-200 ${
-                  location.pathname.includes("/Purchases") ||
-                  location.pathname.includes("CreditPurchases") ||
-                  location.pathname.includes("ReturnsPurchases") ||
-                  location.pathname.includes("PuchasesArchive")
+                  ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Purchases") ||
+                    location.pathname.includes("CreditPurchases") ||
+                    location.pathname.includes("ReturnsPurchases") ||
+                    location.pathname.includes("PuchasesArchive")
                     ? activeItemClass
                     : ""
-                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                  } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
                 onClick={handleAchatsClick}
               >
                 <div
-                  className={`flex items-center ${
-                    language === "ar" ? "flex-row-reverse" : ""
-                  }`}
+                  className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                    }`}
                 >
                   <ClipboardDocumentCheckIcon
                     className={`
                       /* Responsive icon size */
                       w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                      ${
-                        location.pathname.includes("/Purchases") ||
+                      ${location.pathname.includes("/Purchases") ||
                         location.pathname.includes("CreditPurchases") ||
                         location.pathname.includes("ReturnsPurchases") ||
                         location.pathname.includes("PuchasesArchive")
-                          ? "text-white"
-                          : iconClass
+                        ? "text-white"
+                        : iconClass
                       }`}
                   />
                   <span
-                    className={`${
-                      language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                    }`}
+                    className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                      }`}
                     style={{
                       fontFamily:
                         language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -605,9 +573,8 @@ export default function Asidebar({ language }) {
                   className={`
                     /* Responsive chevron size */
                     w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 
-                    ${chevronClass} transition-transform duration-200 ${
-                    isAchatsOpen ? "rotate-180" : ""
-                  }`}
+                    ${chevronClass} transition-transform duration-200 ${isAchatsOpen ? "rotate-180" : ""
+                    }`}
                 />
               </div>
             </div>
@@ -622,16 +589,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/Purchases"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/Purchases"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -652,16 +617,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/CreditPurchases"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/CreditPurchases"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -684,16 +647,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/ReturnsPurchases"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/ReturnsPurchases"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -716,16 +677,14 @@ export default function Asidebar({ language }) {
                       /* Responsive padding for submenu */
                       px-2 sm:px-3 md:px-4 
                       py-1.5 sm:py-2 
-                      rounded-lg ${
-                        location.pathname === "/PuchasesArchive"
-                          ? activeSubmenuClass
-                          : normalSubmenuClass
+                      rounded-lg ${location.pathname === "/PuchasesArchive"
+                        ? activeSubmenuClass
+                        : normalSubmenuClass
                       } 
                     /* Responsive submenu text size */
                     text-xs sm:text-xs md:text-sm 
-                    transition-all duration-200 ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <span
                       style={{
@@ -757,24 +716,21 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Customers" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Customers" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserGroupIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Customers"
-                      ? "text-white"
-                      : iconClass
+                  ${location.pathname === "/Customers"
+                    ? "text-white"
+                    : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -799,22 +755,19 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Vendors" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Vendors" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UsersIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Vendors" ? "text-white" : iconClass
+                  ${location.pathname === "/Vendors" ? "text-white" : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -839,24 +792,21 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Fournisseurs" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Fournisseurs" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Fournisseurs"
-                      ? "text-white"
-                      : iconClass
+                  ${location.pathname === "/Fournisseurs"
+                    ? "text-white"
+                    : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -881,24 +831,21 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Authentication" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Authentication" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <UserPlusIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Authentication"
-                      ? "text-white"
-                      : iconClass
+                  ${location.pathname === "/Authentication"
+                    ? "text-white"
+                    : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -925,22 +872,19 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Losses" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Losses" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <ArrowTrendingDownIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Losses" ? "text-white" : iconClass
+                  ${location.pathname === "/Losses" ? "text-white" : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -965,24 +909,21 @@ export default function Asidebar({ language }) {
                 rounded-lg ${normalItemClass} font-medium 
                 /* Responsive text size */
                 text-xs sm:text-sm md:text-sm lg:text-sm 
-                ${hoverItemClass} transition-all duration-200 ${
-                location.pathname === "/Publicite" ? activeItemClass : ""
-              } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
+                ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Publicite" ? activeItemClass : ""
+                } ${language === "ar" ? "flex-row-reverse  pr-3" : ""}`}
             >
               <DevicePhoneMobileIcon
                 className={`
                   /* Responsive icon size */
                   w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 
-                  ${
-                    location.pathname === "/Publicite"
-                      ? "text-white"
-                      : iconClass
+                  ${location.pathname === "/Publicite"
+                    ? "text-white"
+                    : iconClass
                   }`}
               />
               <span
-                className={`${
-                  language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
-                }`}
+                className={`${language === "ar" ? "mr-2 sm:mr-3" : "ml-2 sm:ml-3"
+                  }`}
                 style={{
                   fontFamily:
                     language === "ar" ? "Cairo-Regular, sans-serif" : "",

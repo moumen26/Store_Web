@@ -5,9 +5,9 @@ import ButtonDark from "../components/ButtonDark";
 import ButtonFacebok from "../components/ButtonFacebok";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Snackbar from "@mui/material/Snackbar";
-import Logo from "../assets/Logo-mosagro.png";
-import franceIcon from "../assets/icons/france-icon.png";
-import arabicIcon from "../assets/icons/arab-icon.png";
+import Logo from "/Logo-mosagro.png";
+import franceIcon from "/icons/france-icon.png";
+import arabicIcon from "/icons/arab-icon.png";
 
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
@@ -129,32 +129,28 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                   {currentLanguage?.shortName}
                 </span>
                 <ChevronRightIcon
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
-                    showLanguageMenu ? "rotate-90" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showLanguageMenu ? "rotate-90" : ""
+                    }`}
                 />
               </div>
             </div>
 
             {/* Language Dropdown Menu */}
             <div
-              className={`absolute top-10 ${
-                language === "ar" ? "right-0" : "right-0"
-              } w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${
-                showLanguageMenu
+              className={`absolute top-10 ${language === "ar" ? "right-0" : "right-0"
+                } w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${showLanguageMenu
                   ? "scale-100 opacity-100"
                   : "scale-95 opacity-0 pointer-events-none"
-              } transition-transform duration-200 ease-out`}
+                } transition-transform duration-200 ease-out`}
             >
               <div className="py-2">
                 {languageOptions.map((lang) => (
                   <div
                     key={lang.code}
-                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
-                      language === lang.code
+                    className={`flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${language === lang.code
                         ? "bg-blue-50 border-r-2 border-blue-500"
                         : ""
-                    } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
+                      } ${language === "ar" ? "gap-x-3" : "gap-x-3"}`}
                     onClick={() => {
                       toggleLanguage(lang.code);
                       setShowLanguageMenu(false);
@@ -167,11 +163,10 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
                     />
                     <div className="flex flex-col">
                       <span
-                        className={`text-sm font-medium ${
-                          language === lang.code
+                        className={`text-sm font-medium ${language === lang.code
                             ? "text-blue-700"
                             : "text-gray-700"
-                        }`}
+                          }`}
                         style={{
                           fontFamily:
                             lang.code === "ar"
@@ -196,9 +191,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
 
           {/* Sign Up Section */}
           <div
-            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${
-              language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
-            }`}
+            className={`flex flex-col sm:flex-row items-center gap-1 sm:gap-5 text-center sm:text-left ${language === "ar" ? "sm:space-x-5" : "sm:space-x-5"
+              }`}
           >
             <span
               className="headerText alreadyText text-xs sm:text-sm md:text-base"
@@ -210,9 +204,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
               {language === "ar" ? "جديد في موزاجرو؟" : "Nouveau sur MOSAGRO ?"}
             </span>
             <div
-              className={`flex items-center w-fit ${
-                language === "ar" ? "flex-row-reverse" : ""
-              }`}
+              className={`flex items-center w-fit ${language === "ar" ? "flex-row-reverse" : ""
+                }`}
             >
               <a
                 href="/SignUp"
@@ -226,9 +219,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
               </a>
               <ChevronRightIcon
                 color="#0d3a71"
-                className={`iconAsideBar w-4 h-4 md:w-5 md:h-5 ${
-                  language === "ar" ? "mr-1" : "ml-1"
-                }`}
+                className={`iconAsideBar w-4 h-4 md:w-5 md:h-5 ${language === "ar" ? "mr-1" : "ml-1"
+                  }`}
               />
             </div>
           </div>
@@ -247,9 +239,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
       <div className="signInContainer w-full flex items-center justify-center">
         <div className="signInContainerRightContainer">
           <h2
-            className={`titleText text-center ${
-              language === "ar" ? "font-cairo-Regular" : ""
-            }`}
+            className={`titleText text-center ${language === "ar" ? "font-cairo-Regular" : ""
+              }`}
             style={{
               fontFamily: language === "ar" ? "Cairo-Regular, sans-serif" : "",
             }}
@@ -257,9 +248,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
             {language === "ar" ? "تسجيل الدخول" : "Connectez-vous"}
           </h2>
           <div
-            className={`logInForm ${
-              language === "ar" ? "text-right" : "text-left"
-            }`}
+            className={`logInForm ${language === "ar" ? "text-right" : "text-left"
+              }`}
           >
             <form
               onSubmit={handleLoginSubmit}
@@ -290,9 +280,8 @@ export default function SignIn({ onToggle, language, toggleLanguage }) {
               />
 
               <div
-                className={`w-full flex ${
-                  language === "ar" ? "justify-start" : "justify-end"
-                }`}
+                className={`w-full flex ${language === "ar" ? "justify-start" : "justify-end"
+                  }`}
               >
                 <span
                   className=" text-right"

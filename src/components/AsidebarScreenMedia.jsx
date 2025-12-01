@@ -19,8 +19,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/16/solid";
-// import Logo from "../assets/Logo-mosagro.png";
-import Logo from "../assets/Dark.png";
+// import Logo from "/Logo-mosagro.png";
+import Logo from "/Dark.png";
 
 export default function AsidebarScreenMedia({ language = "fr" }) {
   const location = useLocation();
@@ -99,15 +99,13 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
 
   return (
     <div
-      className={`fixed z-50 md:hidden ${
-        language === "ar" ? "direction-rtl" : ""
-      }`}
+      className={`fixed z-50 md:hidden ${language === "ar" ? "direction-rtl" : ""
+        }`}
     >
       {/* Toggle Button */}
       <div
-        className={`toggle-button cursor-pointer fixed top-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-2 ${
-          language === "ar" ? "right-4" : "left-4"
-        }`}
+        className={`toggle-button cursor-pointer fixed top-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-2 ${language === "ar" ? "right-4" : "left-4"
+          }`}
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? (
@@ -129,10 +127,9 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
       <aside
         className={`sidebar-container fixed top-0 bottom-0 bg-[#19213D] w-[85vw] max-w-sm shadow-2xl transition-transform duration-300 z-50 overflow-y-auto
           ${language === "ar" ? "right-0" : "left-0"}
-          ${
-            isSidebarOpen
-              ? "translate-x-0"
-              : language === "ar"
+          ${isSidebarOpen
+            ? "translate-x-0"
+            : language === "ar"
               ? "translate-x-full"
               : "-translate-x-full"
           }
@@ -150,24 +147,21 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Dashboard" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/" ||
-                    location.pathname === "/Dashboard"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/" ||
+                      location.pathname === "/Dashboard"
                       ? activeItemClass
                       : ""
-                  } ${
-                    language === "ar"
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <Squares2X2Icon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/" ||
-                      location.pathname === "/Dashboard"
+                    className={`w-5 h-5 ${location.pathname === "/" ||
+                        location.pathname === "/Dashboard"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -186,28 +180,24 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li className="flex flex-col space-y-2">
               <div className="flex items-center cursor-pointer w-full">
                 <div
-                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname.includes("/Products")
+                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Products")
                       ? activeItemClass
                       : ""
-                  } ${
-                    language === "ar"
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                   onClick={handleProductsClick}
                 >
                   <div
-                    className={`flex items-center ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <ArchiveBoxIcon
-                      className={`w-5 h-5 ${
-                        location.pathname.includes("/Products")
+                      className={`w-5 h-5 ${location.pathname.includes("/Products")
                           ? "text-white"
                           : iconClass
-                      }`}
+                        }`}
                     />
                     <span
                       className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -220,9 +210,8 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                     </span>
                   </div>
                   <ChevronDownIcon
-                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
-                      isProductsOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${isProductsOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </div>
               </div>
@@ -230,18 +219,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                 <div className="flex flex-col space-y-1 pl-4">
                   <NavLink to="/ProductsList" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/ProductsList"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/ProductsList"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -257,18 +243,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/ProductsGrid" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/ProductsGrid"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/ProductsGrid"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -290,34 +273,30 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li className="flex flex-col space-y-2">
               <div className="flex items-center cursor-pointer">
                 <div
-                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname.includes("/Orders") ||
-                    location.pathname.includes("CreditOrders") ||
-                    location.pathname.includes("ReturnsOrders") ||
-                    location.pathname.includes("OrdersArchive")
+                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Orders") ||
+                      location.pathname.includes("CreditOrders") ||
+                      location.pathname.includes("ReturnsOrders") ||
+                      location.pathname.includes("OrdersArchive")
                       ? activeItemClass
                       : ""
-                  } ${
-                    language === "ar"
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                   onClick={handleOrdersClick}
                 >
                   <div
-                    className={`flex items-center ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <ShoppingBagIcon
-                      className={`w-5 h-5 ${
-                        location.pathname.includes("/Orders") ||
-                        location.pathname.includes("CreditOrders") ||
-                        location.pathname.includes("ReturnsOrders") ||
-                        location.pathname.includes("OrdersArchive")
+                      className={`w-5 h-5 ${location.pathname.includes("/Orders") ||
+                          location.pathname.includes("CreditOrders") ||
+                          location.pathname.includes("ReturnsOrders") ||
+                          location.pathname.includes("OrdersArchive")
                           ? "text-white"
                           : iconClass
-                      }`}
+                        }`}
                     />
                     <span
                       className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -330,9 +309,8 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                     </span>
                   </div>
                   <ChevronDownIcon
-                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
-                      isOrdersOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${isOrdersOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </div>
               </div>
@@ -340,18 +318,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                 <div className="flex flex-col space-y-1 pl-4">
                   <NavLink to="/Orders" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/Orders"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/Orders"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -370,18 +345,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                     className="flex items-center"
                   >
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/Orders/InPreparation"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/Orders/InPreparation"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -397,18 +369,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/CreditOrders" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/CreditOrders"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/CreditOrders"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -424,18 +393,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/ReturnsOrders" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/ReturnsOrders"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/ReturnsOrders"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -451,18 +417,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/OrdersArchive" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/OrdersArchive"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/OrdersArchive"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -484,34 +447,30 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li className="flex flex-col space-y-2">
               <div className="flex items-center cursor-pointer">
                 <div
-                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname.includes("/Purchases") ||
-                    location.pathname.includes("CreditPurchases") ||
-                    location.pathname.includes("ReturnsPurchases") ||
-                    location.pathname.includes("PuchasesArchive")
+                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname.includes("/Purchases") ||
+                      location.pathname.includes("CreditPurchases") ||
+                      location.pathname.includes("ReturnsPurchases") ||
+                      location.pathname.includes("PuchasesArchive")
                       ? activeItemClass
                       : ""
-                  } ${
-                    language === "ar"
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                   onClick={handleAchatsClick}
                 >
                   <div
-                    className={`flex items-center ${
-                      language === "ar" ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-center ${language === "ar" ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <ClipboardDocumentCheckIcon
-                      className={`w-5 h-5 ${
-                        location.pathname.includes("/Purchases") ||
-                        location.pathname.includes("CreditPurchases") ||
-                        location.pathname.includes("ReturnsPurchases") ||
-                        location.pathname.includes("PuchasesArchive")
+                      className={`w-5 h-5 ${location.pathname.includes("/Purchases") ||
+                          location.pathname.includes("CreditPurchases") ||
+                          location.pathname.includes("ReturnsPurchases") ||
+                          location.pathname.includes("PuchasesArchive")
                           ? "text-white"
                           : iconClass
-                      }`}
+                        }`}
                     />
                     <span
                       className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -524,9 +483,8 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                     </span>
                   </div>
                   <ChevronDownIcon
-                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${
-                      isAchatsOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 ${chevronClass} transition-transform duration-200 ${isAchatsOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </div>
               </div>
@@ -534,18 +492,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                 <div className="flex flex-col space-y-1 pl-4">
                   <NavLink to="/Purchases" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/Purchases"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/Purchases"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -561,18 +516,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/CreditPurchases" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/CreditPurchases"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/CreditPurchases"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -588,18 +540,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/ReturnsPurchases" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/ReturnsPurchases"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/ReturnsPurchases"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -615,18 +564,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                   </NavLink>
                   <NavLink to="/PuchasesArchive" className="flex items-center">
                     <div
-                      className={`flex items-center w-full px-4 py-2 rounded-lg ${
-                        location.pathname === "/PuchasesArchive"
+                      className={`flex items-center w-full px-4 py-2 rounded-lg ${location.pathname === "/PuchasesArchive"
                           ? activeSubmenuClass
                           : normalSubmenuClass
-                      } text-xs transition-all duration-200 ${
-                        language === "ar" ? "flex-row-reverse" : ""
-                      }`}
+                        } text-xs transition-all duration-200 ${language === "ar" ? "flex-row-reverse" : ""
+                        }`}
                     >
                       <span
-                        className={`text-sm ${
-                          language === "ar" ? "mr-7" : "ml-7"
-                        }`}
+                        className={`text-sm ${language === "ar" ? "mr-7" : "ml-7"
+                          }`}
                         style={{
                           fontFamily:
                             language === "ar"
@@ -648,20 +594,17 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Customers" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Customers" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Customers" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <UserGroupIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Customers"
+                    className={`w-5 h-5 ${location.pathname === "/Customers"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -679,20 +622,17 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Vendors" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Vendors" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Vendors" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <UsersIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Vendors"
+                    className={`w-5 h-5 ${location.pathname === "/Vendors"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -710,20 +650,17 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Fournisseurs" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Fournisseurs" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Fournisseurs" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <UserIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Fournisseurs"
+                    className={`w-5 h-5 ${location.pathname === "/Fournisseurs"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -741,22 +678,19 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Authentication" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Authentication"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Authentication"
                       ? activeItemClass
                       : ""
-                  } ${
-                    language === "ar"
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <UserPlusIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Authentication"
+                    className={`w-5 h-5 ${location.pathname === "/Authentication"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -776,18 +710,15 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Losses" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Losses" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Losses" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <ArrowTrendingDownIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Losses" ? "text-white" : iconClass
-                    }`}
+                    className={`w-5 h-5 ${location.pathname === "/Losses" ? "text-white" : iconClass
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -805,20 +736,17 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Publicite" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Publicite" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Publicite" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <DevicePhoneMobileIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Publicite"
+                    className={`w-5 h-5 ${location.pathname === "/Publicite"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -836,20 +764,17 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
             <li>
               <NavLink to="/Settings" className="flex items-center">
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    location.pathname === "/Settings" ? activeItemClass : ""
-                  } ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${location.pathname === "/Settings" ? activeItemClass : ""
+                    } ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <Cog6ToothIcon
-                    className={`w-5 h-5 ${
-                      location.pathname === "/Settings"
+                    className={`w-5 h-5 ${location.pathname === "/Settings"
                         ? "text-white"
                         : iconClass
-                    }`}
+                      }`}
                   />
                   <span
                     className={`${language === "ar" ? "mr-3" : "ml-3"}`}
@@ -871,11 +796,10 @@ export default function AsidebarScreenMedia({ language = "fr" }) {
                 onClick={submitLogout}
               >
                 <div
-                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${
-                    language === "ar"
+                  className={`flex items-center w-full px-4 py-3 rounded-lg ${normalItemClass} font-medium text-sm ${hoverItemClass} transition-all duration-200 ${language === "ar"
                       ? "flex-row-reverse border-r-4 pr-3"
                       : "border-l-4"
-                  }`}
+                    }`}
                 >
                   <ArrowLeftStartOnRectangleIcon
                     className={`w-5 h-5 ${iconClass}`}

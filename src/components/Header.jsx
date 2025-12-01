@@ -23,8 +23,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import axios from "axios";
 
-import franceIcon from "../assets/icons/france-icon.png";
-import arabicIcon from "../assets/icons/arab-icon.png";
+import franceIcon from "/icons/france-icon.png";
+import arabicIcon from "/icons/arab-icon.png";
 
 export default function Header({ language, toggleLanguage }) {
   const { user } = useAuthContext();
@@ -45,8 +45,7 @@ export default function Header({ language, toggleLanguage }) {
 
   const fetchNotificationsByStore = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_APP_URL_BASE}/Notification/store/new/${
-        decodedToken.id
+      `${import.meta.env.VITE_APP_URL_BASE}/Notification/store/new/${decodedToken.id
       }`,
       {
         method: "GET",
@@ -256,9 +255,8 @@ export default function Header({ language, toggleLanguage }) {
   return (
     <div className="Header w-full sm:w-fit flex items-center justify-between mb-2">
       <div
-        className={`flex items-center ${
-          language === "ar" ? "gap-x-3 md:gap-x-6" : "space-x-3 md:space-x-6"
-        }`}
+        className={`flex items-center ${language === "ar" ? "gap-x-3 md:gap-x-6" : "space-x-3 md:space-x-6"
+          }`}
       >
         {/* Modern Language Selector */}
         <div className="relative">
@@ -267,11 +265,10 @@ export default function Header({ language, toggleLanguage }) {
             onClick={() => setShowLanguageMenu(!showLanguageMenu)}
           >
             <div
-              className={`flex items-center ${
-                language === "ar"
+              className={`flex items-center ${language === "ar"
                   ? "gap-x-1 md:gap-x-2"
                   : "space-x-1 md:space-x-2"
-              }`}
+                }`}
             >
               <img
                 src={currentLanguage?.flag}
@@ -282,32 +279,28 @@ export default function Header({ language, toggleLanguage }) {
                 {currentLanguage?.shortName}
               </span>
               <ChevronDownIcon
-                className={`w-3 h-3 md:w-4 md:h-4 text-gray-500 transition-transform duration-200 ${
-                  showLanguageMenu ? "rotate-180" : ""
-                }`}
+                className={`w-3 h-3 md:w-4 md:h-4 text-gray-500 transition-transform duration-200 ${showLanguageMenu ? "rotate-180" : ""
+                  }`}
               />
             </div>
           </div>
 
           {/* Language Dropdown */}
           <div
-            className={`absolute top-10 md:top-12 ${
-              language === "ar" ? "right-0" : "left-0"
-            } w-36 md:w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${
-              showLanguageMenu
+            className={`absolute top-10 md:top-12 ${language === "ar" ? "right-0" : "left-0"
+              } w-36 md:w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-30 transform ${showLanguageMenu
                 ? "scale-100 opacity-100"
                 : "scale-95 opacity-0 pointer-events-none"
-            } transition-transform duration-200 ease-out`}
+              } transition-transform duration-200 ease-out`}
           >
             <div className="py-2">
               {languageOptions.map((lang) => (
                 <div
                   key={lang.code}
-                  className={`flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${
-                    language === lang.code
+                  className={`flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 hover:bg-gray-50 cursor-pointer transition-colors ${language === lang.code
                       ? "bg-blue-50 border-r-2 border-blue-500"
                       : ""
-                  } ${language === "ar" ? "gap-x-2 md:gap-x-3" : ""}`}
+                    } ${language === "ar" ? "gap-x-2 md:gap-x-3" : ""}`}
                   onClick={() => {
                     toggleLanguage(lang.code);
                     setShowLanguageMenu(false);
@@ -320,11 +313,10 @@ export default function Header({ language, toggleLanguage }) {
                   />
                   <div className="flex flex-col">
                     <span
-                      className={`text-xs md:text-sm font-medium ${
-                        language === lang.code
+                      className={`text-xs md:text-sm font-medium ${language === lang.code
                           ? "text-blue-700"
                           : "text-gray-700"
-                      }`}
+                        }`}
                       style={{
                         fontFamily:
                           lang.code === "ar" ? "Cairo-Regular, sans-serif" : "",
@@ -370,23 +362,20 @@ export default function Header({ language, toggleLanguage }) {
 
       {/* Enhanced Notifications Dropdown */}
       <div
-        className={`absolute NotificationsDropDown ${
-          language === "ar"
+        className={`absolute NotificationsDropDown ${language === "ar"
             ? "right-4 md:right-[320px]"
             : "left-4 md:left-[320px]"
-        } top-20 md:top-20 w-[calc(100vw-32px)] sm:w-[420px] md:w-[480px] bg-white shadow-2xl rounded-2xl border border-gray-200 z-20 transform backdrop-blur-sm ${
-          showNotifications
+          } top-20 md:top-20 w-[calc(100vw-32px)] sm:w-[420px] md:w-[480px] bg-white shadow-2xl rounded-2xl border border-gray-200 z-20 transform backdrop-blur-sm ${showNotifications
             ? "scale-100 opacity-100"
             : "scale-95 opacity-0 pointer-events-none"
-        } transition-all duration-300 ease-out`}
+          } transition-all duration-300 ease-out`}
       >
         {/* Header with gradient background */}
         <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-t-2xl p-4 border-b border-gray-100">
           <div className="flex justify-between items-center">
             <div
-              className={`flex items-center ${
-                language === "ar" ? "gap-x-3" : "space-x-3"
-              }`}
+              className={`flex items-center ${language === "ar" ? "gap-x-3" : "space-x-3"
+                }`}
             >
               <div className="p-2 bg-blue-100 rounded-xl">
                 <BellAlertIcon className="w-5 h-5 text-blue-600" />
@@ -427,9 +416,8 @@ export default function Header({ language, toggleLanguage }) {
                       {/* Date Header */}
                       <div className="flex items-center mb-3 px-2">
                         <div
-                          className={`flex items-center ${
-                            language === "ar" ? "gap-x-2" : "space-x-2"
-                          }`}
+                          className={`flex items-center ${language === "ar" ? "gap-x-2" : "space-x-2"
+                            }`}
                         >
                           <ClockIcon className="w-4 h-4 text-gray-400" />
                           <h4
@@ -465,9 +453,8 @@ export default function Header({ language, toggleLanguage }) {
                               </div>
 
                               <div
-                                className={`flex items-start ${
-                                  language === "ar" ? "gap-x-3" : "space-x-3"
-                                } relative z-10`}
+                                className={`flex items-start ${language === "ar" ? "gap-x-3" : "space-x-3"
+                                  } relative z-10`}
                               >
                                 {/* Enhanced Icon */}
                                 <div
@@ -486,11 +473,10 @@ export default function Header({ language, toggleLanguage }) {
                                         {notif.message}
                                       </p>
                                       <div
-                                        className={`flex items-center text-xs text-gray-500 ${
-                                          language === "ar"
+                                        className={`flex items-center text-xs text-gray-500 ${language === "ar"
                                             ? "gap-x-2"
                                             : "space-x-2"
-                                        }`}
+                                          }`}
                                       >
                                         <span>
                                           {formatTime(notif.createdAt)}
@@ -506,11 +492,10 @@ export default function Header({ language, toggleLanguage }) {
 
                                     {/* Action Button */}
                                     <button
-                                      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
-                                        !submitionLoading
+                                      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${!submitionLoading
                                           ? "text-gray-400 hover:text-red-500 hover:bg-red-50"
                                           : "text-red-300 cursor-not-allowed"
-                                      }`}
+                                        }`}
                                       onClick={() =>
                                         handleSubmitMarkNotificationAsRead(
                                           notif._id
@@ -574,9 +559,8 @@ export default function Header({ language, toggleLanguage }) {
           onClick={() => setShowUserMenu(!showUserMenu)}
         >
           <div
-            className={`flex items-center ${
-              language === "ar" ? "gap-x-2" : "space-x-2"
-            }`}
+            className={`flex items-center ${language === "ar" ? "gap-x-2" : "space-x-2"
+              }`}
           >
             {/* Enhanced Avatar */}
             <div className="relative">
@@ -603,9 +587,8 @@ export default function Header({ language, toggleLanguage }) {
                 {user?.infos?.storeName}
               </p>
               <div
-                className={`flex items-center ${
-                  language === "ar" ? "gap-x-1" : "space-x-1"
-                }`}
+                className={`flex items-center ${language === "ar" ? "gap-x-1" : "space-x-1"
+                  }`}
               >
                 <span
                   className="text-gray-500 text-xs truncate max-w-[80px] md:max-w-[100px]"
@@ -626,29 +609,25 @@ export default function Header({ language, toggleLanguage }) {
 
           {/* Chevron with enhanced animation */}
           <ChevronDownIcon
-            className={`w-3 h-3 md:w-4 md:h-4 text-gray-400 transition-all duration-200 group-hover:text-gray-600 ${
-              language === "ar" ? "mr-1.5 md:mr-2" : "ml-1.5 md:ml-2"
-            } ${showUserMenu ? "rotate-180 text-blue-600" : ""}`}
+            className={`w-3 h-3 md:w-4 md:h-4 text-gray-400 transition-all duration-200 group-hover:text-gray-600 ${language === "ar" ? "mr-1.5 md:mr-2" : "ml-1.5 md:ml-2"
+              } ${showUserMenu ? "rotate-180 text-blue-600" : ""}`}
           />
         </div>
 
         {/* Enhanced User Dropdown Menu */}
         <div
-          className={`absolute ${
-            language === "ar" ? "left-0" : "right-0"
-          } top-12 md:top-14 w-[240px] md:w-[280px] bg-white shadow-xl rounded-xl border border-gray-200 z-20 transform overflow-hidden
-          ${
-            showUserMenu
+          className={`absolute ${language === "ar" ? "left-0" : "right-0"
+            } top-12 md:top-14 w-[240px] md:w-[280px] bg-white shadow-xl rounded-xl border border-gray-200 z-20 transform overflow-hidden
+          ${showUserMenu
               ? "scale-100 opacity-100"
               : "scale-95 opacity-0 pointer-events-none"
-          } transition-all duration-200 ease-out`}
+            } transition-all duration-200 ease-out`}
         >
           {/* User Profile Header */}
           <div className="p-3 md:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
             <div
-              className={`flex items-center ${
-                language === "ar" ? "gap-x-3" : "space-x-3"
-              }`}
+              className={`flex items-center ${language === "ar" ? "gap-x-3" : "space-x-3"
+                }`}
             >
               <div
                 className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-base ${getAvatarColor(
@@ -684,9 +663,8 @@ export default function Header({ language, toggleLanguage }) {
           <div className="p-1.5">
             <NavLink
               to="/Settings"
-              className={`flex items-center ${
-                language === "ar" ? "gap-x-3" : "space-x-3"
-              } p-2.5 md:p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 group`}
+              className={`flex items-center ${language === "ar" ? "gap-x-3" : "space-x-3"
+                } p-2.5 md:p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 group`}
               onClick={() => setShowUserMenu(false)}
             >
               <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors duration-200">
@@ -717,9 +695,8 @@ export default function Header({ language, toggleLanguage }) {
             <NavLink
               to="/"
               onClick={submitLogout}
-              className={`flex items-center ${
-                language === "ar" ? "gap-x-3" : "space-x-3"
-              } p-2.5 md:p-3 hover:bg-red-50 rounded-lg cursor-pointer transition-all duration-200 group`}
+              className={`flex items-center ${language === "ar" ? "gap-x-3" : "space-x-3"
+                } p-2.5 md:p-3 hover:bg-red-50 rounded-lg cursor-pointer transition-all duration-200 group`}
             >
               <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors duration-200">
                 <ArrowLeftStartOnRectangleIcon className="w-4 h-4 text-red-600" />

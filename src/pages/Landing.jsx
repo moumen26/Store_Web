@@ -9,7 +9,7 @@ import macFrImg from "/images/Dash-fr.png";
 import macArImg from "/images/Dash-ar.png";
 import phoneImg from "/images/phone.png";
 import tapeImg from "/landing.png";
-import apkFile from "/mosagro.apk";
+import apkFile from "/app/mosagro.apk";
 
 // --- 2. UI COMPONENTS ---
 
@@ -17,9 +17,10 @@ const GlassButton = ({ children, primary, className, ...props }) => (
   <button
     className={`
       relative overflow-hidden group px-6 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300
-      ${primary
-        ? "bg-[#4FABF3] text-white shadow-[0px_4px_0px_#2B7ABF] hover:shadow-[0px_6px_0px_#2B7ABF] hover:-translate-y-0.5 active:shadow-none active:translate-y-[4px]"
-        : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
+      ${
+        primary
+          ? "bg-[#4FABF3] text-white shadow-[0px_4px_0px_#2B7ABF] hover:shadow-[0px_6px_0px_#2B7ABF] hover:-translate-y-0.5 active:shadow-none active:translate-y-[4px]"
+          : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
       }
       ${className}
     `}
@@ -118,8 +119,9 @@ export default function Landing() {
 
       {/* 3. THE TAPE IMAGE (Static) */}
       <div
-        className={`absolute -top-24 p-0 ${isRTL ? "-left-10" : "-right-10"} ${isRTL ? "rotate-[0deg]" : "rotate-[30deg]"
-          } w-[50%] lg:w-[50%] md:w-[40%] sm:w-[30%] z-0 opacity-90 pointer-events-none select-none hidden lg:block`}
+        className={`absolute -top-24 p-0 ${isRTL ? "-left-10" : "-right-10"} ${
+          isRTL ? "rotate-[0deg]" : "rotate-[30deg]"
+        } w-[50%] lg:w-[50%] md:w-[40%] sm:w-[30%] z-0 opacity-90 pointer-events-none select-none hidden lg:block`}
       >
         <img
           src={tapeImg}
@@ -314,8 +316,9 @@ export default function Landing() {
                 x: useTransform(xSpring, (val) => val * -1.2),
                 y: useTransform(ySpring, (val) => val * -1.2),
               }}
-              className={`absolute z-20 -bottom-6 lg:-bottom-2 ${isRTL ? "left-4 lg:-left-4" : "right-4 lg:-right-4"
-                } w-[28%] md:w-[23%] max-w-[190px]`}
+              className={`absolute z-20 -bottom-6 lg:-bottom-2 ${
+                isRTL ? "left-4 lg:-left-4" : "right-4 lg:-right-4"
+              } w-[28%] md:w-[23%] max-w-[190px]`}
             >
               <motion.div
                 animate={{ y: [0, -15, 0] }}
@@ -342,8 +345,9 @@ export default function Landing() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 1 }}
-                  className={`absolute top-1/4 ${isRTL ? "-right-8" : "-left-8"
-                    } bg-white/10 backdrop-blur-md border border-white/20 p-1.5 px-2.5 rounded-lg shadow-xl flex items-center gap-1.5`}
+                  className={`absolute top-1/4 ${
+                    isRTL ? "-right-8" : "-left-8"
+                  } bg-white/10 backdrop-blur-md border border-white/20 p-1.5 px-2.5 rounded-lg shadow-xl flex items-center gap-1.5`}
                 >
                   <div className="bg-green-500 p-0.5 rounded-full">
                     <CheckCircle2 size={10} className="text-white" />

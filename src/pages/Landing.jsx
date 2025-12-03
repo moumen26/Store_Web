@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
 import { Smartphone, Globe, CheckCircle2, Layers } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-// --- 1. IMPORTS ---
 import logoImg from "/Dark.png";
 import macFrImg from "/images/Dash-fr.png";
 import macArImg from "/images/Dash-ar.png";
 import phoneImg from "/images/phone.png";
 import tapeImg from "/landing.png";
-import apkFile from "/app/mosagro.apk";
-
-// --- 2. UI COMPONENTS ---
 
 const GlassButton = ({ children, primary, className, ...props }) => (
   <button
@@ -39,12 +34,13 @@ export default function Landing() {
   // --- Download APK Handler ---
   const handleDownloadAPK = () => {
     const link = document.createElement("a");
-    link.href = apkFile;
+    link.href = "/app/mosagro.apk";
     link.download = "mosagro.apk";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
+
 
   // --- Parallax Logic ---
   const mouseX = useMotionValue(0);
